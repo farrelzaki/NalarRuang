@@ -6,43 +6,43 @@ Status: **aktif** · Berlaku untuk manusia maupun agen AI
 
 ## Masalah yang sedang kita hindari
 
-Dua orang menulis kode di repo yang sama, pada saat yang sama, masing-masing
+Tiga orang menulis kode di repo yang sama, pada saat yang sama, masing-masing
 dibantu agen AI dengan alur kerja berbeda. Agen AI punya satu kebiasaan yang
 sangat berbahaya dalam situasi ini: **ia gemar merapikan.** Diminta menambah
 satu fitur, ia ikut menata ulang impor, mengganti nama variabel, dan
 "memperbaiki" file di sebelahnya.
 
-Pada proyek biasa itu tidak apa-apa. Pada proyek dengan dua agen menulis
-bersamaan, itu menghasilkan konflik merge yang membingungkan, di jam yang tidak
-ada waktu untuk menyelesaikannya.
+Pada proyek satu orang itu tidak apa-apa. Pada proyek dengan beberapa agen
+menulis bersamaan, itu menghasilkan konflik merge yang membingungkan, tepat
+menjelang Sprint Review ketika tidak ada waktu untuk menyelesaikannya.
 
 Seluruh aturan di bawah ini turun dari satu gagasan: **buat tabrakan menjadi
 mustahil secara struktural, bukan mengandalkan kehati-hatian.**
 
 ## Pembagian wilayah
 
-Pembagian tetap ada di **[`docs/EKSEKUSI.md`](EKSEKUSI.md)**, lengkap dengan
-tugas per fase. Ringkasnya:
-
-Diperbarui 18 September 2026: Fajar berfokus penuh pada training, Farrel
-mengambil alih seluruh kode aplikasi.
+Pembagian pekerjaan per sprint ada di **[`docs/EKSEKUSI.md`](EKSEKUSI.md)**.
+Pembagian folder di bawah ini adalah **usulan** sampai scaffolding selesai dan
+struktur foldernya nyata.
 
 | Folder | Pemilik |
 | --- | --- |
-| `src/contracts/` | **Farrel** (beku — ubah hanya setelah sepakat) |
-| Seluruh `src/` lainnya | **Farrel** |
-| `package.json`, `tsconfig.json`, `vite.config.ts`, `capacitor.config.ts` | **Farrel** |
-| `model/*.py`, `model/data.yaml`, `model/README.md` | **Farrel** |
-| `model/` selebihnya: training, dataset, bobot hasil | **Fajar** |
-| `docs/` | Siapa saja, umumkan lisan dulu |
+| `docs/KONTRAK.md`, `resources/js/types/` | **Farrel, Adzkia, Nur'Afia bersama** (beku — ubah hanya setelah sepakat) |
+| `database/migrations/`, `app/Models/` | **Farrel** |
+| `app/Http/Controllers/Api/`, `app/Services/` | **Farrel** dan **Adzkia**, dibagi per endpoint (lihat `docs/EKSEKUSI.md`) |
+| `database/seeders/`, `data/` | **Adzkia** (bersama Galih untuk isi QGIS) |
+| `resources/js/Pages/`, `Components/`, `Map/`, `resources/css/` | **Nur'Afia** (Farrel membantu di Core Map) |
+| `composer.json`, `package.json`, `.env.example`, konfigurasi | **Farrel** |
+| `docs/` selain `KONTRAK.md` | Siapa saja, umumkan di grup dulu |
+| `docs/sumber/` | Tidak ada. Hanya dibaca. Pembaruan dokumen resmi disalin ulang oleh PM. |
 
 **Aturannya satu kalimat: jangan menyunting berkas di folder orang lain.**
-Kalau kamu butuh perubahan di sana, minta orangnya — dia duduk di sebelahmu.
-Perlu sepuluh detik, dan menyelamatkan setengah jam penyelesaian konflik.
+Kalau kamu butuh perubahan di sana, minta orangnya lewat grup. Perlu satu
+pesan, dan menyelamatkan setengah jam penyelesaian konflik.
 
 Kalau ada yang menyimpang dari pembagian ini untuk sementara (misalnya satu
-orang menalangi pekerjaan yang lain karena terhambat), cukup sepakati lisan,
-lalu tulis di pesan commit siapa yang mengerjakan apa.
+orang menalangi pekerjaan yang lain karena terhambat), cukup sepakati di grup,
+lalu tulis di deskripsi PR siapa yang mengerjakan apa.
 
 ## Untuk agen AI
 
@@ -52,76 +52,80 @@ Lima aturan ini penting. Yang pertama paling penting.
    merapikan impor. Tidak untuk memperbaiki typo. Tidak untuk "sekalian".
    Kalau kamu melihat bug di folder orang lain, laporkan, jangan perbaiki.
 
-2. **Butuh sesuatu yang belum ada? Jangan bangun sendiri.** Pakai tipe dari
-   `src/contracts/`, lalu tulis mock lokal. Membangun versimu sendiri dari
+2. **Butuh sesuatu yang belum ada? Jangan bangun sendiri.** Pakai bentuk dari
+   `docs/KONTRAK.md`, lalu tulis mock lokal. Membangun versimu sendiri dari
    milik orang lain berarti nanti ada dua implementasi yang harus digabung.
 
-3. **`src/contracts/` beku.** Perubahan hanya setelah disepakati lisan, dalam
-   satu commit tersendiri. Lihat `docs/KONTRAK.md`.
+3. **`docs/KONTRAK.md` beku** setelah disepakati. Perubahan hanya setelah
+   disepakati, dalam satu commit tersendiri. Lihat aturannya di berkas itu.
 
-4. **Menyimpang dari exsum berarti wajib menulis ADR** di `docs/perubahan/`.
-   Bukan formalitas; panitia menilai ini. Lihat `docs/PERUBAHAN.md`.
+4. **Menyimpang dari SRS atau WBS berarti wajib menulis ADR** di
+   `docs/perubahan/`. Bukan formalitas; dosen dan PM meninjaunya di Sprint
+   Review. Lihat `docs/PERUBAHAN.md`.
 
-5. **Jangan menambah dependensi tanpa memberi tahu.** `package.json` adalah
-   satu-satunya berkas yang benar-benar dipakai bersama dan paling sering
-   menimbulkan konflik.
+5. **Jangan menambah dependensi tanpa memberi tahu.** `composer.json` dan
+   `package.json` adalah berkas yang benar-benar dipakai bersama dan paling
+   sering menimbulkan konflik.
 
 ## Git
 
-Kita bekerja langsung di `main`. Tidak ada branch, tidak ada pull request.
-
-Ini bukan praktik yang baik untuk proyek biasa, tapi tepat di sini: pemisahan
-sudah dijamin oleh batas folder, sementara branch justru menunda penggabungan
-sampai ke titik yang paling mahal. Yang kita butuhkan adalah integrasi
-sesering mungkin, bukan seaman mungkin.
+**Branch per fitur, lalu pull request ke `main`.** `main` harus selalu bisa
+di-deploy ke staging, karena staging yang mati di hari Sprint Review sama
+dengan tidak punya increment.
 
 ```bash
-git pull --rebase        # WAJIB sebelum push, selalu
-git add src/vision       # tambahkan folder kamu saja, jangan `git add .`
-git commit -m "vision: voting temporal 3 dari 5 bingkai"
-git push
+git checkout main && git pull --rebase
+git checkout -b fitur/api-layer          # satu branch, satu pekerjaan
+# ... kerja, commit kecil ...
+git add app/Http/Controllers/Api        # tambahkan folder kamu saja, jangan `git add .`
+git commit -m "api: endpoint layer dengan filter bbox"
+git pull --rebase origin main            # WAJIB sebelum push
+git push -u origin fitur/api-layer
+# buka PR ke main, minta satu reviewer
 ```
 
-- **Commit tiap 20 sampai 30 menit.** Commit besar menyembunyikan apa yang
-  rusak dan kapan.
-- **Selalu `git pull --rebase` sebelum push.** Merge commit di riwayat lomba
-  tidak memberi manfaat apa pun.
+- **Nama branch:** `fitur/…`, `perbaikan/…`, `docs/…`, `data/…`.
+- **Satu reviewer** cukup, dari orang yang kodenya bersinggungan. PR yang
+  mengubah `docs/KONTRAK.md` butuh persetujuan ketiga orang.
+- **Branch berumur pendek.** Lebih dari tiga hari tanpa merge berarti terlalu
+  besar; pecah.
+- **Commit kecil, sering.** Commit besar menyembunyikan apa yang rusak dan kapan.
 - **Jangan `git add .`.** Perintah itu menyapu berkas orang lain yang kebetulan
-  belum di-commit.
-- **Awalan pesan commit dengan nama folder:** `vision:`, `core:`, `ui:`,
-  `audio:`, `data:`, `docs:`. Dengan begitu `git log --oneline` langsung
-  terbaca sebagai laporan kemajuan, dan ini berguna saat menyusun dokumentasi
-  progres 24 jam.
+  belum di-commit, termasuk `.env`.
+- **Awalan pesan commit dengan modul:** `api:`, `db:`, `data:`, `map:`, `ui:`,
+  `search:`, `persona:`, `commute:`, `docs:`. Dengan begitu `git log --oneline`
+  langsung terbaca sebagai laporan kemajuan, dan ini berguna saat menyusun
+  bahan Sprint Review.
 
 ## Titik sinkronisasi
 
-Berhenti sejenak dan bicara pada jam-jam ini. Semuanya bertepatan dengan
-gerbang periksa di `PLAN.md`.
+Berhenti sejenak dan bicara pada titik-titik ini. Semuanya bertepatan dengan
+gerbang Sprint Review di `docs/PLAN.md`.
 
-| Jam | Yang dibahas |
+| Kapan | Yang dibahas |
 | --- | --- |
-| 0 | Sepakati `src/contracts/` bersama. **Belum boleh coding paralel sebelum ini beres.** |
-| 2 | APK kosong sudah terpasang di HP? Kalau belum, semua orang pindah ke masalah itu. |
-| 8 | Ketiga jalur bertemu. Cabut mock, pasang yang asli. |
-| 12 | Gerbang cakupan. Jujur soal apa yang tidak akan selesai, lalu buang. |
-| 19 | Pembekuan fitur. Setelah titik ini hanya perbaikan bug. |
-| 22 | Gladi bersih. Tidak ada lagi yang menyentuh kode. |
+| Akhir Sprint 0 | Sepakati dan bekukan `docs/KONTRAK.md`. **Belum boleh coding paralel backend–frontend sebelum ini beres.** |
+| Awal Sprint 1 | Boilerplate jalan di laptop semua orang? Staging bisa menerima deploy? Kalau belum, semua pindah ke masalah itu. |
+| 16 Okt — Review 1 | Core Map + 2 layer dari PostGIS. Mock dicabut, data asli terpasang. |
+| 6 Nov — Review 2 | Gerbang cakupan. Jujur soal apa yang tidak akan selesai, lalu tulis ADR-nya. |
+| 20 Nov — Review 3 | Pembekuan fitur. Setelah titik ini hanya perbaikan bug. |
+| 27 Nov — Final | Tidak ada lagi yang menyentuh kode di hari demo. |
 
 ## Kalau terjadi konflik merge
 
 Kalau muncul konflik, itu tandanya ada aturan yang terlewat. Jangan langsung
 menyelesaikan sendiri — tanya dulu siapa yang menyentuh berkas itu.
 
-Pengecualian: `package.json` dan `pnpm-lock.yaml`. Keduanya memang dipakai
-bersama; selesaikan dengan mempertahankan kedua sisi, lalu jalankan
-`pnpm install` sekali lagi.
+Pengecualian: `composer.lock` dan `package-lock.json`. Keduanya memang dipakai
+bersama; selesaikan dengan mempertahankan kedua sisi berkas manifesnya, lalu
+jalankan `composer install` atau `npm install` sekali lagi.
 
 ## Kalau salah satu terhambat
 
-Yang paling tidak bergantung pada apa pun adalah `src/core/` dan `src/data/`:
-logika murni, banyak tes, tidak butuh HP, model, maupun kamera. Kalau ada yang
-menganggur karena menunggu sesuatu, di sinilah tempat paling aman untuk
-membantu.
+Yang paling tidak bergantung pada apa pun adalah `app/Services/`: logika murni
+skor persona dan pemeringkatan, bisa dites dengan data tiruan, tidak butuh
+peta maupun data QGIS yang final. Kalau ada yang menganggur karena menunggu
+sesuatu, di sinilah tempat paling aman untuk membantu.
 
-Yang paling **tidak** boleh dikerjakan bersamaan adalah `package.json` dan
-`src/contracts/`. Keduanya menyentuh semua orang sekaligus.
+Yang paling **tidak** boleh dikerjakan bersamaan adalah `composer.json`,
+`package.json`, dan `docs/KONTRAK.md`. Ketiganya menyentuh semua orang sekaligus.

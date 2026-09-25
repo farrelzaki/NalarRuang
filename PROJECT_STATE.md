@@ -6,128 +6,64 @@ Perbarui saat memulai sesi, melewati checkpoint, membuat keputusan penting, mene
 
 ## Metadata
 
-- Terakhir diperbarui: 2026-09-19 04:03 WIB
+- Terakhir diperbarui: 2026-09-25
 - Mode kerja: `competition`
 - Status sesi: Berjalan
-- Task aktif: Verifikasi Fisik Model Hibrida FP32 di Samsung Galaxy M32
-- Fase aktif: Verification
-- Checkpoint terakhir: Verification (Model hibrida FP32 11.58 MB lolos periksa_onnx.py; 301 tes lulus; bundel produksi siap)
-- Konfirmasi pengguna terakhir: Penggantian model dengan sudepi-fp32.onnx (11.58 MB)
+- Task aktif: Restrukturisasi dokumentasi NalarRuang (tahap 1)
+- Fase aktif: Handoff
+- Checkpoint terakhir: Verification (grep sisa konteks lama bersih, tautan relatif valid, `docs/sumber/` hanya rename)
+- Konfirmasi pengguna terakhir: "lanjutkan" — menjalankan rencana restrukturisasi tahap 1
 
 ## Scope Yang Disetujui
 
-Farrel memegang seluruh `src/` dan berkas bantu di `model/` yang harus cocok
-dengan kode aplikasi. Fajar memegang dataset, training, dan hasilnya.
-Pembagian per berkas ada di `docs/EKSEKUSI.md`.
+Mengganti konteks seluruh `.md` dari proyek lama (disalin dari proyek
+sebelumnya) ke NalarRuang. **Logika proses kerja agen tidak diubah**: mode
+`competition`, checkpoint, aturan approval, klasifikasi perubahan, format
+laporan, template task, dan sistem ADR tetap. Yang diganti hanya konteks.
+
+Dikerjakan di branch `docs/restrukturisasi-nalarruang`. Belum di-commit.
 
 ## Tujuan Saat Ini
 
-Model asli sudah mendarat dan berjalan di perangkat (18 September 2026, 20.35).
-Penghambat terakhir hilang. Yang tersisa murni verifikasi lapangan:
-**urutan kelas terhadap uang fisik**, lalu kalibrasi ambang, lalu ulangi uji
-mode pesawat dengan model asli.
+Dokumentasi mencerminkan NalarRuang supaya agen dan anggota tim yang membaca
+repo tidak salah konteks. Tahap 2 (setelah desain Figma masuk): menyempurnakan
+`docs/DESAIN-UI.md`, `docs/KONTRAK.md`, dan `docs/ARSITEKTUR.md`.
 
 ## Progress
 
-**SELURUH ALUR FASE 1–4 TERBUKTI DI GALAXY M32** memakai model tiruan:
-
-```
-Siaga -> "Uang terdeteksi. Lanjut ke kalkulator."
-      -> Kalkulator (8 tombol pecahan berlabel Indonesia)
-      -> Layar kasir (3 angka, kontras tinggi, kembalian disorot)
-      -> "Kembalian cocok. Selesaikan transaksi."
-      -> "Transaksi selesai. Kembali ke mode siaga."
-```
-
-Rantai yang tervalidasi: kamera → Web Worker → ONNX Runtime → decode →
-confidence gating → NMS → voting temporal → state machine → audio Indonesia →
-haptik → Merchant Display → penurunan koin → penyimpanan riwayat.
-
-## Bukti Yang Sudah Diperiksa
-
-| Pemeriksaan | Hasil |
-| --- | --- |
-| `pnpm test` | **210 lulus** di 13 berkas |
-| `npx tsc --noEmit` | Bersih, `strict` penuh |
-| `pnpm build` | Lolos, tepat satu berkas `.wasm` |
-| `./gradlew assembleDebug` | BUILD SUCCESSFUL, 14 detik (cache hangat) |
-| APK di Galaxy M32 | Terpasang, 12,1 MB, berjalan |
-| Kamera | Menyala, pratinjau tampil dengan uang sungguhan |
-| Audio | `termuat=34 gagal=0`, WAV, terdengar |
-| TalkBack | Membacakan label, ketuk ganda berpindah fase (ADR-0008 terbukti) |
-| Riwayat di IndexedDB | `selesai` ×16, `dibatalkan` ×34, `det_` ×29, agregat harian |
-| `periksa_kelas.py` | Menangkap pertukaran 20.000↔50.000, exit 1 |
-| `periksa_onnx.py` | Menangkap imgsz 640 + 15 kelas, menebak imgsz asli |
-| `petakan_dataset.py` | Memetakan benar, menolak nama asing tanpa menyentuh berkas |
-| `uji_model.py` | Melaporkan salah sebut, pola tertukar, dan sebaran skor |
-| `augmentasi.py` | 4 varian per foto, diperiksa visual |
-| **Tanpa jaringan** | **Siklus penuh Fase 1–4 berjalan, nol akses jaringan** |
+- Belum ada kode sama sekali. Repo hanya berisi dokumentasi.
+- Sprint 0 berakhir hari ini (25 Sep). Sprint 1 mulai 28 Sep.
+- SRS v1.0 sudah disetujui.
 
 ## Sudah Selesai
 
-- Seluruh `src/`: contracts, core, vision, audio, platform, ui, data.
-- Capacitor + rantai build Android, cache Gradle hangat.
-- 34 potongan audio Indonesia (WAV) dibundel ke APK.
-- Berkas bantu model (8 berkas): `data.yaml`, `periksa_kelas.py`,
-  `petakan_dataset.py`, `augmentasi.py`, `ekspor.py`, `periksa_onnx.py`,
-  `uji_model.py`, `buat_model_uji.py`.
-- Dokumentasi: `CLAUDE.md`, 10 dokumen `docs/`, **8 ADR**.
-- Uji luring lulus, dan seluruh 34 frasa suara terpakai.
+- Dokumen resmi dipindah ke `docs/sumber/` (SRS, WBS, CHARTER, DESKRIPSI).
+- Dokumen proyek lama dihapus; masih ada di riwayat git.
+- Ditulis ulang: `CLAUDE.md`, `README.md`, `docs/PLAN.md`, `docs/ARSITEKTUR.md`,
+  `docs/KONTRAK.md` (draf), `docs/EKSEKUSI.md`, `docs/KOLABORASI.md`,
+  `docs/PERUBAHAN.md`. Baru: `docs/DESAIN-UI.md`, ADR-0001, ADR-0002.
 
 ## Langkah Berikutnya Yang Diusulkan
 
-1. **Fajar: `public/model/sudepi.onnx`.** **SELESAI.** Model asli (3,1 MB, INT8)
-   mendarat, lolos `model/periksa_onnx.py`, dan sudah terpasang di Galaxy M32 —
-   logcat memperlihatkannya termuat lalu berinferensi tiap bingkai.
-2. Setelah model asli ada, berurutan:
-   Farrel deploy ke Galaxy M32 → `model/uji_model.py` dengan foto berlabel →
-   kalibrasi ambang memakai sebaran skor yang dilaporkannya → uji layar
-   tertutup telapak tangan → gladi bersih `docs/DEMO.md`.
-3. ~~Hapus model tiruan dari HP.~~ SELESAI — APK dengan model asli sudah terpasang.
-4. ~~Buang overlay metrik dari pratinjau sebelum penjurian.~~ Tidak perlu lagi:
-   overlay kini mati secara default dan hanya menyala di `pnpm cap:kalibrasi`.
-
-## ⚠ HUTANG YANG WAJIB DIANGKAT SEBELUM PENJURIAN
-
-**Latensi inferensi ~700 ms, sementara Bab II exsum menjanjikan di bawah
-250 ms.** Terukur di Galaxy M32 dengan YOLOv8n berbobot acak. Rinciannya dan
-tiga pilihan penanganannya ada di ADR-0009.
-
-Farrel memutuskan **menundanya sampai sistem selesai** (18 September 2026), dan
-secara khusus meminta diingatkan kembali pada saat itu. Ini bukan masalah yang
-hilang sendiri: entah latensinya diperbaiki, atau angkanya yang diperbaiki —
-salah satunya harus dikerjakan sebelum juri membacanya.
+1. Pengguna meninjau diff, lalu commit dan PR branch ini.
+2. Pastikan status Sprint 0 bagian Farrel: 1.2.2 (ERD), 1.2.4 (boilerplate),
+   1.2.5 (staging). Semuanya "belum diketahui" di `docs/EKSEKUSI.md`.
+3. Scaffolding Laravel + Inertia + React (WBS 1.2.4), lalu isi bagian
+   *Perintah* dan *Versi yang dikunci* di `CLAUDE.md`.
+4. Bekukan `docs/KONTRAK.md` bersama Adzkia dan Nur'Afia.
 
 ## Blocker Dan Hal Yang Belum Diketahui
 
-- **Model sungguhan SUDAH TERSEDIA.** Bobot asli (3.1 MB) dari latihan Fajar di
-  A100 Colab telah dipasang di `public/model/sudepi.onnx` dan lolos
-  `model/periksa_onnx.py` [1, 12, 2100]. Menunggu Farrel deploy ke Galaxy M32.
-- **MODEL TIRUAN DI REPO SUDAH DIGANTI DENGAN ASLI.** Tinggal deploy ulang APK
-  agar model di perangkat diperbarui.
-- ~~Uji mode pesawat~~ **SUDAH DIJALANKAN DAN LULUS.** Siklus penuh Fase 1–4
-  berjalan dengan WiFi dan data seluler dimatikan (`ping` menjawab
-  *Network is unreachable*), tanpa satu pun percobaan akses jaringan di logcat.
-  Memakai model tiruan, jadi yang terbukti adalah kemandirian dari jaringan,
-  bukan akurasi.
-- **Uji layar tertutup telapak tangan belum dijalankan** — menunggu model asli.
+- **Peran QGIS** yang diharapkan dosen belum jelas (TBD-QGIS). Tanyakan ke dosen.
+- **Mesin routing Commute Simulator** belum dipilih (TBD-ROUTE).
+- Desain Figma (TBD-02) dan ERD (TBD-04) belum ada di repo.
+- Pembagian endpoint Farrel vs Adzkia masih usulan.
 
 ## Keputusan Penting
 
-- **Delapan ADR diterima.** Paling berdampak: ADR-0001 (`imgsz=320`), ADR-0003
-  (audio pra-render, diamandemen jadi berkas terpisah WAV), ADR-0005 (input
-  taktil jadi utama — satu-satunya yang mempersempit klaim exsum), ADR-0007
-  (8 kelas), ADR-0008 (klik semantik).
-- **Lima bug ditemukan lewat penelusuran antarmuka, bukan tes**: ketukan
-  ditolak setelah nominal diucapkan, tombol bersarang mengunci nominal salah,
-  label menjanjikan yang ditolak, path model salah di worker, label bertabrakan
-  dengan TalkBack.
-- **Tiga bug ditemukan lewat uji dengar**: aplikasi meredam dirinya sendiri,
-  suara terlalu pelan, label mengulang nominal.
-- **Satu bug dari audit frasa**: layar Selesai berlabel "kembali ke mode siaga"
-  tetapi justru memulai transaksi baru. Audit itu juga menemukan dua FITUR yang
-  hilang: peringatan lembaran bertumpuk (mitigasi Lampiran 8 risiko 1) dan
-  pengumuman kembali ke Mode Siaga.
-- **Satu diagnosis salah dan sudah dikoreksi**: MP3 disangka ditolak Chrome,
-  ternyata browser mengembalikan 204 untuk berkas media. Alasan yang salah
-  sudah diperbaiki di kode dan ADR-0003.
+- **ADR-0001:** SRS v1.0 + WBS adalah acuan; Project Charter hanya riwayat.
+  Enam layer, tanpa MongoDB/NLP, data diolah di QGIS lalu diimpor ke PostGIS,
+  final 27 November 2026.
+- **ADR-0002:** Laravel + Inertia + React, Leaflet, Tailwind, PostgreSQL + PostGIS.
+- Git: branch per fitur + PR ke `main`.
+- Yang coding bersama agen: Farrel, Adzkia, Nur'Afia. Izdihar dan Galih tidak.

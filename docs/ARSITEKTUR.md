@@ -1,233 +1,85 @@
-# Arsitektur SUDEPI
+# Arsitektur NalarRuang
 
-Status: **aktif** · Turunan dari Exsum bagian 3.3, dengan penyesuaian di `PERUBAHAN.md`
+Status: **draf** · Disempurnakan di tahap 2 setelah desain Figma dan ERD (TBD-02, TBD-04) tersedia
 
 ---
 
 ## Bentuk dasar
 
-SUDEPI adalah **aplikasi satu-proses tanpa server**. Tidak ada bagian sistem
-yang berada di luar HP pengguna. Ini bukan pilihan performa, tapi pilihan
-kepercayaan: riwayat transaksi tunanetra tidak pernah meninggalkan perangkat
-karena secara arsitektur memang tidak ada tempat untuk pergi.
+Dua dunia yang terpisah waktu: **pengolahan data** terjadi sekali, luring, di
+laptop tim; **aplikasi** hanya membaca hasilnya.
 
 ```
-┌──────────────────────── APK Capacitor ────────────────────────┐
-│                                                               │
-│  Lapisan native (Kotlin, lewat plugin)                        │
-│  ├─ Haptik          ├─ Preferensi         ├─ Siklus hidup     │
-│                                                               │
-│  ┌────────────────── WebView (Chromium) ──────────────────┐   │
-│  │                                                        │   │
-│  │  Utas utama                     Web Worker             │   │
-│  │  ┌──────────────────┐          ┌───────────────────┐   │   │
-│  │  │ ui/   React      │          │ ONNX Runtime Web  │   │   │
-│  │  │ core/ reducer    │  bingkai │ WASM + SIMD       │   │   │
-│  │  │ audio/ Web Audio │ ───────► │ YOLOv8n int8 320  │   │   │
-│  │  │ data/ Dexie      │ ◄─────── │ decode + NMS      │   │   │
-│  │  │ vision/ kamera   │  kotak   └───────────────────┘   │   │
-│  │  └──────────────────┘                                  │   │
-│  │        │                                               │   │
-│  │        └─ getUserMedia + Torch API (tanpa plugin)      │   │
-│  └────────────────────────────────────────────────────────┘   │
-└───────────────────────────────────────────────────────────────┘
-                    Tidak ada panah keluar. Sengaja.
+ PENGOLAHAN DATA (luring, WBS 1.3)          APLIKASI (daring, WBS 1.4)
+ ────────────────────────────────          ─────────────────────────────────────────
+
+ Overpass API ─┐                            Browser
+ InaRISK/DEMNAS├─> QGIS ──> GeoJSON ──┐       React + Leaflet  (resources/js)
+ ATR/BPN, GTFS ┘   bersihkan,          │          │  Inertia (halaman)
+                   standarkan atribut, │          │  fetch JSON (layer, search, ...)
+                   samakan SRID        │          ▼
+                                       │     Laravel
+                                       │       Controllers/Api  ─> Services (logika murni)
+                                       │          │
+                                       └─ seeder ─▼
+                                             PostgreSQL + PostGIS
+                                               tabel per layer, indeks GIST
 ```
 
-**Kenapa inferensi ditaruh di Web Worker.** Inferensi memakan ~120 ms. Kalau
-dijalankan di utas utama, pratinjau kamera membeku selama itu, tiap bingkai.
-Pengguna melihat video patah-patah dan React tidak sempat merespons sentuhan.
-Worker membuat utas utama tetap bebas: kamera mengalir mulus, gestur langsung
-terasa, dan inferensi berjalan di belakang. Ini juga yang membuat HP RAM 2 GB
-tetap terpakai, bukan sekadar optimasi yang enak-enak saja.
+Peran QGIS di sisi kanan (misalnya QGIS Server menyajikan WMS) **belum
+diputuskan**. Lihat TBD-QGIS di `docs/PLAN.md`. Diagram ini menggambarkan
+tafsiran minimum dari SRS SW03: QGIS hanya di pra-pemrosesan.
 
-## Alur satu bingkai
+## Dua jalur komunikasi
 
-```
-video ──► createImageBitmap(resize 320)
-            │   (di GPU, bukan getImageData — 10x lebih cepat)
-            ▼
-        letterbox ke 320x320 di OffscreenCanvas
-            │   (jaga rasio; kalau diregangkan, mAP anjlok)
-            ▼
-        postMessage(bitmap, [bitmap])   ◄── transferable, nol salinan
-            ▼
-      ┌─ WORKER ────────────────────────────────┐
-      │  normalisasi ke float32 [1,3,320,320]   │
-      │  ort.InferenceSession.run()             │
-      │  keluaran mentah [1, 12, 2100]          │
-      │  decode kotak + skor                    │
-      │  saring skor < AMBANG_KEYAKINAN (0,70)  │
-      │  NMS class-agnostic, IoU > 0.40         │
-      └─────────────┬───────────────────────────┘
-                    ▼
-        Deteksi[] kembali ke utas utama
-                    ▼
-        voting temporal: 3 dari 5 bingkai, PER PECAHAN (ADR-0012)
-                    ▼
-                HasilPindai  ──► core/ reducer ──► Efek[] ──► audio, haptik, dll
-```
+| Jalur | Dipakai untuk | Kenapa |
+| --- | --- | --- |
+| **Inertia** | Memuat halaman Visual Explorer beserta data awal kecil (daftar layer, daftar kota, deskripsi persona) | Tanpa perlu API untuk navigasi halaman |
+| **REST JSON** (`/api/...`) | Data layer per bounding box, Requirement Search, skor persona, commute | Dipanggil berkali-kali saat peta bergeser; SRS FR-12 dan COM02 meminta RESTful API |
 
-### Kenapa keluaran modelnya `[1, 12, 2100]`
+Bentuk setiap endpoint REST ada di `docs/KONTRAK.md`.
 
-8 kelas + 4 koordinat kotak = 12 kanal. Jumlah jangkar pada `imgsz=320`:
-40x40 + 20x20 + 10x10 = 1.600 + 400 + 100 = 2.100. Kalau bentuk keluaran
-yang kamu terima berbeda dari ini, berarti ekspornya salah — periksa `imgsz`
-dan jumlah kelas sebelum menulis kode decode.
+## Modul
 
-## Model
+Mengikuti SRS 5.5. Satu modul = satu tanggung jawab = sebisa mungkin satu pemilik.
 
-```bash
-# Ekspor. Perhatikan nms=False — lihat ADR-0002.
-yolo export model=best.pt format=onnx imgsz=320 opset=12 simplify=True nms=False dynamic=False
-```
+| Modul | Backend | Frontend | WBS |
+| --- | --- | --- | --- |
+| Core Map | — | `Map/` basemap, pan/zoom, highlight/dim | 1.4.1 |
+| Multi-Layer Mapping | `GET /api/layers/...` | panel toggle 6 layer, slider Mesin Waktu | 1.4.3 |
+| Requirement Search | `SearchService`, parsing query | search bar, hasil Top 3, fly-to | 1.4.2 |
+| Point Inspector | `GET /api/inspect` | side-panel, tombol tutup di kiri | 1.4.4 |
+| Persona Grading | `PersonaScoringService` | bintang 0–3, auto-summary | 1.4.5 |
+| Commute Simulator | `CommuteService` | toggle di search bar, Pin A/B | 1.4.5 |
+| Backend & API | skema, endpoint, optimasi query | — | 1.4.6 |
 
-Lalu kuantisasi ke INT8 dengan kalibrasi statis (bukan dinamis) memakai sekitar
-200 citra dari set validasi.
+## Preferensi persona: di mana ia hidup
 
-Model memakai **8 kelas**: 7 pecahan kertas ditambah 1 kelas koin. Tahun emisi
-tidak dipisahkan — uang TE 2016 dan TE 2022 masuk ke kelas nominal yang sama,
-karena tahun emisi tidak pernah diucapkan kepada pengguna. Lihat ADR-0007.
+Hanya di klien. Disimpan di `sessionStorage` (hilang saat tab ditutup, cocok
+dengan FR-14) dan dikirim sebagai **parameter** ke endpoint yang membutuhkannya
+(`search`, `inspect`). Server tidak pernah menyimpannya. Ini aturan wajib nomor 2
+di `CLAUDE.md`.
 
-**Gerbang mutu yang wajib dipatuhi:** ukur mAP@0.5 model INT8 terhadap model
-FP32 pada set validasi yang sama. **Kalau turun lebih dari 3 poin, buang INT8
-dan kirim FP32.** Model FP32 YOLOv8n berukuran sekitar 12 MB — masih sangat
-wajar untuk dibundel dalam APK, dan 6 MB tambahan tidak sebanding dengan
-akurasi yang hilang saat menyebut nominal uang orang. Angka "~6 MB" di exsum
-adalah target, bukan janji yang boleh menggerus akurasi.
+Pilihan persona di mode checkbox Requirement Search hanya berlaku untuk
+pencarian itu dan **tidak** menimpa preferensi sesi (Business Rule 12).
 
-Bobot dan checksum-nya dicatat di store `versi_model`, supaya setiap hasil
-deteksi bisa ditelusuri ke versi model yang memproduksinya.
+## Skor persona
 
-## Ukuran APK dan pemuatan WASM
+Dihitung di server, karena butuh query spasial. Dua metode menurut tipe
+geometri (FR-09, Business Rule 10):
 
-Runtime WASM ONNX Runtime berukuran **14 MB**. Ditambah bobot model, APK akan
-berada di kisaran 25–30 MB. Wajar untuk aplikasi yang membawa seluruh AI-nya
-sendiri, tapi ada dua jebakan yang sudah kami tabrak dan selesaikan:
+| Diklik | Metode | Contoh |
+| --- | --- | --- |
+| Titik | Jarak ke fasilitas relevan terdekat (`ST_DWithin`) | < 500 m dari stasiun → Commuter 3 bintang |
+| Poligon | Jumlah fasilitas relevan di dalam wilayah (`ST_Intersects`) | 2 stasiun untuk satu kota → Commuter 1 bintang |
 
-**Jangan menyetel `ort.env.wasm.wasmPaths`.** ORT merujuk berkas `.wasm`-nya
-lewat `new URL(..., import.meta.url)`, sehingga Vite memancarkannya sendiri ke
-`dist/assets/` dengan path relatif yang benar. Menyetel `wasmPaths` ke salinan
-terpisah di `public/` membuat **dua** berkas 14 MB yang identik ikut dibundel.
-Kami sempat melakukannya sebelum menyadari duplikasinya.
+Ambang tiap bintang (TBD-09, TBD-10) dan bobot (TBD-05) **belum ditetapkan**.
+Simpan sebagai konstanta di satu tempat, jangan tersebar, supaya bisa disetel
+setelah uji coba data nyata (Business Rule 2).
 
-**Impor dari `onnxruntime-web/wasm`, bukan `onnxruntime-web`.** Paketnya memuat
-empat varian WASM: `.wasm` biasa (14 MB), `.jspi` (16 MB), `.asyncify` (26 MB),
-dan `.jsep` untuk WebGPU (28 MB). Subpath `/wasm` hanya menarik yang pertama.
-Mengimpor paket utama berisiko menyeret varian yang tidak kami pakai sama
-sekali.
+## Belum dirancang
 
-Verifikasi: setelah `pnpm build`, `find dist -name "*.wasm"` harus memberi
-**tepat satu** berkas.
-
-## Kamera dan senter
-
-Keduanya dipakai **langsung dari Web API**, tanpa plugin Capacitor:
-
-```ts
-// Senter: tidak butuh @capgo/capacitor-flash
-const track = stream.getVideoTracks()[0];
-await track.applyConstraints({ advanced: [{ torch: true }] });
-```
-
-Setiap plugin native adalah satu risiko build Gradle tambahan di tengah lomba.
-Kalau Web API sudah cukup, pakai Web API. Kita hanya memakai plugin untuk hal
-yang benar-benar tidak ada padanan web-nya: haptik dan preferensi.
-
-**Senter otomatis** dipicu dari nilai `luma` yang sudah dihitung dari bingkai
-yang memang sedang diproses. Tidak perlu sensor cahaya terpisah, tidak perlu
-izin tambahan, dan gratis secara komputasi.
-
-## Persistensi
-
-Delapan object store sesuai Lampiran 7, nama dipertahankan persis:
-`denominasi`, `versi_model`, `pengaturan`, `sesi_transaksi`, `sesi_pemindaian`,
-`hasil_deteksi`, `log_kejadian`, `agregat_metrik`.
-
-**Aturan penulisan yang tidak boleh dilanggar.** Pemindaian berjalan 5 sampai
-10 bingkai per detik, masing-masing menghasilkan beberapa deteksi. Menulis tiap
-deteksi ke IndexedDB saat itu juga berarti ratusan transaksi tulis per menit,
-di utas yang sama dengan UI. Pratinjau kamera akan tersendat dan penyebabnya
-sulit dilacak.
-
-Karena itu: **kumpulkan di memori, tulis sekali saat fase berakhir.**
-Yang disimpan hanyalah deteksi yang ikut menentukan keputusan — himpunan yang
-lolos voting, ditambah ringkasan yang ditolak (berapa banyak, karena gating
-atau karena IoU). Ini tetap memenuhi kebutuhan jejak audit Abstain Policy dan
-`agregat_metrik`, tanpa membanjiri basis data dengan bingkai yang tidak pernah
-mempengaruhi apa pun.
-
-Data tidak pernah dikirim ke mana pun, jadi enkripsi *at rest* tidak
-menambah perlindungan berarti di sini — IndexedDB sudah berada di dalam sandbox
-aplikasi Android. Menambahkannya di 24 jam adalah biaya tanpa hasil.
-
-## Jaminan luring
-
-Ini bukan sifat yang muncul sendiri; ia harus dijaga secara aktif.
-
-- Tidak ada `fetch`, `XMLHttpRequest`, atau URL absolut ke host mana pun di
-  kode produksi.
-- Tanpa Google Fonts, tanpa CDN, tanpa ikon jarak jauh. Font dibundel sebagai
-  aset lokal.
-- `.wasm` ORT, bobot ONNX, dan audio sprite semuanya berada di `dist/`.
-- `speechSynthesis` hanya cadangan, tidak pernah jalur utama (ADR-0003).
-- STT native, kalau dipakai, wajib `requireOnDeviceRecognition: true` (ADR-0005).
-
-**Cara membuktikannya:** nyalakan mode pesawat, matikan Wi-Fi, lalu jalankan
-seluruh skenario `docs/DEMO.md`. Tidak ada cara lain yang sahih. Uji ini
-dilakukan di jam ke-19, bukan di jam ke-23.
-
-## Mesin state transaksi
-
-```mermaid
-stateDiagram-v2
-    [*] --> SIAGA
-    SIAGA --> PINDAI_BAYAR: MULAI
-    PINDAI_BAYAR --> PINDAI_BAYAR: HASIL_PINDAI (belum stabil / abstain)
-    PINDAI_BAYAR --> KALKULATOR: KONFIRMASI (hasil stabil)
-    KALKULATOR --> KALKULATOR: SET_BELANJA / SET_BAYAR
-    KALKULATOR --> LAYAR_KASIR: KONFIRMASI (bayar >= belanja)
-    KALKULATOR --> PINDAI_KEMBALIAN: LEWATI_LAYAR_KASIR
-    LAYAR_KASIR --> PINDAI_KEMBALIAN: KONFIRMASI
-    PINDAI_KEMBALIAN --> PINDAI_KEMBALIAN: HASIL_PINDAI (belum stabil / abstain)
-    PINDAI_KEMBALIAN --> SELESAI: KONFIRMASI (stabil + koin terturunkan)
-    SELESAI --> SIAGA: KONFIRMASI
-    SELESAI --> PINDAI_BAYAR: MULAI
-
-    PINDAI_BAYAR --> SIAGA: BATAL
-    KALKULATOR --> SIAGA: BATAL
-    LAYAR_KASIR --> SIAGA: BATAL
-    PINDAI_KEMBALIAN --> SIAGA: BATAL
-```
-
-Dua sifat dari `SELESAI` yang perlu disebut. Pertama, `KONFIRMASI` di sana
-mengembalikan ke Mode Siaga **tanpa** mengucapkan "transaksi dibatalkan" —
-transaksinya berhasil, bukan gagal, dan mengucapkan kata yang salah kepada
-orang yang hanya punya suara sebagai umpan balik akan membingungkan. Kedua,
-`MULAI` langsung membuka transaksi baru, supaya pengguna yang berbelanja di
-dua lapak berturut-turut tidak perlu melewati Mode Siaga lebih dulu.
-
-Dua sifat yang harus dijaga, dan keduanya punya tes:
-
-- **`BATAL` sah dari fase mana pun** kecuali `SIAGA`. Pengguna harus selalu
-  bisa keluar. Kalau ada satu fase saja yang tidak bisa dibatalkan, itu jebakan
-  bagi orang yang tidak bisa melihat di mana dia terjebak.
-- **Pembayaran kurang dari belanja ditolak di `KALKULATOR`**, sebelum masuk
-  `LAYAR_KASIR`. Menolaknya belakangan berarti pedagang sudah terlanjur melihat
-  angka yang salah.
-
-## Presensi koin
-
-Koin tidak pernah dikenali nilainya. Nilainya **diturunkan**:
-
-```
-nominalKoin = kembalianWajib - totalUangKertasTerdeteksi
-```
-
-Dengan syarat: hasil pindai Fase 4 berstatus `stabil`, dan selisihnya bernilai
-positif serta lebih kecil dari 1.000 (pecahan kertas terkecil). Kalau selisih
-mencapai 1.000 atau lebih, berarti ada uang kertas yang tidak terdeteksi, bukan
-koin — sistem harus abstain dan meminta pindai ulang, bukan menyebutnya koin.
-
-Kekeliruan inilah yang paling mungkin lolos ke demo, jadi ia wajib punya tes
-tersendiri di `core/koin.ts`.
+- Skema tabel dan ERD (TBD-04, WBS 1.2.2).
+- Cara Commute Simulator menghitung waktu tempuh (TBD-ROUTE).
+- Hosting staging dan produksi (WBS 1.2.5, 1.5.4).
+- Tata letak komponen (TBD-02).

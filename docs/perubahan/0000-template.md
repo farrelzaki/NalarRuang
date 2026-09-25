@@ -2,7 +2,7 @@
 
 - **Status:** Diusulkan | Diterima | Ditolak | Digantikan oleh ADR-XXXX
 - **Tanggal:** YYYY-MM-DD
-- **Rujukan exsum:** Bab / Lampiran yang terdampak, atau "tidak ada"
+- **Rujukan SRS/WBS:** bagian SRS, kode FR/TBD, atau WBS ID yang terdampak, atau "tidak ada"
 
 ## Konteks
 
