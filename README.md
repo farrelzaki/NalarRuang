@@ -43,7 +43,7 @@ Mata kuliah Sistem Informasi Geografis dan Manajemen Proyek Teknologi Informasi.
 Laravel · Inertia.js · React · Leaflet · Tailwind CSS · PostgreSQL + PostGIS ·
 QGIS (pengolahan data) · font Plus Jakarta Sans
 
-Alasan tiap pilihan ada di [`docs/PLAN.md`](docs/PLAN.md). Versi yang dikunci
+Alasan tiap pilihan ada di [`docs/RENCANA.md`](docs/RENCANA.md). Versi yang dikunci
 ditulis di [`CLAUDE.md`](CLAUDE.md) setelah scaffolding.
 
 ## Dokumentasi
@@ -53,13 +53,9 @@ manusia maupun agen AI, yang baru masuk ke repo ini.
 
 | Dokumen | Isi |
 | --- | --- |
-| [`docs/PLAN.md`](docs/PLAN.md) | Stack, alasan, kalender sprint, keputusan yang masih terbuka |
-| [`docs/ARSITEKTUR.md`](docs/ARSITEKTUR.md) | Alur data QGIS → PostGIS → API → peta, dan pembagian modul |
-| [`docs/KONTRAK.md`](docs/KONTRAK.md) | Kontrak API dan konvensi data (beku setelah disepakati) |
-| [`docs/EKSEKUSI.md`](docs/EKSEKUSI.md) | Siapa mengerjakan apa, per sprint |
+| [`docs/RENCANA.md`](docs/RENCANA.md) | Acuan, stack, kalender sprint, siapa mengerjakan apa, keputusan terbuka |
+| [`docs/SISTEM.md`](docs/SISTEM.md) | Arsitektur, kontrak API, dan batasan antarmuka |
 | [`docs/KOLABORASI.md`](docs/KOLABORASI.md) | Aturan main tim, Git, dan agen AI |
-| [`docs/DESAIN-UI.md`](docs/DESAIN-UI.md) | Batasan antarmuka dari SRS; diisi saat desain Figma tersedia |
-| [`docs/PERUBAHAN.md`](docs/PERUBAHAN.md) | Penyimpangan dari SRS/WBS, dalam format ADR |
 | [`docs/sumber/`](docs/sumber/) | Dokumen resmi tim: SRS, WBS, Project Charter, deskripsi proyek |
 | [`AGENTS.md`](AGENTS.md) | Alur kerja agen: checkpoint, persetujuan, pelaporan |
 

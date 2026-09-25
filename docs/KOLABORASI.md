@@ -21,19 +21,19 @@ mustahil secara struktural, bukan mengandalkan kehati-hatian.**
 
 ## Pembagian wilayah
 
-Pembagian pekerjaan per sprint ada di **[`docs/EKSEKUSI.md`](EKSEKUSI.md)**.
+Pembagian pekerjaan per sprint ada di **[`RENCANA.md`](RENCANA.md)** bagian 4.
 Pembagian folder di bawah ini adalah **usulan** sampai scaffolding selesai dan
 struktur foldernya nyata.
 
 | Folder | Pemilik |
 | --- | --- |
-| `docs/KONTRAK.md`, `resources/js/types/` | **Farrel, Adzkia, Nur'Afia bersama** (beku — ubah hanya setelah sepakat) |
+| Kontrak API (`docs/SISTEM.md` bagian 2), `resources/js/types/` | **Farrel, Adzkia, Nur'Afia bersama** (beku — ubah hanya setelah sepakat) |
 | `database/migrations/`, `app/Models/` | **Farrel** |
-| `app/Http/Controllers/Api/`, `app/Services/` | **Farrel** dan **Adzkia**, dibagi per endpoint (lihat `docs/EKSEKUSI.md`) |
+| `app/Http/Controllers/Api/`, `app/Services/` | **Farrel** dan **Adzkia**, dibagi per endpoint (lihat `docs/RENCANA.md` bagian 4) |
 | `database/seeders/`, `data/` | **Adzkia** (bersama Galih untuk isi QGIS) |
 | `resources/js/Pages/`, `Components/`, `Map/`, `resources/css/` | **Nur'Afia** (Farrel membantu di Core Map) |
 | `composer.json`, `package.json`, `.env.example`, konfigurasi | **Farrel** |
-| `docs/` selain `KONTRAK.md` | Siapa saja, umumkan di grup dulu |
+| `docs/` selain kontrak API | Siapa saja, umumkan di grup dulu |
 | `docs/sumber/` | Tidak ada. Hanya dibaca. Pembaruan dokumen resmi disalin ulang oleh PM. |
 
 **Aturannya satu kalimat: jangan menyunting berkas di folder orang lain.**
@@ -46,24 +46,20 @@ lalu tulis di deskripsi PR siapa yang mengerjakan apa.
 
 ## Untuk agen AI
 
-Lima aturan ini penting. Yang pertama paling penting.
+Empat aturan ini penting. Yang pertama paling penting.
 
 1. **Jangan pernah menyentuh berkas di luar folder yang diklaim.** Tidak untuk
    merapikan impor. Tidak untuk memperbaiki typo. Tidak untuk "sekalian".
    Kalau kamu melihat bug di folder orang lain, laporkan, jangan perbaiki.
 
 2. **Butuh sesuatu yang belum ada? Jangan bangun sendiri.** Pakai bentuk dari
-   `docs/KONTRAK.md`, lalu tulis mock lokal. Membangun versimu sendiri dari
+   kontrak API, lalu tulis mock lokal. Membangun versimu sendiri dari
    milik orang lain berarti nanti ada dua implementasi yang harus digabung.
 
-3. **`docs/KONTRAK.md` beku** setelah disepakati. Perubahan hanya setelah
-   disepakati, dalam satu commit tersendiri. Lihat aturannya di berkas itu.
+3. **Kontrak API beku** setelah disepakati. Perubahan hanya setelah
+   disepakati, dalam satu commit tersendiri. Lihat `docs/SISTEM.md` bagian 2.
 
-4. **Menyimpang dari SRS atau WBS berarti wajib menulis ADR** di
-   `docs/perubahan/`. Bukan formalitas; dosen dan PM meninjaunya di Sprint
-   Review. Lihat `docs/PERUBAHAN.md`.
-
-5. **Jangan menambah dependensi tanpa memberi tahu.** `composer.json` dan
+4. **Jangan menambah dependensi tanpa memberi tahu.** `composer.json` dan
    `package.json` adalah berkas yang benar-benar dipakai bersama dan paling
    sering menimbulkan konflik.
 
@@ -86,7 +82,7 @@ git push -u origin fitur/api-layer
 
 - **Nama branch:** `fitur/…`, `perbaikan/…`, `docs/…`, `data/…`.
 - **Satu reviewer** cukup, dari orang yang kodenya bersinggungan. PR yang
-  mengubah `docs/KONTRAK.md` butuh persetujuan ketiga orang.
+  mengubah kontrak API butuh persetujuan ketiga orang.
 - **Branch berumur pendek.** Lebih dari tiga hari tanpa merge berarti terlalu
   besar; pecah.
 - **Commit kecil, sering.** Commit besar menyembunyikan apa yang rusak dan kapan.
@@ -100,14 +96,14 @@ git push -u origin fitur/api-layer
 ## Titik sinkronisasi
 
 Berhenti sejenak dan bicara pada titik-titik ini. Semuanya bertepatan dengan
-gerbang Sprint Review di `docs/PLAN.md`.
+gerbang Sprint Review di `docs/RENCANA.md` bagian 3.
 
 | Kapan | Yang dibahas |
 | --- | --- |
-| Akhir Sprint 0 | Sepakati dan bekukan `docs/KONTRAK.md`. **Belum boleh coding paralel backend–frontend sebelum ini beres.** |
+| Akhir Sprint 0 | Sepakati dan bekukan kontrak API. **Belum boleh coding paralel backend–frontend sebelum ini beres.** |
 | Awal Sprint 1 | Boilerplate jalan di laptop semua orang? Staging bisa menerima deploy? Kalau belum, semua pindah ke masalah itu. |
 | 16 Okt — Review 1 | Core Map + 2 layer dari PostGIS. Mock dicabut, data asli terpasang. |
-| 6 Nov — Review 2 | Gerbang cakupan. Jujur soal apa yang tidak akan selesai, lalu tulis ADR-nya. |
+| 6 Nov — Review 2 | Gerbang cakupan. Jujur soal apa yang tidak akan selesai, lalu buang dari backlog bersama PM. |
 | 20 Nov — Review 3 | Pembekuan fitur. Setelah titik ini hanya perbaikan bug. |
 | 27 Nov — Final | Tidak ada lagi yang menyentuh kode di hari demo. |
 
@@ -128,4 +124,4 @@ peta maupun data QGIS yang final. Kalau ada yang menganggur karena menunggu
 sesuatu, di sinilah tempat paling aman untuk membantu.
 
 Yang paling **tidak** boleh dikerjakan bersamaan adalah `composer.json`,
-`package.json`, dan `docs/KONTRAK.md`. Ketiganya menyentuh semua orang sekaligus.
+`package.json`, dan kontrak API. Ketiganya menyentuh semua orang sekaligus.

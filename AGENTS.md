@@ -14,9 +14,9 @@ Workflow harus mendalam, berbasis bukti, aman, dapat dilacak, dan tetap efisien.
 Tiga file di atas mengatur **proses kerja**. Keputusan **teknis sistem** berada di:
 
 - `CLAUDE.md`: penunjuk arah singkat, struktur kode, versi yang dikunci, aturan wajib.
-- `docs/KONTRAK.md`: kontrak API dan konvensi data lintas-modul. **Beku**; ubah hanya setelah disepakati.
-- `docs/PLAN.md`, `docs/ARSITEKTUR.md`, `docs/DESAIN-UI.md`: stack, arsitektur, dan batasan antarmuka.
-- `docs/PERUBAHAN.md`: setiap penyimpangan dari SRS/WBS **wajib** dicatat sebagai ADR di sini. Dosen dan PM meninjaunya di Sprint Review.
+- `docs/RENCANA.md`: acuan, stack, kalender sprint, pembagian kerja, dan keputusan yang masih terbuka.
+- `docs/SISTEM.md`: arsitektur, kontrak API (**beku** setelah disepakati), dan batasan antarmuka.
+- `docs/KOLABORASI.md`: kepemilikan folder, Git, dan aturan agen AI.
 - `docs/sumber/`: dokumen resmi tim (SRS, WBS, Charter). Hanya dibaca, tidak disunting.
 
 Keduanya berlaku sekaligus: ikuti checkpoint di file ini, dan patuhi keputusan teknis di `docs/`.

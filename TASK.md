@@ -36,8 +36,8 @@ Gunakan file ini untuk mencatat pekerjaan proyek. Satu task harus memiliki tujua
 - Prioritas: Tinggi
 - Tujuan: Seluruh `.md` di repo mencerminkan NalarRuang, bukan proyek lama yang dokumennya tersalin.
 - Konteks dan bukti awal: Seluruh `.md` disalin dari proyek sebelumnya. Belum ada kode. Sumber konteks baru: SRS v1.0, WBS, Project Charter, Deskripsi Proyek (kini di `docs/sumber/`).
-- Scope termasuk: Menulis ulang CLAUDE, README, PROJECT_STATE, TASK, dan `docs/*`; menyunting baris konteks AGENTS; memindah dokumen resmi ke `docs/sumber/`; menghapus dokumen proyek lama; ADR-0001 dan ADR-0002.
-- Non-goals: Mengubah logika proses kerja agen (mode, checkpoint, approval, format laporan, template task, sistem ADR). Menyunting isi dokumen di `docs/sumber/`. Menulis kode.
+- Scope termasuk: Menulis ulang CLAUDE, README, PROJECT_STATE, TASK; menyunting baris konteks AGENTS; memindah dokumen resmi ke `docs/sumber/`; menghapus dokumen proyek lama termasuk sistem ADR; menggabungkan `docs/` menjadi RENCANA, SISTEM, KOLABORASI.
+- Non-goals: Mengubah logika proses kerja agen (mode, checkpoint, approval, format laporan, template task). Menyunting isi dokumen di `docs/sumber/`. Menulis kode.
 - Dependensi: Tidak ada
 
 Kriteria selesai:
@@ -122,7 +122,7 @@ Catatan:
 
 - Prioritas: Sedang
 - Pemicu: prototipe Figma (TBD-02) tersedia
-- Tujuan: Mengisi `docs/DESAIN-UI.md`, menyempurnakan `docs/KONTRAK.md` dan `docs/ARSITEKTUR.md` sesuai desain.
+- Tujuan: Melengkapi `docs/SISTEM.md` (arsitektur, kontrak API, antarmuka) sesuai desain.
 
 ### [ ] Konfirmasi peran QGIS ke dosen (TBD-QGIS)
 
@@ -157,7 +157,7 @@ Catatan:
 ### [ ] 1.4.6.2 RESTful API dan 1.4.6.3 optimasi query (bersama Adzkia)
 
 - Prioritas: Tinggi · Sprint 2
-- Catatan: pembagian endpoint masih usulan di `docs/EKSEKUSI.md`.
+- Catatan: pembagian endpoint masih usulan di `docs/RENCANA.md` bagian 4.
 
 ### [ ] 1.4.5 Persona Grading dan Commute Simulator (bersama Galih, Nur'Afia)
 

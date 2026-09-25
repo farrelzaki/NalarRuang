@@ -31,21 +31,17 @@ Lunak, IPB University) untuk mata kuliah **Sistem Informasi Geografis** dan
 serah terima final **27 November 2026**.
 
 Sumber kebutuhan: `docs/sumber/SRS.md` (SRS v1.0) dan `docs/sumber/WBS.md`.
-Keduanya **hanya dibaca**, tidak disunting. Lihat ADR-0001 untuk alasan
-keduanya menjadi acuan, bukan Project Charter.
+Keduanya **hanya dibaca**, tidak disunting. Project Charter sudah usang;
+alasannya di `docs/RENCANA.md` bagian 1.
 
 ## Peta dokumen
 
-| Saya mau…                                          | Buka                     |
-| -------------------------------------------------- | ------------------------ |
-| **Tahu apa yang harus SAYA kerjakan sekarang**      | `docs/EKSEKUSI.md`       |
-| Tahu stack, alasannya, kalender sprint, dan TBD     | `docs/PLAN.md`           |
-| Tahu bentuk arsitektur & alur data                  | `docs/ARSITEKTUR.md`     |
-| **Menulis kode yang menyentuh modul lain / API**    | `docs/KONTRAK.md`        |
-| Tahu apa yang berbeda dari SRS/WBS & kenapa         | `docs/PERUBAHAN.md`      |
-| Tahu aturan main antar-anggota / antar-agen         | `docs/KOLABORASI.md`     |
-| Menyentuh UI, warna, tipografi, atau teks antarmuka | `docs/DESAIN-UI.md`      |
-| Membaca dokumen resmi tim (SRS, WBS, Charter)       | `docs/sumber/`           |
+| Saya mau…                                                        | Buka                  |
+| ---------------------------------------------------------------- | --------------------- |
+| **Tahu apa yang harus SAYA kerjakan**, stack, jadwal, TBD        | `docs/RENCANA.md`     |
+| **Menulis kode yang menyentuh modul lain / API**, arsitektur, UI | `docs/SISTEM.md`      |
+| Tahu aturan main antar-anggota / antar-agen, Git                 | `docs/KOLABORASI.md`  |
+| Membaca dokumen resmi tim (SRS, WBS, Charter)                    | `docs/sumber/`        |
 
 ## Empat aturan yang tidak boleh dilanggar
 
@@ -58,8 +54,8 @@ keduanya menjadi acuan, bukan Project Charter.
    menyimpan data pribadi apa pun (SRS 5.2, Business Rule 6).
 3. **Tidak ada rahasia di repo.** Kredensial basis data, kunci API peta atau
    routing, dan token apa pun hanya lewat `.env`, yang tidak pernah di-commit.
-4. **Kontrak API di `docs/KONTRAK.md` beku setelah disepakati.** Lihat bagian
-   di bawah.
+4. **Kontrak API beku setelah disepakati.** Jangan ubah tanpa kesepakatan
+   Farrel, Adzkia, dan Nur'Afia; aturannya di `docs/SISTEM.md` bagian 2.
 
 ## Struktur kode
 
@@ -78,7 +74,7 @@ resources/js/
   Pages/                  Halaman Inertia (Visual Explorer).
   Components/             Komponen React: panel layer, search bar, Point Inspector.
   Map/                    Semua kode Leaflet. Satu-satunya tempat yang boleh menyentuh `L`.
-  types/                  Tipe TypeScript yang mencerminkan `docs/KONTRAK.md`.
+  types/                  Tipe TypeScript yang mencerminkan kontrak API.
 data/
   qgis/                   Proyek QGIS (.qgz) per layer.
   geojson/                GeoJSON hasil ekspor, siap diimpor.
@@ -86,22 +82,8 @@ tests/                    PHPUnit/Pest untuk Services dan endpoint.
 ```
 
 Frontend berbicara ke backend **hanya** lewat endpoint yang tertulis di
-`docs/KONTRAK.md`. Komponen React tidak memanggil Leaflet langsung; lewat `Map/`.
-
-## Aturan `docs/KONTRAK.md`
-
-**PENTING: jangan ubah kontrak API tanpa kesepakatan Farrel, Adzkia, dan
-Nur'Afia lebih dulu.** Backend dan frontend ditulis bersamaan di dua sisi
-kontrak itu. Mengubahnya sepihak akan mematahkan pekerjaan orang lain tanpa
-dia sadari.
-
-Kalau memang harus berubah:
-1. Sepakati dulu (chat grup atau lisan).
-2. Ubah dalam **satu commit/PR tersendiri** yang hanya menyentuh
-   `docs/KONTRAK.md` dan `resources/js/types/`.
-3. Beri tahu, supaya yang lain `git pull --rebase` sebelum lanjut.
-
-Selama berstatus **draf**, kontrak boleh disunting pemiliknya tanpa ritual ini.
+`docs/SISTEM.md` bagian 2. Komponen React tidak memanggil Leaflet langsung;
+lewat `Map/`.
 
 ## Perintah
 
@@ -119,7 +101,7 @@ dijalankan dan terbukti berhasil.
 - **Query spasial di PostGIS, bukan di PHP.** Jangan menarik ribuan geometri
   ke PHP untuk difilter. Pakai `ST_Intersects`, `ST_DWithin`, dan filter
   bounding box, dengan indeks GIST.
-- **Satu SRID di penyimpanan.** Konvensinya ada di `docs/KONTRAK.md`.
+- **Satu SRID di penyimpanan.** Konvensinya ada di `docs/SISTEM.md` bagian 2.
 - **Commit kecil, sering, di branch fitur.** Selalu `git pull --rebase`
   sebelum `git push`. Alur branch dan PR ada di `docs/KOLABORASI.md`.
 - **Jangan menambah dependensi tanpa bilang-bilang.** `composer.json` dan
@@ -139,9 +121,6 @@ Setelah terisi: jangan naikkan versi mayor di tengah semester.
 - Kerjakan hanya folder yang dimiliki orang yang sedang kamu bantu, sesuai
   tabel di `docs/KOLABORASI.md`. Jangan "sekalian merapikan" folder orang lain.
 - Kalau butuh sesuatu dari modul lain yang belum ada, **jangan buat sendiri di
-  folder kamu**. Pakai bentuk dari `docs/KONTRAK.md` dan tulis mock lokal.
-- Setiap kali kamu menyimpang dari SRS atau WBS, itu **wajib** dicatat sebagai
-  ADR baru di `docs/perubahan/`. Lihat `docs/PERUBAHAN.md` untuk cara dan
-  alasannya — dosen dan PM meninjaunya di Sprint Review.
-- Hal yang masih TBD (lihat `docs/PLAN.md`) **jangan diputuskan sendiri**.
-  Tanyakan, atau tulis sebagai usulan ADR berstatus `Diusulkan`.
+  folder kamu**. Pakai bentuk dari kontrak API dan tulis mock lokal.
+- Hal yang masih TBD (lihat `docs/RENCANA.md` bagian 5) atau yang menyimpang
+  dari SRS/WBS **jangan diputuskan sendiri**. Tanyakan dulu.

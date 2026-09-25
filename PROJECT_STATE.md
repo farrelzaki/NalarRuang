@@ -12,22 +12,24 @@ Perbarui saat memulai sesi, melewati checkpoint, membuat keputusan penting, mene
 - Task aktif: Restrukturisasi dokumentasi NalarRuang (tahap 1)
 - Fase aktif: Handoff
 - Checkpoint terakhir: Verification (grep sisa konteks lama bersih, tautan relatif valid, `docs/sumber/` hanya rename)
-- Konfirmasi pengguna terakhir: "lanjutkan" — menjalankan rencana restrukturisasi tahap 1
+- Konfirmasi pengguna terakhir: hapus dokumentasi perubahan (ADR), gabungkan `.md` yang bisa digabung
 
 ## Scope Yang Disetujui
 
 Mengganti konteks seluruh `.md` dari proyek lama (disalin dari proyek
 sebelumnya) ke NalarRuang. **Logika proses kerja agen tidak diubah**: mode
 `competition`, checkpoint, aturan approval, klasifikasi perubahan, format
-laporan, template task, dan sistem ADR tetap. Yang diganti hanya konteks.
+laporan, dan template task tetap. Yang diganti hanya konteks.
+
+Atas permintaan pengguna, sistem ADR (`docs/PERUBAHAN.md`, `docs/perubahan/`)
+dihapus karena tidak diminta, dan `docs/` digabung menjadi tiga berkas.
 
 Dikerjakan di branch `docs/restrukturisasi-nalarruang`. Belum di-commit.
 
 ## Tujuan Saat Ini
 
 Dokumentasi mencerminkan NalarRuang supaya agen dan anggota tim yang membaca
-repo tidak salah konteks. Tahap 2 (setelah desain Figma masuk): menyempurnakan
-`docs/DESAIN-UI.md`, `docs/KONTRAK.md`, dan `docs/ARSITEKTUR.md`.
+repo tidak salah konteks. Tahap 2 (setelah desain Figma masuk): melengkapi `docs/SISTEM.md`.
 
 ## Progress
 
@@ -39,18 +41,18 @@ repo tidak salah konteks. Tahap 2 (setelah desain Figma masuk): menyempurnakan
 
 - Dokumen resmi dipindah ke `docs/sumber/` (SRS, WBS, CHARTER, DESKRIPSI).
 - Dokumen proyek lama dihapus; masih ada di riwayat git.
-- Ditulis ulang: `CLAUDE.md`, `README.md`, `docs/PLAN.md`, `docs/ARSITEKTUR.md`,
-  `docs/KONTRAK.md` (draf), `docs/EKSEKUSI.md`, `docs/KOLABORASI.md`,
-  `docs/PERUBAHAN.md`. Baru: `docs/DESAIN-UI.md`, ADR-0001, ADR-0002.
+- Ditulis ulang: `CLAUDE.md`, `README.md`, `TASK.md`, `docs/KOLABORASI.md`.
+- `docs/` kini tiga berkas: `RENCANA.md` (acuan, stack, jadwal, pembagian kerja,
+  TBD), `SISTEM.md` (arsitektur, kontrak API draf, batasan UI), `KOLABORASI.md`.
 
 ## Langkah Berikutnya Yang Diusulkan
 
 1. Pengguna meninjau diff, lalu commit dan PR branch ini.
 2. Pastikan status Sprint 0 bagian Farrel: 1.2.2 (ERD), 1.2.4 (boilerplate),
-   1.2.5 (staging). Semuanya "belum diketahui" di `docs/EKSEKUSI.md`.
+   1.2.5 (staging). Semuanya "belum diketahui" di `docs/RENCANA.md`.
 3. Scaffolding Laravel + Inertia + React (WBS 1.2.4), lalu isi bagian
    *Perintah* dan *Versi yang dikunci* di `CLAUDE.md`.
-4. Bekukan `docs/KONTRAK.md` bersama Adzkia dan Nur'Afia.
+4. Bekukan kontrak API (`docs/SISTEM.md` bagian 2) bersama Adzkia dan Nur'Afia.
 
 ## Blocker Dan Hal Yang Belum Diketahui
 
@@ -61,9 +63,9 @@ repo tidak salah konteks. Tahap 2 (setelah desain Figma masuk): menyempurnakan
 
 ## Keputusan Penting
 
-- **ADR-0001:** SRS v1.0 + WBS adalah acuan; Project Charter hanya riwayat.
+- SRS v1.0 + WBS adalah acuan; Project Charter hanya riwayat.
   Enam layer, tanpa MongoDB/NLP, data diolah di QGIS lalu diimpor ke PostGIS,
   final 27 November 2026.
-- **ADR-0002:** Laravel + Inertia + React, Leaflet, Tailwind, PostgreSQL + PostGIS.
+- Stack: Laravel + Inertia + React, Leaflet, Tailwind, PostgreSQL + PostGIS.
 - Git: branch per fitur + PR ke `main`.
 - Yang coding bersama agen: Farrel, Adzkia, Nur'Afia. Izdihar dan Galih tidak.
