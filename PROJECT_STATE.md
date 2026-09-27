@@ -67,5 +67,10 @@ repo tidak salah konteks. Tahap 2 (setelah desain Figma masuk): melengkapi `docs
   Enam layer, tanpa MongoDB/NLP, data diolah di QGIS lalu diimpor ke PostGIS,
   final 27 November 2026.
 - Stack: Laravel + Inertia + React, Leaflet, Tailwind, PostgreSQL + PostGIS.
+- Bila prompt tugas bertabrakan dengan `docs/RENCANA.md`, RENCANA yang dipakai
+  (keputusan pengguna 27 Sep); contoh: React tetap disebut di PRD dan design system.
+- Design system (27 Sep): nilai dari Figma `ui-nalar-ruang`; frame 1536 kanonik untuk
+  aplikasi, 1440 untuk drawer dan landing. Komponen React ada di artifact Design System;
+  PRD di `prd.md`. Open Questions desain di `design-system.md` bagian 15.
 - Git: branch per fitur + PR ke `main`.
 - Yang coding bersama agen: Farrel, Adzkia, Nur'Afia. Izdihar dan Galih tidak.

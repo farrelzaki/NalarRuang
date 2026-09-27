@@ -173,3 +173,16 @@ Catatan:
 ## Selesai
 
 <!-- Pindahkan task selesai ke sini jika riwayatnya masih berguna. Sertakan hasil dan verifikasi terakhir. -->
+
+### [~] PRD, design system, dan kanvas wireframe NalarRuang
+
+- Status: [~] Selesai dikerjakan, menunggu tinjauan pengguna dan desainer
+- Mode: competition · Scope dan Plan disetujui 27 Sep 2026 (dua tahap)
+- Hasil:
+  - `prd.md` di root: 27 user story, FR-01–21, UC-01–07, BR-1–18, NFR-01–16, OQ-01–10.
+  - `design-system.md` di root (v1.1, nilai dari Figma `ui-nalar-ruang`).
+  - Artifact Design System https://claude.ai/artifact/7R7qPFSeWx7aVjzCt4GxDR: 118 warna, 58 gaya teks, 37 komponen React (`window.NalarRuang`) dengan preview, logo, 12 screenshot.
+  - Kanvas Design https://claude.ai/artifact/LtCEm8pdhnp5MUtQ2bTtJY: 4 layar dirakit dari komponen design system.
+- Sumber: `docs/prompt/*.md`, `docs/sumber/`, `docs/design/`, Figma node 159:4009.
+- Verifikasi: checklist PRD (FR/UC/BR lengkap, istilah terlarang hanya di rekonsiliasi); `node --check` dan render server 37/37 komponen + 37/37 preview tanpa peringatan; tidak ada hex atau `var()` di luar `tokens.json`.
+- Belum diverifikasi: tampilan artifact dan kanvas dilihat langsung di browser; lima nilai hasil sampling (lihat OQ-10 `design-system.md`).
