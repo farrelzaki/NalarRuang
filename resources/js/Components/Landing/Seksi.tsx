@@ -1,12 +1,14 @@
 /** Komponen landing (design-system.md bagian 10), di-porting dari design system NalarRuang. */
 import { Link } from '@inertiajs/react';
 import { useState, type CSSProperties, type ReactNode } from 'react';
+import { PilihBahasa, useBahasa } from '@/lib/bahasa';
 import { cx, SUMBER } from '@/lib/nalar';
 import { Ikon } from '../Dasar';
 
 const foto = (src: string, posisi = 'center'): CSSProperties => ({ backgroundImage: `url(${src})`, backgroundSize: 'cover', backgroundPosition: posisi });
 
 export function HeroLanding({ onMenu }: { onMenu: () => void }) {
+    const { t } = useBahasa();
     return (
         <div>
             <div className="ed-hero ed-photo" style={{ ...foto('/images/foto-bundaran-hi.jpg', 'center 40%'), height: 773 }}>
@@ -18,24 +20,27 @@ export function HeroLanding({ onMenu }: { onMenu: () => void }) {
                         <img src="/images/logo-nalarruang.svg" width={31} height={31} alt="" />
                         NalarRuang
                     </span>
-                    <Link className="ed-hbtn ed-hbtn--sm" href="/peta">
-                        Menuju Peta
-                    </Link>
+                    <span className="ed-header__kanan">
+                        <PilihBahasa gelap />
+                        <Link className="ed-hbtn ed-hbtn--sm" href="/peta">
+                            {t('Menuju Peta', 'Go to Map')}
+                        </Link>
+                    </span>
                 </div>
                 <div style={{ paddingTop: 158 }}>
                     <div className="ed-kicker">
-                        <span>Data Spasial</span>
+                        <span>{t('Data Spasial', 'Spatial Data')}</span>
                         <span className="ed-kicker__x">×</span>
                         <span>Persona</span>
                         <span className="ed-kicker__x">×</span>
-                        <span>Rekomendasi</span>
+                        <span>{t('Rekomendasi', 'Recommendation')}</span>
                     </div>
                     <h1 className="ed-hero__title">
-                        Hunian yang cocok.
+                        {t('Hunian yang cocok.', 'A home that fits.')}
                         <br />
-                        Kota yang terbaca.
+                        {t('Kota yang terbaca.', 'A city you can read.')}
                     </h1>
-                    <p className="ed-hero__sub">Temukan ruang hidup idealmu dengan analisis data spasial perkotaan yang komprehensif.</p>
+                    <p className="ed-hero__sub">{t('Temukan ruang hidup idealmu dengan analisis data spasial perkotaan yang komprehensif.', 'Find your ideal living space with comprehensive urban spatial data analysis.')}</p>
                 </div>
             </div>
             <div className="ed-marquee" aria-hidden="true">
@@ -99,13 +104,16 @@ export function KolomFitur({ kolom }: { kolom: { judul: string; teks: string }[]
 }
 
 export function VisiKami() {
+    const { t } = useBahasa();
     return (
         <section className="ed-vision">
             <div>
                 <h2 className="ed-vision__title">Our Vision</h2>
                 <p className="ed-vision__text">
-                    Menjadi pionir platform inteligensi tata ruang yang meredefinisi standar eksplorasi hunian di Jabodetabek, mengonversi kompleksitas data spasial menjadi wawasan
-                    terpersonalisasi guna memberdayakan keputusan hidup yang presisi.
+                    {t(
+                        'Menjadi pionir platform inteligensi tata ruang yang meredefinisi standar eksplorasi hunian di Jabodetabek, mengonversi kompleksitas data spasial menjadi wawasan terpersonalisasi guna memberdayakan keputusan hidup yang presisi.',
+                        'To pioneer a spatial intelligence platform that redefines how people explore homes in Jabodetabek, turning complex spatial data into personalised insight that empowers precise life decisions.',
+                    )}
                 </p>
             </div>
             <div className="ed-vision__frame">
@@ -116,10 +124,20 @@ export function VisiKami() {
 }
 
 export function MisiKami() {
+    const { t } = useBahasa();
     const misi = [
-        'Menyediakan integrasi pemetaan data spasial multi-layer (mencakup historis & risiko, ekosistem mikro, inklusivitas, dan mobilitas) yang transparan dan mudah diakses oleh publik.',
-        'Menghadirkan pengalaman pencarian kawasan hunian yang berpusat pada pengguna (user-centric) melalui sistem grading berbasis persona gaya hidup (Commuter, Driver, Social & Vibe, Zen).',
-        'Mendobrak asimetri informasi tata ruang dengan menyajikan alat analitik interaktif, seperti Smart Point Inspector dan Commute Simulator, guna mendukung pengambilan keputusan yang tepat dan berbasis data.',
+        t(
+            'Menyediakan integrasi pemetaan data spasial multi-layer (mencakup historis & risiko, ekosistem mikro, inklusivitas, dan mobilitas) yang transparan dan mudah diakses oleh publik.',
+            'Provide integrated multi-layer spatial data mapping (history & risk, micro ecosystem, inclusivity, and mobility) that is transparent and easy for the public to access.',
+        ),
+        t(
+            'Menghadirkan pengalaman pencarian kawasan hunian yang berpusat pada pengguna (user-centric) melalui sistem grading berbasis persona gaya hidup (Commuter, Driver, Social & Vibe, Zen).',
+            'Deliver a user-centric home-area search experience through lifestyle persona grading (Commuter, Driver, Social & Vibe, Zen).',
+        ),
+        t(
+            'Mendobrak asimetri informasi tata ruang dengan menyajikan alat analitik interaktif, seperti Smart Point Inspector dan Commute Simulator, guna mendukung pengambilan keputusan yang tepat dan berbasis data.',
+            'Break spatial information asymmetry with interactive analytics tools, such as the Smart Point Inspector and Commute Simulator, to support sound, data-driven decisions.',
+        ),
     ];
     return (
         <section className="ed-mission">
@@ -148,15 +166,16 @@ export function KartuFotoPersona({ nama, desc, src, rotasi, posisi }: { nama: st
 }
 
 export function KartuFitur({ judul, desc, gambar }: { judul: string; desc: string; gambar: string }) {
+    const { t } = useBahasa();
     return (
         <article className="ed-feature">
             <div className="ed-feature__frame">
-                <div className="ed-feature__img" style={{ ...foto(gambar), filter: 'grayscale(0.35)' }} role="img" aria-label={`Cuplikan peta ${judul}`} />
+                <div className="ed-feature__img" style={{ ...foto(gambar), filter: 'grayscale(0.35)' }} role="img" aria-label={t(`Cuplikan peta ${judul}`, `${judul} map preview`)} />
             </div>
             <h3 className="ed-feature__title">{judul}</h3>
             <p className="ed-body">{desc}</p>
             <Link className="ed-link" href="/peta" style={{ marginTop: 20 }}>
-                Pelajari
+                {t('Pelajari', 'Learn more')}
                 <Ikon name="arrow-up-right" size={16} />
             </Link>
         </article>
@@ -173,10 +192,11 @@ export function TileLayer({ judul, src, tinggi = 236, posisi }: { judul: string;
 }
 
 export function StripSumberData() {
+    const { t } = useBahasa();
     return (
         <div style={{ textAlign: 'center' }}>
             <h2 className="ed-title" style={{ fontSize: 36, lineHeight: '40px', marginBottom: 40, color: 'var(--navy-ink)' }}>
-                Sumber Data Terbuka
+                {t('Sumber Data Terbuka', 'Open Data Sources')}
             </h2>
             <div className="ed-logos">
                 {SUMBER.map((s) => (
@@ -187,7 +207,7 @@ export function StripSumberData() {
                 ))}
             </div>
             <Link className="ed-link" href="/peta" style={{ marginTop: 48, paddingBottom: 6, borderBottom: '2px solid var(--line)' }}>
-                Buka Peta Interaktif
+                {t('Buka Peta Interaktif', 'Open Interactive Map')}
                 <Ikon name="arrow-up-right" size={16} />
             </Link>
         </div>
@@ -214,17 +234,18 @@ export function KartuLangkah({ langkah }: { langkah: { no: string; judul: string
 }
 
 export function CobaSekarang() {
+    const { t } = useBahasa();
     return (
         <section className="ed-try" id="coba">
             <div className="ed-try__card">
                 <div className="ed-try__shot" style={{ backgroundImage: 'url(/images/coba-sekarang.jpg)' }} />
                 <div className="ed-try__veil" />
                 <div className="ed-try__inner">
-                    <span className="ed-try__tag">Interaktif</span>
-                    <h2 className="ed-try__title">Coba Sekarang</h2>
-                    <p className="ed-try__text">Gunakan fitur pencarian, filter layer, dan persona untuk mensimulasikan pencarian kawasan idealmu.</p>
+                    <span className="ed-try__tag">{t('Interaktif', 'Interactive')}</span>
+                    <h2 className="ed-try__title">{t('Coba Sekarang', 'Try It Now')}</h2>
+                    <p className="ed-try__text">{t('Gunakan fitur pencarian, filter layer, dan persona untuk mensimulasikan pencarian kawasan idealmu.', 'Use search, layer filters, and personas to simulate finding your ideal area.')}</p>
                     <Link className="ed-try__btn" href="/peta">
-                        Buka Peta
+                        {t('Buka Peta', 'Open Map')}
                         <Ikon name="arrow-right" size={14} strokeWidth={2.5} />
                     </Link>
                 </div>
@@ -254,30 +275,33 @@ export function AccordionFAQ({ butir }: { butir: { q: string; a: string }[] }) {
 }
 
 export function BandCTA() {
+    const { t } = useBahasa();
     return (
         <div className="ed-cta ed-photo" style={foto('/images/foto-bundaran-hi.jpg', 'center 60%')}>
             <div style={{ padding: '150px 23px 120px' }}>
                 <h2 className="ed-title" style={{ fontSize: 76, lineHeight: '73px', color: 'var(--stone-50)' }}>
-                    Siap membaca
+                    {t('Siap membaca', 'Ready to read')}
                     <br />
-                    kotamu sendiri?
+                    {t('kotamu sendiri?', 'your own city?')}
                 </h2>
-                <p style={{ margin: '19px 0', font: '400 19px/30.9px var(--font-inter)', color: 'var(--stone-50-80)' }}>Pilih persona, buka peta, dan lihat kotamu dari sudut yang berbeda.</p>
+                <p style={{ margin: '19px 0', font: '400 19px/30.9px var(--font-sans)', color: 'var(--stone-50-80)' }}>
+                    {t('Pilih persona, buka peta, dan lihat kotamu dari sudut yang berbeda.', 'Choose a persona, open the map, and see your city from a different angle.')}
+                </p>
                 <Link className="ed-btn" href="/peta">
-                    Mulai Cari Hunian
+                    {t('Mulai Cari Hunian', 'Start Finding a Home')}
                 </Link>
             </div>
             <div style={{ padding: '0 73px 38px' }}>
                 <div className="ed-footer">
                     <div>
-                        <div className="ed-footer__label">Hubungi Kami</div>
+                        <div className="ed-footer__label">{t('Hubungi Kami', 'Contact Us')}</div>
                         Sekolah Vokasi IPB
                         <br />
                         Bogor, Jawa Barat, Indonesia
                     </div>
                     <div>
-                        <div className="ed-footer__label">Kontak</div>
-                        Kerja Sama
+                        <div className="ed-footer__label">{t('Kontak', 'Contact')}</div>
+                        {t('Kerja Sama', 'Partnerships')}
                         <br />
                         kolaborasi@nalaruang.id
                         <br />
@@ -286,7 +310,7 @@ export function BandCTA() {
                         media@nalaruang.id
                     </div>
                     <div>
-                        <div className="ed-footer__label">Ikuti</div>
+                        <div className="ed-footer__label">{t('Ikuti', 'Follow')}</div>
                         {['instagram', 'linkedin', 'youtube'].map((s) => (
                             <span key={s} className="ed-social">
                                 <Ikon name={s} size={18} label={s} />
@@ -298,7 +322,7 @@ export function BandCTA() {
                     <span className="nr-wordmark" style={{ color: 'var(--cream-100)', fontSize: 12.9 }}>
                         Nalar<i>Ruang</i>
                     </span>
-                    <span>Skor dan rekomendasi merupakan estimasi dari data sekunder publik.</span>
+                    <span>{t('Skor dan rekomendasi merupakan estimasi dari data sekunder publik.', 'Scores and recommendations are estimates from public secondary data.')}</span>
                     <span>© 2026</span>
                 </div>
             </div>

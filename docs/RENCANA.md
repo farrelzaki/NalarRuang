@@ -34,7 +34,7 @@ Kalau SRS dan WBS bertentangan satu sama lain, berhenti dan tanyakan PM.
 | Frontend | React | Antarmuka berbagi banyak state di satu halaman peta (persona sesi, layer aktif, pin commute). Charter juga menugaskan komponen UI React ke Nur'Afia |
 | Peta | Leaflet | SRS B01. Open-source, tanpa biaya lisensi |
 | Gaya | Tailwind CSS | SRS B01 |
-| Tipografi | Plus Jakarta Sans (aplikasi); Fraunces, Georgia, Inter (judul, dialog persona, landing) | SRS B03 v1.1, mengikuti desain final. Dibundel lokal, bukan dari Google Fonts |
+| Tipografi | Plus Jakarta Sans (seluruh teks); Fraunces (judul) | SRS B03. Tanpa Inter, Georgia, Playfair, DM Sans (keputusan Farrel 7 Okt 2026). Dibundel lokal, bukan dari Google Fonts |
 | Basis data | PostgreSQL + PostGIS | SRS SW01 |
 | Pengolahan data | QGIS + Overpass API | SRS SW03, pra-pemrosesan luring |
 | Tes | PHPUnit/Pest | Lihat bagian 6 |

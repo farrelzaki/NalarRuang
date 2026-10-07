@@ -230,8 +230,8 @@ Tabel berikut merangkum batasan teknis, desain, dan sumber daya yang perlu diper
 | ID | Kategori | Deskripsi |
 | :---: | ----- | ----- |
 | **B01** | Teknologi | Sistem dibangun menggunakan Laravel (backend), Inertia.js + React dengan Tailwind CSS dan pustaka peta Leaflet (frontend), dan PostgreSQL+PostGIS (basis data spasial). Pengolahan data spasial dilakukan di QGIS dengan sumber data Overpass API dan data sekunder publik lain. |
-| **B02** | Bahasa | Bahasa utama antarmuka sistem adalah Bahasa Indonesia. |
-| **B03** | Desain | Antarmuka mengikuti desain UI final di Figma (WBS 1.2.1.3) dan `design-system.md`: Plus Jakarta Sans sebagai huruf utama aplikasi, Fraunces untuk judul dan nama lokasi, Georgia dan Inter pada dialog persona dan landing page; bersifat responsif untuk perangkat desktop. |
+| **B02** | Bahasa | Bahasa utama antarmuka sistem adalah Bahasa Indonesia; pengguna dapat beralih ke Bahasa Inggris (lihat 6.2). |
+| **B03** | Desain | Antarmuka mengikuti desain UI final di Figma (WBS 1.2.1.3) dan `design-system.md`: Plus Jakarta Sans untuk seluruh teks, Fraunces untuk judul dan nama lokasi; bersifat responsif untuk perangkat desktop. |
 | **B04** | Infrastruktur | Sistem berjalan pada lingkungan staging berbasis domain/hosting tingkat gratis pada tahap awal (WBS 1.2.5); kapasitas produksi mengikuti kebutuhan demo akhir. |
 | **B05** | Cakupan Wilayah | Analisis spasial dibatasi pada wilayah Jabodetabek, mengikuti ketersediaan data sekunder. |
 | **B06** | Sumber Daya & Waktu | Proyek dikerjakan oleh tim beranggotakan 5 orang dengan linimasa Sprint 0 hingga Release Sprint, 7 September s.d. 27 November 2026 (12 minggu efektif), mengikuti kalender Praktikum MPTI. |
@@ -689,7 +689,7 @@ Sistem menggunakan basis data spasial PostgreSQL dengan ekstensi PostGIS untuk m
 
 ## **6.2 Kebutuhan Internasionalisasi**
 
-Antarmuka sistem saat ini menggunakan Bahasa Indonesia sebagai satu-satunya bahasa, mengikuti cakupan MVP satu semester. Belum ada kebutuhan formal untuk mendukung bahasa lain pada tahap ini.
+Antarmuka mendukung dua bahasa: Bahasa Indonesia (bawaan) dan Bahasa Inggris. Pengguna beralih lewat tombol ID / EN di landing page, dialog persona, dan menu peta; pilihan bahasa disimpan di browser sebagai preferensi tampilan, bukan data pribadi. Kontrak API tetap berbahasa Indonesia; terjemahan dilakukan di sisi klien. Data geografis (nama tempat, wilayah administrasi) tidak diterjemahkan.
 
 ## **6.3 Kebutuhan Legal**
 

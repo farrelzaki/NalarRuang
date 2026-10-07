@@ -2,7 +2,7 @@
 .ed-page { min-height: 100vh; overflow-x: hidden; }
 .ed-wrap { max-width: 1440px; margin: 0 auto; }
 .ed-sec { max-width: 1440px; margin: 0 auto; padding: 96px 100px; }
-.ed-lead-tengah { margin: 24px auto 0; max-width: 520px; font: 400 18px/29.25px var(--font-inter); color: var(--gray-600); }
+.ed-lead-tengah { margin: 24px auto 0; max-width: 520px; font: 400 18px/29.25px var(--font-sans); color: var(--gray-600); }
 
 .ed-hero { overflow: hidden; }
 .ed-marquee { padding: 20px 0; }

@@ -1,5 +1,6 @@
 /** Simulator Rute (8.8, FR-10, FR-11, FR-16). Titik A/B dipilih di peta. */
 import type { CommuteResponse } from '@/types';
+import { teksServer, useBahasa } from '@/lib/bahasa';
 import { cx, rupiah } from '@/lib/nalar';
 import { Ikon, Keadaan } from './Dasar';
 
@@ -20,23 +21,24 @@ type Props = {
 };
 
 export function SimulatorRute({ a, b, menunggu, hasil, memuat, moda, onModa, onPilihDiPeta, onReset, onTutup }: Props) {
+    const { t, bahasa } = useBahasa();
     const lengkap = !!(a && b && hasil);
-    const baris = (huruf: 'A' | 'B', t: TitikRute, kunci: 'a' | 'b') => (
+    const baris = (huruf: 'A' | 'B', titik: TitikRute, kunci: 'a' | 'b') => (
         <div className="nr-route__row">
             <span className={cx('nr-route__dot', huruf === 'A' && 'nr-route__dot--a')} aria-hidden="true">
                 {huruf}
             </span>
             <label className="nr-route__field">
-                <span className="nr-sr">{huruf === 'A' ? 'Titik asal' : 'Titik tujuan'}</span>
+                <span className="nr-sr">{huruf === 'A' ? t('Titik asal', 'Origin') : t('Titik tujuan', 'Destination')}</span>
                 <input
                     className="nr-route__input"
                     readOnly
-                    value={t?.label ?? ''}
-                    placeholder={menunggu === kunci ? 'Klik lokasi di peta…' : 'Ketik alamat atau pilih di peta'}
+                    value={titik ? teksServer(titik.label) : ''}
+                    placeholder={menunggu === kunci ? t('Klik lokasi di peta…', 'Click a location on the map…') : t('Ketik alamat atau pilih di peta', 'Type an address or pick on the map')}
                 />
-                {!t && (
+                {!titik && (
                     <button type="button" className="nr-linkcaps" onClick={() => onPilihDiPeta(kunci)}>
-                        Pilih di peta
+                        {t('Pilih di peta', 'Pick on map')}
                     </button>
                 )}
             </label>
@@ -54,7 +56,7 @@ export function SimulatorRute({ a, b, menunggu, hasil, memuat, moda, onModa, onP
                 aria-pressed={lengkap && moda === kunci}
                 disabled={kosong || na}
                 onClick={() => onModa(kunci)}
-                aria-label={label + (kosong ? '' : na ? ', tidak tersedia' : `, ${m!.waktu_menit} menit, ${rupiah(m!.biaya)}`)}
+                aria-label={label + (kosong ? '' : na ? t(', tidak tersedia', ', not available') : `, ${m!.waktu_menit} ${t('menit', 'minutes')}, ${rupiah(m!.biaya)}`)}
             >
                 <span className="nr-mode__label">
                     <Ikon name={ikon} size={12} />
@@ -66,14 +68,14 @@ export function SimulatorRute({ a, b, menunggu, hasil, memuat, moda, onModa, onP
                     </span>
                 ) : na ? (
                     <>
-                        <span className="nr-mode__na">Tidak tersedia</span>
-                        <span className="nr-mode__cost">{kunci === 'transit' ? 'Stasiun KRL terlalu jauh dari titik' : 'Coba titik yang lebih dekat ke jalan'}</span>
+                        <span className="nr-mode__na">{t('Tidak tersedia', 'Not available')}</span>
+                        <span className="nr-mode__cost">{kunci === 'transit' ? t('Stasiun KRL terlalu jauh dari titik', 'KRL station too far from the point') : t('Coba titik yang lebih dekat ke jalan', 'Try a point closer to a road')}</span>
                     </>
                 ) : (
                     <>
                         <span>
                             <span className="nr-mode__time">{m!.waktu_menit}</span>
-                            <span className="nr-mode__unit">mnt</span>
+                            <span className="nr-mode__unit">{t('mnt', 'min')}</span>
                         </span>
                         <span className="nr-mode__cost">{rupiah(m!.biaya)}</span>
                     </>
@@ -83,19 +85,19 @@ export function SimulatorRute({ a, b, menunggu, hasil, memuat, moda, onModa, onP
     };
 
     const jarak = hasil?.pribadi?.jarak_km ?? hasil?.publik?.jarak_km;
-    const rincian = lengkap && moda === 'transit' && hasil?.publik ? `${hasil.publik.rincian}. ` : '';
+    const rincian = lengkap && moda === 'transit' && hasil?.publik ? `${teksServer(hasil.publik.rincian)}. ` : '';
 
     return (
-        <section className="nr-route nr-float" aria-label="Simulator Rute">
+        <section className="nr-route nr-float" aria-label={t('Simulator Rute', 'Route Simulator')}>
             <div className="nr-route__head">
-                <span className="nr-label">Simulator Rute</span>
-                {lengkap && jarak != null && <span className="nr-route__dist">{jarak.toLocaleString('id-ID')} km</span>}
+                <span className="nr-label">{t('Simulator Rute', 'Route Simulator')}</span>
+                {lengkap && jarak != null && <span className="nr-route__dist">{jarak.toLocaleString(bahasa === 'en' ? 'en-US' : 'id-ID')} km</span>}
                 {(a || b) && (
-                    <button type="button" className="nr-iconbtn" aria-label="Reset rute" title="Reset" onClick={onReset}>
+                    <button type="button" className="nr-iconbtn" aria-label={t('Reset rute', 'Reset route')} title="Reset" onClick={onReset}>
                         <Ikon name="rotate-ccw" size={14} />
                     </button>
                 )}
-                <button type="button" className="nr-iconbtn" aria-label="Tutup Simulator Rute" onClick={onTutup}>
+                <button type="button" className="nr-iconbtn" aria-label={t('Tutup Simulator Rute', 'Close Route Simulator')} onClick={onTutup}>
                     <Ikon name="x" size={14} />
                 </button>
             </div>
@@ -103,12 +105,12 @@ export function SimulatorRute({ a, b, menunggu, hasil, memuat, moda, onModa, onP
                 {baris('A', a, 'a')}
                 {baris('B', b, 'b')}
             </div>
-            <div className="nr-route__modes" role="group" aria-label="Moda">
-                {kotak('mobil', 'car', 'Mobil')}
+            <div className="nr-route__modes" role="group" aria-label={t('Moda', 'Mode')}>
+                {kotak('mobil', 'car', t('Mobil', 'Car'))}
                 {kotak('transit', 'tram-front', 'Transit')}
             </div>
-            {memuat && <Keadaan kind="memuat" title="Menghitung rute" />}
-            {lengkap && <p className="nr-route__foot">{rincian}Estimasi tanpa lalu lintas real-time.</p>}
+            {memuat && <Keadaan kind="memuat" title={t('Menghitung rute', 'Calculating route')} />}
+            {lengkap && <p className="nr-route__foot">{rincian}{t('Estimasi tanpa lalu lintas real-time.', 'Estimate without real-time traffic.')}</p>}
         </section>
     );
 }

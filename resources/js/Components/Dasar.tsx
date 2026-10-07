@@ -1,5 +1,6 @@
 /** Komponen dasar design system NalarRuang (Ikon, Wordmark, Bintang, SimbolPeta, Toggle, Toast, keadaan). */
 import type { CSSProperties, ReactNode } from 'react';
+import { useBahasa } from '@/lib/bahasa';
 import { cx, type Simbol } from '@/lib/nalar';
 import { IKON } from './ikon-data';
 
@@ -41,11 +42,12 @@ export function Wordmark({ size, style }: { size?: number; style?: CSSProperties
 }
 
 export function Bintang({ score, muted }: { score: number; muted?: boolean }) {
+    const { t } = useBahasa();
     const nilai = Math.max(0, Math.min(3, score));
     const warna = muted ? 'var(--star-muted)' : 'var(--star-on)';
     return (
         <span className="nr-stars" aria-hidden="true">
-            {nilai === 0 && <span className="nr-stars__zero">0 dari 3</span>}
+            {nilai === 0 && <span className="nr-stars__zero">{t('0 dari 3', '0 of 3')}</span>}
             {[0, 1, 2].map((i) => (
                 <Ikon key={i} name="star" size={16} color={i < nilai ? warna : 'var(--slate-200)'} fill={i < nilai ? warna : 'none'} />
             ))}
@@ -108,9 +110,10 @@ export function Toast({ tone = 'info', children }: { tone?: NadaToast; children:
 }
 
 export function Keadaan({ kind, title, text, action, onAction }: { kind: 'kosong' | 'peringatan' | 'galat' | 'memuat'; title?: string; text?: string; action?: string; onAction?: () => void }) {
+    const { t } = useBahasa();
     if (kind === 'memuat') {
         return (
-            <div className="nr-state" aria-busy="true" aria-label={title ?? 'Memuat'} style={{ flexDirection: 'column', gap: 10 }}>
+            <div className="nr-state" aria-busy="true" aria-label={title ?? t('Memuat', 'Loading')} style={{ flexDirection: 'column', gap: 10 }}>
                 <span className="nr-skeleton" style={{ width: '40%' }} />
                 <span className="nr-skeleton" style={{ width: '85%' }} />
                 <span className="nr-skeleton" style={{ width: '70%' }} />
@@ -138,11 +141,12 @@ export function Keadaan({ kind, title, text, action, onAction }: { kind: 'kosong
 }
 
 export function PanelKanan({ title, className, onClose, children }: { title: string; className?: string; onClose: () => void; children: ReactNode }) {
+    const { t } = useBahasa();
     return (
         <section className={cx('nr-rpanel', className)} aria-label={title}>
             <div className="nr-panelhead">
                 <span className="nr-label">{title}</span>
-                <button type="button" className="nr-iconbtn" aria-label={`Tutup ${title.toLowerCase()}`} onClick={onClose}>
+                <button type="button" className="nr-iconbtn" aria-label={`${t('Tutup', 'Close')} ${title.toLowerCase()}`} onClick={onClose}>
                     <Ikon name="x" size={14} />
                 </button>
             </div>

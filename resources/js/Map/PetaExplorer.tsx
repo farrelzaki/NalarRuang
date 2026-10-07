@@ -6,6 +6,7 @@ import { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import type { Feature, FeatureCollection, Geometry, LineString } from 'geojson';
 import type { CommuteResponse, HasilSearch, LayerKey } from '@/types';
+import { bahasaAktif, pilihTeks, type Bahasa } from '@/lib/bahasa';
 import * as gaya from './gaya';
 
 export type TitikPeta = { lat: number; lng: number };
@@ -22,6 +23,7 @@ type Props = {
     ruteB: TitikPeta | null;
     moda: 'mobil' | 'transit';
     modeRute: boolean;
+    bahasa: Bahasa;
     terbangKe: { geometri?: Geometry; titik?: TitikPeta; kunci: number } | null;
     onKlikPeta: (t: TitikPeta) => void;
     onLihatDetail: (t: TitikPeta) => void;
@@ -42,33 +44,50 @@ function esc(s: unknown): string {
     return String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
 }
 
+/** Teks peta mengikuti bahasa aktif saat dibuat (popup dibuat ulang setiap dibuka). */
+const tr = (id: string, en: string) => pilihTeks(bahasaAktif(), id, en);
+
 function popupHtml(jenis: string, judul: string, isi: string, sumber: string): string {
     return `<div class="nr-popup" role="dialog" aria-label="${esc(judul)}">
         <div class="nr-popup__top"><div><div class="nr-eyebrow">${esc(jenis)}</div><h3 class="nr-popup__title">${esc(judul)}</h3></div></div>
         <p class="nr-popup__body">${esc(isi)}</p>
         <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px">
             <span class="nr-popup__src">${esc(sumber)}</span>
-            <button type="button" class="nr-linkcaps" data-detail>Lihat detail
+            <button type="button" class="nr-linkcaps" data-detail>${esc(tr('Lihat detail', 'View details'))}
                 <svg class="nr-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
             </button>
         </div></div>`;
 }
 
-const JENIS_LABEL: Record<string, string> = {
-    banjir: 'Bahaya banjir', rth: 'Ruang terbuka hijau', poi: 'Kafe & restoran', akses: 'Akses disabilitas', trotoar: 'Trotoar',
-    krl: 'Jalur KRL', mrt: 'Jalur MRT', lrt: 'Jalur LRT', stasiun: 'Stasiun', halte: 'Halte', tol: 'Gerbang tol', proyek: 'Proyek infrastruktur', legal: 'Bidang lahan',
+const JENIS_LABEL: Record<string, [string, string]> = {
+    banjir: ['Bahaya banjir', 'Flood hazard'], rth: ['Ruang terbuka hijau', 'Green open space'], poi: ['Kafe & restoran', 'Cafés & restaurants'],
+    akses: ['Akses disabilitas', 'Disability access'], trotoar: ['Trotoar', 'Sidewalk'], krl: ['Jalur KRL', 'KRL line'], mrt: ['Jalur MRT', 'MRT line'],
+    lrt: ['Jalur LRT', 'LRT line'], stasiun: ['Stasiun', 'Station'], halte: ['Halte', 'Bus stop'], tol: ['Gerbang tol', 'Toll gate'],
+    proyek: ['Proyek infrastruktur', 'Infrastructure project'], legal: ['Bidang lahan', 'Land parcel'],
 };
+
+/** Kosakata atribut data contoh (data/geojson/demo) yang tampil di popup. */
+const ISTILAH_EN: Record<string, string> = {
+    Kafe: 'Café', Restoran: 'Restaurant', 'Makanan cepat saji': 'Fast food', Mal: 'Mall', rendah: 'low', sedang: 'medium', tinggi: 'high',
+    'Dalam pembangunan': 'Under construction', 'SHGB dalam proses': 'SHGB in process', Permukiman: 'Residential', permukiman: 'residential',
+};
+const istilah = (v: unknown) => (bahasaAktif() === 'en' ? (ISTILAH_EN[String(v)] ?? String(v)) : String(v));
+
+function labelJenis(jenis: string): string {
+    const l = JENIS_LABEL[jenis];
+    return l ? tr(l[0], l[1]) : tr('Fitur', 'Feature');
+}
 
 function deskripsi(p: Record<string, any>): string {
     switch (p.jenis) {
-        case 'banjir': return `Indeks bahaya banjir kelas ${p.kelas ?? '—'} menurut kajian InaRISK.`;
-        case 'rth': return p.nama ? `${p.nama}. Ruang terbuka hijau publik.` : 'Ruang terbuka hijau publik.';
-        case 'poi': return p.kategori ? `${p.kategori}.` : 'Tempat makan dan nongkrong.';
-        case 'stasiun': return `${p.moda ? String(p.moda).toUpperCase() : 'Stasiun'}${p.lin ? ` · Lin ${p.lin}` : ''}.`;
-        case 'krl': case 'mrt': case 'lrt': return p.nama ?? 'Jalur kereta.';
-        case 'proyek': return `${p.status ?? 'Proyek'}${p.tahun ? `, target ${p.tahun}` : ''}.`;
-        case 'legal': return `Status contoh: ${p.status ?? '—'}. Peruntukan: ${p.peruntukan ?? 'permukiman'}.`;
-        case 'akses': return 'Fasilitas ditandai ramah kursi roda.';
+        case 'banjir': return tr(`Indeks bahaya banjir kelas ${p.kelas ?? '—'} menurut kajian InaRISK.`, `Flood hazard index: ${istilah(p.kelas ?? '—')} class, per the InaRISK assessment.`);
+        case 'rth': return (p.nama ? `${p.nama}. ` : '') + tr('Ruang terbuka hijau publik.', 'Public green open space.');
+        case 'poi': return p.kategori ? `${istilah(p.kategori)}.` : tr('Tempat makan dan nongkrong.', 'A place to eat and hang out.');
+        case 'stasiun': return `${p.moda ? String(p.moda).toUpperCase() : tr('Stasiun', 'Station')}${p.lin ? ` · ${tr('Lin', 'Line')} ${p.lin}` : ''}.`;
+        case 'krl': case 'mrt': case 'lrt': return p.nama ?? tr('Jalur kereta.', 'Railway line.');
+        case 'proyek': return `${p.status ? istilah(p.status) : tr('Proyek', 'Project')}${p.tahun ? `, target ${p.tahun}` : ''}.`;
+        case 'legal': return tr(`Status contoh: ${p.status ?? '—'}. Peruntukan: ${p.peruntukan ?? 'permukiman'}.`, `Sample status: ${istilah(p.status ?? '—')}. Land use: ${istilah(p.peruntukan ?? 'permukiman')}.`);
+        case 'akses': return tr('Fasilitas ditandai ramah kursi roda.', 'Facility marked as wheelchair-friendly.');
         default: return p.nama ?? '';
     }
 }
@@ -126,7 +145,7 @@ export default function PetaExplorer(props: Props) {
     useEffect(() => {
         if (!wadah.current) return;
         const m = L.map(wadah.current, { zoomControl: false, minZoom: 9, maxZoom: 19, preferCanvas: false }).setView(PUSAT, 13);
-        L.control.zoom({ position: 'bottomright', zoomInTitle: 'Perbesar peta', zoomOutTitle: 'Perkecil peta' }).addTo(m);
+        L.control.zoom({ position: 'bottomright', zoomInTitle: tr('Perbesar peta', 'Zoom in'), zoomOutTitle: tr('Perkecil peta', 'Zoom out') }).addTo(m);
         m.attributionControl.setPrefix('<a href="https://leafletjs.com">Leaflet</a>');
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
@@ -162,6 +181,18 @@ export default function PetaExplorer(props: Props) {
             peta.current = null;
         };
     }, []);
+
+    // Bahasa: judul tombol zoom. Popup tidak perlu digambar ulang karena isinya dibuat saat dibuka.
+    useEffect(() => {
+        const set = (sel: string, teks: string) => {
+            const el = wadah.current?.querySelector(sel);
+            el?.setAttribute('title', teks);
+            el?.setAttribute('aria-label', teks);
+        };
+        set('.leaflet-control-zoom-in', tr('Perbesar peta', 'Zoom in'));
+        set('.leaflet-control-zoom-out', tr('Perkecil peta', 'Zoom out'));
+        peta.current?.closePopup();
+    }, [props.bahasa]);
 
     // Layer data.
     useEffect(() => {
@@ -292,7 +323,7 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
     const g = L.layerGroup();
     const popup = (f: Feature, l: L.Layer) => {
         const p = (f.properties ?? {}) as Record<string, any>;
-        (l as L.Path).bindPopup(popupHtml(JENIS_LABEL[p.jenis] ?? 'Fitur', p.nama ?? JENIS_LABEL[p.jenis] ?? 'Tanpa nama', deskripsi(p), `Sumber: ${p.sumber ?? 'OSM'}`), {
+        (l as L.Path).bindPopup(() => popupHtml(labelJenis(p.jenis), p.nama ?? labelJenis(p.jenis), deskripsi(p), `${tr('Sumber', 'Source')}: ${p.sumber ?? 'OSM'}`), {
             closeButton: true,
             autoPanPaddingTopLeft: PADDING_KIRI,
             autoPanPaddingBottomRight: L.point(414, 90),

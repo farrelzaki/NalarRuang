@@ -136,7 +136,11 @@ Simulator rute memakai server OSRM demo publik (butuh internet). Pintasan demo:
   sebelum `git push`. Alur branch dan PR ada di `docs/KOLABORASI.md`.
 - **Jangan menambah dependensi tanpa bilang-bilang.** `composer.json` dan
   `package.json` adalah berkas yang dipakai bersama dan paling gampang bentrok.
-- **Teks antarmuka berbahasa Indonesia** (SRS B02).
+- **Teks antarmuka dwibahasa** (SRS B02, 6.2): Indonesia bawaan, Inggris opsional.
+  Tulis teks sebagai pasangan `t('Teks', 'Text')` dari `resources/js/lib/bahasa.tsx`;
+  teks dari API diterjemahkan di klien lewat `teksServer()`, kontrak API tidak diubah.
+- **Huruf hanya dua:** Plus Jakarta Sans (semua teks) dan Fraunces (judul). Jangan
+  menambah keluarga huruf lain.
 
 ## Versi yang dikunci
 

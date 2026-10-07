@@ -1,5 +1,6 @@
 /** Panel Layer Spasial (8.9), Profil Persona (8.10), tombol merek (8.11), tombol LAYER/PERSONA (8.12), slider tahun (8.13). */
 import type { LayerKey, Persona } from '@/types';
+import { useBahasa } from '@/lib/bahasa';
 import { cx, LAYERS, PERSONA, PERSONA_IDS } from '@/lib/nalar';
 import { Ikon, PanelKanan, SimbolPeta, Toggle, Wordmark } from './Dasar';
 
@@ -14,26 +15,27 @@ type PanelLayerProps = {
 };
 
 export function PanelLayer({ aktif, status, onToggle, onCobaLagi, onTutup }: PanelLayerProps) {
+    const { t } = useBahasa();
     return (
-        <PanelKanan title="Layer Spasial" onClose={onTutup}>
+        <PanelKanan title={t('Layer Spasial', 'Spatial Layers')} onClose={onTutup}>
             {LAYERS.map((l) => {
                 const st = status[l.key];
                 const nyala = !!aktif[l.key] && st !== 'error';
                 return (
                     <div key={l.key} className={cx('nr-layer', nyala && 'nr-layer--active')}>
                         <div className="nr-layer__top">
-                            <span className="nr-layer__title">{l.title}</span>
+                            <span className="nr-layer__title">{t(l.title)}</span>
                             {st === 'loading' ? (
-                                <Ikon name="loader-circle" size={16} className="nr-spin" label="Memuat layer" />
+                                <Ikon name="loader-circle" size={16} className="nr-spin" label={t('Memuat layer', 'Loading layer')} />
                             ) : (
-                                <Toggle checked={nyala} label={l.title} disabled={st === 'error'} onChange={() => onToggle(l.key)} />
+                                <Toggle checked={nyala} label={t(l.title)} disabled={st === 'error'} onChange={() => onToggle(l.key)} />
                             )}
                         </div>
                         {st === 'error' ? (
                             <span>
-                                <span className="nr-layer__error">Layer gagal dimuat.</span>
+                                <span className="nr-layer__error">{t('Layer gagal dimuat.', 'Layer failed to load.')}</span>
                                 <button type="button" className="nr-linkcaps" onClick={() => onCobaLagi(l.key)}>
-                                    Coba lagi
+                                    {t('Coba lagi', 'Try again')}
                                 </button>
                             </span>
                         ) : nyala ? (
@@ -41,12 +43,12 @@ export function PanelLayer({ aktif, status, onToggle, onCobaLagi, onTutup }: Pan
                                 {l.legend.map(([simbol, teks]) => (
                                     <span key={simbol} className="nr-legend">
                                         <SimbolPeta kind={simbol} />
-                                        {teks}
+                                        {t(teks)}
                                     </span>
                                 ))}
                             </div>
                         ) : (
-                            <span className="nr-layer__desc">{l.desc}</span>
+                            <span className="nr-layer__desc">{t(l.desc)}</span>
                         )}
                     </div>
                 );
@@ -56,8 +58,9 @@ export function PanelLayer({ aktif, status, onToggle, onCobaLagi, onTutup }: Pan
 }
 
 export function PanelProfilPersona({ terpilih, onUbah, onTutup }: { terpilih: Persona[]; onUbah: (p: Persona) => void; onTutup: () => void }) {
+    const { t } = useBahasa();
     return (
-        <PanelKanan title="Profil Persona" className="nr-rpanel--persona" onClose={onTutup}>
+        <PanelKanan title={t('Profil Persona', 'Persona Profile')} className="nr-rpanel--persona" onClose={onTutup}>
             {PERSONA_IDS.map((p) => {
                 const on = terpilih.includes(p);
                 return (
@@ -72,8 +75,9 @@ export function PanelProfilPersona({ terpilih, onUbah, onTutup }: { terpilih: Pe
 }
 
 export function TombolMerek({ terbuka, onKlik }: { terbuka: boolean; onKlik: () => void }) {
+    const { t } = useBahasa();
     return (
-        <button type="button" className="nr-brandbtn" aria-label="Buka menu NalarRuang" aria-expanded={terbuka} onClick={onKlik}>
+        <button type="button" className="nr-brandbtn" aria-label={t('Buka menu NalarRuang', 'Open NalarRuang menu')} aria-expanded={terbuka} onClick={onKlik}>
             <Wordmark />
             <Ikon name="menu" size={16} color="var(--ink-40)" />
         </button>
@@ -98,6 +102,7 @@ export function TombolLayerPersona({ terbuka, onKlik }: { terbuka: PanelKananKey
 }
 
 export function SliderTahun({ tahun, onUbah, kosong }: { tahun: number; onUbah: (t: number) => void; kosong?: boolean }) {
+    const { t: tr } = useBahasa();
     const min = 2026;
     const max = 2030;
     const pct = ((tahun - min) / (max - min)) * 100;
@@ -119,13 +124,13 @@ export function SliderTahun({ tahun, onUbah, kosong }: { tahun: number; onUbah: 
                         step={1}
                         value={tahun}
                         onChange={(e) => onUbah(Number(e.target.value))}
-                        aria-label="Tahun proyek infrastruktur"
-                        aria-valuetext={`Tahun ${tahun}`}
+                        aria-label={tr('Tahun proyek infrastruktur', 'Infrastructure project year')}
+                        aria-valuetext={`${tr('Tahun', 'Year')} ${tahun}`}
                     />
                 </span>
                 <span className="nr-slider__value">{tahun}</span>
             </div>
-            {kosong && <p className="nr-slider__empty">Belum ada proyek di tahun ini.</p>}
+            {kosong && <p className="nr-slider__empty">{tr('Belum ada proyek di tahun ini.', 'No projects in this year yet.')}</p>}
         </div>
     );
 }

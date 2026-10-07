@@ -7,6 +7,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Geometry } from 'geojson';
 import type { CommuteResponse, HasilSearch, InspectResponse, LayerKey, LayerResponse, Persona } from '@/types';
 import { api } from '@/lib/api';
+import { useBahasa } from '@/lib/bahasa';
 import { bacaPersonaSesi, PERSONA, simpanPersonaSesi } from '@/lib/nalar';
 import PetaExplorer, { type TitikPeta } from '@/Map/PetaExplorer';
 import { Toast, type NadaToast } from '@/Components/Dasar';
@@ -21,6 +22,7 @@ type PanelKiri = 'top3' | 'filter' | 'detail' | 'rute' | null;
 const LAYER_AWAL: LayerKey[] = ['mobilitas'];
 
 export default function Peta() {
+    const { t, bahasa } = useBahasa();
     const [persona, setPersona] = useState<Persona[]>([]);
     const [dialogPersona, setDialogPersona] = useState(false);
     const [siap, setSiap] = useState(false);
@@ -82,17 +84,17 @@ export default function Peta() {
 
     const ubahPersonaSesi = (p: Persona[]) => {
         setPersona(p);
-        if (!simpanPersonaSesi(p)) kabar('Gagal menyimpan preferensi. Coba pilih lagi.', 'danger');
+        if (!simpanPersonaSesi(p)) kabar(t('Gagal menyimpan preferensi. Coba pilih lagi.', 'Could not save your preferences. Please choose again.'), 'danger');
     };
 
     const balikPersona = (p: Persona) => {
         if (persona.includes(p) && persona.length === 1) {
-            kabar('Pilih minimal satu persona dulu, ya.', 'warning');
+            kabar(t('Pilih minimal satu persona dulu, ya.', 'Please choose at least one persona first.'), 'warning');
             return;
         }
         const baru = persona.includes(p) ? persona.filter((x) => x !== p) : [...persona, p];
         ubahPersonaSesi(baru);
-        kabar('Preferensi persona tersimpan untuk sesi ini.', 'success');
+        kabar(t('Preferensi persona tersimpan untuk sesi ini.', 'Persona preferences saved for this session.'), 'success');
     };
 
     // Perbarui kesimpulan detail saat persona berubah (FR-19, tanpa muat ulang).
@@ -166,20 +168,20 @@ export default function Peta() {
     };
 
     // ---------- Detail lokasi ----------
-    async function muatTitik(t: TitikPeta, terbang = false) {
+    async function muatTitik(lokasi: TitikPeta, terbang = false) {
         batalDetail.current?.abort();
         const ctrl = new AbortController();
         batalDetail.current = ctrl;
         setPanelKiri('detail');
-        setPin(t);
+        setPin(lokasi);
         setWilayahTerpilih(null);
         setMemuatDetail(true);
         setGalatDetail(null);
-        if (terbang) setTerbangKe({ titik: t, kunci: Date.now() });
+        if (terbang) setTerbangKe({ titik: lokasi, kunci: Date.now() });
         try {
-            setDetail(await api.titik(t.lat, t.lng, persona, ctrl.signal));
+            setDetail(await api.titik(lokasi.lat, lokasi.lng, persona, ctrl.signal));
         } catch (e) {
-            if ((e as Error).name !== 'AbortError') setGalatDetail('Layer ini belum punya data untuk lokasi yang kamu pilih.');
+            if ((e as Error).name !== 'AbortError') setGalatDetail(t('Layer ini belum punya data untuk lokasi yang kamu pilih.', 'This layer has no data for the location you picked yet.'));
         } finally {
             setMemuatDetail(false);
         }
@@ -199,7 +201,7 @@ export default function Peta() {
             setDetail(d);
             if (d.jenis_geometri === 'wilayah') setWilayahTerpilih(d.geometri);
         } catch (e) {
-            if ((e as Error).name !== 'AbortError') setGalatDetail('Data wilayah belum tersedia.');
+            if ((e as Error).name !== 'AbortError') setGalatDetail(t('Data wilayah belum tersedia.', 'Area data is not available yet.'));
         } finally {
             setMemuatDetail(false);
         }
@@ -226,9 +228,9 @@ export default function Peta() {
             .then((r) => {
                 setRute(r);
                 setModa(r.pribadi ? 'mobil' : 'transit');
-                if (!r.pribadi && !r.publik) kabar('Estimasi tidak tersedia untuk titik ini. Coba titik yang lebih dekat ke jalan.', 'warning');
+                if (!r.pribadi && !r.publik) kabar(t('Estimasi tidak tersedia untuk titik ini. Coba titik yang lebih dekat ke jalan.', 'No estimate for this point. Try a point closer to a road.'), 'warning');
             })
-            .catch((e) => e.name !== 'AbortError' && kabar('Estimasi tidak tersedia. Coba lagi sebentar.', 'danger'))
+            .catch((e) => e.name !== 'AbortError' && kabar(t('Estimasi tidak tersedia. Coba lagi sebentar.', 'Estimate unavailable. Please try again shortly.'), 'danger'))
             .finally(() => setMemuatRute(false));
         return () => ctrl.abort();
     }, [ruteA?.lat, ruteA?.lng, ruteB?.lat, ruteB?.lng]);
@@ -252,7 +254,7 @@ export default function Peta() {
             setPin(null);
             setWilayahTerpilih(null);
             setMenunggu(ruteA ? (ruteB ? null : 'b') : 'a');
-            kabar('Klik peta untuk menaruh titik A (asal), lalu titik B (tujuan).');
+            kabar(t('Klik peta untuk menaruh titik A (asal), lalu titik B (tujuan).', 'Click the map to place point A (origin), then point B (destination).'));
         }
     };
 
@@ -292,7 +294,7 @@ export default function Peta() {
 
     return (
         <>
-            <Head title="Peta" />
+            <Head title={t('Peta', 'Map')} />
             <main className="nr-app" data-mode={panelKiri === 'rute' ? 'rute' : undefined}>
                 <PetaExplorer
                     className="nr-app__peta"
@@ -307,6 +309,7 @@ export default function Peta() {
                     ruteB={panelKiri === 'rute' ? ruteB : null}
                     moda={moda}
                     modeRute={panelKiri === 'rute'}
+                    bahasa={bahasa}
                     terbangKe={terbangKe}
                     onKlikPeta={klikPeta}
                     onLihatDetail={(t) => muatTitik(t, true)}
@@ -346,7 +349,7 @@ export default function Peta() {
                             onModa={setModa}
                             onPilihDiPeta={(k) => {
                                 setMenunggu(k);
-                                kabar(`Klik peta untuk menaruh titik ${k.toUpperCase()}.`);
+                                kabar(t(`Klik peta untuk menaruh titik ${k.toUpperCase()}.`, `Click the map to place point ${k.toUpperCase()}.`));
                             }}
                             onReset={resetRute}
                             onTutup={tutupPanelKiri}
@@ -399,7 +402,7 @@ export default function Peta() {
                             onMulai={(p) => {
                                 ubahPersonaSesi(p);
                                 setDialogPersona(false);
-                                kabar('Preferensi persona tersimpan untuk sesi ini.', 'success');
+                                kabar(t('Preferensi persona tersimpan untuk sesi ini.', 'Persona preferences saved for this session.'), 'success');
                             }}
                         />
                     </div>

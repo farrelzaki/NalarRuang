@@ -1,9 +1,8 @@
 /* Tata letak Visual Explorer (design-system.md bagian 5) dan penyesuaian Leaflet (13.2). */
 
-/* Font dibundel lokal: nama keluarga variabel dari @fontsource. */
+/* Dua keluarga huruf saja: Plus Jakarta Sans (semua teks) dan Fraunces (judul serif). Dibundel lokal lewat @fontsource. */
 :root {
   --font-fraunces: "Fraunces Variable", "Fraunces", Georgia, serif;
-  --font-inter: "Inter Variable", "Inter", system-ui, sans-serif;
 }
 
 .nr-app { position: fixed; inset: 0; overflow: hidden; background: var(--map-ground); font-family: var(--font-sans); }
@@ -40,6 +39,7 @@
 .nr-app .leaflet-container { font-family: var(--font-sans); background: var(--map-ground); }
 .nr-app .leaflet-bottom.leaflet-right .leaflet-control-zoom { margin: 0 16px 28px 0; }
 .nr-app .leaflet-control-attribution { font-size: 12px; }
+.nr-app .leaflet-control-zoom a { font-family: var(--font-sans); }
 .nr-app .leaflet-interactive:focus { outline: none; }
 
 /* Label stasiun = tooltip permanen (8.17). */
@@ -70,3 +70,17 @@
 .nr-persona-row .nr-stars, .nr-persona-row .nr-match { flex: none; }
 .nr-persona-row .nr-badge { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .nr-persona-row--session .nr-stars__zero { display: none; }
+
+/* Pilih bahasa ID / EN (improvisasi, meniru tombol kapital design system). */
+.nr-lang { display: inline-flex; padding: 2px; gap: 2px; border-radius: var(--radius-pill); border: 1px solid var(--line); background: var(--white); }
+.nr-lang__opt { min-width: 32px; height: 24px; padding: 0 8px; border: 0; border-radius: var(--radius-pill); background: transparent; color: var(--ink-60); font: 700 10px/1 var(--font-sans); letter-spacing: 1px; cursor: pointer; }
+.nr-lang__opt:hover { color: var(--navy-900); }
+.nr-lang__opt[aria-pressed="true"] { background: var(--navy-900); color: var(--white); }
+.nr-lang__opt:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.nr-lang--dark { padding: 3px; border-color: var(--white-50); background: var(--hero-button); }
+.nr-lang--dark .nr-lang__opt { color: var(--hero-sub); height: 33px; min-width: 38px; font-size: 11px; }
+.nr-lang--dark .nr-lang__opt:hover { color: var(--white); }
+.nr-lang--dark .nr-lang__opt[aria-pressed="true"] { background: var(--white); color: var(--navy-900); }
+.nr-dialog { position: relative; }
+.nr-dialog__lang { position: absolute; top: 24px; right: 24px; }
+.ed-header__kanan { display: inline-flex; align-items: center; gap: 12px; }

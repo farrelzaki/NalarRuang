@@ -2,6 +2,7 @@ import '../css/app.css';
 
 import { createInertiaApp, type ResolvedComponent } from '@inertiajs/react';
 import { createRoot } from 'react-dom/client';
+import { BahasaProvider } from './lib/bahasa';
 
 const halaman = import.meta.glob<{ default: ResolvedComponent }>('./Pages/**/*.tsx');
 
@@ -14,7 +15,11 @@ createInertiaApp({
     },
     setup({ el, App, props }) {
         if (!el) return;
-        createRoot(el).render(<App {...props} />);
+        createRoot(el).render(
+            <BahasaProvider>
+                <App {...props} />
+            </BahasaProvider>,
+        );
     },
     progress: {
         color: '#0f1b3d',
