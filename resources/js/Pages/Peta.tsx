@@ -381,6 +381,17 @@ export default function Peta() {
                     </div>
                 )}
 
+                <aside className="nr-app__catatan nr-float" aria-label={t('Keterangan data', 'Data notice')}>
+                    <span className="nr-app__catatan-dot" aria-hidden="true" />
+                    <span>
+                        <b>{t('Versi demo', 'Demo version')}</b>
+                        {t(
+                            ' · Peta, batas wilayah, jalur KRL, dan area banjir dari data asli (OSM, InaRISK). Kualitas udara, status lahan, dan tahun proyek masih data contoh.',
+                            ' · Map, boundaries, KRL lines, and flood areas are real data (OSM, InaRISK). Air quality, land status, and project years are sample data.',
+                        )}
+                    </span>
+                </aside>
+
                 {toast && (
                     <div className="nr-app__toast" key={toast.kunci}>
                         <Toast tone={toast.nada}>{toast.teks}</Toast>

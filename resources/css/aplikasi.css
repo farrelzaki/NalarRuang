@@ -84,3 +84,10 @@
 .nr-dialog { position: relative; }
 .nr-dialog__lang { position: absolute; top: 24px; right: 24px; }
 .ed-header__kanan { display: inline-flex; align-items: center; gap: 12px; }
+
+/* Catatan data demo di pojok kiri bawah; kolom kiri dinaikkan agar tidak bertumpuk. */
+.nr-app__kiri { bottom: 72px; }
+.nr-app__catatan { position: absolute; left: 16px; bottom: 16px; z-index: var(--z-controls); display: flex; align-items: flex-start; gap: 8px; width: 360px; padding: 8px 12px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); font: 400 11px/16px var(--font-sans); color: var(--ink-70); }
+.nr-app__catatan b { font-weight: 700; color: var(--navy-900); }
+.nr-app__catatan-dot { width: 8px; height: 8px; margin-top: 4px; flex: none; border-radius: var(--radius-pill); background: var(--amber-600); }
+@media (max-width: 1279px) { .nr-app__catatan { width: 320px; } }
