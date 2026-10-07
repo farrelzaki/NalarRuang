@@ -40,3 +40,55 @@
   .ed-persona-row { flex-wrap: wrap; }
   .ed-vision { grid-template-columns: 1fr; }
 }
+
+/* Ponsel (< 768 px): improvisasi, desain Figma landing hanya 1440 px.
+   !important dipakai untuk menimpa ukuran judul yang ditulis inline di Landing.tsx/Seksi.tsx. */
+@media (max-width: 767px) {
+  .ed-sec { padding: 56px 20px; }
+  .ed-header { padding: 14px 16px 0; gap: 8px; }
+  .ed-header .ed-hbtn { height: 36px; padding: 0 12px; gap: 6px; font-size: 12px; letter-spacing: 1.5px; }
+  .ed-header .ed-hbtn--sm { display: none; }
+  .ed-brand { font-size: 17px; letter-spacing: 1px; gap: 6px; }
+  .ed-brand img { width: 22px; height: 22px; }
+  .ed-header__kanan { gap: 6px; }
+  .ed-hero { height: auto !important; min-height: 600px; padding-bottom: 56px; }
+  .ed-hero > div[style] { padding-top: 96px !important; }
+  .ed-kicker { flex-wrap: wrap; font-size: 16px; padding: 0 16px; }
+  .ed-hero__title { font-size: 48px; line-height: 50px; letter-spacing: -1.5px; padding: 0 16px; }
+  .ed-hero__sub { font-size: 15px; line-height: 23px; padding: 0 24px; }
+  .ed-marquee { height: 48px; padding: 12px 20px; font-size: 14px; }
+  .ed-title { font-size: 38px !important; line-height: 40px !important; }
+  .ed-intro { font-size: 18px; }
+  .ed-cols, .ed-mission__cols, .ed-steps { grid-template-columns: 1fr !important; }
+  .ed-cols > * + *, .ed-steps > * + * { border-left: 0; border-top: 0.8px dashed var(--line); }
+  .ed-col { padding: 32px 8px; }
+  .ed-col__title { font-size: 28px; line-height: 32px; margin-bottom: 12px; }
+  .ed-vision, .ed-mission { padding: 56px 20px; gap: 32px; }
+  .ed-vision__title, .ed-mission__title { font-size: 32px; line-height: 40px; margin-bottom: 20px; }
+  .ed-vision__text { font-size: 20px; line-height: 30px; text-align: left; }
+  .ed-mission__col { padding: 28px 8px; }
+  .ed-mission__col + .ed-mission__col { border-top: 0.8px dashed var(--maroon-700); }
+  .ed-lead-tengah { font-size: 15px; line-height: 24px; }
+  .ed-persona-row { flex-direction: column; align-items: center; margin-top: 40px; gap: 20px; }
+  .ed-persona-card { width: 100%; max-width: 320px; height: 300px; transform: none !important; }
+  .ed-feature { padding: 28px 4px; }
+  .ed-feature__title { font-size: 26px; line-height: 32px; }
+  .ed-layer-sec { gap: 32px; }
+  .ed-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ed-tiles__col { display: contents; }
+  .ed-tile { width: auto; height: 160px !important; }
+  .ed-tile__title { left: 14px; bottom: 14px; font-size: 20px; line-height: 24px; }
+  .ed-logos { grid-template-columns: 1fr 1fr; gap: 16px; font-size: 14px; }
+  .ed-step { height: auto; min-height: 180px; padding: 24px; gap: 16px; }
+  .ed-step__num { font-size: 64px; line-height: 64px; }
+  .ed-try { padding: 40px 12px; }
+  .ed-try__card { min-height: 420px; }
+  .ed-try__title { font-size: 36px; line-height: 40px; }
+  .ed-faq-sec { gap: 24px; }
+  .ed-faq__q { padding: 20px 0; font-size: 20px; line-height: 26px; gap: 12px; }
+  .ed-faq__a { font-size: 15px; line-height: 24px; }
+  .ed-cta > div[style] { padding-left: 20px !important; padding-right: 20px !important; }
+  .ed-cta > div[style]:first-child { padding-top: 80px !important; padding-bottom: 64px !important; }
+  .ed-footer, .ed-footer__base { grid-template-columns: 1fr; gap: 24px; }
+  .ed-menu a { font-size: 30px; }
+}

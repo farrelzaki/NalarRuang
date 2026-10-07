@@ -39,6 +39,13 @@ const BATAS_DATA = L.latLngBounds([-6.56, 106.7], [-6.28, 106.92]);
 /** Padding agar konten tidak tertutup kolom kiri (392 px) dan panel kanan (design-system.md bagian 5). */
 const PADDING_KIRI = L.point(392, 80);
 const PADDING_KANAN = L.point(80, 90);
+/** Layar ponsel: panel kiri jadi lembar bawah (±55% tinggi layar), lihat aplikasi.css. */
+const ponsel = () => window.innerWidth < 768;
+function padding(): { paddingTopLeft: L.Point; paddingBottomRight: L.Point } {
+    return ponsel()
+        ? { paddingTopLeft: L.point(16, 120), paddingBottomRight: L.point(16, Math.round(window.innerHeight * 0.55) + 16) }
+        : { paddingTopLeft: PADDING_KIRI, paddingBottomRight: PADDING_KANAN };
+}
 
 function esc(s: unknown): string {
     return String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
@@ -293,7 +300,7 @@ export default function PetaExplorer(props: Props) {
             if (r.publik) b.extend(L.geoJSON(r.publik.geometri.rel).getBounds());
             if (props.ruteA) b.extend([props.ruteA.lat, props.ruteA.lng]);
             if (props.ruteB) b.extend([props.ruteB.lat, props.ruteB.lng]);
-            if (b.isValid()) m.flyToBounds(b, { paddingTopLeft: PADDING_KIRI, paddingBottomRight: PADDING_KANAN, duration: 1 });
+            if (b.isValid()) m.flyToBounds(b, { ...padding(), duration: 1 });
         }
     }, [props.rute, props.moda, props.ruteA, props.ruteB]);
 
@@ -306,12 +313,14 @@ export default function PetaExplorer(props: Props) {
         if (t.geometri) {
             const b = L.geoJSON(t.geometri).getBounds();
             if (b.isValid()) {
-                const opsi = { paddingTopLeft: PADDING_KIRI, paddingBottomRight: PADDING_KANAN, maxZoom: 16 };
+                const opsi = { ...padding(), maxZoom: 16 };
                 kurangiGerak ? m.fitBounds(b, opsi) : m.flyToBounds(b, { ...opsi, duration: 1.2 });
             }
         } else if (t.titik) {
-            const z = Math.max(m.getZoom(), 15);
-            kurangiGerak ? m.setView([t.titik.lat, t.titik.lng], z) : m.flyTo([t.titik.lat, t.titik.lng], z, { duration: 1.2 });
+            // Titik ditaruh di tengah area peta yang tidak tertutup panel.
+            const b = L.latLng(t.titik.lat, t.titik.lng).toBounds(1);
+            const opsi = { ...padding(), maxZoom: Math.max(m.getZoom(), 15) };
+            kurangiGerak ? m.fitBounds(b, opsi) : m.flyToBounds(b, { ...opsi, duration: 1.2 });
         }
     }, [props.terbangKe?.kunci]);
 
@@ -325,8 +334,8 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
         const p = (f.properties ?? {}) as Record<string, any>;
         (l as L.Path).bindPopup(() => popupHtml(labelJenis(p.jenis), p.nama ?? labelJenis(p.jenis), deskripsi(p), `${tr('Sumber', 'Source')}: ${p.sumber ?? 'OSM'}`), {
             closeButton: true,
-            autoPanPaddingTopLeft: PADDING_KIRI,
-            autoPanPaddingBottomRight: L.point(414, 90),
+            autoPanPaddingTopLeft: ponsel() ? L.point(16, 120) : PADDING_KIRI,
+            autoPanPaddingBottomRight: ponsel() ? L.point(16, 90) : L.point(414, 90),
             minWidth: 240,
             maxWidth: 300,
             className: 'nr-popup-leaflet',
