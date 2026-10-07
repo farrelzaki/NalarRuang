@@ -4,67 +4,57 @@
 
 | Butir | Isi |
 |---|---|
-| Versi | 1.1-draft |
-| Tanggal | 27 September 2026 |
+| Versi | 2.0 |
+| Tanggal | 29 September 2026 |
 | Pemilik gaya visual | Nur'Afia Avanza (UI/UX Designer) |
-| Status | Draf. Nilai diambil dari Figma; nilai yang tidak ada di layer Figma ditandai "(sampling)". |
-| Figma | `ui-nalar-ruang`, section `fix` (node 159:4009): https://www.figma.com/design/LDFCKmrGALdO7zDCzbwloZ/ui-nalar-ruang?node-id=159-4009 |
-| Design system interaktif | https://claude.ai/artifact/7R7qPFSeWx7aVjzCt4GxDR (token, 37 komponen React dengan live preview, logo, 12 screenshot) |
-| Kanvas contoh | https://claude.ai/artifact/LtCEm8pdhnp5MUtQ2bTtJY (4 layar dirakit dari komponen design system) |
+| Status | Acuan final. Nilai dari Figma section revisi; layar yang belum digambar diimprovisasi di sini. |
+| Figma | `ui-nalar-ruang`, section **"putih kayak bhumi yang udah di revisi"** (node 174:2): https://www.figma.com/design/LDFCKmrGALdO7zDCzbwloZ/ui-nalar-ruang?node-id=174-2 |
+| Design system interaktif | https://claude.ai/artifact/7R7qPFSeWx7aVjzCt4GxDR |
+| Kanvas contoh | https://claude.ai/artifact/LtCEm8pdhnp5MUtQ2bTtJY |
 
-**Sumber dan kewenangan.** Nilai visual dan pola interaksi: Figma → screenshot `docs/design/` → deskripsi UI SRS (UI00–UI05) hanya untuk memahami tujuan. Cakupan dan aturan: `docs/sumber/SRS.md` → `WBS.md` → `CHARTER.md` → `DESKRIPSI.md`, diselaraskan dengan `prd.md`. Keputusan teknis: `docs/RENCANA.md` (menang bila bertabrakan dengan prompt penyusunan). Kebijakan desain: `docs/design/analisis-uiux-nalarruang.md` bagian 0.
+**Sumber dan kewenangan.** Tampilan: Figma section revisi (final, 29 Sep 2026) → dokumen ini. Bila desain berbeda dengan SRS/WBS/PRD, **desain yang diikuti** dan dokumennya disesuaikan (SRS v1.2). Cakupan fungsi: `docs/sumber/SRS.md`, `prd.md`. Keputusan teknis: `docs/RENCANA.md`.
 
-**Kebijakan (ringkas).**
-1. Gaya visual desain dilindungi: warna UI dan data peta, tipografi, ukuran, radius, bayangan, efek kaca, ikon, fotografi, basemap, bentuk komponen, tata letak, dan nada microcopy dipakai persis.
-2. Yang belum didesain diimprovisasi dengan meniru komponen terdekat, hanya memakai token di dokumen ini.
-3. Masalah fungsi diselesaikan lewat perilaku, bukan perubahan tampilan.
-4. Bila satu komponen tampil dalam dua versi, versi yang muncul di lebih banyak layar menjadi kanonik (Lampiran C).
+**Kebijakan.**
+1. Gaya visual desain dipakai persis: warna, tipografi, ukuran, radius, bayangan, blur, ikon, tata letak, dan microcopy.
+2. **Isi peta di Figma hanya ilustrasi** (masukan Izdihar, 29 Sep 2026). Bentuk area, lokasi contoh, dan rute tidak ditiru; peta digambar dari data dengan aturan bagian 9.
+3. Yang belum digambar diimprovisasi dengan meniru komponen terdekat, hanya memakai token di sini.
+4. Masalah fungsi (tumpang tindih, kontrol tertutup) diselesaikan lewat perilaku, bukan mengganti gaya.
 
-**Penanda.** `[Dari Desain]` dari Figma (rujukan frame/file); "(sampling)" bila nilai hanya bisa diambil dari screenshot · `[Improvisasi]` dirancang untuk yang belum ada, dengan komponen sumber · `[Ditetapkan]` dari dokumen sumber · `[TBD]` lihat Open Questions.
+**Penanda.** `[Dari Desain]` nilai Figma (frame disebut) · `[Improvisasi]` dirancang di sini · `[Ditetapkan]` dari dokumen.
 
 | Versi | Tanggal | Perubahan |
 |---|---|---|
-| 1.0-draft | 27 Sep 2026 | Ekstraksi awal dari 12 screenshot |
-| 1.1-draft | 27 Sep 2026 | Semua nilai disinkronkan dari Figma; nama font landing dan pustaka ikon terkonfirmasi; komponen React di design system |
+| 1.1 | 27 Sep 2026 | Nilai dari section `fix` (panel kaca, aksen cyan) |
+| 2.0 | 29 Sep 2026 | Acuan pindah ke section revisi: panel putih bergaris navy, tata letak baru, dialog persona dan drawer terdesain, landing baru; bagian Kartografi; ambang bintang Persona Grading |
 
 ---
 
-## 1. Pendahuluan & Prinsip Desain
+## 1. Prinsip Desain
 
-Dokumen ini membuat developer dan AI agent bisa membangun layar yang sudah didesain identik dengan Figma, dan membangun layar yang belum didesain seolah dibuat desainer yang sama. Urutan pakai: cari komponen di bagian 9–10 (atau di design system interaktif), ambil token dari bagian 2–8, ikuti pola di bagian 11, cek dengan checklist bagian 14.
-
-**Skala frame Figma.** Layar aplikasi di Figma ada dalam dua ukuran. Frame **1536 × 770** (lima layar layer dan `all`) memakai nilai Tailwind yang bulat: teks 16/24, 14/20, 12/16; radius 24/32/36; bayangan `0 8px 32px`. Frame **1440 × 722** (Top 3, Visual Explorer, Commute) adalah salinan yang diperkecil 0.9375× (15px = 16 × 0.9375). **Nilai kanonik adalah nilai frame 1536.** Drawer (`Desktop - 6`) dan landing digambar langsung di 1440 px; nilainya dipakai apa adanya.
-
-**Prinsip yang terbaca dari desain.**
-1. **Peta adalah kanvas, panel melayang di atasnya.** Semua kontrol adalah panel kaca putih 0.4 dengan blur (frame `VISUAL EXPLORER`). `[Dari Desain]`
-2. **Persona sesi selalu ditonjolkan.** Baris persona sesi diberi latar, garis, dan badge *PROFIL ANDA*; persona lain diredupkan 0.5 (frame `all`). `[Dari Desain]`
-3. **Legenda menempel di kontrolnya.** Kartu layer aktif menjelaskan simbolnya: *Titik Biru di Peta*. `[Dari Desain]`
-4. **Satu aksen per permukaan.** Aplikasi memakai cyan `#00A8DD`; landing memakai marun `#860F23` untuk judul italic. `[Dari Desain]`
-5. **Bahasa yang menyapa.** Kalimat pendek dengan *kamu/-mu*: *Sangat mendukung aktivitasmu!* `[Dari Desain]`
-6. **Landing bercerita seperti majalah.** Fraunces dan Playfair Display besar, foto kota hitam-putih, garis putus-putus, angka Georgia italic. `[Dari Desain]`
+1. **Peta di tengah, kontrol di tepi.** Kolom kiri untuk mencari dan membaca (search, Top 3, Detail Lokasi, Simulator Rute); kanan atas untuk identitas dan menu; kanan bawah untuk layer dan persona. `[Dari Desain]`
+2. **Kertas di atas peta.** Panel putih 0.8 dengan blur 12 dan garis tipis navy 0.2; bukan kaca bening. `[Dari Desain]`
+3. **Satu tinta.** Semua teks, ikon, dan status aktif memakai navy `#0F1B3D` dengan tingkat opasitas; warna terang hanya untuk data (layer, bintang, persen). `[Dari Desain]`
+4. **Editorial menyapa.** Nama tempat dan judul memakai Fraunces; dialog persona dan landing memakai Georgia dan Inter; kalimat pendek dengan *kamu/-mu*. `[Dari Desain]`
+5. **Peta jujur.** Yang tergambar adalah data sebenarnya; legenda menjelaskan persis apa yang digambar. `[Ditetapkan]`
 
 ### Cara mengimprovisasi
 - Mulai dari komponen desain yang fungsinya paling dekat; ubah isi, bukan gaya. Sebut sumbernya.
-- Pakai hanya token yang sudah ada. Galat memakai warna legenda Historis (`rose-600`), peringatan warna legenda Mobilitas (`orange-600`), sukses warna legenda Ekosistem (`green-600`).
-- Hover = latar menguat ke putih. Terpilih = `cyan-500`, atau `slate-50` + garis `slate-200`. Nonaktif = opasitas 0.5.
-- Ikon baru dari Lucide 0.460.0, stroke 2.
-- Microcopy santai dengan *kamu/-mu*; judul kecil kapital ber-letter-spacing.
-- Panel baru mengikuti posisi overlay di bagian 5 dan tidak menutupi komponen yang ada.
-- Alur baru meniru alur yang ada (dialog meniru drawer).
+- Hanya token dokumen ini. Status: galat `red-600`, peringatan `amber-600`, sukses `green-500` (warna persen MATCH).
+- Hover: latar `navy-900 @0.05`. Terpilih: latar `navy-900 @0.05` + garis `line`, atau isi `navy-900` dengan teks putih (toggle, checkbox, tombol LAYER). Nonaktif: opasitas 0.4.
+- Ikon Lucide 0.460.0, stroke 1.33–2 sesuai ukuran (bagian 7).
+- Label kecil: PJS Bold 9–10, kapital, tracking 0.9–2.
 
 ---
 
-## 2. Arsitektur Token & Konvensi Penamaan
+## 2. Arsitektur Token
 
 | Lapis | Contoh | Aturan |
 |---|---|---|
-| Primitive | `color.cyan.500` = `#00A8DD` | Nilai mentah dari Figma. Komponen UI memakai lapis semantic, kecuali warna data peta dan legenda. |
-| Semantic | `color.text.primary` → `color.slate.800` | Makna, berbeda per tema. |
-| Component | `inspector.width` = 384px | Ukuran khusus komponen (bagian 9–10). |
+| Primitive | `navy-900` = `#0F1B3D` | Nilai mentah dari Figma |
+| Semantic | `text.primary` → `navy-900` | Dipakai komponen |
+| Component | `inspector.width` = 360 | Ukuran khusus komponen (bagian 8) |
 
-Dua tema: **`map`** (aplikasi, `data-theme="map"`) dan **`editorial`** (landing, `data-theme="editorial"`). Tidak ada mode gelap.
-
-**Penamaan.** Dokumen memakai path W3C (`color.text.primary`). Di CSS dan Tailwind: `color.text.primary` → `--text-primary`; `color.cyan.500` → `--color-cyan-500` (Tailwind v4) / `--cyan-500` (design system). Nama token sama dengan `tokens.json` di design system interaktif.
+Dua tema: **`map`** (aplikasi, `data-theme="map"`) dan **`editorial`** (landing, dialog persona). Tidak ada mode gelap; seksi gelap landing bagian dari `editorial`. Nama CSS: `--color-navy-900`, `--text-primary`; nama sama dengan `tokens.json` di design system interaktif.
 
 ---
 
@@ -72,108 +62,74 @@ Dua tema: **`map`** (aplikasi, `data-theme="map"`) dan **`editorial`** (landing,
 
 ### 3.1 Primitive `[Dari Desain]`
 
-Warna aplikasi adalah palet **Tailwind v4**; warna vektor peta adalah palet **Tailwind v3**.
-
 | Keluarga | Token | Nilai | Pemakaian |
 |---|---|---|---|
-| Slate | `slate-50` | `#F8FAFC` | Baris persona sesi, opsi moda |
-| | `slate-100` | `#F1F5F9` | Chip jarak, kotak slider, tombol tutup |
-| | `slate-200` | `#E2E8F0` | Garis kartu terangkat; bintang kosong; toggle mati |
-| | `slate-300` | `#CAD5E2` | Track slider; lingkaran ikon persona non-sesi |
-| | `slate-400` | `#90A1B9` | Teks chip; label demo landing |
-| | `slate-500` | `#62748E` | Teks sekunder |
-| | `slate-600` | `#45556C` | Tombol reset; ikon toggle Commute; legenda Mesin Waktu |
-| | `slate-700` | `#314158` | Kalimat kesimpulan; isi Commute |
-| | `slate-800` | `#1D293D` | Judul panel, nama lokasi; lingkaran ikon persona sesi |
-| | `slate-900` | `#0F172B` | Tinta Kartu Demo landing |
-| Tinta | `ink-900` | `#132332` | Nama layer, nama persona, label pill |
-| | `ink-label` | `#4E6071` | *AREA TERPILIH* |
-| | `ink-popup` | `#333333` | Popup peta |
-| | `placeholder` | `rgba(69,85,108,0.8)` | Placeholder search |
-| | `top3-label` | `rgba(98,116,142,0.8)` | *TOP 3 REKOMENDASI* |
-| Kaca | `glass-30` … `glass-90` | putih 0.3 / 0.4 / 0.5 / 0.6 / 0.7 / 0.8 / 0.85 / 0.9 | Lihat 6.2 |
-| Cyan | `cyan-500` | `#00A8DD` | Aksen, toggle, badge, tahun, pin rumah |
-| | `cyan-500-20` | `rgba(0,168,221,0.2)` | Latar badge; garis kotak tahun |
-| | `cyan-route` | `#3CB7EC` (sampling) | Rute Commute |
-| | `cyan-mode` | `#9BD6E9` (sampling) | Opsi moda terpilih |
-| Aksi | `cream-button` | `#FEFAED` | Tombol *Reset & Pilih Ulang* |
-| | `amber-pin` | `#EE8700` | Pin tujuan |
-| Skor | `star-rose` | `#F88698` | Bintang skor, ikon pin tempat |
-| | `star-line` | `#DFD7C2` | Garis tepi bintang |
-| | `star-top3` / `star-top3-20` | `#FCC618` / `rgba(252,198,24,0.2)` | Bintang dan lingkaran Top 3 |
-| | `yellow-100` | `#FEF9C2` | Lingkaran ikon Inklusivitas |
-| Legenda | `rose-500` / `rose-500-30` / `rose-600` | `#FF2056` / 0.3 / `#EC003F` | Historis: garis, isi, teks |
-| | `green-500` / `green-600` | `#00C950` / `#00A63E` | Ekosistem: titik, teks; ikon Legalitas |
-| | `blue-500` / `blue-600` | `#2B7FFF` / `#155DFC` | Inklusivitas: titik, teks |
-| | `orange-500` / `orange-600` | `#FF6900` / `#F54900` | Mobilitas: garis, teks; ikon Mobilitas |
-| | `purple-500` / `purple-500-30` / `purple-600` | `#AD46FF` / 0.3 / `#9810FA` | Legalitas: garis, isi, teks |
-| Data peta | `map-rose` | `#F43F5E` | Poligon Historis |
-| | `map-green` | `#22C55E` | Titik Ekosistem |
-| | `map-blue` | `#3B82F6` | Titik Inklusivitas |
-| | `map-violet` | `#8B5CF6` | Poligon Legalitas |
-| | `map-slate` | `#64748B` | Garis Mesin Waktu |
-| | `transit-krl-bogor` / `-rangkasbitung` / `-cikarang` | `#E11D48` / `#16A34A` / `#2563EB` (sampling) | Jalur KRL |
-| | `transit-lrt` / `transit-mrt` | `#9333EA` (sampling) / `#F97316` | Jalur LRT, MRT |
-| Leaflet | `leaflet-link` / `leaflet-close` / `leaflet-line` | `#0078A8` / `#757575` / `#CCCCCC` | Bawaan Leaflet |
-| Drawer | `drawer-bg` | `#F9F8F9` (sampling) | Latar drawer |
-| | `drawer-brand` / `drawer-heading` | `#343E50` / `#525B6A` | Nama, judul tab |
-| | `drawer-muted` / `drawer-card-title` | `#99A5B5` / `#697485` | Deskripsi, judul kartu |
-| | `drawer-tab` / `drawer-tab-active` / `drawer-tab-line` | `#8795A9` / `#4BC1E7` / `#EFEFF1` | Tab |
-| | `drawer-check-selected` / `drawer-card-line` / `drawer-card-bg` | `#3BBBE3` / `#16AEDF` / `#EBF3F7` | Kartu persona terpilih |
-| | `drawer-checkbox-line` / `drawer-checkbox-bg` | `#A8BBDB` / `#FFFEFE` | Checkbox |
-| | `scrim` | `rgba(0,0,0,0.12)` | Lapisan di atas peta |
-| Landing | `cream-100` / `stone-50` / `cream-200` | `#F8F5EE` / `#F7F5F0` / `#F4F4F0` | Tombol CTA; latar seksi; Kartu Demo |
-| | `navy-ink` / `navy-900` / `navy-night` / `navy-hero` | `#081D3C` / `#0F1B3D` / `#0B1021` / `#172338` | Tinta; marquee dan band; seksi demo; lapisan hero |
-| | `ink-80` / `ink-60` / `ink-50` / `ink-20` | navy-ink 0.8 / 0.6 / 0.5 / 0.2 | Body; teks langkah; eyebrow kurung; garis |
-| | `maroon-700` / `amber-700` | `#860F23` / `#B45309` | Judul italic; ✦ marquee |
-| | `gray-600` / `faq-eyebrow` | `#4B5563` / `#374863` | Pengantar dan jawaban FAQ; eyebrow FAQ |
-| | `hero-button` / `hero-sub` / `hero-muted` | `rgba(36,40,48,0.67)` / `#F0EFF1` / `#ABB0B8` | Header hero |
-| | `footer-text` / `footer-muted` / `footer-line` | `#CDD1D8` / `#A0A5AB` / putih 0.18 | Footer |
-| | `stone-50-80` / `demo-frame` | krem 0.8 / `#0A101D` | Teks krem di atas gelap; bingkai foto demo |
+| Navy | `navy-900` | `#0F1B3D` | Tinta utama aplikasi; tombol LAYER aktif; toggle nyala; titik A; lingkaran ikon persona sesi |
+| | `navy-ink` | `#081D3C` | Tinta landing |
+| | `navy-night` | `#0B1021` | Seksi "Coba Sekarang" |
+| Alfa navy-900 | `ink-80` `ink-70` `ink-60` `ink-55` `ink-50` `ink-45` `ink-40` `ink-20` `ink-08` `ink-05` | 0.8 / 0.7 / 0.6 / 0.55 / 0.5 / 0.45 / 0.4 / 0.2 / 0.08 / 0.05 | Kalimat · legenda, nama layer mati · alamat, label moda · teks drawer · label kapital, persona non-sesi · deskripsi drawer · placeholder, nomor · track slider · kotak ikon drawer · lingkaran ikon non-sesi, hover |
+| Alfa navy-ink (landing) | `ed-ink-80` `ed-ink-60` `ed-ink-50` | `rgba(8,29,60,…)` 0.8 / 0.6 / 0.5 | Body landing · teks kartu langkah · eyebrow kurung, nama sumber data |
+| Garis | `line` | `rgba(8,29,60,0.2)` | Semua garis panel, kartu, pemisah, putus-putus |
+| Kertas | `white` / `white-95` / `white-80` / `white-50` | `#FFFFFF` / 0.95 / 0.8 / 0.5 | Panel solid · Profil Persona · panel melayang · Kesimpulan |
+| | `stone-50` | `#F7F5F0` | Dialog persona, drawer, kartu istilah, landing |
+| | `stone-50-30` | `rgba(247,245,240,0.3)` | Kepala Top 3 |
+| | `cream-100` | `#F8F5EE` | Latar landing |
+| | `map-ground` | `#E8E6E1` | Latar di bawah tile |
+| Slate | `slate-50` / `slate-200` | `#F8FAFC` / `#E2E8F0` | Kotak moda · toggle mati, bintang kosong |
+| Aksen data | `red-50` | `#FEF2F2` | Lingkaran pin Detail Lokasi |
+| | `pin-red` | `#FB2C36` | Ikon pin tempat |
+| | `star-on` / `star-muted` | `#F87171` / `#FCA5A5` | Bintang persona sesi / non-sesi |
+| | `cyan-100` / `cyan-600` | `#CFFAFE` / `#0891B2` | Badge PROFIL ANDA |
+| | `green-500` | `#22C55E` | Persen MATCH Top 3 |
+| | `rose-800` | `#9F1239` | Kartu persona terpilih di dialog |
+| Landing | `maroon-700` | `#860F23` | Judul italic visi, angka misi, garis misi |
+| | `amber-700` | `#B45309` | ✦ marquee |
+| Status `[Improvisasi]` | `red-600` / `amber-600` | `#DC2626` / `#D97706` | Galat / peringatan |
 
-### 3.2 Semantic per tema
+**Kontras (dipertahankan sesuai Figma).** Di atas putih, `ink-60` 4,5:1 (lolos teks kecil); `ink-55` 3,9, `ink-50` 3,3, `ink-45` 2,9, `ink-40` 2,5 di bawah 4,5:1. Di atas `map-ground` dan `stone-50` sedikit lebih rendah. Nilai tetap persis desain (keputusan pengguna 29 Sep 2026); jangan memakai `ink-55` ke bawah untuk teks baru yang wajib dibaca, pakai `ink-60` atau lebih gelap. Pemeriksa kontras artifact Design System menandai token ini; peringatan itu diketahui.
 
-| Token | `map` | `editorial` | Pemakaian |
-|---|---|---|---|
-| `surface.page` | `drawer-bg` | `stone-50` | Latar halaman |
-| `surface.glass` | `glass-40` + blur | `glass-50` | Panel di atas peta |
-| `surface.raised` | `slate-50` | `cream-200` | Kartu terangkat |
-| `surface.inverse` | `slate-800` | `navy-900` | Permukaan gelap |
-| `text.primary` | `slate-800` | `navy-ink` | Judul |
-| `text.strong` | `ink-900` | `navy-900` | Nama layer/persona; pertanyaan FAQ |
-| `text.body` | `slate-700` | `ink-80` | Kalimat isi |
-| `text.secondary` | `slate-500` | `gray-600` | Pendukung |
-| `text.muted` | `slate-400` | `ink-50` | Label redup |
-| `accent` | `cyan-500` | `maroon-700` | Aksen |
-| `border.glass` / `border.subtle` | `glass-60` / `slate-200` | `ink-20` | Garis |
-| `focus.ring` | `cyan-500` | `navy-ink` | Fokus `[Improvisasi]` |
-| `status.danger` / `.warning` / `.success` / `.info` | `rose-600` / `orange-600` / `green-600` / `cyan-500` | `maroon-700` / `amber-700` / `navy-ink` / `navy-ink` | `[Improvisasi]` |
+### 3.2 Semantic
 
-### 3.3 Warna data peta `[Dari Desain]`
-
-| Layer | Gambar di peta | Legenda inline di kartu |
+| Token | Nilai | Pemakaian |
 |---|---|---|
-| Historis & Risiko | Poligon `map-rose`, garis 3px, isi 0.3 | Kotak 12px `rose-500-30`/`rose-500`, teks `rose-600` *Area Merah di Peta* |
-| Ekosistem Mikro | Titik `map-green` isi 0.8, garis putih 3px | Titik 14px `green-500` bergaris putih, teks `green-600` *Titik Hijau di Peta* |
-| Inklusivitas | Titik `map-blue` isi 0.8, garis putih 3px | Titik `blue-500`, teks `blue-600` *Titik Biru di Peta* |
-| Mobilitas & Transit | KRL Bogor/Rangkasbitung/Cikarang putus-putus, LRT dan MRT penuh; stasiun lingkaran putih bergaris hitam | Garis 16 × 4 `orange-500`, teks `orange-600` (lihat 12.4) |
-| Mesin Waktu | `map-slate` 4px, dash "5 10" | Garis putus `slate-600` *Garis Putus-putus di Peta* |
-| Legalitas Lahan | Poligon `map-violet`, garis 3px, isi 0.3 | Kotak `purple-500-30`/`purple-500`, teks `purple-600` *Area Ungu di Peta* |
-| Rute Commute | `cyan-route` 4px, dash "8 8" (sampling) | — |
-| Pin rumah / tujuan | `cyan-500` / `amber-pin` | — |
-| Basemap | Tile OpenStreetMap standar, tidak diwarnai ulang (K5) | — |
+| `surface.float` | `white-80` + blur 12 | Search, Top 3, Detail Lokasi, Simulator Rute |
+| `surface.solid` | `white` | Panel Layer, tombol merek, slider, kartu |
+| `surface.paper` | `stone-50` | Dialog persona, drawer |
+| `text.primary` | `navy-900` | Judul, nama |
+| `text.body` | `ink-80` | Kalimat |
+| `text.secondary` | `ink-60` | Alamat, label |
+| `text.muted` | `ink-50` | Label kapital, non-aktif |
+| `text.placeholder` | `ink-40` | Placeholder |
+| `border` | `line` | Semua garis |
+| `accent` | `navy-900` | Aktif, terpilih |
+| `focus.ring` | `navy-900` | Fokus `[Improvisasi]` |
+
+### 3.3 Warna data peta
+
+`[Dari Desain]` untuk warna yang ada di legenda Figma; `[Improvisasi]` untuk yang Figma gambar abu-abu atau tidak konsisten (lihat catatan).
+
+| Data | Warna | Gaya |
+|---|---|---|
+| Historis & Risiko (banjir) | `#EF4444` | Poligon isi 0.3, garis 1.5 `#EF4444` 0.9; kelas bahaya: rendah 0.15, sedang 0.3, tinggi 0.45 |
+| Ekosistem Mikro (POI, RTH) | `#22C55E` | Titik 10px isi 0.8, garis putih 2; RTH poligon isi 0.25 |
+| Inklusivitas | `#0EA5E9` | Titik 10px isi 1, garis putih 2; trotoar layak garis 2 putus "4 4" `#0EA5E9` |
+| MRT | `#F97316` | Garis 5 penuh |
+| LRT | `#9333EA` | Garis 5 penuh |
+| KRL Lin Bogor / Rangkasbitung / Cikarang | `#DC2626` / `#16A34A` / `#2563EB` `[Improvisasi]` | Garis 4 putus "10 6" di atas casing putih 6 |
+| KRL lintas lain (Tangerang, Tanjung Priok, Bandara) | `#64748B` `[Improvisasi]` | Garis 4 putus "10 6" |
+| Stasiun | `#FBF9F6` | Lingkaran 7px, garis `navy-900` 2 |
+| Halte TransJakarta `[Improvisasi]` | `navy-900` | Titik 5px, muncul mulai zoom 14 |
+| Mesin Waktu | `#A855F7` | Garis 4 putus "8 8"; proyek area: poligon garis putus, isi 0.1 |
+| Legalitas Lahan | `#8B5CF6` | Poligon isi 0.2, garis 1.5 0.8 |
+| Rute mobil `[Improvisasi]` | `navy-900` | Garis 5 di atas casing putih 8, panah arah tiap ±150 px |
+| Rute transit `[Improvisasi]` | warna moda (tabel ini) | Ruas naik: warna jalur, garis 5; ruas jalan kaki: `navy-900` titik-titik "1 7" garis 3 |
+| Titik A / B | `navy-900` / `white` | Lingkaran 24 berhuruf A/B (sama dengan kartu) |
+| Wilayah terpilih / Top 3 `[Improvisasi]` | `navy-900` | Poligon garis 2.5, isi 0.08; nomor peringkat di titik pusat |
+
+Catatan: legenda Figma menyebut KRL "merah/hijau/biru" dan trotoar "biru putus-putus" tetapi simbolnya digambar abu; di aplikasi simbol legenda memakai warna di atas. Tab Legenda menyebut Mesin Waktu "ungu putus-putus", sedangkan peta frame `all` memakainya biru; dipakai ungu sesuai teks legenda, dibedakan dari LRT oleh pola putus-putus.
 
 ### 3.4 Makna warna
-
-| Warna | Artinya |
-|---|---|
-| Cyan | Aktif/dipilih; rumah dan rute |
-| Rose | Skor persona (bintang); risiko (area merah) |
-| Kuning | Rekomendasi Top 3; aksen Inklusivitas |
-| Oranye | Mobilitas; tujuan perjalanan |
-| Hijau, biru, ungu | Kategori data layer |
-| Slate | Teks dan netral |
-| Marun, navy | Judul dan tinta landing |
+Navy = kontrol, teks, aktif · merah muda = bintang skor · hijau = cocok (MATCH) dan ruang hijau · merah = risiko · biru langit = aksesibilitas · oranye/ungu/merah/hijau/biru = jalur transit · ungu muda = legalitas · marun = aksen editorial landing.
 
 ---
 
@@ -181,652 +137,470 @@ Warna aplikasi adalah palet **Tailwind v4**; warna vektor peta adalah palet **Ta
 
 | Keluarga | Font | Dipakai di |
 |---|---|---|
-| `sans` | Plus Jakarta Sans 400/500/600/700/800 | Aplikasi dan drawer |
-| `fraunces` | Fraunces, axis `SOFT 0, WONK 1` | Judul seksi landing |
-| `playfair` | Playfair Display | Hero, kicker, wordmark header |
-| `inter` | Inter | Body landing, marquee, tombol |
-| `dmsans` | DM Sans | Tombol header dan subjudul hero |
-| `georgia` | Georgia (sistem) | Nama di kartu persona, FAQ, tempat demo, angka langkah |
-| `mono` | Consolas (sistem) | Label teknis demo *[ 01 ]*, *FIG. 01* |
+| `sans` | Plus Jakarta Sans 400/500/600/700 | Seluruh aplikasi |
+| `fraunces` | Fraunces, `"SOFT" 0, "WONK" 1` | Nama lokasi, judul drawer, "Ruang" di wordmark, judul landing |
+| `georgia` | Georgia (sistem) | Nama persona dan tombol di dialog persona; pertanyaan FAQ |
+| `inter` | Inter | Teks dialog persona dan landing |
+| `playfair` / `dmsans` | Playfair Display / DM Sans | Hero dan header landing |
+| `mono` | Consolas (sistem) | Label teknis landing |
 
-Muat font secara lokal (dibundel), bukan dari Google Fonts, di produksi (`docs/RENCANA.md`). Angka tabular untuk waktu dan biaya `[Improvisasi]`.
+Font dibundel lokal (`docs/RENCANA.md`). Angka tabular untuk waktu, biaya, persen.
 
-### 4.1 Skala `map` (frame 1536)
+**Wordmark.** "Nalar" PJS Bold + "*Ruang*" Fraunces Bold Italic, ukuran sama (20 di tombol merek, 18 di drawer). Varian Fraunces Regular/Italic di frame "setting tentang" tidak dipakai (2 dari 3 frame memakai PJS + Fraunces Bold Italic).
 
-| Nama | Ukuran/line-height | Bobot | Letter-spacing | Contoh |
+### 4.1 Skala aplikasi (frame 1536 × 770)
+
+| Nama | Font ukuran/tinggi | Bobot | Tracking | Contoh |
 |---|---|---|---|---|
-| `app-title-xl` | 24/37.33 | 700 | — | Nama lokasi |
-| `app-title` | 16/24 | 600 | — | *Detail Lokasi*, *Layer Peta* |
-| `app-search` / `app-metric` | 16/24 | 400 | — | Search; *19mnt* |
-| `popup-title` | 16/20.8 | 400 | — | Judul popup |
-| `app-body-strong` | 14/20 | 600 | — | *Kecocokan Gaya Hidup*, nama persona |
-| `app-body-medium` | 14/20 | 500 | — | *Trans. Publik*, tombol reset |
-| `app-body` | 14/20 | 400 | — | Alamat, kesimpulan, judul Top 3 |
-| `app-card-title` | 14/14 | 600 | — | Nama layer |
-| `popup-body` | 12.8/17.9 | 400 | — | Isi popup |
-| `app-card-desc` | 12/16 | 400 | — | Deskripsi layer, alasan Top 3 |
-| `app-eyebrow` | 12/16 | 500 (KESIMPULAN 600) | 0.6px, kapital | *AREA TERPILIH* |
-| `app-caption` | 12/18 | 500 | — | Label pill |
-| `app-caption-strong` | 12/16 | 600 | — | Chip, biaya |
-| `app-legend` | 10/15 | 400 | — | Legenda, keterangan moda |
-| `app-badge` | 10/15 | 500 | kapital | *PROFIL ANDA* |
-| `app-overline` | 10/15 | 600 | 0.5px, kapital | *TOP 3 REKOMENDASI* |
+| `place-title` | Fraunces 24/23 | 400 | — | *Jalan Diklat Pemda* |
+| `panel-title` | PJS 16/24 | 700 | — | *Detail Lokasi* |
+| `section-title` | PJS 14/21 | 700 | — | *Kecocokan Gaya Hidup*, nama layer, nama persona sesi |
+| `persona-muted` | PJS 14/21 | 500 | — | Persona non-sesi |
+| `body` | PJS 13/21.13 | 500 | — | Kesimpulan |
+| `item-title` | PJS 13/19.5 | 700 | — | Nama kawasan Top 3 |
+| `input` | PJS 13 | 400 | — | Search |
+| `address` / `route-input` | PJS 12/15 · 12/16 | 400 | — | Alamat · isian A/B |
+| `metric` | PJS 24/32 | 700 | — | *12* mnt |
+| `percent` | PJS 12/16 | 700 | — | *95%* |
+| `desc` | PJS 10/16.25 | 400 | — | Deskripsi layer, legenda, subjudul Top 3 |
+| `label` | PJS 10/15 | 700 | 1, kapital | *LAYER SPASIAL*, *TOP 3 REKOMENDASI*, *KESIMPULAN SINGKAT* |
+| `label-wide` | PJS 10/15 | 700 | 2, kapital | *SIMULATOR RUTE* |
+| `button-caps` | PJS 11/16.5 | 700 | 1.1, kapital | *LAYER*, *PERSONA* |
+| `eyebrow` | PJS 9/13.5 | 700 | 0.9, kapital | *AREA TERPILIH*, *MOBIL* |
+| `badge` | PJS 9/9 | 700 | 0.45 | *PROFIL ANDA* |
+| `micro` | PJS 8/12 | 400 | 0.8, kapital | *MATCH* |
+| `year-value` / `year-label` | PJS 20/28 · 10/15 | 700 | — · 1 | Slider tahun |
+| `persona-option` | PJS 18/28 | 700 | — | Panel Profil Persona |
+| Drawer | Fraunces 14/13.44 judul; PJS 16/24 tab; PJS 13/17.88 bold nama; PJS 11/17.88 teks; PJS 11/16.5 bold 0.275 kapital judul legenda | | | |
 
-**Drawer (1440):** nama 23/29 800; judul 19/24 600; judul kartu 17/22 600; deskripsi 17/23.36; tab 15/20 500 (terpilih 14); deskripsi kartu 15/19.5.
+### 4.2 Dialog persona dan landing (`editorial`)
 
-### 4.2 Skala `editorial` (1440)
-
-| Nama | Font | Ukuran/line-height | Bobot / gaya | Contoh |
-|---|---|---|---|---|
-| `ed-hero` | Playfair | 108/108, −4.5px | 400 | *Hunian yang cocok.* |
-| `ed-display` | Fraunces | 88/88 | 400 | *Menata Kota Bersama.* |
-| `ed-display-sm` | Fraunces | 80/76.8 (CTA 76/73) | 400 | *Hal yang perlu kamu tahu.* |
-| `ed-heading` | Fraunces | 64/61.44 (60/57.6) | 400 | *Empat Cara Memandang Suatu Kota.* |
-| `ed-subheading` | Fraunces | 48/46 | 400 | *Eksplorasi data, bukan cuma iklan.* |
-| `ed-section-title` / `ed-italic` | Fraunces | 36/40 | 400 / italic marun | *Sumber Data Terbuka*; *Spasial* |
-| `ed-italic-sm` / `ed-tile` | Fraunces | 30/36 | italic / 600 | *Requirement Search*; nama tile |
-| `ed-intro` | Fraunces | 24/23 | 400 | *Mengurai Visi,* |
-| `ed-kicker` / `ed-brand` | Playfair | 24 / 23.4, 2.26px | 600 italic / 600 | Kicker; wordmark |
-| `ed-numeral` | Georgia | 112/112, −5.6px | italic | *01* |
-| `ed-faq` | Georgia | 30/36 | 400 | Pertanyaan FAQ |
-| `ed-card-name` | Georgia | 20/28 | 700 | Nama persona |
-| `ed-vision-title` / `ed-lead` | Inter | 47/62.8 / 37.7/45.2 | 500 / 400 | *The Vision* |
-| `ed-marquee` / `ed-step-title` | Inter | 20/24 / 20/28 | 600 kapital / 500 | Marquee; *Kumpulkan* |
-| `ed-eyebrow` | Inter | 19.3/30, 1.93px | 600 kapital | *FITUR UTAMA* |
-| `ed-answer` / `ed-hero-sub` | Inter / DM Sans | 18/29.25 / 18/27 | 400 | Jawaban FAQ; subjudul hero |
-| `ed-tab` | Inter | 16/24, 4px | 400 kapital | *TITIK* |
-| `ed-body` | Inter | 15/24.38 | 400 | Body |
-| `ed-link` / `ed-step-text` | Inter | 14/20, 0.7px / 14/22.75 | 700 kapital / 400 | *PELAJARI* |
-| `ed-button` | Inter | 13.3/19, 1.33px | 700 kapital | *MULAI CARI HUNIAN* |
-| `ed-bracket` | Inter | 12/16, 3.6px | 600 kapital | *[ CARA KERJA ]* |
-| `ed-note` / `ed-footer` | Inter | 12/19.5 / 12.9/23.3 | 500 / 400 | Catatan demo; footer |
-| `ed-overline` / `ed-caption` | Inter | 10.4/15.5, 1.34px / 10.6/17 | 700 kapital / 400 | Label footer; disclaimer |
+| Nama | Font | Contoh |
+|---|---|---|
+| `dialog-title` | Fraunces 60/57.6 | *Pilih Persona mu!* |
+| `dialog-lead` | Inter 18/29.25 `ink-70` | Kalimat pengantar |
+| `persona-name` | Georgia Bold 36/40 | *Commuter* |
+| `persona-desc` | Inter 16/26 | Deskripsi persona |
+| `persona-no` / `persona-tag` | Inter Bold 10/15 tracking 2 · Inter Bold 9/13.5 tracking 1.35 kapital | *01* · *AKSES TRANSIT PALING UTAMA* |
+| `dialog-action` | Georgia 16/24 | *Mulai Jelajah* |
+| Landing | Skala `editorial` versi 1.1 tetap berlaku (hero Playfair 108, judul Fraunces 88/64/60/48/36, body Inter 15/24.38, eyebrow Inter SemiBold 18/28 tracking 1.8) ditambah: judul *Our Vision*/*Mission* PJS SemiBold 47/62.8; teks visi PJS 36/45.2 rata kanan-kiri; angka misi Fraunces Italic 36/40 `maroon-700`; teks misi PJS Medium 15/24.38 `ed-ink-80`; judul kartu fitur Fraunces Italic 30/36 `navy-ink` | |
 
 ---
 
-## 5. Tata Letak, Spasi & Ukuran
+## 5. Tata Letak
 
-**Skala spasi:** 4 · 8 · 12 · 16 · 20 · 24 · 32 · 48 · 64 · 80 · 96 · 128 px (`space-1` … `space-32`).
+**Skala spasi:** 4 · 6 · 8 · 12 · 16 · 20 · 24 · 32 · 48 · 64 · 96.
 
-**Grid landing (1440).** Seksi padding samping 80px; kolom fitur 3 × 413px; padding seksi 96–144px atas-bawah; hero 773px + marquee 64px; Kartu Demo 1152px di tengah.
-
-**Peta overlay aplikasi (frame 1536 × 770).** `[Dari Desain]` kecuali ditandai.
+**Overlay aplikasi (frame 1536 × 770).** Tepi layar 16 di semua sisi. `[Dari Desain]` kecuali ditandai.
 
 ```
-x:0  24      88                544              992          1192   1512 1536
- ┌──────────────────────────────────────────────────────────────────────────┐ y:0
- │ (≡)48px  ┌──────────┐   ┌──── Search bar ±448 × 62 (pill) ────┐ ┌──────┐ │ y:24
- │          │ Detail   │   │ Top 3 / Commute tumbuh ke bawah     │ │Layer │ │
- │          │ Lokasi   │   └─────────────────────────────────────┘ │Peta  │ │
- │          │ 384 px   │                                           │320px │ │
- │          │ r 32     │      label pill · popup (auto-pan)        │r 24  │ │
- │          │ x 88 *   │                                           │kanan │ │
- │          └──────────┘ [+/−] x 484 *                             └──────┘ │
- │ ┌ Estimasi ±352, kiri 40, bawah 32 ┐            Leaflet | © OpenStreetMap │
- └──────────────────────────────────────────────────────────────────────────┘ y:770
+x:16            376                                         1178        1520
+ ┌───────────────┐                                           ┌──────────────┐ y:16
+ │ Search  360×48│                                           │ NalarRuang ≡ │ 48 tinggi
+ └───────────────┘                                           └──────────────┘
+ ┌───────────────┐ jarak 12
+ │ Top 3 /       │
+ │ Detail Lokasi │ (sampai bawah, 16)             ┌────────────────────┐
+ │ / Simulator   │                                │ LAYER SPASIAL 340  │
+ │ Rute          │                                │ / PROFIL PERSONA   │
+ │               │                                └────────────────────┘ jarak 12
+ │               │      ┌── slider tahun 400 ──┐   [LAYER][PERSONA]  [+/−]
+ └───────────────┘      └───── bawah 24 ───────┘         bawah 28     kanan 16
 ```
 
-**Aturan agar semua kontrol terjangkau** `[Improvisasi]`:
-
-| Keadaan | Aturan |
+| Aturan perilaku `[Improvisasi]` | |
 |---|---|
-| Point Inspector terbuka | Di Figma panel mulai di x 24, sama dengan hamburger. Saat terbuka, panel digeser ke x 88 (48 + 2 × 20); zoom pindah ke `left: 484px`; search bar di-center terhadap area x 472–1192. |
-| Kartu Estimasi tampil | Zoom naik ke atas kartu (`bottom` = 32 + tinggi kartu + 12px). |
-| Popup terbuka | `autoPan` dengan padding kiri-atas [88, 110] dan kanan-bawah [344, 24]. |
-| Drawer atau dialog | Semua overlay di bawah scrim; fokus terkunci. |
-| Inspector dan Estimasi bersamaan | Estimasi pindah ke kanan Inspector (x 484). |
-
-**Layar lain** `[Improvisasi]`. Lebih pendek dari 770px: Layer Peta dan Detail Lokasi men-scroll isinya. Lebih lebar: panel tetap menempel di tepi dengan jarak sama. Di bawah 1280px lebar: Layer Peta boleh diciutkan menjadi tombol 48px bergaya hamburger dengan ikon `layers`. Aplikasi untuk desktop (SRS).
+| Kolom kiri | Satu panel isi pada satu waktu di bawah search: Top 3, Detail Lokasi, atau Simulator Rute. Memilih hasil Top 3 menutup daftar lalu membuka Detail Lokasi; mode Commute menutup Detail Lokasi. |
+| Tombol LAYER/PERSONA dan zoom | Di Figma tombol dan zoom bertumpuk di kanan bawah (frame `top 3`). Zoom Leaflet ditempatkan di kanan 16 bawah 28 dengan atribusi di sudut bawahnya; grup tombol di kiri zoom (kanan 58, bawah 28) agar tidak menutupi atribusi, seperti frame `all`. |
+| Panel Layer / Profil Persona | Membuka di atas grup tombol, rata kanan dengan tombol (kanan 58, bawah 84.6), tinggi maksimum = layar − 76 − 84.6, isi men-scroll. Hanya satu panel kanan terbuka; tombol yang panelnya terbuka ber-isi `navy-900`. |
+| Slider tahun | Muncul hanya saat Mesin Waktu aktif; tengah bawah, bawah 24. Bila layar < 1280, slider naik di atas grup tombol. |
+| Popup peta | `autoPan` dengan padding kiri 392, kanan 414, atas 80, bawah 90 agar tidak tertutup kolom dan panel. |
+| Drawer / dialog | Semua overlay di bawah scrim; fokus terkunci. |
+| Layar pendek | Panel kiri dan kanan men-scroll isinya. Di bawah 1280 lebar, kolom kiri 320. Aplikasi desktop (SRS). |
 
 ---
 
-## 6. Radius, Elevasi, Kaca, Z-Index & Opasitas
-
-### 6.1 Radius dan bayangan `[Dari Desain]`
+## 6. Radius, Bayangan, Blur `[Dari Desain]`
 
 | Token | Nilai | Pemakaian |
 |---|---|---|
-| `radius-xs` | 4px | Kotak legenda, kotak tahun, zoom |
-| `radius-check` | 4.5px | Checkbox drawer |
-| `radius-lg` | 20px | Kotak ikon layer, kartu foto persona |
-| `radius-xl` | 24px | Layer Peta, baris persona, opsi moda, kotak slider, baris Commute |
-| `radius-2xl` | 32px | Detail Lokasi, Kartu Commute, Kartu Estimasi, search terbuka |
-| `radius-3xl` | 36px | Kartu layer, Kesimpulan Singkat, hamburger |
-| `radius-drawer-card` / `radius-drawer-tab` | 35 / 21px | Kartu persona terpilih; tab terpilih |
-| `radius-pill` | 9999px | Search bar, pill, badge, toggle, tombol |
-| `radius-none` | 0 | Kartu dan foto landing |
-| `shadow-panel` | `0 8px 32px rgba(0,0,0,0.1)` | Panel kaca |
-| `shadow-floating` | `0 8px 30px rgba(0,0,0,0.12)` | Hamburger |
-| `shadow-popup` | `0 10px 30px rgba(0,0,0,0.1)` | Popup |
-| `shadow-sm` | `0 1px 3px rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1)` | Kartu di dalam panel |
-| `shadow-pill` | `0 4px 15px rgba(0,0,0,0.05)` | Label pill |
-| `shadow-photo` | `0 20px 40px rgba(15,27,61,0.12)` | Kartu foto persona |
-| `shadow-frame` | `0 30px 60px -15px rgba(15,23,42,0.1)` | Foto Vision, bingkai demo |
-
-### 6.2 Resep kaca `[Dari Desain]`
-
-| Elemen | Latar | Garis | Blur | Bayangan |
-|---|---|---|---|---|
-| Panel (search, Layer Peta, Detail, Commute, Estimasi) | `glass-40` | 1px `glass-60` | 5px | `shadow-panel` |
-| Hamburger 48px | `glass-80` | 1px `glass-60` | 20px | `shadow-floating` |
-| Kesimpulan Singkat | `glass-40` | 1px `glass-50` | 6px | `shadow-sm` |
-| Label pill | `glass-70` | 1px `glass-80` | 6px | `shadow-pill`, opasitas 0.9 |
-| Popup | `glass-85` | 1px `glass-90` | 8px | `shadow-popup` |
-| Kartu layer aktif / mati | `glass-80` / `glass-40` | putih / transparan | — | `shadow-sm` / — |
-| Scrim drawer | `scrim` | — | 3.6px | — |
+| `radius-none` | 0 | Kotak moda Simulator Rute, kotak ikon drawer |
+| `radius-xs` | 4 | Checkbox Profil Persona |
+| `radius-md` | 12 | Search, tombol merek, tombol LAYER/PERSONA, kartu layer, baris Top 3, Simulator Rute, baris Profil Persona, kartu istilah |
+| `radius-lg` | 16 | Panel Top 3, panel Layer/Profil Persona, slider tahun, dialog persona, kartu persona dialog, kartu persona drawer |
+| `radius-xl` | 24 | Baris persona Detail Lokasi, Kesimpulan |
+| `radius-2xl` | 32 | Detail Lokasi |
+| `radius-pill` | 9999 | Toggle, badge, titik A/B, nomor Top 3, lingkaran ikon |
+| `shadow-sm` | `0 1px 3px rgba(0,0,0,.1), 0 1px 2px -1px rgba(0,0,0,.1)` | Baris persona sesi |
+| `shadow-soft` | `0 2px 10px -4px rgba(0,0,0,.05)` | Kesimpulan |
+| `shadow-md` | `0 4px 6px -1px rgba(0,0,0,.1), 0 2px 4px -2px rgba(0,0,0,.1)` | Titik A |
+| `shadow-lg` | `0 10px 15px -3px rgba(0,0,0,.1), 0 4px 6px -4px rgba(0,0,0,.1)` | Search, tombol merek, tombol LAYER/PERSONA |
+| `shadow-xl` | `0 20px 25px -5px rgba(0,0,0,.1), 0 8px 10px -6px rgba(0,0,0,.1)` | Top 3, Simulator Rute, slider, kartu persona terpilih |
+| `shadow-2xl` | `0 25px 50px -12px rgba(0,0,0,.25)` | Detail Lokasi, panel Layer, dialog, drawer |
+| `blur-panel` / `blur-soft` / `blur-drawer` | 12 / 6 / 4 px | Panel melayang / Profil Persona dan scrim dialog / scrim drawer |
+| Scrim | dialog `navy-900 @0.7` blur 6; drawer `navy-900 @0.25` blur 4 | |
 
 ```css
-.nr-glass {
-  background: rgba(255, 255, 255, 0.4);
-  -webkit-backdrop-filter: blur(5px);
-  backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.6);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+.nr-float {            /* Search, Top 3, Detail Lokasi, Simulator Rute */
+  background: rgb(255 255 255 / .8);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgb(8 29 60 / .2);
 }
-@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .nr-glass { background: rgba(255, 255, 255, 0.88); } /* fallback terdekat */
-}
+@supports not (backdrop-filter: blur(1px)) { .nr-float { background: rgb(255 255 255 / .95); } }
 ```
 
-### 6.3 Opasitas dan z-index
+**Z-index.** Pane Leaflet 400–700, kontrol Leaflet 800 · `z-panel` 1000 (kolom kiri, panel kanan) · `z-controls` 1010 (search, tombol merek, tombol kanan bawah, slider) · `z-drawer` 1100 · `z-dialog` 1200 · `z-toast` 1300.
 
-Opasitas: baris persona non-sesi 0.5 `[Dari Desain]`; label pill 0.9; isi poligon 0.3; fitur di luar filter 0.35 `[Improvisasi]`; nonaktif 0.5 `[Improvisasi]`.
-
-| Lapisan | Nilai | Isi |
-|---|---|---|
-| Pane Leaflet overlay / marker / tooltip / popup | 400 / 600 / 650 / 700 | Bawaan Leaflet 1.9 |
-| Kontrol Leaflet | 800 | Zoom, atribusi |
-| `z-panel` / `z-search` / `z-floating` | 1000 / 1010 / 1020 | Panel; search, Top 3, Commute; hamburger dan zoom |
-| `z-drawer` / `z-dialog` / `z-toast` | 1100 / 1200 / 1300 | Drawer; dialog; toast |
+**Motion `[Improvisasi]`.** Panel kiri dan kanan: geser 12px + fade 200ms ease-out, keluar 150ms. Drawer: geser dari kiri 240ms. Dialog: fade + skala 0.98→1 200ms. Toggle: 160ms. Fly-to: `map.flyTo(latlng, 15, { duration: 1.2 })`. Marquee landing 40 detik. `prefers-reduced-motion`: semua transisi mati, fly-to jadi `setView`.
 
 ---
 
-## 7. Motion `[Improvisasi]`
+## 7. Ikonografi `[Dari Desain]`
 
-| Elemen | Gerak |
-|---|---|
-| Point Inspector, Estimasi | Geser 16px + fade, 200ms ease-out; keluar 150ms |
-| Drawer | Geser dari kiri 240ms ease-out; scrim fade 200ms |
-| Dialog Onboarding | Fade + skala 0.98→1, 200ms |
-| Dropdown Top 3 | Tinggi membuka 160ms ease-out |
-| Search ↔ Commute | Crossfade 160ms |
-| Kartu layer aktif, toggle | 160ms ease-out |
-| Fly-to (FR-07) | `map.flyTo(latlng, 15, { duration: 1.2 })` |
-| Marquee landing | 40 detik per putaran, berhenti saat hover |
-
-`prefers-reduced-motion: reduce`: semua transisi mati; fly-to diganti `setView`; marquee diam.
-
----
-
-## 8. Ikonografi & Simbol Peta
-
-**Pustaka.** Lucide 0.460.0 (paket vanilla `lucide` atau data path tertanam), stroke 2 pada kotak 24, ujung membulat. `[Dari Desain]` — path ikon di Figma identik dengan Lucide.
+Lucide 0.460.0; stroke 1.33 pada ikon 12–16, 2 pada ikon 18–22; ujung membulat.
 
 | Tempat | Ikon | Ukuran, warna |
 |---|---|---|
-| Hamburger | `menu` | 20px `slate-700` |
-| Search / toggle Commute | `search` / `person-standing` | 20px / 18px `slate-600` |
-| Judul Commute Simulator | `route` | 18px `cyan-500` |
-| Historis, Ekosistem, Mesin Waktu | `waves`, `coffee`, `clock` | 16px `ink-900` |
-| Inklusivitas | `accessibility` di kotak `yellow-100` | 16px `ink-900` |
-| Mobilitas | `bus-front` | 16px `orange-600` |
-| Legalitas | `shield-check` | 16px `green-600` |
-| Persona | `train-front`, `car-front`, `coffee`, `leaf` | 16px putih |
-| Pin tempat | `map-pin` | 24px `star-rose` |
-| Pin Commute | `map-pin`, `navigation` | 16px putih di 28px |
-| Moda | `bus-front`, `car` | 20px |
-| Tab drawer | `circle-user`, `map`, `info` | 18px |
-| Checkbox tercentang | `plus` | 16px putih (persis desain) |
-| Tutup | `x` | 16–20px `slate-500` |
-| Landing | `arrow-up-right`, `plus`/`minus`, ikon sosial | 16 / 28 / 18px |
-| Improvisasi | `circle-alert`, `triangle-alert`, `search-x`, `loader-circle`, `layers` | 18–20px |
+| Search / toggle Commute | `search` / `car` | 16 `ink-60`; toggle aktif ikon putih di kotak `navy-900` |
+| Menu (tombol merek) | `menu` | 16 `ink-40` |
+| Tutup | `x` | 18 `navy-900` (Detail Lokasi); 15 (drawer), 14 (panel) `ink-60` |
+| Pin tempat | `map-pin` | 22 `pin-red` dalam lingkaran 44 `red-50` |
+| Persona | Commuter `tram-front`, Driver `car`, Social & Vibe `coffee`, Zen `leaf` | 18 putih (sesi) / `ink-50` (non-sesi); 32 `ink-40` di dialog; 14 di drawer |
+| Bintang | `star` | 16, jarak 4 (bagian 8.6) |
+| Moda | `car`, `tram-front` | 12 `ink-60` |
+| Tombol kanan bawah | `map` (LAYER), `users` (PERSONA) | 16 |
+| Tab drawer | `users`, `map`, `info` | 12 |
+| Terpilih | `check` | 16 putih di `rose-800` (dialog); 12–14 putih di `navy-900` (drawer, Profil Persona) |
+| Lanjut | `arrow-right` | 40 `navy-900` (dialog); 16 (landing) |
+| Improvisasi | `circle-alert`, `triangle-alert`, `search-x`, `loader-circle`, `navigation` | 16–20 |
 
-**Logo.** Ikon rumah NalarRuang (Figma node 163:4022) dan ✦ marquee (`#B45309`) disalin sebagai SVG ke grup aset **Logo** di design system.
-
-**Tiga komponen skor** (semua dipertahankan):
-
-| Komponen | Bentuk | Skor 0 `[Improvisasi]` |
-|---|---|---|
-| Bintang Point Inspector | 3 × `star` 16px, isi `star-rose`, garis `star-line` 1.33, kosong isi `slate-200` | Tiga bintang kosong + *0 dari 3* |
-| Bintang Top 3 | Satu `star` `star-top3` di lingkaran 24px `star-top3-20` | Tidak berlaku |
-| Belah ketupat demo landing | 3 × kotak 6px diputar 45°, `slate-900`; kosong garis `ink-20`; garis progres 1px | Tiga kosong, garis kosong |
+**Logo.** Ikon rumah NalarRuang dan ✦ marquee di grup aset **Logo** design system interaktif. Logo sumber data (InaRISK, BIG, BPS, ATR/BPN, Jakarta Satu Data, OSM) memakai berkas resmi; yang tidak punya logo resmi (IQAir, Overpass API, GTFS Transjakarta, JUTPI) memakai nama saja.
 
 ---
 
-## 9. Komponen Aplikasi
+## 8. Komponen Aplikasi
 
-Semua komponen tersedia sebagai komponen React di design system (`window.NalarRuang`, 37 komponen, props di README tiap komponen) dan kelas CSS di `components/bundle.css` (`nr-`). Nilai di bawah adalah frame 1536.
+Semua komponen tersedia sebagai komponen React di design system interaktif (`window.NalarRuang`, props di README tiap komponen). Nilai frame 1536.
 
-### 9.1 Panel Kaca
-`[Dari Desain]` · UI01. Resep 6.2. Satu permukaan kaca per panel.
+### 8.1 Search Bar `[Dari Desain]` · FR-05, FR-16, UI02
+360 × 48, `nr-float`, radius 12, `shadow-lg`, padding x 16.8. Ikon `search` 16 + jarak 12; input PJS 13 `navy-900`, placeholder *Telusuri kawasan atau alamat...* `ink-40`; pemisah kiri 0.8 `line` + padding 12.8; tombol toggle 28 (padding 6) ikon `car` 16: mati tanpa latar `ink-60`, aktif latar `navy-900` ikon putih. `role="combobox"`, Enter/↓/Esc; toggle `aria-pressed`, label *Beralih ke Commute Simulator*.
+- **Mode checkbox** `[Improvisasi]` (FR-15): panel bergaya Top 3 di bawah search dengan kepala *PILIH KOTA DAN PERSONA*; kota berupa tombol radius 12 garis `line` (terpilih isi `navy-900` teks putih); persona berupa baris Profil Persona (8.10) ringkas; tautan *Pakai persona sesi* PJS Bold 10 kapital `navy-900`; tombol *Cari* isi `navy-900`. Dibuka dari ikon `sliders-horizontal` 16 yang muncul di kiri tombol mobil saat search fokus.
 
-### 9.2 Tombol Hamburger
-`[Dari Desain]` · FR-18. 48px, radius 36, `glass-80`, blur 20, `shadow-floating`, `menu` 20px; posisi 24,24. Hover putih `[Improvisasi]`. `aria-label="Buka menu"`, `aria-expanded`. Selalu `z-floating`.
+### 8.2 Panel Top 3 Rekomendasi `[Dari Desain]` · FR-06, FR-07, BR-1
+Di bawah search (jarak 12), lebar 360, `nr-float`, radius 16, `shadow-xl`, overflow clip. Kepala latar `stone-50-30`, garis bawah 0.8, padding 22.5/20/16.8: *TOP 3 REKOMENDASI* (`label`) + *Kawasan ideal berdasarkan profil [Persona].* (`desc` `ink-60`; beberapa persona digabung "Commuter & Zen"). Daftar padding 8, jarak 4; baris tombol garis `line` radius 12 padding 12.8, lebar penuh `[Improvisasi — Figma hug]`: nomor di lingkaran 24 `ink-05` (PJS Bold 10), jarak 16, nama `item-title`, tipe kawasan `desc` `ink-50`; kanan persen `percent` `green-500` + *MATCH* `micro` `ink-40`. Hover latar `ink-05`; terpilih garis `navy-900`. `role="listbox"`, dibacakan "Peringkat 1 dari 3, Kebayoran Baru, 95 persen cocok".
+- Persen = skor kecocokan 0–100 dari Requirement Search (bukan dikarang); di bawah 50 persen warnanya `ink-60` `[Improvisasi]`.
 
-### 9.3 Search Bar
-`[Dari Desain]` teks bebas; mode checkbox `[Improvisasi]` · FR-05, FR-15, FR-16, UI02.
-- ±448 × 62px pill, resep panel. `search` 20px, input 16/24 `slate-800`, placeholder *Ketik 'Daerah asri di Bogor'...* `placeholder`. Toggle: padding 10, `glass-30`, garis `glass-40`, bayangan `0 1px 3px rgba(0,0,0,.1)`, `person-standing` 18px `slate-600`; aktif ikon `cyan-500` latar putih.
-- Mode checkbox: panel bergaya Top 3 dengan *PILIH KOTA*, tab pill kota, *PERSONA*, kartu checkbox ringkas, *Pakai persona sesi*.
-- `role="combobox"`, Enter/↓/Esc.
+### 8.3 Detail Lokasi (Point Inspector) `[Dari Desain]` · FR-08, FR-09, FR-17
+Kolom kiri di bawah search, sampai bawah 16, lebar 360 (maks 400), `nr-float`, radius 32, padding 24.8, jarak 24, `shadow-2xl`, isi scroll.
+- Kepala: *Detail Lokasi* `panel-title` + `x` 18 di kanan (padding x 4).
+- Tempat: lingkaran 44 `red-50` garis `line` dengan `map-pin` 22; label *AREA TERPILIH* (poligon) atau *TITIK TERPILIH* (titik) `[Improvisasi dari label]` `eyebrow` `ink-50`; nama `place-title`; wilayah `address` `ink-60`.
+- *Kecocokan Gaya Hidup* `section-title`, empat Baris Skor Persona (8.4) jarak 4.
+- Ringkasan data layer `[Improvisasi]`: bila ada layer aktif yang punya data di lokasi, satu baris per layer (simbol legenda 14 + teks `desc` `ink-70`), dipisah garis atas 0.8.
+- Kartu Kesimpulan (8.5).
+- Nama lokasi selalu Bahasa Indonesia dari data wilayah (Figma frame `legalitas lahan` menulis *Special Capital Region of Jakarta*; tidak ditiru).
 
-```html
-<div class="w-[448px] rounded-full bg-white/40 border border-white/60 backdrop-blur-[5px] shadow-panel">
-  <div class="flex h-[62px] items-center gap-3 pl-5 pr-[11px] text-slate-600">
-    <i data-lucide="search" class="size-5"></i>
-    <input class="flex-1 bg-transparent text-base text-slate-800 outline-none placeholder:text-[rgba(69,85,108,0.8)]"
-           placeholder="Ketik 'Daerah asri di Bogor'..." role="combobox" aria-expanded="false" aria-label="Cari kawasan hunian">
-    <button class="grid place-items-center rounded-full p-2.5 bg-white/30 border border-white/40 shadow-[0_1px_3px_rgba(0,0,0,0.1)] aria-pressed:bg-white aria-pressed:text-cyan-500"
-            aria-pressed="false" aria-label="Beralih ke Commute Simulator"><i data-lucide="person-standing" class="size-[18px]"></i></button>
-  </div>
-</div>
-```
-
-### 9.4 Dropdown Top 3
-`[Dari Desain]` · FR-06, FR-07, BR-1. Search menjadi radius 32. Area daftar `glass-30`, blur 6, garis atas `glass-40`. Label `app-overline`. Tepat tiga baris: lingkaran 24px `star-top3-20` + bintang `star-top3`, judul 14/20 `slate-800`, alasan 12/16 `slate-500` satu baris. Hover/terpilih `glass-40` `[Improvisasi]`. `role="listbox"`, "Peringkat 1 dari 3, …".
-
-### 9.5 Kartu Commute Simulator
-`[Dari Desain]` hasil; kosong dan mengisi `[Improvisasi]` · FR-10, FR-16, UC-06. ±448px, radius 32, resep panel. Kepala `route` `cyan-500` + *Commute Simulator* 14/20 600 `slate-700` + `x`. Baris radius 24, padding 12.8, `slate-50` opasitas 0.8 (terisi 1): pin 28px `cyan-500`/`amber-pin`, label 12/16 500 kapital `slate-500`, isi 12/16.5 `slate-700`. *Reset & Pilih Ulang*: 36px pill `cream-button`, garis `slate-200`, `shadow-sm`, 14/20 500 `slate-600`. Kosong: *Ketik alamat atau pilih di peta* + *Pilih di peta*; reset nonaktif.
-
-### 9.6 Kartu Estimasi Perjalanan
-`[Dari Desain]` · FR-11, K2. ±352px, radius 32, resep panel, kiri 40 bawah 32. *Estimasi Perjalanan* 14/20 600; chip `slate-100` 12/16 600 `slate-400`. Opsi moda radius 24, padding 12.8, `slate-50`, garis `slate-200`: ikon 40px putih `shadow-sm`, judul 14/20 500, keterangan 10/15 `slate-500`, waktu 16/24, biaya 12/16 600 `slate-500`. Terpilih `cyan-mode` (sampling). Tidak tersedia: *Tidak tersedia* `status-warning` `[Improvisasi]`.
-
-```html
-<section class="w-[352px] rounded-[32px] bg-white/40 border border-white/60 backdrop-blur-[5px] shadow-panel px-[17px] py-[15px] flex flex-col gap-4" aria-label="Estimasi perjalanan">
-  <header class="flex items-center justify-between">
-    <h2 class="text-sm font-semibold text-slate-800">Estimasi Perjalanan</h2>
-    <span class="rounded-[20px] bg-slate-100 px-2 py-1 text-xs font-semibold text-slate-400">2.1 km</span>
-  </header>
-  <button class="flex items-center gap-4 rounded-3xl bg-slate-50 border border-slate-200 p-[12.8px] text-left aria-pressed:bg-cyan-mode" aria-pressed="true">
-    <span class="grid size-10 place-items-center rounded-[20px] bg-white shadow-sm"><i data-lucide="bus-front" class="size-5"></i></span>
-    <span class="flex-1"><span class="block text-sm font-medium text-slate-800">Trans. Publik</span>
-      <span class="block text-[10px] leading-[15px] text-slate-500">Berdasarkan tarif resmi KRL</span></span>
-    <span class="text-right tabular-nums"><span class="block text-base text-slate-700">19mnt</span>
-      <span class="block text-xs font-semibold text-slate-500">Rp 3.000</span></span>
-  </button>
-</section>
-```
-
-### 9.7 Point Inspector "Detail Lokasi"
-`[Dari Desain]`; varian titik, ringkasan layer, multi-persona `[Improvisasi]` · FR-08, FR-09, FR-17, BR-9–11, UC-04, UC-05.
-- 384px, radius 32, resep panel. Kepala *Detail Lokasi* 16/24 600 + tutup lingkaran 32px `slate-100`, garis bawah `glass-60`, padding 16/20. Isi padding 20/12, jarak 24. Blok tempat: `map-pin` 24px `star-rose`; label 12/16 500 tracking 0.6px `ink-label`; nama 24/37.33 700; alamat 14/20 `slate-500`. *Kecocokan Gaya Hidup* 14/20 600; empat baris persona; ringkasan layer; kesimpulan.
-- *AREA TERPILIH* untuk poligon; *TITIK TERPILIH* untuk titik `[Improvisasi]`.
-- Posisi: Figma x 24 top 24 bottom 24; perilaku x 88 (bagian 5).
-
-```html
-<aside class="fixed left-[88px] top-6 bottom-6 w-96 rounded-[32px] bg-white/40 border border-white/60 backdrop-blur-[5px] shadow-panel flex flex-col overflow-hidden" aria-labelledby="inspector-nama">
-  <header class="flex items-center justify-between px-5 pt-4 pb-[16.8px] border-b border-white/60">
-    <h2 class="text-base font-semibold text-slate-800">Detail Lokasi</h2>
-    <button aria-label="Tutup detail lokasi" class="grid size-8 place-items-center rounded-full bg-slate-100 text-slate-500"><i data-lucide="x" class="size-4"></i></button>
-  </header>
-  <div class="flex flex-col gap-6 overflow-y-auto px-3 pt-5 pb-4">
-    <div class="flex gap-4 px-2">
-      <i data-lucide="map-pin" class="mt-5 size-6 text-star-rose"></i>
-      <div>
-        <p class="text-xs font-medium uppercase tracking-[0.6px] text-ink-label">Area terpilih</p>
-        <h3 id="inspector-nama" class="text-2xl leading-[37.33px] font-bold text-slate-800">Jembatan 1</h3>
-        <p class="text-sm text-slate-500">Rawalumbu, Bekasi</p>
-      </div>
-    </div>
-    <!-- Baris Skor Persona (9.8), ringkasan layer, Kesimpulan (9.10) -->
-  </div>
-</aside>
-```
-
-### 9.8 Baris Skor Persona
-`[Dari Desain]`; multi-persona dan skor 0 `[Improvisasi]` · FR-09, FR-14, BR-9, BR-11.
-
+### 8.4 Baris Skor Persona `[Dari Desain]` · FR-09, BR-9, BR-14
 | Varian | Tampilan |
 |---|---|
-| Persona sesi | Padding 12.8, radius 24, `slate-50`, garis `slate-200`; ikon putih dalam lingkaran `slate-800` (padding 6, radius 20); nama 14/20 600 `ink-900`; badge |
-| Non-sesi | Tanpa latar; lingkaran ikon `slate-300`; opasitas 0.5 |
-| Skor 0 | Tiga bintang kosong + *0 dari 3* 10/15 `slate-500` |
+| Persona sesi | Latar putih, garis `line`, radius 24, padding 12.8, `shadow-sm`; lingkaran 36 `navy-900` dengan ikon 18 putih; nama `section-title`; badge (8.7); bintang `star-on` |
+| Non-sesi | Tanpa latar, padding 12; lingkaran 36 `ink-05` ikon 18 `ink-50`; nama `persona-muted` `ink-50`; bintang `star-muted` |
+| Skor 0 `[Improvisasi]` | Tiga bintang kosong + *0 dari 3* `desc` `ink-50` di kiri bintang |
+| Data tidak lengkap `[Improvisasi]` | Bintang diganti teks *Data kurang* `desc` `amber-600` |
+| Wilayah: cocok `[Improvisasi]` · BR-10 | Bintang diganti lingkaran 20 `navy-900` berisi `check` 12 putih + teks *Cocok* `desc` Bold `navy-900` (non-sesi: lingkaran `ink-60`, teks `ink-60`) |
+| Wilayah: belum cocok `[Improvisasi]` | Lingkaran 20 garis `line` berisi garis `minus` 12 `ink-60` + teks *Belum cocok* `desc` `ink-60` |
 
-`aria-label="Commuter, 3 dari 3 bintang, profil anda"` (label yang sama ada di layer Figma).
+`aria-label="Commuter, 3 dari 3 bintang, profil anda"`; wilayah: `"Commuter, cocok, profil anda"`.
 
-### 9.9 Badge *PROFIL ANDA*
-`[Dari Desain]`. Padding 2/8, pill, `cyan-500-20`, teks 10/15 500 `cyan-500` kapital. Di setiap persona sesi.
+### 8.5 Kartu Kesimpulan Singkat `[Dari Desain]` · FR-17
+`white-50`, garis `line`, radius 24, padding 16.8, `shadow-soft`, jarak 5.5. Label *KESIMPULAN SINGKAT* `label` `ink-50`; kalimat `body` `ink-80` (template 11.3). Beberapa persona sesi: satu kalimat per persona, dipisah jarak 8. Data tidak lengkap `[Improvisasi]`: kalimat tambahan `desc` `amber-600`.
 
-### 9.10 Kartu Kesimpulan Singkat
-`[Dari Desain]`; multi-persona dan data tidak lengkap `[Improvisasi]` · FR-17, UC-05. Padding 16.8, radius 36, `glass-40`, blur 6, garis `glass-50`, `shadow-sm`. Label 12/16 600 tracking 0.6px `slate-500`; kalimat 14/20 `slate-700` (template 12.3). Data tidak lengkap: 12/16 `status-warning`.
+### 8.6 Bintang Skor `[Dari Desain]`
+3 × `star` 16, jarak 4. Terisi: isi dan garis `star-on` (sesi) atau `star-muted` (non-sesi). Kosong: garis `slate-200` 1.33 tanpa isi. Ikon `aria-hidden`.
 
-### 9.11 Panel Layer Peta + Kartu Layer
-`[Dari Desain]`; memuat dan gagal `[Improvisasi]` · FR-03, UC-02, D2.
-- Panel: 320px, padding 20, jarak 12, radius 24, resep panel, kanan 24 atas 24. *Layer Peta* 16/24 600.
-- Kartu: padding 9.8/10.8, radius 36, jarak 12. Mati `glass-40`; aktif `glass-80` + garis putih + `shadow-sm`. Ikon 16px di kotak 36px radius 20. Nama 14/14 600 `ink-900`; deskripsi 12/16 `slate-500`; legenda 10/15 (3.3).
-- Toggle 32 × 16: nyala `cyan-500`, mati `slate-200`, knob 12px putih.
-- Slider tahun: ±262px, padding 8.8/12.8/18.4, `slate-100`, garis `slate-200`, radius 24; kotak tahun putih garis `cyan-500-20` radius 4 12/16 `cyan-500`; track `slate-300` 6px.
-- Gagal: *Layer gagal dimuat.* `status-danger` + *Coba lagi* `cyan-500`, toggle nonaktif. Memuat: skeleton.
+### 8.7 Badge *PROFIL ANDA* `[Dari Desain]`
+Pill `cyan-100`, padding 4/10, `badge` `cyan-600`. Di setiap persona sesi.
 
-```html
-<div class="flex items-start gap-3 rounded-[36px] bg-white/80 border border-white px-[10.8px] py-[9.8px] shadow-sm">
-  <span class="grid size-9 place-items-center rounded-[20px] bg-yellow-100 text-ink-900"><i data-lucide="accessibility" class="size-4"></i></span>
-  <span class="flex flex-1 flex-col gap-1 pt-0.5">
-    <span class="text-sm leading-[14px] font-semibold text-ink-900">Inklusivitas</span>
-    <span class="text-xs text-slate-500">Aksesibilitas dan fasilitas umum.</span>
-    <span class="flex items-center gap-1.5 text-[10px] leading-[15px] text-blue-600"><span class="size-3.5 rounded-full border border-white bg-blue-500 shadow-sm"></span>Titik Biru di Peta</span>
-  </span>
-  <button role="switch" aria-checked="true" aria-label="Inklusivitas" class="relative mt-0.5 h-4 w-8 rounded-full bg-cyan-500"></button>
-</div>
-```
+### 8.8 Simulator Rute (Commute) `[Dari Desain]` · FR-10, FR-11, FR-16, UI04
+Menggantikan panel kolom kiri saat toggle aktif; lebar 360, `nr-float`, radius 12, padding 20.8, jarak 20, `shadow-xl`.
+- Kepala: *SIMULATOR RUTE* `label-wide` + `x` 14; garis bawah 0.8, pb 12.8.
+- Titik: lingkaran 24; **A** isi `navy-900` huruf putih PJS Bold 9 `shadow-md`; **B** putih garis `line` huruf `navy-900`. Penghubung garis putus 0.8 `line` di x 11. Isian: input `route-input` `navy-900`, garis bawah 0.8, padding 6/6.8; jarak antarbaris 16.
+- Moda: dua kotak berdampingan jarak 12 (pt 8), `slate-50`, garis `line`, radius 0, tinggi 96, padding 11.8: ikon 12 + *MOBIL* / *TRANSIT* `eyebrow` `ink-60`; waktu `metric` + *mnt* PJS 10 `ink-50`; biaya PJS Medium 10/15 `ink-70`.
+- `[Improvisasi]` Kotak moda dapat dipilih: terpilih garis `navy-900` 1.5 dan rute moda itu tampil tebal di peta; yang lain tampil tipis 0.4.
+- `[Improvisasi]` Jarak: chip di kanan kepala `desc` `ink-60` *18,4 km*.
+- `[Improvisasi]` Keterangan di bawah kotak: *Estimasi tanpa lalu lintas real-time.* `desc` `ink-50`; untuk transit tambahan rincian moda, mis. *Jalan 6 mnt · KRL Bogor 41 mnt · Jalan 4 mnt*.
+- Keadaan kosong `[Improvisasi]`: placeholder *Ketik alamat atau pilih di peta* `ink-40` dan tautan *Pilih di peta* PJS Bold 10 kapital; kotak moda berisi *—*.
+- Tidak tersedia `[Improvisasi]`: kotak moda menampilkan *Tidak tersedia* `amber-600` + *Coba titik yang lebih dekat ke jalan*.
+- Tombol *Reset* `[Improvisasi]`: ikon `rotate-ccw` 14 di kiri `x`, muncul bila ada isian.
 
-### 9.12 Label Pill Peta
-`[Dari Desain]`. Padding 6.8/12.8, pill, `glass-70`, blur 6, garis `glass-80`, `shadow-pill`, opasitas 0.9, 12/18 500 `ink-900`. Tooltip Leaflet permanen.
+### 8.9 Panel Layer Spasial `[Dari Desain]` · FR-03, FR-04
+Lebar 340.4, putih, garis `line`, radius 16, `shadow-2xl`. Kepala padding 12/16/12.8, garis bawah 0.8: *LAYER SPASIAL* `label` + `x` 14. Isi padding 8, jarak 4.
+- Kartu layer: putih, garis `line`, radius 12, padding 12.8. Mati: nama PJS Bold 14/21 `ink-70`, deskripsi `desc` `ink-50`. Nyala: nama `navy-900`, deskripsi diganti legenda di bawah garis atas 0.8 (pt 7.7): simbol 16 + teks `desc` `ink-70`; Mobilitas memakai grid 2 kolom.
+- Toggle 36 × 20, knob 16 putih: nyala `navy-900`, mati `slate-200`.
+- Deskripsi layer (mati): *Area rawan banjir dan risiko bencana lain.* · *Kafe, restoran, ritel, dan ruang hijau.* · *Aksesibilitas pedestrian dan fasilitas umum.* · *Halte, stasiun KRL/MRT, dan jalur arteri.* · *Proyek infrastruktur dan tata ruang masa depan.* · *Gambaran status kepemilikan dan peruntukan.*
+- Legenda (nyala): lihat 11.4.
+- Gagal `[Improvisasi]`: deskripsi diganti *Layer gagal dimuat.* `red-600` + *Coba lagi* PJS Bold 10 kapital `navy-900`; toggle nonaktif. Memuat: toggle diganti `loader-circle` 16 berputar.
 
-### 9.13 Popup POI
-`[Dari Desain]`; *Lihat detail* `[Improvisasi]` · FR-08, UC-04. ±348px, radius 20, `glass-85`, blur 8, garis `glass-90`, `shadow-popup`, padding 14.8/25.8/14.8/21.8; judul 16/20.8 `ink-popup`; isi 12.8/17.9; tutup Leaflet `leaflet-close`. Satu seleksi dengan Inspector; isi dari data.
+### 8.10 Panel Profil Persona `[Dari Desain]` · FR-19
+Dibuka dari tombol PERSONA; ukuran dan posisi sama dengan panel Layer (di Figma panel ini masih menempel di bawah kepala Layer; di aplikasi berdiri sendiri). `white-95` blur 6, garis `line`, radius 16, `shadow-2xl`. Kepala *PROFIL PERSONA* `label` + `x`. Isi padding 8 jarak 4: baris putih garis `line` radius 12 padding 16.8, lebar penuh `[Improvisasi — Figma hug]`: nama `persona-option` (`navy-900` terpilih, `ink-50` tidak) + checkbox 20 radius 4 garis `line` (terpilih isi `navy-900` + `check` 12 putih). Minimal satu persona (BR-7): menghapus centang terakhir ditolak dengan toast.
 
-### 9.14 Drawer Menu + Tab
-`[Dari Desain]` (frame `Desktop - 6`, 1440) · FR-18, FR-19, D4. 400px, `drawer-bg`, scrim `rgba(0,0,0,.12)` + blur 3.6. Nama 23 800 `drawer-brand`. Tab: 15 500 `drawer-tab`; terpilih putih, garis `drawer-tab-line`, 124 × 42, radius 21, 14 `drawer-tab-active`. Judul 19 600 `drawer-heading`; deskripsi 17/23.36 `drawer-muted`. Kartu persona 339 × 99 radius 35; terpilih `drawer-card-bg` + garis 2px `drawer-card-line`, judul `drawer-check-selected`; checkbox 25px radius 4.5 garis `drawer-checkbox-line`, tercentang terisi `drawer-card-line` dengan `plus` putih. Minimal satu persona (BR-7). `role="dialog" aria-modal`, `role="tablist"`.
+### 8.11 Tombol Merek `[Dari Desain]` · FR-18
+Kanan 16 atas 16, tinggi 48, putih, garis `line`, radius 12, padding x 20.8, jarak 12, `shadow-lg`. Wordmark 20 + ikon `menu` 16. Seluruh tombol membuka drawer. `aria-label="Buka menu NalarRuang"`, `aria-expanded`.
 
-### 9.15 Dialog Onboarding Persona
-`[Improvisasi]` dari Drawer tab Persona · UI00, FR-13, FR-14, BR-7, K4. 400px di tengah, `drawer-bg`, radius 32, `shadow-panel`, scrim. Judul *Pilih Persona Kamu*; deskripsi *Pilih satu atau lebih persona yang mewakili keseharianmu. Kamu bisa mengubahnya kapan saja lewat menu.*; empat kartu; tombol *Mulai Jelajahi Peta* 42px radius 21 `cyan-500` (nonaktif sampai ada pilihan). Peringatan *Pilih minimal satu persona dulu, ya.* `status-danger` `role="alert"`. Pilihan di `sessionStorage` (FR-14).
+### 8.12 Tombol LAYER / PERSONA `[Dari Desain]`
+Tinggi 44.6, radius 12, garis `line`, padding 12.8/16.8, jarak 8 antartombol, `shadow-lg`, ikon 16 + `button-caps`. Panelnya terbuka: isi `navy-900` teks putih; tertutup: putih teks `ink-60`. `aria-expanded`.
 
-### 9.16 Isi Tab Legenda dan Tentang
-`[Improvisasi]` · FR-20, FR-21. Legenda: satu baris per layer, rincian jalur Mobilitas (12.4), istilah. Tentang: visi, sumber data, disclaimer, identitas tim. Gaya teks drawer.
+### 8.13 Slider Tahun (Mesin Waktu) `[Dari Desain]` · FR-04, BR-3
+Lebar 400, putih, garis `line`, radius 16, padding 16.8/24.8, jarak 20, `shadow-xl`. Kiri tahun awal *2026* `year-label` `ink-50`; track 2px `ink-20` dengan knob 16 putih garis `navy-900` `[Improvisasi]` dan titik per tahun; kanan tahun terpilih `year-value`. Rentang 2026–2030 (FR-04). `input type=range` + `aria-valuetext="Tahun 2029"`. Tidak ada proyek pada tahun itu `[Improvisasi]`: teks *Belum ada proyek di tahun ini.* `desc` di bawah track.
 
-### 9.17 Kontrol Zoom
-`[Dari Desain]` · FR-01. Bawaan Leaflet 1.9 (30px). Atribusi wajib. Posisi dinamis (bagian 5).
+### 8.14 Drawer Menu `[Dari Desain]` · FR-18–21, UI05
+Kiri, lebar 320, tinggi penuh, `stone-50`, `shadow-2xl`; scrim sisanya. Kepala padding 24/24/12: wordmark 18 + `x` 15 (tombol bulat padding 6). Tab tiga sama lebar: ikon 12 + PJS 16/24; terpilih `navy-900` garis bawah 1.6 `navy-900` `[Improvisasi: Figma memberi garis `line` pada semua tab]`, lainnya `ink-40`. Isi latar putih, padding 19/20/20, jarak 16–20, scroll.
+- **Persona** `[Dari Desain]`: judul *Ubah Preferensi Persona* Fraunces 14; deskripsi PJS 11/17.88 `ink-50` *Pilih persona yang mewakili keseharianmu. Ini akan mengubah rekomendasi di peta secara instan.*; kartu radius 16 padding 15.6 jarak 12 garis `line`: terpilih latar `ink-05`, kotak 28 `navy-900` + `check` 14 putih, nama PJS Bold 13 `navy-900`; lainnya putih, kotak 28 `ink-08` + ikon persona 14, nama `ink-70`; deskripsi PJS 11/17.88 `ink-45`.
+- **Legenda** `[Dari Desain]`: judul *Legenda Peta*; sub *Panduan membaca simbol dan warna pada Visual Explorer.*; baris simbol 16 + judul PJS Bold 11 kapital + teks PJS 11/16.5 `ink-55` (isi 11.4).
+- **Tentang** `[Dari Desain]` + `[Improvisasi]`: judul *Tentang NalarRuang 2.0*; teks *Platform analitik spasial untuk membantu keputusan memilih tempat tinggal di kawasan Jabodetabek berdasarkan data terbuka.*; kartu istilah `stone-50` garis `line` radius 12 padding 12.8 (Isochrone, Point Inspector, Commute Simulator, Persona Grading — teks 12.1). Ditambahkan dengan gaya kartu yang sama: **Sumber data** (sembilan sumber, bagian 10) dan **Catatan** berisi disclaimer (BR-17) serta *Dibuat oleh Kelompok 4 — Developer Rumah, IPB University.*
+- `role="dialog" aria-modal`, `role="tablist"`; Esc atau klik scrim menutup; fokus kembali ke tombol merek.
 
-### 9.18 Simbol Peta
-`[Dari Desain]`; highlight/dim dan marker rekomendasi `[Improvisasi]`. Nilai 3.3; kode 14.2.
+### 8.15 Dialog Persona (Onboarding) `[Dari Desain]` · FR-13, FR-14, UI00
+Scrim `navy-900 @0.7` blur 6. Dialog `stone-50`, radius 16, lebar 1200 (maks layar − 48), padding 64, jarak 48, `shadow-2xl`, tanpa tombol tutup.
+- Judul *Pilih Persona mu!* `dialog-title`; pengantar `dialog-lead` lebar 597: *Pilih minimal satu persona yang menggambarkan keseharianmu untuk mendapatkan rekomendasi dan kurasi hunian yang tepat sasaran.*
+- Empat kartu (jarak 21.5, lebar ±246, min tinggi 320, radius 16, padding 33.6, garis `line`): baris atas ikon 32 `ink-40` + lingkaran pilih 28 garis `line`; nomor + tagline (01 *AKSES TRANSIT PALING UTAMA*, 02 *JALAN LANCAR, TOL DEKAT*, 03 *DEKAT SERU-SERUNYA KOTA*, 04 *TENANG, HIJAU, LEGA*) `ink-40`; nama `persona-name` `ink-70`; deskripsi `persona-desc` `ink-50`.
+- Terpilih: latar putih, skala 1.02, `shadow-xl`; lingkaran isi `rose-800` + `check` 16 putih; nomor `navy-900`, tagline `rose-800`, nama `navy-900`, deskripsi `ink-80`. Hover `[Improvisasi]`: latar `white-50`.
+- Tombol *Mulai Jelajah* `dialog-action` + `arrow-right` 40, kanan, pt 32. Belum ada pilihan `[Improvisasi]`: tombol opasitas 0.4; menekannya memunculkan *Pilih minimal satu persona dulu, ya.* Inter 14 `rose-800` di kiri tombol (`role="alert"`).
+- Kartu = `role="checkbox"`; Spasi memilih; fokus awal di kartu pertama. Pilihan disimpan di `sessionStorage` (FR-14).
 
-### 9.19 Toast, Loading, Empty & Error
-`[Improvisasi]` · UC-01–07. Toast: pill kaca, titik status 8px, 14/20 500 `slate-700`, tengah bawah, 4 detik. State: kaca radius 36, padding 16.8, ikon 20px di kotak 36px `glass-80` (`search-x` `slate-500`, `triangle-alert` `status-warning`, `circle-alert` `status-danger`), judul 14/20 600, teks 12/16 `slate-500`. Loading: skeleton pill `glass-80` berdenyut 1.2s. Microcopy 12.2.
+### 8.16 Popup Peta `[Improvisasi]` · FR-08
+Figma revisi tidak menggambar popup; dirancang dari kartu Top 3. Putih, garis `line`, radius 12, padding 12.8/14, `shadow-lg`, lebar 240–300. Judul PJS Bold 13 `navy-900`, jenis PJS Bold 9 kapital `ink-50` di atas judul, isi `desc` `ink-70`, sumber `micro` `ink-40`, tautan *Lihat detail* PJS Bold 10 kapital + `arrow-right` 12 membuka Detail Lokasi. Satu seleksi dengan Detail Lokasi (BR-13).
 
----
+### 8.17 Label Peta `[Dari Desain]`
+Label stasiun dan nama tempat memakai tooltip Leaflet permanen seperti frame `all`: putih opasitas 0.9, garis putih, radius 3, padding 6.8, bayangan `0 1px 1.5px rgba(0,0,0,.4)`; teks PJS 12/18 `navy-900` (Figma memakai Arial bawaan; diganti font aplikasi). Muncul mulai zoom 13 dan menghindari tumpang tindih (collision) `[Improvisasi]`.
 
-## 10. Komponen Landing Page
+### 8.18 Kontrol Zoom & Atribusi `[Dari Desain]`
+Bawaan Leaflet 1.9 (30px) di kanan 16 bawah 28; atribusi *Leaflet | © OpenStreetMap* di bawahnya, wajib.
 
-Semua `[Dari Desain]` (frame `Landing Pagee`, 1440) · K1, D8. Tema `editorial`.
-
-| Komponen | Nilai Figma | Perilaku |
-|---|---|---|
-| Header | Tombol *MENU ∷* dan *Menuju Peta* DM Sans 15 (tracking 2.64) / 11.3 (1.5), latar `hero-button`, tinggi 41.4; logo rumah 31px + *NalarRuang* Playfair 600 23.4 tracking 2.26 | *Menuju Peta* ke Visual Explorer |
-| Hero | 773px, foto berlapis `navy-hero`; kicker Playfair 600 italic 24 dengan × DM Sans `hero-muted`; judul Playfair 108/108 −4.5 putih; subjudul DM Sans 18/27 `hero-sub`; *SCROLL* vertikal | — |
-| Marquee | 64px `navy-900`, padding 20/46, Inter 600 20 kapital putih, ✦ 20px `#B45309` | 40 detik, berhenti saat hover `[Improvisasi]` |
-| Judul seksi | Pengantar Fraunces 24/23; judul Fraunces 88/88, 64/61.44, 60/57.6, 48/46, 80/76.8; eyebrow Inter 600 19.3 tracking 1.93; kurung Inter 600 12 tracking 3.6 `ink-50` | Diakhiri titik |
-| Kolom fitur | 3 × 413px, padding 64/32, garis 0.8px dashed `ink-20`; Fraunces italic 36/40 marun; Inter 15/24.38 `ink-80` lebar 280 | — |
-| The Vision | Inter 500 47/62.8; Inter 37.7/45.2 `navy-ink`; foto dalam bingkai `slate-50` garis `ink-20` padding 12.8 `shadow-frame` | — |
-| Kartu foto persona | 280 × 380 radius 20 (tengah 306 × 415 radius 21.9), `shadow-photo`; gradasi navy 0.95→0.7→0; Georgia 700 20/28 `stone-50`; Inter 14/20 `stone-50-80`; rotasi −9°, −1.8°, 1.6°, 6.4° | — |
-| Kartu fitur | Padding 48; foto 4:3 garis dashed `ink-20`; Fraunces italic 30/36 marun; Inter 15/24.38; *PELAJARI* Inter 700 14/20 tracking 0.7 + panah 16px | — |
-| Tile layer | ±228px, gradasi navy, Fraunces 600 30/36 putih | — |
-| Sumber data | Fraunces 36/40; logo resmi + nama Georgia; *BUKA PETA INTERAKTIF* bergaris bawah | — |
-| Kartu langkah | 4 kolom tinggi 460, padding 32, garis 0.8 `ink-20`, foto pudar 0.3; Inter 500 20/28; Inter 14/22.75 `ink-60`; Georgia italic 112 tracking −5.6 `ink-20`; kartu 04 `navy-900` + foto, teks `stone-50` | — |
-| Kartu Demo | Seksi `navy-night` padding 96/48; kartu `cream-200` 1152px padding 128/96, jarak 96; tag Consolas 10 `slate-400` + Inter 700 9 tracking 1.8; foto dalam bingkai `demo-frame`; tempat Georgia 30/36 −0.75; tab Inter 16/24 tracking 4, garis 1.6 `ink-20`; skor Inter 700 10 tracking 2 + belah ketupat + garis progres; catatan `glass-50` garis kiri `ink-20`, Consolas 8, Inter 500 12/19.5 `slate-700` | Tab mengganti skor `[Improvisasi]` |
-| FAQ | Judul Fraunces 80/76.8 + eyebrow Inter 700 11.2 tracking 1.456 `faq-eyebrow`; garis atas 1.6, antar-item 0.8 `ink-20`; pertanyaan Georgia 30/36 `navy-900` padding 32; ikon +/− 28px; jawaban Inter 18/29.25 `gray-600` lebar 672 | Satu terbuka `[Improvisasi]` |
-| Band CTA + footer | `navy-900` + foto 0.3 + gradasi; Fraunces 76/73 `stone-50`; Inter 19/30.9 `stone-50-80`; tombol pill `cream-100` Inter 700 13.3 tracking 1.33 `navy-ink`; footer 3 kolom 1.5:1:0.6, garis `footer-line`, label Inter 700 10.4 tracking 1.34 `footer-muted`, teks Inter 12.9/23.3 `footer-text`, ikon sosial 37px; dasar disclaimer Inter 10.6/17 | Email contoh sampai domain ditetapkan (OQ-09 PRD) |
-
-Jawaban FAQ `[Ditetapkan]` mengikuti `prd.md` US-26.
+### 8.19 Toast, Memuat, Kosong, Galat `[Improvisasi]`
+Toast: putih, garis `line`, radius 12, `shadow-lg`, titik status 8, PJS Medium 13 `navy-900`, tengah bawah (di atas slider bila tampil), 4 detik. Keadaan dalam panel: ikon 16 di lingkaran 36 `ink-05` (`search-x` `ink-60`, `triangle-alert` `amber-600`, `circle-alert` `red-600`), judul PJS Bold 13, teks `desc` `ink-60`. Memuat: skeleton `ink-05` berdenyut 1.2s. Microcopy 11.2.
 
 ---
 
-## 11. Pola (Patterns)
+## 9. Kartografi `[Improvisasi]` · masukan Izdihar, SRS BR-13
 
-1. **Landing → peta → onboarding.** Tombol CTA → Visual Explorer → Dialog Onboarding bila sesi belum punya persona → peta dengan semua layer mati.
-2. **Pencarian → Top 3 → fly-to → Inspector.** Enter → skeleton → tepat tiga hasil → pilih → fly-to, marker + label pill, Point Inspector terbuka.
-3. **Klik peta → popup → Inspector (satu seleksi).** Popup ringkas; *Lihat detail* atau klik area kosong mengganti isi Inspector.
-4. **Toggle Commute.** `person-standing` → Kartu Commute kosong → dua titik → rute + Kartu Estimasi → tutup kembali ke search bar.
-5. **Mengubah persona dari drawer.** Centang → badge, kesimpulan, dan Top 3 diperbarui tanpa reload; toast.
-6. **Beberapa layer.** Legenda muncul per kartu aktif; Mesin Waktu memunculkan slider; panel scroll. Highlight/dim 0.35 (FR-02).
-7. **Loading, empty, error, data tidak lengkap.** Skeleton, kartu state, catatan kesimpulan, toast.
+Peta di Figma sengaja tidak ditiru. Aturan berikut membuat peta terlihat benar dan tidak aneh.
 
-Kanvas contoh (https://claude.ai/artifact/LtCEm8pdhnp5MUtQ2bTtJY) memperlihatkan pola 2, 1 (onboarding), 4, dan 5.
+**9.1 Bentuk area mengikuti data.** Area selalu poligon hasil data (kelurahan, genangan InaRISK, zona RDTR, RTH OSM), tidak pernah kotak, segitiga, atau lingkaran buatan. Geometri disederhanakan (toleransi ±5 m pada zoom 15) tanpa mengubah bentuk. Area yang saling bersebelahan berbagi batas yang sama (tanpa celah atau tumpukan).
+
+**9.2 Lokasi masuk akal.** Titik contoh, hasil Top 3, dan titik yang diklik pengguna dinilai sebagai calon hunian: bila titik jatuh di area non-hunian (monumen, taman kota, bandara, badan air, jalan tol), Detail Lokasi tetap tampil tetapi label berbunyi *TITIK TERPILIH · bukan kawasan hunian* dan skor tetap dihitung. Contoh di dokumentasi dan landing memakai kawasan hunian nyata (mis. permukiman dekat Stasiun Bojong Gede), bukan Monas.
+
+**9.3 Rute mengikuti jalan dan punya arah.** Rute mobil digambar dari geometri hasil routing di jaringan jalan; rute transit dari ruas jalan kaki + jalur KRL/MRT/LRT/TransJakarta yang dilalui. Tidak ada garis lurus A–B. Arah ditunjukkan panah kecil searah perjalanan di sepanjang garis, titik A dan B di ujungnya, dan titik pindah moda berupa lingkaran stasiun (3.3). Kamera menyesuaikan batas rute (`fitBounds`, padding kolom kiri 392).
+
+**9.4 Tumpukan layer.** Dari bawah: basemap → poligon (Legalitas, Historis, RTH) → garis (jalur transit, Mesin Waktu, rute) → titik (POI, Inklusivitas, halte) → stasiun → pin/label. Isi poligon transparan agar basemap tetap terbaca.
+
+**9.5 Kepadatan.** Titik POI di-cluster di bawah zoom 15 (lingkaran putih garis warna layer berisi jumlah, PJS Bold 11). Halte TransJakarta dan label nama muncul mulai zoom 14. Poligon kelurahan hanya digambar garis tepinya sampai dipilih.
+
+**9.6 Sorot dan redup (FR-02).** Fitur di luar filter aktif atau di luar Top 3: opasitas 0.35 (poligon isi 0.1). Wilayah terpilih: garis `navy-900` 2.5 isi 0.08.
+
+**9.7 Basemap.** Tile OpenStreetMap standar tanpa pewarnaan ulang, di atas `map-ground`. Warna data (3.3) dipilih agar tetap terbaca di atas warna jalan OSM (merah muda, kuning).
+
+**9.8 Legenda jujur.** Legenda inline, tab Legenda, dan popup selalu menjelaskan simbol yang benar-benar digambar pada zoom saat itu (BR-16).
 
 ---
 
-## 12. Konten & Microcopy
+## 10. Komponen Landing Page `[Dari Desain]` · FR-22, UI06
 
-### 12.1 Nada
-Santai, *kamu/-mu*, kalimat pendek; judul kecil kapital; nama fitur tetap Inggris; tanpa emoji. `[Dari Desain]`
+Frame `Landing Pagee` (254:8086, 1440 × 9188), tema `editorial`. Nilai komponen yang tidak berubah dari versi 1.1 (header, hero, marquee, kolom visi, kartu foto persona, tile layer, kartu langkah, FAQ, band CTA) tetap berlaku; perubahan dan tambahan:
 
-**Katalog desain (kutip persis).** *Ketik 'Daerah asri di Bogor'...* · *TOP 3 REKOMENDASI* · *Detail Lokasi* · *AREA TERPILIH* · *Kecocokan Gaya Hidup* · *PROFIL ANDA* · *KESIMPULAN SINGKAT* · *Buat gaya hidup Social & Vibe: Sangat mendukung aktivitasmu!* · *Layer Peta* · deskripsi enam layer · *Tahun 2029* · *Commute Simulator* · *LOKASI RUMAH* · *LOKASI TUJUAN* · *Reset & Pilih Ulang* · *Estimasi Perjalanan* · *Trans. Publik* · *Mobil Pribadi* · *Estimasi kemacetan Jabodetabek* · *Ubah Preferensi Persona* · *Pilih persona yang mewakili keseharianmu. Ini akan mengubah rekomendasi di peta secara instan.* · deskripsi empat persona (termasuk *aksesjalan*) · seluruh teks landing.
+| Seksi | Isi |
+|---|---|
+| Urutan | Header + hero → marquee → *Mengurai Visi, / Menata Kota Bersama.* + kolom Spasial/Persona/Rekomendasi → **Our Vision** → **Mission** → Empat Cara Memandang Suatu Kota → Tiga cara menjelajah → Enam layer, satu kota → Sumber Data Terbuka → Cara Kerja → **Coba Sekarang** → FAQ → CTA + footer |
+| Our Vision | Judul `PJS SemiBold 47/62.8 navy-ink`; teks PJS 36/45.2 rata kanan-kiri lebar 617; foto kota hitam-putih 4:3 dalam bingkai `slate-50` garis `line` padding 12.8, bayangan `0 30px 60px -15px rgba(15,23,42,.1)` |
+| Mission | Judul tengah; tiga kolom 413 dibatasi garis putus 0.8 **`maroon-700`** atas-bawah; angka *01 02 03* Fraunces Italic 36/40 `maroon-700`; teks PJS Medium 15/24.38 `ed-ink-80` tengah, maks 280 |
+| Tiga cara menjelajah | Eyebrow *FITUR UTAMA*; judul Fraunces 60/57.6; tiga kolom garis putus `line`, padding 48; gambar 4:3 dalam bingkai putus `line` padding 8.8, bayangan dalam `inset 0 0 20px 1px rgba(0,0,0,.05)`; judul Fraunces Italic 30/36 `navy-ink`; deskripsi Inter 15/24.38 `ed-ink-80`; *PELAJARI* + panah |
+| Gambar fitur `[Improvisasi]` | Bukan ilustrasi Figma. Cuplikan peta asli (tile OSM hitam-putih) yang digambar dengan aturan bagian 9: **Requirement Search** — tiga poligon kelurahan nyata bernomor 1–3 bergaris `navy-900`; **Smart Point Inspector** — pin di permukiman nyata dengan label *★ 3/3 Sangat Cocok*; **Commute Simulator** — rute yang menyusuri jalan dengan panah arah dari A ke B. Dibuat dari data yang sama dengan aplikasi, disimpan sebagai gambar statis |
+| Sumber Data Terbuka | Sembilan sumber tanpa duplikasi, grid 3 × 3: **InaRISK (BNPB)**, **DEMNAS (BIG)**, **IQAir**, **BPS**, **Overpass API (OSM)**, **GTFS Transjakarta**, **Jakarta Satu Data**, **ATR/BPN**, **JUTPI Phase 3**. Logo resmi bila ada + nama Georgia 20 `ed-ink-50`; tautan *BUKA PETA INTERAKTIF* bergaris bawah |
+| Coba Sekarang | Seksi `navy-night` padding 96/48; kartu radius 20 berisi tangkapan layar aplikasi **versi revisi** diburamkan + lapisan navy; tag pill *INTERAKTIF*; judul *Coba Sekarang* Georgia 40; teks *Gunakan fitur pencarian, filter layer, dan persona untuk mensimulasikan pencarian kawasan idealmu.* Inter 15 `stone-50 @0.8`; tombol pill putih *BUKA PETA →* Inter Bold 12 tracking 1.2 |
+| Footer | *HUBUNGI KAMI* Sekolah Vokasi IPB, Bogor, Jawa Barat, Indonesia · *KONTAK* Kerja Sama kolaborasi@nalaruang.id, Media media@nalaruang.id (alamat contoh sampai domain ditetapkan, OQ-09 PRD) · *IKUTI* ikon sosial · wordmark · disclaimer · © 2026 |
+| FAQ | Jawaban *Datanya dari mana?* memakai daftar sumber di atas (PRD US-26) |
 
-### 12.2 Microcopy keadaan `[Improvisasi]`
+---
 
-| Keadaan (UC) | Judul | Teks |
+## 11. Konten & Microcopy
+
+### 11.1 Katalog desain (kutip persis)
+*Telusuri kawasan atau alamat...* · *TOP 3 REKOMENDASI* · *Kawasan ideal berdasarkan profil Commuter.* · *MATCH* · *Detail Lokasi* · *AREA TERPILIH* · *Kecocokan Gaya Hidup* · *PROFIL ANDA* · *KESIMPULAN SINGKAT* · *SIMULATOR RUTE* · *MOBIL* · *TRANSIT* · *mnt* · *LAYER SPASIAL* · *PROFIL PERSONA* · *LAYER* · *PERSONA* · *Pilih Persona mu!* · *Mulai Jelajah* · *Ubah Preferensi Persona* · *Legenda Peta* · *Tentang NalarRuang 2.0* · istilah Tentang: *Isochrone* — *Area yang bisa dijangkau dalam batas waktu tertentu dari satu titik.*; *Point Inspector* — *Panel evaluasi kawasan (0–3 Bintang) yang muncul saat klik peta.*; *Commute Simulator* — *Kalkulator waktu & biaya estimasi kendaraan pribadi vs transportasi umum.*; *Persona Grading* — *3★ Sangat Cocok · 2★ Cukup · 1★ Kurang Cocok.* · deskripsi persona dan layer (8.9, 8.15).
+
+### 11.2 Microcopy keadaan `[Improvisasi]`
+| Keadaan | Judul | Teks |
 |---|---|---|
 | Tidak ditemukan (UC-03) | *Belum ada kawasan yang cocok* | *Coba longgarkan kata kunci atau pilih kota lain.* |
 | Data tidak tersedia (UC-04) | *Data belum tersedia di sini* | *Layer ini belum punya data untuk lokasi yang kamu pilih.* |
-| Layer gagal (UC-02) | *Layer gagal dimuat* | *Periksa koneksi, lalu coba lagi.* |
+| Layer gagal (UC-02) | *Layer gagal dimuat.* | *Coba lagi* |
 | Estimasi tidak tersedia (UC-06) | *Tidak tersedia* | *Coba titik yang lebih dekat ke jalan* |
 | Data tidak lengkap (UC-05) | — | *Sebagian data di lokasi ini belum lengkap, jadi skornya bisa berubah.* |
+| Bukan kawasan hunian (9.2) | — | *Titik ini bukan kawasan hunian. Skor tetap dihitung dari jarak ke fasilitas.* |
 | Gagal simpan preferensi (UC-07) | — | *Gagal menyimpan preferensi. Coba pilih lagi.* |
-| Onboarding kosong (BR-7) | — | *Pilih minimal satu persona dulu, ya.* |
+| Minimal satu persona (BR-7) | — | *Pilih minimal satu persona dulu, ya.* |
 | Preferensi tersimpan | — | *Preferensi persona tersimpan untuk sesi ini.* |
-| Commute kosong | — | *Ketik alamat atau pilih di peta* · *Pilih di peta* |
+| Estimasi commute | — | *Estimasi tanpa lalu lintas real-time.* |
 
-### 12.3 Template kesimpulan
-*Buat gaya hidup [Persona]: [frasa]* — 3 *Sangat mendukung aktivitasmu!* `[Dari Desain]` · 2 *Cukup mendukung aktivitasmu.* · 1 *Kurang mendukung aktivitasmu.* · 0 *Belum mendukung aktivitasmu.* `[Improvisasi]`
+### 11.3 Template kesimpulan
+*Buat gaya hidup [Persona]: [frasa]*. 3 bintang *Sangat mendukung aktivitasmu!* `[Dari Desain]` · 2 *Cukup mendukung aktivitasmu.* `[Improvisasi]` · 1 *Mungkin kurang optimal, pertimbangkan lokasi lain.* `[Dari Desain]` · 0 *Belum mendukung aktivitasmu, pertimbangkan lokasi lain.* `[Improvisasi]`. Wilayah (poligon, BR-10) `[Improvisasi]`: *Cocok untuk gaya hidup [Persona].* · *Belum cocok untuk gaya hidup [Persona].*
 
-### 12.4 Legenda inline
-Format *[Bentuk] [Warna] di Peta*. Mobilitas di Figma bertuliskan *Garis Oranye di Peta*, padahal peta menggambar lima warna jalur; teksnya menjadi *Garis Warna Jalur di Peta* `[Improvisasi]` dan tab Legenda merinci *KRL Bogor Line · merah putus-putus*, *KRL Rangkasbitung Line · hijau putus-putus*, *KRL Cikarang Line · biru putus-putus*, *LRT Jabodebek · ungu*, *MRT · oranye*, *Stasiun · lingkaran putih bergaris hitam*.
+### 11.4 Legenda (kartu layer dan tab Legenda)
+| Layer | Teks legenda (kartu) | Tab Legenda |
+|---|---|---|
+| Historis & Risiko | *Area rawan banjir (merah). Mengindikasikan area historis genangan air.* | *Area rawan banjir historis (merah).* |
+| Ekosistem Mikro | *Ruang terbuka hijau, taman, dan fasilitas gaya hidup.* | *Ruang hijau, taman & fasilitas gaya hidup (hijau).* |
+| Inklusivitas | *Trotoar dan akses pedestrian layak.* · *Titik akses ramah disabilitas.* | *Trotoar layak (biru putus-putus) & titik akses disabilitas (biru).* |
+| Mobilitas & Transit | *Jalur MRT (oranye).* · *KRL Merah (Bogor).* · *KRL Hijau (Rangkas).* · *KRL Biru (Cikarang).* · *Jalur LRT (ungu).* · *Stasiun transit.* | *MRT (oranye solid) · KRL Merah · KRL Hijau · LRT (ungu solid) · Stasiun (titik putih).* |
+| Mesin Waktu | *Proyek transportasi/LRT masa depan yang sedang dibangun.* | *Garis putus-putus ungu = Mesin Waktu (proyek 2026–2030).* |
+| Legalitas Lahan | *Pemetaan bidang tanah dan zona legal (ungu muda).* | *Pemetaan zona bidang tanah legal (ungu).* |
 
-### 12.5 Teks yang diisi data `[Ditetapkan]`
-Keterangan sumber estimasi sesuai rute (mis. *Berdasarkan tarif resmi KRL* hanya bila rute memakai KRL); popup berisi atribut data dan sumbernya; disclaimer landing juga di tab Tentang.
+`[Improvisasi]` Tab Legenda menambah *KRL Biru* dan *KRL lintas lain (abu)* bila jalur itu digambar, serta *Halte TransJakarta (titik navy)*.
+
+### 11.5 Nada
+Santai, *kamu/-mu*, kalimat pendek, tanpa emoji; nama fitur tetap Inggris; label kecil kapital.
 
 ---
 
-## 13. Aksesibilitas Perilaku
+## 12. Aksesibilitas Perilaku
 
-Tidak ada perubahan warna, ukuran, atau efek atas nama aksesibilitas.
+Tanpa mengubah warna, ukuran, atau efek.
 
 | Area | Aturan |
 |---|---|
-| Fokus | Cincin 2px `focus.ring`, offset 2px, hanya `:focus-visible` |
-| Drawer, dialog | `role="dialog" aria-modal="true"`; fokus terkunci; Esc menutup; fokus kembali ke pemicu |
-| Top 3 | Combobox + listbox; ↑/↓, Enter, Esc; dibacakan dengan peringkat |
-| Toggle / slider | `role="switch" aria-checked`; `input range` + `aria-valuetext` |
-| Tab | `role="tablist"`/`tab`/`tabpanel`; ←/→ |
-| Skor | "Commuter, 3 dari 3 bintang, profil anda"; ikon `aria-hidden` |
+| Fokus | Cincin 2px `navy-900`, offset 2px, hanya `:focus-visible` |
+| Drawer, dialog | `role="dialog" aria-modal="true"`; fokus terkunci; Esc menutup drawer (dialog persona tidak bisa ditutup sebelum memilih) |
+| Top 3 | Combobox + listbox; ↑/↓, Enter, Esc; dibacakan peringkat dan persen |
+| Toggle, checkbox, slider | `role="switch" aria-checked`; `role="checkbox"`; `input range` + `aria-valuetext` |
+| Skor | "Commuter, 3 dari 3 bintang, profil anda" |
 | Kontrol peta | Tombol berlabel; marker dapat difokus dan dibuka dengan Enter |
-| Status | Toast `role="status"`/`alert`; loading `aria-busy` |
-| Gerak | `prefers-reduced-motion` (bagian 7) |
+| Status | Toast `role="status"`/`alert`; memuat `aria-busy` |
+| Gerak | `prefers-reduced-motion` (bagian 6) |
 
 ---
 
-## 14. Panduan Implementasi
+## 13. Panduan Implementasi
 
-Stack mengikuti `docs/RENCANA.md`: Laravel + Inertia + React + Tailwind + Leaflet. Design system interaktif menyediakan **37 komponen React** (`window.NalarRuang`, React 18, tanpa JSX) dan `bundle.css`; komponen itu bisa dipindahkan ke `resources/js/Components/` sebagai titik awal. Markup di dokumen ini HTML + Tailwind yang portabel ke JSX (`class` → `className`). Tanpa shadcn/ui atau Radix. Belum ada kode, jadi tema ditulis untuk **Tailwind CSS v4** `[TBD OQ-02]`.
+Stack: Laravel + Inertia + React + Tailwind + Leaflet (`docs/RENCANA.md`). Komponen React di design system interaktif menjadi titik awal `resources/js/Components/`. Tailwind CSS v4 `[TBD OQ-02]`.
 
-### 14.1 Tema Tailwind v4
-
+### 13.1 Tema Tailwind v4
 ```css
-/* resources/css/app.css */
 @import "tailwindcss";
 
 @theme {
   --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
   --font-fraunces: "Fraunces", Georgia, serif;
-  --font-playfair: "Playfair Display", Georgia, serif;
-  --font-inter: "Inter", system-ui, sans-serif;
-  --font-dmsans: "DM Sans", system-ui, sans-serif;
   --font-georgia: Georgia, "Times New Roman", serif;
+  --font-inter: "Inter", system-ui, sans-serif;
+  --font-playfair: "Playfair Display", Georgia, serif;
+  --font-dmsans: "DM Sans", system-ui, sans-serif;
   --font-mono: Consolas, ui-monospace, monospace;
 
-  /* slate dan warna UI: palet bawaan Tailwind v4 sudah identik (slate, green, blue, orange, purple, rose, yellow) */
-  --color-ink-900: #132332;  --color-ink-label: #4e6071;  --color-ink-popup: #333333;
-  --color-cyan-500: #00a8dd; --color-cyan-route: #3cb7ec; --color-cyan-mode: #9bd6e9;
-  --color-cream-button: #fefaed; --color-amber-pin: #ee8700;
-  --color-star-rose: #f88698; --color-star-line: #dfd7c2; --color-star-top3: #fcc618;
-  /* data peta (palet v3) */
-  --color-map-rose: #f43f5e; --color-map-green: #22c55e; --color-map-blue: #3b82f6;
-  --color-map-violet: #8b5cf6; --color-map-slate: #64748b;
-  --color-transit-krl-bogor: #e11d48; --color-transit-krl-rangkasbitung: #16a34a;
-  --color-transit-krl-cikarang: #2563eb; --color-transit-lrt: #9333ea; --color-transit-mrt: #f97316;
-  /* drawer */
-  --color-drawer-bg: #f9f8f9; --color-drawer-brand: #343e50; --color-drawer-heading: #525b6a;
-  --color-drawer-muted: #99a5b5; --color-drawer-card-title: #697485; --color-drawer-tab: #8795a9;
-  --color-drawer-tab-active: #4bc1e7; --color-drawer-tab-line: #efeff1; --color-drawer-check-selected: #3bbbe3;
-  --color-drawer-card-line: #16aedf; --color-drawer-card-bg: #ebf3f7; --color-drawer-checkbox-line: #a8bbdb;
-  /* landing */
-  --color-cream-100: #f8f5ee; --color-stone-50: #f7f5f0; --color-cream-200: #f4f4f0;
-  --color-navy-ink: #081d3c;  --color-navy-900: #0f1b3d; --color-navy-night: #0b1021; --color-navy-hero: #172338;
-  --color-maroon-700: #860f23; --color-amber-700: #b45309; --color-faq-eyebrow: #374863;
-  --color-footer-text: #cdd1d8; --color-footer-muted: #a0a5ab; --color-demo-frame: #0a101d;
+  --color-navy-900: #0f1b3d; --color-navy-ink: #081d3c; --color-navy-night: #0b1021;
+  --color-line: rgb(8 29 60 / .2);
+  --color-stone-50: #f7f5f0; --color-cream-100: #f8f5ee; --color-map-ground: #e8e6e1;
+  --color-pin-red: #fb2c36; --color-star-on: #f87171; --color-star-muted: #fca5a5;
+  --color-rose-800: #9f1239; --color-maroon-700: #860f23; --color-amber-700: #b45309;
+  /* data peta */
+  --color-map-banjir: #ef4444; --color-map-hijau: #22c55e; --color-map-akses: #0ea5e9;
+  --color-map-mrt: #f97316; --color-map-lrt: #9333ea; --color-map-krl-bogor: #dc2626;
+  --color-map-krl-rangkas: #16a34a; --color-map-krl-cikarang: #2563eb; --color-map-krl-lain: #64748b;
+  --color-map-stasiun: #fbf9f6; --color-map-waktu: #a855f7; --color-map-legal: #8b5cf6;
 
-  --radius-xl: 24px; --radius-2xl: 32px; --radius-3xl: 36px;
-  --shadow-panel: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
-  --shadow-floating: 0 8px 30px 0 rgba(0, 0, 0, 0.12);
-  --shadow-popup: 0 10px 30px 0 rgba(0, 0, 0, 0.1);
-  --shadow-pill: 0 4px 15px 0 rgba(0, 0, 0, 0.05);
-  --shadow-photo: 0 20px 40px 0 rgba(15, 27, 61, 0.12);
+  --radius-md: 12px; --radius-lg: 16px; --radius-xl: 24px; --radius-2xl: 32px;
+  --shadow-soft: 0 2px 10px -4px rgb(0 0 0 / .05);
 }
+/* slate, cyan, green, red, amber: palet bawaan Tailwind v4 identik dengan Figma */
 
-[data-theme="map"] {
-  --text-primary: var(--color-slate-800); --text-body: var(--color-slate-700);
-  --text-secondary: var(--color-slate-500); --accent: var(--color-cyan-500);
-  --focus-ring: var(--color-cyan-500); --status-danger: var(--color-rose-600);
-  --status-warning: var(--color-orange-600); --status-success: var(--color-green-600);
+@utility nr-float {
+  background: rgb(255 255 255 / .8);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--color-line);
 }
-[data-theme="editorial"] {
-  --text-primary: var(--color-navy-ink); --text-body: rgb(8 29 60 / 0.8);
-  --text-secondary: var(--color-gray-600); --accent: var(--color-maroon-700);
-  --focus-ring: var(--color-navy-ink); --status-danger: var(--color-maroon-700);
-  --status-warning: var(--color-amber-700); --status-success: var(--color-navy-ink);
-}
-
-@utility nr-glass {
-  background: rgb(255 255 255 / 0.4);
-  backdrop-filter: blur(5px);
-  border: 1px solid rgb(255 255 255 / 0.6);
-  box-shadow: var(--shadow-panel);
-}
+@utility text-ink-80 { color: rgb(15 27 61 / .8); }  /* pola sama untuk 70, 60, 55, 50, 45, 40 */
 ```
 
-Daftar token lengkap: Lampiran B dan `tokens.json` di design system.
-
-### 14.2 Leaflet
-
+### 13.2 Leaflet
 ```js
 // resources/js/Map/styles.js — satu-satunya tempat menyentuh L (CLAUDE.md)
 const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 
 export const layerStyle = {
-  historis:   () => ({ color: css('--color-map-rose'), weight: 3, fillColor: css('--color-map-rose'), fillOpacity: 0.3 }),
-  legalitas:  () => ({ color: css('--color-map-violet'), weight: 3, fillColor: css('--color-map-violet'), fillOpacity: 0.3 }),
-  mesinWaktu: () => ({ color: css('--color-map-slate'), weight: 4, dashArray: '5 10' }),
+  historis:  (kelas) => ({ color: css('--color-map-banjir'), weight: 1.5, opacity: .9,
+                          fillColor: css('--color-map-banjir'), fillOpacity: { rendah: .15, sedang: .3, tinggi: .45 }[kelas] }),
+  legalitas: () => ({ color: css('--color-map-legal'), weight: 1.5, opacity: .8, fillColor: css('--color-map-legal'), fillOpacity: .2 }),
+  rth:       () => ({ color: css('--color-map-hijau'), weight: 1, fillColor: css('--color-map-hijau'), fillOpacity: .25 }),
+  mesinWaktu:() => ({ color: css('--color-map-waktu'), weight: 4, dashArray: '8 8' }),
 };
 export const transitStyle = {
-  'krl-bogor':         () => ({ color: css('--color-transit-krl-bogor'), weight: 4, dashArray: '10 8' }),
-  'krl-rangkasbitung': () => ({ color: css('--color-transit-krl-rangkasbitung'), weight: 4, dashArray: '10 8' }),
-  'krl-cikarang':      () => ({ color: css('--color-transit-krl-cikarang'), weight: 4, dashArray: '10 8' }),
-  lrt:                 () => ({ color: css('--color-transit-lrt'), weight: 4 }),
-  mrt:                 () => ({ color: css('--color-transit-mrt'), weight: 6 }),
+  mrt: () => ({ color: css('--color-map-mrt'), weight: 5 }),
+  lrt: () => ({ color: css('--color-map-lrt'), weight: 5 }),
+  krl: (lin) => ({ color: css(`--color-map-krl-${lin}`), weight: 4, dashArray: '10 6' }), // di atas casing putih weight 6
 };
-export const poi = (colorVar) => ({ radius: 8, color: '#fff', weight: 3, fillColor: css(colorVar), fillOpacity: 0.8 });
-export const station = { radius: 7, color: '#000', weight: 3, fillColor: '#fff', fillOpacity: 1 };
-export const commuteRoute = () => ({ color: css('--color-cyan-route'), weight: 4, dashArray: '8 8' });
-export const dimmed = { opacity: 0.35, fillOpacity: 0.1 };           // FR-02 [Improvisasi]
-
-// Label pill: L.tooltip({ permanent: true, direction: 'top', offset: [0, -10], className: 'nr-pill' })
-// Popup: L.popup({ className: 'nr-popup', autoPanPaddingTopLeft: [88, 110], autoPanPaddingBottomRight: [344, 24] })
+export const poi = (warna) => ({ radius: 5, color: '#fff', weight: 2, fillColor: css(warna), fillOpacity: .8 });
+export const stasiun = { radius: 7, color: css('--color-navy-900'), weight: 2, fillColor: css('--color-map-stasiun'), fillOpacity: 1 };
+export const ruteMobil = [{ color: '#fff', weight: 8 }, { color: css('--color-navy-900'), weight: 5 }]; // + panah arah (9.3)
+export const ruteJalanKaki = { color: css('--color-navy-900'), weight: 3, dashArray: '1 7', lineCap: 'round' };
+export const terpilih = { color: css('--color-navy-900'), weight: 2.5, fillOpacity: .08 };
+export const redup = { opacity: .35, fillOpacity: .1 };
 // Basemap: L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap' })
+// Kontrol zoom: position 'bottomright'
 ```
 
-### 14.3 Konvensi
-- Kelas aplikasi `nr-`, landing `ed-` (sama dengan `bundle.css`).
-- Jangan menulis hex, radius, atau bayangan di luar token.
-- `data-theme="map"` untuk Visual Explorer, `data-theme="editorial"` untuk landing.
-
-### 14.4 Checklist "sesuai Figma" untuk code review
-- [ ] Nilai dari token; tidak ada hex baru.
-- [ ] Ukuran mengikuti frame 1536 (aplikasi) atau 1440 (drawer, landing).
-- [ ] Posisi overlay sesuai bagian 5; hamburger dan zoom tidak tertutup.
-- [ ] Microcopy dikutip persis (12.1) atau dari katalog 12.2.
-- [ ] Persona sesi memakai badge dan kesimpulan yang sama, berapa pun jumlahnya.
-- [ ] Legenda inline sesuai simbol yang digambar.
-- [ ] Bandingkan berdampingan dengan Figma atau `docs/design/`.
+### 13.3 Checklist review "sesuai desain"
+- [ ] Nilai dari token; tidak ada hex baru di luar bagian 3.
+- [ ] Posisi overlay sesuai bagian 5; tidak ada kontrol yang tertutup.
+- [ ] Microcopy dikutip persis (11.1) atau dari 11.2–11.4.
+- [ ] Peta mengikuti bagian 9: tidak ada area kotak, rute lurus, atau lokasi non-hunian sebagai contoh.
+- [ ] Legenda cocok dengan simbol yang digambar.
 - [ ] Keyboard dan `prefers-reduced-motion` diuji.
 
 ---
 
-## 15. Open Questions
+## 14. Open Questions
 
-| ID | Pertanyaan | Dampak | Pemilik | Tenggat |
-|---|---|---|---|---|
-| OQ-01 | ~~Nama font landing~~ | Terjawab dari Figma: Fraunces, Playfair Display, Inter, DM Sans, Georgia, Consolas | — | Selesai |
-| OQ-02 | Versi Tailwind saat scaffolding (WBS 1.2.4)? | Bila v3, tema 14.1 dipindah ke `tailwind.config.js` | Farrel, Izdihar | Scaffolding |
-| OQ-03 | ~~Nilai pasti dari Figma~~ | Terjawab; sisa nilai sampling: `cyan-route`, `cyan-mode`, `drawer-bg`, jalur KRL/LRT | — | Selesai |
-| OQ-04 | ~~Pustaka ikon~~ | Terjawab: Lucide | — | Selesai |
-| OQ-05 | Nama singkat enam layer untuk UI (TBD-08)? | Judul kartu layer dan tile landing | Nur'Afia | Sprint 1 |
-| OQ-06 | Sumber data biaya perjalanan (K2)? | Isi biaya di Kartu Estimasi | Farrel, Galih | Sebelum Sprint 3 |
-| OQ-07 | Legalitas Lahan: persil atau zonasi RDTR (K6)? | Legenda dan popup Legalitas | Galih | Sebelum layer Legalitas |
-| OQ-08 | *aksesjalan* di deskripsi Driver: tetap atau *akses jalan*? Kartu foto landing menulis *akses jalan*. | Microcopy drawer dan onboarding | Nur'Afia | Sprint 1 |
-| OQ-09 | Detail Lokasi dan hamburger bertumpuk di x 24 pada Figma; apakah pergeseran panel ke x 88 disetujui desainer? | Posisi panel saat terbuka | Nur'Afia | Sprint 3 |
-| OQ-10 | Nilai sampling (rute Commute, opsi moda terpilih, latar drawer, jalur KRL/LRT) bisa dijadikan style/variabel di Figma? | Kepastian 5 token | Nur'Afia | Sprint 1 |
+| ID | Pertanyaan | Dampak | Pemilik |
+|---|---|---|---|
+| OQ-02 | Versi Tailwind saat scaffolding? | Bila v3, tema 13.1 dipindah ke `tailwind.config.js` | Farrel |
+| OQ-05 | Ikon tombol PERSONA dan tab Legenda di Figma berupa SVG bebas; dipetakan ke Lucide `users` dan `map`. Setuju? | Ikon | Nur'Afia |
+| OQ-06 | Sumber data biaya perjalanan (tarif KRL/TJ, BBM, tol) | Isi biaya Simulator Rute | Farrel, Galih |
+| OQ-07 | Legalitas Lahan: persil atau zonasi RDTR? Legenda desain menyebut "bidang tanah dan zona legal" | Isi layer Legalitas | Galih |
+| OQ-11 | Warna KRL Cikarang dan lintas lain belum ada di Figma; diusulkan `#2563EB` dan abu | Legenda Mobilitas | Nur'Afia |
 
-### Kandidat Pengembangan Lanjutan
-Tidak ada.
+Terjawab di versi ini: nama font (Figma), pustaka ikon (Lucide), nama layer (TBD-08), posisi panel dan hamburger (tata letak baru), ambang bintang titik (TBD-10).
 
 ---
 
-## 16. Lampiran
+## 15. Lampiran
 
-### A. Matriks Traceability
+### A. Matriks traceability
 
-| Komponen | Status | Frame Figma | UI | FR | UC | Sprint |
-|---|---|---|---|---|---|---|
-| Panel Kaca, Hamburger | Dari Desain | semua aplikasi | UI01 | FR-01, FR-18 | — | 1 |
-| Search Bar (teks) / (checkbox) | Dari Desain / Improvisasi | Top 3 Rekomendasi | UI02 | FR-05, FR-16 / FR-15 | UC-03 | 2 |
-| Dropdown Top 3 | Dari Desain | Top 3 Rekomendasi | UI02 | FR-06, FR-07 | UC-03 | 2 |
-| Kartu Commute (hasil / kosong) | Dari Desain / Improvisasi | simulator | UI02 | FR-10 | UC-06 | 3 |
-| Kartu Estimasi | Dari Desain | simulator | UI04 | FR-11 | UC-06 | 3 |
-| Point Inspector (wilayah / titik, ringkasan layer) | Dari Desain / Improvisasi | all, VISUAL EXPLORER, layer | UI03 | FR-08, FR-09 | UC-04 | 3 |
-| Baris Skor Persona, Badge, Bintang | Dari Desain | all | UI03 | FR-09, FR-14 | UC-05 | 3 |
-| Multi-persona, skor 0 | Improvisasi | — | UI03 | FR-14, FR-17 | UC-05 | 3 |
-| Kartu Kesimpulan | Dari Desain / Improvisasi | all | UI03 | FR-17 | UC-05 | 3 |
-| Panel Layer, Kartu Layer, Toggle | Dari Desain | 6 frame layer | UI01 | FR-03 | UC-02 | 1–3 |
-| Kartu Layer gagal / memuat | Improvisasi | — | UI01 | FR-03 | UC-02 | 1 |
-| Slider Tahun | Dari Desain | visioner | UI01 | FR-04 | UC-02 | 3 |
-| Label Pill, Popup, Simbol Peta, Zoom | Dari Desain | semua layer | UI01 | FR-01, FR-03, FR-08 | UC-04 | 1 |
-| Highlight/dim | Improvisasi | — | UI01 | FR-02 | UC-02 | 2 |
-| Drawer + Kartu Checkbox Persona | Dari Desain | Desktop - 6 | UI04 | FR-18, FR-19 | UC-07 | 3 |
-| Dialog Onboarding | Improvisasi | — | UI00 | FR-13, FR-14 | UC-01 | 3 |
-| Tab Legenda, Tentang | Improvisasi | — | UI04 | FR-20, FR-21 | — | 3 |
-| Toast, Loading, Empty, Error | Improvisasi | — | — | — | UC-01–07 | 1–3 |
-| 13 komponen landing | Dari Desain | Landing Pagee | — | — (K1, D8) | — | 3 |
+| Komponen | Status | Frame Figma revisi | UI | FR |
+|---|---|---|---|---|
+| Search Bar | Dari Desain; mode checkbox Improvisasi | semua | UI02 | FR-05, FR-15, FR-16 |
+| Panel Top 3 | Dari Desain | top 3 | UI02 | FR-06, FR-07 |
+| Detail Lokasi, Baris Skor, Bintang, Badge, Kesimpulan | Dari Desain; titik/skor 0/data kurang Improvisasi | all, layer | UI03 | FR-08, FR-09, FR-17 |
+| Simulator Rute | Dari Desain; kosong/pilih moda/tidak tersedia Improvisasi | Simulasi Rute | UI04 | FR-10, FR-11 |
+| Panel Layer Spasial, Toggle, Legenda | Dari Desain; gagal/memuat Improvisasi | top 3, all, layer | UI01 | FR-03 |
+| Slider Tahun | Dari Desain | all, mesin waktu | UI01 | FR-04 |
+| Panel Profil Persona | Dari Desain (dirapikan) | persona | UI01 | FR-19 |
+| Tombol Merek, LAYER/PERSONA | Dari Desain | semua | UI01 | FR-18 |
+| Drawer Persona / Legenda / Tentang | Dari Desain; sumber data + disclaimer di Tentang Improvisasi | setting persona/legenda/tentang | UI05 | FR-18–21 |
+| Dialog Persona | Dari Desain; peringatan Improvisasi | persona | UI00 | FR-13, FR-14 |
+| Popup, Toast, State | Improvisasi | — | — | UC-01–07 |
+| Kartografi | Improvisasi | — | UI01 | FR-02, FR-03, FR-11 |
+| Landing (Vision, Mission, Tiga cara, Sumber Data, Coba Sekarang) | Dari Desain; gambar fitur Improvisasi | Landing Pagee | UI06 | FR-22 |
 
 ### B. Daftar token
-Tercantum di 3.1, 3.2, 4, 5, dan 6; lengkap sebagai `tokens.json` di design system: **118 warna** (99 primitive, 19 semantic), **58 gaya teks**, 12 spasi, 10 radius, 7 bayangan, 6 blur, 5 opasitas, 11 z-index. Asal: Figma, kecuali yang ditandai (sampling).
+Lengkap di `tokens.json` design system interaktif; asal Figma section revisi kecuali yang ditandai Improvisasi.
 
-### C. Variasi Desain dan Versi Kanonik
+### C. Variasi dan versi kanonik
 
-| Komponen | Variasi | Kanonik | Alasan |
-|---|---|---|---|
-| Ikon toggle Commute | `person-standing` (frame 1536, 6 frame) vs `route` (frame 1440, 3 frame) | `person-standing` | Mayoritas frame dan SRS UI02 |
-| Ukuran frame aplikasi | 1536 (nilai bulat) vs 1440 (0.9375×) | 1536 | Nilai asli desainer; 1440 hasil perkecil |
-| Radius panel Layer Peta | 24 (1536) vs 28.7 (1440, diskalakan) | 24 | Frame 1536 |
-| Posisi Point Inspector | x 24 (Figma) | x 88 saat terbuka | Hamburger tertutup (masalah fungsi, OQ-09) |
-| Legenda Mobilitas | *Garis Oranye di Peta* vs lima warna jalur | *Garis Warna Jalur di Peta* + rincian | Teks mengikuti gambar |
-
-Bukan variasi, semuanya dipertahankan: bintang kuning Top 3, bintang rose Point Inspector, belah ketupat demo landing.
-
-### D. Catatan Rekonsiliasi
-
-| # | Topik | Keputusan |
+| Hal | Variasi di Figma | Kanonik |
 |---|---|---|
-| 1 | Stack: prompt design system meminta tanpa React; `docs/RENCANA.md` memilih Inertia + React | Ikuti `RENCANA.md` (keputusan pengguna 27 Sep 2026). Komponen design system berupa React 18; markup dokumen portabel; tanpa shadcn/Radix. |
-| 2 | Posisi search bar, panel layer, tombol tutup Inspector, bentuk menu (SRS UI01, FR-08) | Ikuti desain (D1–D4). |
-| 3 | Tipografi (SRS B03 hanya Plus Jakarta Sans) | Aplikasi Plus Jakarta Sans; landing memakai font Figma (K3). |
-| 4 | Dua palet | Satu set primitive, dua tema. |
-| 5 | Persona jamak | Komponen sama diulang per persona sesi (D6). |
-| 6 | Estimasi biaya | Masuk mengikuti desain (K2); sumber data OQ-06. |
-| 7 | Landing page | Masuk cakupan (K1, D8). |
-| 8 | Nilai versi 1.0 (sampling) vs Figma | Diganti nilai Figma. Perubahan terbesar: latar panel putih 0.4 (bukan 0.6), blur 5px (bukan 24), radius kartu layer 36 (bukan 20), baris non-sesi 0.5 (bukan 0.4), teks legenda memakai tingkat 600, warna data peta palet Tailwind v3. |
-| 9 | Ukuran landing di prompt (1331 × 8000) vs berkas (1440 × 8650) | Ukuran berkas dipakai. |
+| Posisi tombol kanan bawah | Bertumpuk dengan zoom (frame `top 3`) vs di kiri zoom (frame `all`) | Frame `all` |
+| Wordmark drawer | PJS + Fraunces Bold Italic (2 frame) vs Fraunces Regular/Italic (1 frame) | PJS + Fraunces Bold Italic |
+| Panel Profil Persona | Menempel di panel Layer | Panel sendiri |
+| Lebar baris Top 3 dan Profil Persona | Mengikuti isi | Lebar penuh |
+| Latar dialog persona | Chrome lama (search pill "MODE RUTE") di belakang scrim | Visual Explorer versi revisi |
 
-### E. Glosarium
-
-| Istilah | Arti |
-|---|---|
-| Basemap | Peta dasar (tile OpenStreetMap) di bawah semua layer |
-| Layer | Lapisan data spasial yang bisa dinyalakan/dimatikan |
-| Titik / Wilayah | Geometri point / poligon; menentukan metode skor |
-| Fly-to | Animasi kamera peta menuju lokasi |
-| Glassmorphism | Gaya panel putih transparan dengan blur latar |
-| Frame 1536 / 1440 | Ukuran artboard Figma; 1536 bernilai asli, 1440 diperkecil |
-| Persona sesi | Persona yang dipilih pengguna untuk sesi browser ini |
-| Token | Nilai desain bernama yang dipakai ulang |
-| Tema | Kumpulan nilai semantic: `map` atau `editorial` |
-| Popup / Label pill | Kartu saat fitur diklik / label nama fitur di peta |
-| Skeleton | Bentuk pengganti isi saat memuat |
+### D. Glosarium
+Basemap · Layer · Titik / Wilayah (metode skor) · Fly-to · Persona sesi · Token · 15-minute city (±1,2 km jalan kaki) · MATCH (persen kecocokan Top 3) · Casing (garis putih di bawah garis jalur agar terbaca).

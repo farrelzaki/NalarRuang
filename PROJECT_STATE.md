@@ -6,13 +6,13 @@ Perbarui saat memulai sesi, melewati checkpoint, membuat keputusan penting, mene
 
 ## Metadata
 
-- Terakhir diperbarui: 2026-09-25
+- Terakhir diperbarui: 2026-09-29
 - Mode kerja: `competition`
 - Status sesi: Berjalan
-- Task aktif: Restrukturisasi dokumentasi NalarRuang (tahap 1)
+- Task aktif: Penyelarasan dokumen dan artifact ke desain final + masukan Izdihar (Tahap A–C)
 - Fase aktif: Handoff
-- Checkpoint terakhir: Verification (grep sisa konteks lama bersih, tautan relatif valid, `docs/sumber/` hanya rename)
-- Konfirmasi pengguna terakhir: hapus dokumentasi perubahan (ADR), gabungkan `.md` yang bisa digabung
+- Checkpoint terakhir: Tahap A (dokumen), B (artifact Design System), dan C (kanvas) selesai; menunggu tinjauan
+- Konfirmasi pengguna terakhir: Figma section revisi final; ikuti desain dan ubah SRS/WBS agar sesuai; improvisasi sendiri yang belum didesain
 
 ## Scope Yang Disetujui
 
@@ -58,7 +58,7 @@ repo tidak salah konteks. Tahap 2 (setelah desain Figma masuk): melengkapi `docs
 
 - **Peran QGIS** yang diharapkan dosen belum jelas (TBD-QGIS). Tanyakan ke dosen.
 - **Mesin routing Commute Simulator** belum dipilih (TBD-ROUTE).
-- Desain Figma (TBD-02) dan ERD (TBD-04) belum ada di repo.
+- ERD (TBD-04) belum ada di repo. Desain final ada di Figma (TBD-02 selesai).
 - Pembagian endpoint Farrel vs Adzkia masih usulan.
 
 ## Keputusan Penting
@@ -66,11 +66,16 @@ repo tidak salah konteks. Tahap 2 (setelah desain Figma masuk): melengkapi `docs
 - SRS v1.0 + WBS adalah acuan; Project Charter hanya riwayat.
   Enam layer, tanpa MongoDB/NLP, data diolah di QGIS lalu diimpor ke PostGIS,
   final 27 November 2026.
-- Stack: Laravel + Inertia + React, Leaflet, Tailwind, PostgreSQL + PostGIS.
+- Stack: Laravel + Inertia + React, Leaflet, Tailwind, PostgreSQL + PostGIS (kini tercantum di SRS v1.2).
+- **Acuan UI (29 Sep):** Figma section "putih kayak bhumi yang udah di revisi" final. Bila berbeda dengan dokumen, desain yang diikuti dan SRS/WBS disesuaikan (SRS v1.2, WBS 1.4.8 baru, FR-22 landing page).
+- **Masukan Izdihar (29 Sep):** isi peta Figma hanya ilustrasi (aturan Kartografi `design-system.md` bagian 9); sembilan sumber data (InaRISK, DEMNAS, IQAir, BPS, Overpass API, GTFS Transjakarta, Jakarta Satu Data, ATR/BPN, JUTPI Phase 3); skor titik 3/2/1/0 bintang = ≤1,2/≤2,5/≤5/>5 km ke satu fasilitas utama per persona; Zen dari kualitas udara dikurangi jarak RTH; wilayah memakai centang cocok/belum cocok (SRS v1.2, TBD-09 selesai).
+- Audit sumber data dan rancangan algoritma Requirement Search/Commute: artifact https://claude.ai/artifact/PwTA6cASf1zAJQCDuVrz7b.
 - Bila prompt tugas bertabrakan dengan `docs/RENCANA.md`, RENCANA yang dipakai
   (keputusan pengguna 27 Sep); contoh: React tetap disebut di PRD dan design system.
-- Design system (27 Sep): nilai dari Figma `ui-nalar-ruang`; frame 1536 kanonik untuk
-  aplikasi, 1440 untuk drawer dan landing. Komponen React ada di artifact Design System;
-  PRD di `prd.md`. Open Questions desain di `design-system.md` bagian 15.
+- Design system v2.0 (29 Sep): nilai dari section revisi. Artifact Design System
+  (https://claude.ai/artifact/7R7qPFSeWx7aVjzCt4GxDR) dan kanvas contoh
+  (https://claude.ai/artifact/LtCEm8pdhnp5MUtQ2bTtJY) sudah mengikuti desain final. PRD v1.1 di `prd.md`.
+- Contoh visual peta di artifact memakai tile OSM asli (Bojong Gede–Citayam) dan data nyata; peta tiruan tidak dipakai lagi.
+- Tombol LAYER/PERSONA dan zoom di bawah 28 (bukan 16) agar tidak menutupi atribusi Leaflet (`design-system.md` bagian 5).
 - Git: branch per fitur + PR ke `main`.
 - Yang coding bersama agen: Farrel, Adzkia, Nur'Afia. Izdihar dan Galih tidak.

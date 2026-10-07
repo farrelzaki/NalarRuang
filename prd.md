@@ -5,8 +5,8 @@
 | Butir | Isi |
 |---|---|
 | Judul | Product Requirements Document — NalarRuang |
-| Versi | 1.0-draft |
-| Tanggal | 27 September 2026 |
+| Versi | 1.2 |
+| Tanggal | 29 September 2026 |
 | Penyusun | Tim Kelompok 4 — Developer Rumah |
 | Status | Draf untuk ditinjau tim dan Dosen Pengampu |
 
@@ -14,19 +14,20 @@
 
 | Sumber | Kewenangan |
 |---|---|
-| `docs/sumber/SRS.md` (SRS v1.0, 20 Sep 2026) | Cakupan, fungsi, aturan bisnis, data, batasan (tertinggi) |
+| Desain UI final: Figma `ui-nalar-ruang`, section "putih kayak bhumi yang udah di revisi" (node 174:2) | Tampilan, tata letak, alur layar, microcopy. **Bila berbeda dengan dokumen, desain yang diikuti** dan SRS/WBS disesuaikan (keputusan tim 29 Sep 2026). |
+| `docs/sumber/SRS.md` (SRS v1.2, 29 Sep 2026) | Cakupan, fungsi, aturan bisnis, data, batasan |
 | `docs/sumber/WBS.md` | Jadwal sprint, deliverable, acceptance criteria work package, PIC |
 | `docs/sumber/CHARTER.md` | Latar belakang saja |
-| `docs/sumber/DESKRIPSI.md` | Konteks historis dan rincian sumber data saja |
-| Desain UI Sprint 0 (`docs/design/`, 12 screenshot; Figma `ui-nalar-ruang`) + `docs/design/analisis-uiux-nalarruang.md` | Tampilan, tata letak, alur layar, microcopy. Menjawab TBD-02. |
-| `docs/RENCANA.md` | Keputusan teknis tim (stack); menang bila bertabrakan dengan prompt penyusunan |
-| `design-system.md` | Nilai visual (token, komponen) |
+| `docs/sumber/DESKRIPSI.md` | Konteks historis saja |
+| `docs/RENCANA.md` | Keputusan teknis tim (stack) |
+| `design-system.md` | Nilai visual, komponen, kartografi, improvisasi |
 
-**Kebijakan desain (ringkas).** (1) Gaya visual desain dilindungi dan diikuti persis. (2) Yang belum didesain ditulis lengkap di PRD dan diimprovisasi dengan meniru komponen desain yang ada; tidak ada langkah menunggu desain. (3) Masalah fungsi diselesaikan lewat perilaku, bukan perubahan tampilan. (4) Variasi komponen: versi yang muncul di lebih banyak layar dipakai.
+**Kebijakan desain (ringkas).** (1) Gaya visual desain final diikuti persis. (2) **Isi peta di Figma hanya ilustrasi**: bentuk area, lokasi contoh, dan rute digambar dari data (masukan Izdihar, BR-19). (3) Yang belum didesain ditulis di PRD dan diimprovisasi meniru komponen desain yang ada. (4) Masalah fungsi diselesaikan lewat perilaku, bukan perubahan tampilan.
 
 | Versi | Tanggal | Perubahan |
 |---|---|---|
 | 1.0-draft | 27 Sep 2026 | Draf pertama dari SRS v1.0, WBS, dan desain Sprint 0 |
+| 1.1 | 29 Sep 2026 | Acuan pindah ke desain final (section revisi); masukan Izdihar: peta dari data nyata, sembilan sumber data, ambang bintang 1,2/2,5/5 km; SRS/WBS diselaraskan (FR-22 landing page) |
 
 ---
 
@@ -34,9 +35,9 @@
 
 NalarRuang adalah aplikasi WebGIS untuk mencari kawasan hunian ideal di Jabodetabek berdasarkan gaya hidup pengguna. Pengguna memilih satu atau lebih persona (Commuter, Driver, Social & Vibe, Zen), lalu menjelajah peta dengan enam layer data spasial, mencari kawasan dan mendapat tepat tiga rekomendasi, memeriksa sebuah titik atau wilayah untuk melihat skor 0–3 bintang per persona, dan mensimulasikan waktu tempuh ke kantor atau kampus (SRS 1.4, 2.3).
 
-Pengguna adalah calon pencari hunian yang anonim, tanpa akun (SRS U01). Masalah yang diselesaikan: keputusan memilih kawasan masih bergantung pada iklan dan klaim agen, sementara data yang relevan dengan gaya hidup tiap orang tersebar dan sulit dibaca (SRS 2.1; Desain: landing-page.png, "Eksplorasi data, bukan cuma iklan.").
+Pengguna adalah calon pencari hunian yang anonim, tanpa akun (SRS U01). Masalah yang diselesaikan: keputusan memilih kawasan masih bergantung pada iklan dan klaim agen, sementara data yang relevan dengan gaya hidup tiap orang tersebar dan sulit dibaca (SRS 2.1).
 
-Di akhir semester (27 November 2026) tim menyerahkan aplikasi web yang ter-deploy dengan landing page dan Visual Explorer yang mencakup FR-01 s.d. FR-21, enam layer data dari data sekunder publik, dokumentasi pengguna dan teknis, serta hasil pengujian (WBS D4, D5).
+Di akhir semester (27 November 2026) tim menyerahkan aplikasi web yang ter-deploy dengan landing page dan Visual Explorer yang mencakup FR-01 s.d. FR-22, enam layer data dari data sekunder publik, dokumentasi pengguna dan teknis, serta hasil pengujian (WBS D4, D5).
 
 ---
 
@@ -44,7 +45,7 @@ Di akhir semester (27 November 2026) tim menyerahkan aplikasi web yang ter-deplo
 
 Proyek bermula dari asimetri informasi properti di Jabodetabek: risiko banjir, kriminalitas, dan polusi sering tidak terungkap dalam iklan hunian (Charter; SRS 2.1). Selama Sprint 0, nilai utama bergeser menjadi **personalisasi pencarian kawasan hunian ideal berdasarkan preferensi gaya hidup** (WBS B; SRS 1.4). Kawasan yang sama bisa ideal bagi pengguna KRL dan buruk bagi yang mengutamakan ketenangan; karena itu NalarRuang menilai kawasan per persona, bukan dengan satu skor umum.
 
-**Problem statement.** Calon penghuni di Jabodetabek tidak punya cara cepat untuk membandingkan kawasan berdasarkan kebutuhan hariannya sendiri (akses transit, akses tol, tempat nongkrong, ketenangan) dengan data yang bisa ditelusuri, sehingga keputusan diambil dari iklan dan klaim subjektif. Pesan produk di landing: "Eksplorasi data, bukan cuma iklan." dan "Hunian yang cocok. Kota yang terbaca." (Desain: landing-page.png).
+**Problem statement.** Calon penghuni di Jabodetabek tidak punya cara cepat untuk membandingkan kawasan berdasarkan kebutuhan hariannya sendiri (akses transit, akses tol, tempat nongkrong, ketenangan) dengan data yang bisa ditelusuri, sehingga keputusan diambil dari iklan dan klaim subjektif. Pesan produk di landing: "Hunian yang cocok. Kota yang terbaca." (Desain: Landing Pagee).
 
 ---
 
@@ -54,7 +55,7 @@ Proyek bermula dari asimetri informasi properti di Jabodetabek: risiko banjir, k
 1. Pengguna dapat menemukan tiga kawasan yang paling sesuai kebutuhannya dari satu pencarian (FR-05, FR-06, BR-1).
 2. Pengguna dapat menilai sebuah titik atau wilayah per persona dengan skor 0–3 bintang dan ringkasan (FR-09, FR-17).
 3. Pengguna dapat membandingkan waktu tempuh dua moda dari calon hunian ke tempat aktivitas (FR-10, FR-11).
-4. Semua fungsi FR-01 s.d. FR-21 berjalan di staging dan produksi pada 27 Nov 2026 (WBS D4, D5).
+4. Semua fungsi FR-01 s.d. FR-22 berjalan di staging dan produksi pada 27 Nov 2026 (WBS D4, D5).
 
 **Non-goals.** Aplikasi mobile native; listing atau transaksi properti; pengumpulan data primer (survei lapangan); analisis di luar Jabodetabek (SRS 1.4); akun dan login (SRS 2.4).
 
@@ -78,18 +79,18 @@ Proyek bermula dari asimetri informasi properti di Jabodetabek: risiko banjir, k
 
 | Persona | Mengutamakan | Faktor yang memengaruhi skor (WBS 1.4.5) | Layer terkait | Deskripsi di desain (dikutip) |
 |---|---|---|---|---|
-| Commuter | Akses transit | Akses transit dan trotoar | Mobilitas & Transit, Inklusivitas | "Mengutamakan akses transit, seperti stasiun dan halte." |
-| Driver | Akses jalan/tol | Lebar jalan, jarak tol, SPBU | Mobilitas & Transit, Ekosistem Mikro | "Mengutamakan aksesjalan utama dan gerbang tol." |
-| Social & Vibe | Hiburan, kafe, restoran | Rasio kafe/restoran/hiburan | Ekosistem Mikro & Gaya Hidup | "Mengutamakan hiburan, kafe, dan restoran." |
-| Zen | Keamanan, minim polusi, RTH | Polusi suara, keamanan, banjir, RTH | Historis & Risiko, Ekosistem Mikro | "Mengutamakan keamanan, minim polusi, dan ruang terbuka hijau." |
+| Commuter | Akses transit | Jarak ke stasiun/halte | Mobilitas & Transit, Inklusivitas | "Mengutamakan akses transit, seperti stasiun dan halte." · tagline "AKSES TRANSIT PALING UTAMA" |
+| Driver | Akses jalan/tol | Jarak ke gerbang tol | Mobilitas & Transit | "Mengutamakan akses jalan utama dan gerbang tol." · "JALAN LANCAR, TOL DEKAT" |
+| Social & Vibe | Hiburan, kafe, restoran | Jarak ke kafe/restoran/mal | Ekosistem Mikro & Gaya Hidup | "Mengutamakan hiburan, kafe, dan restoran." · "DEKAT SERU-SERUNYA KOTA" |
+| Zen | Keamanan, minim polusi, RTH | Kualitas udara (ISPU); dikurangi bila RTH terdekat jauh | Ekosistem Mikro (RTH), data kualitas udara | "Mengutamakan keamanan, minim polusi, dan ruang terbuka hijau." · "TENANG, HIJAU, LEGA" |
 
-(Desain: drawer-persona.png. Teks Driver dikutip apa adanya; lihat OQ-08.)
+(Desain: dialog persona dan drawer tab Persona. Faktor skor titik ditetapkan 29 Sep 2026, lihat 7.3.)
 
 **Skenario (SRS 4).**
 - Pengguna mencentang Commuter dan Zen di awal sesi; esok harinya di sesi baru dialog muncul lagi (FR-13, FR-14).
 - Pengguna Commuter mengetik "Daerah mudah transum di Bogor Kota" dan mendapat Top 3; lalu mencarikan hunian untuk orang tuanya dengan mode checkbox: kota Depok, persona Zen saja (FR-05, FR-06, FR-15).
-- Di titik dekat Stasiun Bogor, skor Commuter 3 bintang karena jaraknya kurang dari 500 m ke stasiun; di poligon Kota Bogor skor Commuter 1 bintang karena secara agregat hanya ada 2 stasiun (FR-09).
-- Pengguna mengisi calon hunian dan kantor di Kuningan, lalu membandingkan waktu tempuh kendaraan pribadi dan transportasi publik (FR-10, FR-11).
+- Di titik permukiman dekat Stasiun Bogor, skor Commuter 3 bintang karena jaraknya kurang dari 1,2 km ke stasiun; di poligon kelurahan tempat stasiun itu berada, Commuter diberi centang "cocok" karena ada stasiun di dalamnya (FR-09).
+- Pengguna mengisi calon hunian dan kantor di Kuningan, lalu membandingkan waktu tempuh dan biaya kendaraan pribadi dan transportasi publik; rute tergambar menyusuri jalan (FR-10, FR-11).
 
 ---
 
@@ -98,13 +99,12 @@ Proyek bermula dari asimetri informasi properti di Jabodetabek: risiko banjir, k
 | In Scope | Out of Scope |
 |---|---|
 | Visual Explorer: basemap, pan/zoom, highlight/dim, enam layer, slider Mesin Waktu (FR-01–04) | Aplikasi mobile native |
-| Requirement Search: teks bebas, nama wilayah, mode checkbox, Top 3, fly-to, toggle Commute (FR-05–07, FR-15, FR-16) | Listing dan transaksi properti |
+| Requirement Search: teks bebas, nama wilayah, mode checkbox, Top 3 dengan persen kecocokan, fly-to, toggle Commute (FR-05–07, FR-15, FR-16) | Listing dan transaksi properti |
 | Smart Point Inspector + Persona Grading 0–3 bintang + auto-summary (FR-08, FR-09, FR-17) | Survei lapangan / data primer |
-| Commute Simulator: Pin A/B, jarak dan waktu dua moda (FR-10, FR-11) | Analisis di luar Jabodetabek |
-| **Estimasi biaya per moda** — masuk cakupan mengikuti desain (D7, K2) | Akun, login, penyimpanan data pribadi |
-| Onboarding persona sesi (FR-13, FR-14) | Data real-time berbayar dan scraping berita |
-| Menu utama: preferensi persona, legenda, tentang (FR-18–21) | |
-| **Landing page** — masuk cakupan sebagai fitur pendukung mengikuti desain (D8, K1) | |
+| Commute Simulator: Pin A/B, jarak, waktu, dan biaya dua moda, rute di peta (FR-10, FR-11) | Analisis di luar Jabodetabek |
+| Onboarding persona sesi (FR-13, FR-14) | Akun, login, penyimpanan data pribadi |
+| Menu utama: drawer Persona, Legenda, Tentang; panel Profil Persona (FR-18–21) | Data real-time berbayar dan scraping berita |
+| Landing page (FR-22) | |
 | Backend & Spatial API (FR-12) | |
 | Pipeline data offline QGIS → GeoJSON → PostGIS (WBS 1.3) | |
 
@@ -117,208 +117,225 @@ Proyek bermula dari asimetri informasi properti di Jabodetabek: risiko banjir, k
 
 ## 6. Konsep Produk & Alur Pengguna
 
-NalarRuang punya dua permukaan: **Landing page** (halaman pemasaran editorial) dan **Visual Explorer** (aplikasi peta). Visual Explorer adalah hub: dari satu halaman peta, pengguna bebas berpindah antara menjelajah layer, mencari, memeriksa lokasi, dan mensimulasikan perjalanan, tanpa urutan baku (SRS 4.7.3).
+NalarRuang punya dua permukaan: **Landing page** (halaman editorial) dan **Visual Explorer** (aplikasi peta). Visual Explorer adalah hub: dari satu halaman peta, pengguna bebas berpindah antara menjelajah layer, mencari, memeriksa lokasi, dan mensimulasikan perjalanan, tanpa urutan baku (SRS 4.7.3).
+
+**Tata letak Visual Explorer** (desain final): kolom kiri berisi search bar dan satu panel isi (Top 3, Detail Lokasi, atau Simulator Rute); kanan atas tombol logo + menu; kanan bawah tombol LAYER dan PERSONA yang membuka panelnya, dan kontrol zoom; tengah bawah slider tahun saat Mesin Waktu aktif.
 
 **Alur satu sesi.**
-1. Pengguna membuka landing page, membaca nilai produk, lalu menekan "Mulai Cari Hunian", "Menuju Peta", atau "Buka Peta Interaktif".
-2. Visual Explorer terbuka. Karena sesi belum punya persona, Dialog Onboarding Persona `[Improvisasi]` muncul di atas peta yang di-blur.
-3. Pengguna mencentang minimal satu persona dan menekan "Mulai Jelajahi Peta".
-4. Pengguna bebas: menyalakan layer, mencari lalu memilih salah satu Top 3 (fly-to lalu Point Inspector terbuka), mengeklik lokasi untuk melihat skor persona, atau beralih ke Commute Simulator.
-5. Kapan saja pengguna membuka menu untuk mengubah persona, melihat legenda, atau membaca tentang aplikasi.
+1. Pengguna membuka landing page, lalu menekan "Mulai Cari Hunian", "Menuju Peta", "Buka Peta Interaktif", atau "Buka Peta".
+2. Visual Explorer terbuka. Karena sesi belum punya persona, dialog "Pilih Persona mu!" muncul di atas peta yang digelapkan.
+3. Pengguna memilih minimal satu kartu persona dan menekan "Mulai Jelajah".
+4. Pengguna bebas: menyalakan layer lewat tombol LAYER, mencari lalu memilih salah satu Top 3 (fly-to lalu Detail Lokasi terbuka), mengeklik lokasi untuk melihat skor persona, atau beralih ke Simulator Rute lewat ikon mobil.
+5. Kapan saja pengguna mengubah persona lewat tombol PERSONA atau menu, membaca legenda, atau membaca tentang aplikasi.
 6. Menutup tab mengakhiri sesi; persona ditanyakan lagi di sesi berikutnya.
 
 ```mermaid
 flowchart TD
-    LP[Landing page] -->|Mulai Cari Hunian / Menuju Peta| VE[Visual Explorer]
+    LP[Landing page] -->|Mulai Cari Hunian / Buka Peta| VE[Visual Explorer]
     VE --> CEK{Persona sesi sudah ada?}
-    CEK -->|Belum| ONB[Dialog Onboarding Persona]
+    CEK -->|Belum| ONB[Dialog Pilih Persona mu!]
     ONB -->|minimal 1 persona| HUB[Peta siap dipakai]
     CEK -->|Sudah| HUB
-    HUB --> LYR[Toggle layer dan legenda inline]
+    HUB -->|tombol LAYER| LYR[Panel Layer Spasial + legenda]
     LYR -->|Mesin Waktu aktif| SLD[Slider tahun 2026-2030]
-    HUB --> SRC[Requirement Search]
-    SRC --> T3[Dropdown Top 3 Rekomendasi]
-    T3 -->|pilih hasil| FLY[Fly-to dan label pill]
-    FLY --> PI[Point Inspector dan skor persona]
+    HUB -->|tombol PERSONA| PP[Panel Profil Persona]
+    HUB --> SRC[Search bar]
+    SRC --> T3[Panel Top 3 + persen MATCH]
+    T3 -->|pilih hasil| FLY[Fly-to + wilayah disorot]
+    FLY --> PI[Detail Lokasi + skor persona]
     HUB -->|klik fitur| POP[Popup ringkas]
     POP -->|Lihat detail| PI
     HUB -->|klik titik atau wilayah| PI
-    SRC -->|ikon orang berjalan| CS[Commute Simulator]
-    CS --> EST[Estimasi Perjalanan dua moda]
+    SRC -->|ikon mobil| CS[Simulator Rute A-B]
+    CS --> EST[Waktu + biaya MOBIL/TRANSIT, rute di peta]
     CS -->|tutup| SRC
-    HUB -->|hamburger| MENU[Drawer: Persona, Legenda, Tentang]
-    MENU -->|ubah persona| HUB
+    HUB -->|tombol menu| MENU[Drawer: Persona, Legenda, Tentang]
 ```
 
 ---
 
 ## 7. Kebutuhan Fungsional per Fitur
 
-Sumber UI: **Desain** (sudah digambar), **Desain + Improvisasi** (sebagian digambar), **Improvisasi** (belum digambar, dibangun langsung meniru komponen desain). Semua arahan komponen merujuk nama komponen di `design-system.md`.
+Sumber UI: **Desain** (digambar di Figma final), **Desain + Improvisasi** (sebagian digambar), **Improvisasi** (dibangun meniru komponen desain). Nama komponen merujuk `design-system.md` bagian 8; aturan peta merujuk bagian 9 (Kartografi).
 
 ### 7.1 Visual Explorer (fitur inti)
 
-**Deskripsi.** Peta interaktif layar penuh dengan enam layer yang dapat dinyalakan dan dimatikan sendiri-sendiri. Prioritas: Tinggi (FR-01–03), Sedang (FR-04) (SRS 4).
+**Deskripsi.** Peta interaktif layar penuh dengan enam layer yang dapat dinyalakan dan dimatikan sendiri-sendiri. Prioritas: Tinggi (FR-01–03), Sedang (FR-04).
 
-**Sumber UI.** FR-01 Desain · FR-02 Improvisasi · FR-03 Desain · FR-04 Desain. (Desain: top-3-rekomendasi.png, visual-explorer.png, layer-historis.png, layer-ekosistem.png, layer-inklusivitas.png, layer-mobilitas.png, layer-mesin-waktu.png, layer-legalitas.png)
+**Sumber UI.** FR-01 Desain · FR-02 Improvisasi · FR-03 Desain · FR-04 Desain. (Frame: all, historis dan risiko, ekosistem micro, inklusivitas, transum, mesin waktu, legalitas lahan)
 
 **Deskripsi UI.**
-- Peta Leaflet dengan tile OpenStreetMap standar selebar layar; atribusi "Leaflet | © OpenStreetMap" di kanan bawah; kontrol zoom Leaflet di kiri bawah.
-- Tombol hamburger bulat di kiri atas.
-- Panel kaca "Layer Peta" di sisi kanan berisi enam kartu berurutan: Historis & Risiko ("Area rawan banjir dan risiko lain."), Ekosistem Mikro & Gaya Hidup ("Kafe, restoran, dan ruang hijau."), Inklusivitas ("Aksesibilitas dan fasilitas umum."), Mobilitas & Transit ("Halte, stasiun, dan akses jalan."), Mesin Waktu ("Proyek infrastruktur per tahun."), Legalitas Lahan ("Gambaran status lahan kawasan."). Tiap kartu: ikon, nama, deskripsi, toggle.
-- Kartu aktif menonjol (latar putih) dan menampilkan legenda inline: "Area Merah di Peta", "Titik Hijau di Peta", "Titik Biru di Peta", legenda Mobilitas (lihat BR-16), "Garis Putus-putus di Peta", "Area Ungu di Peta".
-- Mesin Waktu aktif memunculkan slider tahun 2026–2030 dengan chip "Tahun 20xx" di bawah kartunya.
-- Fitur layer diberi label pill bernama; klik fitur membuka popup kartu (judul + deskripsi + tombol tutup).
-- Highlight/dim `[Improvisasi]`: meniru efek redup baris persona non-sesi; fitur di luar filter aktif diredupkan, fitur relevan tetap penuh; basemap tidak diubah.
-
-**User stories dan acceptance criteria.**
+- Peta Leaflet dengan tile OpenStreetMap standar selebar layar di atas latar `map-ground`; zoom dan atribusi "Leaflet | © OpenStreetMap" di kanan bawah.
+- Tombol LAYER dan PERSONA di kanan bawah. LAYER membuka panel "LAYER SPASIAL" berisi enam kartu: Historis & Risiko ("Area rawan banjir dan risiko bencana lain."), Ekosistem Mikro ("Kafe, restoran, ritel, dan ruang hijau."), Inklusivitas ("Aksesibilitas pedestrian dan fasilitas umum."), Mobilitas & Transit ("Halte, stasiun KRL/MRT, dan jalur arteri."), Mesin Waktu ("Proyek infrastruktur dan tata ruang masa depan."), Legalitas Lahan ("Gambaran status kepemilikan dan peruntukan."). Tiap kartu: nama, deskripsi, toggle navy.
+- Kartu yang dinyalakan mengganti deskripsinya dengan legenda (`design-system.md` 11.4).
+- Mesin Waktu menyala memunculkan slider tahun 2026–2030 di tengah bawah.
+- Isi peta digambar dari data dengan aturan Kartografi: area mengikuti batas data, bukan kotak atau segitiga; titik POI di-cluster; label nama muncul mulai zoom 13 (BR-19).
+- Highlight/dim `[Improvisasi]`: fitur di luar filter aktif atau di luar Top 3 diredupkan 0.35; wilayah terpilih bergaris navy; basemap tidak diubah.
 
 **US-01** — Sebagai pengguna, saya ingin menggeser dan memperbesar peta Jabodetabek, sehingga saya bisa melihat kawasan yang saya minati. (FR-01; UC-02; UI01)
-- Diberikan Visual Explorer terbuka, Ketika halaman selesai dimuat, Maka peta OpenStreetMap standar tampil layar penuh berpusat di Jabodetabek dengan kontrol zoom di kiri bawah dan atribusi di kanan bawah (tampilan sesuai top-3-rekomendasi.png).
+- Diberikan Visual Explorer terbuka, Ketika halaman selesai dimuat, Maka peta OpenStreetMap tampil layar penuh berpusat di Jabodetabek dengan search bar di kiri atas, tombol logo dan menu di kanan atas, tombol LAYER/PERSONA dan zoom di kanan bawah (sesuai frame all).
 - Diberikan peta tampil, Ketika pengguna menyeret peta atau memakai tombol +/− atau scroll, Maka peta bergeser dan berubah zoom tanpa memuat ulang halaman.
 - Diberikan tile gagal dimuat, Ketika koneksi terputus, Maka kontrol aplikasi tetap tampil dan dapat dipakai kembali setelah koneksi pulih.
 
 **US-02** — Sebagai pengguna, saya ingin menyalakan dan mematikan tiap layer, sehingga saya hanya melihat data yang relevan. (FR-03; UC-02; UI01)
-- Diberikan semua layer mati, Ketika pengguna menyalakan toggle "Inklusivitas", Maka titik biru tampil di peta, kartu menjadi aktif, dan legenda inline "Titik Biru di Peta" muncul di kartu (tampilan sesuai layer-inklusivitas.png).
-- Diberikan dua layer aktif, Ketika pengguna mematikan salah satunya, Maka hanya data layer itu yang hilang dan legenda inline kartunya tersembunyi.
-- Diberikan enam layer aktif, Ketika semua legenda dan slider tampil, Maka panel Layer Peta tetap dalam layar dan isinya dapat di-scroll (tampilan sesuai visual-explorer.png).
-- Edge: data layer gagal dimuat → kartu menampilkan "Layer gagal dimuat." dan tautan "Coba lagi", toggle dinonaktifkan, basemap tetap tampil (UC-02 Alternative Flow 1).
+- Diberikan panel Layer tertutup, Ketika pengguna menekan tombol LAYER, Maka panel "LAYER SPASIAL" terbuka di atas tombol dan tombol LAYER berisi navy.
+- Diberikan semua layer mati, Ketika pengguna menyalakan toggle "Inklusivitas", Maka titik akses disabilitas (biru langit) dan trotoar layak (biru putus-putus) tampil di peta, dan kartu menampilkan legendanya.
+- Diberikan dua layer aktif, Ketika pengguna mematikan salah satunya, Maka hanya data layer itu yang hilang dan kartunya kembali menampilkan deskripsi.
+- Diberikan enam layer aktif, Maka panel tetap dalam layar dan isinya dapat di-scroll (sesuai frame all).
+- Edge: data layer gagal dimuat → kartu menampilkan "Layer gagal dimuat." dan "Coba lagi", toggle dinonaktifkan, basemap tetap tampil (UC-02 AF1) `[Improvisasi]`.
 
-**US-03** — Sebagai pengguna, saya ingin area yang relevan disorot dan area lain diredupkan, sehingga fokus saya terjaga. (FR-02; UC-02 langkah 4) `[Improvisasi]`
-- Diberikan Requirement Search menghasilkan Top 3, Ketika hasil tampil, Maka fitur layer di luar tiga kawasan hasil diredupkan dan fitur di dalamnya tampil penuh, tanpa mengubah basemap.
-- Diberikan filter dihapus (dropdown ditutup atau search bar dikosongkan), Ketika itu terjadi, Maka semua fitur kembali ke tampilan normal.
-- Pembaruan terjadi tanpa memuat ulang halaman; target waktu `[TBD-06]`.
+**US-03** — Sebagai pengguna, saya ingin area yang relevan disorot dan area lain diredupkan, sehingga fokus saya terjaga. (FR-02; UC-02) `[Improvisasi]`
+- Diberikan Requirement Search menghasilkan Top 3, Ketika hasil tampil, Maka tiga wilayah hasil digambar dengan garis navy dan nomor peringkat, fitur layer di luar ketiganya diredupkan, tanpa mengubah basemap.
+- Diberikan filter dihapus (panel Top 3 ditutup atau search dikosongkan), Maka semua fitur kembali normal tanpa memuat ulang halaman; target waktu `[TBD-06]`.
 
-**US-04** — Sebagai pengguna, saya ingin memilih tahun pada Mesin Waktu, sehingga saya melihat proyek infrastruktur tahun itu. (FR-04; BR-3; UC-02 langkah 5)
-- Diberikan Mesin Waktu mati, Ketika pengguna menyalakannya, Maka slider "2026 … 2030" muncul tepat di bawah kartu Mesin Waktu (tampilan sesuai layer-mesin-waktu.png).
-- Diberikan slider pada "Tahun 2029", Ketika pengguna menggeser ke 2027, Maka chip berubah menjadi "Tahun 2027" dan peta hanya menampilkan proyek tahun 2027.
-- Edge: tidak ada proyek pada tahun terpilih → garis tidak tampil dan legenda tetap; kartu menampilkan "Belum ada proyek di tahun ini." `[Improvisasi, meniru legenda inline]`.
+**US-04** — Sebagai pengguna, saya ingin memilih tahun pada Mesin Waktu, sehingga saya melihat proyek infrastruktur tahun itu. (FR-04; BR-3)
+- Diberikan Mesin Waktu mati, Ketika pengguna menyalakannya, Maka slider tahun muncul di tengah bawah (sesuai frame mesin waktu).
+- Diberikan slider pada 2029, Ketika pengguna menggeser ke 2027, Maka nilai tahun berubah menjadi 2027 dan peta hanya menampilkan proyek tahun 2027 (garis ungu putus-putus mengikuti trase proyek).
+- Edge: tidak ada proyek pada tahun terpilih → garis tidak tampil dan slider menampilkan "Belum ada proyek di tahun ini." `[Improvisasi]`.
 
 **US-05** — Sebagai pengguna, saya ingin mengeklik fitur di peta dan membaca penjelasannya, sehingga saya paham arti titik atau area itu. (FR-03, FR-08; UC-04)
-- Diberikan layer Ekosistem aktif, Ketika pengguna mengeklik titik hijau, Maka popup kartu dengan judul fitur dan deskripsi dari data tampil (tampilan sesuai layer-ekosistem.png).
+- Diberikan layer Ekosistem aktif, Ketika pengguna mengeklik titik hijau, Maka popup ringkas tampil dengan jenis, nama, isi dari data, sumber, dan tautan "Lihat detail" `[Improvisasi]`.
 - Diberikan popup terbuka, Ketika pengguna mengeklik fitur lain, Maka popup lama tertutup dan hanya satu lokasi yang terpilih (BR-13).
-- Diberikan popup akan tampil di dekat search bar atau panel layer, Ketika dibuka, Maka peta bergeser otomatis sehingga popup tidak menutupi kontrol (BR-15).
+- Diberikan popup akan tampil di dekat kolom kiri atau panel kanan, Maka peta bergeser otomatis sehingga popup tidak tertutup (BR-15).
 
-**Edge case & error.** Layer gagal dimuat (UC-02 AF1); tile gagal; semua layer aktif di layar pendek (panel scroll).
-
-**Dependensi.** WBS 1.3 (GeoJSON 6 layer), 1.4.1, 1.4.3, 1.4.6.2. TBD-06, TBD-08, OQ-07.
+**Dependensi.** WBS 1.3, 1.4.1, 1.4.3, 1.4.6.2. TBD-06, OQ-07.
 
 ### 7.2 Requirement Search (fitur inti)
 
-**Deskripsi.** Satu search bar untuk teks bebas, nama wilayah, atau mode checkbox kota + persona, menghasilkan tepat tiga rekomendasi. Prioritas: Tinggi (FR-05, FR-06), Sedang (FR-07, FR-15, FR-16).
+**Deskripsi.** Satu search bar untuk teks bebas, nama wilayah, atau mode checkbox kota + persona, menghasilkan tepat tiga rekomendasi dengan persen kecocokan. Prioritas: Tinggi (FR-05, FR-06), Sedang (FR-07, FR-15, FR-16).
 
-**Sumber UI.** FR-05 Desain · FR-06 Desain · FR-07 Improvisasi (keadaan sesudah fly-to) · FR-15 Improvisasi · FR-16 Desain. (Desain: top-3-rekomendasi.png)
+**Sumber UI.** FR-05 Desain · FR-06 Desain · FR-07 Improvisasi (keadaan sesudah fly-to) · FR-15 Improvisasi · FR-16 Desain. (Frame: top 3, Simulasi Rute)
 
 **Deskripsi UI.**
-- Search bar kaca melayang di tengah atas: ikon kaca pembesar di kiri, placeholder "Ketik 'Daerah asri di Bogor'...", tombol toggle bergambar orang berjalan di kanan.
-- Hasil berupa dropdown yang menyatu di bawah search bar berjudul "TOP 3 REKOMENDASI": tiga baris, masing-masing ikon bintang kuning, nama kawasan + kota, dan satu kalimat alasan.
-- Mode checkbox `[Improvisasi]`: panel di bawah search bar bergaya dropdown Top 3, berisi label "PILIH KOTA", pilihan kota berupa tab pill, label "PERSONA" dengan kartu checkbox persona ringkas (meniru Kartu Checkbox Persona drawer), dan tautan "Pakai persona sesi".
-- Sesudah fly-to `[Improvisasi]`: marker lokasi memakai ikon pin tempat Point Inspector + label pill nama kawasan (meniru label pill peta), lalu Point Inspector terbuka.
+- Search bar 360 × 48 di kiri atas: ikon kaca pembesar, placeholder "Telusuri kawasan atau alamat...", pemisah, tombol ikon mobil (toggle Commute).
+- Hasil berupa panel "TOP 3 REKOMENDASI" di bawah search bar dengan subjudul "Kawasan ideal berdasarkan profil [Persona]." dan tiga baris: nomor peringkat, nama kawasan, tipe kawasan (mis. "Urban Terpadu"), persen hijau + "MATCH".
+- Mode checkbox `[Improvisasi]`: ikon pengaturan muncul di search saat fokus; membuka panel bergaya Top 3 berisi pilihan kota, baris persona (gaya Profil Persona), tautan "Pakai persona sesi", dan tombol "Cari".
+- Sesudah fly-to `[Improvisasi]`: wilayah hasil disorot garis navy, panel Top 3 berganti Detail Lokasi untuk kawasan itu.
 
 **US-06** — Sebagai pengguna, saya ingin mengetik kebutuhan atau nama wilayah, sehingga saya tidak perlu tahu nama kawasan terlebih dulu. (FR-05; UC-03; UI02)
-- Diberikan search bar kosong, Ketika pengguna mengetik "Daerah mudah transum di Bogor Kota" dan menekan Enter, Maka sistem memproses pencarian dan menampilkan dropdown "TOP 3 REKOMENDASI".
+- Diberikan search bar kosong, Ketika pengguna mengetik "Daerah mudah transum di Bogor Kota" dan menekan Enter, Maka panel "TOP 3 REKOMENDASI" tampil di bawah search bar.
 - Diberikan pengguna mengetik "Kecamatan Cibubur", Ketika Enter, Maka hasil dibatasi pada wilayah itu.
-- Cara menafsirkan teks bebas mengikuti keputusan TBD-11.
+- Cara menafsirkan teks bebas mengikuti keputusan TBD-11 (usulan: parsing berbasis aturan + kamus; artifact Audit Sumber Data, bagian Rancangan sistem).
 
-**US-07** — Sebagai pengguna, saya ingin melihat tepat tiga rekomendasi dengan alasannya, sehingga saya bisa langsung membandingkan. (FR-06; BR-1; UC-03)
-- Diberikan pencarian berhasil, Ketika hasil tampil, Maka dropdown berisi tepat tiga baris berurutan sesuai peringkat, masing-masing nama kawasan + kota dan satu kalimat alasan (tampilan sesuai top-3-rekomendasi.png).
-- Diberikan persona sesi Commuter, Ketika hasil dihitung, Maka peringkat memakai persona sesi sebagai bobot bawaan (SRS 4, skenario onboarding).
-- Edge: tidak ada lokasi yang cocok → dropdown menampilkan "Belum ada kawasan yang cocok" dan "Coba longgarkan kata kunci atau pilih kota lain." (UC-03 AF1) `[Improvisasi]`.
-- Edge: kawasan yang memenuhi kurang dari tiga → sistem tetap menampilkan tepat tiga dengan mengisi sisanya dari kawasan terdekat berikutnya menurut skor, atau menampilkan keadaan kosong bila tidak ada sama sekali (BR-1; OQ-04).
+**US-07** — Sebagai pengguna, saya ingin melihat tepat tiga rekomendasi dengan tingkat kecocokannya, sehingga saya bisa langsung membandingkan. (FR-06; BR-1; UC-03)
+- Diberikan pencarian berhasil, Maka panel berisi tepat tiga baris berurutan sesuai peringkat, masing-masing nomor, nama kawasan, tipe kawasan, dan persen kecocokan (sesuai frame top 3).
+- Persen kecocokan adalah skor pencarian 0–100 hasil perhitungan, bukan angka contoh (BR-18).
+- Diberikan persona sesi Commuter, Maka peringkat memakai persona sesi sebagai bobot bawaan dan subjudul berbunyi "Kawasan ideal berdasarkan profil Commuter."
+- Edge: tidak ada lokasi yang cocok → panel menampilkan "Belum ada kawasan yang cocok" dan "Coba longgarkan kata kunci atau pilih kota lain." (UC-03 AF1) `[Improvisasi]`.
+- Edge: kawasan yang memenuhi kurang dari tiga → tetap tiga dengan mengisi sisanya dari skor tertinggi berikutnya (BR-1; OQ-04).
 
-**US-08** — Sebagai pengguna, saya ingin peta terbang ke rekomendasi yang saya pilih, sehingga saya langsung melihat lokasinya. (FR-07; UC-03 langkah 6–7)
-- Diberikan dropdown Top 3 tampil, Ketika pengguna memilih baris kedua, Maka dropdown tertutup, kamera beranimasi (fly-to) ke kawasan itu, label pill nama kawasan tampil, dan Point Inspector terbuka untuk kawasan itu.
-- Diberikan preferensi "kurangi gerakan" aktif di sistem operasi, Ketika memilih hasil, Maka peta berpindah tanpa animasi.
+**US-08** — Sebagai pengguna, saya ingin peta terbang ke rekomendasi yang saya pilih, sehingga saya langsung melihat lokasinya. (FR-07; UC-03)
+- Diberikan panel Top 3 tampil, Ketika pengguna memilih baris kedua, Maka kamera beranimasi (fly-to) ke kawasan itu, batas wilayahnya disorot garis navy, dan Detail Lokasi terbuka menggantikan panel Top 3.
+- Diberikan preferensi "kurangi gerakan" aktif, Maka peta berpindah tanpa animasi.
 
 **US-09** — Sebagai pengguna, saya ingin memilih kota dan persona untuk satu pencarian, sehingga saya bisa mencarikan hunian untuk orang lain. (FR-15; BR-12; UC-03 AF2) `[Improvisasi]`
 - Diberikan persona sesi Commuter, Ketika pengguna membuka mode checkbox, memilih "Depok", mencentang hanya "Zen", lalu mencari, Maka hasil dihitung untuk Zen di Depok.
-- Diberikan pencarian tersebut selesai, Ketika pengguna membuka drawer tab Persona, Maka persona sesi tetap Commuter (BR-12).
-- Diberikan pengguna menekan "Pakai persona sesi", Ketika itu terjadi, Maka centang persona diisi sesuai persona sesi.
-- Edge: sesi tanpa persona (lihat OQ-01) → mode checkbox dibuka tanpa centang bawaan (UC-03 AF2).
+- Diberikan pencarian tersebut selesai, Maka persona sesi tetap Commuter (BR-12).
+- Diberikan pengguna menekan "Pakai persona sesi", Maka centang persona diisi sesuai persona sesi.
 
-**US-10** — Sebagai pengguna, saya ingin beralih dari pencarian ke simulasi perjalanan dari search bar yang sama, sehingga alurnya seperti Google Maps. (FR-16; UC-03 AF3; UI02)
-- Diberikan search bar tampil, Ketika pengguna menekan ikon orang berjalan, Maka search bar berganti menjadi kartu "Commute Simulator" di posisi yang sama.
-- Diberikan kartu Commute tampil, Ketika pengguna menekan tombol tutup, Maka search bar kembali.
+**US-10** — Sebagai pengguna, saya ingin beralih dari pencarian ke simulasi perjalanan dari search bar yang sama, sehingga alurnya seperti Google Maps. (FR-16; UC-03 AF2; UI02)
+- Diberikan search bar tampil, Ketika pengguna menekan ikon mobil, Maka tombol ikon berisi navy dan kartu "SIMULATOR RUTE" menggantikan panel di bawah search bar (sesuai frame Simulasi Rute).
+- Diberikan kartu Simulator Rute tampil, Ketika pengguna menekan tombol tutup atau ikon mobil lagi, Maka kartu tertutup dan search kembali ke mode pencarian.
 
-**Dependensi.** WBS 1.4.2, 1.4.6.2, 1.2.3 (rancangan algoritma). TBD-05, TBD-11, OQ-04.
+**Dependensi.** WBS 1.4.2, 1.4.6.2, 1.2.3. TBD-05, TBD-11, OQ-04.
 
 ### 7.3 Smart Point Inspector + Persona Grading (fitur inti)
 
-**Deskripsi.** Panel "Detail Lokasi" yang muncul saat titik atau poligon diklik, berisi skor 0–3 bintang untuk empat persona dan ringkasan untuk tiap persona sesi. Prioritas: Tinggi (FR-08, FR-09), Sedang (FR-17).
+**Deskripsi.** Panel "Detail Lokasi" yang muncul saat titik atau poligon diklik, berisi skor 0–3 bintang untuk empat persona dan kesimpulan untuk tiap persona sesi. Prioritas: Tinggi (FR-08, FR-09), Sedang (FR-17).
 
-**Sumber UI.** FR-08 Desain + Improvisasi · FR-09 Desain + Improvisasi · FR-17 Desain + Improvisasi. (Desain: visual-explorer.png, point-inspector.png, layer-*.png)
+**Sumber UI.** FR-08 Desain · FR-09 Desain + Improvisasi · FR-17 Desain + Improvisasi. (Frame: all, historis dan risiko, ekosistem micro, transum, mesin waktu, legalitas lahan)
 
 **Deskripsi UI.**
-- Panel kaca setinggi layar di sisi kiri berjudul "Detail Lokasi" dengan tombol tutup di kanan atas panel (D3).
-- Blok tempat: ikon pin, label "AREA TERPILIH", nama lokasi, alamat/kelurahan.
-- "Kecocokan Gaya Hidup": empat baris persona (ikon, nama, tiga bintang). Persona sesi disorot dan diberi badge "PROFIL ANDA"; persona lain tampil redup.
+- Panel "Detail Lokasi" di kolom kiri di bawah search bar, sampai bawah layar, dengan tombol tutup di kanan atas panel.
+- Blok tempat: lingkaran pin merah, label "AREA TERPILIH", nama lokasi (Fraunces), nama wilayah.
+- "Kecocokan Gaya Hidup": empat baris persona (ikon, nama, tiga bintang). Persona sesi: baris putih bergaris dengan badge "PROFIL ANDA" dan bintang merah muda; persona lain tanpa latar, nama redup, bintang lebih muda.
 - Kartu "KESIMPULAN SINGKAT" berisi kalimat seperti "Buat gaya hidup Commuter: Sangat mendukung aktivitasmu!".
-- `[Improvisasi]` Varian titik memakai label "TITIK TERPILIH" dengan gaya label yang sama; varian wilayah tetap "AREA TERPILIH" (meniru konsep TITIK / WILAYAH di demo landing).
-- `[Improvisasi]` Ringkasan data layer di lokasi: baris legenda inline per layer yang punya data di lokasi itu, di antara skor dan kesimpulan.
-- `[Improvisasi]` Beberapa persona sesi: setiap persona sesi mendapat baris sorot + badge "PROFIL ANDA" dan kalimat sendiri di kartu kesimpulan yang sama.
-- `[Improvisasi]` Skor 0: tiga bintang kosong dan teks kecil "0 dari 3".
+- `[Improvisasi]` Varian titik memakai label "TITIK TERPILIH"; varian wilayah "AREA TERPILIH".
+- `[Improvisasi]` Ringkasan data layer aktif di lokasi, di antara skor dan kesimpulan.
+- `[Improvisasi]` Titik di area non-hunian (monumen, taman kota, badan air, tol) diberi keterangan "bukan kawasan hunian" (design-system 9.2).
+- `[Improvisasi]` Skor 0: tiga bintang kosong dan "0 dari 3".
 
-**Aturan Persona Grading (SRS 4; BR-9, BR-10; WBS 1.4.5).**
+**Aturan Persona Grading (SRS FR-09, BR-9, BR-10; dikonfirmasi PM 29 Sep 2026).**
 - Skala: 0 = tidak ada/buruk, 1 = sekadar ada, 2 = bagus, 3 = sangat bagus.
-- **Titik**: berbasis radius jarak ke fasilitas relevan; semakin dekat semakin tinggi. Acuan bintang 3: ±500–600 m jalan kaki (5-minute city) dan 1–2 km berkendara. Ambang bintang 0–2 `[TBD-10]`.
-- **Wilayah (poligon)**: berbasis jumlah fasilitas dalam area; ambang tiap tingkat `[TBD-09]`.
-- Faktor per persona mengikuti tabel bagian 4; bobot `[TBD-05]` dan dapat disesuaikan (BR-2).
-- Auto-summary hanya untuk persona sesi (BR-11), kalimat mengikuti pola desain "Buat gaya hidup [Persona]: [frasa]" dengan frasa per skor: 3 "Sangat mendukung aktivitasmu!" (desain), 2 "Cukup mendukung aktivitasmu.", 1 "Kurang mendukung aktivitasmu.", 0 "Belum mendukung aktivitasmu." `[Improvisasi]`.
-- Skor di screenshot desain adalah data contoh; aplikasi menampilkan hasil perhitungan (BR-18).
+- **Titik**: 0–3 bintang. Commuter, Driver, dan Social & Vibe dari jarak titik terpilih ke **fasilitas utama** persona yang terdekat; Zen dari kualitas udara.
+
+  | Persona | Fasilitas utama | Penyesuaian |
+  |---|---|---|
+  | Commuter | Stasiun KRL/MRT/LRT atau halte TransJakarta | — |
+  | Driver | Gerbang tol | — |
+  | Social & Vibe | Kafe, restoran, atau mal | — |
+  | Zen | Kualitas udara (kategori ISPU) + ruang terbuka hijau (taman, hutan kota) | Lihat tabel Zen |
+
+  | Bintang | Jarak ke fasilitas utama |
+  |---|---|
+  | 3 | ≤ 1,2 km (15-minute city) |
+  | 2 | ≤ 2,5 km |
+  | 1 | ≤ 5 km |
+  | 0 | > 5 km |
+
+  | Zen | Nilai |
+  |---|---|
+  | Kualitas udara sehat / kurang sehat / tidak sehat / berbahaya | 3 / 2 / 1 / 0 bintang |
+  | RTH terdekat ≤ 1,2 km | tetap |
+  | RTH terdekat > 1,2 km sampai 5 km | −1 bintang |
+  | Tidak ada RTH dalam 5 km | −2 bintang (minimal 0) |
+- **Wilayah (poligon)**: **tanpa bintang** (TBD-09 selesai; kuantitas fasilitas tidak bisa dipukul rata antarwilayah). Tiap persona diberi centang **cocok** bila di dalam wilayah ada minimal satu fasilitas utamanya, atau tanda **belum cocok** bila tidak. Zen cocok bila kualitas udara sehat atau kurang sehat dan ada RTH di dalam wilayah.
+- Bobot dan ambang disimpan sebagai konstanta dan dapat disesuaikan setelah uji coba (BR-2).
+- Auto-summary hanya untuk persona sesi (BR-11), pola "Buat gaya hidup [Persona]: [frasa]": 3 "Sangat mendukung aktivitasmu!" (desain), 2 "Cukup mendukung aktivitasmu." `[Improvisasi]`, 1 "Mungkin kurang optimal, pertimbangkan lokasi lain." (desain), 0 "Belum mendukung aktivitasmu, pertimbangkan lokasi lain." `[Improvisasi]`. Wilayah: "Cocok untuk gaya hidup [Persona]." / "Belum cocok untuk gaya hidup [Persona]." `[Improvisasi]`.
+- Skor di desain adalah data contoh; aplikasi menampilkan hasil perhitungan (BR-18).
 
 **US-11** — Sebagai pengguna, saya ingin membuka detail lokasi dengan mengeklik peta dan menutupnya lagi, sehingga saya bisa memeriksa banyak lokasi. (FR-08; UC-04; UI03)
-- Diberikan peta tampil, Ketika pengguna mengeklik sebuah poligon, Maka panel "Detail Lokasi" muncul di kiri dengan label "AREA TERPILIH", nama, dan alamat (tampilan sesuai visual-explorer.png).
-- Diberikan panel terbuka, Ketika pengguna menekan tombol tutup di kanan atas panel atau Esc, Maka panel tertutup dan fokus kembali ke lokasi di peta.
+- Diberikan peta tampil, Ketika pengguna mengeklik sebuah poligon, Maka panel "Detail Lokasi" muncul di kolom kiri dengan label "AREA TERPILIH", nama, dan wilayah (sesuai frame all).
+- Diberikan panel terbuka, Ketika pengguna menekan tombol tutup di kanan atas panel atau Esc, Maka panel tertutup dan fokus kembali ke peta.
 - Diberikan panel terbuka, Ketika pengguna mengeklik lokasi lain, Maka isi panel berganti ke lokasi baru; tidak ada panel kedua (BR-13).
-- Diberikan panel terbuka, Maka tombol hamburger dan kontrol zoom tetap terlihat dan dapat diklik (BR-15).
-- Edge: lokasi tanpa data pada layer aktif → notifikasi "Data belum tersedia di sini" dengan teks "Layer ini belum punya data untuk lokasi yang kamu pilih." (UC-04 AF1) `[Improvisasi]`.
+- Diberikan panel terbuka, Maka search bar, tombol logo/menu, tombol LAYER/PERSONA, dan zoom tetap terlihat dan dapat diklik (BR-15).
+- Edge: lokasi tanpa data pada layer aktif → "Data belum tersedia di sini" dengan teks "Layer ini belum punya data untuk lokasi yang kamu pilih." (UC-04 AF1) `[Improvisasi]`.
 
 **US-12** — Sebagai pengguna, saya ingin melihat skor keempat persona di satu lokasi, sehingga saya tahu lokasi itu cocok untuk gaya hidup apa. (FR-09; BR-9; UC-05)
-- Diberikan panel terbuka, Maka "Kecocokan Gaya Hidup" menampilkan empat baris Commuter, Driver, Social & Vibe, Zen, masing-masing 0–3 bintang hasil perhitungan.
-- Diberikan pembaca layar aktif, Ketika fokus pada baris Commuter bernilai 3, Maka dibacakan "Commuter, 3 dari 3 bintang".
-- Diberikan skor 0, Maka baris menampilkan tiga bintang kosong dan "0 dari 3".
+- Diberikan panel terbuka, Maka "Kecocokan Gaya Hidup" menampilkan empat baris Commuter, Driver, Social & Vibe, Zen, masing-masing 0–3 bintang (titik) atau centang cocok/belum cocok (wilayah) hasil perhitungan.
+- Diberikan pembaca layar aktif, Ketika fokus pada baris Commuter bernilai 3, Maka dibacakan "Commuter, 3 dari 3 bintang"; pada wilayah "Commuter, cocok".
 
 **US-13** — Sebagai pengguna, saya ingin tahu apakah yang saya pilih titik atau wilayah, sehingga saya paham cara skornya dihitung. (FR-09; BR-10) `[Improvisasi]`
-- Diberikan pengguna mengeklik titik, Maka label berbunyi "TITIK TERPILIH" dan skor dihitung dengan metode radius.
-- Diberikan pengguna mengeklik poligon, Maka label berbunyi "AREA TERPILIH" dan skor dihitung dengan metode kuantitas.
-- Diberikan titik dekat Stasiun Bogor (< 500 m), Maka skor Commuter 3 bintang (SRS skenario FR-09).
+- Diberikan pengguna mengeklik titik, Maka label berbunyi "TITIK TERPILIH" dan skor dihitung dengan jarak ke fasilitas utama.
+- Diberikan pengguna mengeklik poligon, Maka label berbunyi "AREA TERPILIH" dan tiap persona diberi centang cocok/belum cocok, tanpa bintang.
+- Diberikan titik permukiman berjarak 1,0 km dari Stasiun Bogor, Maka skor Commuter 3 bintang; bila 2,0 km, 2 bintang; bila 4,0 km, 1 bintang; bila 6,0 km, 0 bintang.
+- Diberikan titik dengan kualitas udara "kurang sehat" dan RTH terdekat 3 km, Maka skor Zen 1 bintang (2 − 1).
 
-**US-14** — Sebagai pengguna dengan beberapa persona, saya ingin ringkasan untuk tiap persona saya, sehingga saya tidak perlu menafsirkan bintang sendiri. (FR-17; BR-11; FR-14)
-- Diberikan persona sesi Commuter dan Zen, Ketika panel dibuka, Maka baris Commuter dan Zen sama-sama disorot dengan badge "PROFIL ANDA", baris Driver dan Social & Vibe redup, dan kartu "KESIMPULAN SINGKAT" berisi dua kalimat: satu untuk Commuter, satu untuk Zen.
-- Diberikan persona sesi hanya Social & Vibe dengan skor 3, Maka kesimpulan berbunyi "Buat gaya hidup Social & Vibe: Sangat mendukung aktivitasmu!" (tampilan sesuai visual-explorer.png).
-- Diberikan pengguna mengubah persona di drawer, Ketika panel masih terbuka, Maka badge dan kalimat langsung menyesuaikan tanpa memuat ulang.
+**US-14** — Sebagai pengguna dengan beberapa persona, saya ingin kesimpulan untuk tiap persona saya, sehingga saya tidak perlu menafsirkan bintang sendiri. (FR-17; BR-11; FR-14)
+- Diberikan persona sesi Commuter dan Zen, Ketika panel dibuka, Maka baris Commuter dan Zen sama-sama bergaya persona sesi dengan badge "PROFIL ANDA", Driver dan Social & Vibe redup, dan kartu "KESIMPULAN SINGKAT" berisi dua kalimat.
+- Diberikan persona sesi hanya Commuter dengan skor 1, Maka kesimpulan berbunyi "Buat gaya hidup Commuter: Mungkin kurang optimal, pertimbangkan lokasi lain." (sesuai frame all).
+- Diberikan pengguna mengubah persona lewat drawer atau panel Profil Persona, Ketika panel masih terbuka, Maka badge dan kalimat langsung menyesuaikan tanpa memuat ulang.
 
 **US-15** — Sebagai pengguna, saya ingin tahu bila data di lokasi tidak lengkap, sehingga saya tidak salah menilai skor. (UC-05 AF1) `[Improvisasi]`
-- Diberikan salah satu layer pendukung skor tidak punya data di lokasi, Maka skor tetap tampil dan kartu kesimpulan menambahkan "Sebagian data di lokasi ini belum lengkap, jadi skornya bisa berubah."
+- Diberikan layer pendukung skor tidak punya data di lokasi, Maka persona terkait menampilkan "Data kurang" dan kesimpulan menambahkan "Sebagian data di lokasi ini belum lengkap, jadi skornya bisa berubah."
 
-**Dependensi.** WBS 1.4.4, 1.4.5, 1.4.6.2. TBD-05, TBD-09, TBD-10.
+**Dependensi.** WBS 1.4.4, 1.4.5, 1.4.6.2. TBD-05; data kualitas udara (IQAir/ISPU).
 
 ### 7.4 Commute Simulator (fitur inti)
 
-**Deskripsi.** Estimasi jarak, waktu tempuh, dan biaya antara calon hunian (Pin A) dan tujuan (Pin B) untuk transportasi publik dan kendaraan pribadi. Prioritas: Sedang (FR-10, FR-11); biaya: Sedang (disarankan).
+**Deskripsi.** Estimasi jarak, waktu tempuh, dan biaya antara calon hunian (A) dan tujuan (B) untuk kendaraan pribadi dan transportasi publik, dengan rute tergambar di peta. Prioritas: Sedang (FR-10, FR-11).
 
-**Sumber UI.** FR-10 Desain + Improvisasi · FR-11 Desain. (Desain: commute-simulator.png)
+**Sumber UI.** FR-10 Desain + Improvisasi · FR-11 Desain + Improvisasi. (Frame: Simulasi Rute)
 
 **Deskripsi UI.**
-- Kartu kaca "Commute Simulator" di tengah atas menggantikan search bar: baris "LOKASI RUMAH" (pin cyan) dan "LOKASI TUJUAN" (pin oranye), tombol "Reset & Pilih Ulang", tombol tutup.
-- Peta menampilkan marker "Lokasi Rumah" dan "Lokasi Tujuan" dengan label pill dan garis rute putus-putus.
-- Kartu "Estimasi Perjalanan" di kiri bawah: chip jarak, dua opsi moda ("Trans. Publik", "Mobil Pribadi"), masing-masing waktu, biaya, dan keterangan sumber.
-- `[Improvisasi]` Keadaan kosong dan mengisi: baris memakai input teks dengan placeholder "Ketik alamat atau pilih di peta" dan tautan "Pilih di peta"; tombol reset nonaktif sampai ada isian (meniru baris LOKASI RUMAH/TUJUAN).
+- Kartu "SIMULATOR RUTE" di kolom kiri di bawah search bar: titik A (lingkaran navy) dan B (lingkaran putih) dengan isian alamat, dihubungkan garis putus; dua kotak moda "MOBIL" dan "TRANSIT", masing-masing waktu ("12 mnt") dan biaya ("Rp 34.033").
+- Rute di peta mengikuti jaringan jalan (mobil) atau jalur transit + jalan kaki (transit), dengan panah arah dari A ke B dan titik pindah moda (BR-19, design-system 9.3). Garis lurus A–B dari desain tidak ditiru.
+- `[Improvisasi]` Keadaan kosong: placeholder "Ketik alamat atau pilih di peta" dan tautan "Pilih di peta"; kotak moda berisi "—".
+- `[Improvisasi]` Kotak moda dapat dipilih; rute moda terpilih digambar tebal. Chip jarak di kepala kartu; keterangan "Estimasi tanpa lalu lintas real-time." dan rincian moda transit di bawah kotak.
 
 **US-16** — Sebagai pengguna, saya ingin menentukan titik rumah dan tujuan lewat teks atau klik peta, sehingga saya bisa memakai cara yang paling mudah. (FR-10; UC-06; UI04)
-- Diberikan kartu Commute kosong, Ketika pengguna mengetik alamat di "LOKASI RUMAH" dan memilih salah satu saran, Maka marker "Lokasi Rumah" tampil di peta.
-- Diberikan kartu Commute kosong, Ketika pengguna menekan "Pilih di peta" pada "LOKASI TUJUAN" lalu mengeklik peta, Maka marker "Lokasi Tujuan" tampil dan baris terisi nama tempat.
-- Diberikan kedua titik terisi, Ketika pengguna menekan "Reset & Pilih Ulang", Maka kedua baris kosong, marker dan rute hilang.
-- Diberikan Point Inspector terbuka untuk suatu lokasi, Ketika pengguna beralih ke Commute, Maka lokasi itu terisi otomatis sebagai "LOKASI RUMAH" `[Improvisasi]`.
+- Diberikan kartu Simulator Rute kosong, Ketika pengguna mengetik alamat di baris A dan memilih salah satu saran, Maka penanda A tampil di peta.
+- Diberikan kartu kosong, Ketika pengguna menekan "Pilih di peta" pada baris B lalu mengeklik peta, Maka penanda B tampil dan baris terisi nama tempat.
+- Diberikan kedua titik terisi, Ketika pengguna menekan tombol reset, Maka kedua baris kosong, penanda dan rute hilang `[Improvisasi]`.
+- Diberikan Detail Lokasi terbuka untuk suatu lokasi, Ketika pengguna beralih ke Simulator Rute, Maka lokasi itu terisi otomatis sebagai titik A `[Improvisasi]`.
 
 **US-17** — Sebagai pengguna, saya ingin membandingkan waktu tempuh dua moda, sehingga saya tahu trade-off mobilitas. (FR-11; UC-06)
-- Diberikan kedua titik terisi, Maka rute putus-putus tampil dan kartu "Estimasi Perjalanan" muncul di kiri bawah dengan chip jarak serta dua opsi: "Trans. Publik" dan "Mobil Pribadi", masing-masing waktu tempuh (tampilan sesuai commute-simulator.png).
-- Diberikan pengguna memilih opsi "Mobil Pribadi", Maka opsi itu disorot dan rute di peta mengikuti moda tersebut.
-- Diberikan kartu Estimasi tampil, Maka kontrol zoom tetap terlihat dan dapat diklik (BR-15).
-- Edge: rute satu moda tidak ditemukan → opsi moda itu menampilkan "Tidak tersedia" dan "Coba titik yang lebih dekat ke jalan"; moda lain tetap tampil (UC-06 AF1) `[Improvisasi]`.
+- Diberikan kedua titik terisi, Maka kotak "MOBIL" dan "TRANSIT" menampilkan waktu tempuh dan biaya masing-masing (sesuai frame Simulasi Rute), dan rute kedua moda tergambar di peta menyusuri jalan/jalur dengan panah arah A→B.
+- Diberikan pengguna memilih kotak "TRANSIT", Maka kotak itu bergaris navy dan rute transit tampil tebal, rute mobil tipis.
+- Edge: rute satu moda tidak ditemukan → kotak moda itu menampilkan "Tidak tersedia" dan "Coba titik yang lebih dekat ke jalan"; moda lain tetap tampil (UC-06 AF1) `[Improvisasi]`.
 
-**US-18** — Sebagai pengguna, saya ingin melihat perkiraan biaya tiap moda beserta sumbernya, sehingga saya bisa menimbang ongkos harian. (D7, K2)
-- Diberikan estimasi tampil, Maka tiap opsi moda menampilkan biaya dalam Rupiah dan keterangan sumber yang sesuai data rute itu (mis. "Berdasarkan tarif resmi KRL" hanya bila rute memakai KRL) (BR-16).
+**US-18** — Sebagai pengguna, saya ingin melihat perkiraan biaya tiap moda, sehingga saya bisa menimbang ongkos harian. (FR-11)
+- Diberikan estimasi tampil, Maka tiap kotak moda menampilkan biaya dalam Rupiah hasil perhitungan (tarif transit, BBM, tol).
 - Edge: biaya tidak tersedia untuk suatu moda → teks biaya diganti "Biaya tidak tersedia" `[Improvisasi]`.
 - Sumber data waktu tempuh dan biaya: OQ-02, OQ-03 (TBD-ROUTE).
 
@@ -328,64 +345,67 @@ Sumber UI: **Desain** (sudah digambar), **Desain + Improvisasi** (sebagian digam
 
 **Deskripsi.** Dialog pemilihan persona di awal setiap sesi. Prioritas: Tinggi (FR-13, FR-14).
 
-**Sumber UI.** FR-13 Improvisasi · FR-14 Desain + Improvisasi (badge dan drawer sudah didesain; penyimpanan sesi adalah perilaku).
+**Sumber UI.** FR-13 Desain · FR-14 Desain + Improvisasi (penyimpanan sesi adalah perilaku). (Frame: persona)
 
-**Deskripsi UI `[Improvisasi]`.** Meniru drawer tab Persona (drawer-persona.png): panel dialog di tengah layar dengan latar dan kepala sama seperti drawer ("NalarRuang", tombol tutup kanan atas), peta di belakang di-blur. Judul "Pilih Persona Kamu", teks "Pilih satu atau lebih persona yang mewakili keseharianmu. Kamu bisa mengubahnya kapan saja lewat menu.", empat kartu checkbox persona dengan deskripsi desain, tombol "Mulai Jelajahi Peta".
+**Deskripsi UI.** Dialog krem lebar 1200 di atas peta yang digelapkan navy: judul "Pilih Persona mu!", pengantar "Pilih minimal satu persona yang menggambarkan keseharianmu untuk mendapatkan rekomendasi dan kurasi hunian yang tepat sasaran.", empat kartu persona (ikon, lingkaran pilih, nomor + tagline, nama Georgia, deskripsi), tombol "Mulai Jelajah" dengan panah di kanan bawah. Kartu terpilih: latar putih sedikit membesar, lingkaran merah marun berisi centang. Tidak ada tombol tutup.
 
 **US-19** — Sebagai pengguna baru di sesi ini, saya ingin memilih persona sebelum menjelajah, sehingga hasil disesuaikan dengan gaya hidup saya. (FR-13; BR-7; UC-01; UI00)
-- Diberikan sesi baru tanpa persona, Ketika Visual Explorer terbuka, Maka dialog onboarding tampil di atas peta yang di-blur dengan empat kartu persona beserta deskripsinya.
-- Diberikan tidak ada kartu dicentang, Maka tombol "Mulai Jelajahi Peta" nonaktif.
-- Diberikan pengguna menekan tombol tutup atau Esc tanpa memilih, Maka dialog tetap terbuka dan menampilkan peringatan "Pilih minimal satu persona dulu, ya." (BR-7; UC-01 AF1; lihat OQ-01 untuk UC-01 AF2).
-- Diberikan pengguna mencentang Commuter dan Zen lalu menekan tombol, Maka dialog tertutup dan kedua persona menjadi persona sesi.
+- Diberikan sesi baru tanpa persona, Ketika Visual Explorer terbuka, Maka dialog "Pilih Persona mu!" tampil dengan empat kartu persona (sesuai frame persona).
+- Diberikan tidak ada kartu terpilih, Maka tombol "Mulai Jelajah" tampil redup; menekannya memunculkan "Pilih minimal satu persona dulu, ya." `[Improvisasi]`.
+- Diberikan pengguna menekan Esc atau mengeklik di luar dialog, Maka dialog tetap terbuka (UC-01 AF1).
+- Diberikan pengguna memilih Commuter dan Zen lalu menekan "Mulai Jelajah", Maka dialog tertutup dan kedua persona menjadi persona sesi.
 
 **US-20** — Sebagai pengguna, saya ingin preferensi persona hanya berlaku di sesi ini, sehingga tidak ada data saya yang tersimpan permanen. (FR-14; BR-6; SRS 5.2)
 - Diberikan persona sesi tersimpan, Ketika pengguna berpindah antarfitur atau memuat ulang tab yang sama, Maka persona tetap berlaku.
-- Diberikan pengguna menutup tab lalu membuka NalarRuang lagi, Maka dialog onboarding muncul kembali.
+- Diberikan pengguna menutup tab lalu membuka NalarRuang lagi, Maka dialog persona muncul kembali.
 - Persona tidak pernah dikirim untuk disimpan di server dan tidak disimpan di cookie jangka panjang; hanya dikirim sebagai parameter permintaan pencarian dan skor.
 
-**Dependensi.** Tidak ada ke backend. OQ-01.
+**Dependensi.** Tidak ada ke backend.
 
 ### 7.6 Menu Utama (fitur pendukung)
 
-**Deskripsi.** Drawer dari kiri dengan tab Persona, Legenda, Tentang. Prioritas: Sedang (FR-18, FR-19), Rendah (FR-20, FR-21).
+**Deskripsi.** Drawer dari kiri dengan tab Persona, Legenda, Tentang, dibuka dari tombol logo + menu; ditambah panel Profil Persona dari tombol PERSONA untuk mengganti persona cepat. Prioritas: Sedang (FR-18, FR-19), Rendah (FR-20, FR-21).
 
-**Sumber UI.** FR-18 Desain · FR-19 Desain · FR-20 Improvisasi · FR-21 Improvisasi. (Desain: drawer-persona.png)
+**Sumber UI.** FR-18 Desain · FR-19 Desain · FR-20 Desain · FR-21 Desain + Improvisasi. (Frame: setting persona, setting legenda, setting tentang, persona)
 
-**Deskripsi UI.** Drawer modal di kiri, peta di-blur; judul "NalarRuang" dan tombol tutup; tab "Persona", "Legenda", "Tentang". Tab Persona: "Ubah Preferensi Persona", "Pilih persona yang mewakili keseharianmu. Ini akan mengubah rekomendasi di peta secara instan.", empat kartu checkbox persona. `[Improvisasi]` Tab Legenda meniru legenda inline kartu layer; tab Tentang memakai teks landing (visi, sumber data, disclaimer).
+**Deskripsi UI.** Drawer 320 berlatar krem: wordmark "NalarRuang" dan tombol tutup; tab "Persona", "Legenda", "Tentang"; isi berlatar putih. Tab Persona: "Ubah Preferensi Persona", "Pilih persona yang mewakili keseharianmu. Ini akan mengubah rekomendasi di peta secara instan.", empat kartu persona dengan kotak centang navy. Tab Legenda: "Legenda Peta", "Panduan membaca simbol dan warna pada Visual Explorer.", satu baris per layer. Tab Tentang: "Tentang NalarRuang 2.0", deskripsi platform, kartu istilah (Isochrone, Point Inspector, Commute Simulator, Persona Grading); `[Improvisasi]` ditambah kartu Sumber data dan Catatan (disclaimer, identitas tim). Panel Profil Persona: "PROFIL PERSONA", empat baris nama persona dengan checkbox.
 
 **US-21** — Sebagai pengguna, saya ingin membuka menu dari peta, sehingga pengaturan dan penjelasan mudah dijangkau. (FR-18; UC-07; UI05)
-- Diberikan Visual Explorer, Ketika pengguna menekan tombol hamburger, Maka drawer terbuka dari kiri dengan tab "Persona" terpilih dan peta di belakang di-blur (tampilan sesuai drawer-persona.png).
-- Diberikan drawer terbuka, Ketika pengguna menekan tombol tutup, Esc, atau area peta yang di-blur, Maka drawer tertutup dan fokus kembali ke tombol hamburger.
+- Diberikan Visual Explorer, Ketika pengguna menekan tombol logo/menu di kanan atas, Maka drawer terbuka dari kiri dengan tab "Persona" terpilih dan peta di belakang digelapkan (sesuai frame setting persona).
+- Diberikan drawer terbuka, Ketika pengguna menekan tombol tutup, Esc, atau area gelap, Maka drawer tertutup dan fokus kembali ke tombol menu.
 
 **US-22** — Sebagai pengguna, saya ingin mengubah persona kapan saja tanpa memuat ulang, sehingga saya bisa membandingkan hasil. (FR-19; BR-8; UC-07)
-- Diberikan persona sesi Driver, Ketika pengguna mencentang "Zen" di tab Persona, Maka persona sesi menjadi Driver dan Zen, dan badge, kesimpulan, serta hasil Top 3 yang terbuka diperbarui tanpa memuat ulang.
-- Diberikan hanya satu persona tercentang, Ketika pengguna mencoba menghapus centangnya, Maka centang tetap dan peringatan "Pilih minimal satu persona dulu, ya." tampil (BR-7).
+- Diberikan persona sesi Driver, Ketika pengguna memilih "Zen" di tab Persona atau di panel Profil Persona, Maka persona sesi menjadi Driver dan Zen, dan badge, kesimpulan, serta Top 3 yang terbuka diperbarui tanpa memuat ulang.
+- Diberikan hanya satu persona terpilih, Ketika pengguna mencoba menghapusnya, Maka pilihan tetap dan toast "Pilih minimal satu persona dulu, ya." tampil (BR-7).
 - Edge: perubahan gagal disimpan → toast "Gagal menyimpan preferensi. Coba pilih lagi." dan preferensi sebelumnya dipertahankan (UC-07 AF1) `[Improvisasi]`.
 
-**US-23** — Sebagai pengguna baru, saya ingin membaca arti simbol dan istilah, sehingga saya paham peta. (FR-20; UC-07) `[Improvisasi]`
-- Diberikan tab "Legenda" dipilih, Maka tampil satu baris per layer (simbol + nama + teks legenda), rincian jalur Mobilitas (KRL Bogor Line, KRL Rangkasbitung Line, KRL Cikarang Line, LRT Jabodebek, MRT, stasiun), dan daftar istilah (Persona, Skor bintang, Titik vs Wilayah, Fly-to, Basemap, Isochrone).
+**US-23** — Sebagai pengguna baru, saya ingin membaca arti simbol peta, sehingga saya paham peta. (FR-20; UC-07)
+- Diberikan tab "Legenda" dipilih, Maka tampil satu baris per layer dengan simbol berwarna sesuai yang digambar di peta dan teks legenda (sesuai frame setting legenda; warna simbol KRL dan trotoar mengikuti `design-system.md` 3.3).
 
-**US-24** — Sebagai pengguna, saya ingin membaca informasi umum aplikasi, sehingga saya tahu asal data dan batasannya. (FR-21; UC-07) `[Improvisasi]`
-- Diberikan tab "Tentang" dipilih, Maka tampil deskripsi NalarRuang, sumber data terbuka (OpenStreetMap, Overpass API, InaRISK, ATR/BPN), dan disclaimer "Skor dan rekomendasi merupakan estimasi dari data sekunder publik."
+**US-24** — Sebagai pengguna, saya ingin membaca informasi umum aplikasi, sehingga saya tahu istilah, asal data, dan batasannya. (FR-21; UC-07)
+- Diberikan tab "Tentang" dipilih, Maka tampil deskripsi NalarRuang dan kartu istilah (sesuai frame setting tentang), kartu Sumber data berisi sembilan sumber (bagian 9), dan disclaimer "Skor dan rekomendasi merupakan estimasi dari data sekunder publik." `[Improvisasi]`.
 
 **Dependensi.** FR-13, FR-14.
 
 ### 7.7 Landing Page (fitur pendukung)
 
-**Deskripsi.** Halaman pemasaran editorial yang menjelaskan produk dan mengarahkan ke peta. Prioritas yang disarankan: Rendah. Masuk cakupan mengikuti desain (D8, K1).
+**Deskripsi.** Halaman editorial yang menjelaskan produk dan mengarahkan ke peta. Prioritas: Rendah (FR-22).
 
-**Sumber UI.** Desain (landing-page.png). Tidak ada FR SRS; lihat Lampiran B.
+**Sumber UI.** Desain (frame Landing Pagee) + Improvisasi (gambar fitur, isi Sumber Data).
 
-**Deskripsi UI.** Header (MENU, logo NalarRuang, "Menuju Peta"); hero "Hunian yang cocok. Kota yang terbaca." dengan eyebrow "Data Spasial × Persona × Rekomendasi"; marquee nama fitur; seksi visi (Spasial, Persona, Rekomendasi); "The Vision"; "Empat Cara Memandang Suatu Kota." (kartu foto 4 persona, "Pilihanmu dapat beririsan"); "Tiga cara menjelajah." (Requirement Search, Smart Point Inspector, Commute Simulator); "Enam layer, satu kota."; "Sumber Data Terbuka" dengan "Buka Peta Interaktif"; "Cara Kerja" (Kumpulkan, Olah, Hitung, Tampilkan); demo profil area Blok M dengan tab TITIK / WILAYAH; FAQ; CTA "Siap membaca kotamu sendiri?" dengan "Mulai Cari Hunian"; footer dengan disclaimer.
+**Deskripsi UI.** Header (MENU, wordmark, "Menuju Peta"); hero "Hunian yang cocok. Kota yang terbaca." dengan kicker "Data Spasial · Persona · Rekomendasi"; marquee nama fitur; "Mengurai Visi, / Menata Kota Bersama." dengan kolom Spasial, Persona, Rekomendasi; **Our Vision**; **Mission** 01–03; "Empat Cara Memandang Suatu Kota." (kartu foto persona); "Tiga cara menjelajah." (Requirement Search, Smart Point Inspector, Commute Simulator); "Enam layer, satu kota."; "Sumber Data Terbuka"; "Dari Data Terbuka ke Rekomendasi." (Kumpulkan, Olah, Hitung, Tampilkan); **Coba Sekarang** dengan tombol "BUKA PETA"; FAQ "Hal yang perlu kamu tahu."; CTA "Siap membaca kotamu sendiri?" dengan "MULAI CARI HUNIAN"; footer (Sekolah Vokasi IPB, kontak, media sosial, disclaimer).
+- `[Improvisasi]` Gambar tiga fitur dibuat dari peta asli sesuai Kartografi, bukan ilustrasi Figma (kotak biru, pin di Monas, garis lurus): tiga poligon kelurahan bernomor; pin di permukiman dengan label "★ 3/3 Sangat Cocok"; rute yang menyusuri jalan dengan panah arah.
+- Sumber Data Terbuka berisi sembilan sumber tanpa duplikasi (bagian 9).
 
-**US-25** — Sebagai calon pengguna, saya ingin memahami apa itu NalarRuang sebelum membuka peta, sehingga saya tahu manfaatnya. (D8)
-- Diberikan pengguna membuka URL utama, Maka landing page tampil dengan seluruh seksi sesuai landing-page.png.
-- Diberikan pengguna menekan "Mulai Cari Hunian", "Menuju Peta", atau "Buka Peta Interaktif", Maka Visual Explorer terbuka.
-- Diberikan demo profil area, Ketika pengguna memilih tab "WILAYAH", Maka skor demo berganti ke contoh metode wilayah `[Improvisasi]`.
+**US-25** — Sebagai calon pengguna, saya ingin memahami apa itu NalarRuang sebelum membuka peta, sehingga saya tahu manfaatnya. (FR-22)
+- Diberikan pengguna membuka URL utama, Maka landing page tampil dengan seluruh seksi sesuai frame Landing Pagee.
+- Diberikan pengguna menekan "Mulai Cari Hunian", "Menuju Peta", "Buka Peta Interaktif", atau "Buka Peta", Maka Visual Explorer terbuka.
+- Diberikan seksi "Tiga cara menjelajah", Maka gambar tiap fitur menampilkan peta asli (poligon mengikuti batas, pin di kawasan hunian, rute menyusuri jalan).
 
-**US-26** — Sebagai calon pengguna, saya ingin jawaban atas pertanyaan umum, sehingga saya percaya pada datanya. (SRS 5.2, B07)
-- Diberikan FAQ, Ketika pengguna membuka "Datanya dari mana?", Maka jawaban "NalarRuang memakai data sekunder publik dari OpenStreetMap, Overpass API, InaRISK, dan ATR/BPN." tampil; hanya satu item terbuka pada satu waktu.
-- Jawaban lain sesuai SRS: tanpa login; persona hanya tersimpan selama sesi di browser; skor adalah estimasi dari data sekunder publik; cakupan Jabodetabek.
+**US-26** — Sebagai calon pengguna, saya ingin jawaban atas pertanyaan umum dan tahu sumber datanya, sehingga saya percaya pada datanya. (FR-22; SRS 5.2, B07)
+- Diberikan seksi "Sumber Data Terbuka", Maka tampil sembilan sumber: InaRISK, DEMNAS, IQAir, BPS, Overpass API, GTFS Transjakarta, Jakarta Satu Data, ATR/BPN, JUTPI Phase 3.
+- Diberikan FAQ, Ketika pengguna membuka "Datanya dari mana?", Maka jawaban "NalarRuang memakai data sekunder publik dari InaRISK, DEMNAS, IQAir, BPS, Overpass API (OpenStreetMap), GTFS Transjakarta, Jakarta Satu Data, ATR/BPN, dan JUTPI Phase 3." tampil; hanya satu item terbuka pada satu waktu.
+- Jawaban lain: tanpa login; persona hanya tersimpan selama sesi di browser; skor adalah estimasi dari data sekunder publik; cakupan Jabodetabek.
 - Footer selalu menampilkan "Skor dan rekomendasi merupakan estimasi dari data sekunder publik."
 
 **Dependensi.** Tidak ada ke backend. OQ-09 (domain/email).
@@ -397,11 +417,11 @@ Sumber UI: **Desain** (sudah digambar), **Desain + Improvisasi** (sebagian digam
 **Sumber UI.** Tidak berlaku (non-UI).
 
 **US-27** — Sebagai tim frontend, saya ingin endpoint JSON yang stabil, sehingga fitur peta bisa dibangun paralel. (FR-12; COM02; WBS 1.4.6.2)
-- Diberikan layer aktif dan batas tampilan peta, Ketika frontend meminta data layer, Maka API mengembalikan GeoJSON yang difilter sesuai bounding box (SRS 4, skenario Backend).
-- Diberikan parameter pencarian dan persona, Ketika frontend meminta Requirement Search, Maka API mengembalikan tepat tiga hasil berperingkat beserta alasan dan geometri (BR-1).
-- Diberikan sebuah lokasi dan persona sesi, Ketika frontend meminta skor, Maka API mengembalikan jenis geometri, skor 0–3 untuk empat persona, status kelengkapan data, dan ringkasan layer.
-- Diberikan Pin A dan Pin B, Ketika frontend meminta estimasi, Maka API mengembalikan jarak, serta waktu, biaya, dan keterangan sumber per moda atau status "tidak tersedia".
-- Semua endpoint lulus uji fungsional dasar sesuai kontrak API (WBS 1.4.6.2); kontrak dibekukan setelah disepakati (`docs/SISTEM.md` bagian 2).
+- Diberikan layer aktif dan batas tampilan peta, Ketika frontend meminta data layer, Maka API mengembalikan GeoJSON yang difilter sesuai bounding box.
+- Diberikan parameter pencarian dan persona, Ketika frontend meminta Requirement Search, Maka API mengembalikan tepat tiga hasil berperingkat beserta tipe kawasan, persen kecocokan, alasan, dan geometri wilayah (BR-1).
+- Diberikan sebuah lokasi dan persona sesi, Ketika frontend meminta skor, Maka API mengembalikan jenis geometri, nama dan wilayah, skor 0–3 untuk empat persona, status kelengkapan data, dan ringkasan layer.
+- Diberikan Pin A dan Pin B, Ketika frontend meminta estimasi, Maka API mengembalikan per moda jarak, waktu, biaya, dan geometri rute searah A→B, atau status "tidak tersedia".
+- Semua endpoint lulus uji fungsional dasar sesuai kontrak API; kontrak dibekukan setelah disepakati (`docs/SISTEM.md` bagian 2).
 
 **Dependensi.** WBS 1.2.2, 1.2.3, 1.3.2, 1.4.6.1. TBD-04, TBD-06.
 
@@ -411,45 +431,45 @@ Sumber UI: **Desain** (sudah digambar), **Desain + Improvisasi** (sebagian digam
 
 | ID | Aturan | Rujukan |
 |---|---|---|
-| BR-1 | Setiap hasil Requirement Search menampilkan tepat 3 rekomendasi. | SRS 5.6; FR-06 |
-| BR-2 | Bobot skor persona dapat disesuaikan setelah uji coba data nyata. | FR-09; TBD-05 |
-| BR-3 | Layer Mesin Waktu hanya menampilkan proyek sesuai tahun di slider. | FR-04 |
-| BR-4 | Hanya data sekunder publik; tanpa data primer. | B07 |
-| BR-5 | Analisis dan rekomendasi terbatas pada Jabodetabek. | B05 |
-| BR-6 | Preferensi persona berbasis sesi; ditanyakan ulang di sesi baru. | FR-14 |
-| BR-7 | Minimal satu persona wajib dicentang pada onboarding; boleh lebih. | FR-13 |
-| BR-8 | Persona dapat diubah kapan saja lewat menu tanpa onboarding ulang atau reload. | FR-19 |
-| BR-9 | Skor memakai skala 0–3 bintang. | FR-09 |
-| BR-10 | Metode skor: radius untuk titik, kuantitas untuk poligon. | FR-09 |
-| BR-11 | Auto-summary hanya untuk persona sesi. | FR-17 |
-| BR-12 | Pilihan kota dan persona di mode checkbox hanya berlaku untuk pencarian itu. | FR-15 |
-| BR-13 | Hanya satu lokasi terpilih pada satu waktu; popup dan Point Inspector selalu merujuk lokasi yang sama. | Analisis desain 7.2 |
-| BR-14 | Setiap persona sesi mendapat baris sorot, badge "PROFIL ANDA", dan kalimat kesimpulan sendiri dengan komponen yang sama. | D6; FR-14, FR-17 |
-| BR-15 | Tombol hamburger, search bar, dan kontrol zoom selalu terlihat dan dapat diklik saat panel, kartu, popup, atau drawer terbuka (drawer/dialog modal dikecualikan selama terbuka). | Analisis desain 7.1 |
-| BR-16 | Teks legenda dan keterangan sumber mengikuti data yang benar-benar ditampilkan; warna tetap sesuai desain. | Analisis desain 7.2, 7.3 |
-| BR-17 | Disclaimer estimasi dari landing juga tersedia di aplikasi (tab Tentang). | Analisis desain 4 |
-| BR-18 | Skor, waktu, jarak, dan biaya di screenshot adalah contoh; aplikasi menampilkan hasil perhitungan. | Analisis desain 7.2 |
-
-BR-13 s.d. BR-18 berasal dari analisis desain.
+| BR-1 | Setiap hasil Requirement Search menampilkan tepat 3 rekomendasi. | SRS 5.6-1; FR-06 |
+| BR-2 | Bobot dan ambang skor persona dapat disesuaikan setelah uji coba data nyata. | SRS 5.6-2; TBD-05 |
+| BR-3 | Layer Mesin Waktu hanya menampilkan proyek sesuai tahun di slider. | SRS 5.6-3; FR-04 |
+| BR-4 | Hanya data sekunder publik; tanpa data primer. | SRS 5.6-4; B07 |
+| BR-5 | Analisis dan rekomendasi terbatas pada Jabodetabek. | SRS 5.6-5; B05 |
+| BR-6 | Preferensi persona berbasis sesi; ditanyakan ulang di sesi baru. | SRS 5.6-6; FR-14 |
+| BR-7 | Minimal satu persona wajib dipilih; boleh lebih. | SRS 5.6-7; FR-13 |
+| BR-8 | Persona dapat diubah kapan saja lewat drawer atau panel Profil Persona tanpa onboarding ulang atau reload. | SRS 5.6-8; FR-19 |
+| BR-9 | Skor memakai skala 0–3 bintang. | SRS 5.6-9 |
+| BR-10 | Titik: jarak ke fasilitas utama persona (3 ≤ 1,2 km, 2 ≤ 2,5 km, 1 ≤ 5 km, 0 > 5 km); Zen: kualitas udara 3/2/1/0 dikurangi jarak RTH (−1 bila > 1,2 km, −2 bila tidak ada dalam 5 km); poligon: centang cocok/belum cocok, tanpa bintang. | SRS 5.6-10; FR-09 |
+| BR-11 | Auto-summary hanya untuk persona sesi. | SRS 5.6-11; FR-17 |
+| BR-12 | Pilihan kota dan persona di mode checkbox hanya berlaku untuk pencarian itu. | SRS 5.6-12; FR-15 |
+| BR-13 | Hanya satu lokasi terpilih pada satu waktu; popup dan Detail Lokasi selalu merujuk lokasi yang sama. | Perilaku |
+| BR-14 | Setiap persona sesi mendapat gaya baris persona sesi, badge "PROFIL ANDA", dan kalimat kesimpulan sendiri. | Desain; FR-14, FR-17 |
+| BR-15 | Search bar, tombol logo/menu, tombol LAYER/PERSONA, dan zoom selalu terlihat dan dapat diklik saat panel atau popup terbuka (drawer/dialog modal dikecualikan selama terbuka). | Perilaku |
+| BR-16 | Teks legenda dan keterangan mengikuti data yang benar-benar ditampilkan. | SRS FR-20 |
+| BR-17 | Disclaimer estimasi tersedia di landing dan tab Tentang. | SRS 5.6-14 |
+| BR-18 | Skor, persen kecocokan, waktu, jarak, dan biaya di desain adalah contoh; aplikasi menampilkan hasil perhitungan. | Desain |
+| BR-19 | Isi peta digambar dari data sebenarnya: area mengikuti batas data (bukan kotak/segitiga), lokasi contoh berupa kawasan hunian (bukan Monas), rute mengikuti jalan/jalur dan menunjukkan arah. Ilustrasi peta di Figma tidak ditiru. | SRS 5.6-13; masukan Izdihar 29 Sep 2026 |
 
 ---
 
 ## 9. Data & Layer Spasial
 
-| Layer | Isi data | Sumber sekunder (WBS 1.1.3, 1.3.1; Deskripsi) | Geometri | Representasi di desain | Dipakai oleh | Keterbatasan |
+**Sumber data resmi (SRS B07, daftar Izdihar 29 Sep 2026):** InaRISK (BNPB) · DEMNAS (BIG) · IQAir · BPS · Overpass API (OpenStreetMap) · GTFS Transjakarta · Jakarta Satu Data · ATR/BPN · JUTPI Phase 3. Hasil uji akses tiap sumber, alternatifnya, dan evaluasi kesesuaiannya ada di artifact **Audit Sumber Data NalarRuang** (https://claude.ai/artifact/PwTA6cASf1zAJQCDuVrz7b).
+
+| Layer | Isi data | Sumber | Geometri | Tampilan (design-system 3.3) | Dipakai oleh | Keterbatasan |
 |---|---|---|---|---|---|---|
-| Historis & Risiko | Banjir, elevasi, riwayat lahan, kriminalitas, AQI, kebisingan | InaRISK (BNPB), PetaBencana.id, DEMNAS (BIG), citra historis, data kriminalitas publik sekunder, ISPU/AQI, buffer kebisingan dari jaringan OSM | Poligon (utama), titik | "Area Merah di Peta"; popup "Area Banjir Tinggi" | Visual Explorer, skor Zen, Search | Kriminalitas dan AQI publik terbatas per wilayah |
-| Ekosistem Mikro & Gaya Hidup | POI kafe, restoran, hiburan, RTH, UMKM, olahraga | Overpass API (OSM) | Titik, poligon RTH | "Titik Hijau di Peta" | Skor Social & Vibe, Zen, Driver (SPBU); Search | Kelengkapan POI OSM bervariasi |
-| Inklusivitas | Fasilitas ramah disabilitas (ramp, guiding block, wheelchair) | Tag OSM `wheelchair=yes`, `tactile_paving=yes` | Titik | "Titik Biru di Peta" | Visual Explorer, skor Commuter (trotoar) | Data tipis; tanpa survei lapangan (B07) |
-| Mobilitas & Transit | Stasiun, halte, jalur KRL/MRT/LRT/TransJakarta, jaringan jalan, isochrone | OSM/Overpass, GTFS BPTJ/TransJakarta bila tersedia | Titik, garis | Jalur berwarna per lintasan, stasiun lingkaran putih | Skor Commuter, Driver; Commute; Search | GTFS resmi belum pasti tersedia |
-| Mesin Waktu | Proyek infrastruktur per tahun 2026–2030 | Dokumen rencana pemerintah terbuka, RDTR | Garis, poligon | "Garis Putus-putus di Peta"; slider "Tahun 20xx" | Visual Explorer | Tahun proyek perlu dikurasi manual |
-| Legalitas Lahan | Status/peruntukan lahan | ATR/BPN (BHUMI), Jakarta Open Data/RDTR | Poligon | "Area Ungu di Peta"; label "Zona Perkantoran" | Visual Explorer | Jenis data (persil atau zonasi) = OQ-07 |
+| Historis & Risiko | Banjir, elevasi, kriminalitas, AQI, kebisingan | InaRISK, DEMNAS, BPS, Jakarta Satu Data, IQAir; kebisingan = buffer jalan/rel OSM | Poligon (kelas bahaya), titik stasiun AQI | Poligon merah bertingkat | Skor Zen, Search | AQI IQAir real-time, bukan historis; kriminalitas hanya per kota/kecamatan |
+| Ekosistem Mikro | Kafe, restoran, mal, ritel, RTH | Overpass API | Titik, poligon RTH | Titik hijau, RTH hijau muda | Skor Social & Vibe, Zen; Search | Kelengkapan POI OSM bervariasi |
+| Inklusivitas | Titik akses disabilitas, trotoar layak | Overpass API (`wheelchair=yes`, `tactile_paving=yes`, trotoar) | Titik, garis | Titik biru langit, garis biru putus | Visual Explorer | Data tipis (B07) |
+| Mobilitas & Transit | Stasiun, halte, jalur KRL/MRT/LRT/TransJakarta, gerbang tol, jaringan jalan | GTFS Transjakarta, Overpass API, Jakarta Satu Data | Titik, garis | Jalur berwarna per lintas, stasiun putih bergaris navy | Skor Commuter, Driver; Commute; Search | GTFS rel tidak resmi (lihat audit) |
+| Mesin Waktu | Proyek infrastruktur per tahun 2026–2030 | JUTPI Phase 3, rencana tata ruang ATR/BPN | Garis, poligon | Garis ungu putus-putus | Visual Explorer | Tahun proyek dikurasi manual |
+| Legalitas Lahan | Zona peruntukan / bidang tanah | ATR/BPN (GISTARU RDTR/RTRW; BHUMI hanya tampilan) | Poligon | Ungu muda | Visual Explorer | Persil vs zonasi = OQ-07 |
+| (pendukung) | Batas kelurahan/kecamatan untuk pencarian, poligon skor, dan nama lokasi | InaRISK/BIG batas administrasi | Poligon | Garis tepi tipis; terpilih garis navy | Search, Point Inspector | — |
 
-**Pipeline (WBS 1.3; SRS SW03).** Akuisisi di QGIS dan Overpass API (luring) → pembersihan dan standardisasi atribut → ekspor GeoJSON per layer → validasi skema dan geometri → impor ke PostgreSQL + PostGIS. Aplikasi hanya membaca hasilnya. Skema tabel tidak dirancang di PRD (TBD-04).
+**Pipeline (WBS 1.3; SRS SW03).** Akuisisi di QGIS dan Overpass API (luring) → pembersihan dan standardisasi atribut → ekspor GeoJSON per layer → validasi skema dan geometri → impor ke PostgreSQL + PostGIS. Aplikasi hanya membaca hasilnya. Skema tabel: TBD-04.
 
-**Kebutuhan data tambahan dari desain.** Biaya perjalanan per moda (D7; OQ-03); tahun proyek Mesin Waktu 2026–2030 (FR-04); keterangan sumber per rute (BR-16); nama tempat untuk label pill dan alamat Point Inspector.
-
-**Catatan.** Skor, waktu, jarak, dan biaya di screenshot adalah data contoh (BR-18).
+**Kebutuhan data tambahan dari desain.** Persen kecocokan dan tipe kawasan Top 3; biaya per moda (OQ-03); geometri rute A→B per moda; tahun proyek Mesin Waktu (FR-04); nama kawasan berbahasa Indonesia untuk Detail Lokasi; tata guna lahan untuk menandai titik bukan kawasan hunian (design-system 9.2).
 
 ---
 
@@ -467,9 +487,9 @@ BR-13 s.d. BR-18 berasal dari analisis desain.
 | NFR-08 | Keandalan | Staging dan produksi dapat diakses selama pengujian dan Sprint Review. | SRS 5.3; D03 |
 | NFR-09 | Keandalan | Perhitungan spasial akurat dan konsisten terhadap data PostGIS; input yang sama menghasilkan skor yang sama. | SRS 5.3 |
 | NFR-10 | Kemudahan penggunaan | Pengguna target dapat memakai fitur utama tanpa pelatihan. | SRS 5.4 |
-| NFR-11 | Aksesibilitas perilaku | Panel, drawer, dialog, dropdown, toggle, dan slider dapat dioperasikan dengan keyboard; fokus terlihat; drawer/dialog mengunci fokus dan mengembalikannya ke pemicu; kontrol ikon punya label pembaca layar; skor dibacakan sebagai angka ("3 dari 3"); animasi dimatikan saat pengguna memilih kurangi gerakan. Tanpa mengubah gaya visual. | Kebijakan desain |
+| NFR-11 | Aksesibilitas perilaku | Panel, drawer, dialog, daftar Top 3, toggle, dan slider dapat dioperasikan dengan keyboard; fokus terlihat; drawer/dialog mengunci fokus dan mengembalikannya ke pemicu; kontrol ikon punya label pembaca layar; skor dibacakan sebagai angka ("3 dari 3"); animasi dimatikan saat pengguna memilih kurangi gerakan. Tanpa mengubah gaya visual. | Kebijakan desain |
 | NFR-12 | Kejujuran data | Disclaimer estimasi tersedia di landing dan aplikasi; keterangan sumber sesuai data. | BR-16, BR-17 |
-| NFR-13 | Fidelitas desain | Layar yang sudah didesain diimplementasikan sesuai screenshot dan `design-system.md`; layar improvisasi hanya memakai token dan komponen design system. | Kebijakan desain |
+| NFR-13 | Fidelitas desain | Layar yang sudah didesain diimplementasikan sesuai Figma final dan `design-system.md`; layar improvisasi hanya memakai token dan komponen design system; isi peta mengikuti Kartografi (BR-19). | Kebijakan desain |
 | NFR-14 | Pemeliharaan | Kode dipisah per modul: Core Map, Requirement Search, Multi-Layer Mapping, Point Inspector, Persona Grading, Commute Simulator, Backend & API; logika skor, pemeringkatan, parsing, dan estimasi dapat diuji tanpa HTTP. | SRS 5.5; CLAUDE.md |
 | NFR-15 | Lingkungan | Browser desktop Chrome, Firefox, Edge terbaru; server Linux. | SRS 2.5, SW04 |
 | NFR-16 | Bahasa | Seluruh antarmuka Bahasa Indonesia sesuai microcopy desain; nama fitur boleh tetap Inggris sebagai nama produk. | B02 |
@@ -483,7 +503,7 @@ BR-13 s.d. BR-18 berasal dari analisis desain.
 ```mermaid
 flowchart LR
     subgraph Luring[Pengolahan data luring]
-        SRC[Overpass API, InaRISK, DEMNAS, ATR/BPN, GTFS] --> QGIS[QGIS: bersihkan dan standarkan]
+        SRC[InaRISK, DEMNAS, IQAir, BPS, Overpass API, GTFS TJ, Jakarta Satu Data, ATR/BPN, JUTPI] --> QGIS[QGIS: bersihkan dan standarkan]
         QGIS --> GJ[GeoJSON per layer]
     end
     GJ -->|impor| DB[(PostgreSQL + PostGIS)]
@@ -502,73 +522,70 @@ flowchart LR
 | Kebutuhan | Masukan | Keluaran | FR |
 |---|---|---|---|
 | Data layer per bounding box | Layer, bbox, tahun (Mesin Waktu) | GeoJSON fitur | FR-03, FR-04, FR-12 |
-| Requirement Search | Teks atau kota + persona | Tepat 3 hasil: nama, kota, alasan, geometri, peringkat | FR-05, FR-06, FR-15 |
+| Requirement Search | Teks atau kota + persona | Tepat 3 hasil: nama, tipe kawasan, persen kecocokan, alasan, geometri, peringkat | FR-05, FR-06, FR-15 |
 | Skor persona / inspeksi lokasi | Titik atau id poligon, persona sesi | Jenis geometri, nama, alamat, skor 4 persona, kelengkapan data, ringkasan layer | FR-08, FR-09, FR-17 |
-| Estimasi commute | Pin A, Pin B | Jarak; per moda: waktu, biaya, sumber, status | FR-10, FR-11 |
+| Estimasi commute | Pin A, Pin B | Per moda: jarak, waktu, biaya, geometri rute A→B, status | FR-10, FR-11 |
 
 URL, nama tabel, dan kontrak rinci ditetapkan di `docs/SISTEM.md` (WBS 1.2.3).
 
-**Batasan.** B01 (teknologi; lihat catatan stack), B02 (Bahasa Indonesia), B03 (tipografi — direvisi, Lampiran B), B04 (staging gratis), B05 (Jabodetabek), B06 (5 orang, 7 Sep – 27 Nov 2026), B07 (data sekunder publik).
+**Batasan.** B01 (teknologi), B02 (Bahasa Indonesia), B03 (tipografi mengikuti desain final), B04 (staging gratis), B05 (Jabodetabek), B06 (5 orang, 7 Sep – 27 Nov 2026), B07 (data sekunder publik).
 
 ---
 
 ## 12. Pedoman UX & Desain
 
 - **Kebijakan.** Lihat bagian 0. PRD tidak menetapkan nilai warna, spasi, atau font; sumbernya `design-system.md` dan artifact Design System NalarRuang.
-- **Layar desain.**
+- **Layar desain final** (Figma `ui-nalar-ruang`, section "putih kayak bhumi yang udah di revisi"):
 
-| File | Isi |
+| Frame | Isi |
 |---|---|
-| landing-page.png | Landing page lengkap |
-| top-3-rekomendasi.png | Visual Explorer + dropdown Top 3, semua layer mati |
-| drawer-persona.png | Drawer menu tab Persona |
-| point-inspector.png | Point Inspector di titik, semua layer mati |
-| layer-historis.png, layer-ekosistem.png, layer-inklusivitas.png, layer-mobilitas.png, layer-mesin-waktu.png, layer-legalitas.png | Satu layer aktif per layar |
-| visual-explorer.png | Semua layer aktif, persona sesi Social & Vibe |
-| commute-simulator.png | Commute Simulator dan Estimasi Perjalanan |
+| persona | Dialog "Pilih Persona mu!" |
+| all | Semua layer aktif, Detail Lokasi, slider tahun |
+| top 3 | Panel Top 3 Rekomendasi, panel Layer tertutup semua |
+| Simulasi Rute | Kartu Simulator Rute |
+| persona (panel) | Panel Profil Persona |
+| historis dan risiko, ekosistem micro, inklusivitas, transum, mesin waktu, legalitas lahan | Satu layer aktif per layar |
+| setting persona, setting legenda, setting tentang | Drawer tiga tab |
+| Landing Pagee | Landing page |
 
-- **Prinsip improvisasi.** Tiru komponen terdekat dan sebut sumbernya; hanya token yang ada; hover = latar menguat ke putih, terpilih = aksen cyan, nonaktif = opasitas redup; microcopy santai dengan "kamu/-mu"; panel baru tidak menutupi komponen yang ada; alur baru meniru alur yang ada (dialog meniru drawer).
-- **Variasi kanonik.** Ikon toggle Commute: orang berjalan (D5).
+- **Isi peta = ilustrasi.** Bentuk area (kotak, segitiga), lokasi contoh (Monas), dan rute garis lurus di frame desain dan thumbnail landing tidak ditiru; ikuti `design-system.md` bagian 9 (BR-19).
+- **Prinsip improvisasi.** Tiru komponen terdekat dan sebut sumbernya; hanya token yang ada; hover = latar navy 0.05; terpilih = isi navy atau garis navy; nonaktif = opasitas 0.4; microcopy santai dengan "kamu/-mu"; satu panel isi di kolom kiri pada satu waktu.
 
 ---
 
 ## 13. Daftar Improvisasi UI
 
-Daftar kerja langsung untuk developer dan AI agent.
+Daftar kerja langsung untuk developer dan AI agent. Rincian tampilan di `design-system.md` bagian 8–11.
 
 | Kebutuhan | FR/UC | Komponen desain yang ditiru | Sprint |
 |---|---|---|---|
-| Dialog Onboarding Persona + peringatan | FR-13, FR-14, BR-7, UC-01 | Drawer tab Persona, kartu checkbox, blur peta | 3 |
-| Mode checkbox kota + persona | FR-15, BR-12 | Dropdown Top 3, kartu checkbox persona, tab pill drawer | 2 |
-| Keadaan kosong dan mengisi Commute | FR-10, UC-06 | Baris LOKASI RUMAH/TUJUAN, marker pin | 3 |
-| Highlight/dim | FR-02, UC-02 | Redup baris persona non-sesi | 2 |
-| Keadaan sesudah fly-to | FR-07 | Label pill peta, pin Point Inspector | 2 |
-| Isi tab Legenda | FR-20 | Legenda inline kartu layer | 3 |
-| Isi tab Tentang | FR-21 | Teks landing (visi, sumber data, disclaimer) | 3 |
-| Varian titik vs wilayah | FR-09, BR-10 | Label "AREA TERPILIH", tab TITIK/WILAYAH landing | 3 |
-| Ringkasan data layer di Point Inspector | FR-08 | Legenda inline, kartu Point Inspector | 3 |
-| Beberapa persona sesi | FR-14, FR-17, BR-11 | Badge "PROFIL ANDA", kartu "KESIMPULAN SINGKAT" | 3 |
-| Skor 0 bintang | BR-9 | Bintang kosong baris persona | 3 |
-| Tidak ditemukan rekomendasi | UC-03 AF1 | Panel kaca, kartu kesimpulan | 2 |
-| Data tidak tersedia | UC-04 AF1 | Popup peta, panel kaca | 3 |
-| Layer gagal dimuat | UC-02 AF1 | Kartu layer | 1 |
-| Data tidak lengkap | UC-05 AF1 | Kartu "KESIMPULAN SINGKAT" | 3 |
-| Estimasi tidak tersedia | UC-06 AF1 | Opsi moda Kartu Estimasi | 3 |
-| Gagal menyimpan preferensi (toast) | UC-07 AF1 | Label pill + panel kaca | 3 |
-| Loading (skeleton) | UC-02, UC-03, UC-05 | Panel kaca | 1–3 |
-| Tidak ada proyek di tahun terpilih | FR-04 | Legenda inline | 3 |
-| Tab WILAYAH di demo landing | D8 | Tab TITIK/WILAYAH | 3 |
+| Peringatan minimal satu persona | FR-13, BR-7, UC-01 | Dialog persona | 3 |
+| Mode checkbox kota + persona | FR-15, BR-12 | Panel Top 3, baris Profil Persona | 2 |
+| Keadaan kosong, pilih moda, reset Simulator Rute | FR-10, FR-11, UC-06 | Kartu Simulator Rute | 3 |
+| Rute di peta menyusuri jalan dengan panah arah | FR-11, BR-19 | Kartografi | 3 |
+| Highlight/dim dan sorot wilayah Top 3 | FR-02, FR-07 | Kartografi | 2 |
+| Popup fitur peta | FR-08, UC-04 | Baris Top 3 | 1 |
+| Varian titik vs wilayah, titik bukan kawasan hunian | FR-09, BR-10, BR-19 | Label "AREA TERPILIH" | 3 |
+| Ringkasan data layer di Detail Lokasi | FR-08 | Legenda kartu layer | 3 |
+| Skor 0 dan data kurang | BR-9, UC-05 | Baris skor persona | 3 |
+| Centang cocok/belum cocok untuk wilayah | FR-09, BR-10 | Baris skor persona, ikon `check` | 3 |
+| Kesimpulan 2 dan 0 bintang | FR-17 | Kartu Kesimpulan | 3 |
+| Kartu Sumber data dan Catatan di tab Tentang | FR-21, BR-17 | Kartu istilah tab Tentang | 3 |
+| Gambar tiga fitur di landing | FR-22, BR-19 | Kartografi | 3 |
+| Tidak ditemukan / data tidak tersedia / layer gagal / estimasi tidak tersedia | UC-02–06 AF | State panel | 1–3 |
+| Toast, skeleton | UC-02, UC-03, UC-05, UC-07 | Tombol dan panel | 1–3 |
+| Tidak ada proyek di tahun terpilih | FR-04 | Slider tahun | 3 |
 
-**Masalah fungsi yang diselesaikan lewat perilaku.**
+**Masalah desain yang diselesaikan lewat perilaku.**
 
-| Masalah di desain | Perilaku | Aturan |
+| Masalah di Figma | Perilaku | Aturan |
 |---|---|---|
-| Hamburger dan zoom tertutup Point Inspector / kartu Estimasi | Panel Inspector bergeser memberi ruang hamburger; zoom pindah ke samping panel atau naik di atas kartu Estimasi | BR-15 |
-| Popup menimpa search bar | Peta auto-pan agar popup tidak menutupi kontrol | BR-15 |
-| Dua lokasi terpilih sekaligus | Satu seleksi; popup dan Inspector merujuk lokasi yang sama | BR-13 |
-| Skor identik di semua lokasi | Skor dari perhitungan | BR-18 |
-| Legenda Mobilitas "Garis Oranye" vs lima warna jalur | Teks legenda menjelaskan semua jalur yang digambar; warna jalur tetap | BR-16 |
-| Keterangan sumber estimasi dan teks popup risiko | Diisi dari data sumber rute/lokasi | BR-16 |
+| Tombol LAYER/PERSONA bertumpuk dengan zoom (frame top 3) | Zoom di pojok kanan bawah, tombol di kirinya (frame all) | BR-15 |
+| Panel Profil Persona menempel di panel Layer | Panel sendiri; hanya satu panel kanan terbuka | — |
+| Baris Top 3 dan Profil Persona selebar isinya | Lebar penuh | — |
+| Legenda menyebut warna KRL/trotoar tetapi simbol abu | Simbol legenda memakai warna jalur yang digambar | BR-16 |
+| Nama lokasi "Special Capital Region of Jakarta" | Nama wilayah Bahasa Indonesia dari data batas administrasi | NFR-16 |
+| Dua lokasi terpilih sekaligus | Satu seleksi; popup dan Detail Lokasi merujuk lokasi yang sama | BR-13 |
 
 ---
 
@@ -579,15 +596,15 @@ Daftar kerja langsung untuk developer dan AI agent.
 | Sprint 0 | 7–25 Sep | Discovery, backlog, desain, arsitektur, repo, staging | D1, D2; PRD dan design system | Sprint Planning & Backlog Refinement |
 | Sprint 1 | 28 Sep–16 Okt | Pipeline 6 layer, Core Map, 2 layer pertama | FR-01, FR-03 (2 layer), FR-12 (layer); state layer gagal/loading | Sprint Review 1 — 16 Okt |
 | Sprint 2 | 19 Okt–6 Nov | Requirement Search, API, Inklusivitas & Mobilitas | FR-02, FR-05, FR-06, FR-07, FR-15, FR-16, FR-12 (search) | Sprint Review 2 — 6 Nov |
-| Sprint 3 | 9–20 Nov | Point Inspector, Persona Grading, Commute, 2 layer sisa | FR-04, FR-08–11, FR-13, FR-14, FR-17–21; estimasi biaya; landing page | Sprint Review 3 — 20 Nov |
+| Sprint 3 | 9–20 Nov | Point Inspector, Persona Grading, Commute, onboarding, menu, landing, 2 layer sisa | FR-04, FR-08–11, FR-13, FR-14, FR-17–22 | Sprint Review 3 — 20 Nov |
 | Release | 23–27 Nov | Testing, UAT, deployment, dokumentasi, serah terima | Semua FR; D5 | Final Demonstration & Handover — 27 Nov |
 
 **Deliverable.** D1 Requirements Specification (Sprint 0) · D2 System Design (Sprint 0) · D3 Spatial Data Pipeline (Sprint 1) · D4 Web Application increment (Sprint 1–3) · D5 Tested Application & Release (Release Sprint) (WBS D).
 
 **Penempatan fitur tambahan dari desain.**
-- **Estimasi biaya** di Sprint 3, bersama Commute Simulator (WBS 1.4.5), karena memakai data dan kartu yang sama.
-- **Landing page** di Sprint 3 oleh frontend, karena tidak bergantung pada data dan API, sehingga tidak mengganggu jalur kritis Sprint 1–2; bila Sprint 3 padat, digeser ke awal Release Sprint sebelum UAT.
-- **Onboarding (FR-13, FR-14)** di Sprint 3 bersama Persona Grading, karena persona sesi baru bermakna saat skor dan ringkasan tersedia; Sprint 2 memakai persona dari mode checkbox.
+- **Estimasi biaya** di Sprint 3, bersama Commute Simulator (WBS 1.4.5).
+- **Onboarding, Menu Utama, Landing page** di Sprint 3 (WBS 1.4.8); landing tidak bergantung pada API sehingga dapat digeser ke awal Release Sprint bila Sprint 3 padat.
+- Sprint 2 memakai persona dari mode checkbox sampai onboarding selesai.
 - Pilihan dua layer Sprint 1 ditetapkan tim; yang disarankan: Historis & Risiko dan Ekosistem Mikro (Sprint 2 sudah ditetapkan Inklusivitas & Mobilitas, WBS).
 
 ---
@@ -600,10 +617,11 @@ Daftar kerja langsung untuk developer dan AI agent.
 |---|---|---|
 | Cakupan data OSM, Inklusivitas, dan Legalitas terbatas | Skor dan rekomendasi kurang akurat di sebagian area | Tampilkan "data tidak lengkap" (UC-05); disclaimer estimasi |
 | Overpass API tidak tersedia saat akuisisi | Pipeline Sprint 1 tertunda | Akuisisi awal dan simpan GeoJSON; aplikasi tidak bergantung pada Overpass saat berjalan |
-| Bobot persona belum final (TBD-05, 09, 10) | Persona Grading tertunda di Sprint 3 | Tetapkan bobot awal sebelum Sprint 3; bobot dapat diubah (BR-2) |
-| Parsing teks bebas belum ditentukan (TBD-11) | Requirement Search teks bebas tidak relevan | Putuskan di awal Sprint 2; keyword matching dengan kamus kecil sebagai opsi sederhana |
+| Data kualitas udara jarang (stasiun IQAir/ISPU sedikit) | Skor Zen sama untuk area luas | Pakai stasiun terdekat dan tampilkan "Data kurang" bila lebih dari radius wajar (UC-05 AF1) |
+| Parsing teks bebas belum ditentukan (TBD-11) | Requirement Search teks bebas tidak relevan | Putuskan di awal Sprint 2; usulan parsing berbasis aturan + kamus (artifact Audit Sumber Data) |
 | Sumber data waktu tempuh dan biaya belum jelas | Commute dan biaya tidak dapat diisi | Putuskan TBD-ROUTE dan OQ-03 sebelum Sprint 3; tampilkan "Tidak tersedia" per moda |
-| Tambahan fitur dari desain (landing, biaya, improvisasi) menambah beban | Sprint 3 padat | Landing tanpa ketergantungan backend; bisa digeser ke awal Release Sprint |
+| Tambahan fitur dari desain (landing, biaya, rute di peta) menambah beban | Sprint 3 padat | Landing tanpa ketergantungan backend; bisa digeser ke awal Release Sprint |
+| Peta terlihat tidak meyakinkan (bentuk area janggal, rute lurus) | Kepercayaan pengguna dan dosen turun | Aturan Kartografi (design-system 9); review peta di setiap Sprint Review |
 | Improvisasi UI bisa berbeda dari selera desainer | Revisi tampilan menjelang rilis | Improvisasi hanya memakai komponen dan token design system; desainer meninjau di Sprint Review |
 | Staging gratis mati saat review | Demo gagal | Siapkan demo lokal cadangan (RENCANA) |
 | Tile OSM dibatasi saat beban tinggi | Peta tidak tampil saat demo | OQ-10 |
@@ -615,24 +633,24 @@ Daftar kerja langsung untuk developer dan AI agent.
 | ID | Pertanyaan | Status / dampak | Pemilik | Tenggat |
 |---|---|---|---|---|
 | TBD-01 | BPMN | Selesai (SRS Gambar 2.1) | — | — |
-| TBD-02 | Wireframe/mockup | Terjawab oleh desain Sprint 0; sisa layar diimprovisasi (bagian 13) | Nur'Afia | Selesai |
+| TBD-02 | Wireframe/mockup | Terjawab oleh desain final (section revisi); sisa layar diimprovisasi (bagian 13) | Nur'Afia | Selesai |
 | TBD-03 | Use Case Diagram | Selesai | — | — |
 | TBD-04 | ERD dan DDL PostGIS | Menentukan skema API dan skor | Galih, Farrel | Awal Sprint 1 |
-| TBD-05 | Bobot formula skor persona | Menentukan FR-09 | Galih | Sebelum Sprint 3 |
+| TBD-05 | Bobot formula skor persona (titik: satu fasilitas utama per persona, ditetapkan) | Menentukan FR-09 | Galih | Sebelum Sprint 3 |
 | TBD-06 | Target performa | Menentukan NFR-01, NFR-02 | Tim | Sprint 1 |
 | TBD-07 | Regulasi data pribadi | Dipantau; MVP tanpa data pribadi | Izdihar | Pengembangan lanjutan |
-| TBD-08 | Alias nama layer untuk UI | Judul kartu layer | Nur'Afia | Sprint 1 |
-| TBD-09 | Ambang skor poligon | FR-09 wilayah | Galih | Sebelum Sprint 3 |
-| TBD-10 | Ambang radius bintang 0–2 | FR-09 titik | Galih | Sebelum Sprint 3 |
+| TBD-08 | Alias nama layer untuk UI | Selesai: nama dari desain final (Ekosistem Mikro, dst.) | — | Selesai |
+| TBD-09 | Ambang skor poligon | Selesai: wilayah memakai centang cocok/belum cocok (PM, 29 Sep 2026) | — | Selesai |
+| TBD-10 | Ambang radius bintang titik | Selesai: 1,2 / 2,5 / 5 km (PM, 29 Sep 2026) | — | Selesai |
 | TBD-11 | Parsing teks bebas | FR-05 | Tim | Awal Sprint 2 |
-| OQ-01 | UC-01 AF2 membolehkan menutup dialog tanpa memilih, bertentangan dengan FR-13/BR-7. PRD mengikuti FR-13/BR-7. Perlu revisi UC-01? | Perilaku dialog onboarding | Izdihar | Sprint 1 |
+| OQ-01 | ~~UC-01 AF2 bertentangan dengan FR-13/BR-7~~ | Selesai: dialog desain tanpa tombol tutup; UC-01 AF2 dihapus di SRS v1.1 | — | Selesai |
 | OQ-02 | Mesin routing waktu tempuh (TBD-ROUTE): layanan pihak ketiga, OpenRouteService, OSRM, atau estimasi jarak × faktor | FR-11 | Farrel, Galih | Sebelum Sprint 3 |
 | OQ-03 | Sumber data biaya per moda (tarif KRL/TransJakarta, BBM/tol) | US-18 | Farrel, Galih | Sebelum Sprint 3 |
 | OQ-04 | Bila kawasan yang memenuhi parameter kurang dari tiga, apakah diisi kawasan terdekat berikutnya atau ditampilkan keadaan kosong? | BR-1 | Galih, Adzkia | Awal Sprint 2 |
 | OQ-05 | ~~Nama pasti font serif dan body landing~~ | Terjawab dari Figma: Fraunces, Playfair Display, Inter, DM Sans, Georgia (lihat `design-system.md` bagian 4) | Nur'Afia | Selesai |
 | OQ-06 | Peran QGIS yang diharapkan dosen (TBD-QGIS) | Arsitektur penyajian layer | Tim ke Dosen SIG | Sprint 1 |
 | OQ-07 | Legalitas Lahan: persil ATR/BPN atau zonasi RDTR (D10) | Isi layer dan popup | Galih | Sebelum layer Legalitas |
-| OQ-08 | Deskripsi Driver ditulis "aksesjalan" di desain: tetap atau "akses jalan"? | Microcopy | Nur'Afia | Sprint 1 |
+| OQ-08 | ~~"aksesjalan" di deskripsi Driver~~ | Selesai: desain final menulis "akses jalan" | — | Selesai |
 | OQ-09 | Domain produksi dan alamat email kontak di footer | Footer landing | Izdihar | Release Sprint |
 | OQ-10 | Penyedia tile OSM untuk produksi agar sesuai kebijakan penggunaan | Ketersediaan peta saat demo | Farrel | Sprint 1 |
 
@@ -642,50 +660,57 @@ Daftar kerja langsung untuk developer dan AI agent.
 
 ### A. Matriks Traceability
 
-| FR | Sumber UI | US | UC | UI | Layar desain / improvisasi | WBS | Sprint |
+| FR | Sumber UI | US | UC | UI | Frame desain / improvisasi | WBS | Sprint |
 |---|---|---|---|---|---|---|---|
-| FR-01 | Desain | US-01 | UC-02 | UI01 | top-3-rekomendasi.png | 1.4.1 | 1 |
-| FR-02 | Improvisasi | US-03 | UC-02 | UI01 | Improvisasi (redup) | 1.4.1 | 2 |
-| FR-03 | Desain | US-02, US-05 | UC-02 | UI01 | layer-*.png, visual-explorer.png | 1.4.3 | 1–3 |
-| FR-04 | Desain | US-04 | UC-02 | UI01 | layer-mesin-waktu.png | 1.4.3 | 3 |
-| FR-05 | Desain | US-06 | UC-03 | UI02 | top-3-rekomendasi.png | 1.4.2 | 2 |
-| FR-06 | Desain | US-07 | UC-03 | UI02 | top-3-rekomendasi.png | 1.4.2 | 2 |
-| FR-07 | Improvisasi | US-08 | UC-03 | UI01 | Improvisasi (label pill + Inspector) | 1.4.2 | 2 |
-| FR-08 | Desain + Improvisasi | US-05, US-11 | UC-04 | UI03 | visual-explorer.png, point-inspector.png | 1.4.4 | 3 |
-| FR-09 | Desain + Improvisasi | US-12, US-13 | UC-05 | UI03 | visual-explorer.png | 1.4.5 | 3 |
-| FR-10 | Desain + Improvisasi | US-16 | UC-06 | UI02, UI04 | commute-simulator.png | 1.4.5 | 3 |
-| FR-11 | Desain | US-17, US-18 | UC-06 | UI04 | commute-simulator.png | 1.4.5 | 3 |
+| FR-01 | Desain | US-01 | UC-02 | UI01 | all, top 3 | 1.4.1 | 1 |
+| FR-02 | Improvisasi | US-03 | UC-02 | UI01 | Kartografi (redup, sorot) | 1.4.1 | 2 |
+| FR-03 | Desain | US-02, US-05 | UC-02 | UI01 | all, frame per layer | 1.4.3 | 1–3 |
+| FR-04 | Desain | US-04 | UC-02 | UI01 | mesin waktu, all | 1.4.3 | 3 |
+| FR-05 | Desain | US-06 | UC-03 | UI02 | top 3 | 1.4.2 | 2 |
+| FR-06 | Desain | US-07 | UC-03 | UI02 | top 3 | 1.4.2 | 2 |
+| FR-07 | Improvisasi | US-08 | UC-03 | UI01 | Kartografi (sorot wilayah) + Detail Lokasi | 1.4.2 | 2 |
+| FR-08 | Desain + Improvisasi | US-05, US-11 | UC-04 | UI03 | all, frame per layer; popup improvisasi | 1.4.4 | 3 |
+| FR-09 | Desain + Improvisasi | US-12, US-13 | UC-05 | UI03 | all | 1.4.5 | 3 |
+| FR-10 | Desain + Improvisasi | US-16 | UC-06 | UI02, UI04 | Simulasi Rute | 1.4.5 | 3 |
+| FR-11 | Desain + Improvisasi | US-17, US-18 | UC-06 | UI04 | Simulasi Rute; rute improvisasi | 1.4.5 | 3 |
 | FR-12 | Tidak berlaku (non-UI) | US-27 | UC-02–06 | — | — | 1.4.6.2 | 1–3 |
-| FR-13 | Improvisasi | US-19 | UC-01 | UI00 | Improvisasi (drawer Persona) | 1.4.5 | 3 |
-| FR-14 | Desain + Improvisasi | US-14, US-20 | UC-01 | UI00 | visual-explorer.png (badge) | 1.4.5 | 3 |
-| FR-15 | Improvisasi | US-09 | UC-03 | UI02 | Improvisasi (Top 3 + checkbox) | 1.4.2 | 2 |
-| FR-16 | Desain | US-10 | UC-03, UC-06 | UI02 | top-3-rekomendasi.png, commute-simulator.png | 1.4.2 | 2 |
-| FR-17 | Desain + Improvisasi | US-14 | UC-05 | UI03 | visual-explorer.png | 1.4.5 | 3 |
-| FR-18 | Desain | US-21 | UC-07 | UI05 | drawer-persona.png | 1.4.1 | 3 |
-| FR-19 | Desain | US-22 | UC-07 | UI05 | drawer-persona.png | 1.4.1 | 3 |
-| FR-20 | Improvisasi | US-23 | UC-07 | UI05 | Improvisasi (legenda inline) | 1.4.1 | 3 |
-| FR-21 | Improvisasi | US-24 | UC-07 | UI05 | Improvisasi (teks landing) | 1.4.1 | 3 |
-| (D8) | Desain | US-25, US-26 | — | — | landing-page.png | 1.4 | 3 |
-| (D7) | Desain | US-18 | UC-06 | UI04 | commute-simulator.png | 1.4.5 | 3 |
+| FR-13 | Desain | US-19 | UC-01 | UI00 | persona | 1.4.8 | 3 |
+| FR-14 | Desain + Improvisasi | US-14, US-20 | UC-01 | UI00 | persona, all (badge) | 1.4.8 | 3 |
+| FR-15 | Improvisasi | US-09 | UC-03 | UI02 | Panel Top 3 + baris Profil Persona | 1.4.2 | 2 |
+| FR-16 | Desain | US-10 | UC-03, UC-06 | UI02 | Simulasi Rute | 1.4.2 | 2 |
+| FR-17 | Desain + Improvisasi | US-14 | UC-05 | UI03 | all | 1.4.5 | 3 |
+| FR-18 | Desain | US-21 | UC-07 | UI05 | setting persona | 1.4.8 | 3 |
+| FR-19 | Desain | US-22 | UC-07 | UI01, UI05 | setting persona, persona (panel) | 1.4.8 | 3 |
+| FR-20 | Desain | US-23 | UC-07 | UI05 | setting legenda | 1.4.8 | 3 |
+| FR-21 | Desain + Improvisasi | US-24 | UC-07 | UI05 | setting tentang | 1.4.8 | 3 |
+| FR-22 | Desain + Improvisasi | US-25, US-26 | — | UI06 | Landing Pagee | 1.4.8 | 3 |
 
-Business Rules: BR-1 → US-07, US-27 · BR-2 → 7.3 · BR-3 → US-04 · BR-4, BR-5 → bagian 5, 9 · BR-6 → US-20 · BR-7 → US-19, US-22 · BR-8 → US-22 · BR-9 → US-12 · BR-10 → US-13 · BR-11 → US-14 · BR-12 → US-09.
+Business Rules: BR-1 → US-07, US-27 · BR-2 → 7.3 · BR-3 → US-04 · BR-4, BR-5 → bagian 5, 9 · BR-6 → US-20 · BR-7 → US-19, US-22 · BR-8 → US-22 · BR-9 → US-12 · BR-10 → US-13 · BR-11 → US-14 · BR-12 → US-09 · BR-19 → US-01, US-03, US-17, US-25.
 
-### B. Daftar Revisi SRS yang Diusulkan
+### B. Revisi SRS
 
-| # | Bagian SRS | Bunyi sekarang | Usulan bunyi baru |
-|---|---|---|---|
-| D1 | UI01 | "search bar Requirement Search di pojok kanan atas" | "search bar Requirement Search melayang di tengah atas peta" |
-| D2 | UI01 | "panel filter enam layer di kanan bawah" | "panel Layer Peta di sisi kanan yang memanjang saat layer aktif dan dapat di-scroll" |
-| D3 | FR-08, UI03 | "elemen navigasi keluar/tutup pada sisi kiri panel" | "panel di sisi kiri layar dengan tombol tutup di kanan atas panel" |
-| D4 | FR-18, UI05 | "menu utama (hamburger menu) … minimal tiga sub-menu" | "drawer kiri modal dengan tab Persona, Legenda, Tentang; peta di belakang di-blur" |
-| D5 | UI02 | Ikon orang berjalan | Tetap; dicatat sebagai versi kanonik |
-| D6 | FR-17 (klarifikasi) | Auto-summary tiap persona sesi | Tambahkan: "setiap persona sesi ditandai badge 'PROFIL ANDA' dan mendapat kalimat sendiri" |
-| D7 | FR-11 | "estimasi jarak dan waktu tempuh … dua moda" | "estimasi jarak, waktu tempuh, dan biaya beserta keterangan sumbernya untuk dua moda" |
-| D8 | 1.4, 2.3, 3.1 | Tidak ada landing page | Tambah fungsi "Landing page" dan antarmuka UI06 |
-| D9 | B03, 5.4 | "tipografi tunggal (Plus Jakarta Sans)" | "aplikasi memakai Plus Jakarta Sans; landing page memakai font serif display dan sans body sesuai desain" |
-| D10 | WBS 1.3.1 / 1.4 | "Legalitas Lahan (batas persil ATR/BPN)" | Menunggu OQ-07; tampilan mengikuti desain (area ungu dengan label zona) |
-| N1 | B01, SW02, 2.1 | "Tailwind CSS dan Leaflet (frontend)" | "Inertia.js + React dengan Tailwind CSS dan Leaflet (frontend)" sesuai `docs/RENCANA.md` |
-| N2 | UC-01 AF2 | Boleh menutup dialog tanpa memilih | Hapus, sesuai FR-13/BR-7 (OQ-01) |
+Usulan revisi di versi 1.0 PRD (D1–D10, N1, N2) sudah diterapkan di **SRS v1.1 (29 Sep 2026)**, disesuaikan dengan desain final:
+
+| Bagian SRS | Perubahan |
+|---|---|
+| UI00–UI05, + UI06 | Tata letak desain final: search kiri atas, logo + menu kanan atas, tombol LAYER/PERSONA kanan bawah, slider tengah bawah, drawer kiri, dialog persona, landing page |
+| FR-06 | Top 3 dengan tipe kawasan dan persen kecocokan |
+| FR-08 | Panel kiri di bawah search, tombol tutup kanan atas |
+| FR-09, BR 10, TBD-10 | Ambang titik 1,2 / 2,5 / 5 km ke fasilitas utama persona |
+| FR-11 | Tambah biaya dan rute yang mengikuti jalan/jalur dengan arah |
+| FR-13, UC-01 | Dialog kartu persona tanpa tombol tutup; UC-01 AF2 dihapus |
+| FR-16, UC-03 | Ikon toggle Commute = mobil |
+| FR-17 | Contoh kalimat mengikuti pola desain |
+| FR-18–21, UC-07 | Menu = drawer tab Persona/Legenda/Tentang; istilah di tab Tentang |
+| FR-22 (baru) | Landing page |
+| B01, SW02, 2.1 | Inertia.js + React |
+| B03, 5.4 | Tipografi mengikuti desain final |
+| B07, 5.2 | Sembilan sumber data |
+| BR 13, 14 (baru) | Peta dari data sebenarnya; disclaimer estimasi |
+| 4.8, TBD-02, TBD-08 | Desain final tersedia; nama layer dari desain |
+| FR-09, BR 10, TBD-09 (v1.2) | Zen dari kualitas udara + RTH; wilayah memakai centang, tanpa bintang (konfirmasi PM) |
+
+WBS disesuaikan: 1.2.1.3 (prototype + design system), 1.1.3 (sumber data), 1.4.2, 1.4.4, 1.4.5 (skor, biaya, rute), dan work package baru **1.4.8 Onboarding Persona, Menu Utama & Landing Page**.
 
 ### C. Glosarium
 
@@ -693,18 +718,18 @@ Business Rules: BR-1 → US-07, US-27 · BR-2 → 7.3 · BR-3 → US-04 · BR-4,
 |---|---|
 | Basemap | Peta dasar (tile OpenStreetMap) di bawah layer |
 | Layer | Lapisan data spasial yang dapat dinyalakan/dimatikan |
-| Persona | Profil gaya hidup: Commuter, Driver, Social & Vibe, Zen |
-| Persona sesi | Persona yang dipilih pengguna untuk sesi browser ini |
+| Persona / Persona sesi | Profil gaya hidup (Commuter, Driver, Social & Vibe, Zen) / yang dipilih untuk sesi browser ini |
 | Titik / Wilayah | Geometri point / poligon; menentukan metode skor |
+| Fasilitas utama | Fasilitas yang diukur jaraknya untuk skor titik tiap persona (7.3) |
+| 15-minute city | Acuan jarak ±1,2 km (15 menit jalan kaki) untuk 3 bintang |
 | Spatial intersection | Operasi mencari irisan geometri antar-layer di PostGIS |
-| Top 3 | Tepat tiga rekomendasi kawasan hasil pencarian |
+| Top 3 / MATCH | Tepat tiga rekomendasi / persen kecocokan tiap rekomendasi |
 | Fly-to | Animasi kamera peta menuju lokasi |
-| Auto-summary | Kalimat ringkasan otomatis per persona sesi |
+| Auto-summary | Kalimat kesimpulan otomatis per persona sesi |
 | Isochrone | Area yang dapat dijangkau dalam waktu tertentu |
-| 5-minute city | Acuan jarak jalan kaki ±500–600 m ke fasilitas harian |
-| GeoJSON | Format data geometri berbasis JSON |
-| Bounding box | Batas persegi tampilan peta untuk memfilter data |
+| GeoJSON / Bounding box | Format geometri JSON / batas persegi tampilan peta |
 | Improvisasi | Tampilan yang belum digambar, dibangun meniru komponen desain |
+| Kartografi | Aturan menggambar data di peta (`design-system.md` bagian 9) |
 
 ### D. Catatan Rekonsiliasi
 
@@ -712,20 +737,14 @@ Business Rules: BR-1 → US-07, US-27 · BR-2 → 7.3 · BR-3 → US-04 · BR-4,
 |---|---|---|
 | 1 | Nilai utama | Personalisasi pencarian hunian; asimetri informasi hanya latar belakang |
 | 2 | Jumlah layer | 6 layer SRS; Mesin Waktu = "Future Planning" di WBS |
-| 3 | Inklusivitas & Legalitas | In scope |
-| 4 | Stack frontend | **Menyimpang dari prompt penyusunan**: prompt meminta tidak menyebut React; PRD mengikuti `docs/RENCANA.md` (Laravel + Inertia + React + Tailwind + Leaflet) atas keputusan pengguna 27 Sep 2026. Mapbox tetap dikeluarkan. |
-| 5 | Pipeline data | QGIS + Overpass + data sekunder → GeoJSON → PostGIS; tanpa Python cron, NLP scraping, MongoDB; data kriminalitas dari data publik sekunder di Layer Historis & Risiko |
-| 6 | Sponsor | Tanpa sponsor eksternal; stakeholder: Dosen Pengampu dan calon pengguna. WBS D5 menyebut "UAT diterima Sponsor dan Dosen Pengampu"; dibaca sebagai Dosen Pengampu |
-| 7 | Linimasa | 7 Sep – 27 Nov 2026 (WBS) |
-| 8 | Point Inspector | + Persona Grading 0–3 bintang, 4 persona, auto-summary |
-| 9 | Pencarian | Requirement Search 3 mode input, Top 3, fly-to, toggle Commute |
-| 10 | API berbayar | Tile dan library gratis; sumber waktu tempuh dan biaya = OQ-02, OQ-03 |
-| 11 | UC-01 vs FR-13/BR-7 | Ikuti FR-13/BR-7; UC-01 = OQ-01 |
-| 12 | Empat fitur inti vs tujuh fungsi | 4 fitur inti + 4 fitur pendukung (bagian 7) |
-| 13 | Nama anggota | "Farrel Muhammad Zaki" |
-| 14 | D1–D10 | Diterapkan sesuai Lampiran B |
-| 15 | Contoh auto-summary SRS ("Tempat ini sangat sempurna untuk persona Zen") vs desain ("Buat gaya hidup …: Sangat mendukung aktivitasmu!") | Ikuti pola desain (microcopy); isi mengikuti skor |
-| 16 | WBS 1.4.5 "berdasarkan data lalu lintas historis" | Sumber data belum ditentukan; OQ-02 |
+| 3 | Stack frontend | Laravel + Inertia + React + Tailwind + Leaflet (`docs/RENCANA.md`); tercantum di SRS v1.1 |
+| 4 | Pipeline data | QGIS + Overpass + data sekunder → GeoJSON → PostGIS; tanpa Python cron, NLP scraping, MongoDB |
+| 5 | Sponsor | Tanpa sponsor eksternal; "UAT diterima Sponsor dan Dosen Pengampu" (WBS D5) dibaca sebagai Dosen Pengampu |
+| 6 | Linimasa | 7 Sep – 27 Nov 2026 (WBS) |
+| 7 | Desain vs dokumen | Desain final menang; SRS v1.1 dan WBS disesuaikan (29 Sep 2026) |
+| 8 | Isi peta di desain | Ilustrasi; peta aplikasi dari data (BR-19) |
+| 9 | Waktu tempuh | Tanpa data lalu lintas real-time berbayar; estimasi dari jaringan jalan dan jadwal/rute transit (WBS 1.4.5 direvisi); mesin routing = OQ-02 |
+| 10 | Nama anggota | "Farrel Muhammad Zaki" |
 
 ### E. Tim & Peran
 

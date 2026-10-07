@@ -34,7 +34,7 @@ Kalau SRS dan WBS bertentangan satu sama lain, berhenti dan tanyakan PM.
 | Frontend | React | Antarmuka berbagi banyak state di satu halaman peta (persona sesi, layer aktif, pin commute). Charter juga menugaskan komponen UI React ke Nur'Afia |
 | Peta | Leaflet | SRS B01. Open-source, tanpa biaya lisensi |
 | Gaya | Tailwind CSS | SRS B01 |
-| Tipografi | Plus Jakarta Sans, satu-satunya | SRS B03. Dibundel lokal, bukan dari Google Fonts |
+| Tipografi | Plus Jakarta Sans (aplikasi); Fraunces, Georgia, Inter (judul, dialog persona, landing) | SRS B03 v1.1, mengikuti desain final. Dibundel lokal, bukan dari Google Fonts |
 | Basis data | PostgreSQL + PostGIS | SRS SW01 |
 | Pengolahan data | QGIS + Overpass API | SRS SW03, pra-pemrosesan luring |
 | Tes | PHPUnit/Pest | Lihat bagian 6 |
@@ -63,7 +63,7 @@ Di tiap review, pertanyaannya satu: **apa yang bisa didemokan di staging?**
 | Review 1 | Peta pan/zoom, 2 layer bisa di-toggle, data dari PostGIS lewat API |
 | Review 2 | Requirement Search mengembalikan tepat 3 hasil, fly-to, 4 layer |
 | Review 3 | Point Inspector + skor 4 persona, Commute Simulator, 6 layer |
-| Final | Semua FR-01..FR-21, test plan lulus, domain produksi aktif |
+| Final | Semua FR-01..FR-22, test plan lulus, domain produksi aktif |
 
 ## 4. Siapa mengerjakan apa
 
@@ -120,13 +120,9 @@ Jangan putuskan sendiri; tanyakan ke pemiliknya.
 | --- | --- | --- |
 | **TBD-QGIS** | Peran QGIS yang diharapkan dosen: sekadar pengolahan data, QGIS Server (WMS/WFS), atau qgis2web? Tanyakan sebelum layer ketiga. | Dosen SIG |
 | **TBD-ROUTE** | Mesin routing Commute Simulator: Google Distance Matrix (anggaran Charter), OpenRouteService, OSRM, atau estimasi jarak × faktor. Moda publik paling sulit. | Farrel, Galih |
-| TBD-02 | Wireframe/mockup Figma | Nur'Afia |
 | TBD-04 | ERD dan DDL PostGIS | Galih, Farrel |
-| TBD-05 | Bobot formula skor persona | Galih |
+| TBD-05 | Bobot formula skor persona (titik sudah ditetapkan: satu fasilitas utama per persona) | Galih |
 | TBD-06 | Target performa (render, respons API) | Tim |
-| TBD-08 | Nama singkat enam layer untuk UI | Nur'Afia |
-| TBD-09 | Ambang bintang untuk poligon | Galih |
-| TBD-10 | Ambang radius bintang 0–2 untuk titik | Galih |
 | TBD-11 | Parsing query teks bebas. Rekomendasi: keyword matching dengan kamus kecil; NLP tidak punya work package. | Tim |
 
 ## 6. Tes

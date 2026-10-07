@@ -49,7 +49,7 @@ Mengikuti SRS 5.5.
 | Multi-Layer Mapping | `GET /api/layers/...` | panel toggle 6 layer, slider Mesin Waktu | 1.4.3 |
 | Requirement Search | `SearchService`, parsing query | search bar, hasil Top 3, fly-to | 1.4.2 |
 | Point Inspector | `GET /api/inspect` | side-panel, tombol tutup di kiri | 1.4.4 |
-| Persona Grading | `PersonaScoringService` | bintang 0–3, auto-summary | 1.4.5 |
+| Persona Grading | `PersonaScoringService` | bintang 0–3 (titik), centang (wilayah), auto-summary | 1.4.5 |
 | Commute Simulator | `CommuteService` | toggle di search bar, Pin A/B | 1.4.5 |
 | Backend & API | skema, endpoint, optimasi query | — | 1.4.6 |
 
@@ -67,11 +67,19 @@ Dihitung di server karena butuh query spasial. Metodenya menurut tipe geometri
 
 | Diklik | Metode | Contoh |
 | --- | --- | --- |
-| Titik | Jarak ke fasilitas relevan terdekat (`ST_DWithin`) | < 500 m dari stasiun → Commuter 3 bintang |
-| Poligon | Jumlah fasilitas relevan di wilayah (`ST_Intersects`) | 2 stasiun untuk satu kota → Commuter 1 bintang |
+| Titik | Jarak ke fasilitas utama persona terdekat (`ST_DWithin`, satuan meter via `geography`); Zen dari kualitas udara | ≤ 1,2 km ke stasiun → Commuter 3 bintang |
+| Poligon | Ada tidaknya fasilitas utama di wilayah (`ST_Intersects`) → centang, **tanpa bintang** | Ada stasiun di kelurahan → Commuter cocok |
 
-Ambang (TBD-09, TBD-10) dan bobot (TBD-05) belum ditetapkan. Simpan sebagai
-konstanta di satu tempat supaya bisa disetel setelah uji coba data nyata.
+Ambang titik (ditetapkan PM, 29 Sep 2026): **3 bintang ≤ 1,2 km, 2 bintang ≤ 2,5 km,
+1 bintang ≤ 5 km, 0 bintang > 5 km.** Fasilitas utama: Commuter = stasiun/halte,
+Driver = gerbang tol, Social & Vibe = kafe/restoran/mal. Zen = kategori kualitas
+udara (ISPU) di titik itu: sehat 3, kurang sehat 2, tidak sehat 1, berbahaya 0;
+dikurangi 1 bila RTH terdekat > 1,2 km, atau 2 bila tidak ada RTH dalam 5 km
+(minimal 0). Poligon (TBD-09, ditetapkan PM): centang `cocok` bila ada minimal satu
+fasilitas utama persona di dalam wilayah; Zen cocok bila udara sehat/kurang sehat
+dan ada RTH. Di respons `/api/inspect`, titik mengirim `stars` (0–3) dan wilayah
+mengirim `match` (boolean) per persona. Simpan semua ambang sebagai konstanta
+di satu tempat supaya bisa disetel setelah uji coba data nyata.
 
 ## 2. Kontrak API
 
@@ -108,8 +116,9 @@ berbeda, itu bug.
 | Galat | HTTP status yang sesuai + `{ "message": "..." }` |
 
 ID layer (usulan): `historis_risiko`, `ekosistem`, `inklusivitas`,
-`mobilitas`, `mesin_waktu`, `legalitas`. Nama tampilan singkat menunggu TBD-08;
-ID tidak berubah karenanya.
+`mobilitas`, `mesin_waktu`, `legalitas`. Nama tampilan mengikuti desain final:
+Historis & Risiko, Ekosistem Mikro, Inklusivitas, Mobilitas & Transit, Mesin
+Waktu, Legalitas Lahan.
 
 ### Endpoint
 
@@ -117,9 +126,9 @@ ID tidak berubah karenanya.
 | --- | --- | --- | --- |
 | `GET /api/layers` | FR-03 | — | Daftar layer: `layer_id`, nama, warna legenda |
 | `GET /api/layers/{layer_id}` | FR-03, FR-04 | `bbox=minLng,minLat,maxLng,maxLat`, `tahun` (khusus `mesin_waktu`) | `FeatureCollection` |
-| `GET /api/search` | FR-05, FR-06, FR-15 | `q` **atau** `kota` + `persona[]` | **Tepat 3** rekomendasi: nama, titik pusat, skor, alasan singkat |
-| `GET /api/inspect` | FR-08, FR-09, FR-17 | `lat`,`lng` **atau** `wilayah_id`; `persona[]` dari sesi | Atribut lokasi, skor 4 persona, auto-summary persona terpilih |
-| `GET /api/commute` | FR-10, FR-11 | `dari`, `ke` (koordinat) | Jarak dan waktu untuk `pribadi` dan `publik`; masing-masing boleh `null` |
+| `GET /api/search` | FR-05, FR-06, FR-15 | `q` **atau** `kota` + `persona[]` | **Tepat 3** rekomendasi: nama, tipe kawasan, persen kecocokan (`match`, 0–100), titik pusat, geometri wilayah, alasan singkat |
+| `GET /api/inspect` | FR-08, FR-09, FR-17 | `lat`,`lng` **atau** `wilayah_id`; `persona[]` dari sesi | Nama lokasi, wilayah, jenis geometri, skor 4 persona (`stars` titik / `match` wilayah), auto-summary persona terpilih |
+| `GET /api/commute` | FR-10, FR-11 | `dari`, `ke` (koordinat) | Per moda `pribadi` dan `publik`: jarak, waktu, biaya, dan geometri rute (`LineString`/`MultiLineString` searah A→B); masing-masing boleh `null` |
 
 - `search` mengembalikan tepat tiga hasil (Business Rule 1). Kalau tidak ada
   yang memenuhi, kembalikan daftar kosong dengan `message` (UC-03).
@@ -127,31 +136,27 @@ ID tidak berubah karenanya.
 
 ## 3. Antarmuka
 
-Desain Figma belum ada (TBD-02). Sampai desain masuk, yang berlaku hanya
-batasan dari SRS di bawah; selebihnya jangan ditebak.
+Acuan tampilan: desain final Figma `ui-nalar-ruang`, section "putih kayak bhumi
+yang udah di revisi". Nilai visual, komponen, dan aturan kartografi ada di
+`design-system.md`; perilaku per layar di `prd.md`. Ringkasnya (SRS UI00–UI06):
 
-| Sumber | Batasan |
-| --- | --- |
-| SRS B03 | **Satu tipografi: Plus Jakarta Sans.** Responsif untuk desktop. |
-| SRS B02 | Seluruh teks antarmuka Bahasa Indonesia. |
-| SRS 5.4 | Bisa dipakai pengguna baru tanpa pelatihan. |
-
-| ID | Komponen | Yang sudah ditetapkan SRS |
+| ID | Komponen | Posisi dan isi |
 | --- | --- | --- |
-| UI00 | Dialog onboarding | Checkbox 4 persona dengan deskripsi singkat, minimal satu dicentang |
-| UI01 | Visual Explorer | Search bar **kanan atas**, hamburger menu, panel 6 layer **kanan bawah**, slider Mesin Waktu |
-| UI02 | Search bar | Ikon **kaca pembesar** (search) dan **orang berjalan** (toggle ke Commute, dua kolom input), pola Google Maps |
-| UI03 | Point Inspector | Side-panel, **tombol tutup di kiri**, bintang 0–3 empat persona, auto-summary |
-| UI04 | Commute Simulator | Estimasi dua moda berdampingan |
-| UI05 | Hamburger menu | Preferensi Persona, Legenda, Deskripsi Aplikasi |
+| UI00 | Dialog persona | "Pilih Persona mu!", 4 kartu, minimal satu, tanpa tombol tutup |
+| UI01 | Visual Explorer | Search kiri atas; logo + tombol menu kanan atas; tombol LAYER/PERSONA kanan bawah; slider Mesin Waktu tengah bawah; zoom kanan bawah |
+| UI02 | Search bar | Kaca pembesar + ikon **mobil** (toggle Commute); Top 3 tampil di bawahnya dengan persen kecocokan |
+| UI03 | Point Inspector | Panel kiri di bawah search, tombol tutup **kanan atas** |
+| UI04 | Simulator Rute | Titik A/B, kotak MOBIL dan TRANSIT (waktu + biaya) |
+| UI05 | Menu utama | Drawer kiri: tab Persona, Legenda, Tentang |
+| UI06 | Landing page | Halaman editorial pengantar peta |
 
 Perilaku yang sudah pasti:
 
+- Isi peta digambar dari data sebenarnya; bentuk area, lokasi contoh, dan rute
+  di Figma hanya ilustrasi (SRS Business Rule 13).
 - Filter aktif menyorot area relevan dan meredupkan sisanya (FR-02).
 - Memilih rekomendasi memicu fly-to (FR-07).
-- Mengubah persona dari menu tidak memuat ulang halaman (FR-19).
+- Mengubah persona dari menu atau panel Profil Persona tidak memuat ulang
+  halaman (FR-19).
 - Titik tanpa data → "data tidak tersedia" (UC-04); data kurang → catatan
   "data tidak lengkap" (UC-05), bukan 0 bintang.
-
-Belum ditentukan: palet warna, nama singkat layer, tata letak persis, ikon dan
-simbol legenda.

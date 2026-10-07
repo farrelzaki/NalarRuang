@@ -41,7 +41,7 @@ Mata kuliah Sistem Informasi Geografis dan Manajemen Proyek Teknologi Informasi.
 ## Stack
 
 Laravel · Inertia.js · React · Leaflet · Tailwind CSS · PostgreSQL + PostGIS ·
-QGIS (pengolahan data) · font Plus Jakarta Sans
+QGIS (pengolahan data) · font Plus Jakarta Sans, Fraunces, Georgia, Inter (lihat `design-system.md`)
 
 Alasan tiap pilihan ada di [`docs/RENCANA.md`](docs/RENCANA.md). Versi yang dikunci
 ditulis di [`CLAUDE.md`](CLAUDE.md) setelah scaffolding.

@@ -62,11 +62,11 @@
 
 4\. Fitur Sistem
 
-   4.1—4.7 Fitur Inti (Onboarding Persona, Visual Explorer, Requirement Search, Point Inspector, Persona Grading, Commute Simulator, Backend & API, Menu Utama)
+   4.1—4.7 Fitur Inti (Onboarding Persona, Visual Explorer, Requirement Search, Point Inspector, Persona Grading, Commute Simulator, Backend & API, Menu Utama, Landing Page)
 
    4.7 System Model (Use Case Diagram, Use Case Description & User Flow Diagram)
 
-   4.8 Low-Fidelity Wireframe
+   4.8 Desain Antarmuka
 
 5\. Kebutuhan Non-Fungsional
 
@@ -89,6 +89,8 @@ Persetujuan Dokumen (Sign-off)
 | Nama | Tanggal | Alasan Perubahan | Versi |
 | :---: | ----- | ----- | ----- |
 | **Izdihar Izzan Wibowo (PM)** | September 2026 | Draf awal SKPL disusun mengacu pada Project Charter, WBS & WBS Dictionary Kelompok 4, serta template SKPL yang digunakan tim. | 0.1 |
+| **Farrel Muhammad Zaki (Backend)** | 29 September 2026 | Diselaraskan dengan desain UI final di Figma `ui-nalar-ruang` (section "putih kayak bhumi yang udah di revisi") dan keputusan tim: tata letak antarmuka (UI00–UI06), ikon toggle Commute, persentase kecocokan Top 3, estimasi biaya perjalanan, menu utama berbentuk drawer, landing page (FR-22), tipografi, ambang bintang Persona Grading berbasis titik (TBD-10), daftar sumber data, dan stack frontend. | 1.1 |
+| **Farrel Muhammad Zaki (Backend)** | 29 September 2026 | Persona Grading disesuaikan dengan konfirmasi PM: skor Zen pada titik berbasis kualitas udara dengan pengurang jarak ke ruang terbuka hijau; wilayah (poligon) dinilai dengan centang kecocokan per persona, bukan bintang (TBD-09 selesai). | 1.2 |
 
 # **1\. Pendahuluan**
 
@@ -115,6 +117,9 @@ Dokumen menggunakan format penulisan SRS IEEE 830-1998 dengan penulisan yang kon
 | **MVP** | Minimum Viable Product | Produk fungsional minimum yang diserahterimakan akhir semester. |
 | **WBS** | Work Breakdown Structure | Struktur rincian pekerjaan proyek Kelompok 4\. |
 | **Fly-to** | \- | Animasi perpindahan kamera peta menuju titik tertentu. |
+| **15-minute city** | \- | Konsep kota yang kebutuhan hariannya terjangkau dalam 15 menit jalan kaki (±1,2 km); dipakai sebagai acuan bintang tertinggi Persona Grading. |
+| **Match** | \- | Persentase kecocokan kawasan terhadap kebutuhan pengguna yang ditampilkan pada Top 3 rekomendasi. |
+| **Landing Page** | \- | Halaman pengantar NalarRuang sebelum pengguna membuka peta interaktif. |
 | **TBD** | To Be Determined | Hal yang belum ditentukan pada saat dokumen ini disusun (lihat Lampiran B). |
 
 ## **1.3 Sasaran Pembaca**
@@ -123,7 +128,7 @@ Dokumen ini ditujukan bagi tim pengembang Kelompok 4 sebagai acuan teknis, Proje
 
 ## **1.4 Ruang Lingkup Produk**
 
-NalarRuang dikembangkan sebagai platform SIG analitik independen untuk mendukung personalisasi pencarian kawasan hunian ideal berdasarkan metrik preferensi gaya hidup pengguna. Ruang lingkup utama mencakup pemetaan enam layer data spasial (Historis & Risiko, Ekosistem Mikro & Gaya Hidup, Inklusivitas, Mobilitas & Transit, Mesin Waktu, dan Legalitas Lahan) di wilayah Jabodetabek. Sistem ini mencakup Onboarding & Preferensi Persona Sesi (checkbox multi-pilih persona di awal sesi), Visual Explorer (eksplorasi peta multi-layer), Requirement Search (pencarian via search bar teks bebas/nama wilayah/checkbox), Smart Point Inspector dengan Persona Grading (skor bintang 0-3 berbasis empat persona beserta ringkasan otomatis), Commute Simulator (estimasi jarak & waktu tempuh, diakses via toggle pada search bar), dan Menu Utama/Hamburger Menu (pengaturan preferensi, legenda, deskripsi aplikasi).
+NalarRuang dikembangkan sebagai platform SIG analitik independen untuk mendukung personalisasi pencarian kawasan hunian ideal berdasarkan metrik preferensi gaya hidup pengguna. Ruang lingkup utama mencakup pemetaan enam layer data spasial (Historis & Risiko, Ekosistem Mikro & Gaya Hidup, Inklusivitas, Mobilitas & Transit, Mesin Waktu, dan Legalitas Lahan) di wilayah Jabodetabek. Sistem ini mencakup Onboarding & Preferensi Persona Sesi (checkbox multi-pilih persona di awal sesi), Visual Explorer (eksplorasi peta multi-layer), Requirement Search (pencarian via search bar teks bebas/nama wilayah/checkbox), Smart Point Inspector dengan Persona Grading (skor bintang 0-3 berbasis empat persona beserta ringkasan otomatis), Commute Simulator (estimasi jarak, waktu tempuh, dan biaya, diakses via toggle pada search bar), Menu Utama (drawer berisi pengaturan preferensi, legenda, dan deskripsi aplikasi), serta Landing Page sebagai halaman pengantar menuju peta.
 
 Perlu dicatat bahwa cakupan pada dokumen ini mengikuti WBS terbaru Kelompok 4, yang telah mengalami pergeseran nilai utama dari fokus awal 'mengatasi asimetri informasi properti' (sebagaimana tercantum pada Project Charter) menjadi 'personalisasi pencarian kawasan hunian ideal berdasarkan preferensi gaya hidup'. Pengembangan aplikasi mobile native, listing/transaksi properti, pembuatan data primer melalui survei lapangan, dan analisis di luar Jabodetabek berada di luar cakupan (out of scope).
 
@@ -135,7 +140,9 @@ Perlu dicatat bahwa cakupan pada dokumen ini mengikuti WBS terbaru Kelompok 4, y
 
 * Software Requirements Specification (SRS) NalarRuang versi sebelumnya, disusun berdasarkan WBS 1.1.2 dan 1.1.4.
 
-* Standar walkability/livability internasional (5-minute city, 10-minute city, walkable city) sebagai acuan metrik Persona Grading.
+* Standar walkability/livability internasional (15-minute city, walkable city) sebagai acuan metrik Persona Grading.
+
+* Desain UI final NalarRuang di Figma `ui-nalar-ruang`, section "putih kayak bhumi yang udah di revisi" (WBS 1.2.1.3), beserta turunannya `design-system.md` dan `prd.md` di repositori proyek.
 
 * Template SKPL yang digunakan tim (format IEEE SRS).
 
@@ -143,7 +150,7 @@ Perlu dicatat bahwa cakupan pada dokumen ini mengikuti WBS terbaru Kelompok 4, y
 
 ## **2.1 Perspektif Produk**
 
-NalarRuang bermula dari keprihatinan terhadap asimetri informasi properti di Jabodetabek, di mana risiko krusial seperti potensi banjir, kriminalitas, dan polusi seringkali tidak terungkap secara transparan (sebagaimana dijabarkan pada Project Charter). Seiring proses Sprint 0, tim menajamkan nilai utama produk menjadi personalisasi pencarian kawasan hunian ideal berdasarkan preferensi gaya hidup pengguna, sebagaimana tercantum pada catatan perubahan WBS. NalarRuang merupakan aplikasi web mandiri (standalone) dengan arsitektur Laravel (backend), Tailwind CSS dan Leaflet (frontend), serta PostgreSQL+PostGIS (basis data spasial). Data spasial enam layer diolah melalui QGIS dan Overpass API pada tahap Spatial Data Pipeline sebelum disajikan melalui RESTful API kepada antarmuka peta interaktif.
+NalarRuang bermula dari keprihatinan terhadap asimetri informasi properti di Jabodetabek, di mana risiko krusial seperti potensi banjir, kriminalitas, dan polusi seringkali tidak terungkap secara transparan (sebagaimana dijabarkan pada Project Charter). Seiring proses Sprint 0, tim menajamkan nilai utama produk menjadi personalisasi pencarian kawasan hunian ideal berdasarkan preferensi gaya hidup pengguna, sebagaimana tercantum pada catatan perubahan WBS. NalarRuang merupakan aplikasi web mandiri (standalone) dengan arsitektur Laravel (backend), Inertia.js + React dengan Tailwind CSS dan Leaflet (frontend), serta PostgreSQL+PostGIS (basis data spasial). Data spasial enam layer diolah melalui QGIS dan Overpass API pada tahap Spatial Data Pipeline sebelum disajikan melalui RESTful API kepada antarmuka peta interaktif.
 
 ## **2.2 Model Proses Bisnis**
 
@@ -157,19 +164,21 @@ Diagram berikut menggambarkan alur proses bisnis umum pengguna dalam menggunakan
 
 Produk NalarRuang memiliki fungsi utama sebagai berikut:
 
-1\. Onboarding & Preferensi Persona Sesi, dialog checkbox pemilihan satu atau lebih persona gaya hidup di awal sesi.
+1\. Onboarding & Preferensi Persona Sesi, dialog kartu pemilihan satu atau lebih persona gaya hidup di awal sesi.
 
 2\. Visual Explorer, eksplorasi peta interaktif dengan navigasi pan/zoom dan enam layer data spasial yang dapat diaktifkan/dinonaktifkan.
 
-3\. Requirement Search, pencarian lokasi via search bar (teks bebas, nama wilayah, atau checkbox kota+persona) dengan algoritma spatial intersection dan Top 3 rekomendasi.
+3\. Requirement Search, pencarian lokasi via search bar (teks bebas, nama wilayah, atau checkbox kota+persona) dengan algoritma spatial intersection dan Top 3 rekomendasi beserta persentase kecocokannya.
 
 4\. Smart Point Inspector, panel ringkasan informasi lokasi yang muncul saat titik/poligon pada peta diklik.
 
 5\. Persona Grading, penilaian kawasan berbasis skor bintang (0-3) empat persona beserta ringkasan otomatis.
 
-6\. Commute Simulator, estimasi jarak dan waktu tempuh antara lokasi hunian dan lokasi aktivitas utama untuk dua moda transportasi, diakses via toggle pada search bar.
+6\. Commute Simulator, estimasi jarak, waktu tempuh, dan biaya antara lokasi hunian dan lokasi aktivitas utama untuk dua moda transportasi, diakses via toggle pada search bar.
 
-7\. Menu Utama (Hamburger Menu), akses ke Pengaturan Preferensi Persona, Legenda, dan Deskripsi Aplikasi.
+7\. Menu Utama, drawer yang dibuka dari tombol menu di pojok kanan atas, berisi Pengaturan Preferensi Persona, Legenda, dan Deskripsi Aplikasi.
+
+8\. Landing Page, halaman pengantar yang menjelaskan NalarRuang dan mengarahkan pengguna ke peta interaktif.
 
 ***Tabel 2.1. Daftar Kebutuhan Fungsional/Fungsi Produk***
 
@@ -180,22 +189,23 @@ Produk NalarRuang memiliki fungsi utama sebagai berikut:
 | **FR-03** | Visual Explorer | Sistem harus menampilkan enam layer data spasial (Historis & Risiko, Ekosistem Mikro & Gaya Hidup, Inklusivitas, Mobilitas & Transit, Mesin Waktu, Legalitas Lahan) yang dapat diaktifkan/dinonaktifkan secara independen. | Tinggi |
 | **FR-04** | Visual Explorer | Sistem harus menyediakan timeline slider pada Layer Mesin Waktu untuk menampilkan proyek infrastruktur berdasarkan tahun terpilih. | Sedang |
 | **FR-05** | Requirement Search | Sistem harus menyediakan search bar Requirement Search yang menerima input berupa deskripsi kebutuhan gaya hidup dalam teks bebas (mis. 'Daerah mudah transum di Bogor Kota') atau nama wilayah/kecamatan target (mis. 'Kecamatan Cibubur'). | Tinggi |
-| **FR-06** | Requirement Search | Sistem harus menghitung dan menampilkan Top 3 rekomendasi lokasi menggunakan algoritma spatial intersection. | Tinggi |
+| **FR-06** | Requirement Search | Sistem harus menghitung dan menampilkan Top 3 rekomendasi lokasi menggunakan algoritma spatial intersection, masing-masing dengan nama kawasan, tipe kawasan, dan persentase kecocokan (match). | Tinggi |
 | **FR-07** | Requirement Search | Sistem harus menganimasikan perpindahan kamera peta (fly-to) menuju titik lokasi hasil rekomendasi. | Sedang |
-| **FR-08** | Point Inspector | Sistem harus menampilkan panel Smart Point Inspector saat pengguna mengeklik titik/poligon pada peta, dengan elemen navigasi keluar/tutup pada sisi kiri panel. | Tinggi |
-| **FR-09** | Persona Grading | Sistem harus menghitung dan menampilkan skor tiap persona (Commuter, Driver, Social & Vibe, Zen) dalam skala rating 0–3 bintang pada panel Point Inspector, dengan metode perhitungan yang menyesuaikan tipe geometri lokasi: berbasis radius jarak untuk titik (point) dan berbasis kuantitas fasilitas untuk wilayah (poligon). | Tinggi |
+| **FR-08** | Point Inspector | Sistem harus menampilkan panel Smart Point Inspector ("Detail Lokasi") di sisi kiri layar, di bawah search bar, saat pengguna mengeklik titik/poligon pada peta, dengan tombol tutup di kanan atas panel. | Tinggi |
+| **FR-09** | Persona Grading | Sistem harus menghitung dan menampilkan skor tiap persona (Commuter, Driver, Social & Vibe, Zen) pada panel Point Inspector, dengan metode yang menyesuaikan tipe geometri lokasi: untuk titik (point), rating 0–3 bintang berbasis jarak ke fasilitas utama persona (3 bintang ≤ 1,2 km, 2 bintang ≤ 2,5 km, 1 bintang ≤ 5 km, 0 bintang > 5 km), kecuali Zen yang berbasis kualitas udara dikurangi jarak ke ruang terbuka hijau; untuk wilayah (poligon), centang cocok/belum cocok per persona berdasarkan keberadaan fasilitas utama persona di dalam wilayah. | Tinggi |
 | **FR-10** | Commute Simulator | Sistem harus memungkinkan pengguna menentukan titik keberangkatan (hunian/Pin A) dan titik tujuan (kantor/kampus/Pin B), baik melalui penempatan pin pada peta maupun melalui dua kolom input teks pada mode Commute Simulator (FR-16). | Sedang |
-| **FR-11** | Commute Simulator | Sistem harus menghitung dan menampilkan estimasi jarak dan waktu tempuh antara Pin A dan Pin B untuk dua moda (kendaraan pribadi & transportasi publik). | Sedang |
+| **FR-11** | Commute Simulator | Sistem harus menghitung dan menampilkan estimasi jarak, waktu tempuh, dan biaya antara Pin A dan Pin B untuk dua moda (kendaraan pribadi & transportasi publik), serta menggambar rute yang mengikuti jaringan jalan/jalur transit beserta arah perjalanannya pada peta. | Sedang |
 | **FR-12** | Backend & API | Sistem harus menyediakan RESTful API untuk data layer, hasil Requirement Search, dan skor persona yang dapat dikonsumsi frontend. | Tinggi |
-| **FR-13** | Onboarding & Preferensi Sesi | Sistem harus menampilkan dialog checkbox pemilihan persona (Commuter, Driver, Social & Vibe, Zen) pada awal sesi, disertai deskripsi singkat tiap persona, dan mewajibkan pengguna memilih minimal satu persona sebelum melanjutkan. | Tinggi |
+| **FR-13** | Onboarding & Preferensi Sesi | Sistem harus menampilkan dialog pemilihan persona berupa empat kartu yang dapat dipilih lebih dari satu (Commuter, Driver, Social & Vibe, Zen) pada awal sesi, disertai deskripsi singkat tiap persona, dan mewajibkan pengguna memilih minimal satu persona sebelum melanjutkan. | Tinggi |
 | **FR-14** | Onboarding & Preferensi Sesi | Preferensi persona (dapat lebih dari satu) yang dipilih pengguna harus tersimpan selama sesi berlangsung dan direset (ditanyakan ulang) setiap kali sesi baru dimulai. | Tinggi |
 | **FR-15** | Requirement Search | Requirement Search harus menyediakan mode checkbox: pengguna dapat memilih kota/wilayah tujuan dan mencentang satu atau lebih persona, atau menggunakan preferensi persona default dari sesi (FR-14). | Sedang |
-| **FR-16** | Requirement Search | Sistem harus menyediakan ikon toggle di sebelah ikon pencarian (kaca pembesar) pada search bar Requirement Search yang mengubah tampilan menjadi mode Commute Simulator dengan dua kolom input (titik keberangkatan dan titik tujuan), serupa pola UX Google Maps. | Sedang |
-| **FR-17** | Persona Grading | Sistem harus menghasilkan ringkasan otomatis (auto-summary) pada panel Point Inspector untuk tiap persona yang dipilih pengguna pada preferensi sesi, berdasarkan skor bintang persona tersebut di lokasi terkait (mis. skor 3 bintang pada persona Zen menghasilkan ringkasan 'Tempat ini sangat sempurna untuk persona Zen'). | Sedang |
-| **FR-18** | Menu Utama | Sistem harus menyediakan menu utama (hamburger menu) pada halaman Visual Explorer yang berisi minimal tiga sub-menu: Pengaturan Preferensi Persona, Legenda, dan Deskripsi Aplikasi. | Sedang |
+| **FR-16** | Requirement Search | Sistem harus menyediakan ikon toggle (ikon mobil) di sisi kanan search bar Requirement Search yang mengubah tampilan menjadi mode Commute Simulator dengan dua kolom input (titik keberangkatan A dan titik tujuan B), serupa pola UX Google Maps. | Sedang |
+| **FR-17** | Persona Grading | Sistem harus menghasilkan ringkasan otomatis (auto-summary) pada panel Point Inspector untuk tiap persona yang dipilih pengguna pada preferensi sesi, berdasarkan skor bintang persona tersebut di lokasi terkait (mis. skor 3 bintang pada persona Zen menghasilkan ringkasan 'Buat gaya hidup Zen: Sangat mendukung aktivitasmu!'). | Sedang |
+| **FR-18** | Menu Utama | Sistem harus menyediakan menu utama berupa drawer yang dibuka dari tombol menu di sebelah logo pada pojok kanan atas Visual Explorer, berisi tiga tab: Persona (Pengaturan Preferensi Persona), Legenda, dan Tentang (Deskripsi Aplikasi). | Sedang |
 | **FR-19** | Menu Utama | Sub-menu Pengaturan Preferensi Persona harus memungkinkan pengguna mengubah pilihan persona sesi kapan saja tanpa perlu memuat ulang aplikasi. | Sedang |
-| **FR-20** | Menu Utama | Sub-menu Legenda harus menampilkan penjelasan istilah teknis/asing yang digunakan pada aplikasi serta legenda simbol/warna pada peta. | Rendah |
-| **FR-21** | Menu Utama | Sub-menu Deskripsi Aplikasi harus menampilkan informasi umum mengenai NalarRuang sebagai platform WebGIS. | Rendah |
+| **FR-20** | Menu Utama | Sub-menu Legenda harus menampilkan legenda simbol/warna tiap layer pada peta sesuai simbol yang benar-benar digambar. | Rendah |
+| **FR-21** | Menu Utama | Sub-menu Deskripsi Aplikasi (tab Tentang) harus menampilkan informasi umum mengenai NalarRuang sebagai platform WebGIS, penjelasan istilah teknis/asing yang digunakan aplikasi, sumber data, dan disclaimer estimasi. | Rendah |
+| **FR-22** | Landing Page | Sistem harus menyediakan landing page yang menjelaskan visi, misi, persona, fitur utama, enam layer, sumber data terbuka, cara kerja, dan pertanyaan umum NalarRuang, dengan tombol yang membuka Visual Explorer. | Rendah |
 
 ## **2.4 Klasifikasi dan Karakteristik Pengguna**
 
@@ -205,7 +215,7 @@ Sesuai kesepakatan tim, NalarRuang belum memiliki sponsor eksternal maupun kebut
 
 | ID | Jenis Pengguna | Deskripsi Peran | Kebutuhan Utama |
 | :---: | ----- | ----- | ----- |
-| **U01** | Pengguna Akhir (End User) | Calon pencari hunian ideal di Jabodetabek yang mengoperasikan seluruh fitur NalarRuang secara langsung tanpa akun/login. Pada awal sesi, pengguna mencentang minimal satu dari empat persona gaya hidup (checkbox, boleh lebih dari satu): Commuter (mengutamakan akses transit), Driver (mengutamakan akses jalan/tol), Social & Vibe (mengutamakan hiburan/kafe/restoran), dan Zen (mengutamakan keamanan, minim polusi, RTH). | FR-01 s.d. FR-21 |
+| **U01** | Pengguna Akhir (End User) | Calon pencari hunian ideal di Jabodetabek yang mengoperasikan seluruh fitur NalarRuang secara langsung tanpa akun/login. Pada awal sesi, pengguna mencentang minimal satu dari empat persona gaya hidup (checkbox, boleh lebih dari satu): Commuter (mengutamakan akses transit), Driver (mengutamakan akses jalan/tol), Social & Vibe (mengutamakan hiburan/kafe/restoran), dan Zen (mengutamakan keamanan, minim polusi, RTH). | FR-01 s.d. FR-22 |
 
 ## **2.5 Lingkungan Operasional Sistem**
 
@@ -219,13 +229,13 @@ Tabel berikut merangkum batasan teknis, desain, dan sumber daya yang perlu diper
 
 | ID | Kategori | Deskripsi |
 | :---: | ----- | ----- |
-| **B01** | Teknologi | Sistem dibangun menggunakan Laravel (backend), Tailwind CSS dengan pustaka peta Leaflet (frontend), dan PostgreSQL+PostGIS (basis data spasial). Pengolahan data spasial dilakukan di QGIS dengan sumber data Overpass API dan data sekunder publik lain. |
+| **B01** | Teknologi | Sistem dibangun menggunakan Laravel (backend), Inertia.js + React dengan Tailwind CSS dan pustaka peta Leaflet (frontend), dan PostgreSQL+PostGIS (basis data spasial). Pengolahan data spasial dilakukan di QGIS dengan sumber data Overpass API dan data sekunder publik lain. |
 | **B02** | Bahasa | Bahasa utama antarmuka sistem adalah Bahasa Indonesia. |
-| **B03** | Desain | Antarmuka wajib menggunakan tipografi tunggal (Plus Jakarta Sans) sesuai kesepakatan tim pada WBS 1.2.1.3, dan bersifat responsif untuk perangkat desktop. |
+| **B03** | Desain | Antarmuka mengikuti desain UI final di Figma (WBS 1.2.1.3) dan `design-system.md`: Plus Jakarta Sans sebagai huruf utama aplikasi, Fraunces untuk judul dan nama lokasi, Georgia dan Inter pada dialog persona dan landing page; bersifat responsif untuk perangkat desktop. |
 | **B04** | Infrastruktur | Sistem berjalan pada lingkungan staging berbasis domain/hosting tingkat gratis pada tahap awal (WBS 1.2.5); kapasitas produksi mengikuti kebutuhan demo akhir. |
 | **B05** | Cakupan Wilayah | Analisis spasial dibatasi pada wilayah Jabodetabek, mengikuti ketersediaan data sekunder. |
 | **B06** | Sumber Daya & Waktu | Proyek dikerjakan oleh tim beranggotakan 5 orang dengan linimasa Sprint 0 hingga Release Sprint, 7 September s.d. 27 November 2026 (12 minggu efektif), mengikuti kalender Praktikum MPTI. |
-| **B07** | Data | Seluruh data spasial yang digunakan merupakan data sekunder yang tersedia publik (InaRISK/DEMNAS, Overpass API/OSM, data pemerintah terbuka ATR/BPN, dsb.); sistem tidak melakukan survei lapangan/pengumpulan data primer. |
+| **B07** | Data | Seluruh data spasial yang digunakan merupakan data sekunder yang tersedia publik: InaRISK (BNPB), DEMNAS (BIG), IQAir, BPS, Overpass API (OpenStreetMap), GTFS Transjakarta, Jakarta Satu Data, ATR/BPN, dan JUTPI Phase 3; sistem tidak melakukan survei lapangan/pengumpulan data primer. |
 
 ## **2.7 Dokumentasi Pengguna**
 
@@ -257,12 +267,13 @@ NalarRuang berinteraksi dengan pengguna akhir dan sistem eksternal (basis data s
 
 | ID UI | Antarmuka | Deskripsi |
 | :---: | ----- | ----- |
-| **UI00** | Dialog Onboarding Preferensi Persona | Dialog checkbox multi-pilih di awal sesi (Commuter/Driver/Social & Vibe/Zen, minimal satu) disertai deskripsi singkat tiap persona; preferensi berlaku selama sesi dan ditanyakan ulang di sesi baru. Wireframe rinci: lihat Lampiran B (TBD-02). |
-| **UI01** | Halaman Utama / Visual Explorer | Peta interaktif dengan search bar Requirement Search di pojok kanan atas, hamburger menu, dan panel filter enam layer di kanan bawah, navigasi pan/zoom, dan timeline slider untuk Layer Mesin Waktu. Wireframe rinci: lihat Lampiran B (TBD-02). |
-| **UI02** | Search Bar Requirement Search / Commute Simulator | Search bar dengan dua ikon: kaca pembesar (mode Requirement Search — menerima teks bebas, nama wilayah, atau checkbox kota+persona) dan orang berjalan (toggle ke mode Commute Simulator dengan dua kolom input titik keberangkatan & tujuan), serupa pola UX Google Maps. Wireframe rinci: lihat Lampiran B (TBD-02). |
-| **UI03** | Panel Smart Point Inspector | Side-panel dengan elemen tutup di sisi kiri (mirip Google Maps), menampilkan ringkasan informasi lokasi, skor bintang (0-3) tiap persona, dan ringkasan otomatis (auto-summary) untuk persona yang dipilih pengguna. Wireframe rinci: lihat Lampiran B (TBD-02). |
-| **UI04** | Panel Commute Simulator | Tampilan estimasi jarak & waktu tempuh dua moda transportasi, diakses via toggle pada UI02 atau penempatan Pin A/Pin B pada peta. Wireframe rinci: lihat Lampiran B (TBD-02). |
-| **UI05** | Menu Utama (Hamburger Menu) | Menu berisi tiga sub-menu: Pengaturan Preferensi Persona (ubah persona kapan saja), Legenda (istilah aplikasi & legenda peta), dan Deskripsi Aplikasi. Wireframe rinci: lihat Lampiran B (TBD-02). |
+| **UI00** | Dialog Onboarding Preferensi Persona | Dialog "Pilih Persona mu!" di atas peta yang digelapkan, berisi empat kartu persona (Commuter/Driver/Social & Vibe/Zen) yang dapat dipilih lebih dari satu (minimal satu), masing-masing dengan tagline dan deskripsi singkat, serta tombol "Mulai Jelajah"; preferensi berlaku selama sesi dan ditanyakan ulang di sesi baru. |
+| **UI01** | Halaman Utama / Visual Explorer | Peta interaktif layar penuh dengan search bar Requirement Search di kiri atas, tombol logo NalarRuang beserta tombol menu di kanan atas, tombol LAYER dan PERSONA di kanan bawah yang membuka panel Layer Spasial dan panel Profil Persona, kontrol zoom di kanan bawah, dan timeline slider Layer Mesin Waktu di tengah bawah. |
+| **UI02** | Search Bar Requirement Search / Commute Simulator | Search bar dengan ikon kaca pembesar (mode Requirement Search — menerima teks bebas, nama wilayah, atau checkbox kota+persona) dan ikon mobil di sisi kanan (toggle ke mode Commute Simulator dengan dua kolom input titik keberangkatan A & tujuan B), serupa pola UX Google Maps. Hasil pencarian tampil sebagai panel Top 3 Rekomendasi di bawah search bar. |
+| **UI03** | Panel Smart Point Inspector | Panel "Detail Lokasi" di sisi kiri di bawah search bar dengan tombol tutup di kanan atas panel, menampilkan nama dan wilayah lokasi, skor bintang (0-3) untuk titik atau centang kecocokan untuk wilayah tiap persona dengan penanda "PROFIL ANDA" untuk persona sesi, dan kesimpulan singkat (auto-summary) untuk persona yang dipilih pengguna. |
+| **UI04** | Panel Commute Simulator | Kartu "Simulator Rute" di bawah search bar berisi titik A dan B serta dua kotak moda (MOBIL dan TRANSIT) yang masing-masing menampilkan waktu tempuh dan biaya; rute tergambar di peta mengikuti jalan/jalur transit. Diakses via toggle pada UI02 atau penempatan Pin A/Pin B pada peta. |
+| **UI05** | Menu Utama | Drawer di sisi kiri yang dibuka dari tombol menu, berisi tab Persona (ubah persona kapan saja), Legenda (legenda simbol/warna peta), dan Tentang (deskripsi aplikasi dan istilah). |
+| **UI06** | Landing Page | Halaman pengantar bergaya editorial: hero, visi dan misi, empat persona, tiga fitur utama, enam layer, sumber data terbuka, cara kerja, ajakan mencoba peta, pertanyaan umum, dan footer berisi disclaimer. |
 
 ## **3.2 Antarmuka Perangkat Keras**
 
@@ -280,7 +291,7 @@ NalarRuang berinteraksi dengan pengguna akhir dan sistem eksternal (basis data s
 | ID SW | Perangkat Lunak | Deskripsi |
 | :---: | ----- | ----- |
 | **SW01** | Basis Data Spasial | PostgreSQL dengan ekstensi PostGIS untuk menyimpan enam layer data spasial dan mendukung query spatial intersection. |
-| **SW02** | Kerangka Kerja Aplikasi | Laravel (backend/RESTful API) dan Tailwind CSS dengan pustaka peta Leaflet (frontend). |
+| **SW02** | Kerangka Kerja Aplikasi | Laravel (backend/RESTful API) dan Inertia.js + React dengan Tailwind CSS serta pustaka peta Leaflet (frontend). |
 | **SW03** | Pipeline Data Spasial | QGIS dan Overpass API digunakan pada tahap pra-pemrosesan (offline) untuk akuisisi, pembersihan, dan ekspor data ke format GeoJSON sebelum diimpor ke PostGIS. |
 | **SW04** | Sistem Operasi Server | Kompatibel dengan sistem operasi server umum (Linux) pada lingkungan staging/produksi. |
 
@@ -291,25 +302,25 @@ NalarRuang berinteraksi dengan pengguna akhir dan sistem eksternal (basis data s
 | ID COM | Komunikasi | Deskripsi |
 | :---: | ----- | ----- |
 | **COM01** | Protokol HTTPS | Komunikasi antara klien (browser) dan server disarankan melalui HTTPS untuk melindungi data yang dipertukarkan. |
-| **COM02** | RESTful API (JSON) | Backend menyediakan endpoint RESTful berformat JSON untuk data layer, hasil Requirement Search, dan skor persona (WBS 1.4.6.2). |
+| **COM02** | RESTful API (JSON) | Backend menyediakan endpoint RESTful berformat JSON untuk data layer, hasil Requirement Search, skor persona, dan estimasi Commute Simulator (WBS 1.4.6.2). |
 
 # **4\. Fitur Sistem**
 
-Fitur-fitur NalarRuang disusun berdasarkan empat kemampuan inti platform ditambah satu fitur pendukung backend, seluruhnya melayani satu kelas pengguna (Pengguna Akhir) tanpa pembedaan hak akses, karena sistem tidak menerapkan mekanisme akun/login.
+Fitur-fitur NalarRuang disusun berdasarkan empat kemampuan inti platform ditambah fitur pendukung (onboarding, backend, menu utama, dan landing page), seluruhnya melayani satu kelas pengguna (Pengguna Akhir) tanpa pembedaan hak akses, karena sistem tidak menerapkan mekanisme akun/login.
 
 ## **Fitur Onboarding & Preferensi Persona Sesi**
 
 ***Deskripsi dan Prioritas***
 
-Fitur ini menjadi titik masuk pengalaman personalisasi NalarRuang: setiap kali pengguna membuka aplikasi pada sesi baru, sistem menampilkan dialog checkbox pemilihan persona gaya hidup (Commuter, Driver, Social & Vibe, Zen) — bersifat multi-pilih (boleh lebih dari satu) namun wajib memilih minimal satu — disertai deskripsi singkat tiap persona agar pengguna memahami maknanya: Commuter (mengutamakan akses transit), Driver (mengutamakan akses jalan/tol), Social & Vibe (mengutamakan hiburan/kafe/restoran), dan Zen (mengutamakan keamanan, minim polusi, RTH). Preferensi ini disimpan selama sesi berlangsung dan dipakai sebagai default pada Requirement Search maupun ringkasan otomatis Persona Grading, namun bersifat sementara — sistem akan menanyakannya kembali setiap kali sesi baru dimulai, konsisten dengan prinsip bahwa sistem tidak menyimpan data pribadi pengguna secara permanen (lihat 5.2 Keamanan). Prioritas: Tinggi.
+Fitur ini menjadi titik masuk pengalaman personalisasi NalarRuang: setiap kali pengguna membuka aplikasi pada sesi baru, sistem menampilkan dialog "Pilih Persona mu!" berisi empat kartu persona gaya hidup (Commuter, Driver, Social & Vibe, Zen) — bersifat multi-pilih (boleh lebih dari satu) namun wajib memilih minimal satu — disertai deskripsi singkat tiap persona agar pengguna memahami maknanya: Commuter (mengutamakan akses transit), Driver (mengutamakan akses jalan/tol), Social & Vibe (mengutamakan hiburan/kafe/restoran), dan Zen (mengutamakan keamanan, minim polusi, RTH). Preferensi ini disimpan selama sesi berlangsung dan dipakai sebagai default pada Requirement Search maupun ringkasan otomatis Persona Grading, namun bersifat sementara — sistem akan menanyakannya kembali setiap kali sesi baru dimulai, konsisten dengan prinsip bahwa sistem tidak menyimpan data pribadi pengguna secara permanen (lihat 5.2 Keamanan). Prioritas: Tinggi.
 
 ***Skenario Interaksi Pengguna dan Sistem***
 
-Seorang pengguna membuka NalarRuang untuk pertama kali pada sesi tersebut. Sebuah dialog singkat muncul menampilkan empat pilihan persona beserta penjelasannya. Ia mencentang 'Commuter' dan 'Zen' sekaligus, lalu melanjutkan. Sistem menyimpan kedua preferensi ini untuk sesi tersebut dan menerapkannya sebagai bobot bawaan ketika ia membuka Requirement Search maupun saat melihat ringkasan otomatis di Point Inspector. Esok harinya, saat ia membuka NalarRuang kembali pada sesi baru, dialog yang sama muncul lagi karena preferensi sesi sebelumnya sudah berakhir.
+Seorang pengguna membuka NalarRuang untuk pertama kali pada sesi tersebut. Sebuah dialog muncul menampilkan empat kartu persona beserta penjelasannya. Ia memilih kartu 'Commuter' dan 'Zen' sekaligus, lalu menekan 'Mulai Jelajah'. Sistem menyimpan kedua preferensi ini untuk sesi tersebut dan menerapkannya sebagai bobot bawaan ketika ia membuka Requirement Search maupun saat melihat ringkasan otomatis di Point Inspector. Esok harinya, saat ia membuka NalarRuang kembali pada sesi baru, dialog yang sama muncul lagi karena preferensi sesi sebelumnya sudah berakhir.
 
 ***Functional Requirements Terkait***
 
-* FR-13: Dialog checkbox multi-pilih persona (minimal satu) disertai deskripsi tiap persona.
+* FR-13: Dialog kartu persona multi-pilih (minimal satu) disertai deskripsi tiap persona.
 
 * FR-14: Preferensi persona tersimpan selama sesi dan direset di sesi baru.
 
@@ -321,7 +332,7 @@ Fitur ini menjadi mode eksplorasi utama NalarRuang, menampilkan basemap interakt
 
 ***Skenario Interaksi Pengguna dan Sistem***
 
-Seorang pengguna membuka NalarRuang dan disambut oleh peta Jabodetabek. Ia mengaktifkan Layer Historis & Risiko untuk melihat area rawan banjir, kemudian menambahkan Layer Mobilitas & Transit untuk melihat sebaran halte terdekat. Peta menyorot area yang relevan dan meredupkan area lain agar fokus pengguna terjaga.
+Seorang pengguna membuka NalarRuang dan disambut oleh peta Jabodetabek. Ia menekan tombol LAYER di kanan bawah, mengaktifkan Layer Historis & Risiko untuk melihat area rawan banjir, kemudian menambahkan Layer Mobilitas & Transit untuk melihat sebaran halte terdekat. Setiap layer digambar dari data sebenarnya: area banjir mengikuti batas genangan/kelurahan hasil olahan data, bukan bentuk ilustrasi. Peta menyorot area yang relevan dan meredupkan area lain agar fokus pengguna terjaga.
 
 ***Functional Requirements Terkait***
 
@@ -337,17 +348,17 @@ Seorang pengguna membuka NalarRuang dan disambut oleh peta Jabodetabek. Ia menga
 
 ***Deskripsi dan Prioritas***
 
-Fitur ini memungkinkan pengguna mencari lokasi hunian melalui satu search bar yang mendukung tiga cara input: (a) deskripsi kebutuhan gaya hidup dalam teks bebas (mis. 'Daerah mudah transum di Bogor Kota', 'Daerah bebas banjir di Jakarta Selatan'), (b) nama wilayah/kecamatan target (mis. 'Kecamatan Bambu Apus', 'Citayem', 'Depok', 'Cibubur', 'Pondok Rangon'), atau (c) mode checkbox berupa pilihan kota/wilayah dan centang satu/lebih persona, dengan opsi memakai preferensi persona default dari sesi (FR-14). Search bar ini juga memiliki ikon toggle (di sebelah ikon kaca pembesar) yang mengubahnya menjadi mode Commute Simulator dengan dua kolom input titik keberangkatan dan tujuan, serupa pola UX Google Maps saat berpindah dari pencarian tempat ke petunjuk arah. Mengingat fitur ini menjadi salah satu nilai jual utama personalisasi NalarRuang, fitur ini memiliki Prioritas: Tinggi untuk pencarian dan Top 3 rekomendasi, serta Prioritas: Sedang untuk animasi fly-to dan mode checkbox/toggle.
+Fitur ini memungkinkan pengguna mencari lokasi hunian melalui satu search bar yang mendukung tiga cara input: (a) deskripsi kebutuhan gaya hidup dalam teks bebas (mis. 'Daerah mudah transum di Bogor Kota', 'Daerah bebas banjir di Jakarta Selatan'), (b) nama wilayah/kecamatan target (mis. 'Kecamatan Bambu Apus', 'Citayem', 'Depok', 'Cibubur', 'Pondok Rangon'), atau (c) mode checkbox berupa pilihan kota/wilayah dan centang satu/lebih persona, dengan opsi memakai preferensi persona default dari sesi (FR-14). Hasil pencarian ditampilkan sebagai panel Top 3 Rekomendasi yang memuat nama kawasan, tipe kawasan, dan persentase kecocokan. Search bar ini juga memiliki ikon toggle berupa ikon mobil di sisi kanan yang mengubahnya menjadi mode Commute Simulator dengan dua kolom input titik keberangkatan dan tujuan, serupa pola UX Google Maps saat berpindah dari pencarian tempat ke petunjuk arah. Mengingat fitur ini menjadi salah satu nilai jual utama personalisasi NalarRuang, fitur ini memiliki Prioritas: Tinggi untuk pencarian dan Top 3 rekomendasi, serta Prioritas: Sedang untuk animasi fly-to dan mode checkbox/toggle.
 
 ***Skenario Interaksi Pengguna dan Sistem***
 
-Seorang pengguna yang sudah mencentang persona 'Commuter' di awal sesi mengetik 'Daerah mudah transum di Bogor Kota' pada search bar. Sistem menampilkan Top 3 rekomendasi lokasi yang sesuai. Di lain waktu, pengguna yang sama ingin mencarikan hunian untuk orang tuanya; ia beralih ke mode checkbox, memilih kota 'Depok', mencentang persona 'Zen' saja (mengabaikan preferensi sesi miliknya), lalu mencari. Saat ingin memperkirakan waktu tempuh dari salah satu rekomendasi ke kantornya, ia menekan ikon orang berjalan di sebelah ikon pencarian, sehingga search bar berubah menjadi dua kolom input (titik keberangkatan dan tujuan) untuk menjalankan Commute Simulator.
+Seorang pengguna yang sudah mencentang persona 'Commuter' di awal sesi mengetik 'Daerah mudah transum di Bogor Kota' pada search bar. Sistem menampilkan Top 3 rekomendasi lokasi yang sesuai. Di lain waktu, pengguna yang sama ingin mencarikan hunian untuk orang tuanya; ia beralih ke mode checkbox, memilih kota 'Depok', mencentang persona 'Zen' saja (mengabaikan preferensi sesi miliknya), lalu mencari. Saat ingin memperkirakan waktu tempuh dari salah satu rekomendasi ke kantornya, ia menekan ikon mobil di sisi kanan search bar, sehingga search bar berubah menjadi dua kolom input (titik keberangkatan dan tujuan) untuk menjalankan Commute Simulator.
 
 ***Functional Requirements Terkait***
 
 * FR-05: Search bar menerima teks bebas atau nama wilayah/kecamatan.
 
-* FR-06: Top 3 rekomendasi via spatial intersection.
+* FR-06: Top 3 rekomendasi via spatial intersection beserta persentase kecocokan.
 
 * FR-07: Animasi fly-to menuju rekomendasi.
 
@@ -361,29 +372,29 @@ Catatan: mekanisme/algoritma pemrosesan input teks bebas (mis. mengekstrak maksu
 
 ***Deskripsi dan Prioritas***
 
-Fitur ini menyajikan ringkasan informasi suatu lokasi ketika pengguna mengeklik titik/poligon pada peta, lengkap dengan elemen navigasi keluar/tutup pada sisi kiri panel (serupa pola UX Google Maps), menjadi titik masuk menuju detail Persona Grading. Prioritas: Tinggi.
+Fitur ini menyajikan ringkasan informasi suatu lokasi ketika pengguna mengeklik titik/poligon pada peta, dalam panel "Detail Lokasi" di sisi kiri layar (di bawah search bar) dengan tombol tutup di kanan atas panel, menjadi titik masuk menuju detail Persona Grading. Prioritas: Tinggi.
 
 ***Skenario Interaksi Pengguna dan Sistem***
 
-Setelah menemukan area yang menarik pada Visual Explorer, pengguna mengeklik sebuah titik pada peta. Panel Point Inspector muncul dari sisi kiri menampilkan ringkasan data lokasi tersebut. Pengguna menutup panel melalui tombol pada sisi kiri setelah selesai meninjau.
+Setelah menemukan area yang menarik pada Visual Explorer, pengguna mengeklik sebuah titik pada peta. Panel Point Inspector muncul di sisi kiri menampilkan nama lokasi, wilayahnya, dan skor keempat persona. Pengguna menutup panel melalui tombol tutup di kanan atas panel setelah selesai meninjau.
 
 ***Functional Requirements Terkait***
 
-* FR-08: Panel Point Inspector muncul saat titik/poligon diklik, dengan navigasi tutup di sisi kiri.
+* FR-08: Panel Point Inspector muncul saat titik/poligon diklik, dengan tombol tutup di kanan atas panel.
 
 ## **Fitur Persona Grading**
 
 ***Deskripsi dan Prioritas***
 
-Fitur ini menilai kelayakan suatu lokasi bagi empat persona (Commuter, Driver, Social & Vibe, Zen) pada lokasi yang diperiksa melalui Point Inspector, menggunakan skala rating 0–3 bintang: 0 \= tidak ada/buruk, 1 \= sekadar ada ('oke aja'), 2 \= bagus, 3 \= sangat bagus. Metode perhitungan menyesuaikan tipe geometri yang diklik pengguna: untuk titik (point), penilaian berbasis radius jarak ke fasilitas relevan — semakin dekat, semakin tinggi bintangnya, dengan acuan awal jarak jalan kaki ±500–600 m (konsep 5-minute city) dan jarak berkendara 1–2 km sebagai ambang bintang tertinggi; untuk wilayah (poligon, mis. kelurahan/kecamatan/kota), penilaian berbasis kuantitas fasilitas dalam area tersebut, karena konsep radius tidak relevan pada cakupan area yang luas. Panel Point Inspector juga menampilkan ringkasan otomatis (auto-summary) untuk tiap persona yang telah dicentang pengguna pada preferensi sesi, disesuaikan dengan skor bintang yang diperoleh lokasi tersebut. Prioritas: Tinggi. Ambang batas kuantitatif pasti untuk penilaian berbasis poligon, serta ambang radius untuk bintang 0–2 pada penilaian berbasis titik, masih memerlukan riset dan kesepakatan tim lebih lanjut — lihat Lampiran B, TBD-09 dan TBD-10.
+Fitur ini menilai kelayakan suatu lokasi bagi empat persona (Commuter, Driver, Social & Vibe, Zen) pada lokasi yang diperiksa melalui Point Inspector, menggunakan skala rating 0–3 bintang: 0 \= tidak ada/buruk, 1 \= sekadar ada ('oke aja'), 2 \= bagus, 3 \= sangat bagus. Metode perhitungan menyesuaikan tipe geometri yang diklik pengguna: untuk titik (point), penilaian berbasis jarak dari titik terpilih ke fasilitas utama tiap persona — Commuter: stasiun/halte transit; Driver: gerbang tol; Social & Vibe: kafe, restoran, atau mal; Zen: ruang terbuka hijau — dengan ambang 3 bintang bila fasilitas berada dalam radius ≤ 1,2 km (konsep 15-minute city), 2 bintang ≤ 2,5 km, 1 bintang ≤ 5 km, dan 0 bintang bila lebih dari 5 km. Zen dinilai dari kualitas udara di titik tersebut (kategori ISPU): sehat 3 bintang, kurang sehat 2, tidak sehat 1, berbahaya 0; nilai itu dikurangi 1 bila ruang terbuka hijau terdekat lebih dari 1,2 km dan dikurangi 2 bila tidak ada ruang terbuka hijau dalam 5 km (minimal 0). Untuk wilayah (poligon, mis. kelurahan), skor bintang tidak dipakai karena kuantitas fasilitas tidak bisa dipukul rata antarwilayah; sistem menampilkan centang "cocok" per persona bila di dalam wilayah terdapat minimal satu fasilitas utama persona tersebut (Zen: kualitas udara sehat atau kurang sehat dan terdapat ruang terbuka hijau), dan tanda "belum cocok" bila tidak. Panel Point Inspector juga menampilkan ringkasan otomatis (auto-summary) untuk tiap persona yang telah dipilih pengguna pada preferensi sesi, disesuaikan dengan skor bintang (titik) atau centang (wilayah) lokasi tersebut. Prioritas: Tinggi.
 
 ***Skenario Interaksi Pengguna dan Sistem***
 
-Pada sebuah titik pinpoint dekat Stasiun Bogor, pengguna dengan preferensi 'Commuter' melihat skor Commuter bintang 3 karena jaraknya kurang dari 500 m dari stasiun, disertai ringkasan otomatis 'Tempat ini sangat sempurna untuk persona Commuter'. Di lain kesempatan, pengguna yang sama mengeklik wilayah poligon Kota Bogor secara keseluruhan; skor Commuter di sana menjadi bintang 1 karena kota tersebut secara agregat hanya memiliki 2 stasiun kereta, jauh lebih sedikit dibanding kebutuhan wilayah seluas itu.
+Pada sebuah titik pinpoint di permukiman dekat Stasiun Bogor, pengguna dengan preferensi 'Commuter' melihat skor Commuter bintang 3 karena jaraknya kurang dari 1,2 km dari stasiun, disertai ringkasan otomatis 'Buat gaya hidup Commuter: Sangat mendukung aktivitasmu!'. Di lain kesempatan, pengguna yang sama mengeklik poligon kelurahan tempat stasiun itu berada; Commuter di sana diberi centang "cocok" karena di dalam kelurahan terdapat stasiun, disertai ringkasan 'Cocok untuk gaya hidup Commuter.'
 
 ***Functional Requirements Terkait***
 
-* FR-09: Perhitungan skor bintang (0–3) tiap persona, berbasis radius (titik) atau kuantitas (poligon).
+* FR-09: Skor bintang (0–3) tiap persona untuk titik (jarak ke fasilitas utama 1,2 / 2,5 / 5 km; Zen dari kualitas udara dan ruang terbuka hijau) dan centang kecocokan untuk wilayah (poligon).
 
 * FR-17: Ringkasan otomatis (auto-summary) berdasarkan persona sesi dan skor bintang.
 
@@ -391,23 +402,23 @@ Pada sebuah titik pinpoint dekat Stasiun Bogor, pengguna dengan preferensi 'Comm
 
 ***Deskripsi dan Prioritas***
 
-Fitur ini membantu pengguna memperkirakan jarak dan waktu tempuh antara lokasi hunian yang dipertimbangkan dan lokasi aktivitas utama (kantor/kampus), untuk dua moda transportasi (kendaraan pribadi dan umum). Fitur ini diakses melalui ikon toggle pada search bar Requirement Search (FR-16, serupa pola UX Google Maps) yang mengubah tampilan menjadi dua kolom input titik keberangkatan dan tujuan, atau melalui penempatan Pin A/Pin B langsung pada peta. Prioritas: Sedang.
+Fitur ini membantu pengguna memperkirakan jarak, waktu tempuh, dan biaya antara lokasi hunian yang dipertimbangkan dan lokasi aktivitas utama (kantor/kampus), untuk dua moda transportasi (kendaraan pribadi dan umum). Fitur ini diakses melalui ikon mobil pada search bar Requirement Search (FR-16, serupa pola UX Google Maps) yang mengubah tampilan menjadi kartu Simulator Rute dengan dua kolom input titik keberangkatan (A) dan tujuan (B), atau melalui penempatan Pin A/Pin B langsung pada peta. Rute ditampilkan di peta mengikuti jaringan jalan (kendaraan pribadi) atau jalur transit dan jalan kaki (transportasi umum), lengkap dengan arah perjalanan dari A ke B. Prioritas: Sedang.
 
 ***Skenario Interaksi Pengguna dan Sistem***
 
-Seorang pengguna berada di panel Requirement Search, lalu menekan ikon orang berjalan di sebelah ikon kaca pembesar sehingga tampilan berubah menjadi dua kolom input. Ia mengisi lokasi hunian kandidat sebagai titik keberangkatan dan kantornya di kawasan Kuningan sebagai tujuan. Sistem menghitung dan menampilkan estimasi waktu tempuh menggunakan kendaraan pribadi (25 menit) dan transportasi publik (40 menit), membantu pengguna mempertimbangkan trade-off mobilitas.
+Seorang pengguna berada di search bar Requirement Search, lalu menekan ikon mobil di sisi kanan search bar sehingga tampilan berubah menjadi kartu Simulator Rute. Ia mengisi lokasi hunian kandidat sebagai titik A dan kantornya di kawasan Kuningan sebagai titik B. Sistem menghitung dan menampilkan estimasi waktu tempuh dan biaya menggunakan kendaraan pribadi (mis. 25 menit, Rp 34.000) dan transportasi publik (mis. 40 menit, Rp 6.000), serta menggambar rute masing-masing moda di peta, membantu pengguna mempertimbangkan trade-off mobilitas.
 
 ***Functional Requirements Terkait***
 
 * FR-10: Penempatan titik keberangkatan (Pin A)/tujuan (Pin B), via pin atau input teks.
 
-* FR-11: Estimasi jarak & waktu tempuh dua moda transportasi.
+* FR-11: Estimasi jarak, waktu tempuh, dan biaya dua moda transportasi, dengan rute yang mengikuti jalan/jalur transit.
 
 ## **Fitur Backend & Spatial API**
 
 ***Deskripsi dan Prioritas***
 
-Fitur pendukung (non-antarmuka) yang menyediakan RESTful API bagi seluruh fitur di atas untuk mengambil data layer, hasil Requirement Search, dan skor persona dari basis data PostGIS. Prioritas: Tinggi.
+Fitur pendukung (non-antarmuka) yang menyediakan RESTful API bagi seluruh fitur di atas untuk mengambil data layer, hasil Requirement Search, skor persona, dan estimasi Commute Simulator dari basis data PostGIS. Prioritas: Tinggi.
 
 ***Skenario Interaksi Pengguna dan Sistem***
 
@@ -417,25 +428,39 @@ Ketika pengguna mengaktifkan sebuah layer pada Visual Explorer, frontend memangg
 
 * FR-12: RESTful API untuk data layer, Requirement Search, dan skor persona.
 
-## **Fitur Menu Utama (Hamburger Menu)**
+## **Fitur Menu Utama**
 
 ***Deskripsi dan Prioritas***
 
-Fitur pendukung navigasi yang menyediakan akses ke tiga sub-menu dari halaman Visual Explorer: (a) Pengaturan Preferensi Persona, memungkinkan pengguna mengubah pilihan persona sesi kapan saja tanpa perlu memuat ulang aplikasi; (b) Legenda, berisi penjelasan istilah teknis/asing yang dipakai aplikasi serta legenda simbol/warna pada peta; dan (c) Deskripsi Aplikasi, berisi informasi umum mengenai NalarRuang sebagai platform WebGIS. Prioritas: Sedang untuk Pengaturan Preferensi, Rendah untuk Legenda dan Deskripsi Aplikasi.
+Fitur pendukung navigasi berupa drawer di sisi kiri yang dibuka dari tombol menu di sebelah logo NalarRuang (pojok kanan atas), menyediakan akses ke tiga tab dari halaman Visual Explorer: (a) Persona, untuk Pengaturan Preferensi Persona, memungkinkan pengguna mengubah pilihan persona sesi kapan saja tanpa perlu memuat ulang aplikasi; (b) Legenda, berisi legenda simbol/warna pada peta; dan (c) Tentang, berisi informasi umum mengenai NalarRuang sebagai platform WebGIS serta penjelasan istilah teknis/asing yang dipakai aplikasi. Selain dari drawer, persona sesi juga dapat diubah cepat melalui panel Profil Persona yang dibuka dari tombol PERSONA di kanan bawah peta. Prioritas: Sedang untuk Pengaturan Preferensi, Rendah untuk Legenda dan Deskripsi Aplikasi.
 
 ***Skenario Interaksi Pengguna dan Sistem***
 
-Seorang pengguna yang semula memilih persona 'Driver' menyadari ia ingin membandingkan hasil dengan persona 'Zen'. Ia membuka hamburger menu, memilih Pengaturan Preferensi Persona, dan menambahkan centang pada 'Zen' tanpa perlu memuat ulang halaman. Di kesempatan lain, pengguna baru yang bingung dengan istilah 'isochrone' pada legenda peta membuka sub-menu Legenda untuk mencari penjelasannya.
+Seorang pengguna yang semula memilih persona 'Driver' menyadari ia ingin membandingkan hasil dengan persona 'Zen'. Ia membuka menu, memilih tab Persona, dan menambahkan pilihan 'Zen' tanpa perlu memuat ulang halaman. Di kesempatan lain, pengguna baru yang bingung dengan istilah 'isochrone' membuka tab Tentang untuk mencari penjelasannya.
 
 ***Functional Requirements Terkait***
 
-* FR-18: Menu utama (hamburger menu) dengan tiga sub-menu.
+* FR-18: Menu utama berupa drawer dengan tiga tab.
 
 * FR-19: Ubah preferensi persona kapan saja.
 
-* FR-20: Sub-menu Legenda (istilah aplikasi & legenda peta).
+* FR-20: Tab Legenda (legenda simbol/warna peta).
 
-* FR-21: Sub-menu Deskripsi Aplikasi.
+* FR-21: Tab Tentang (deskripsi aplikasi, istilah, sumber data, disclaimer).
+
+## **Fitur Landing Page**
+
+***Deskripsi dan Prioritas***
+
+Fitur pendukung berupa halaman pengantar bergaya editorial yang dibuka sebelum peta: hero "Hunian yang cocok. Kota yang terbaca.", visi dan misi, empat persona, tiga fitur utama, enam layer, sumber data terbuka, cara kerja, ajakan "Coba Sekarang", pertanyaan umum, serta footer berisi kontak dan disclaimer bahwa skor dan rekomendasi merupakan estimasi dari data sekunder publik. Setiap tombol ajakan membuka Visual Explorer. Prioritas: Rendah.
+
+***Skenario Interaksi Pengguna dan Sistem***
+
+Seorang calon pengguna membuka alamat utama NalarRuang, membaca penjelasan persona dan fitur, membuka pertanyaan "Datanya dari mana?" untuk melihat sumber data, lalu menekan 'Mulai Cari Hunian' sehingga Visual Explorer terbuka dan dialog pemilihan persona muncul.
+
+***Functional Requirements Terkait***
+
+* FR-22: Landing page dengan tombol menuju Visual Explorer.
 
 ## **4.7 System Model**
 
@@ -455,21 +480,20 @@ Diagram Use Case menampilkan interaksi antara Pengguna Akhir dan sistem NalarRua
 | :---- | ----- | :---- |
 | **Preconditions** | Pengguna membuka aplikasi NalarRuang pada sesi baru (belum ada preferensi tersimpan untuk sesi ini). |  |
 | **Successful End Condition** | Sistem menyimpan satu atau lebih preferensi persona pengguna untuk sesi berjalan dan menerapkannya sebagai default. |  |
-| **Failed End Condition** | Pengguna menutup dialog tanpa memilih; sistem melanjutkan tanpa preferensi default. |  |
+| **Failed End Condition** | Pengguna belum memilih persona apa pun; dialog tetap terbuka sampai minimal satu persona dipilih. |  |
 | **Primary Actor** | Pengguna Akhir |  |
 | **Secondary Actor** | \- |  |
 | **Trigger** | Pengguna membuka aplikasi NalarRuang pada sesi baru. |  |
 | **Main Flow** | **Step** | **Action** |
 |  | 1 | Sistem mendeteksi belum ada preferensi persona tersimpan untuk sesi ini. |
-|  | 2 | Sistem menampilkan dialog checkbox pilihan persona (Commuter, Driver, Social & Vibe, Zen) beserta deskripsi singkat tiap persona. |
-|  | 3 | Pengguna mencentang satu atau lebih persona (minimal satu wajib dicentang). |
-|  | 4 | Pengguna menekan tombol lanjut. |
+|  | 2 | Sistem menampilkan dialog "Pilih Persona mu!" berisi empat kartu persona (Commuter, Driver, Social & Vibe, Zen) beserta deskripsi singkat tiap persona. |
+|  | 3 | Pengguna memilih satu atau lebih kartu persona (minimal satu wajib dipilih). |
+|  | 4 | Pengguna menekan tombol "Mulai Jelajah". |
 |  | 5 | Sistem memvalidasi bahwa minimal satu persona telah dicentang. |
 |  | 6 | Sistem menyimpan pilihan tersebut sebagai preferensi sesi (session-only, tidak dipersist ke basis data). |
 |  | 7 | Sistem mengarahkan pengguna ke halaman utama Visual Explorer dengan preferensi diterapkan. |
 | **Alternative Flow** | **Step** | **Action** |
-|  | 1 | Jika pengguna menekan tombol lanjut tanpa mencentang persona apa pun, sistem menampilkan peringatan dan meminta pengguna memilih minimal satu persona. |
-|  | 2 | Jika pengguna menutup dialog tanpa memilih, sistem melanjutkan tanpa preferensi default dan memperlakukan pencarian berikutnya sebagai preferensi kustom sepenuhnya. |
+|  | 1 | Jika pengguna menekan tombol "Mulai Jelajah" tanpa memilih persona apa pun, sistem menampilkan peringatan dan meminta pengguna memilih minimal satu persona. Dialog tidak memiliki tombol tutup, sehingga pengguna tidak dapat melewati langkah ini. |
 
 ***Tabel 4.2. Use Case Description UC-02 — Menjelajahi Peta Interaktif (Visual Explorer)***
 
@@ -484,7 +508,7 @@ Diagram Use Case menampilkan interaksi antara Pengguna Akhir dan sistem NalarRua
 | **Main Flow** | **Step** | **Action** |
 |  | 1 | Pengguna membuka halaman utama NalarRuang. |
 |  | 2 | Sistem menampilkan basemap interaktif dengan navigasi pan/zoom. |
-|  | 3 | Pengguna memilih satu atau beberapa layer data spasial pada panel filter. |
+|  | 3 | Pengguna menekan tombol LAYER lalu memilih satu atau beberapa layer data spasial pada panel Layer Spasial. |
 |  | 4 | Sistem menyorot (highlight) area sesuai layer aktif dan meredupkan (dim) area lain. |
 |  | 5 | Pengguna menggeser timeline slider pada Layer Mesin Waktu (opsional). |
 |  | 6 | Sistem memperbarui tampilan peta secara real-time. |
@@ -506,13 +530,12 @@ Diagram Use Case menampilkan interaksi antara Pengguna Akhir dan sistem NalarRua
 |  | 2 | Pengguna memilih cara input: mengetik deskripsi teks bebas, mengetik nama wilayah/kecamatan, atau beralih ke mode checkbox (kota \+ centang persona, default memakai preferensi sesi dari UC-01). |
 |  | 3 | Pengguna menekan tombol/ikon cari. |
 |  | 4 | Sistem menerjemahkan input menjadi parameter pencarian dan menjalankan algoritma spatial intersection terhadap enam layer data spasial. |
-|  | 5 | Sistem menampilkan Top 3 rekomendasi lokasi. |
+|  | 5 | Sistem menampilkan Top 3 rekomendasi lokasi beserta tipe kawasan dan persentase kecocokan. |
 |  | 6 | Pengguna memilih salah satu rekomendasi. |
 |  | 7 | Sistem menganimasikan perpindahan kamera peta (fly-to) menuju lokasi terpilih. |
 | **Alternative Flow** | **Step** | **Action** |
 |  | 1 | Jika tidak ada lokasi yang memenuhi parameter, sistem menampilkan pesan 'tidak ditemukan rekomendasi' dan menyarankan pengguna melonggarkan parameter. |
-|  | 2 | Jika pengguna belum memiliki preferensi sesi tersimpan (UC-01 dilewati), sistem memperlakukan mode checkbox tanpa persona default terpilih. |
-|  | 3 | Jika pengguna menekan ikon toggle (orang berjalan), sistem mengalihkan alur ke UC-06 Menjalankan Commute Simulator. |
+|  | 2 | Jika pengguna menekan ikon toggle (ikon mobil), sistem mengalihkan alur ke UC-06 Menjalankan Commute Simulator. |
 
 ***Tabel 4.4. Use Case Description UC-04 — Melihat Detail Lokasi melalui Smart Point Inspector***
 
@@ -537,17 +560,17 @@ Diagram Use Case menampilkan interaksi antara Pengguna Akhir dan sistem NalarRua
 | Kode | UC-05 |  |
 | :---- | ----- | :---- |
 | **Preconditions** | Panel Point Inspector telah terbuka pada suatu lokasi. |  |
-| **Successful End Condition** | Sistem menampilkan skor bintang (0-3) tiap persona beserta ringkasan otomatis untuk persona yang dipilih pengguna secara konsisten. |  |
+| **Successful End Condition** | Sistem menampilkan skor bintang (0-3, titik) atau centang kecocokan (wilayah) tiap persona beserta ringkasan otomatis untuk persona yang dipilih pengguna secara konsisten. |  |
 | **Failed End Condition** | Skor tidak dapat dihitung karena data pendukung tidak lengkap pada lokasi tersebut. |  |
 | **Primary Actor** | Pengguna Akhir |  |
 | **Secondary Actor** | \- |  |
 | **Trigger** | Pengguna membuka panel Point Inspector pada suatu lokasi. |  |
 | **Main Flow** | **Step** | **Action** |
 |  | 1 | Sistem mengambil data enam layer spasial di sekitar titik/wilayah terpilih. |
-|  | 2 | Sistem menentukan tipe geometri lokasi (titik atau poligon) untuk memilih metode penilaian: radius jarak (titik) atau kuantitas fasilitas (poligon). |
-|  | 3 | Sistem menghitung skor bintang (0–3) untuk Commuter, Driver, Social & Vibe, dan Zen berdasarkan metode yang berlaku. |
-|  | 4 | Sistem menampilkan keempat skor bintang pada panel Point Inspector. |
-|  | 5 | Sistem menghasilkan ringkasan otomatis untuk tiap persona yang dicentang pengguna pada preferensi sesi, berdasarkan skor bintang lokasi tersebut. |
+|  | 2 | Sistem menentukan tipe geometri lokasi (titik atau poligon) untuk memilih metode penilaian: jarak dan kualitas udara (titik) atau keberadaan fasilitas (poligon). |
+|  | 3 | Sistem menghitung skor bintang (0–3, titik) atau centang kecocokan (wilayah) untuk Commuter, Driver, Social & Vibe, dan Zen berdasarkan metode yang berlaku. |
+|  | 4 | Sistem menampilkan keempat skor pada panel Point Inspector. |
+|  | 5 | Sistem menghasilkan ringkasan otomatis untuk tiap persona yang dicentang pengguna pada preferensi sesi, berdasarkan skor lokasi tersebut. |
 | **Alternative Flow** | **Step** | **Action** |
 |  | 1 | Jika data pendukung salah satu layer tidak tersedia di lokasi tersebut, sistem menampilkan skor dengan catatan 'data tidak lengkap' untuk komponen terkait. |
 
@@ -556,7 +579,7 @@ Diagram Use Case menampilkan interaksi antara Pengguna Akhir dan sistem NalarRua
 | Kode | UC-06 |  |
 | :---- | ----- | :---- |
 | **Preconditions** | Pengguna telah memilih lokasi hunian (Pin A). |  |
-| **Successful End Condition** | Sistem menampilkan estimasi jarak dan waktu tempuh untuk kedua moda transportasi. |  |
+| **Successful End Condition** | Sistem menampilkan estimasi jarak, waktu tempuh, dan biaya untuk kedua moda transportasi beserta rutenya di peta. |  |
 | **Failed End Condition** | Estimasi gagal dihitung karena rute antara Pin A dan Pin B tidak ditemukan. |  |
 | **Primary Actor** | Pengguna Akhir |  |
 | **Secondary Actor** | \- |  |
@@ -564,13 +587,13 @@ Diagram Use Case menampilkan interaksi antara Pengguna Akhir dan sistem NalarRua
 | **Main Flow** | **Step** | **Action** |
 |  | 1 | Pengguna menempatkan Pin A pada lokasi hunian yang dipertimbangkan. |
 |  | 2 | Pengguna menempatkan Pin B pada lokasi kantor/kampus. |
-|  | 3 | Sistem menghitung estimasi jarak dan waktu tempuh untuk moda kendaraan pribadi. |
-|  | 4 | Sistem menghitung estimasi jarak dan waktu tempuh untuk moda transportasi publik. |
-|  | 5 | Sistem menampilkan kedua estimasi secara berdampingan. |
+|  | 3 | Sistem menghitung estimasi jarak, waktu tempuh, dan biaya untuk moda kendaraan pribadi melalui jaringan jalan. |
+|  | 4 | Sistem menghitung estimasi jarak, waktu tempuh, dan biaya untuk moda transportasi publik melalui jalur transit dan jalan kaki. |
+|  | 5 | Sistem menampilkan kedua estimasi secara berdampingan (kotak MOBIL dan TRANSIT) dan menggambar rute moda terpilih beserta arah perjalanannya di peta. |
 | **Alternative Flow** | **Step** | **Action** |
 |  | 1 | Jika rute antar-moda tidak dapat dihitung, sistem menampilkan notifikasi 'estimasi tidak tersedia' untuk moda tersebut. |
 
-***Tabel 4.7. Use Case Description UC-07 — Mengakses Menu Utama (Hamburger Menu)***
+***Tabel 4.7. Use Case Description UC-07 — Mengakses Menu Utama***
 
 | Kode | UC-07 |  |
 | :---- | ----- | :---- |
@@ -579,14 +602,14 @@ Diagram Use Case menampilkan interaksi antara Pengguna Akhir dan sistem NalarRua
 | **Failed End Condition** | Sub-menu gagal dimuat. |  |
 | **Primary Actor** | Pengguna Akhir |  |
 | **Secondary Actor** | \- |  |
-| **Trigger** | Pengguna menekan ikon hamburger menu. |  |
+| **Trigger** | Pengguna menekan tombol menu di sebelah logo NalarRuang. |  |
 | **Main Flow** | **Step** | **Action** |
-|  | 1 | Pengguna menekan ikon hamburger menu pada halaman Visual Explorer. |
-|  | 2 | Sistem menampilkan tiga pilihan sub-menu: Pengaturan Preferensi Persona, Legenda, dan Deskripsi Aplikasi. |
+|  | 1 | Pengguna menekan tombol menu di pojok kanan atas halaman Visual Explorer. |
+|  | 2 | Sistem membuka drawer di sisi kiri dengan tiga tab: Persona (Pengaturan Preferensi Persona), Legenda, dan Tentang (Deskripsi Aplikasi). |
 |  | 3 | Pengguna memilih salah satu sub-menu. |
 |  | 4 | Jika memilih Pengaturan Preferensi Persona, sistem menampilkan checkbox persona saat ini dan mengizinkan pengguna mengubahnya tanpa memuat ulang aplikasi. |
-|  | 5 | Jika memilih Legenda, sistem menampilkan penjelasan istilah aplikasi dan legenda simbol/warna peta. |
-|  | 6 | Jika memilih Deskripsi Aplikasi, sistem menampilkan informasi umum mengenai NalarRuang. |
+|  | 5 | Jika memilih Legenda, sistem menampilkan legenda simbol/warna peta. |
+|  | 6 | Jika memilih Tentang, sistem menampilkan informasi umum mengenai NalarRuang, penjelasan istilah, sumber data, dan disclaimer. |
 | **Alternative Flow** | **Step** | **Action** |
 |  | 1 | Jika perubahan preferensi persona gagal disimpan pada sesi berjalan, sistem menampilkan notifikasi error dan mempertahankan preferensi sebelumnya. |
 
@@ -598,11 +621,9 @@ Berbeda dari Use Case Diagram (4.7.1) yang menampilkan hubungan statis antara ak
 
 *Gambar 4.2. User Flow Diagram NalarRuang*
 
-## **4.8 Low-Fidelity Wireframe**
+## **4.8 Desain Antarmuka**
 
-Bagian ini seharusnya memuat wireframe low-fidelity untuk halaman utama Visual Explorer, panel Requirement Search, panel Point Inspector, dan panel Commute Simulator, sesuai hasil WBS 1.2.1.2 (Wireframe) dan 1.2.1.3 (Interactive Prototype Figma dengan tipografi Plus Jakarta Sans).
-
-*\[BELUM TERSEDIA — Wireframe/mockup Figma NalarRuang — lihat Lampiran B, TBD-02\]*
+Desain UI final tersedia di Figma `ui-nalar-ruang`, section "putih kayak bhumi yang udah di revisi", mencakup dialog persona, Visual Explorer dengan semua layer, Top 3 Rekomendasi, Simulasi Rute, satu layer per layar (Historis & Risiko, Ekosistem Mikro, Inklusivitas, Transum, Mesin Waktu, Legalitas Lahan), drawer Persona/Legenda/Tentang, dan landing page (WBS 1.2.1.2, 1.2.1.3). Nilai visual, komponen, dan layar yang belum digambar diuraikan di `design-system.md`; perilaku tiap layar diuraikan di `prd.md`. Isi peta pada desain berfungsi sebagai ilustrasi; bentuk area, lokasi contoh, dan rute pada aplikasi mengikuti data sebenarnya (Business Rule 13).
 
 # **5\. Kebutuhan Non-Fungsional**
 
@@ -612,7 +633,7 @@ NalarRuang harus mampu merender peta multi-layer dan memperbarui highlight/dim f
 
 ## **5.2 Keamanan**
 
-Karena NalarRuang tidak menerapkan mekanisme akun/login, kebutuhan keamanan berfokus pada perlindungan data yang diproses: sistem tidak menyimpan data pribadi pengguna, dan seluruh data spasial yang diolah bersumber dari data sekunder yang tersedia publik (QGIS, Overpass API, InaRISK/DEMNAS, ATR/BPN, dsb.). Preferensi persona yang dipilih pengguna pada awal sesi (FR-13, FR-14) juga hanya disimpan sementara (session-only) di sisi klien dan tidak dipersist ke basis data, sejalan dengan prinsip minimalisasi data pribadi tersebut. Komunikasi antara klien dan server disarankan melalui protokol HTTPS (COM01) untuk melindungi integritas data yang dipertukarkan.
+Karena NalarRuang tidak menerapkan mekanisme akun/login, kebutuhan keamanan berfokus pada perlindungan data yang diproses: sistem tidak menyimpan data pribadi pengguna, dan seluruh data spasial yang diolah bersumber dari data sekunder yang tersedia publik (lihat B07: InaRISK, DEMNAS, IQAir, BPS, Overpass API, GTFS Transjakarta, Jakarta Satu Data, ATR/BPN, JUTPI Phase 3). Preferensi persona yang dipilih pengguna pada awal sesi (FR-13, FR-14) juga hanya disimpan sementara (session-only) di sisi klien dan tidak dipersist ke basis data, sejalan dengan prinsip minimalisasi data pribadi tersebut. Komunikasi antara klien dan server disarankan melalui protokol HTTPS (COM01) untuk melindungi integritas data yang dipertukarkan.
 
 ## **5.3 Keandalan dan Ketersediaan**
 
@@ -620,11 +641,11 @@ Lingkungan staging dan produksi harus dapat diakses oleh tim serta pengguna uji 
 
 ## **5.4 Kemudahan Penggunaan**
 
-Antarmuka aplikasi harus konsisten menggunakan satu tipografi (Plus Jakarta Sans) sesuai kesepakatan tim, dan dapat dinavigasi oleh pengguna target tanpa pelatihan khusus. Navigasi Visual Explorer, Requirement Search, dan Point Inspector harus dirancang intuitif sehingga pengguna baru dapat memahami cara menggunakan fitur utama dengan cepat.
+Antarmuka aplikasi harus konsisten mengikuti desain UI final dan `design-system.md` (tipografi dan komponen yang sama di seluruh layar), dan dapat dinavigasi oleh pengguna target tanpa pelatihan khusus. Navigasi Visual Explorer, Requirement Search, dan Point Inspector harus dirancang intuitif sehingga pengguna baru dapat memahami cara menggunakan fitur utama dengan cepat.
 
 ## **5.5 Pemeliharaan**
 
-Kode sumber backend dan frontend harus mengikuti arsitektur Laravel-Tailwind-PostGIS yang telah dirancang pada WBS 1.2.3 (Application Architecture Design), disusun dalam modul-modul terpisah (Core Map, Requirement Search, Multi-Layer Mapping, Point Inspector, Persona Grading, Commute Simulator, Backend & API) agar memudahkan tim dalam melakukan pembaruan maupun perbaikan pada Sprint berikutnya.
+Kode sumber backend dan frontend harus mengikuti arsitektur Laravel-Inertia-React-Tailwind-PostGIS yang telah dirancang pada WBS 1.2.3 (Application Architecture Design), disusun dalam modul-modul terpisah (Core Map, Requirement Search, Multi-Layer Mapping, Point Inspector, Persona Grading, Commute Simulator, Backend & API) agar memudahkan tim dalam melakukan pembaruan maupun perbaikan pada Sprint berikutnya.
 
 ## **5.6 Business Rules**
 
@@ -642,15 +663,19 @@ Kode sumber backend dan frontend harus mengikuti arsitektur Laravel-Tailwind-Pos
 
 7\. Pengguna wajib mencentang minimal satu persona pada dialog onboarding sebelum dapat melanjutkan ke Visual Explorer; boleh mencentang lebih dari satu.
 
-8\. Preferensi persona dapat diubah kapan saja melalui Menu Utama (Hamburger Menu) tanpa mengulang proses onboarding maupun memuat ulang aplikasi.
+8\. Preferensi persona dapat diubah kapan saja melalui Menu Utama (tab Persona) atau panel Profil Persona tanpa mengulang proses onboarding maupun memuat ulang aplikasi.
 
 9\. Skor Persona Grading menggunakan skala rating 0–3 bintang (0 \= tidak ada/buruk, 1 \= sekadar ada, 2 \= bagus, 3 \= sangat bagus).
 
-10\. Metode perhitungan skor persona menyesuaikan tipe geometri lokasi: berbasis radius jarak untuk titik (point) dan berbasis kuantitas fasilitas untuk wilayah (poligon).
+10\. Metode penilaian persona menyesuaikan tipe geometri lokasi: titik (point) diberi 0–3 bintang berbasis jarak ke fasilitas utama persona (3 bintang ≤ 1,2 km, 2 bintang ≤ 2,5 km, 1 bintang ≤ 5 km, 0 bintang > 5 km), sedangkan Zen berbasis kategori kualitas udara (sehat 3, kurang sehat 2, tidak sehat 1, berbahaya 0) dikurangi 1 bila ruang terbuka hijau terdekat lebih dari 1,2 km atau 2 bila tidak ada dalam 5 km (minimal 0); wilayah (poligon) diberi centang cocok/belum cocok berdasarkan keberadaan fasilitas utama persona di dalam wilayah.
 
 11\. Ringkasan otomatis (auto-summary) pada Point Inspector hanya dihasilkan untuk persona yang telah dicentang pengguna pada preferensi sesi, bukan untuk keempat persona sekaligus.
 
 12\. Pada mode checkbox Requirement Search, pilihan kota dan persona yang diisi pengguna berlaku hanya untuk pencarian tersebut dan tidak mengubah preferensi persona sesi yang tersimpan.
+
+13\. Isi peta selalu digambar dari data sebenarnya: area mengikuti batas geometri data (kelurahan, genangan, zona), bukan bentuk geometris ilustratif; lokasi contoh dan rekomendasi berupa kawasan hunian; rute Commute Simulator mengikuti jaringan jalan/jalur transit dan menunjukkan arah perjalanan.
+
+14\. Skor, persentase kecocokan, waktu tempuh, dan biaya merupakan estimasi dari data sekunder publik; disclaimer estimasi ditampilkan di landing page dan tab Tentang.
 
 # **6\. Kebutuhan Lainnya**
 
@@ -672,7 +697,7 @@ Karena NalarRuang pada tahap MVP tidak mengumpulkan maupun menyimpan data pribad
 
 ## **6.4 Kebutuhan Reuse (Pemanfaatan Ulang)**
 
-NalarRuang memanfaatkan sejumlah komponen dan standar eksternal yang dapat digunakan ulang: pustaka peta interaktif Leaflet (open-source), pipeline pengolahan data QGIS dan Overpass API, serta metrik walkability/livability internasional (5-minute city, 10-minute city, walkable city) sebagai acuan formula Persona Grading, alih-alih menyusun standar pengukuran baru.
+NalarRuang memanfaatkan sejumlah komponen dan standar eksternal yang dapat digunakan ulang: pustaka peta interaktif Leaflet (open-source), pipeline pengolahan data QGIS dan Overpass API, serta metrik walkability/livability internasional (15-minute city, walkable city) sebagai acuan formula Persona Grading, alih-alih menyusun standar pengukuran baru.
 
 # **Lampiran A: Glosarium**
 
@@ -685,15 +710,15 @@ Lampiran ini memuat daftar kebutuhan atau keputusan yang belum ditentukan secara
 | Kode TBD | Deskripsi | Alasan Belum Ditetapkan | Status Penyelesaian |
 | :---: | ----- | ----- | ----- |
 | **TBD-01** | Diagram BPMN alur proses bisnis (2.2 Model Proses Bisnis) | Sudah digambarkan oleh tim pada tingkat umum (lihat Gambar 2.1). | Selesai |
-| **TBD-02** | Wireframe/mockup Figma untuk dialog onboarding preferensi persona, Visual Explorer, Requirement Search, Point Inspector, dan Commute Simulator (3.1, 4.8) | Proses UI/UX Design (WBS 1.2.1.2 & 1.2.1.3) masih berjalan. | Dalam pengerjaan Sprint 0 |
+| **TBD-02** | Wireframe/mockup Figma untuk dialog onboarding preferensi persona, Visual Explorer, Requirement Search, Point Inspector, dan Commute Simulator (3.1, 4.8) | Terjawab oleh desain final Figma `ui-nalar-ruang` section "putih kayak bhumi yang udah di revisi" (lihat 4.8); layar yang belum digambar diimprovisasi di `design-system.md`. | Selesai (29 Sep 2026) |
 | **TBD-03** | Diagram Use Case (4.7.1 Use Case Diagram) | Sudah digambarkan oleh tim (lihat Gambar 4.1). | Selesai |
 | **TBD-04** | ERD dan skema tabel PostGIS terperinci (6.1 Kebutuhan Basis Data) | Spatial Database Design (WBS 1.2.2) belum selesai. | Dalam pengerjaan Sprint 0 |
 | **TBD-05** | Bobot final formula skor Persona (Commuter/Driver/Social & Vibe/Zen) | Bobot akan disesuaikan setelah uji coba terhadap data nyata (WBS 1.1.2). | Menunggu hasil uji coba |
 | **TBD-06** | Target performa kuantitatif (waktu render peta, waktu respons API — NFR-01, NFR-02) | Angka target belum disepakati tim secara formal. | Menunggu kesepakatan tim |
 | **TBD-07** | Kebutuhan regulasi/legal formal terkait data pribadi (6.3 Kebutuhan Legal) | MVP saat ini tidak menyimpan data pribadi pengguna sehingga belum menjadi prioritas. | Dipantau untuk pengembangan lanjutan |
-| **TBD-08** | Nama alias/nickname untuk enam layer Visual Explorer (nama penuh dinilai terlalu panjang untuk UI) | Belum ditentukan tim. | Menyusul |
-| **TBD-09** | Ambang batas kuantitatif skor Persona Grading berbasis poligon/wilayah (mis. jumlah stasiun/halte per kecamatan untuk tiap tingkat bintang) | Belum ada standar baku untuk kepadatan fasilitas per wilayah; perlu riset lebih lanjut. | Perlu riset & kesepakatan tim |
-| **TBD-10** | Ambang batas radius pasti untuk tingkat bintang 0–2 pada penilaian berbasis titik (baru ada acuan bintang tertinggi: jalan kaki ±500-600 m, kendaraan 1-2 km, mengacu konsep 5-minute city) | Belum disepakati tim secara formal. | Menunggu kesepakatan tim |
+| **TBD-08** | Nama alias/nickname untuk enam layer Visual Explorer (nama penuh dinilai terlalu panjang untuk UI) | Desain final memakai nama: Historis & Risiko, Ekosistem Mikro, Inklusivitas, Mobilitas & Transit, Mesin Waktu, Legalitas Lahan. | Selesai (29 Sep 2026) |
+| **TBD-09** | Ambang batas kuantitatif skor Persona Grading berbasis poligon/wilayah (mis. jumlah stasiun/halte per kecamatan untuk tiap tingkat bintang) | Ditetapkan PM: wilayah tidak diberi bintang karena kuantitas fasilitas tidak bisa dipukul rata; diganti centang cocok/belum cocok berdasarkan keberadaan fasilitas utama persona (lihat Fitur Persona Grading). | Selesai (29 Sep 2026) |
+| **TBD-10** | Ambang batas radius untuk tingkat bintang pada penilaian berbasis titik | Ditetapkan PM: 3 bintang ≤ 1,2 km (15-minute city), 2 bintang ≤ 2,5 km, 1 bintang ≤ 5 km, 0 bintang > 5 km, diukur ke fasilitas utama tiap persona (lihat Fitur Persona Grading). | Selesai (29 Sep 2026) |
 | **TBD-11** | Mekanisme/algoritma parsing untuk query teks bebas pada Requirement Search (mis. 'Daerah mudah transum di Bogor Kota') | WBS saat ini tidak mencakup pipeline NLP; perlu didiskusikan pendekatan teknis (keyword matching sederhana vs. NLP). | Perlu didiskusikan tim |
 
 # **Persetujuan Dokumen (Sign-off)**

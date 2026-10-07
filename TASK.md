@@ -28,48 +28,35 @@ Gunakan file ini untuk mencatat pekerjaan proyek. Satu task harus memiliki tujua
 
 ## Task Aktif
 
-### [~] Restrukturisasi dokumentasi NalarRuang (tahap 1)
+### [~] Penyelarasan dokumen dan artifact ke desain final + masukan Izdihar (Tahap A–C)
 
-- Status: [~] Implementasi dan verifikasi selesai, menunggu tinjauan pengguna
+- Status: [~] Tahap A, B, C selesai, menunggu tinjauan pengguna
 - Fase: Handoff
 - Mode: competition
 - Prioritas: Tinggi
-- Tujuan: Seluruh `.md` di repo mencerminkan NalarRuang, bukan proyek lama yang dokumennya tersalin.
-- Konteks dan bukti awal: Seluruh `.md` disalin dari proyek sebelumnya. Belum ada kode. Sumber konteks baru: SRS v1.0, WBS, Project Charter, Deskripsi Proyek (kini di `docs/sumber/`).
-- Scope termasuk: Menulis ulang CLAUDE, README, PROJECT_STATE, TASK; menyunting baris konteks AGENTS; memindah dokumen resmi ke `docs/sumber/`; menghapus dokumen proyek lama termasuk sistem ADR; menggabungkan `docs/` menjadi RENCANA, SISTEM, KOLABORASI.
-- Non-goals: Mengubah logika proses kerja agen (mode, checkpoint, approval, format laporan, template task). Menyunting isi dokumen di `docs/sumber/`. Menulis kode.
+- Tujuan: Semua dokumen mengikuti desain Figma final (section "putih kayak bhumi yang udah di revisi") dan masukan Izdihar 29 Sep 2026.
+- Konteks dan bukti awal: Figma section revisi dinyatakan final oleh pengguna; desain yang diikuti bila berbeda dengan dokumen, termasuk SRS/WBS. Masukan Izdihar: peta di Figma hanya ilustrasi (area kotak, pin di Monas, rute lurus tidak ditiru), sembilan sumber data, ambang bintang 1,2/2,5/5 km (15-minute city).
+- Keputusan pengguna: skor titik memakai satu fasilitas utama per persona. Revisi 29 Sep (konfirmasi Izdihar, SRS v1.2): Zen = kualitas udara (sehat 3 … berbahaya 0) dikurangi jarak RTH; wilayah = centang cocok/belum cocok, tanpa bintang (TBD-09 selesai). Warna teks navy 40–55% dipertahankan sesuai Figma dengan catatan kontras.
+- Scope termasuk: `docs/sumber/SRS.md` (v1.1, FR-22 landing), `docs/sumber/WBS.md` (1.4.8 baru), `design-system.md` v2.0 (termasuk Kartografi), `prd.md` v1.1, `docs/SISTEM.md`, `docs/RENCANA.md`, `docs/KOLABORASI.md`, `CLAUDE.md`, `AGENTS.md`, catatan arsip di analisis UI/UX, artifact Audit Sumber Data.
+- Tahap B: artifact Design System dibangun ulang (tokens v3, 39 komponen, peta tiruan `CuplikanPeta`, aset Desain dan Foto baru). Tahap C: kanvas contoh berisi lima layar (Visual Explorer, Top 3, Simulator Rute, dialog persona, drawer).
+- Non-goals: Menulis kode aplikasi.
 - Dependensi: Tidak ada
 
 Kriteria selesai:
 
-- [x] Tidak ada sisa konteks proyek lama di `.md` di luar `docs/sumber/`.
-- [x] `AGENTS.md` hanya berubah di baris konteks.
-- [x] Bagian kerangka `TASK.md` identik.
-- [x] Semua tautan relatif menunjuk berkas yang ada.
-- [x] `docs/sumber/` hanya rename, isi tidak berubah.
-- [ ] Ditinjau pengguna, lalu di-commit dan PR.
-
-Risiko dan asumsi:
-
-- Risiko: Struktur folder dan pembagian endpoint di dokumen masih usulan; bisa berbeda setelah scaffolding.
-- Asumsi: Status Sprint 0 (1.2.2–1.2.5) belum diketahui, ditulis apa adanya.
-
-Rencana verifikasi:
-
-- grep kata kunci proyek lama, `git diff AGENTS.md`, `git diff TASK.md`, cek tautan, `git diff --stat -M docs/sumber/`.
+- [x] Semua nilai visual di `design-system.md` berasal dari frame Figma revisi atau ditandai Improvisasi.
+- [x] SRS/WBS/PRD/SISTEM konsisten: FR-01–22, ambang bintang, ikon toggle mobil, drawer, sumber data.
+- [x] Tidak ada rujukan tersisa ke hamburger, orang berjalan, 5-minute city, atau panel kaca di dokumen aktif.
+- [x] Artifact Design System dan kanvas contoh mengikuti desain final.
+- [x] Peta tiruan diganti peta OSM asli dengan data nyata (kelurahan, rel, stasiun, RTH, POI, rute OSRM, bahaya banjir InaRISK); kanvas enam layar dibandingkan berdampingan dengan Figma.
+- [ ] Ditinjau pengguna.
 
 Checkpoint dan approval:
 
-- Scope: Disetujui
-- Discovery: Selesai
-- Analysis: Selesai
-- Plan: Selesai
-- Approval sebelum implementasi: Disetujui
-- Verification: Selesai
-
-Catatan:
-
-- Tahap 2 dikerjakan setelah desain Figma masuk.
+- Scope: Disetujui (29 Sep 2026)
+- Discovery: Selesai (ekstraksi Figma 174:2)
+- Plan: Disetujui ("ikuti desain ini ... ubah SRS dan WBS")
+- Verification: grep istilah lama, `git diff --stat`
 
 <!--
 Simpan hanya satu task yang sedang dikerjakan di bagian ini.
@@ -162,7 +149,7 @@ Catatan:
 ### [ ] 1.4.5 Persona Grading dan Commute Simulator (bersama Galih, Nur'Afia)
 
 - Prioritas: Sedang · Sprint 3
-- Dependensi: TBD-05, TBD-09, TBD-10, TBD-ROUTE.
+- Dependensi: TBD-05, TBD-09, TBD-ROUTE.
 
 ### [ ] 1.5.3–1.5.5 Debugging, deployment produksi, dokumentasi
 
@@ -173,6 +160,10 @@ Catatan:
 ## Selesai
 
 <!-- Pindahkan task selesai ke sini jika riwayatnya masih berguna. Sertakan hasil dan verifikasi terakhir. -->
+
+### [x] Restrukturisasi dokumentasi NalarRuang (tahap 1)
+
+- Hasil: konteks proyek lama dihapus; `docs/` menjadi RENCANA, SISTEM, KOLABORASI; dokumen resmi di `docs/sumber/`. Sudah di-commit.
 
 ### [~] PRD, design system, dan kanvas wireframe NalarRuang
 

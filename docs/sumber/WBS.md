@@ -33,8 +33,9 @@ Gunakan proyek TI kelompok yang sama dengan Project Charter. WBS harus cukup det
 | Pemetaan 6 Layer Data Spasial: Historis & Risiko, Ekosistem Mikro & Gaya Hidup, Inklusivitas, Mobilitas & Transit, Mesin Waktu, Legalitas Lahan | Listing iklan/transaksi properti |
 | Algoritma Requirement Search (pencarian bottom-up berbasis spatial intersection & Top 3 rekomendasi) | Pembuatan data primer tata ruang (survei lapangan) |
 | Smart Point Inspector dengan metrik persona (Commuter, Driver, Social & Vibe, Zen Score) | Analisis spasial di luar area Jabodetabek |
-| Commute Simulator (estimasi jarak & waktu tempuh Pin A \- Pin B) |  |
+| Commute Simulator (estimasi jarak, waktu tempuh & biaya Pin A \- Pin B) |  |
 | Pengolahan data spasial sekunder menggunakan QGIS & Overpass API |  |
+| Onboarding persona sesi, Menu Utama (drawer Persona/Legenda/Tentang), dan Landing Page sesuai desain UI final |  |
 
 Tuliskan batas secara eksplisit. Item out-of-scope membantu mencegah scope creep dan salah persepsi.
 
@@ -43,9 +44,9 @@ Tuliskan batas secara eksplisit. Item out-of-scope membantu mencegah scope creep
 | ID | Deliverable (Tahapan Scrum) | Deskripsi | Acceptance Criteria |
 | :---- | :---- | :---- | :---- |
 | D1 | Requirements Specification (Sprint 0 \- Discovery & Product Backlog) | Hasil Sprint Planning awal: empat persona gaya hidup (Commuter, Driver, Social & Vibe, Zen) terdefinisi, kebutuhan dipecah menjadi Product Backlog berisi user story yang sudah diprioritaskan, dan SRS/PRD disepakati bersama Product Owner. | Definition of Done: Product Backlog tersusun dan diprioritaskan, seluruh user story memiliki acceptance criteria, dan SRS ditinjau serta di-sign-off oleh PM / Internal Tim maupun Dosen Pengampu. |
-| D2 | System Design (Sprint 0 \- Design & Architecture Baseline) | Design baseline yang dihasilkan pada akhir Sprint 0: prototipe UI Figma dengan tipografi tunggal (Plus Jakarta Sans), ERD dan skema basis data spasial PostGIS, rancangan arsitektur Laravel-Tailwind-PostGIS, rancangan algoritma, serta environment pengembangan (repo, scaffolding, staging). | Definition of Done: seluruh artefak desain direview tim, konsisten dengan Product Backlog, dan environment pengembangan siap dipakai Sprint 1\. |
+| D2 | System Design (Sprint 0 \- Design & Architecture Baseline) | Design baseline yang dihasilkan pada akhir Sprint 0: prototipe UI Figma final beserta design system (Plus Jakarta Sans untuk aplikasi, Fraunces, Georgia, dan Inter untuk judul, dialog persona, dan landing page), ERD dan skema basis data spasial PostGIS, rancangan arsitektur Laravel-Inertia-React-Tailwind-PostGIS, rancangan algoritma, serta environment pengembangan (repo, scaffolding, staging). | Definition of Done: seluruh artefak desain direview tim, konsisten dengan Product Backlog, dan environment pengembangan siap dipakai Sprint 1\. |
 | D3 | Spatial Data Pipeline (Sprint 1 \- Increment 1\) | Increment pertama pada sisi data: keenam layer data spasial diolah di QGIS (bersumber dari Overpass API dan sumber sekunder lain), dibersihkan, distandardisasi atributnya, lalu diekspor menjadi GeoJSON siap impor ke PostGIS. | Definition of Done: seluruh berkas GeoJSON lolos validasi skema dan geometri, berhasil diimpor ke PostGIS tanpa error, serta diterima pada Sprint Review 1\. |
-| D4 | Web Application (Product Increment) (Sprint 1-3 \- Increment 1, 2 & 3\) | Potentially shippable increment yang bertambah tiap sprint: Sprint 1 (Core Web Map/Visual Explorer \+ 2 layer), Sprint 2 (Requirement Search \+ API \+ 2 layer), Sprint 3 (Smart Point Inspector & Persona Grading, Commute Simulator \+ 2 layer sisa). Setiap sprint ditutup Sprint Review dan Sprint Retrospective. | Definition of Done: setiap increment berjalan stabil di environment staging, memenuhi acceptance criteria user story terkait, dan diterima Product Owner pada Sprint Review 1, 2, dan 3\. |
+| D4 | Web Application (Product Increment) (Sprint 1-3 \- Increment 1, 2 & 3\) | Potentially shippable increment yang bertambah tiap sprint: Sprint 1 (Core Web Map/Visual Explorer \+ 2 layer), Sprint 2 (Requirement Search \+ API \+ 2 layer), Sprint 3 (Smart Point Inspector & Persona Grading, Commute Simulator, Onboarding & Menu Utama, Landing Page \+ 2 layer sisa). Setiap sprint ditutup Sprint Review dan Sprint Retrospective. | Definition of Done: setiap increment berjalan stabil di environment staging, memenuhi acceptance criteria user story terkait, dan diterima Product Owner pada Sprint Review 1, 2, dan 3\. |
 | D5 | Tested Application & Release (Release Sprint \- Hardening & Release) | Sprint terakhir untuk hardening produk: unit testing, integration testing, usability testing, perbaikan defect, User Acceptance Testing (UAT), deployment ke environment produksi, dokumentasi pengguna dan teknis, serta serah terima final. | Definition of Done: fungsi utama lulus seluruh test case, defect kritis nihil, UAT diterima Sponsor dan Dosen Pengampu, aplikasi ter-deploy, dan berita acara serah terima ditandatangani. |
 
 **Kalender Sprint (Baseline Penjadwalan)**
@@ -78,7 +79,7 @@ Mulai dari 1.0 \= nama proyek. Pecah menjadi major deliverables/work areas, lalu
 | 11 | 1.2.1 | 1.2 | UI/UX Design | 3 | D2 |
 | 12 | 1.2.1.1 | 1.2.1 | User Flow Dual-Mode Spatial Search | 4 | D2 |
 | 13 | 1.2.1.2 | 1.2.1 | Wireframe Peta, Panel Layer & Point Inspector | 4 | D2 |
-| 14 | 1.2.1.3 | 1.2.1 | Interactive Prototype Figma (Tipografi Plus Jakarta Sans) | 4 | D2 |
+| 14 | 1.2.1.3 | 1.2.1 | Interactive Prototype Figma & Design System | 4 | D2 |
 | 15 | 1.2.1.4 | 1.2.1 | Design Review Internal dengan Tim | 4 | D2 |
 | 16 | 1.2.2 | 1.2 | Spatial Database Design — Perancangan Basis Data Spasial | 3 | D2 |
 | 17 | 1.2.3 | 1.2 | Application Architecture Design | 3 | D2 |
@@ -98,13 +99,14 @@ Mulai dari 1.0 \= nama proyek. Pecah menjadi major deliverables/work areas, lalu
 | 31 | 1.4.6.2 | 1.4.6 | RESTful API Endpoint (Layer, Search, Persona) | 4 | D4 |
 | 32 | 1.4.6.3 | 1.4.6 | Optimasi Query Spasial | 4 | D4 |
 | 33 | 1.4.7 | 1.4 | Sprint Review, Demonstrasi Prototipe & Staging | 3 | D4 |
-| 34 | **1.5** | 1.0 | **Testing & Deployment** | 2 | D5 |
-| 35 | 1.5.1 | 1.5 | Test Planning | 3 | D5 |
-| 36 | 1.5.2 | 1.5 | Testing (Unit, Integration, Usability, UAT) | 3 | D5 |
-| 37 | 1.5.3 | 1.5 | Debugging | 3 | D5 |
-| 38 | 1.5.4 | 1.5 | Deployment WebGIS App | 3 | D5 |
-| 39 | 1.5.5 | 1.5 | User & Technical Documentation | 3 | D5 |
-| 40 | 1.5.6 | 1.5 | Final Handover | 3 | D5 |
+| 34 | 1.4.8 | 1.4 | Onboarding Persona, Menu Utama & Landing Page | 3 | D4 |
+| 35 | **1.5** | 1.0 | **Testing & Deployment** | 2 | D5 |
+| 36 | 1.5.1 | 1.5 | Test Planning | 3 | D5 |
+| 37 | 1.5.2 | 1.5 | Testing (Unit, Integration, Usability, UAT) | 3 | D5 |
+| 38 | 1.5.3 | 1.5 | Debugging | 3 | D5 |
+| 39 | 1.5.4 | 1.5 | Deployment WebGIS App | 3 | D5 |
+| 40 | 1.5.5 | 1.5 | User & Technical Documentation | 3 | D5 |
+| 41 | 1.5.6 | 1.5 | Final Handover | 3 | D5 |
 
 **F. WBS Tree / Hierarchy**
 
@@ -171,7 +173,7 @@ Duplikasi tabel berikut untuk seluruh baris yang ditandai Work Package \= Yes. E
 | **Responsible / PIC** | Raden Mas Galih Pradityo (System Analyst) |
 | **Dependencies** | 1.1.1 |
 | **Estimated Duration** | 4 hari kerja \- Sprint 0 (7-25 Sep 2026\) |
-| **Resources Needed** | Akses data InaRISK/DEMNAS, Overpass API, data pemerintah terbuka (ATR/BPN), referensi AQI & data kriminalitas publik |
+| **Resources Needed** | Akses data InaRISK (BNPB), DEMNAS (BIG), IQAir, BPS, Overpass API (OSM), GTFS Transjakarta, Jakarta Satu Data, ATR/BPN, dan JUTPI Phase 3 |
 | **Assumptions / Constraints** | Data yang dipakai merupakan data sekunder yang dapat diakses publik; cakupan data OSM & data terbuka pemerintah masih terbatas di sejumlah area dan perlu verifikasi manual. |
 | **Completion Evidence** | Dokumen matriks evaluasi sumber data 6 layer spasial. |
 
@@ -252,27 +254,27 @@ Duplikasi tabel berikut untuk seluruh baris yang ditandai Work Package \= Yes. E
 | **Dependencies** | 1.2.1.1 |
 | **Estimated Duration** | 3 hari kerja \- Sprint 0 (7-25 Sep 2026\) |
 | **Resources Needed** | Figma, hasil user flow |
-| **Assumptions / Constraints** | Referensi tipografi mengikuti font tunggal Plus Jakarta Sans sesuai PRD. |
+| **Assumptions / Constraints** | Referensi tipografi mengikuti design system (Plus Jakarta Sans untuk aplikasi; Fraunces, Georgia, dan Inter untuk judul, dialog persona, dan landing page). |
 | **Completion Evidence** | File wireframe Figma. |
 
  
 
-**1.2.1.3 Interactive Prototype Figma (Tipografi Plus Jakarta Sans)**
+**1.2.1.3 Interactive Prototype Figma & Design System**
 
 | Field | Isian |
 | :---- | :---- |
 | **WBS ID** | 1.2.1.3 |
-| **Work Package Name** | Interactive Prototype Figma (Tipografi Plus Jakarta Sans) |
+| **Work Package Name** | Interactive Prototype Figma & Design System |
 | **Parent WBS** | 1.2.1 |
 | **Related Deliverable** | D2 |
-| **Description** | Mengembangkan interactive prototype antarmuka alur utama (basemap, panel layer, form search, point inspector) dengan tipografi tunggal Plus Jakarta Sans. |
+| **Description** | Mengembangkan interactive prototype antarmuka alur utama (dialog persona, basemap, panel layer, search bar dan Top 3, point inspector, simulator rute, drawer menu, landing page) beserta design system yang menjadi acuan layar yang belum digambar. Desain final: Figma `ui-nalar-ruang`, section "putih kayak bhumi yang udah di revisi". |
 | **Output** | Prototype antarmuka alur utama aplikasi. |
 | **Acceptance Criteria** | Pengguna dapat menavigasi alur Visual Explorer dan Requirement Search pada prototype Figma. |
 | **Responsible / PIC** | Nur'Afia Avanza (UI/UX Designer) |
 | **Dependencies** | 1.2.1.2 |
 | **Estimated Duration** | 3 hari kerja \- Sprint 0 (7-25 Sep 2026\) |
 | **Resources Needed** | Figma, wireframe |
-| **Assumptions / Constraints** | Komponen desain mengikuti design system tunggal (Plus Jakarta Sans) yang disepakati. |
+| **Assumptions / Constraints** | Komponen desain mengikuti design system yang disepakati; isi peta pada desain adalah ilustrasi dan diganti data sebenarnya saat implementasi. |
 | **Completion Evidence** | Link/file prototype Figma yang dapat diuji coba. |
 
  
@@ -445,8 +447,8 @@ Duplikasi tabel berikut untuk seluruh baris yang ditandai Work Package \= Yes. E
 | **Work Package Name** | Pengembangan Modul Requirement Search |
 | **Parent WBS** | 1.4 |
 | **Related Deliverable** | D4 |
-| **Description** | Mengimplementasikan form input lokasi target & parameter kebutuhan pengguna, mengembangkan fungsi kalkulasi spatial intersection pada PostGIS untuk Top 3 rekomendasi, dan mengimplementasikan animasi kamera peta (fly-to) menuju titik rekomendasi hasil pencarian. |
-| **Output** | Komponen form Requirement Search, endpoint/fungsi backend Top 3 rekomendasi, dan fitur fly-to animation terintegrasi. |
+| **Description** | Mengimplementasikan search bar lokasi target & parameter kebutuhan pengguna, mengembangkan fungsi kalkulasi spatial intersection pada PostGIS untuk Top 3 rekomendasi beserta persentase kecocokannya, dan mengimplementasikan animasi kamera peta (fly-to) menuju titik rekomendasi hasil pencarian. |
+| **Output** | Komponen search bar dan panel Top 3 Rekomendasi, endpoint/fungsi backend Top 3 rekomendasi, dan fitur fly-to animation terintegrasi. |
 | **Acceptance Criteria** | Pengguna dapat memasukkan lokasi & parameter kebutuhan tanpa error; hasil rekomendasi konsisten & relevan; kamera peta berpindah mulus ke titik rekomendasi. |
 | **Responsible / PIC** | Nur'Afia Avanza (UI/UX Designer), Raden Mas Galih Pradityo (System Analyst), Adzkia Nifa Adha (Backend/GIS Developer) |
 | **Dependencies** | 1.2.1, 1.3.2, 1.2.3 |
@@ -485,7 +487,7 @@ Duplikasi tabel berikut untuk seluruh baris yang ditandai Work Package \= Yes. E
 | **Work Package Name** | Smart Point Inspector |
 | **Parent WBS** | 1.4 |
 | **Related Deliverable** | D4 |
-| **Description** | Mengimplementasikan panel pintar (tooltip/side-panel) yang muncul saat pengguna mengeklik titik/poligon pada peta, menampilkan detail informasi lokasi. |
+| **Description** | Mengimplementasikan panel "Detail Lokasi" di sisi kiri layar yang muncul saat pengguna mengeklik titik/poligon pada peta, menampilkan detail informasi lokasi, skor persona, dan kesimpulan singkat. |
 | **Output** | Komponen UI Panel Point Inspector yang berfungsi. |
 | **Acceptance Criteria** | Panel muncul saat titik/poligon diklik dan dapat ditutup kembali tanpa error UI. |
 | **Responsible / PIC** | Nur'Afia Avanza (UI/UX Designer) |
@@ -505,14 +507,14 @@ Duplikasi tabel berikut untuk seluruh baris yang ditandai Work Package \= Yes. E
 | **Work Package Name** | Persona Grading Module |
 | **Parent WBS** | 1.4 |
 | **Related Deliverable** | D4 |
-| **Description** | Mengembangkan fungsi kalkulasi keempat skor persona — Commuter Score (akses transit & trotoar), Driver Score (lebar jalan, jarak tol, SPBU), Social & Vibe Score (rasio kafe/restoran/hiburan), dan Zen Score (polusi suara, keamanan, banjir, RTH) — serta fitur Commute Simulator: penempatan Pin A (hunian) & Pin B (kantor/kampus) dengan kalkulasi jarak dan estimasi waktu tempuh (kendaraan pribadi & transit). |
-| **Output** | Fungsi backend keempat skor persona (tampil di panel Point Inspector), dan fitur Commute Simulator dengan estimasi waktu tempuh dua moda. |
-| **Acceptance Criteria** | Keempat skor tampil konsisten di panel Point Inspector sesuai bobot layer yang ditentukan; estimasi jarak & waktu tempuh tampil untuk kedua moda berdasarkan data lalu lintas historis. |
+| **Description** | Mengembangkan fungsi kalkulasi keempat skor persona — Commuter Score (jarak ke stasiun/halte), Driver Score (jarak ke gerbang tol), Social & Vibe Score (jarak ke kafe/restoran/mal), dan Zen Score (kategori kualitas udara, dikurangi bila ruang terbuka hijau terdekat jauh) — dengan ambang 3 bintang ≤ 1,2 km, 2 bintang ≤ 2,5 km, 1 bintang ≤ 5 km untuk titik dan centang cocok/belum cocok per persona untuk wilayah, serta fitur Commute Simulator: penempatan Pin A (hunian) & Pin B (kantor/kampus) dengan kalkulasi jarak, estimasi waktu tempuh, dan biaya (kendaraan pribadi & transit) beserta rute yang mengikuti jaringan jalan/jalur transit. |
+| **Output** | Fungsi backend keempat skor persona (tampil di panel Point Inspector), dan fitur Commute Simulator dengan estimasi waktu tempuh dan biaya dua moda. |
+| **Acceptance Criteria** | Keempat skor tampil konsisten di panel Point Inspector sesuai ambang yang ditentukan; estimasi jarak, waktu tempuh, dan biaya tampil untuk kedua moda dengan rute yang mengikuti jaringan jalan/jalur transit. |
 | **Responsible / PIC** | Raden Mas Galih Pradityo (System Analyst), Farrel Muhammad Zaki (Backend Developer), Nur'Afia Avanza (UI/UX Designer) |
 | **Dependencies** | 1.4.3, 1.1.2, 1.2.3 |
 | **Estimated Duration** | 9 hari kerja \- Sprint 3 (9-20 Nov 2026\) |
 | **Resources Needed** | Definisi bobot skor, environment backend, layer Mobilitas & Transit |
-| **Assumptions / Constraints** | Bobot penilaian tiap komponen skor disepakati tim sebelum implementasi; data lalu lintas historis yang tersedia cukup untuk estimasi wajar. |
+| **Assumptions / Constraints** | Ambang skor titik dan metode centang untuk poligon ditetapkan PM (29 Sep 2026); data lalu lintas real-time berbayar tidak dipakai, sehingga waktu tempuh adalah estimasi dari jaringan jalan, jadwal/rute transit, dan faktor jam sibuk. |
 | **Completion Evidence** | Commit fungsi skor persona & fitur Commute Simulator beserta hasil uji perhitungan/fungsional. |
 
  
@@ -594,6 +596,26 @@ Duplikasi tabel berikut untuk seluruh baris yang ditandai Work Package \= Yes. E
 | **Resources Needed** | Environment staging, materi presentasi |
 | **Assumptions / Constraints** | Setiap modul fitur stabil di staging sebelum direview; review per modul dinilai lebih terorganisir dan jelas dibanding review per sprint. |
 | **Completion Evidence** | Notulen Sprint Review & Retrospective per modul beserta dokumentasi umpan balik. |
+
+ 
+
+**1.4.8 Onboarding Persona, Menu Utama & Landing Page**
+
+| Field | Isian |
+| :---- | :---- |
+| **WBS ID** | 1.4.8 |
+| **Work Package Name** | Onboarding Persona, Menu Utama & Landing Page |
+| **Parent WBS** | 1.4 |
+| **Related Deliverable** | D4 |
+| **Description** | Mengimplementasikan dialog pemilihan persona di awal sesi (FR-13, FR-14), drawer Menu Utama dengan tab Persona, Legenda, dan Tentang serta panel Profil Persona (FR-18–FR-21), dan landing page (FR-22) sesuai desain UI final. |
+| **Output** | Komponen dialog persona, drawer menu, panel Profil Persona, dan halaman landing yang terhubung ke Visual Explorer. |
+| **Acceptance Criteria** | Dialog muncul di setiap sesi baru dan menolak lanjut tanpa persona; perubahan persona dari drawer atau panel Profil Persona berlaku tanpa memuat ulang; landing page tampil sesuai desain dan tombolnya membuka Visual Explorer. |
+| **Responsible / PIC** | Nur'Afia Avanza (UI/UX Designer) |
+| **Dependencies** | 1.4.1, 1.4.5 |
+| **Estimated Duration** | 4 hari kerja \- Sprint 3 (9-20 Nov 2026\) |
+| **Resources Needed** | Desain Figma final, design system, komponen UI (React + Tailwind) |
+| **Assumptions / Constraints** | Landing page tidak bergantung pada API sehingga dapat digeser ke awal Release Sprint bila Sprint 3 padat; preferensi persona hanya disimpan di sisi klien selama sesi. |
+| **Completion Evidence** | Commit komponen & screenshot dibandingkan dengan desain Figma. |
 
  
 
@@ -728,7 +750,7 @@ Duplikasi tabel berikut untuk seluruh baris yang ditandai Work Package \= Yes. E
 | **1.1.4.2** | Finalisasi & Sign-off Spesifikasi (PM / Internal Tim) | Izdihar Izzan Wibowo (PM) | 1 hari kerja \- Sprint 0 (7-25 Sep 2026\) | 1.1.4.1 | SRS final disetujui dan dikonfirmasi oleh PM / Internal Tim atau Dosen Pengampu. |
 | **1.2.1.1** | User Flow Dual-Mode Spatial Search | Nur'Afia Avanza (UI/UX Designer) | 2 hari kerja \- Sprint 0 (7-25 Sep 2026\) | 1.1.4.2 | User flow mencakup seluruh skenario penggunaan kedua mode pencarian. |
 | **1.2.1.2** | Wireframe Peta, Panel Layer & Point Inspector | Nur'Afia Avanza (UI/UX Designer) | 3 hari kerja \- Sprint 0 (7-25 Sep 2026\) | 1.2.1.1 | Wireframe mencakup basemap, panel layer, form pencarian, dan point inspector sesuai user flow. |
-| **1.2.1.3** | Interactive Prototype Figma (Tipografi Plus Jakarta Sans) | Nur'Afia Avanza (UI/UX Designer) | 3 hari kerja \- Sprint 0 (7-25 Sep 2026\) | 1.2.1.2 | Pengguna dapat menavigasi alur Visual Explorer dan Requirement Search pada prototype Figma. |
+| **1.2.1.3** | Interactive Prototype Figma & Design System | Nur'Afia Avanza (UI/UX Designer) | 3 hari kerja \- Sprint 0 (7-25 Sep 2026\) | 1.2.1.2 | Pengguna dapat menavigasi alur Visual Explorer dan Requirement Search pada prototype Figma. |
 | **1.2.1.4** | Design Review Internal dengan Tim | Nur'Afia Avanza (UI/UX Designer), Izdihar Izzan Wibowo (PM) | 1 hari kerja \- Sprint 0 (7-25 Sep 2026\) | 1.2.1.3 | Prototype disetujui internal tim atau revisi terdokumentasi dan ditindaklanjuti sebelum Sprint 1\. |
 | **1.2.2** | Spatial Database Design — Perancangan Basis Data Spasial | Raden Mas Galih Pradityo (System Analyst), Farrel Muhammad Zaki (Backend Developer) | 5 hari kerja \- Sprint 0 (7-25 Sep 2026\) | 1.1.3 | Entitas mencakup 6 layer prioritas, ERD tervalidasi System Analyst & Backend, dan skema PostGIS mencakup tipe geometri & indeks spasial sesuai kebutuhan performa. |
 | **1.2.3** | Application Architecture Design | Raden Mas Galih Pradityo (System Analyst), Izdihar Izzan Wibowo (PM), Farrel Muhammad Zaki (Backend Developer), Adzkia Nifa Adha (Backend/GIS Developer) | 6 hari kerja \- Sprint 0 (7-25 Sep 2026\) | 1.2.2 | Diagram arsitektur mencakup seluruh komponen PRD, spesifikasi API mencakup seluruh kebutuhan data frontend fitur inti, dan rancangan algoritma mencakup parameter input, formula skor, dan output terukur. |
@@ -740,11 +762,12 @@ Duplikasi tabel berikut untuk seluruh baris yang ditandai Work Package \= Yes. E
 | **1.4.2** | Pengembangan Modul Requirement Search | Nur'Afia Avanza (UI/UX Designer), Raden Mas Galih Pradityo (System Analyst), Adzkia Nifa Adha (Backend/GIS Developer) | 8 hari kerja \- Sprint 2 (19 Okt-6 Nov 2026\) | 1.2.1, 1.3.2, 1.2.3 | Pengguna dapat memasukkan lokasi & parameter kebutuhan tanpa error; hasil rekomendasi konsisten & relevan; kamera peta berpindah mulus ke titik rekomendasi. |
 | **1.4.3** | Implementasi Multi-Layer Mapping pada Peta Interaktif | Farrel Muhammad Zaki (Backend Developer), Adzkia Nifa Adha (Backend/GIS Developer), Nur'Afia Avanza (UI/UX Designer) | 18 hari kerja \- tersebar Sprint 1 s.d. Sprint 3 | 1.4.1, 1.4.6, 1.3.2 | Seluruh layer tampil akurat sesuai data GeoJSON dan dapat di-toggle tanpa jeda rendering; timeline slider menampilkan/menyembunyikan trase proyek sesuai tahun yang dipilih. |
 | **1.4.4** | Smart Point Inspector | Nur'Afia Avanza (UI/UX Designer) | 3 hari kerja \- Sprint 3 (9-20 Nov 2026\) | 1.4.1 | Panel muncul saat titik/poligon diklik dan dapat ditutup kembali tanpa error UI. |
-| **1.4.5** | Persona Grading Module | Raden Mas Galih Pradityo (System Analyst), Farrel Muhammad Zaki (Backend Developer), Nur'Afia Avanza (UI/UX Designer) | 9 hari kerja \- Sprint 3 (9-20 Nov 2026\) | 1.4.3, 1.1.2, 1.2.3 | Keempat skor tampil konsisten di panel Point Inspector sesuai bobot layer yang ditentukan; estimasi jarak & waktu tempuh tampil untuk kedua moda berdasarkan data lalu lintas historis. |
+| **1.4.5** | Persona Grading Module | Raden Mas Galih Pradityo (System Analyst), Farrel Muhammad Zaki (Backend Developer), Nur'Afia Avanza (UI/UX Designer) | 9 hari kerja \- Sprint 3 (9-20 Nov 2026\) | 1.4.3, 1.1.2, 1.2.3 | Keempat skor tampil konsisten di panel Point Inspector sesuai ambang yang ditentukan; estimasi jarak, waktu tempuh, dan biaya tampil untuk kedua moda dengan rute yang mengikuti jaringan jalan/jalur transit. |
 | **1.4.6.1** | Implementasi Skema PostGIS | Farrel Muhammad Zaki (Backend Developer) | 2 hari kerja \- Sprint 1 (28 Sep-16 Okt 2026\) | 1.2.2, 1.2.4 | Seluruh tabel dan indeks spasial berhasil dibuat tanpa error migrasi. |
 | **1.4.6.2** | RESTful API Endpoint (Layer, Search, Persona) | Farrel Muhammad Zaki (Backend Developer), Adzkia Nifa Adha (Backend/GIS Developer) | 4 hari kerja \- Sprint 2 (19 Okt-6 Nov 2026\) | 1.4.6.1, 1.2.3, 1.3.2 | Seluruh endpoint mengembalikan data sesuai kontrak API dan lulus uji fungsional dasar. |
 | **1.4.6.3** | Optimasi Query Spasial | Farrel Muhammad Zaki (Backend Developer) | 2 hari kerja \- Sprint 2 (19 Okt-6 Nov 2026\) | 1.4.6.2 | Waktu respons endpoint memenuhi target performa nonfungsional (1.1.2). |
 | **1.4.7** | Sprint Review, Demonstrasi Prototipe & Staging | Izdihar Izzan Wibowo (PM), Seluruh Tim | 3 hari kerja \- tersebar Sprint 1 s.d. Sprint 3 | 1.4.1, 1.4.2, 1.4.3, 1.4.4, 1.4.5, 1.4.6 | Setiap modul fitur didemokan di staging environment dan diterima Dosen Pengampu sebelum lanjut ke modul berikutnya. |
+| **1.4.8** | Onboarding Persona, Menu Utama & Landing Page | Nur'Afia Avanza (UI/UX Designer) | 4 hari kerja \- Sprint 3 (9-20 Nov 2026\) | 1.4.1, 1.4.5 | Dialog persona, drawer menu, panel Profil Persona, dan landing page berfungsi sesuai desain dan terhubung ke Visual Explorer. |
 | **1.5.1** | Test Planning | Raden Mas Galih Pradityo (System Analyst), Izdihar Izzan Wibowo (PM) | 2 hari kerja \- Sprint 3 (9-20 Nov 2026\) | 1.4.7 | Test plan mencakup seluruh jenis pengujian dan disetujui PM. |
 | **1.5.2** | Testing (Unit, Integration, Usability, UAT) | Farrel Muhammad Zaki (Backend Developer), Adzkia Nifa Adha (Backend/GIS Developer), Raden Mas Galih Pradityo (System Analyst), Nur'Afia Avanza (UI/UX Designer), Izdihar Izzan Wibowo (PM) | 6 hari kerja \- Release Sprint (23-27 Nov 2026\) | 1.5.1 | Seluruh unit test kritis lulus sesuai target coverage; data 6 layer tampil akurat tanpa error integrasi; UX Dual-Mode Search & Point Inspector berfungsi baik menurut peserta uji; Dosen Pengampu menyatakan aplikasi memenuhi kebutuhan yang disepakati pada SRS. |
 | **1.5.3** | Debugging | Farrel Muhammad Zaki (Backend Developer), Adzkia Nifa Adha (Backend/GIS Developer), Nur'Afia Avanza (UI/UX Designer) | 2 hari kerja \- Release Sprint (23-27 Nov 2026\) | 1.5.2 | Seluruh defect berprioritas kritis/tinggi telah diperbaiki dan lulus retest. |

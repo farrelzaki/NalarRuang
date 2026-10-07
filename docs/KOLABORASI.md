@@ -34,7 +34,7 @@ struktur foldernya nyata.
 | `resources/js/Pages/`, `Components/`, `Map/`, `resources/css/` | **Nur'Afia** (Farrel membantu di Core Map) |
 | `composer.json`, `package.json`, `.env.example`, konfigurasi | **Farrel** |
 | `docs/` selain kontrak API | Siapa saja, umumkan di grup dulu |
-| `docs/sumber/` | Tidak ada. Hanya dibaca. Pembaruan dokumen resmi disalin ulang oleh PM. |
+| `docs/sumber/` | Tidak ada. Hanya dibaca, kecuali penyelarasan SRS/WBS dengan desain UI final yang disepakati tim. Pembaruan dokumen resmi lain disalin ulang oleh PM. |
 
 **Aturannya satu kalimat: jangan menyunting berkas di folder orang lain.**
 Kalau kamu butuh perubahan di sana, minta orangnya lewat grup. Perlu satu

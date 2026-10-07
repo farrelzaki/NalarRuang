@@ -30,9 +30,11 @@ Lunak, IPB University) untuk mata kuliah **Sistem Informasi Geografis** dan
 **Manajemen Proyek Teknologi Informasi**. Sprint 0 mulai 7 September 2026,
 serah terima final **27 November 2026**.
 
-Sumber kebutuhan: `docs/sumber/SRS.md` (SRS v1.0) dan `docs/sumber/WBS.md`.
-Keduanya **hanya dibaca**, tidak disunting. Project Charter sudah usang;
-alasannya di `docs/RENCANA.md` bagian 1.
+Sumber kebutuhan: `docs/sumber/SRS.md` (SRS v1.2) dan `docs/sumber/WBS.md`.
+Acuan UI: desain final Figma `ui-nalar-ruang`, section "putih kayak bhumi yang
+udah di revisi". Bila desain berbeda dengan dokumen, **desain yang diikuti** dan
+SRS/WBS ikut disesuaikan (keputusan tim 29 Sep 2026); di luar itu SRS/WBS tidak
+disunting. Project Charter sudah usang; alasannya di `docs/RENCANA.md` bagian 1.
 
 ## Peta dokumen
 
@@ -45,7 +47,7 @@ alasannya di `docs/RENCANA.md` bagian 1.
 
 ## Empat aturan yang tidak boleh dilanggar
 
-1. **Tetap di cakupan SRS.** Yang dibangun hanya FR-01 sampai FR-21 di
+1. **Tetap di cakupan SRS.** Yang dibangun hanya FR-01 sampai FR-22 di
    `docs/sumber/SRS.md`. Aplikasi mobile native, listing/transaksi properti,
    pengumpulan data primer, dan analisis di luar Jabodetabek **di luar cakupan**.
    Fitur di luar daftar itu ditolak, sebagus apa pun idenya.

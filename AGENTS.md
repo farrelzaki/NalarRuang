@@ -17,7 +17,7 @@ Tiga file di atas mengatur **proses kerja**. Keputusan **teknis sistem** berada 
 - `docs/RENCANA.md`: acuan, stack, kalender sprint, pembagian kerja, dan keputusan yang masih terbuka.
 - `docs/SISTEM.md`: arsitektur, kontrak API (**beku** setelah disepakati), dan batasan antarmuka.
 - `docs/KOLABORASI.md`: kepemilikan folder, Git, dan aturan agen AI.
-- `docs/sumber/`: dokumen resmi tim (SRS, WBS, Charter). Hanya dibaca, tidak disunting.
+- `docs/sumber/`: dokumen resmi tim (SRS, WBS, Charter). Tidak disunting, kecuali untuk menyelaraskan SRS/WBS dengan desain UI final atas permintaan tim.
 
 Keduanya berlaku sekaligus: ikuti checkpoint di file ini, dan patuhi keputusan teknis di `docs/`.
 

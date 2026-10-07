@@ -1,5 +1,7 @@
 # Analisis UI/UX NalarRuang
 
+> **Arsip (29 Sep 2026).** Analisis ini membahas desain Sprint 0 (section Figma `fix`, panel kaca). Acuan UI sekarang adalah section **"putih kayak bhumi yang udah di revisi"**; nilai dan aturannya ada di `design-system.md` v2.0 dan `prd.md` v1.1. Temuan D1–D10 sudah diterapkan di SRS v1.1. Satu kebijakan baru: isi peta di Figma hanya ilustrasi dan digambar dari data (`design-system.md` bagian 9).
+
 Versi 1.0 · 27 September 2026 · Dasar: 12 screenshot desain (1 landing page + 11 layar aplikasi) dibandingkan dengan SRS, WBS, Charter, dan Deskripsi.
 
 Dokumen ini memetakan alur, pola, dan gaya visual yang dipakai desain, lalu mencatat bagian mana yang sejalan, menyimpang, atau belum ada dibanding SRS. Temuan di sini menjadi masukan untuk prompt PRD dan prompt design system.
