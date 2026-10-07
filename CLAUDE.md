@@ -105,6 +105,7 @@ npm install
 cp .env.example .env          # isi DB_PASSWORD bila PostgreSQL-mu memakai kata sandi
 php artisan key:generate
 php artisan migrate           # butuh database `nalarruang` dan hak CREATE EXTENSION
+php artisan db:seed --class=DemoPetaSeeder   # data contoh peta dari data/geojson/demo
 php artisan serve             # http://127.0.0.1:8000  (cek /api/health)
 npm run dev                   # Vite + hot reload, jalankan bersamaan dengan serve
 php artisan test              # memakai database `nalarruang_test` (phpunit.xml)
@@ -114,6 +115,12 @@ npm run build                 # aset produksi ke public/build
 
 Membuat database lokal (sekali): `createdb nalarruang` dan
 `createdb nalarruang_test` sebagai user `postgres`.
+
+**Data demo (sementara).** `data/geojson/demo/` berisi geometri nyata (OSM,
+InaRISK) untuk Depok–Bogor, tetapi kualitas udara, status legalitas, dan tahun
+Mesin Waktu adalah **nilai contoh**. Ganti dengan hasil QGIS sebelum rilis.
+Simulator rute memakai server OSRM demo publik (butuh internet). Pintasan demo:
+`/peta?persona=commuter,zen` mengisi persona sesi tanpa dialog.
 
 ## Kebiasaan yang diharapkan
 

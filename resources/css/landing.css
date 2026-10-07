@@ -1,0 +1,42 @@
+/* Tata letak seksi landing (frame 1440, design-system.md bagian 10). Kelas komponen ed-* ada di komponen.css. */
+.ed-page { min-height: 100vh; overflow-x: hidden; }
+.ed-wrap { max-width: 1440px; margin: 0 auto; }
+.ed-sec { max-width: 1440px; margin: 0 auto; padding: 96px 100px; }
+.ed-lead-tengah { margin: 24px auto 0; max-width: 520px; font: 400 18px/29.25px var(--font-inter); color: var(--gray-600); }
+
+.ed-hero { overflow: hidden; }
+.ed-marquee { padding: 20px 0; }
+.ed-marquee__jalur { display: flex; gap: 40px; width: max-content; animation: ed-geser 40s linear infinite; }
+.ed-marquee__item { display: inline-flex; align-items: center; gap: 40px; }
+@keyframes ed-geser { to { transform: translateX(-50%); } }
+
+.ed-persona-row { display: flex; justify-content: center; gap: 24px; margin-top: 72px; padding: 0 0 24px; }
+.ed-fitur-grid { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 56px; border-top: 1px dashed var(--line); border-bottom: 1px dashed var(--line); }
+.ed-fitur-grid > * + * { border-left: 1px dashed var(--line); }
+
+.ed-layer-sec { display: grid; grid-template-columns: 1fr 720px; gap: 64px; align-items: center; }
+.ed-tiles { display: grid; grid-template-columns: repeat(3, 228px); gap: 12px; mask-image: linear-gradient(to bottom, #000 82%, transparent); }
+.ed-tiles__col { display: flex; flex-direction: column; gap: 12px; }
+
+.ed-steps { display: grid; border-top: 0.8px solid var(--line); border-bottom: 0.8px solid var(--line); }
+.ed-steps > * + * { border-left: 0.8px solid var(--line); }
+.ed-step--current { background-size: cover; background-position: center; position: relative; }
+.ed-step--current::before { content: ""; position: absolute; inset: 0; background: rgba(15, 27, 61, 0.55); }
+.ed-step--current > * { position: relative; }
+
+.ed-faq-sec { display: grid; grid-template-columns: 420px 1fr; gap: 64px; align-items: start; }
+
+.ed-menu { position: fixed; inset: 0; z-index: 2000; background: rgba(15, 27, 61, 0.96); display: grid; place-items: center; animation: nr-skala 200ms ease-out; }
+.ed-menu nav { display: flex; flex-direction: column; align-items: center; gap: 20px; }
+.ed-menu a { font: 400 44px/1.1 var(--font-fraunces); font-variation-settings: "SOFT" 0, "WONK" 1; color: var(--stone-50); text-decoration: none; }
+.ed-menu a:hover { color: var(--cream-100); text-decoration: underline; text-underline-offset: 6px; }
+.ed-menu__tutup { position: absolute; top: 24px; right: 32px; color: var(--stone-50); padding: 8px; }
+
+@media (max-width: 1200px) {
+  .ed-sec { padding: 72px 32px; }
+  .ed-layer-sec, .ed-faq-sec { grid-template-columns: 1fr; }
+  .ed-fitur-grid { grid-template-columns: 1fr; }
+  .ed-fitur-grid > * + * { border-left: 0; border-top: 1px dashed var(--line); }
+  .ed-persona-row { flex-wrap: wrap; }
+  .ed-vision { grid-template-columns: 1fr; }
+}

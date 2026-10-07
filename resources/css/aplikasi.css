@@ -1,0 +1,72 @@
+/* Tata letak Visual Explorer (design-system.md bagian 5) dan penyesuaian Leaflet (13.2). */
+
+/* Font dibundel lokal: nama keluarga variabel dari @fontsource. */
+:root {
+  --font-fraunces: "Fraunces Variable", "Fraunces", Georgia, serif;
+  --font-inter: "Inter Variable", "Inter", system-ui, sans-serif;
+}
+
+.nr-app { position: fixed; inset: 0; overflow: hidden; background: var(--map-ground); font-family: var(--font-sans); }
+.nr-app__peta { position: absolute; inset: 0; background: var(--map-ground); }
+
+.nr-app__kiri { position: absolute; left: 16px; top: 16px; bottom: 16px; width: 360px; z-index: var(--z-panel); display: flex; flex-direction: column; gap: 12px; pointer-events: none; }
+.nr-app__kiri > * { pointer-events: auto; flex: none; }
+.nr-app__kiri > .nr-inspector { flex: 0 1 auto; min-height: 0; height: auto; max-height: 100%; }
+.nr-app__kiri > .nr-top3, .nr-app__kiri > .nr-route { max-height: 100%; overflow-y: auto; }
+
+.nr-app__merek { position: absolute; right: 16px; top: 16px; z-index: var(--z-controls); }
+.nr-app__tombol { position: absolute; right: 58px; bottom: 28px; z-index: var(--z-controls); }
+.nr-app__kanan { position: absolute; right: 58px; bottom: 84.6px; top: 76px; z-index: var(--z-panel); display: flex; align-items: flex-end; pointer-events: none; }
+.nr-app__kanan > * { pointer-events: auto; max-height: 100%; overflow-y: auto; }
+.nr-app__slider { position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: var(--z-controls); }
+.nr-app__toast { position: absolute; left: 50%; bottom: 100px; transform: translateX(-50%); z-index: var(--z-toast); animation: nr-masuk 200ms ease-out; }
+.nr-app__lapisan { position: absolute; inset: 0; z-index: var(--z-drawer); display: flex; }
+.nr-app__lapisan > .nr-drawer { position: relative; animation: nr-geser 240ms ease-out; }
+.nr-app__lapisan--tengah { z-index: var(--z-dialog); align-items: center; justify-content: center; padding: 24px; overflow-y: auto; }
+.nr-app__lapisan--tengah > .nr-dialog { position: relative; animation: nr-skala 200ms ease-out; }
+.nr-app[data-mode="rute"] .nr-app__peta { cursor: crosshair; }
+
+@keyframes nr-masuk { from { opacity: 0; transform: translate(-50%, 8px); } }
+@keyframes nr-geser { from { transform: translateX(-24px); opacity: 0; } }
+@keyframes nr-skala { from { transform: scale(0.98); opacity: 0; } }
+
+@media (max-width: 1279px) {
+  .nr-app__kiri { width: 320px; }
+  .nr-app__kiri .nr-search, .nr-app__kiri .nr-top3, .nr-app__kiri .nr-inspector, .nr-app__kiri .nr-route { width: 320px; }
+  .nr-app__slider { left: auto; right: 58px; bottom: 84px; transform: none; }
+}
+
+/* ---------- Leaflet ---------- */
+.nr-app .leaflet-container { font-family: var(--font-sans); background: var(--map-ground); }
+.nr-app .leaflet-bottom.leaflet-right .leaflet-control-zoom { margin: 0 16px 28px 0; }
+.nr-app .leaflet-control-attribution { font-size: 12px; }
+.nr-app .leaflet-interactive:focus { outline: none; }
+
+/* Label stasiun = tooltip permanen (8.17). */
+.leaflet-tooltip.nr-maplabel { padding: 3px 7px; border-radius: var(--radius-sm); background: rgba(255, 255, 255, 0.9); border: 1px solid var(--white); box-shadow: var(--shadow-label); font: 400 12px/18px var(--font-sans); color: var(--navy-900); }
+.leaflet-tooltip.nr-maplabel::before { display: none; }
+.nr-zoom-jauh .nr-label-stasiun { display: none; }
+.nr-zoom-sedang .nr-halte { display: none; }
+.nr-zoom-jauh .nr-poi { display: none; }
+
+/* Popup memakai kartu PopupPeta (8.16). */
+.nr-popup-leaflet .leaflet-popup-content-wrapper { padding: 0; background: transparent; box-shadow: none; border-radius: var(--radius-md); }
+.nr-popup-leaflet .leaflet-popup-content { margin: 0; width: auto !important; }
+.nr-popup-leaflet .leaflet-popup-tip { background: var(--white); box-shadow: none; border: 1px solid var(--line); }
+.nr-popup-leaflet a.leaflet-popup-close-button { top: 8px; right: 8px; color: var(--ink-60); font: 400 18px/20px var(--font-sans); }
+.nr-popup-leaflet .nr-popup { width: 280px; padding-right: 32px; }
+
+/* Nomor peringkat Top 3 di pusat wilayah dan titik A/B. */
+.nr-peringkat { display: grid; place-items: center; width: 26px; height: 26px; border-radius: var(--radius-pill); background: var(--navy-900); color: var(--white); border: 2px solid var(--white); font: 700 12px/1 var(--font-sans); box-shadow: var(--shadow-md); cursor: pointer; }
+.nr-ab { box-shadow: var(--shadow-md); }
+.nr-panah { pointer-events: none; }
+
+/* Panel kiri: hanya scroll vertikal, scrollbar tipis. */
+.nr-app__kiri .nr-inspector, .nr-app__kiri .nr-top3, .nr-app__kiri .nr-route, .nr-app__kanan > * { overflow-x: hidden; scrollbar-width: thin; scrollbar-color: rgba(15, 27, 61, 0.2) transparent; }
+.nr-persona-row { min-width: 0; }
+.nr-persona-row--session { gap: 8px; }
+.nr-persona-row--session .nr-persona-row__name { margin-left: 4px; }
+.nr-persona-row__name { flex: none; white-space: nowrap; }
+.nr-persona-row .nr-stars, .nr-persona-row .nr-match { flex: none; }
+.nr-persona-row .nr-badge { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nr-persona-row--session .nr-stars__zero { display: none; }
