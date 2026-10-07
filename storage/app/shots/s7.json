@@ -1,0 +1,12 @@
+{"width":1536,"height":864,"langkah":[
+{"buka":"http://127.0.0.1:8000/peta","tunggu":4000},
+{"klik":[358,470],"tunggu":500},{"klik":[1178,470],"tunggu":500},
+{"foto":"d1-dialog.png"},
+{"klik":[1230,708],"tunggu":1500},
+{"klik":[1490,40],"tunggu":1200},
+{"foto":"d2-drawer.png"},
+{"tombol":"Escape","tunggu":800},
+{"klik":[1417,813],"tunggu":1200},
+{"foto":"d3-profil.png"},
+{"js":"sessionStorage.getItem('nalarruang.persona') + ' | cookies: ' + document.cookie.split(';').map(c=>c.split('=')[0].trim()).join(',')"}
+]}

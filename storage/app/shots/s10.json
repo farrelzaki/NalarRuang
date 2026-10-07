@@ -1,0 +1,17 @@
+{"width":1536,"height":864,"langkah":[
+{"buka":"http://127.0.0.1:8000/","tunggu":2000},
+{"js":"localStorage.setItem('nalarruang.bahasa','en')"},
+{"buka":"http://127.0.0.1:8000/peta?persona=commuter,zen","tunggu":4000},
+{"klik":[190,40]},{"ketik":"dekat stasiun, tidak banjir, di Bogor"},{"tombol":"Enter","tunggu":5000},
+{"klik":[805,598],"tunggu":1500},
+{"js":"document.querySelector('.nr-popup')?.innerText"},
+{"klik":[352,40],"tunggu":3500},
+{"klik":[797,612],"tunggu":2500},
+{"klik":[1150,240],"tunggu":9000},
+{"klik":[275,300],"tunggu":2000},
+{"js":"document.querySelector('.nr-route')?.innerText"},
+{"foto":"e7-rute-en.png"},
+{"klik":[1490,40],"tunggu":800},
+{"js":"[...document.querySelectorAll('.nr-lang__opt')].find(b=>b.textContent==='ID').click()","tunggu":800},
+{"js":"document.querySelector('.nr-route')?.innerText + ' || ' + document.querySelector('.nr-drawer__heading')?.innerText"}
+]}

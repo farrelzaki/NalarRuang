@@ -1,0 +1,18 @@
+{"width":1536,"height":864,"langkah":[
+{"buka":"http://127.0.0.1:8000/","tunggu":3500},
+{"foto":"e0-hero-id.png"},
+{"js":"[...document.querySelectorAll('.nr-lang__opt')].find(b=>b.textContent==='EN').click()","tunggu":800},
+{"foto":"e1-hero-en.png"},
+{"js":"window.scrollTo(0, document.querySelector('#faq').getBoundingClientRect().top + scrollY - 40)","tunggu":800},
+{"foto":"e2-faq-en.png"},
+{"buka":"http://127.0.0.1:8000/peta","tunggu":4000},
+{"foto":"e3-dialog-en.png"},
+{"klik":[358,470],"tunggu":400},{"klik":[1178,470],"tunggu":400},{"klik":[1230,708],"tunggu":1500},
+{"klik":[190,40]},{"ketik":"near a train station, no flooding, in Bogor"},{"tombol":"Enter","tunggu":6000},
+{"foto":"e4-top3-en.png"},
+{"klik":[192,189],"tunggu":4000},
+{"foto":"e5-detail-en.png"},
+{"klik":[1490,40],"tunggu":1200},
+{"foto":"e6-drawer-en.png"},
+{"js":"document.documentElement.lang + ' | ' + localStorage.getItem('nalarruang.bahasa') + ' | fonts: ' + [...new Set([...document.querySelectorAll('body *')].map(e=>getComputedStyle(e).fontFamily.split(',')[0]))].join(' / ')"}
+]}

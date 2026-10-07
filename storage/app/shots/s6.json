@@ -1,0 +1,7 @@
+{"width":1536,"height":864,"langkah":[
+{"buka":"http://127.0.0.1:8000/","tunggu":4000},
+{"js":"window.scrollTo(0, document.querySelector('.ed-fitur-grid').getBoundingClientRect().top + scrollY - 200)","tunggu":1500},
+{"foto":"lp-fitur.png"},
+{"js":"window.scrollTo(0, document.querySelector('.ed-try').getBoundingClientRect().top + scrollY - 50)","tunggu":1500},
+{"foto":"lp-coba.png"}
+]}

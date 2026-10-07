@@ -1,0 +1,7 @@
+{"width":1536,"height":864,"langkah":[
+{"buka":"http://127.0.0.1:8000/peta?persona=commuter,zen","tunggu":4000},
+{"klik":[190,40]},{"ketik":"dekat stasiun, tidak banjir, di Bogor"},{"tombol":"Enter","tunggu":5000},
+{"foto":"t1-search.png"},
+{"klik":[192,189],"tunggu":5000},
+{"foto":"t2-inspect.png"}
+]}

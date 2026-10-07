@@ -1,0 +1,13 @@
+{"width":1536,"height":864,"scale":1,"langkah":[
+{"buka":"http://127.0.0.1:8000/peta?persona=commuter,zen","tunggu":5000},
+{"foto":"../../../public/images/coba-sekarang.jpg"},
+{"klik":[190,40]},{"ketik":"dekat stasiun, tidak banjir, di Bogor"},{"tombol":"Enter","tunggu":9000},
+{"foto":"../../../public/images/fitur-search.jpg","klip":{"x":0,"y":0,"width":1152,"height":864}},
+{"klik":[192,189],"tunggu":10000},
+{"foto":"../../../public/images/fitur-inspector.jpg","klip":{"x":0,"y":0,"width":1152,"height":864}},
+{"klik":[352,40],"tunggu":3500},
+{"klik":[797,612],"tunggu":2500},
+{"klik":[1150,240],"tunggu":9000},
+{"klik":[275,300],"tunggu":6000},
+{"foto":"../../../public/images/fitur-commute.jpg","klip":{"x":0,"y":0,"width":1152,"height":864}}
+]}

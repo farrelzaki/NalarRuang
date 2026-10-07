@@ -1,0 +1,6 @@
+{"width":1536,"height":864,"langkah":[
+{"buka":"http://127.0.0.1:8000/peta?persona=commuter","tunggu":3000},
+{"js":"[...document.querySelectorAll('body *')].filter(e=>/Lucida|Consol|mono/i.test(getComputedStyle(e).fontFamily)).slice(0,5).map(e=>e.tagName+'.'+e.className+' '+getComputedStyle(e).fontFamily)"},
+{"buka":"http://127.0.0.1:8000/","tunggu":3000},
+{"js":"[...document.querySelectorAll('body *')].filter(e=>/Lucida|Consol|mono/i.test(getComputedStyle(e).fontFamily)).slice(0,5).map(e=>e.tagName+'.'+e.className+' '+getComputedStyle(e).fontFamily)"}
+]}

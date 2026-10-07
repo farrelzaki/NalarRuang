@@ -1,0 +1,24 @@
+retry stasiun https://maps.mail.ru/osm/tools/overpass/api/interpreter HTTP Error 504: Gateway Timeout
+ok stasiun 83705 https://overpass-api.de/api/interpreter
+ok tol 65981 https://maps.mail.ru/osm/tools/overpass/api/interpreter
+retry kelurahan https://maps.mail.ru/osm/tools/overpass/api/interpreter HTTP Error 504: Gateway Timeout
+retry kelurahan https://overpass-api.de/api/interpreter HTTP Error 504: Gateway Timeout
+ok kelurahan 3861445 https://maps.mail.ru/osm/tools/overpass/api/interpreter
+retry rth https://maps.mail.ru/osm/tools/overpass/api/interpreter HTTP Error 504: Gateway Time-out
+retry rth https://overpass-api.de/api/interpreter HTTP Error 504: Gateway Timeout
+retry rth https://maps.mail.ru/osm/tools/overpass/api/interpreter HTTP Error 504: Gateway Time-out
+retry rth https://overpass.private.coffee/api/interpreter HTTP Error 504: Gateway Timeout
+ok rth 1128934 https://maps.mail.ru/osm/tools/overpass/api/interpreter
+ok poi 299924 https://maps.mail.ru/osm/tools/overpass/api/interpreter
+ok akses 199399 https://maps.mail.ru/osm/tools/overpass/api/interpreter
+retry halte https://maps.mail.ru/osm/tools/overpass/api/interpreter HTTP Error 504: Gateway Time-out
+ok halte 383983 https://overpass-api.de/api/interpreter
+ok permukiman 2583989 https://maps.mail.ru/osm/tools/overpass/api/interpreter
+ok konstruksi 109001 https://maps.mail.ru/osm/tools/overpass/api/interpreter
+retry mrt_lrt https://maps.mail.ru/osm/tools/overpass/api/interpreter HTTP Error 504: Gateway Timeout
+retry mrt_lrt https://overpass-api.de/api/interpreter HTTP Error 504: Gateway Timeout
+ok mrt_lrt 225253 https://maps.mail.ru/osm/tools/overpass/api/interpreter
+ok rel 1475087 https://maps.mail.ru/osm/tools/overpass/api/interpreter
+cache krl
+ok banjir 394178
+EXIT

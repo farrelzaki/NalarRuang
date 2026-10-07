@@ -1,0 +1,14 @@
+{"width":1536,"height":864,"langkah":[
+{"buka":"http://127.0.0.1:8000/peta?persona=commuter,zen","tunggu":4000},
+{"klik":[1298,813],"tunggu":1500},
+{"js":"document.querySelectorAll('.nr-app__kanan [role=switch], .nr-app__kanan input[type=checkbox]')[0].click()","tunggu":4000},
+{"foto":"l1-risiko.png"},
+{"js":"document.querySelectorAll('.nr-app__kanan [role=switch], .nr-app__kanan input[type=checkbox]')[0].click(); document.querySelectorAll('.nr-app__kanan [role=switch], .nr-app__kanan input[type=checkbox]')[1].click()","tunggu":4000},
+{"foto":"l2-ekosistem.png"},
+{"js":"document.querySelectorAll('.nr-app__kanan [role=switch], .nr-app__kanan input[type=checkbox]')[1].click(); document.querySelectorAll('.nr-app__kanan [role=switch], .nr-app__kanan input[type=checkbox]')[2].click()","tunggu":4000},
+{"foto":"l3-inklusif.png"},
+{"js":"document.querySelectorAll('.nr-app__kanan [role=switch], .nr-app__kanan input[type=checkbox]')[2].click(); document.querySelectorAll('.nr-app__kanan [role=switch], .nr-app__kanan input[type=checkbox]')[4].click()","tunggu":4000},
+{"foto":"l5-mesin.png"},
+{"js":"document.querySelectorAll('.nr-app__kanan [role=switch], .nr-app__kanan input[type=checkbox]')[4].click(); document.querySelectorAll('.nr-app__kanan [role=switch], .nr-app__kanan input[type=checkbox]')[5].click()","tunggu":4000},
+{"foto":"l6-legal.png"}
+]}

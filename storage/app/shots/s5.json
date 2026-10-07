@@ -1,0 +1,7 @@
+{"width":1536,"height":864,"langkah":[
+{"buka":"http://127.0.0.1:8000/peta?persona=commuter,zen","tunggu":5000},
+{"klik":[190,40]},{"ketik":"dekat stasiun, tidak banjir, di Bogor"},{"tombol":"Enter","tunggu":6000},
+{"klik":[192,189],"tunggu":25000},
+{"js":"document.querySelectorAll('.leaflet-tile-container').length + ' / loaded ' + document.querySelectorAll('img.leaflet-tile-loaded').length + ' / all ' + document.querySelectorAll('img.leaflet-tile').length"},
+{"foto":"../../../public/images/fitur-inspector.jpg","klip":{"x":0,"y":0,"width":1152,"height":864}}
+]}

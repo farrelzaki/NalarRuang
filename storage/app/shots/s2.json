@@ -1,0 +1,13 @@
+{"width":1536,"height":864,"langkah":[
+{"buka":"http://127.0.0.1:8000/peta?persona=commuter,zen","tunggu":4000},
+{"klik":[190,40]},{"ketik":"dekat stasiun, tidak banjir, di Bogor"},{"tombol":"Enter","tunggu":5000},
+{"klik":[352,40],"tunggu":3500},
+{"klik":[797,612],"tunggu":2500},
+{"klik":[1150,240],"tunggu":10000},
+{"foto":"t3-rute.png"},
+{"js":"document.querySelector('.nr-route')?.innerText"},
+{"klik":[275,300],"tunggu":2500},
+{"foto":"t3b-transit.png"},
+{"klik":[1298,813],"tunggu":2000},
+{"foto":"t4-layer.png"}
+]}
