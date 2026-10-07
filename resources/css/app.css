@@ -1,0 +1,94 @@
+@import "tailwindcss";
+@import "@fontsource/plus-jakarta-sans/400.css";
+@import "@fontsource/plus-jakarta-sans/500.css";
+@import "@fontsource/plus-jakarta-sans/600.css";
+@import "@fontsource/plus-jakarta-sans/700.css";
+@import "@fontsource-variable/fraunces/full.css";
+@import "@fontsource-variable/fraunces/full-italic.css";
+@import "@fontsource-variable/inter";
+@import "leaflet/dist/leaflet.css";
+
+@source "../views";
+@source "../js";
+
+/* Token dari design-system.md bagian 3 dan 13.1. Ubah di sana dulu, baru di sini. */
+@theme {
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+  --font-fraunces: "Fraunces Variable", "Fraunces", Georgia, serif;
+  --font-georgia: Georgia, "Times New Roman", serif;
+  --font-inter: "Inter Variable", "Inter", system-ui, sans-serif;
+  --font-mono: Consolas, ui-monospace, monospace;
+
+  --color-navy-900: #0f1b3d;
+  --color-navy-ink: #081d3c;
+  --color-navy-night: #0b1021;
+  --color-line: rgb(8 29 60 / 0.2);
+  --color-stone-50: #f7f5f0;
+  --color-cream-100: #f8f5ee;
+  --color-map-ground: #e8e6e1;
+  --color-pin-red: #fb2c36;
+  --color-star-on: #f87171;
+  --color-star-muted: #fca5a5;
+  --color-rose-800: #9f1239;
+  --color-maroon-700: #860f23;
+  --color-amber-700: #b45309;
+
+  /* data peta (design-system.md 3.3) */
+  --color-map-banjir: #ef4444;
+  --color-map-hijau: #22c55e;
+  --color-map-akses: #0ea5e9;
+  --color-map-mrt: #f97316;
+  --color-map-lrt: #9333ea;
+  --color-map-krl-bogor: #dc2626;
+  --color-map-krl-rangkas: #16a34a;
+  --color-map-krl-cikarang: #2563eb;
+  --color-map-krl-lain: #64748b;
+  --color-map-stasiun: #fbf9f6;
+  --color-map-waktu: #a855f7;
+  --color-map-legal: #8b5cf6;
+
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
+  --shadow-soft: 0 2px 10px -4px rgb(0 0 0 / 0.05);
+}
+/* slate, cyan, green, red, amber: palet bawaan Tailwind v4 identik dengan Figma */
+
+@utility nr-float {
+  background: rgb(255 255 255 / 0.8);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--color-line);
+}
+
+/* Alfa navy-900. Di bawah ink-60 kontrasnya < 4,5:1 (design-system.md 3.1): hanya teks kecil pendukung. */
+@utility text-ink-80 { color: rgb(15 27 61 / 0.8); }
+@utility text-ink-70 { color: rgb(15 27 61 / 0.7); }
+@utility text-ink-60 { color: rgb(15 27 61 / 0.6); }
+@utility text-ink-55 { color: rgb(15 27 61 / 0.55); }
+@utility text-ink-50 { color: rgb(15 27 61 / 0.5); }
+@utility text-ink-45 { color: rgb(15 27 61 / 0.45); }
+@utility text-ink-40 { color: rgb(15 27 61 / 0.4); }
+@utility bg-ink-05 { background-color: rgb(15 27 61 / 0.05); }
+@utility bg-ink-08 { background-color: rgb(15 27 61 / 0.08); }
+
+@utility font-wonk {
+  font-variation-settings: "SOFT" 0, "WONK" 1;
+}
+
+@layer base {
+  body {
+    @apply bg-stone-50 font-sans text-navy-900 antialiased;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-navy-900);
+    outline-offset: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

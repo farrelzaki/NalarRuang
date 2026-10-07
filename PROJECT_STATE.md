@@ -33,7 +33,7 @@ repo tidak salah konteks. Tahap 2 (setelah desain Figma masuk): melengkapi `docs
 
 ## Progress
 
-- Belum ada kode sama sekali. Repo hanya berisi dokumentasi.
+- Scaffolding WBS 1.2.4 selesai (7 Okt 2026, branch `fitur/scaffolding`): Laravel 13 + Inertia v3 + React 19 TypeScript + Tailwind v4 + Leaflet, PostgreSQL 17 + PostGIS. Halaman Landing dan Peta, `/api/health`, tes PHPUnit lolos. Perintah dan versi di `CLAUDE.md`.
 - Sprint 0 berakhir hari ini (25 Sep). Sprint 1 mulai 28 Sep.
 - SRS v1.0 sudah disetujui.
 

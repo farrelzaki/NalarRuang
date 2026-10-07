@@ -61,26 +61,33 @@ disunting. Project Charter sudah usang; alasannya di `docs/RENCANA.md` bagian 1.
 
 ## Struktur kode
 
-**Usulan, belum ada kode.** Struktur final ditetapkan saat scaffolding
-(WBS 1.2.4) dan bagian ini diperbarui saat itu.
+Laravel 13 + Inertia v3 + React 19 (TypeScript) di akar repo. Scaffolding WBS
+1.2.4 selesai 7 Okt 2026; folder yang belum berisi akan dibuat pemiliknya.
 
 ```
 app/
-  Http/Controllers/Api/   Endpoint RESTful (layer, search, persona, commute).
+  Http/Controllers/Api/   Endpoint RESTful (layer, search, persona, commute). Kini: HealthController.
+  Http/Middleware/        HandleInertiaRequests (props bersama; jangan taruh persona di sini).
   Services/               Logika murni: skor persona, pemeringkatan Top 3, parsing query.
-  Models/                 Model Eloquent untuk tabel layer.
+  Models/                 Model Eloquent untuk tabel layer. (Tanpa model User: tidak ada akun.)
 database/
-  migrations/             Skema PostGIS (tabel layer, indeks GIST).
+  migrations/             Skema PostGIS. 0000_..._aktifkan_postgis jalan pertama.
   seeders/                Impor GeoJSON hasil QGIS ke PostGIS.
-resources/js/
-  Pages/                  Halaman Inertia (Visual Explorer).
-  Components/             Komponen React: panel layer, search bar, Point Inspector.
-  Map/                    Semua kode Leaflet. Satu-satunya tempat yang boleh menyentuh `L`.
-  types/                  Tipe TypeScript yang mencerminkan kontrak API.
+resources/
+  css/app.css             Tailwind v4 + token design-system.md 13.1 + font lokal (@fontsource).
+  views/app.blade.php     Template akar Inertia.
+  js/app.tsx              Entri Inertia (resolve halaman dari Pages/).
+  js/Pages/               Halaman Inertia: Landing (/), Peta (/peta).
+  js/Components/          Komponen React: panel layer, search bar, Point Inspector.
+  js/Map/                 Semua kode Leaflet. Satu-satunya tempat yang boleh menyentuh `L`.
+  js/types/               Tipe TypeScript yang mencerminkan kontrak API.
+routes/
+  web.php                 Rute halaman Inertia.
+  api.php                 Rute /api/* (tanpa Sanctum: tidak ada auth).
 data/
   qgis/                   Proyek QGIS (.qgz) per layer.
   geojson/                GeoJSON hasil ekspor, siap diimpor.
-tests/                    PHPUnit/Pest untuk Services dan endpoint.
+tests/                    PHPUnit untuk Services dan endpoint.
 ```
 
 Frontend berbicara ke backend **hanya** lewat endpoint yang tertulis di
@@ -89,10 +96,24 @@ lewat `Map/`.
 
 ## Perintah
 
-**Diisi saat scaffolding (WBS 1.2.4).** Jangan menebak. Perkiraan bentuknya:
-`composer install`, `php artisan migrate`, `php artisan serve`, `npm run dev`,
-`php artisan test`. Tulis ulang bagian ini dengan perintah yang benar-benar
-dijalankan dan terbukti berhasil.
+Prasyarat lokal: PHP 8.3 dengan ekstensi `pdo_pgsql` (Laragon
+`php-8.3.30`), Composer 2, Node 24, PostgreSQL 17 + PostGIS 3.6 di port 5432.
+
+```bash
+composer install
+npm install
+cp .env.example .env          # isi DB_PASSWORD bila PostgreSQL-mu memakai kata sandi
+php artisan key:generate
+php artisan migrate           # butuh database `nalarruang` dan hak CREATE EXTENSION
+php artisan serve             # http://127.0.0.1:8000  (cek /api/health)
+npm run dev                   # Vite + hot reload, jalankan bersamaan dengan serve
+php artisan test              # memakai database `nalarruang_test` (phpunit.xml)
+npm run typecheck             # tsc --noEmit
+npm run build                 # aset produksi ke public/build
+```
+
+Membuat database lokal (sekali): `createdb nalarruang` dan
+`createdb nalarruang_test` sebagai user `postgres`.
 
 ## Kebiasaan yang diharapkan
 
@@ -112,11 +133,24 @@ dijalankan dan terbukti berhasil.
 
 ## Versi yang dikunci
 
-**Belum ada.** Tabel ini diisi saat scaffolding, dan setiap versi **diverifikasi
-ke Packagist/npm**, bukan ditulis dari ingatan. Yang akan dikunci setidaknya:
-PHP, Laravel, Inertia, React, Leaflet, Tailwind, PostgreSQL, PostGIS.
+Diverifikasi ke Packagist/npm dan terpasang 7 Okt 2026. Jangan naikkan versi
+mayor di tengah semester.
 
-Setelah terisi: jangan naikkan versi mayor di tengah semester.
+| Paket | Versi |
+| --- | --- |
+| PHP | 8.3 (minimum Laravel 13) |
+| laravel/framework | 13.35 |
+| inertiajs/inertia-laravel | 3.5 |
+| phpunit/phpunit | 12.5 |
+| PostgreSQL / PostGIS | 17.6 / 3.6.2 (lokal) |
+| react, react-dom | 19.3 |
+| @inertiajs/react | 3.8 |
+| leaflet | 1.9.4 |
+| tailwindcss, @tailwindcss/vite | 4.3 |
+| vite | 8.3 |
+| typescript | 7.0 |
+
+Pest tidak dipakai: Pest 5 butuh PHP 8.4. Tes memakai PHPUnit bawaan Laravel.
 
 ## Kalau kamu agen AI
 
