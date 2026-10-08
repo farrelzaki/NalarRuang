@@ -156,7 +156,8 @@ export default function PetaExplorer(props: Props) {
         m.attributionControl.setPrefix('<a href="https://leafletjs.com">Leaflet</a>');
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            attribution:
+                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors · Transit: <a href="https://data.commute.shiorilabs.id/">Commute Data Platform</a> (ODbL) · Banjir: InaRISK BNPB',
         }).addTo(m);
         m.createPane('nrPoligon').style.zIndex = '410';
         m.createPane('nrGaris').style.zIndex = '420';
@@ -281,7 +282,11 @@ export default function PetaExplorer(props: Props) {
                     .bindTooltip(s.nama, { permanent: kuat, direction: 'top', offset: [0, -8], className: 'nr-maplabel' })
                     .addTo(grup),
             );
-            if (kuat) panahArah((r.publik.geometri.rel as LineString).coordinates as [number, number][]).forEach((p) => p.addTo(grup));
+            if (kuat) {
+                const rel = r.publik.geometri.rel;
+                const bagian = rel.type === 'MultiLineString' ? rel.coordinates : [rel.coordinates];
+                bagian.forEach((c) => panahArah(c as [number, number][]).forEach((p) => p.addTo(grup)));
+            }
         }
         if (r?.pribadi) {
             const kuat = props.moda === 'mobil';
@@ -327,9 +332,32 @@ export default function PetaExplorer(props: Props) {
     return <div ref={wadah} className={props.className} role="region" aria-label="Peta Jabodetabek, klik untuk melihat detail lokasi" />;
 }
 
-/** Gambar satu layer sesuai kartografi. Mesin Waktu difilter tahun (FR-04). */
+/** Grup yang isinya baru tampil mulai zoom tertentu, untuk titik yang padat (ribuan POI se-Jabodetabek). */
+function grupZoom(isi: L.Layer, minZoom: number): L.LayerGroup {
+    const g = L.layerGroup();
+    let peta: L.Map | null = null;
+    const atur = () => {
+        if (!peta) return;
+        if (peta.getZoom() >= minZoom) {
+            if (!g.hasLayer(isi)) g.addLayer(isi);
+        } else g.removeLayer(isi);
+    };
+    g.on('add', (e) => {
+        peta = (e.target as unknown as { _map: L.Map })._map;
+        peta.on('zoomend', atur);
+        atur();
+    });
+    g.on('remove', () => {
+        peta?.off('zoomend', atur);
+        peta = null;
+    });
+    return g;
+}
+
+/** Gambar satu layer sesuai kartografi. Mesin Waktu difilter tahun (FR-04). Titik digambar di canvas agar ringan. */
 function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.LayerGroup {
     const g = L.layerGroup();
+    const kanvas = L.canvas({ pane: 'nrTitik', padding: 0.3 });
     const popup = (f: Feature, l: L.Layer) => {
         const p = (f.properties ?? {}) as Record<string, any>;
         (l as L.Path).bindPopup(() => popupHtml(labelJenis(p.jenis), p.nama ?? labelJenis(p.jenis), deskripsi(p), `${tr('Sumber', 'Source')}: ${p.sumber ?? 'OSM'}`), {
@@ -359,12 +387,15 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
             style: gaya.rth,
             onEachFeature: popup,
         }).addTo(g);
-        L.geoJSON(fc, {
-            pane: 'nrTitik',
-            filter: (f) => f.properties?.jenis === 'poi',
-            pointToLayer: (_f, ll) => L.circleMarker(ll, { pane: 'nrTitik', radius: 5, color: '#fff', weight: 2, fillColor: '#22c55e', fillOpacity: 0.8, className: 'nr-poi' }),
-            onEachFeature: popup,
-        }).addTo(g);
+        grupZoom(
+            L.geoJSON(fc, {
+                pane: 'nrTitik',
+                filter: (f) => f.properties?.jenis === 'poi',
+                pointToLayer: (_f, ll) => L.circleMarker(ll, { pane: 'nrTitik', renderer: kanvas, radius: 5, color: '#fff', weight: 2, fillColor: '#22c55e', fillOpacity: 0.8 }),
+                onEachFeature: popup,
+            }),
+            14,
+        ).addTo(g);
     } else if (k === 'inklusivitas') {
         L.geoJSON(fc, {
             pane: 'nrGaris',
@@ -372,12 +403,15 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
             style: gaya.trotoar,
             onEachFeature: popup,
         }).addTo(g);
-        L.geoJSON(fc, {
-            pane: 'nrTitik',
-            filter: (f) => f.properties?.jenis === 'akses',
-            pointToLayer: (_f, ll) => L.circleMarker(ll, { pane: 'nrTitik', radius: 5, color: '#fff', weight: 2, fillColor: '#0ea5e9', fillOpacity: 1 }),
-            onEachFeature: popup,
-        }).addTo(g);
+        grupZoom(
+            L.geoJSON(fc, {
+                pane: 'nrTitik',
+                filter: (f) => f.properties?.jenis === 'akses',
+                pointToLayer: (_f, ll) => L.circleMarker(ll, { pane: 'nrTitik', renderer: kanvas, radius: 5, color: '#fff', weight: 2, fillColor: '#0ea5e9', fillOpacity: 1 }),
+                onEachFeature: popup,
+            }),
+            13,
+        ).addTo(g);
     } else if (k === 'mobilitas') {
         const garis = fc.features.filter((f) => ['krl', 'mrt', 'lrt'].includes(f.properties?.jenis));
         L.geoJSON({ type: 'FeatureCollection', features: garis } as FeatureCollection, { pane: 'nrGaris', style: gaya.casing, interactive: false }).addTo(g);
@@ -391,11 +425,14 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
             },
             onEachFeature: popup,
         }).addTo(g);
-        L.geoJSON({ type: 'FeatureCollection', features: fc.features.filter((f) => f.properties?.jenis === 'halte') } as FeatureCollection, {
-            pane: 'nrTitik',
-            pointToLayer: (_f, ll) => L.circleMarker(ll, { pane: 'nrTitik', radius: 3, color: '#fff', weight: 1.2, fillColor: '#0f1b3d', fillOpacity: 1, className: 'nr-halte' }),
-            onEachFeature: popup,
-        }).addTo(g);
+        grupZoom(
+            L.geoJSON({ type: 'FeatureCollection', features: fc.features.filter((f) => f.properties?.jenis === 'halte') } as FeatureCollection, {
+                pane: 'nrTitik',
+                pointToLayer: (_f, ll) => L.circleMarker(ll, { pane: 'nrTitik', renderer: kanvas, radius: 3.5, color: '#fff', weight: 1.2, fillColor: '#0f1b3d', fillOpacity: 1 }),
+                onEachFeature: popup,
+            }),
+            14,
+        ).addTo(g);
         L.geoJSON({ type: 'FeatureCollection', features: fc.features.filter((f) => f.properties?.jenis === 'stasiun') } as FeatureCollection, {
             pane: 'nrStasiun',
             pointToLayer: (f, ll) =>

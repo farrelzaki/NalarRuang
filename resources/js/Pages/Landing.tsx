@@ -195,8 +195,8 @@ export default function Landing() {
                             {
                                 q: t('Datanya dari mana?', 'Where does the data come from?'),
                                 a: t(
-                                    'Dari sembilan sumber data terbuka: InaRISK (BNPB), DEMNAS (BIG), IQAir, BPS, OpenStreetMap lewat Overpass API, GTFS Transjakarta, Jakarta Satu Data, ATR/BPN, dan JUTPI Phase 3.',
-                                    'From nine open data sources: InaRISK (BNPB), DEMNAS (BIG), IQAir, BPS, OpenStreetMap via the Overpass API, GTFS Transjakarta, Jakarta Satu Data, ATR/BPN, and JUTPI Phase 3.',
+                                    'Dari data terbuka: bahaya banjir InaRISK (BNPB) dan Pantau Banjir Jakarta, kualitas udara IQAir, OpenStreetMap lewat Overpass API, jaringan KRL/MRT/LRT/TransJakarta dari Commute Data Platform dan GTFS TransJakarta, Biskita Trans Pakuan, serta BHUMI ATR/BPN.',
+                                    'From open data: InaRISK (BNPB) and Pantau Banjir Jakarta flood hazard, IQAir air quality, OpenStreetMap via the Overpass API, the KRL/MRT/LRT/TransJakarta network from Commute Data Platform and GTFS TransJakarta, Biskita Trans Pakuan, and BHUMI ATR/BPN.',
                                 ),
                             },
                             {

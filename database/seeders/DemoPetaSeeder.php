@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use RuntimeException;
 
@@ -30,6 +31,11 @@ class DemoPetaSeeder extends Seeder
         DB::statement('UPDATE wilayah SET geom = ST_Multi(ST_CollectionExtract(ST_MakeValid(geom), 3)) WHERE NOT ST_IsValid(geom)');
         DB::statement('ANALYZE fitur_peta');
         DB::statement('ANALYZE wilayah');
+
+        // Cache turunan data peta (graf rel, koordinat stasiun) di CommuteController.
+        foreach (['commute:koordinat-stasiun', 'commute:rel:krl', 'commute:rel:mrt', 'commute:rel:lrt', 'commute:rel-krl'] as $kunci) {
+            Cache::forget($kunci);
+        }
     }
 
     private function baca(string $berkas): array

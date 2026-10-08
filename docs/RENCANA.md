@@ -46,6 +46,23 @@ tidak dipilih.
 **Sengaja tidak dipakai:** MongoDB, pipeline NLP/scraping, cron job Python
 (tidak punya work package di WBS), dan Mapbox (SRS menetapkan Leaflet).
 
+## 2a. Sumber data per layer
+
+Keputusan kelompok dari kolom *Kesimpulan* spreadsheet evaluasi sumber data
+(diperbarui 8 Okt 2026). Kolom "Ditarik otomatis" = bisa diambil lewat API atau
+unduhan resmi; sisanya diolah manual oleh tim data (Adzkia, Galih).
+
+| Layer | Dipakai | Tidak dipakai | Ditarik otomatis | Diolah manual |
+| --- | --- | --- | --- | --- |
+| 1 Historis & Risiko | Bahaya banjir InaRISK (seluruh Jabodetabek); AQI | Elevasi DEMNAS, kriminalitas, kebisingan | InaRISK (ArcGIS REST); AQI Bodetabek lewat IQAir API (butuh kunci di `.env`) | Genangan detail Jakarta (pantaubanjir.jakarta.go.id); AQI historis Jakarta |
+| 2 Ekosistem & Gaya Hidup | POI kafe/resto/mal, ruang hijau dari OSM | Google Places (berbayar, cadangan saja) | Overpass API → GeoJSON | — |
+| 3 Inklusivitas | Fasilitas ramah disabilitas OSM (tag jarang; tampilkan apa adanya) | — | Overpass API | — |
+| 4 Mobilitas & Transit | Stasiun, lin, transfer, tarif KRL/MRT/LRT Jakarta/LRT Jabodebek + TransJakarta; Biskita | Scraping Google Maps | Commute Data API (`api.commute.shiorilabs.id`, ODbL: cantumkan sumber); GTFS TransJakarta (Mobility Database mdb-1909); JSON Biskita (opentransum); geometri rel dari OSM | — |
+| 5 Mesin Waktu | Rencana tata ruang/proyek 2026–2040 | GISTARU | — | Dari video rujukan tim (bukan GISTARU) |
+| 6 Legalitas Lahan | Batas persil BHUMI ATR/BPN | — | — (BHUMI tidak membuka layanan unduh/WMS publik) | Keputusan tim: cari endpoint JSON BHUMI. Belum dikerjakan: perlu dipastikan tidak melanggar ketentuan ATR/BPN |
+| Pencarian & grading | Batas kelurahan/kecamatan | — | Batas administrasi OSM | — |
+| Commute Simulator | Mobil: OSRM; umum: tarif & rute Commute Data API + jalan kaki OSRM | Google Distance Matrix | Ya | — |
+
 ## 3. Kalender sprint
 
 | Sprint | Periode | Fokus | Penutup |

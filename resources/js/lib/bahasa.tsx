@@ -97,7 +97,6 @@ export function teksServer(s: string, bahasa: Bahasa = aktif): string {
     if (bahasa === 'id' || !s) return s;
     if (TIPE_KAWASAN[s]) return TIPE_KAWASAN[s];
     const aturan: [RegExp, (...m: string[]) => string][] = [
-        [/^Jalan (\d+) mnt · KRL (\d+) mnt · Jalan (\d+) mnt$/, (_, a, b, c) => `Walk ${a} min · KRL ${b} min · Walk ${c} min`],
         [/^Stasiun (.*) ([\d.,]+ k?m)$/, (_, n, j) => `${n ? n + ' Station' : 'Station'} ${desimal(j)}`],
         [/^Kafe atau restoran terdekat ([\d.,]+ k?m)$/, (_, j) => `Nearest café or restaurant ${desimal(j)}`],
         [/^Area bahaya banjir kelas (\w+) \(InaRISK\)$/, (_, k) => `Flood hazard area, ${KELAS[k] ?? k} class (InaRISK)`],
@@ -108,6 +107,13 @@ export function teksServer(s: string, bahasa: Bahasa = aktif): string {
         [/^Wilayah tidak ditemukan\.$/, () => 'Area not found.'],
         [/^Permukiman di area data contoh\.$/, () => 'Residential area in the sample data.'],
     ];
+    // Rincian rute umum: "Jalan 9 mnt · KRL Bogor 65 mnt · Pindah 600 m · TransJakarta 9 14 mnt · Jalan 7 mnt".
+    if (/^Jalan \d+ mnt · /.test(s)) {
+        return s
+            .split(' · ')
+            .map((b) => b.replace(/^Jalan (\d+) mnt$/, 'Walk $1 min').replace(/^Pindah (\d+) m$/, 'Transfer, walk $1 m').replace(/ (\d+) mnt$/, ' $1 min'))
+            .join(' · ');
+    }
     for (const [pola, ganti] of aturan) {
         const m = s.match(pola);
         if (m) return ganti(...m);

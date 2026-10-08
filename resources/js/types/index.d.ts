@@ -2,7 +2,7 @@
  * Tipe yang mencerminkan kontrak API (docs/SISTEM.md bagian 2).
  * Milik bersama Farrel, Adzkia, dan Nur'Afia: ubah hanya setelah kontrak disepakati.
  */
-import type { FeatureCollection, Geometry, LineString } from 'geojson';
+import type { FeatureCollection, Geometry, LineString, MultiLineString } from 'geojson';
 
 export type Persona = 'commuter' | 'driver' | 'social_vibe' | 'zen';
 
@@ -76,7 +76,7 @@ export type CommuteResponse = {
     publik: (RuteModa & {
         rincian: string;
         stasiun: { nama: string; lat: number; lng: number }[];
-        geometri: { jalan_kaki: LineString[]; rel: LineString };
+        geometri: { jalan_kaki: LineString[]; rel: LineString | MultiLineString };
     }) | null;
     catatan: string;
 };

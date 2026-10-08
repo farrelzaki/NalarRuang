@@ -37,7 +37,8 @@ export const LAYERS: { key: LayerKey; title: Dwi; desc: Dwi; grid?: boolean; leg
       legend: [['legal', ['Pemetaan bidang tanah dan zona legal (ungu muda).', 'Land parcels and legal zones (light purple).']]] },
 ];
 
-export const SUMBER = ['InaRISK (BNPB)', 'DEMNAS (BIG)', 'IQAir', 'BPS', 'Overpass API (OSM)', 'GTFS Transjakarta', 'Jakarta Satu Data', 'ATR/BPN', 'JUTPI Phase 3'];
+/** Sumber data menurut keputusan kelompok (docs/RENCANA.md bagian 2a). */
+export const SUMBER = ['InaRISK (BNPB)', 'Pantau Banjir Jakarta', 'IQAir', 'Overpass API (OSM)', 'Commute Data Platform', 'GTFS TransJakarta', 'Biskita Trans Pakuan', 'BHUMI ATR/BPN'];
 
 export function cx(...kelas: (string | false | null | undefined)[]): string {
     return kelas.filter(Boolean).join(' ');
