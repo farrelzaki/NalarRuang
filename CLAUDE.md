@@ -1,4 +1,4 @@
-# SUDEPI — Panduan Agen & Kontributor
+# NalarRuang — Panduan Agen & Kontributor
 
 > Baca file ini dulu. Ia sengaja pendek dan bersifat penunjuk arah.
 > Detail ada di `docs/`. Jangan salin isi `docs/` ke sini.
@@ -10,7 +10,7 @@ Repo ini punya dua kumpulan aturan yang **saling melengkapi, bukan bersaing**:
 | Berkas | Mengatur | Menjawab |
 | --- | --- | --- |
 | `AGENTS.md`, `TASK.md`, `PROJECT_STATE.md` | **Proses** | Bagaimana cara agen bekerja: checkpoint, persetujuan, pelaporan. |
-| `CLAUDE.md`, `docs/` | **Sistem** | Apa yang dibangun: stack, kontrak, arsitektur, aksesibilitas. |
+| `CLAUDE.md`, `docs/` | **Sistem** | Apa yang dibangun: stack, kontrak, arsitektur, batasan UI. |
 
 Keduanya berlaku sekaligus. Ikuti alur kerja `AGENTS.md` (mode `competition`:
 Scope, Discovery, Analysis, Plan, Approval, baru menulis), **dan** patuhi
@@ -19,156 +19,158 @@ salah satunya perlu diperbarui — berhenti dan tanya, jangan pilih sendiri.
 
 ## Apa ini
 
-**SUDEPI (Suara Deteksi Rupiah)** — asisten transaksi tunai untuk tunanetra.
-Android APK (Capacitor) yang **100% luring**: deteksi nominal Rupiah multi-lembar
-lewat kamera, hitung kembalian, lalu verifikasi kembalian. Tidak ada server.
-Tidak ada panggilan jaringan. Sama sekali.
+**NalarRuang** — platform WebGIS untuk menemukan kawasan hunian ideal di
+**Jabodetabek** berdasarkan preferensi gaya hidup. Pengguna memilih persona
+(Commuter, Driver, Social & Vibe, Zen), lalu menjelajah peta enam layer,
+mencari lokasi (Top 3 rekomendasi), memeriksa titik (skor bintang 0–3 per
+persona), dan mensimulasikan waktu tempuh. Tanpa akun, tanpa login.
 
-Lomba: IT Competition Hackathon IFEST 2026 — tim **PenungguTokenReset** (IPB University).
-Sumber kebutuhan: `docs/Exsum_IFEST2026_PenungguTokenReset.docx`.
+Proyek kelompok **Kelompok 4 — Developer Rumah** (Teknologi Rekayasa Perangkat
+Lunak, IPB University) untuk mata kuliah **Sistem Informasi Geografis** dan
+**Manajemen Proyek Teknologi Informasi**. Sprint 0 mulai 7 September 2026,
+serah terima final **27 November 2026**.
+
+Sumber kebutuhan: `docs/sumber/SRS.md` (SRS v1.2) dan `docs/sumber/WBS.md`.
+Acuan UI: desain final Figma `ui-nalar-ruang`, section "putih kayak bhumi yang
+udah di revisi". Bila desain berbeda dengan dokumen, **desain yang diikuti** dan
+SRS/WBS ikut disesuaikan (keputusan tim 29 Sep 2026); di luar itu SRS/WBS tidak
+disunting. Project Charter sudah usang; alasannya di `docs/RENCANA.md` bagian 1.
 
 ## Peta dokumen
 
-| Saya mau…                                        | Buka                    |
-| ------------------------------------------------ | ----------------------- |
-| **Tahu apa yang harus SAYA kerjakan sekarang**    | `docs/EKSEKUSI.md`      |
-| Tahu stack, alasannya, dan jadwal 24 jam          | `docs/PLAN.md`          |
-| Tahu bentuk arsitektur & alur data                | `docs/ARSITEKTUR.md`    |
-| **Menulis kode yang menyentuh modul lain**        | `docs/KONTRAK.md`       |
-| Tahu apa yang berubah dari proposal & kenapa      | `docs/PERUBAHAN.md`     |
-| Tahu aturan main antar-anggota / antar-agen       | `docs/KOLABORASI.md`    |
-| Menyentuh UI, gestur, warna, atau teks yang dibaca| `docs/AKSESIBILITAS.md` |
-| Menyiapkan demo di depan juri                     | `docs/DEMO.md`          |
-| Melihat capaian & bukti verifikasi (untuk juri)   | `docs/PROGRES.md`       |
+| Saya mau…                                                        | Buka                  |
+| ---------------------------------------------------------------- | --------------------- |
+| **Tahu apa yang harus SAYA kerjakan**, stack, jadwal, TBD        | `docs/RENCANA.md`     |
+| **Menulis kode yang menyentuh modul lain / API**, arsitektur, UI | `docs/SISTEM.md`      |
+| Tahu aturan main antar-anggota / antar-agen, Git                 | `docs/KOLABORASI.md`  |
+| Membaca dokumen resmi tim (SRS, WBS, Charter)                    | `docs/sumber/`        |
 
 ## Empat aturan yang tidak boleh dilanggar
 
-1. **Luring mutlak.** Dilarang `fetch`, `XMLHttpRequest`, CDN, Google Fonts,
-   atau URL absolut ke host mana pun di kode produksi. Seluruh aset dibundel.
-   Kriteria lulus: aplikasi berjalan penuh dengan HP dalam **mode pesawat**.
-2. **Lebih baik diam daripada salah sebut.** Kalau keyakinan deteksi di bawah
-   `AMBANG_KEYAKINAN` (0,70 sejak ADR-0010 — jangan tulis angkanya di tempat lain) atau
-   hasil tidak stabil, sistem **wajib** abstain dan minta pindai ulang.
-   Menebak nominal = kerugian uang nyata bagi pengguna. Ini bukan bug biasa.
-3. **Tidak ada layar yang butuh mata.** Setiap aksi harus bisa diselesaikan
-   tanpa melihat layar. Kalau sebuah fitur mengharuskan pengguna mencari tombol
-   kecil, fitur itu salah rancang. Lihat `docs/AKSESIBILITAS.md`.
-4. **`src/contracts/` itu beku.** Lihat bagian di bawah.
+1. **Tetap di cakupan SRS.** Yang dibangun hanya FR-01 sampai FR-22 di
+   `docs/sumber/SRS.md`. Aplikasi mobile native, listing/transaksi properti,
+   pengumpulan data primer, dan analisis di luar Jabodetabek **di luar cakupan**.
+   Fitur di luar daftar itu ditolak, sebagus apa pun idenya.
+2. **Preferensi persona hanya hidup di sesi klien.** Tidak pernah dikirim untuk
+   disimpan ke basis data, tidak pernah ke cookie jangka panjang. Sistem tidak
+   menyimpan data pribadi apa pun (SRS 5.2, Business Rule 6).
+3. **Tidak ada rahasia di repo.** Kredensial basis data, kunci API peta atau
+   routing, dan token apa pun hanya lewat `.env`, yang tidak pernah di-commit.
+4. **Kontrak API beku setelah disepakati.** Jangan ubah tanpa kesepakatan
+   Farrel, Adzkia, dan Nur'Afia; aturannya di `docs/SISTEM.md` bagian 2.
 
 ## Struktur kode
 
+Laravel 13 + Inertia v3 + React 19 (TypeScript) di akar repo. Scaffolding WBS
+1.2.4 selesai 7 Okt 2026; folder yang belum berisi akan dibuat pemiliknya.
+
 ```
-src/
-  contracts/   Tipe & antarmuka lintas-modul. BEKU — lihat aturan di bawah.
-  vision/      Kamera, worker ONNX, decode, NMS, confidence gating, voting.
-  core/        State machine transaksi, kalkulator kembalian, presensi koin.
-  audio/       Pemutar potongan suara, penyusun angka Indonesia.
-  data/        Skema Dexie (IndexedDB), penyangga pemindaian, repositori.
-  ui/          Komponen React, gestur, Merchant Display.
-  platform/    Pembungkus Capacitor (haptik, senter, preferensi).
-model/         data.yaml, skrip ekspor, dan penjaga urutan kelas.
-docs/          Dokumentasi (lihat tabel di atas).
+app/
+  Http/Controllers/Api/   Endpoint RESTful (layer, search, persona, commute). Kini: HealthController.
+  Http/Middleware/        HandleInertiaRequests (props bersama; jangan taruh persona di sini).
+  Services/               Logika murni: skor persona, pemeringkatan Top 3, parsing query.
+  Models/                 Model Eloquent untuk tabel layer. (Tanpa model User: tidak ada akun.)
+database/
+  migrations/             Skema PostGIS. 0000_..._aktifkan_postgis jalan pertama.
+  seeders/                Impor GeoJSON hasil QGIS ke PostGIS.
+resources/
+  css/app.css             Tailwind v4 + token design-system.md 13.1 + font lokal (@fontsource).
+  views/app.blade.php     Template akar Inertia.
+  js/app.tsx              Entri Inertia (resolve halaman dari Pages/).
+  js/Pages/               Halaman Inertia: Landing (/), Peta (/peta).
+  js/Components/          Komponen React: panel layer, search bar, Point Inspector.
+  js/Map/                 Semua kode Leaflet. Satu-satunya tempat yang boleh menyentuh `L`.
+  js/types/               Tipe TypeScript yang mencerminkan kontrak API.
+routes/
+  web.php                 Rute halaman Inertia.
+  api.php                 Rute /api/* (tanpa Sanctum: tidak ada auth).
+data/
+  qgis/                   Proyek QGIS (.qgz) per layer.
+  geojson/                GeoJSON hasil ekspor, siap diimpor.
+tests/                    PHPUnit untuk Services dan endpoint.
 ```
 
-Modul berkomunikasi **hanya** lewat tipe di `src/contracts/`.
-`ui/` tidak boleh mengimpor dari `vision/` secara langsung, dan sebaliknya.
-
-## Aturan `src/contracts/`
-
-**PENTING: jangan ubah file di `src/contracts/` tanpa kesepakatan lisan
-dengan anggota lain lebih dulu.** Dua orang sedang menulis kode di sisi
-berlawanan dari tipe-tipe itu secara bersamaan. Mengubahnya sepihak akan
-mematahkan pekerjaan orang lain tanpa dia sadari.
-
-Kalau memang harus berubah:
-1. Sepakati dulu (chat/lisan).
-2. Ubah dalam **satu commit tersendiri** yang hanya menyentuh `src/contracts/`.
-3. Beri tahu, supaya yang lain `git pull --rebase` sebelum lanjut.
+Frontend berbicara ke backend **hanya** lewat endpoint yang tertulis di
+`docs/SISTEM.md` bagian 2. Komponen React tidak memanggil Leaflet langsung;
+lewat `Map/`.
 
 ## Perintah
 
-```bash
-pnpm dev                 # dev server di browser desktop (pakai mock engine)
-pnpm test                # Vitest — logika murni (NMS, kalkulator, FSM)
-pnpm typecheck           # tsc --noEmit
-pnpm build               # typecheck + bundel produksi ke dist/
-pnpm cap:sync            # build + salin web ke proyek Android
-pnpm cap:run             # pasang & jalankan di HP terhubung
-```
-
-**Kalau build Gradle gagal dengan `The filename, directory name, or volume
-label syntax is incorrect`:** itu `android/local.properties` memakai separator
-campur — Git Bash menghasilkan path setengah backslash setengah garis miring,
-dan Gradle tidak bisa membacanya. Tulis ulang dengan garis miring maju semua:
+Prasyarat lokal: PHP 8.3 dengan ekstensi `pdo_pgsql` (Laragon
+`php-8.3.30`), Composer 2, Node 24, PostgreSQL 17 + PostGIS 3.6 di port 5432.
 
 ```bash
-printf 'sdk.dir=%s\n' "$(cygpath -m "$LOCALAPPDATA/Android/Sdk")" > android/local.properties
+composer install
+npm install
+cp .env.example .env          # isi DB_PASSWORD bila PostgreSQL-mu memakai kata sandi
+php artisan key:generate
+php artisan migrate           # butuh database `nalarruang` dan hak CREATE EXTENSION
+php artisan db:seed --class=DemoPetaSeeder   # data contoh peta dari data/geojson/demo
+php artisan serve             # http://127.0.0.1:8000  (cek /api/health)
+npm run dev                   # Vite + hot reload, jalankan bersamaan dengan serve
+php artisan test              # memakai database `nalarruang_test` (phpunit.xml)
+npm run typecheck             # tsc --noEmit
+npm run build                 # aset produksi ke public/build
 ```
 
-`android/` tidak masuk git, jadi setiap mesin akan menabrak ini sekali.
+Membuat database lokal (sekali): `createdb nalarruang` dan
+`createdb nalarruang_test` sebagai user `postgres`.
 
-**Kalau Gradle gagal dengan `invalid source release: 21`:** itu Gradle berjalan
-di atas JDK 17, sementara Capacitor 7 menargetkan JDK 21. JDK 21 hampir pasti
-sudah ada, dibundel bersama Android Studio. Arahkan `JAVA_HOME` ke sana:
-
-```powershell
-$env:JAVA_HOME = "C:\Program Files\Android\Android Studio\jbr"
-cd android; .\gradlew.bat assembleDebug
-```
-
-**Dan kalau `pnpm cap:run` gagal dengan `'gradlew' is not recognized`:** itu
-Capacitor memanggil `gradlew` dengan gaya `cmd` sementara perintahnya dijalankan
-dari Git Bash. Jalankan Gradle langsung lewat PowerShell seperti di atas, lalu
-pasang sendiri:
-
-```bash
-adb install -r android/app/build/outputs/apk/debug/app-debug.apk
-```
-
-**Kalau `pnpm install` keluar dengan `ERR_PNPM_IGNORED_BUILDS`:** itu esbuild
-yang butuh izin menjalankan postinstall-nya. Keputusannya sudah ditulis di
-`pnpm-workspace.yaml`, tapi pnpm menyimpan status lama di
-`node_modules/.modules.yaml`. Kosongkan larik `ignoredBuilds` di berkas itu,
-lalu `pnpm install` lagi. Muncul lagi setelah `node_modules` dihapus total.
+**Data demo (sementara).** `data/geojson/demo/` berisi data nyata seluruh
+Jabodetabek (OSM, InaRISK, Commute Data API), ditarik ulang dengan
+`python data/scripts/tarik_data.py` dan `python data/scripts/banjir_inarisk.py`
+(sumber per layer: `docs/RENCANA.md` bagian 2a). Kualitas udara, status
+legalitas, dan tahun Mesin Waktu masih **nilai contoh**; batas desa Bekasi belum
+ada di OSM. Ganti dengan hasil QGIS sebelum rilis.
+Simulator rute memakai server OSRM demo publik (butuh internet). Pintasan demo:
+`/peta?persona=commuter,zen` mengisi persona sesi tanpa dialog.
 
 ## Kebiasaan yang diharapkan
 
-- **TypeScript `strict`.** Tanpa `any`. Tanpa `@ts-ignore`.
-  Kalau tipenya sulit, kemungkinan besar rancangannya yang keliru.
-- **Logika murni dipisah dari efek samping.** NMS, kalkulator kembalian, dan
-  reducer state machine harus berupa fungsi murni yang bisa diuji tanpa DOM,
-  tanpa kamera, tanpa IndexedDB. **Fungsi-fungsi inilah yang wajib punya tes.**
-  Komponen React dan pembungkus Capacitor tidak perlu dites.
-- **Commit kecil, sering.** Sekitar tiap 20–30 menit kerja. Selalu
-  `git pull --rebase` sebelum `git push`.
-- **Jangan menambah dependensi tanpa bilang-bilang.** `package.json` adalah
-  satu-satunya file yang dipakai bersama dan paling gampang bentrok.
-- **Angka Rupiah selalu bilangan bulat.** Tidak pernah `float`. Tidak ada sen.
+- **Logika murni dipisah dari efek samping.** Formula skor persona,
+  pemeringkatan Top 3, parsing query teks, dan estimasi waktu tempuh harus
+  berupa fungsi/kelas yang bisa diuji tanpa HTTP dan tanpa peta.
+  **Kode inilah yang wajib punya tes.** Komponen React tidak wajib dites.
+- **Query spasial di PostGIS, bukan di PHP.** Jangan menarik ribuan geometri
+  ke PHP untuk difilter. Pakai `ST_Intersects`, `ST_DWithin`, dan filter
+  bounding box, dengan indeks GIST.
+- **Satu SRID di penyimpanan.** Konvensinya ada di `docs/SISTEM.md` bagian 2.
+- **Commit kecil, sering, di branch fitur.** Selalu `git pull --rebase`
+  sebelum `git push`. Alur branch dan PR ada di `docs/KOLABORASI.md`.
+- **Jangan menambah dependensi tanpa bilang-bilang.** `composer.json` dan
+  `package.json` adalah berkas yang dipakai bersama dan paling gampang bentrok.
+- **Teks antarmuka dwibahasa** (SRS B02, 6.2): Indonesia bawaan, Inggris opsional.
+  Tulis teks sebagai pasangan `t('Teks', 'Text')` dari `resources/js/lib/bahasa.tsx`;
+  teks dari API diterjemahkan di klien lewat `teksServer()`, kontrak API tidak diubah.
+- **Huruf hanya dua:** Plus Jakarta Sans (semua teks) dan Fraunces (judul). Jangan
+  menambah keluarga huruf lain.
 
 ## Versi yang dikunci
 
-Jangan naikkan versi mayor di tengah lomba, sekalipun ada yang lebih baru.
+Diverifikasi ke Packagist/npm dan terpasang 7 Okt 2026. Jangan naikkan versi
+mayor di tengah semester.
 
-Versi di bawah sudah **diverifikasi ke npm**, bukan dari ingatan.
+| Paket | Versi |
+| --- | --- |
+| PHP | 8.3 (minimum Laravel 13) |
+| laravel/framework | 13.35 |
+| inertiajs/inertia-laravel | 3.5 |
+| phpunit/phpunit | 12.5 |
+| PostgreSQL / PostGIS | 17.6 / 3.6.2 (lokal) |
+| react, react-dom | 19.3 |
+| @inertiajs/react | 3.8 |
+| leaflet | 1.9.4 |
+| tailwindcss, @tailwindcss/vite | 4.3 |
+| vite | 8.3 |
+| typescript | 7.0 |
 
-| Paket                  | Versi  | Kenapa dikunci                                       |
-| ---------------------- | ------ | ---------------------------------------------------- |
-| `vite`                 | 7.3.6  | Vite 8 mengganti bundler ke Rolldown. Pemuatan `.wasm` ORT dan bundling Web Worker adalah jalur kritis kita; jalur Rollup sudah teruji untuk itu. |
-| `typescript`           | 5.9.3  | TS 7 adalah kompilator native yang baru. Seluruh tooling kita dibangun terhadap 5.9. Alasan yang sama dengan Vite 7. |
-| `@vitejs/plugin-react` | 5.2.0  | Versi 6 hanya menerima Vite 8.                       |
-| `vitest`               | 4.1.11 | Pasangan Vite 7. Vitest 5 mengarah ke Vite 8.        |
-| `@capacitor/*`         | 7.6.9  | Cap 8 memaksa edge-to-edge; merusak tata letak kamera layar penuh. Lihat ADR-0004. |
-| `onnxruntime-web`      | 1.30.x | Perilaku WASM berubah antar minor; kalibrasi ambang terikat ke versi ini. |
-| `tailwindcss`          | 4.3.x  | Pakai `@import "tailwindcss"` + `@theme` di CSS. **Tidak ada `tailwind.config.js`.** |
-| `react`                | 19.3.x | —                                                    |
-| `dexie`                | 4.4.x  | —                                                    |
+Pest tidak dipakai: Pest 5 butuh PHP 8.4. Tes memakai PHPUnit bawaan Laravel.
 
 ## Kalau kamu agen AI
 
-- Kerjakan hanya folder yang sedang **kamu klaim** di papan klaim
-  `docs/KOLABORASI.md`. Jangan "sekalian merapikan" folder orang lain.
+- Kerjakan hanya folder yang dimiliki orang yang sedang kamu bantu, sesuai
+  tabel di `docs/KOLABORASI.md`. Jangan "sekalian merapikan" folder orang lain.
 - Kalau butuh sesuatu dari modul lain yang belum ada, **jangan buat sendiri di
-  folder kamu**. Pakai tipe dari `src/contracts/` dan tulis mock lokal.
-- Setiap kali kamu menyimpang dari proposal (exsum), itu **wajib** dicatat
-  sebagai ADR baru di `docs/perubahan/`. Lihat `docs/PERUBAHAN.md` untuk cara
-  dan alasannya — panitia menilai ini.
+  folder kamu**. Pakai bentuk dari kontrak API dan tulis mock lokal.
+- Hal yang masih TBD (lihat `docs/RENCANA.md` bagian 5) atau yang menyimpang
+  dari SRS/WBS **jangan diputuskan sendiri**. Tanyakan dulu.

@@ -1,0 +1,145 @@
+/* Tata letak Visual Explorer (design-system.md bagian 5) dan penyesuaian Leaflet (13.2). */
+
+/* Dua keluarga huruf saja: Plus Jakarta Sans (semua teks) dan Fraunces (judul serif). Dibundel lokal lewat @fontsource. */
+:root {
+  --font-fraunces: "Fraunces Variable", "Fraunces", Georgia, serif;
+}
+
+.nr-app { position: fixed; inset: 0; overflow: hidden; background: var(--map-ground); font-family: var(--font-sans); }
+.nr-app__peta { position: absolute; inset: 0; background: var(--map-ground); }
+
+.nr-app__kiri { position: absolute; left: 16px; top: 16px; bottom: 16px; width: 360px; z-index: var(--z-panel); display: flex; flex-direction: column; gap: 12px; pointer-events: none; }
+.nr-app__kiri > * { pointer-events: auto; flex: none; }
+.nr-app__kiri > .nr-inspector { flex: 0 1 auto; min-height: 0; height: auto; max-height: 100%; }
+.nr-app__kiri > .nr-top3, .nr-app__kiri > .nr-route { max-height: 100%; overflow-y: auto; }
+
+.nr-app__merek { position: absolute; right: 16px; top: 16px; z-index: var(--z-controls); }
+.nr-app__tombol { position: absolute; right: 58px; bottom: 28px; z-index: var(--z-controls); }
+.nr-app__kanan { position: absolute; right: 58px; bottom: 84.6px; top: 76px; z-index: var(--z-panel); display: flex; align-items: flex-end; pointer-events: none; }
+.nr-app__kanan > * { pointer-events: auto; max-height: 100%; overflow-y: auto; }
+.nr-app__slider { position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: var(--z-controls); }
+.nr-app__toast { position: absolute; left: 50%; bottom: 100px; transform: translateX(-50%); z-index: var(--z-toast); animation: nr-masuk 200ms ease-out; }
+.nr-app__lapisan { position: absolute; inset: 0; z-index: var(--z-drawer); display: flex; }
+.nr-app__lapisan > .nr-drawer { position: relative; animation: nr-geser 240ms ease-out; }
+.nr-app__lapisan--tengah { z-index: var(--z-dialog); align-items: center; justify-content: center; padding: 24px; overflow-y: auto; }
+.nr-app__lapisan--tengah > .nr-dialog { position: relative; animation: nr-skala 200ms ease-out; }
+.nr-app[data-mode="rute"] .nr-app__peta { cursor: crosshair; }
+
+@keyframes nr-masuk { from { opacity: 0; transform: translate(-50%, 8px); } }
+@keyframes nr-geser { from { transform: translateX(-24px); opacity: 0; } }
+@keyframes nr-skala { from { transform: scale(0.98); opacity: 0; } }
+
+@media (max-width: 1279px) {
+  .nr-app__kiri { width: 320px; }
+  .nr-app__kiri .nr-search, .nr-app__kiri .nr-top3, .nr-app__kiri .nr-inspector, .nr-app__kiri .nr-route { width: 320px; }
+  .nr-app__slider { left: auto; right: 58px; bottom: 84px; transform: none; }
+}
+
+/* ---------- Leaflet ---------- */
+.nr-app .leaflet-container { font-family: var(--font-sans); background: var(--map-ground); }
+.nr-app .leaflet-bottom.leaflet-right .leaflet-control-zoom { margin: 0 16px 28px 0; }
+.nr-app .leaflet-control-attribution { font-size: 12px; }
+.nr-app .leaflet-control-zoom a { font-family: var(--font-sans); }
+.nr-app .leaflet-interactive:focus { outline: none; }
+
+/* Label stasiun = tooltip permanen (8.17). */
+.leaflet-tooltip.nr-maplabel { padding: 3px 7px; border-radius: var(--radius-sm); background: rgba(255, 255, 255, 0.9); border: 1px solid var(--white); box-shadow: var(--shadow-label); font: 400 12px/18px var(--font-sans); color: var(--navy-900); }
+.leaflet-tooltip.nr-maplabel::before { display: none; }
+.nr-zoom-jauh .nr-label-stasiun { display: none; }
+.nr-zoom-sedang .nr-halte { display: none; }
+.nr-zoom-jauh .nr-poi { display: none; }
+
+/* Popup memakai kartu PopupPeta (8.16). */
+.nr-popup-leaflet .leaflet-popup-content-wrapper { padding: 0; background: transparent; box-shadow: none; border-radius: var(--radius-md); }
+.nr-popup-leaflet .leaflet-popup-content { margin: 0; width: auto !important; }
+.nr-popup-leaflet .leaflet-popup-tip { background: var(--white); box-shadow: none; border: 1px solid var(--line); }
+.nr-popup-leaflet a.leaflet-popup-close-button { top: 8px; right: 8px; color: var(--ink-60); font: 400 18px/20px var(--font-sans); }
+.nr-popup-leaflet .nr-popup { width: 280px; padding-right: 32px; }
+
+/* Nomor peringkat Top 3 di pusat wilayah dan titik A/B. */
+.nr-peringkat { display: grid; place-items: center; width: 26px; height: 26px; border-radius: var(--radius-pill); background: var(--navy-900); color: var(--white); border: 2px solid var(--white); font: 700 12px/1 var(--font-sans); box-shadow: var(--shadow-md); cursor: pointer; }
+.nr-ab { box-shadow: var(--shadow-md); }
+.nr-panah { pointer-events: none; }
+
+/* Panel kiri: hanya scroll vertikal, scrollbar tipis. */
+.nr-app__kiri .nr-inspector, .nr-app__kiri .nr-top3, .nr-app__kiri .nr-route, .nr-app__kanan > * { overflow-x: hidden; scrollbar-width: thin; scrollbar-color: rgba(15, 27, 61, 0.2) transparent; }
+.nr-persona-row { min-width: 0; }
+.nr-persona-row--session { gap: 8px; }
+.nr-persona-row--session .nr-persona-row__name { margin-left: 4px; }
+.nr-persona-row__name { flex: none; white-space: nowrap; }
+.nr-persona-row .nr-stars, .nr-persona-row .nr-match { flex: none; }
+.nr-persona-row .nr-badge { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nr-persona-row--session .nr-stars__zero { display: none; }
+
+/* Pilih bahasa ID / EN (improvisasi, meniru tombol kapital design system). */
+.nr-lang { display: inline-flex; padding: 2px; gap: 2px; border-radius: var(--radius-pill); border: 1px solid var(--line); background: var(--white); }
+.nr-lang__opt { min-width: 32px; height: 24px; padding: 0 8px; border: 0; border-radius: var(--radius-pill); background: transparent; color: var(--ink-60); font: 700 10px/1 var(--font-sans); letter-spacing: 1px; cursor: pointer; }
+.nr-lang__opt:hover { color: var(--navy-900); }
+.nr-lang__opt[aria-pressed="true"] { background: var(--navy-900); color: var(--white); }
+.nr-lang__opt:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+.nr-lang--dark { padding: 3px; border-color: var(--white-50); background: var(--hero-button); }
+.nr-lang--dark .nr-lang__opt { color: var(--hero-sub); height: 33px; min-width: 38px; font-size: 11px; }
+.nr-lang--dark .nr-lang__opt:hover { color: var(--white); }
+.nr-lang--dark .nr-lang__opt[aria-pressed="true"] { background: var(--white); color: var(--navy-900); }
+.nr-dialog { position: relative; }
+.nr-dialog__lang { position: absolute; top: 24px; right: 24px; }
+.ed-header__kanan { display: inline-flex; align-items: center; gap: 12px; }
+
+/* Catatan data demo di pojok kiri bawah; kolom kiri dinaikkan agar tidak bertumpuk. */
+.nr-app__kiri { bottom: 72px; }
+.nr-app__catatan { position: absolute; left: 16px; bottom: 16px; z-index: var(--z-controls); display: flex; align-items: flex-start; gap: 8px; width: 360px; padding: 8px 12px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); font: 400 11px/16px var(--font-sans); color: var(--ink-70); }
+.nr-app__catatan b { font-weight: 700; color: var(--navy-900); }
+.nr-app__catatan-dot { width: 8px; height: 8px; margin-top: 4px; flex: none; border-radius: var(--radius-pill); background: var(--amber-600); }
+@media (max-width: 1279px) { .nr-app__catatan { width: 320px; } }
+.nr-app__catatan-pendek { display: none; }
+
+/* ---------- Ponsel (< 768 px) ----------
+   Improvisasi (desain Figma hanya desktop): search di atas, panel kiri jadi lembar bawah,
+   panel kanan jadi lembar di atas tombol LAYER/PERSONA. */
+@media (max-width: 767px) {
+  .nr-app__kiri { left: 8px; right: 8px; top: 8px; bottom: auto; width: auto; gap: 0; }
+  .nr-app__kiri .nr-search { width: 100%; }
+  .nr-app__kiri > :not(.nr-search) {
+    position: fixed; left: 0; right: 0; bottom: 0; width: auto; max-width: none; height: auto;
+    max-height: 55vh; overflow-y: auto; border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    z-index: var(--z-drawer); background: var(--white-95);
+  }
+  .nr-app__kiri > .nr-inspector { padding: 20px 16px; gap: 16px; }
+  .nr-app__merek { top: 64px; right: 8px; }
+  .nr-app__merek .nr-brandbtn { height: 40px; padding: 0 14px; gap: 8px; }
+  .nr-app__merek .nr-wordmark { font-size: 16px; }
+  .nr-app__catatan { left: 8px; right: auto; top: 64px; bottom: auto; width: auto; max-width: calc(100% - 180px); padding: 6px 10px; align-items: center; }
+  .nr-app__catatan-pendek { display: inline; }
+  .nr-app__catatan-panjang { display: none; }
+  .nr-app__catatan-dot { margin-top: 0; }
+  .nr-app__tombol { right: 8px; left: 8px; bottom: 16px; display: flex; justify-content: flex-start; }
+  .nr-app .leaflet-bottom.leaflet-right .leaflet-control-zoom { margin: 0 8px 16px 0; }
+  .nr-app__kanan { left: 8px; right: 8px; top: auto; bottom: 72px; max-height: 60vh; }
+  .nr-app__kanan > * { width: 100%; }
+  .nr-app__slider { left: 8px; right: 8px; bottom: 72px; transform: none; }
+  .nr-app__slider .nr-slider { width: 100%; padding: 12px 16px; }
+  .nr-app__toast { bottom: auto; top: 112px; width: calc(100% - 16px); display: flex; justify-content: center; }
+  /* Saat lembar bawah terbuka, tombol LAYER/PERSONA dan slider disembunyikan agar tidak bertumpuk. */
+  .nr-app:has(.nr-app__kiri > :not(.nr-search)) .nr-app__tombol,
+  .nr-app:has(.nr-app__kiri > :not(.nr-search)) .nr-app__slider,
+  .nr-app:has(.nr-app__kiri > :not(.nr-search)) .leaflet-control-zoom { display: none; }
+  .nr-popup-leaflet .nr-popup { width: 240px; }
+
+  /* Dialog persona: kartu bertumpuk 2 kolom. */
+  .nr-app__lapisan--tengah { padding: 12px; align-items: flex-start; }
+  .nr-dialog { padding: 56px 18px 20px; gap: 20px; max-width: 100%; }
+  .nr-dialog__title { font-size: 34px; line-height: 36px; }
+  .nr-dialog__lead { font-size: 14px; line-height: 22px; }
+  .nr-dialog__cards { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .nr-dcard { min-height: 0; padding: 14px; }
+  .nr-dcard__top { padding-bottom: 16px; }
+  .nr-dcard__top .nr-svg:first-child { width: 24px; height: 24px; }
+  .nr-dcard__tag { white-space: normal; }
+  .nr-dcard__name { font-size: 20px; line-height: 24px; margin: 6px 0; }
+  .nr-dcard__desc { font-size: 12px; line-height: 18px; }
+  .nr-dcard[aria-checked="true"] { transform: none; }
+  .nr-dialog__go { font-size: 18px; }
+  .nr-dialog__lang { top: 14px; right: 14px; }
+  .nr-drawer { width: 86vw; max-width: 340px; }
+}
+.nr-dialog__go { white-space: nowrap; }
