@@ -116,9 +116,12 @@ npm run build                 # aset produksi ke public/build
 Membuat database lokal (sekali): `createdb nalarruang` dan
 `createdb nalarruang_test` sebagai user `postgres`.
 
-**Data demo (sementara).** `data/geojson/demo/` berisi geometri nyata (OSM,
-InaRISK) untuk Depok–Bogor, tetapi kualitas udara, status legalitas, dan tahun
-Mesin Waktu adalah **nilai contoh**. Ganti dengan hasil QGIS sebelum rilis.
+**Data demo (sementara).** `data/geojson/demo/` berisi data nyata seluruh
+Jabodetabek (OSM, InaRISK, Commute Data API), ditarik ulang dengan
+`python data/scripts/tarik_data.py` dan `python data/scripts/banjir_inarisk.py`
+(sumber per layer: `docs/RENCANA.md` bagian 2a). Kualitas udara, status
+legalitas, dan tahun Mesin Waktu masih **nilai contoh**; batas desa Bekasi belum
+ada di OSM. Ganti dengan hasil QGIS sebelum rilis.
 Simulator rute memakai server OSRM demo publik (butuh internet). Pintasan demo:
 `/peta?persona=commuter,zen` mengisi persona sesi tanpa dialog.
 

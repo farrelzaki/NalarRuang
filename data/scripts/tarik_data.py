@@ -76,11 +76,29 @@ def overpass(q, nama):
     raise RuntimeError(f'Overpass gagal untuk {nama}: {terakhir}')
 
 
+# Relasi yang "area"-nya belum dibuat di server Overpass (kueri area kosong/tidak lengkap): pakai kotak batas,
+# lalu fitur di luar Jabodetabek dibuang di PostGIS.
+TANPA_AREA = {14509733, 14765575, 7641584}
+
+
+def kotak(rid):
+    b = next(e for e in overpass(f'rel({rid});out geom;', f'batas_{rid}.json') if e['type'] == 'relation')['bounds']
+    return f"{b['minlat']},{b['minlon']},{b['maxlat']},{b['maxlon']}"
+
+
+def filter_wilayah(rid, q, var='j'):
+    """Awalan kueri dan q yang dibatasi ke kabupaten/kota rid (area atau kotak batas)."""
+    if rid in TANPA_AREA:
+        return q.replace(f'(area.{var})', f'({kotak(rid)})'), '_bbox'
+    return f'rel({rid});map_to_area->.{var};' + q, ''
+
+
 def per_wilayah(q, nama):
-    """Jalankan kueri per kabupaten/kota (area .j) agar tiap permintaan Overpass kecil; hasil digabung tanpa duplikat."""
+    """Jalankan kueri per kabupaten/kota agar tiap permintaan Overpass kecil; hasil digabung tanpa duplikat."""
     hasil, lihat = [], set()
     for rid in WILAYAH:
-        for e in overpass(f'rel({rid});map_to_area->.j;{q}', f'{nama}_{rid}.json'):
+        kueri, akhiran = filter_wilayah(rid, q)
+        for e in overpass(kueri, f'{nama}_{rid}{akhiran}.json'):
             k = (e['type'], e['id'])
             if k not in lihat:
                 lihat.add(k)
@@ -138,17 +156,20 @@ def ekspor(sql, keluar):
 # ---------------------------------------------------------------- langkah
 def tarik_batas():
     print('Batas administrasi (OSM)...')
-    baris = []
+    baris, sudah = [], set()
     for rid, kota in WILAYAH.items():
         el = list(overpass(f'rel({rid});out geom;', f'batas_{rid}.json'))
-        ids = [e['id'] for e in overpass(f'rel({rid});map_to_area->.a;rel(area.a)["boundary"="administrative"]["admin_level"~"^(6|7)$"];out ids;', f'batas_id_{rid}.json')]
-        for i in range(0, len(ids), 40):
-            potong = ids[i:i + 40]
-            el += overpass(f'rel(id:{",".join(map(str, potong))});out geom;', f'batas_{rid}_{i}.json')
+        kueri, akhiran = filter_wilayah(rid, 'rel(area.a)["boundary"="administrative"]["admin_level"~"^(6|7)$"];out ids;', 'a')
+        ids = [e['id'] for e in overpass(kueri, f'batas_id_{rid}{akhiran}.json')]
+        for i in range(0, len(ids), 20):
+            potong = ids[i:i + 20]
+            el += overpass(f'rel(id:{",".join(map(str, potong))});out geom;', f'batas_{rid}{akhiran}_{i}.json')
         print(f'  {kota}: {len(ids)} relasi', flush=True)
-        for e in el:
-            if e['type'] != 'relation':
+        # Relasi bisa muncul di dua wilayah bertetangga atau di batch cache yang tumpang tindih: ambil sekali.
+        for e in {e['id']: e for e in el if e['type'] == 'relation'}.values():
+            if e['id'] in sudah:
                 continue
+            sudah.add(e['id'])
             lvl = int(e['tags'].get('admin_level', 0))
             for m in e.get('members', []):
                 if m['type'] == 'way' and m.get('geometry') and m.get('role') in ('outer', 'inner', ''):
@@ -169,15 +190,25 @@ def tarik_batas():
     -- Kelurahan/desa: kota dan kecamatan dari titik di dalam poligonnya.
     DROP TABLE IF EXISTS tarik.kel;
     CREATE TABLE tarik.kel AS
-      SELECT k.rel, regexp_replace(k.nama, '^(Kelurahan|Desa) ', '') AS nama,
+      SELECT k.rel, 'kelurahan' AS tingkat, regexp_replace(k.nama, '^(Kelurahan|Desa) ', '') AS nama,
              (SELECT regexp_replace(c.nama, '^Kecamatan ', '') FROM tarik.batas c WHERE c.lvl = 6 AND ST_Contains(c.geom, ST_PointOnSurface(k.geom)) LIMIT 1) AS kecamatan,
              (SELECT r.kota FROM tarik.batas r WHERE r.lvl = 5 AND r.kota IS NOT NULL AND ST_Contains(r.geom, ST_PointOnSurface(k.geom)) LIMIT 1) AS kota,
              ST_Multi(ST_SimplifyPreserveTopology(k.geom, 0.00005)) AS geom
       FROM tarik.batas k WHERE k.lvl = 7;
     DELETE FROM tarik.kel WHERE kota IS NULL;
+    -- OSM belum memetakan batas desa di sebagian Bekasi dan Kabupaten Tangerang: kecamatan yang tidak
+    -- tertutup kelurahan dipakai sebagai satuan wilayah agar pencarian tetap menjangkau daerah itu.
+    INSERT INTO tarik.kel
+      SELECT c.rel, 'kecamatan', regexp_replace(c.nama, '^Kecamatan ', ''), regexp_replace(c.nama, '^Kecamatan ', ''),
+             (SELECT r.kota FROM tarik.batas r WHERE r.lvl = 5 AND r.kota IS NOT NULL AND ST_Contains(r.geom, ST_PointOnSurface(c.geom)) LIMIT 1),
+             ST_Multi(ST_SimplifyPreserveTopology(c.geom, 0.00005))
+      FROM tarik.batas c
+      WHERE c.lvl = 6 AND coalesce((SELECT sum(ST_Area(ST_Intersection(k.geom, c.geom))) FROM tarik.kel k WHERE ST_Intersects(k.geom, c.geom)), 0) < 0.2 * ST_Area(c.geom);
+    DELETE FROM tarik.kel WHERE kota IS NULL;
+    UPDATE tarik.kel SET geom = ST_Multi(ST_CollectionExtract(ST_MakeValid(geom), 3)) WHERE NOT ST_IsValid(geom);
     CREATE INDEX ON tarik.kel USING gist (geom);
     """)
-    print('  kelurahan:', psql('SELECT count(*) FROM tarik.kel').strip())
+    print('  wilayah:', psql("SELECT string_agg(tingkat || ' ' || n, ', ') FROM (SELECT tingkat, count(*) n FROM tarik.kel GROUP BY 1) x").strip())
 
 
 def tarik_ekosistem():
@@ -232,7 +263,7 @@ def tarik_mobilitas():
     print('Mobilitas (OSM + Commute Data API + Biskita)...')
     rute = per_wilayah('rel(area.j)["route"~"^(train|subway|light_rail|monorail)$"];out body;', 'rel_rute')
     rel_ways = per_wilayah('way(area.j)["railway"~"^(rail|subway|light_rail|monorail)$"];out geom tags;', 'rel_ways')
-    tol = per_wilayah('node(area.j)["barrier"="toll_booth"];out tags;', 'tol')
+    tol = per_wilayah('node(area.j)["barrier"="toll_booth"];out;', 'tol')
 
     # Way -> jenis/lin dari relasi rute KRL, MRT, LRT (rel jarak jauh/barang tidak diambil).
     info = {}
@@ -333,7 +364,8 @@ def ekspor_wilayah():
     for t in ('ekosistem', 'mobilitas'):
         psql(f"""DROP TABLE IF EXISTS tarik.g_{t}; CREATE TABLE tarik.g_{t} AS
                  SELECT data->'properties'->>'jenis' AS jenis, data->'properties'->'atribut'->>'moda' AS moda,
-                        ST_SetSRID(ST_GeomFromGeoJSON(data->'geometry'), 4326) AS geom FROM tarik.f_{t};
+                        ST_CollectionExtract(ST_MakeValid(ST_SetSRID(ST_GeomFromGeoJSON(data->'geometry'), 4326)), CASE data->'geometry'->>'type' WHEN 'Point' THEN 1 WHEN 'LineString' THEN 2 ELSE 3 END) AS geom
+                 FROM tarik.f_{t};
                  CREATE INDEX ON tarik.g_{t} USING gist (geom);""")
     ekspor("""
       WITH h AS (
@@ -352,7 +384,7 @@ def ekspor_wilayah():
               WHEN (('x' || substr(md5(nama || kota), 1, 4))::bit(16)::int % 100) + (CASE WHEN kota LIKE 'Jakarta%' THEN 25 ELSE 0 END) - (porsi_hijau * 150)::int < 80 THEN 'kurang_sehat'
               WHEN (('x' || substr(md5(nama || kota), 1, 4))::bit(16)::int % 100) + (CASE WHEN kota LIKE 'Jakarta%' THEN 25 ELSE 0 END) - (porsi_hijau * 150)::int < 118 THEN 'tidak_sehat'
               ELSE 'berbahaya' END,
-          'atribut', json_build_object('sumber_batas', 'OSM', 'kualitas_udara', 'contoh', 'stasiun', stasiun, 'rth', rth, 'poi', poi)),
+          'atribut', json_build_object('sumber_batas', 'OSM', 'tingkat', tingkat, 'kualitas_udara', 'contoh', 'stasiun', stasiun, 'rth', rth, 'poi', poi)),
         'geometry', ST_AsGeoJSON(geom, 6)::json)
       FROM h ORDER BY kota, kecamatan, nama;
     """, f'{KELUAR}/wilayah.geojson')

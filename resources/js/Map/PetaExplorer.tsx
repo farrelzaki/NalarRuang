@@ -358,6 +358,8 @@ function grupZoom(isi: L.Layer, minZoom: number): L.LayerGroup {
 function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.LayerGroup {
     const g = L.layerGroup();
     const kanvas = L.canvas({ pane: 'nrTitik', padding: 0.3 });
+    // Opsi GeoJSON diteruskan Leaflet ke tiap Path, termasuk renderer; tipe @types/leaflet belum mencantumkannya.
+    const diKanvas = { renderer: L.canvas({ pane: 'nrPoligon', padding: 0.3 }) } as L.GeoJSONOptions;
     const popup = (f: Feature, l: L.Layer) => {
         const p = (f.properties ?? {}) as Record<string, any>;
         (l as L.Path).bindPopup(() => popupHtml(labelJenis(p.jenis), p.nama ?? labelJenis(p.jenis), deskripsi(p), `${tr('Sumber', 'Source')}: ${p.sumber ?? 'OSM'}`), {
@@ -379,10 +381,11 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
     };
 
     if (k === 'historis_risiko') {
-        L.geoJSON(fc, { pane: 'nrPoligon', style: (f) => gaya.banjir(f?.properties?.kelas), onEachFeature: popup }).addTo(g);
+        L.geoJSON(fc, { pane: 'nrPoligon', ...diKanvas, style: (f) => gaya.banjir(f?.properties?.kelas), onEachFeature: popup }).addTo(g);
     } else if (k === 'ekosistem') {
         L.geoJSON(fc, {
             pane: 'nrPoligon',
+            ...diKanvas,
             filter: (f) => f.properties?.jenis === 'rth',
             style: gaya.rth,
             onEachFeature: popup,
@@ -452,7 +455,7 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
             onEachFeature: popup,
         }).addTo(g);
     } else if (k === 'legalitas') {
-        L.geoJSON(fc, { pane: 'nrPoligon', style: gaya.legal, onEachFeature: popup }).addTo(g);
+        L.geoJSON(fc, { pane: 'nrPoligon', ...diKanvas, style: gaya.legal, onEachFeature: popup }).addTo(g);
     }
     return g;
 }
