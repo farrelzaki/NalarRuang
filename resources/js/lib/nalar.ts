@@ -38,7 +38,7 @@ export const LAYERS: { key: LayerKey; title: Dwi; desc: Dwi; grid?: boolean; leg
 ];
 
 /** Sumber data menurut keputusan kelompok (docs/RENCANA.md bagian 2a). */
-export const SUMBER = ['InaRISK (BNPB)', 'Pantau Banjir Jakarta', 'IQAir', 'Overpass API (OSM)', 'Commute Data Platform', 'GTFS TransJakarta', 'Biskita Trans Pakuan', 'BHUMI ATR/BPN'];
+export const SUMBER = ['InaRISK (BNPB)', 'Batas desa BIG', 'Pantau Banjir Jakarta', 'IQAir', 'Overpass API (OSM)', 'Commute Data Platform', 'GTFS TransJakarta', 'Biskita Trans Pakuan', 'BHUMI ATR/BPN'];
 
 export function cx(...kelas: (string | false | null | undefined)[]): string {
     return kelas.filter(Boolean).join(' ');

@@ -2,8 +2,10 @@
 Tarik data terbuka untuk seluruh Jabodetabek -> data/geojson/demo/ (dimuat oleh DemoPetaSeeder).
 
 Sumber yang ditarik otomatis (keputusan kelompok, docs/RENCANA.md bagian 2a):
-  - Batas kelurahan/kecamatan, POI, ruang hijau, fasilitas disabilitas, trotoar, rel, gerbang tol: OpenStreetMap (Overpass API)
-  - Stasiun KRL/MRT/LRT dan halte TransJakarta: Commute Data API (api.commute.shiorilabs.id, ODbL-1.0)
+  - Batas desa/kelurahan: Badan Informasi Geospasial (geoservices.big.go.id, layanan ArcGIS REST BATAS_DESAKEL_AR)
+  - POI, ruang hijau, fasilitas disabilitas, trotoar, rel, gerbang tol: OpenStreetMap (Overpass API)
+  - Stasiun KRL/MRT/LRT dan halte TransJakarta untuk routing: Commute Data API (api.commute.shiorilabs.id, ODbL-1.0)
+  - Semua halte TransJakarta dan halte ramah kursi roda: GTFS resmi TransJakarta (gtfs.transjakarta.co.id)
   - Halte Biskita Trans Pakuan: opentransum (JSON terbuka)
 Layer yang menurut keputusan kelompok diolah manual (Mesin Waktu, Legalitas) tidak disentuh.
 Kualitas udara per kelurahan masih NILAI CONTOH sampai IQAir API (butuh kunci) dipasang.
@@ -12,7 +14,8 @@ Butuh: Python 3 (pustaka standar), psql PostgreSQL 17 + PostGIS di database `nal
 Jalankan dari akar repo:  python data/scripts/tarik_data.py
 Hasil unduhan disimpan di storage/app/tarik/ sehingga jalan ulang tidak mengunduh lagi.
 """
-import hashlib
+import csv
+import io
 import json
 import os
 import subprocess
@@ -20,6 +23,7 @@ import sys
 import time
 import urllib.parse
 import urllib.request
+import zipfile
 
 PSQL = os.environ.get('PSQL', r'C:\Program Files\PostgreSQL\17\bin\psql.exe')
 DB = ['-h', '127.0.0.1', '-U', 'postgres', '-d', os.environ.get('DB_DATABASE', 'nalarruang')]
@@ -29,6 +33,17 @@ UA = 'NalarRuang/0.1 (proyek mahasiswa IPB University)'
 OVERPASS = ['https://overpass-api.de/api/interpreter', 'https://overpass.private.coffee/api/interpreter', 'https://maps.mail.ru/osm/tools/overpass/api/interpreter']
 COMMUTE = 'https://api.commute.shiorilabs.id'
 BISKITA = 'https://cdn.opentransum.randspace0.com/transport-data/transpakuan.json'
+GTFS_TJ = 'https://gtfs.transjakarta.co.id/files/file_gtfs.zip'
+BIG_DESA = 'https://geoservices.big.go.id/rbi/rest/services/BATASWILAYAH/BATAS_DESAKEL_AR/MapServer/0/query'
+
+# Nama kabupaten/kota di data BIG (WADMKK) -> nama kota yang dipakai aplikasi.
+KOTA_BIG = {
+    'Kota Administrasi Jakarta Pusat': 'Jakarta Pusat', 'Kota Administrasi Jakarta Utara': 'Jakarta Utara',
+    'Kota Administrasi Jakarta Barat': 'Jakarta Barat', 'Kota Administrasi Jakarta Selatan': 'Jakarta Selatan',
+    'Kota Administrasi Jakarta Timur': 'Jakarta Timur', 'Kota Bogor': 'Kota Bogor', 'Bogor': 'Kabupaten Bogor',
+    'Kota Depok': 'Kota Depok', 'Kota Tangerang': 'Kota Tangerang', 'Tangerang': 'Kabupaten Tangerang',
+    'Kota Tangerang Selatan': 'Kota Tangerang Selatan', 'Kota Bekasi': 'Kota Bekasi', 'Bekasi': 'Kabupaten Bekasi',
+}
 
 # Relasi OSM admin_level 5 di Jabodetabek -> nama kota yang dipakai aplikasi (QueryParser mengenali kata kuncinya).
 WILAYAH = {
@@ -155,60 +170,61 @@ def ekspor(sql, keluar):
 
 # ---------------------------------------------------------------- langkah
 def tarik_batas():
-    print('Batas administrasi (OSM)...')
-    baris, sudah = [], set()
-    for rid, kota in WILAYAH.items():
-        el = list(overpass(f'rel({rid});out geom;', f'batas_{rid}.json'))
-        kueri, akhiran = filter_wilayah(rid, 'rel(area.a)["boundary"="administrative"]["admin_level"~"^(6|7)$"];out ids;', 'a')
-        ids = [e['id'] for e in overpass(kueri, f'batas_id_{rid}{akhiran}.json')]
-        for i in range(0, len(ids), 20):
-            potong = ids[i:i + 20]
-            el += overpass(f'rel(id:{",".join(map(str, potong))});out geom;', f'batas_{rid}{akhiran}_{i}.json')
-        print(f'  {kota}: {len(ids)} relasi', flush=True)
-        # Relasi bisa muncul di dua wilayah bertetangga atau di batch cache yang tumpang tindih: ambil sekali.
-        for e in {e['id']: e for e in el if e['type'] == 'relation'}.values():
-            if e['id'] in sudah:
-                continue
-            sudah.add(e['id'])
-            lvl = int(e['tags'].get('admin_level', 0))
-            for m in e.get('members', []):
-                if m['type'] == 'way' and m.get('geometry') and m.get('role') in ('outer', 'inner', ''):
-                    baris.append({'rel': e['id'], 'lvl': lvl, 'nama': e['tags'].get('name', ''), 'kota': kota if e['id'] == rid else None,
-                                  'g': {'type': 'LineString', 'coordinates': garis_way(m)}})
+    """Batas desa/kelurahan resmi BIG (kode Kemendagri), dikueri per kabupaten/kota lewat ArcGIS REST."""
+    print('Batas desa/kelurahan (BIG)...')
+    baris = []
+    for kk, kota in KOTA_BIG.items():
+        mulai = 0
+        while True:
+            q = urllib.parse.urlencode({
+                'where': f"WADMKK = '{kk}' AND WADMPR IN ('Daerah Khusus Ibukota Jakarta', 'Jawa Barat', 'Banten')",
+                'outFields': 'WADMKD,WADMKC,KDEPUM,TIPADM', 'outSR': 4326, 'maxAllowableOffset': 0.00003,
+                'resultOffset': mulai, 'resultRecordCount': 500, 'orderByFields': 'OBJECTID', 'f': 'geojson',
+            })
+            d = json.loads(unduh(f'{BIG_DESA}?{q}', f'big_{kk.replace(" ", "_")}_{mulai}.json'))
+            fitur_ = d.get('features', [])
+            for f in fitur_:
+                a_ = f['properties']
+                if f.get('geometry'):
+                    baris.append({'kode': a_.get('KDEPUM'), 'nama': a_.get('WADMKD'), 'kecamatan': a_.get('WADMKC'), 'kota': kota, 'g': f['geometry']})
+            if len(fitur_) < 500:
+                break
+            mulai += 500
+        print(f'  {kota}: {sum(1 for x in baris if x["kota"] == kota)} desa/kelurahan', flush=True)
     muat_tabel('batas_mentah', baris)
     psql("""
-    DROP TABLE IF EXISTS tarik.batas;
-    CREATE TABLE tarik.batas AS
-      SELECT (data->>'rel')::bigint AS rel, (data->>'lvl')::int AS lvl, max(data->>'nama') AS nama, max(data->>'kota') AS kota,
-             ST_Multi(ST_CollectionExtract(ST_MakeValid(ST_BuildArea(ST_Collect(ST_SetSRID(ST_GeomFromGeoJSON(data->'g'), 4326)))), 3)) AS geom
-      FROM tarik.batas_mentah GROUP BY 1, 2;
-    DELETE FROM tarik.batas WHERE geom IS NULL OR ST_IsEmpty(geom);
-    CREATE INDEX ON tarik.batas USING gist (geom);
-    -- Jabodetabek = gabungan 13 kabupaten/kota.
-    DROP TABLE IF EXISTS tarik.jabodetabek;
-    CREATE TABLE tarik.jabodetabek AS SELECT ST_Union(geom) AS geom FROM tarik.batas WHERE lvl = 5 AND kota IS NOT NULL;
-    -- Kelurahan/desa: kota dan kecamatan dari titik di dalam poligonnya.
     DROP TABLE IF EXISTS tarik.kel;
     CREATE TABLE tarik.kel AS
-      SELECT k.rel, 'kelurahan' AS tingkat, regexp_replace(k.nama, '^(Kelurahan|Desa) ', '') AS nama,
-             (SELECT regexp_replace(c.nama, '^Kecamatan ', '') FROM tarik.batas c WHERE c.lvl = 6 AND ST_Contains(c.geom, ST_PointOnSurface(k.geom)) LIMIT 1) AS kecamatan,
-             (SELECT r.kota FROM tarik.batas r WHERE r.lvl = 5 AND r.kota IS NOT NULL AND ST_Contains(r.geom, ST_PointOnSurface(k.geom)) LIMIT 1) AS kota,
-             ST_Multi(ST_SimplifyPreserveTopology(k.geom, 0.00005)) AS geom
-      FROM tarik.batas k WHERE k.lvl = 7;
-    DELETE FROM tarik.kel WHERE kota IS NULL;
-    -- OSM belum memetakan batas desa di sebagian Bekasi dan Kabupaten Tangerang: kecamatan yang tidak
-    -- tertutup kelurahan dipakai sebagai satuan wilayah agar pencarian tetap menjangkau daerah itu.
-    INSERT INTO tarik.kel
-      SELECT c.rel, 'kecamatan', regexp_replace(c.nama, '^Kecamatan ', ''), regexp_replace(c.nama, '^Kecamatan ', ''),
-             (SELECT r.kota FROM tarik.batas r WHERE r.lvl = 5 AND r.kota IS NOT NULL AND ST_Contains(r.geom, ST_PointOnSurface(c.geom)) LIMIT 1),
-             ST_Multi(ST_SimplifyPreserveTopology(c.geom, 0.00005))
-      FROM tarik.batas c
-      WHERE c.lvl = 6 AND coalesce((SELECT sum(ST_Area(ST_Intersection(k.geom, c.geom))) FROM tarik.kel k WHERE ST_Intersects(k.geom, c.geom)), 0) < 0.2 * ST_Area(c.geom);
-    DELETE FROM tarik.kel WHERE kota IS NULL;
-    UPDATE tarik.kel SET geom = ST_Multi(ST_CollectionExtract(ST_MakeValid(geom), 3)) WHERE NOT ST_IsValid(geom);
+      SELECT data->>'kode' AS kode, 'kelurahan' AS tingkat, data->>'nama' AS nama, data->>'kecamatan' AS kecamatan, data->>'kota' AS kota,
+             ST_Multi(ST_CollectionExtract(ST_MakeValid(ST_Force2D(ST_SetSRID(ST_GeomFromGeoJSON(data->'g'), 4326))), 3)) AS geom
+      FROM tarik.batas_mentah;
+    DELETE FROM tarik.kel WHERE geom IS NULL OR ST_IsEmpty(geom);
     CREATE INDEX ON tarik.kel USING gist (geom);
+    DROP TABLE IF EXISTS tarik.jabodetabek;
+    CREATE TABLE tarik.jabodetabek AS SELECT ST_Union(ST_Buffer(geom, 0.0005)) AS geom FROM tarik.kel;
     """)
-    print('  wilayah:', psql("SELECT string_agg(tingkat || ' ' || n, ', ') FROM (SELECT tingkat, count(*) n FROM tarik.kel GROUP BY 1) x").strip())
+    print('  wilayah:', psql('SELECT count(*) FROM tarik.kel').strip())
+
+
+def gtfs_tj():
+    """(halte, akses) dari GTFS resmi TransJakarta: halte BRT induk + halte tanpa induk; akses = wheelchair_boarding 1."""
+    z = zipfile.ZipFile(io.BytesIO(unduh(GTFS_TJ, 'gtfs_tj.zip')))
+    stops = list(csv.DictReader(io.TextIOWrapper(z.open('stops.txt'), 'utf-8-sig')))
+    halte, akses = [], []
+    for s_ in stops:
+        try:
+            lon, lat = round(float(s_['stop_lon']), 6), round(float(s_['stop_lat']), 6)
+        except ValueError:
+            continue
+        geom = {'type': 'Point', 'coordinates': [lon, lat]}
+        if s_.get('location_type') == '1' or (s_.get('location_type') in ('0', '') and not s_.get('parent_station')):
+            halte.append(fitur(geom, layer_id='mobilitas', jenis='halte', nama=s_['stop_name'], sumber='GTFS TransJakarta',
+                               atribut={'moda': 'transjakarta', 'gtfs': s_['stop_id']}))
+        if s_.get('wheelchair_boarding') == '1' and s_.get('location_type') != '1':
+            akses.append(fitur(geom, layer_id='inklusivitas', jenis='akses', nama=f"Halte {s_['stop_name']}", sumber='GTFS TransJakarta',
+                               atribut={'kategori': 'Halte ramah kursi roda'}))
+    print(f'  GTFS TransJakarta: {len(halte)} halte, {len(akses)} titik ramah kursi roda', flush=True)
+    return halte, akses
 
 
 def tarik_ekosistem():
@@ -247,7 +263,7 @@ def tarik_inklusivitas():
         g = garis_way(e)
         if len(g) >= 2:
             hasil.append(fitur({'type': 'LineString', 'coordinates': g}, layer_id='inklusivitas', jenis='trotoar', nama=e.get('tags', {}).get('name'), sumber='OSM', atribut={}))
-    return hasil
+    return hasil + gtfs_tj()[1]
 
 
 def lin_krl(nama):
@@ -308,6 +324,11 @@ def tarik_mobilitas():
             hasil.append(fitur(geom, layer_id='mobilitas', jenis='stasiun', nama=s['name'], sumber='Commute Data Platform (ODbL)', atribut={**atr, 'moda': moda[s['operator']]}))
         elif s['operator'] == 'TJ':
             hasil.append(fitur(geom, layer_id='mobilitas', jenis='halte', nama=s['name'], sumber='Commute Data Platform (ODbL)', atribut={**atr, 'moda': 'transjakarta'}))
+
+    # Halte TransJakarta lain dari GTFS; lewati yang < 80 m dari halte Commute Data API agar tidak dobel.
+    resmi = [f['geometry']['coordinates'] for f in hasil if f['properties']['jenis'] == 'halte']
+    dekat = lambda p: any(abs(p[0] - q[0]) < 0.0008 and abs(p[1] - q[1]) < 0.0008 for q in resmi)
+    hasil += [h for h in gtfs_tj()[0] if not dekat(h['geometry']['coordinates'])]
 
     # Halte Biskita Trans Pakuan (Bogor).
     try:
@@ -384,7 +405,7 @@ def ekspor_wilayah():
               WHEN (('x' || substr(md5(nama || kota), 1, 4))::bit(16)::int % 100) + (CASE WHEN kota LIKE 'Jakarta%' THEN 25 ELSE 0 END) - (porsi_hijau * 150)::int < 80 THEN 'kurang_sehat'
               WHEN (('x' || substr(md5(nama || kota), 1, 4))::bit(16)::int % 100) + (CASE WHEN kota LIKE 'Jakarta%' THEN 25 ELSE 0 END) - (porsi_hijau * 150)::int < 118 THEN 'tidak_sehat'
               ELSE 'berbahaya' END,
-          'atribut', json_build_object('sumber_batas', 'OSM', 'tingkat', tingkat, 'kualitas_udara', 'contoh', 'stasiun', stasiun, 'rth', rth, 'poi', poi)),
+          'atribut', json_build_object('sumber_batas', 'BIG', 'kode_kemendagri', kode, 'tingkat', tingkat, 'kualitas_udara', 'contoh', 'stasiun', stasiun, 'rth', rth, 'poi', poi)),
         'geometry', ST_AsGeoJSON(geom, 6)::json)
       FROM h ORDER BY kota, kecamatan, nama;
     """, f'{KELUAR}/wilayah.geojson')

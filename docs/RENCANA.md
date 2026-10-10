@@ -56,11 +56,11 @@ unduhan resmi; sisanya diolah manual oleh tim data (Adzkia, Galih).
 | --- | --- | --- | --- | --- |
 | 1 Historis & Risiko | Bahaya banjir InaRISK (seluruh Jabodetabek); AQI | Elevasi DEMNAS, kriminalitas, kebisingan | InaRISK (ArcGIS REST); AQI Bodetabek lewat IQAir API (butuh kunci di `.env`) | Genangan detail Jakarta (pantaubanjir.jakarta.go.id); AQI historis Jakarta |
 | 2 Ekosistem & Gaya Hidup | POI kafe/resto/mal, ruang hijau dari OSM | Google Places (berbayar, cadangan saja) | Overpass API → GeoJSON | — |
-| 3 Inklusivitas | Fasilitas ramah disabilitas OSM (tag jarang; tampilkan apa adanya) | — | Overpass API | — |
-| 4 Mobilitas & Transit | Stasiun, lin, transfer, tarif KRL/MRT/LRT Jakarta/LRT Jabodebek + TransJakarta; Biskita | Scraping Google Maps | Commute Data API (`api.commute.shiorilabs.id`, ODbL: cantumkan sumber); GTFS TransJakarta (Mobility Database mdb-1909); JSON Biskita (opentransum); geometri rel dari OSM | — |
+| 3 Inklusivitas | Fasilitas ramah disabilitas OSM (tag jarang; tampilkan apa adanya); halte TransJakarta ramah kursi roda | — | Overpass API; GTFS TransJakarta (`wheelchair_boarding`) | — |
+| 4 Mobilitas & Transit | Stasiun, lin, transfer, tarif KRL/MRT/LRT Jakarta/LRT Jabodebek + TransJakarta; Biskita | Scraping Google Maps | Commute Data API (`api.commute.shiorilabs.id`, ODbL: cantumkan sumber); GTFS resmi TransJakarta (`gtfs.transjakarta.co.id`, juga di Mobility Database mdb-1909); JSON Biskita (opentransum); geometri rel dari OSM | — |
 | 5 Mesin Waktu | Rencana tata ruang/proyek 2026–2040 | GISTARU | — | Dari video rujukan tim (bukan GISTARU) |
 | 6 Legalitas Lahan | Batas persil BHUMI ATR/BPN | — | — (BHUMI tidak membuka layanan unduh/WMS publik) | Keputusan tim: cari endpoint JSON BHUMI. Belum dikerjakan: perlu dipastikan tidak melanggar ketentuan ATR/BPN |
-| Pencarian & grading | Batas kelurahan/kecamatan | — | Batas administrasi OSM | — |
+| Pencarian & grading | Batas desa/kelurahan (1.503 se-Jabodetabek, kode Kemendagri) | Batas OSM (tidak lengkap di Bekasi dan Kab. Tangerang) | Layanan ArcGIS REST BIG `BATAS_DESAKEL_AR` | — |
 | Commute Simulator | Mobil: OSRM; umum: tarif & rute Commute Data API + jalan kaki OSRM | Google Distance Matrix | Ya | — |
 
 ## 3. Kalender sprint
