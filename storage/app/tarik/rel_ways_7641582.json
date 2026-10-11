@@ -1,0 +1,2209 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-09T05:16:50Z",
+    "timestamp_areas_base": "2026-10-08T05:09:19Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "way",
+  "id": 55678420,
+  "bounds": {
+    "minlat": -6.3201842,
+    "minlon": 106.6676807,
+    "maxlat": -6.3179633,
+    "maxlon": 106.6714922
+  },
+  "geometry": [
+    { "lat": -6.3201839, "lon": 106.6676807 },
+    { "lat": -6.3201842, "lon": 106.6680370 },
+    { "lat": -6.3201787, "lon": 106.6684114 },
+    { "lat": -6.3201563, "lon": 106.6686831 },
+    { "lat": -6.3201220, "lon": 106.6688991 },
+    { "lat": -6.3200542, "lon": 106.6691541 },
+    { "lat": -6.3199367, "lon": 106.6694937 },
+    { "lat": -6.3197691, "lon": 106.6698580 },
+    { "lat": -6.3195853, "lon": 106.6701564 },
+    { "lat": -6.3193524, "lon": 106.6704538 },
+    { "lat": -6.3191025, "lon": 106.6707018 },
+    { "lat": -6.3189048, "lon": 106.6708360 },
+    { "lat": -6.3186029, "lon": 106.6710638 },
+    { "lat": -6.3181716, "lon": 106.6713489 },
+    { "lat": -6.3179633, "lon": 106.6714922 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 103233790,
+  "bounds": {
+    "minlat": -6.2719730,
+    "minlon": 106.7502558,
+    "maxlat": -6.2717437,
+    "maxlon": 106.7504730
+  },
+  "geometry": [
+    { "lat": -6.2719730, "lon": 106.7502558 },
+    { "lat": -6.2717437, "lon": 106.7504730 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "id:Jalur kereta api Merak–Tanah Abang"
+  }
+},
+{
+  "type": "way",
+  "id": 103233793,
+  "bounds": {
+    "minlat": -6.2871142,
+    "minlon": 106.7312794,
+    "maxlat": -6.2787298,
+    "maxlon": 106.7422119
+  },
+  "geometry": [
+    { "lat": -6.2871142, "lon": 106.7312794 },
+    { "lat": -6.2865595, "lon": 106.7320781 },
+    { "lat": -6.2851755, "lon": 106.7340162 },
+    { "lat": -6.2848024, "lon": 106.7345633 },
+    { "lat": -6.2846328, "lon": 106.7348000 },
+    { "lat": -6.2841199, "lon": 106.7354963 },
+    { "lat": -6.2826116, "lon": 106.7373742 },
+    { "lat": -6.2817799, "lon": 106.7384087 },
+    { "lat": -6.2814997, "lon": 106.7387584 },
+    { "lat": -6.2790430, "lon": 106.7418138 },
+    { "lat": -6.2787298, "lon": 106.7422119 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "id:Jalur kereta api Merak–Tanah Abang"
+  }
+},
+{
+  "type": "way",
+  "id": 103233795,
+  "bounds": {
+    "minlat": -6.2872327,
+    "minlon": 106.7311071,
+    "maxlat": -6.2871142,
+    "maxlon": 106.7312794
+  },
+  "geometry": [
+    { "lat": -6.2872327, "lon": 106.7311071 },
+    { "lat": -6.2871142, "lon": 106.7312794 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "id:Jalur kereta api Merak–Tanah Abang"
+  }
+},
+{
+  "type": "way",
+  "id": 103233798,
+  "bounds": {
+    "minlat": -6.3179633,
+    "minlon": 106.6714922,
+    "maxlat": -6.3175457,
+    "maxlon": 106.6718497
+  },
+  "geometry": [
+    { "lat": -6.3179633, "lon": 106.6714922 },
+    { "lat": -6.3177946, "lon": 106.6716268 },
+    { "lat": -6.3176424, "lon": 106.6717577 },
+    { "lat": -6.3175457, "lon": 106.6718497 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 103233800,
+  "bounds": {
+    "minlat": -6.3116246,
+    "minlon": 106.6810230,
+    "maxlat": -6.3114952,
+    "maxlon": 106.6812723
+  },
+  "geometry": [
+    { "lat": -6.3116246, "lon": 106.6810230 },
+    { "lat": -6.3114952, "lon": 106.6812723 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 103233807,
+  "bounds": {
+    "minlat": -6.3145503,
+    "minlon": 106.6767836,
+    "maxlat": -6.3116246,
+    "maxlon": 106.6810230
+  },
+  "geometry": [
+    { "lat": -6.3145503, "lon": 106.6767836 },
+    { "lat": -6.3142827, "lon": 106.6772489 },
+    { "lat": -6.3142046, "lon": 106.6773846 },
+    { "lat": -6.3138918, "lon": 106.6778871 },
+    { "lat": -6.3137353, "lon": 106.6781044 },
+    { "lat": -6.3135885, "lon": 106.6782937 },
+    { "lat": -6.3130259, "lon": 106.6789737 },
+    { "lat": -6.3126006, "lon": 106.6795200 },
+    { "lat": -6.3121980, "lon": 106.6800692 },
+    { "lat": -6.3119973, "lon": 106.6803762 },
+    { "lat": -6.3118120, "lon": 106.6806864 },
+    { "lat": -6.3116246, "lon": 106.6810230 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 103233808,
+  "bounds": {
+    "minlat": -6.2901675,
+    "minlon": 106.7269615,
+    "maxlat": -6.2883206,
+    "maxlon": 106.7295748
+  },
+  "geometry": [
+    { "lat": -6.2901675, "lon": 106.7269615 },
+    { "lat": -6.2898921, "lon": 106.7273553 },
+    { "lat": -6.2885283, "lon": 106.7292619 },
+    { "lat": -6.2883206, "lon": 106.7295748 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "railway:track_ref": "1",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 383351502,
+  "bounds": {
+    "minlat": -6.2719490,
+    "minlon": 106.7502276,
+    "maxlat": -6.2717183,
+    "maxlon": 106.7504475
+  },
+  "geometry": [
+    { "lat": -6.2717183, "lon": 106.7504475 },
+    { "lat": -6.2719490, "lon": 106.7502276 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "id:Jalur kereta api Merak–Tanah Abang"
+  }
+},
+{
+  "type": "way",
+  "id": 383351503,
+  "bounds": {
+    "minlat": -6.2871133,
+    "minlon": 106.7311975,
+    "maxlat": -6.2786893,
+    "maxlon": 106.7421877
+  },
+  "geometry": [
+    { "lat": -6.2786893, "lon": 106.7421877 },
+    { "lat": -6.2789954, "lon": 106.7417971 },
+    { "lat": -6.2797532, "lon": 106.7408818 },
+    { "lat": -6.2799396, "lon": 106.7406499 },
+    { "lat": -6.2804316, "lon": 106.7400222 },
+    { "lat": -6.2812593, "lon": 106.7389802 },
+    { "lat": -6.2817416, "lon": 106.7383840 },
+    { "lat": -6.2825193, "lon": 106.7374202 },
+    { "lat": -6.2833931, "lon": 106.7363491 },
+    { "lat": -6.2841376, "lon": 106.7354085 },
+    { "lat": -6.2846257, "lon": 106.7347534 },
+    { "lat": -6.2849481, "lon": 106.7342900 },
+    { "lat": -6.2851473, "lon": 106.7339986 },
+    { "lat": -6.2858012, "lon": 106.7330643 },
+    { "lat": -6.2862603, "lon": 106.7324289 },
+    { "lat": -6.2865835, "lon": 106.7319716 },
+    { "lat": -6.2867997, "lon": 106.7316697 },
+    { "lat": -6.2871133, "lon": 106.7311975 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "id:Jalur kereta api Merak–Tanah Abang"
+  }
+},
+{
+  "type": "way",
+  "id": 383351506,
+  "bounds": {
+    "minlat": -6.3114952,
+    "minlon": 106.6812723,
+    "maxlat": -6.3068417,
+    "maxlon": 106.6940400
+  },
+  "geometry": [
+    { "lat": -6.3114952, "lon": 106.6812723 },
+    { "lat": -6.3112318, "lon": 106.6818561 },
+    { "lat": -6.3107718, "lon": 106.6831856 },
+    { "lat": -6.3097771, "lon": 106.6862805 },
+    { "lat": -6.3094149, "lon": 106.6874362 },
+    { "lat": -6.3085310, "lon": 106.6902196 },
+    { "lat": -6.3084110, "lon": 106.6905399 },
+    { "lat": -6.3083322, "lon": 106.6907423 },
+    { "lat": -6.3082613, "lon": 106.6909117 },
+    { "lat": -6.3074689, "lon": 106.6926795 },
+    { "lat": -6.3068417, "lon": 106.6940400 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 383351507,
+  "bounds": {
+    "minlat": -6.3047901,
+    "minlon": 106.6986079,
+    "maxlat": -6.3045971,
+    "maxlon": 106.6990324
+  },
+  "geometry": [
+    { "lat": -6.3047901, "lon": 106.6986079 },
+    { "lat": -6.3045971, "lon": 106.6990324 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 383351508,
+  "bounds": {
+    "minlat": -6.3047194,
+    "minlon": 106.6985643,
+    "maxlat": -6.3045268,
+    "maxlon": 106.6989952
+  },
+  "geometry": [
+    { "lat": -6.3045268, "lon": 106.6989952 },
+    { "lat": -6.3047194, "lon": 106.6985643 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 383351509,
+  "bounds": {
+    "minlat": -6.3114457,
+    "minlon": 106.6812452,
+    "maxlat": -6.3067903,
+    "maxlon": 106.6940244
+  },
+  "geometry": [
+    { "lat": -6.3067903, "lon": 106.6940244 },
+    { "lat": -6.3070697, "lon": 106.6933867 },
+    { "lat": -6.3074213, "lon": 106.6926422 },
+    { "lat": -6.3080770, "lon": 106.6912166 },
+    { "lat": -6.3082016, "lon": 106.6909419 },
+    { "lat": -6.3082946, "lon": 106.6907292 },
+    { "lat": -6.3083738, "lon": 106.6905246 },
+    { "lat": -6.3084973, "lon": 106.6902055 },
+    { "lat": -6.3093771, "lon": 106.6874393 },
+    { "lat": -6.3097486, "lon": 106.6862760 },
+    { "lat": -6.3100949, "lon": 106.6851936 },
+    { "lat": -6.3107263, "lon": 106.6831878 },
+    { "lat": -6.3109310, "lon": 106.6825329 },
+    { "lat": -6.3110337, "lon": 106.6822161 },
+    { "lat": -6.3111684, "lon": 106.6818518 },
+    { "lat": -6.3114457, "lon": 106.6812452 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 383351510,
+  "bounds": {
+    "minlat": -6.2901361,
+    "minlon": 106.7269208,
+    "maxlat": -6.2882775,
+    "maxlon": 106.7295492
+  },
+  "geometry": [
+    { "lat": -6.2882775, "lon": 106.7295492 },
+    { "lat": -6.2884086, "lon": 106.7293521 },
+    { "lat": -6.2893844, "lon": 106.7279895 },
+    { "lat": -6.2897484, "lon": 106.7274854 },
+    { "lat": -6.2898718, "lon": 106.7273056 },
+    { "lat": -6.2901361, "lon": 106.7269208 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "railway:track_ref": "2",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 383351511,
+  "bounds": {
+    "minlat": -6.2871649,
+    "minlon": 106.7311236,
+    "maxlat": -6.2871133,
+    "maxlon": 106.7311975
+  },
+  "geometry": [
+    { "lat": -6.2871133, "lon": 106.7311975 },
+    { "lat": -6.2871649, "lon": 106.7311236 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "id:Jalur kereta api Merak–Tanah Abang"
+  }
+},
+{
+  "type": "way",
+  "id": 383351515,
+  "bounds": {
+    "minlat": -6.3216222,
+    "minlon": 106.6578952,
+    "maxlat": -6.3207572,
+    "maxlon": 106.6592310
+  },
+  "geometry": [
+    { "lat": -6.3216222, "lon": 106.6578952 },
+    { "lat": -6.3207572, "lon": 106.6592310 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 383447699,
+  "bounds": {
+    "minlat": -6.3178467,
+    "minlon": 106.6714909,
+    "maxlat": -6.3174833,
+    "maxlon": 106.6718067
+  },
+  "geometry": [
+    { "lat": -6.3174833, "lon": 106.6718067 },
+    { "lat": -6.3175875, "lon": 106.6717097 },
+    { "lat": -6.3177346, "lon": 106.6715816 },
+    { "lat": -6.3178467, "lon": 106.6714909 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 383447700,
+  "bounds": {
+    "minlat": -6.3201374,
+    "minlon": 106.6674266,
+    "maxlat": -6.3178467,
+    "maxlon": 106.6714909
+  },
+  "geometry": [
+    { "lat": -6.3178467, "lon": 106.6714909 },
+    { "lat": -6.3181517, "lon": 106.6712883 },
+    { "lat": -6.3187714, "lon": 106.6708517 },
+    { "lat": -6.3190772, "lon": 106.6706278 },
+    { "lat": -6.3192332, "lon": 106.6704711 },
+    { "lat": -6.3193050, "lon": 106.6704069 },
+    { "lat": -6.3195455, "lon": 106.6701163 },
+    { "lat": -6.3197264, "lon": 106.6698269 },
+    { "lat": -6.3199011, "lon": 106.6694674 },
+    { "lat": -6.3200108, "lon": 106.6691472 },
+    { "lat": -6.3200753, "lon": 106.6688954 },
+    { "lat": -6.3201136, "lon": 106.6686764 },
+    { "lat": -6.3201300, "lon": 106.6684192 },
+    { "lat": -6.3201354, "lon": 106.6680319 },
+    { "lat": -6.3201368, "lon": 106.6674829 },
+    { "lat": -6.3201374, "lon": 106.6674266 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 383447701,
+  "bounds": {
+    "minlat": -6.3175457,
+    "minlon": 106.6718497,
+    "maxlat": -6.3155290,
+    "maxlon": 106.6750602
+  },
+  "geometry": [
+    { "lat": -6.3175457, "lon": 106.6718497 },
+    { "lat": -6.3173329, "lon": 106.6720717 },
+    { "lat": -6.3171782, "lon": 106.6722554 },
+    { "lat": -6.3170143, "lon": 106.6724754 },
+    { "lat": -6.3168117, "lon": 106.6727651 },
+    { "lat": -6.3162389, "lon": 106.6737937 },
+    { "lat": -6.3159679, "lon": 106.6742805 },
+    { "lat": -6.3155290, "lon": 106.6750602 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 383447703,
+  "bounds": {
+    "minlat": -6.3174833,
+    "minlon": 106.6718067,
+    "maxlat": -6.3155065,
+    "maxlon": 106.6750473
+  },
+  "geometry": [
+    { "lat": -6.3155065, "lon": 106.6750473 },
+    { "lat": -6.3159578, "lon": 106.6742398 },
+    { "lat": -6.3165156, "lon": 106.6732007 },
+    { "lat": -6.3167801, "lon": 106.6727407 },
+    { "lat": -6.3169426, "lon": 106.6724722 },
+    { "lat": -6.3171816, "lon": 106.6721406 },
+    { "lat": -6.3173082, "lon": 106.6719882 },
+    { "lat": -6.3174833, "lon": 106.6718067 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 383447706,
+  "bounds": {
+    "minlat": -6.3155065,
+    "minlon": 106.6750473,
+    "maxlat": -6.3145190,
+    "maxlon": 106.6767656
+  },
+  "geometry": [
+    { "lat": -6.3145190, "lon": 106.6767656 },
+    { "lat": -6.3149062, "lon": 106.6760909 },
+    { "lat": -6.3155065, "lon": 106.6750473 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "railway:track_ref": "1",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 383447707,
+  "bounds": {
+    "minlat": -6.3155290,
+    "minlon": 106.6750602,
+    "maxlat": -6.3145503,
+    "maxlon": 106.6767836
+  },
+  "geometry": [
+    { "lat": -6.3155290, "lon": 106.6750602 },
+    { "lat": -6.3149347, "lon": 106.6761077 },
+    { "lat": -6.3145503, "lon": 106.6767836 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "railway:track_ref": "2",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 383447709,
+  "bounds": {
+    "minlat": -6.3145190,
+    "minlon": 106.6767656,
+    "maxlat": -6.3115717,
+    "maxlon": 106.6810048
+  },
+  "geometry": [
+    { "lat": -6.3115717, "lon": 106.6810048 },
+    { "lat": -6.3117544, "lon": 106.6806620 },
+    { "lat": -6.3119022, "lon": 106.6804169 },
+    { "lat": -6.3119721, "lon": 106.6803115 },
+    { "lat": -6.3121566, "lon": 106.6800278 },
+    { "lat": -6.3126126, "lon": 106.6794394 },
+    { "lat": -6.3130075, "lon": 106.6789509 },
+    { "lat": -6.3135675, "lon": 106.6782645 },
+    { "lat": -6.3137197, "lon": 106.6780651 },
+    { "lat": -6.3138582, "lon": 106.6778687 },
+    { "lat": -6.3141475, "lon": 106.6773953 },
+    { "lat": -6.3142481, "lon": 106.6772238 },
+    { "lat": -6.3145190, "lon": 106.6767656 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 383447711,
+  "bounds": {
+    "minlat": -6.3115717,
+    "minlon": 106.6810048,
+    "maxlat": -6.3114457,
+    "maxlon": 106.6812452
+  },
+  "geometry": [
+    { "lat": -6.3114457, "lon": 106.6812452 },
+    { "lat": -6.3115717, "lon": 106.6810048 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 383447712,
+  "bounds": {
+    "minlat": -6.2989065,
+    "minlon": 106.7089561,
+    "maxlat": -6.2986174,
+    "maxlon": 106.7095586
+  },
+  "geometry": [
+    { "lat": -6.2989065, "lon": 106.7089561 },
+    { "lat": -6.2986174, "lon": 106.7095586 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "30",
+    "railway": "rail",
+    "service": "crossover",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 383447713,
+  "bounds": {
+    "minlat": -6.2977669,
+    "minlon": 106.7110656,
+    "maxlat": -6.2955836,
+    "maxlon": 106.7149113
+  },
+  "geometry": [
+    { "lat": -6.2955836, "lon": 106.7149113 },
+    { "lat": -6.2958888, "lon": 106.7144539 },
+    { "lat": -6.2960116, "lon": 106.7142789 },
+    { "lat": -6.2961237, "lon": 106.7141173 },
+    { "lat": -6.2962274, "lon": 106.7139511 },
+    { "lat": -6.2963214, "lon": 106.7137936 },
+    { "lat": -6.2968699, "lon": 106.7128328 },
+    { "lat": -6.2971258, "lon": 106.7123846 },
+    { "lat": -6.2972153, "lon": 106.7122151 },
+    { "lat": -6.2972835, "lon": 106.7120836 },
+    { "lat": -6.2973757, "lon": 106.7118944 },
+    { "lat": -6.2975871, "lon": 106.7114348 },
+    { "lat": -6.2977669, "lon": 106.7110656 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "30",
+    "railway": "rail",
+    "railway:track_ref": "3",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 383447714,
+  "bounds": {
+    "minlat": -6.3045268,
+    "minlon": 106.6989952,
+    "maxlat": -6.2977292,
+    "maxlon": 106.7110433
+  },
+  "geometry": [
+    { "lat": -6.2977292, "lon": 106.7110433 },
+    { "lat": -6.2989065, "lon": 106.7089561 },
+    { "lat": -6.2992860, "lon": 106.7082829 },
+    { "lat": -6.2995080, "lon": 106.7078808 },
+    { "lat": -6.2997576, "lon": 106.7074371 },
+    { "lat": -6.3001098, "lon": 106.7068148 },
+    { "lat": -6.3007577, "lon": 106.7056574 },
+    { "lat": -6.3018677, "lon": 106.7037034 },
+    { "lat": -6.3020630, "lon": 106.7033628 },
+    { "lat": -6.3022720, "lon": 106.7030262 },
+    { "lat": -6.3025200, "lon": 106.7026185 },
+    { "lat": -6.3025746, "lon": 106.7025308 },
+    { "lat": -6.3032214, "lon": 106.7014919 },
+    { "lat": -6.3035546, "lon": 106.7009475 },
+    { "lat": -6.3037490, "lon": 106.7006015 },
+    { "lat": -6.3039436, "lon": 106.7002582 },
+    { "lat": -6.3040423, "lon": 106.7000663 },
+    { "lat": -6.3045268, "lon": 106.6989952 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 383447715,
+  "bounds": {
+    "minlat": -6.3045971,
+    "minlon": 106.6990324,
+    "maxlat": -6.2977669,
+    "maxlon": 106.7110656
+  },
+  "geometry": [
+    { "lat": -6.3045971, "lon": 106.6990324 },
+    { "lat": -6.3041878, "lon": 106.6999189 },
+    { "lat": -6.3040963, "lon": 106.7001105 },
+    { "lat": -6.3040002, "lon": 106.7002884 },
+    { "lat": -6.3037372, "lon": 106.7007315 },
+    { "lat": -6.3026174, "lon": 106.7025564 },
+    { "lat": -6.3018676, "lon": 106.7037784 },
+    { "lat": -6.2998648, "lon": 106.7073385 },
+    { "lat": -6.2992355, "lon": 106.7084539 },
+    { "lat": -6.2986174, "lon": 106.7095586 },
+    { "lat": -6.2977669, "lon": 106.7110656 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 383447717,
+  "bounds": {
+    "minlat": -6.2977292,
+    "minlon": 106.7110433,
+    "maxlat": -6.2955529,
+    "maxlon": 106.7148940
+  },
+  "geometry": [
+    { "lat": -6.2955529, "lon": 106.7148940 },
+    { "lat": -6.2962164, "lon": 106.7137313 },
+    { "lat": -6.2964093, "lon": 106.7133918 },
+    { "lat": -6.2967626, "lon": 106.7127690 },
+    { "lat": -6.2972742, "lon": 106.7118672 },
+    { "lat": -6.2975266, "lon": 106.7114026 },
+    { "lat": -6.2977292, "lon": 106.7110433 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "railway:track_ref": "1",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 383447718,
+  "bounds": {
+    "minlat": -6.2977669,
+    "minlon": 106.7110656,
+    "maxlat": -6.2955836,
+    "maxlon": 106.7149113
+  },
+  "geometry": [
+    { "lat": -6.2977669, "lon": 106.7110656 },
+    { "lat": -6.2975601, "lon": 106.7114195 },
+    { "lat": -6.2973012, "lon": 106.7118818 },
+    { "lat": -6.2967897, "lon": 106.7127851 },
+    { "lat": -6.2962511, "lon": 106.7137361 },
+    { "lat": -6.2955836, "lon": 106.7149113 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 383449236,
+  "bounds": {
+    "minlat": -6.3201839,
+    "minlon": 106.6657143,
+    "maxlat": -6.3201780,
+    "maxlon": 106.6676807
+  },
+  "geometry": [
+    { "lat": -6.3201780, "lon": 106.6657143 },
+    { "lat": -6.3201800, "lon": 106.6666299 },
+    { "lat": -6.3201800, "lon": 106.6667077 },
+    { "lat": -6.3201839, "lon": 106.6676807 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "railway:track_ref": "3",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 383449237,
+  "bounds": {
+    "minlat": -6.3201403,
+    "minlon": 106.6657133,
+    "maxlat": -6.3201354,
+    "maxlon": 106.6674266
+  },
+  "geometry": [
+    { "lat": -6.3201374, "lon": 106.6674266 },
+    { "lat": -6.3201354, "lon": 106.6667084 },
+    { "lat": -6.3201403, "lon": 106.6657133 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "railway:track_ref": "2",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 383449238,
+  "bounds": {
+    "minlat": -6.3207313,
+    "minlon": 106.6592169,
+    "maxlat": -6.3201564,
+    "maxlon": 106.6641863
+  },
+  "geometry": [
+    { "lat": -6.3201591, "lon": 106.6641863 },
+    { "lat": -6.3201588, "lon": 106.6635471 },
+    { "lat": -6.3201564, "lon": 106.6630241 },
+    { "lat": -6.3201631, "lon": 106.6623081 },
+    { "lat": -6.3201565, "lon": 106.6612886 },
+    { "lat": -6.3201704, "lon": 106.6610096 },
+    { "lat": -6.3201824, "lon": 106.6607716 },
+    { "lat": -6.3201949, "lon": 106.6606560 },
+    { "lat": -6.3201972, "lon": 106.6606343 },
+    { "lat": -6.3202671, "lon": 106.6602924 },
+    { "lat": -6.3203140, "lon": 106.6601224 },
+    { "lat": -6.3204140, "lon": 106.6598289 },
+    { "lat": -6.3205640, "lon": 106.6595234 },
+    { "lat": -6.3207313, "lon": 106.6592169 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 383449239,
+  "bounds": {
+    "minlat": -6.3207572,
+    "minlon": 106.6592310,
+    "maxlat": -6.3201862,
+    "maxlon": 106.6637895
+  },
+  "geometry": [
+    { "lat": -6.3207572, "lon": 106.6592310 },
+    { "lat": -6.3205936, "lon": 106.6595365 },
+    { "lat": -6.3204464, "lon": 106.6598344 },
+    { "lat": -6.3203407, "lon": 106.6601369 },
+    { "lat": -6.3202937, "lon": 106.6603017 },
+    { "lat": -6.3202191, "lon": 106.6606829 },
+    { "lat": -6.3202023, "lon": 106.6609997 },
+    { "lat": -6.3201862, "lon": 106.6612965 },
+    { "lat": -6.3201945, "lon": 106.6623115 },
+    { "lat": -6.3201930, "lon": 106.6635491 },
+    { "lat": -6.3201917, "lon": 106.6637895 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 383449240,
+  "bounds": {
+    "minlat": -6.3201591,
+    "minlon": 106.6641863,
+    "maxlat": -6.3200880,
+    "maxlon": 106.6649054
+  },
+  "geometry": [
+    { "lat": -6.3201591, "lon": 106.6641863 },
+    { "lat": -6.3201039, "lon": 106.6647121 },
+    { "lat": -6.3200880, "lon": 106.6649054 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "highspeed": "no",
+    "maxspeed": "30",
+    "operator": "Direktorat Jenderal Perkeretaapian",
+    "railway": "rail",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 383449241,
+  "bounds": {
+    "minlat": -6.3201374,
+    "minlon": 106.6657120,
+    "maxlat": -6.3200807,
+    "maxlon": 106.6674266
+  },
+  "geometry": [
+    { "lat": -6.3200847, "lon": 106.6657120 },
+    { "lat": -6.3200807, "lon": 106.6667078 },
+    { "lat": -6.3200821, "lon": 106.6668242 },
+    { "lat": -6.3200938, "lon": 106.6669831 },
+    { "lat": -6.3201143, "lon": 106.6671587 },
+    { "lat": -6.3201284, "lon": 106.6672872 },
+    { "lat": -6.3201374, "lon": 106.6674266 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "30",
+    "operator": "Direktorat Jenderal Perkeretaapian",
+    "railway": "rail",
+    "railway:track_ref": "1",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 383449242,
+  "bounds": {
+    "minlat": -6.3202491,
+    "minlon": 106.6637895,
+    "maxlat": -6.3201917,
+    "maxlon": 106.6654716
+  },
+  "geometry": [
+    { "lat": -6.3202450, "lon": 106.6654716 },
+    { "lat": -6.3202491, "lon": 106.6648816 },
+    { "lat": -6.3202465, "lon": 106.6644466 },
+    { "lat": -6.3202375, "lon": 106.6642790 },
+    { "lat": -6.3201917, "lon": 106.6637895 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "30",
+    "railway": "rail",
+    "railway:track_ref": "4",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 383531363,
+  "bounds": {
+    "minlat": -6.2955529,
+    "minlon": 106.7148940,
+    "maxlat": -6.2902298,
+    "maxlon": 106.7267641
+  },
+  "geometry": [
+    { "lat": -6.2902298, "lon": 106.7267641 },
+    { "lat": -6.2903077, "lon": 106.7266154 },
+    { "lat": -6.2903917, "lon": 106.7264375 },
+    { "lat": -6.2905308, "lon": 106.7261281 },
+    { "lat": -6.2906273, "lon": 106.7258600 },
+    { "lat": -6.2907121, "lon": 106.7255702 },
+    { "lat": -6.2907429, "lon": 106.7254302 },
+    { "lat": -6.2907681, "lon": 106.7252859 },
+    { "lat": -6.2908188, "lon": 106.7249854 },
+    { "lat": -6.2908721, "lon": 106.7245429 },
+    { "lat": -6.2909174, "lon": 106.7241861 },
+    { "lat": -6.2909654, "lon": 106.7238401 },
+    { "lat": -6.2910442, "lon": 106.7235243 },
+    { "lat": -6.2911379, "lon": 106.7232171 },
+    { "lat": -6.2912329, "lon": 106.7229585 },
+    { "lat": -6.2913420, "lon": 106.7227025 },
+    { "lat": -6.2915174, "lon": 106.7223456 },
+    { "lat": -6.2916292, "lon": 106.7221638 },
+    { "lat": -6.2918025, "lon": 106.7219170 },
+    { "lat": -6.2919838, "lon": 106.7216971 },
+    { "lat": -6.2924962, "lon": 106.7211749 },
+    { "lat": -6.2928775, "lon": 106.7208087 },
+    { "lat": -6.2930576, "lon": 106.7206253 },
+    { "lat": -6.2932161, "lon": 106.7204492 },
+    { "lat": -6.2933769, "lon": 106.7202637 },
+    { "lat": -6.2935658, "lon": 106.7200259 },
+    { "lat": -6.2937345, "lon": 106.7197952 },
+    { "lat": -6.2938497, "lon": 106.7196163 },
+    { "lat": -6.2939801, "lon": 106.7194043 },
+    { "lat": -6.2941061, "lon": 106.7191688 },
+    { "lat": -6.2941827, "lon": 106.7190042 },
+    { "lat": -6.2943273, "lon": 106.7186739 },
+    { "lat": -6.2944046, "lon": 106.7184597 },
+    { "lat": -6.2945486, "lon": 106.7178964 },
+    { "lat": -6.2946765, "lon": 106.7173331 },
+    { "lat": -6.2947851, "lon": 106.7168402 },
+    { "lat": -6.2948816, "lon": 106.7164212 },
+    { "lat": -6.2950210, "lon": 106.7159613 },
+    { "lat": -6.2951440, "lon": 106.7156279 },
+    { "lat": -6.2953084, "lon": 106.7153080 },
+    { "lat": -6.2955529, "lon": 106.7148940 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 383531364,
+  "bounds": {
+    "minlat": -6.2902298,
+    "minlon": 106.7267641,
+    "maxlat": -6.2901361,
+    "maxlon": 106.7269208
+  },
+  "geometry": [
+    { "lat": -6.2901361, "lon": 106.7269208 },
+    { "lat": -6.2902298, "lon": 106.7267641 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 383531365,
+  "bounds": {
+    "minlat": -6.2955836,
+    "minlon": 106.7149113,
+    "maxlat": -6.2902732,
+    "maxlon": 106.7267870
+  },
+  "geometry": [
+    { "lat": -6.2955836, "lon": 106.7149113 },
+    { "lat": -6.2953331, "lon": 106.7153297 },
+    { "lat": -6.2951747, "lon": 106.7156371 },
+    { "lat": -6.2950496, "lon": 106.7159630 },
+    { "lat": -6.2949130, "lon": 106.7164319 },
+    { "lat": -6.2948179, "lon": 106.7168502 },
+    { "lat": -6.2946044, "lon": 106.7178160 },
+    { "lat": -6.2944299, "lon": 106.7184679 },
+    { "lat": -6.2943612, "lon": 106.7186571 },
+    { "lat": -6.2942719, "lon": 106.7188743 },
+    { "lat": -6.2941862, "lon": 106.7190707 },
+    { "lat": -6.2940829, "lon": 106.7192809 },
+    { "lat": -6.2939866, "lon": 106.7194525 },
+    { "lat": -6.2938864, "lon": 106.7196173 },
+    { "lat": -6.2938161, "lon": 106.7197261 },
+    { "lat": -6.2936903, "lon": 106.7199101 },
+    { "lat": -6.2935988, "lon": 106.7200376 },
+    { "lat": -6.2935118, "lon": 106.7201570 },
+    { "lat": -6.2934110, "lon": 106.7202814 },
+    { "lat": -6.2932455, "lon": 106.7204724 },
+    { "lat": -6.2930627, "lon": 106.7206726 },
+    { "lat": -6.2929248, "lon": 106.7208041 },
+    { "lat": -6.2925216, "lon": 106.7212062 },
+    { "lat": -6.2921047, "lon": 106.7216183 },
+    { "lat": -6.2919708, "lon": 106.7217649 },
+    { "lat": -6.2918321, "lon": 106.7219379 },
+    { "lat": -6.2916868, "lon": 106.7221296 },
+    { "lat": -6.2915399, "lon": 106.7223797 },
+    { "lat": -6.2913696, "lon": 106.7227221 },
+    { "lat": -6.2912603, "lon": 106.7229826 },
+    { "lat": -6.2911749, "lon": 106.7232440 },
+    { "lat": -6.2910793, "lon": 106.7235431 },
+    { "lat": -6.2910090, "lon": 106.7238265 },
+    { "lat": -6.2909578, "lon": 106.7241703 },
+    { "lat": -6.2908347, "lon": 106.7250910 },
+    { "lat": -6.2907697, "lon": 106.7254730 },
+    { "lat": -6.2906977, "lon": 106.7257479 },
+    { "lat": -6.2906364, "lon": 106.7259633 },
+    { "lat": -6.2905647, "lon": 106.7261713 },
+    { "lat": -6.2903856, "lon": 106.7265690 },
+    { "lat": -6.2902732, "lon": 106.7267870 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 383531366,
+  "bounds": {
+    "minlat": -6.2902732,
+    "minlon": 106.7267870,
+    "maxlat": -6.2901675,
+    "maxlon": 106.7269615
+  },
+  "geometry": [
+    { "lat": -6.2902732, "lon": 106.7267870 },
+    { "lat": -6.2901675, "lon": 106.7269615 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 384640489,
+  "bounds": {
+    "minlat": -6.3215881,
+    "minlon": 106.6578759,
+    "maxlat": -6.3207313,
+    "maxlon": 106.6592169
+  },
+  "geometry": [
+    { "lat": -6.3207313, "lon": 106.6592169 },
+    { "lat": -6.3215881, "lon": 106.6578759 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 398193627,
+  "bounds": {
+    "minlat": -6.3068417,
+    "minlon": 106.6940400,
+    "maxlat": -6.3067135,
+    "maxlon": 106.6943291
+  },
+  "geometry": [
+    { "lat": -6.3068417, "lon": 106.6940400 },
+    { "lat": -6.3067135, "lon": 106.6943291 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 398193628,
+  "bounds": {
+    "minlat": -6.3067135,
+    "minlon": 106.6943291,
+    "maxlat": -6.3047901,
+    "maxlon": 106.6986079
+  },
+  "geometry": [
+    { "lat": -6.3067135, "lon": 106.6943291 },
+    { "lat": -6.3052705, "lon": 106.6974827 },
+    { "lat": -6.3047901, "lon": 106.6986079 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 398193629,
+  "bounds": {
+    "minlat": -6.3067903,
+    "minlon": 106.6940244,
+    "maxlat": -6.3066656,
+    "maxlon": 106.6942968
+  },
+  "geometry": [
+    { "lat": -6.3066656, "lon": 106.6942968 },
+    { "lat": -6.3067903, "lon": 106.6940244 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 398193630,
+  "bounds": {
+    "minlat": -6.3066656,
+    "minlon": 106.6942968,
+    "maxlat": -6.3047194,
+    "maxlon": 106.6985643
+  },
+  "geometry": [
+    { "lat": -6.3047194, "lon": 106.6985643 },
+    { "lat": -6.3058211, "lon": 106.6961490 },
+    { "lat": -6.3066656, "lon": 106.6942968 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 722991275,
+  "bounds": {
+    "minlat": -6.2883206,
+    "minlon": 106.7295748,
+    "maxlat": -6.2881828,
+    "maxlon": 106.7297663
+  },
+  "geometry": [
+    { "lat": -6.2883206, "lon": 106.7295748 },
+    { "lat": -6.2881828, "lon": 106.7297663 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "100",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "id:Jalur kereta api Merak–Tanah Abang"
+  }
+},
+{
+  "type": "way",
+  "id": 722991276,
+  "bounds": {
+    "minlat": -6.2881828,
+    "minlon": 106.7297663,
+    "maxlat": -6.2872327,
+    "maxlon": 106.7311071
+  },
+  "geometry": [
+    { "lat": -6.2881828, "lon": 106.7297663 },
+    { "lat": -6.2872327, "lon": 106.7311071 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "id:Jalur kereta api Merak–Tanah Abang"
+  }
+},
+{
+  "type": "way",
+  "id": 722991277,
+  "bounds": {
+    "minlat": -6.2882775,
+    "minlon": 106.7295492,
+    "maxlat": -6.2881429,
+    "maxlon": 106.7297372
+  },
+  "geometry": [
+    { "lat": -6.2881429, "lon": 106.7297372 },
+    { "lat": -6.2882775, "lon": 106.7295492 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "100",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "id:Jalur kereta api Merak–Tanah Abang"
+  }
+},
+{
+  "type": "way",
+  "id": 722991278,
+  "bounds": {
+    "minlat": -6.2881429,
+    "minlon": 106.7297372,
+    "maxlat": -6.2871649,
+    "maxlon": 106.7311236
+  },
+  "geometry": [
+    { "lat": -6.2871649, "lon": 106.7311236 },
+    { "lat": -6.2881429, "lon": 106.7297372 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "id:Jalur kereta api Merak–Tanah Abang"
+  }
+},
+{
+  "type": "way",
+  "id": 752930179,
+  "bounds": {
+    "minlat": -6.3203511,
+    "minlon": 106.6637298,
+    "maxlat": -6.3202811,
+    "maxlon": 106.6669467
+  },
+  "geometry": [
+    { "lat": -6.3203492, "lon": 106.6637298 },
+    { "lat": -6.3203511, "lon": 106.6660625 },
+    { "lat": -6.3203389, "lon": 106.6663844 },
+    { "lat": -6.3203069, "lon": 106.6667291 },
+    { "lat": -6.3202811, "lon": 106.6669467 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "30",
+    "railway": "rail",
+    "railway:track_ref": "5",
+    "service": "yard",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 752930180,
+  "bounds": {
+    "minlat": -6.3204030,
+    "minlon": 106.6637275,
+    "maxlat": -6.3203432,
+    "maxlon": 106.6666717
+  },
+  "geometry": [
+    { "lat": -6.3204030, "lon": 106.6637275 },
+    { "lat": -6.3204006, "lon": 106.6660605 },
+    { "lat": -6.3203861, "lon": 106.6662768 },
+    { "lat": -6.3203694, "lon": 106.6664629 },
+    { "lat": -6.3203432, "lon": 106.6666717 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "30",
+    "railway": "rail",
+    "railway:track_ref": "6",
+    "service": "yard",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 752930181,
+  "bounds": {
+    "minlat": -6.3204508,
+    "minlon": 106.6637252,
+    "maxlat": -6.3203432,
+    "maxlon": 106.6666717
+  },
+  "geometry": [
+    { "lat": -6.3204508, "lon": 106.6637252 },
+    { "lat": -6.3204469, "lon": 106.6660607 },
+    { "lat": -6.3204223, "lon": 106.6662612 },
+    { "lat": -6.3203928, "lon": 106.6664455 },
+    { "lat": -6.3203432, "lon": 106.6666717 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "30",
+    "railway": "rail",
+    "railway:track_ref": "7",
+    "service": "yard",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 1334260357,
+  "bounds": {
+    "minlat": -6.3201945,
+    "minlon": 106.6623115,
+    "maxlat": -6.3201564,
+    "maxlon": 106.6630241
+  },
+  "geometry": [
+    { "lat": -6.3201945, "lon": 106.6623115 },
+    { "lat": -6.3201564, "lon": 106.6630241 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "railway": "rail",
+    "service": "crossover",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 1386031555,
+  "bounds": {
+    "minlat": -6.3201842,
+    "minlon": 106.6674829,
+    "maxlat": -6.3201368,
+    "maxlon": 106.6680370
+  },
+  "geometry": [
+    { "lat": -6.3201368, "lon": 106.6674829 },
+    { "lat": -6.3201396, "lon": 106.6676401 },
+    { "lat": -6.3201638, "lon": 106.6678496 },
+    { "lat": -6.3201842, "lon": 106.6680370 }
+  ],
+  "tags": {
+    "railway": "rail",
+    "service": "crossover"
+  }
+},
+{
+  "type": "way",
+  "id": 1390008630,
+  "bounds": {
+    "minlat": -6.3203432,
+    "minlon": 106.6666717,
+    "maxlat": -6.3201839,
+    "maxlon": 106.6676807
+  },
+  "geometry": [
+    { "lat": -6.3203432, "lon": 106.6666717 },
+    { "lat": -6.3202811, "lon": 106.6669467 },
+    { "lat": -6.3202294, "lon": 106.6672083 },
+    { "lat": -6.3202002, "lon": 106.6674011 },
+    { "lat": -6.3201839, "lon": 106.6676807 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "30",
+    "railway": "rail",
+    "service": "yard",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 1390008631,
+  "bounds": {
+    "minlat": -6.3201917,
+    "minlon": 106.6637895,
+    "maxlat": -6.3201790,
+    "maxlon": 106.6654735
+  },
+  "geometry": [
+    { "lat": -6.3201917, "lon": 106.6637895 },
+    { "lat": -6.3201812, "lon": 106.6648876 },
+    { "lat": -6.3201790, "lon": 106.6654735 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "railway:track_ref": "3",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1390008632,
+  "bounds": {
+    "minlat": -6.3201591,
+    "minlon": 106.6641863,
+    "maxlat": -6.3201416,
+    "maxlon": 106.6654771
+  },
+  "geometry": [
+    { "lat": -6.3201416, "lon": 106.6654771 },
+    { "lat": -6.3201457, "lon": 106.6647456 },
+    { "lat": -6.3201591, "lon": 106.6641863 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "railway:track_ref": "2",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1390008633,
+  "bounds": {
+    "minlat": -6.3201790,
+    "minlon": 106.6654735,
+    "maxlat": -6.3201780,
+    "maxlon": 106.6657143
+  },
+  "geometry": [
+    { "lat": -6.3201790, "lon": 106.6654735 },
+    { "lat": -6.3201780, "lon": 106.6657143 }
+  ],
+  "tags": {
+    "covered": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "railway:track_ref": "3",
+    "tunnel": "building_passage",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1390008634,
+  "bounds": {
+    "minlat": -6.3201416,
+    "minlon": 106.6654771,
+    "maxlat": -6.3201403,
+    "maxlon": 106.6657133
+  },
+  "geometry": [
+    { "lat": -6.3201403, "lon": 106.6657133 },
+    { "lat": -6.3201416, "lon": 106.6654771 }
+  ],
+  "tags": {
+    "covered": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "railway:track_ref": "2",
+    "tunnel": "building_passage",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "en:Jakarta Kota–Anyer Kidul railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1390008635,
+  "bounds": {
+    "minlat": -6.3200880,
+    "minlon": 106.6649054,
+    "maxlat": -6.3200858,
+    "maxlon": 106.6654755
+  },
+  "geometry": [
+    { "lat": -6.3200880, "lon": 106.6649054 },
+    { "lat": -6.3200858, "lon": 106.6654755 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "30",
+    "operator": "Direktorat Jenderal Perkeretaapian",
+    "railway": "rail",
+    "railway:track_ref": "1",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 1390008636,
+  "bounds": {
+    "minlat": -6.3200858,
+    "minlon": 106.6654755,
+    "maxlat": -6.3200847,
+    "maxlon": 106.6657120
+  },
+  "geometry": [
+    { "lat": -6.3200858, "lon": 106.6654755 },
+    { "lat": -6.3200847, "lon": 106.6657120 }
+  ],
+  "tags": {
+    "covered": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "30",
+    "operator": "Direktorat Jenderal Perkeretaapian",
+    "railway": "rail",
+    "railway:track_ref": "1",
+    "service": "siding",
+    "tunnel": "building_passage",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 1390008637,
+  "bounds": {
+    "minlat": -6.3202450,
+    "minlon": 106.6657124,
+    "maxlat": -6.3202002,
+    "maxlon": 106.6674011
+  },
+  "geometry": [
+    { "lat": -6.3202002, "lon": 106.6674011 },
+    { "lat": -6.3202183, "lon": 106.6672000 },
+    { "lat": -6.3202310, "lon": 106.6669888 },
+    { "lat": -6.3202367, "lon": 106.6667899 },
+    { "lat": -6.3202450, "lon": 106.6657124 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "30",
+    "railway": "rail",
+    "railway:track_ref": "4",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 1390008638,
+  "bounds": {
+    "minlat": -6.3202450,
+    "minlon": 106.6654716,
+    "maxlat": -6.3202450,
+    "maxlon": 106.6657124
+  },
+  "geometry": [
+    { "lat": -6.3202450, "lon": 106.6657124 },
+    { "lat": -6.3202450, "lon": 106.6654716 }
+  ],
+  "tags": {
+    "covered": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "30",
+    "railway": "rail",
+    "railway:track_ref": "4",
+    "service": "siding",
+    "tunnel": "building_passage",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 1390052602,
+  "bounds": {
+    "minlat": -6.2763321,
+    "minlon": 106.7452082,
+    "maxlat": -6.2719730,
+    "maxlon": 106.7502558
+  },
+  "geometry": [
+    { "lat": -6.2763321, "lon": 106.7452082 },
+    { "lat": -6.2760451, "lon": 106.7455734 },
+    { "lat": -6.2755908, "lon": 106.7461466 },
+    { "lat": -6.2746190, "lon": 106.7473657 },
+    { "lat": -6.2738418, "lon": 106.7483192 },
+    { "lat": -6.2732886, "lon": 106.7489428 },
+    { "lat": -6.2726820, "lon": 106.7495832 },
+    { "lat": -6.2719730, "lon": 106.7502558 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "id:Jalur kereta api Merak–Tanah Abang"
+  }
+},
+{
+  "type": "way",
+  "id": 1390052603,
+  "bounds": {
+    "minlat": -6.2763061,
+    "minlon": 106.7451833,
+    "maxlat": -6.2719490,
+    "maxlon": 106.7502276
+  },
+  "geometry": [
+    { "lat": -6.2719490, "lon": 106.7502276 },
+    { "lat": -6.2721003, "lon": 106.7500841 },
+    { "lat": -6.2724580, "lon": 106.7497463 },
+    { "lat": -6.2726923, "lon": 106.7495121 },
+    { "lat": -6.2730460, "lon": 106.7491378 },
+    { "lat": -6.2734074, "lon": 106.7487480 },
+    { "lat": -6.2738867, "lon": 106.7482150 },
+    { "lat": -6.2742466, "lon": 106.7477621 },
+    { "lat": -6.2746217, "lon": 106.7473061 },
+    { "lat": -6.2749265, "lon": 106.7469286 },
+    { "lat": -6.2753338, "lon": 106.7464172 },
+    { "lat": -6.2758781, "lon": 106.7457280 },
+    { "lat": -6.2760062, "lon": 106.7455652 },
+    { "lat": -6.2761056, "lon": 106.7454282 },
+    { "lat": -6.2763061, "lon": 106.7451833 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "id:Jalur kereta api Merak–Tanah Abang"
+  }
+},
+{
+  "type": "way",
+  "id": 1390052604,
+  "bounds": {
+    "minlat": -6.2786893,
+    "minlon": 106.7421877,
+    "maxlat": -6.2763061,
+    "maxlon": 106.7451833
+  },
+  "geometry": [
+    { "lat": -6.2763061, "lon": 106.7451833 },
+    { "lat": -6.2775918, "lon": 106.7435652 },
+    { "lat": -6.2786893, "lon": 106.7421877 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "railway:track_ref": "1",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "id:Jalur kereta api Merak–Tanah Abang"
+  }
+},
+{
+  "type": "way",
+  "id": 1390052605,
+  "bounds": {
+    "minlat": -6.2787298,
+    "minlon": 106.7422119,
+    "maxlat": -6.2763321,
+    "maxlon": 106.7452082
+  },
+  "geometry": [
+    { "lat": -6.2787298, "lon": 106.7422119 },
+    { "lat": -6.2763321, "lon": 106.7452082 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "railway:track_ref": "2",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "id:Jalur kereta api Merak–Tanah Abang"
+  }
+},
+{
+  "type": "way",
+  "id": 1390052606,
+  "bounds": {
+    "minlat": -6.2717437,
+    "minlon": 106.7504730,
+    "maxlat": -6.2679635,
+    "maxlon": 106.7541610
+  },
+  "geometry": [
+    { "lat": -6.2717437, "lon": 106.7504730 },
+    { "lat": -6.2695203, "lon": 106.7526581 },
+    { "lat": -6.2685721, "lon": 106.7535442 },
+    { "lat": -6.2679635, "lon": 106.7541610 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "id:Jalur kereta api Merak–Tanah Abang"
+  }
+},
+{
+  "type": "way",
+  "id": 1390052608,
+  "bounds": {
+    "minlat": -6.2717183,
+    "minlon": 106.7504475,
+    "maxlat": -6.2678855,
+    "maxlon": 106.7541802
+  },
+  "geometry": [
+    { "lat": -6.2678855, "lon": 106.7541802 },
+    { "lat": -6.2683070, "lon": 106.7537628 },
+    { "lat": -6.2686149, "lon": 106.7534516 },
+    { "lat": -6.2689415, "lon": 106.7531512 },
+    { "lat": -6.2692828, "lon": 106.7528039 },
+    { "lat": -6.2695601, "lon": 106.7525477 },
+    { "lat": -6.2699667, "lon": 106.7521548 },
+    { "lat": -6.2704093, "lon": 106.7517203 },
+    { "lat": -6.2707439, "lon": 106.7513863 },
+    { "lat": -6.2711464, "lon": 106.7510068 },
+    { "lat": -6.2715237, "lon": 106.7506380 },
+    { "lat": -6.2717183, "lon": 106.7504475 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "name": "Jalur Kereta Api Tanah Abang–Merak",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q18916627",
+    "wikipedia": "id:Jalur kereta api Merak–Tanah Abang"
+  }
+}
+
+  ]
+}

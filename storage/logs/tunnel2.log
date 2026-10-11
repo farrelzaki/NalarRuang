@@ -1,0 +1,112 @@
+{"level":"info","time":"2026-10-07T13:07:54Z","message":"Thank you for trying Cloudflare Tunnel. Doing so, without a Cloudflare account, is a quick way to experiment and try it out. However, be aware that these account-less Tunnels have no uptime guarantee, are subject to the Cloudflare Online Services Terms of Use (https://www.cloudflare.com/website-terms/), and Cloudflare reserves the right to investigate your use of Tunnels for violations of such terms. If you intend to use Tunnels in production you should use a pre-created named tunnel by following: https://developers.cloudflare.com/cloudflare-one/connections/connect-apps"}
+{"level":"info","time":"2026-10-07T13:07:54Z","message":"Requesting new quick Tunnel on trycloudflare.com..."}
+{"level":"info","time":"2026-10-07T13:07:59Z","message":"+--------------------------------------------------------------------------------------------+"}
+{"level":"info","time":"2026-10-07T13:07:59Z","message":"|  Your quick Tunnel has been created! Visit it at (it may take some time to be reachable):  |"}
+{"level":"info","time":"2026-10-07T13:07:59Z","message":"|  https://trained-including-sheets-trying.trycloudflare.com                                 |"}
+{"level":"info","time":"2026-10-07T13:07:59Z","message":"+--------------------------------------------------------------------------------------------+"}
+{"level":"info","time":"2026-10-07T13:07:59Z","message":"Cannot determine default configuration path. No file [config.yml config.yaml] in [~/.cloudflared ~/.cloudflare-warp ~/cloudflare-warp]"}
+{"level":"info","time":"2026-10-07T13:07:59Z","message":"Version 2026.10.0 (Checksum 86aee4017b26625cee8484c113558f48effa4cd47f7aa05fcf425604e5d2b23c)"}
+{"level":"info","time":"2026-10-07T13:07:59Z","message":"GOOS: windows, GOVersion: go1.26.8, GoArch: amd64"}
+{"level":"info","time":"2026-10-07T13:07:59Z","message":"Settings: map[ha-connections:1 logfile:C:\\laragon\\www\\NalarRuang\\storage\\logs\\tunnel2.log no-autoupdate:true p:http2 protocol:http2 url:http://127.0.0.1:8000]"}
+{"level":"info","time":"2026-10-07T13:07:59Z","message":"cloudflared will not automatically update on Windows systems."}
+{"level":"info","time":"2026-10-07T13:07:59Z","message":"Generated Connector ID: 7eb1bd4b-6830-4c0c-b7a2-5819efe8ca6e"}
+{"level":"info","time":"2026-10-07T13:07:59Z","message":"Initial protocol http2"}
+{"level":"info","time":"2026-10-07T13:07:59Z","message":"ICMP proxy will use 192.168.2.254 as source for IPv4"}
+{"level":"info","time":"2026-10-07T13:07:59Z","message":"ICMP proxy will use fe80::44d0:f53c:fcd5:cebc in zone Local Area Connection* 8 as source for IPv6"}
+{"level":"info","time":"2026-10-07T13:07:59Z","message":"cloudflared does not support loading the system root certificate pool on Windows. Please use --origin-ca-pool <PATH> to specify the path to the certificate pool"}
+{"level":"info","time":"2026-10-07T13:07:59Z","message":"ICMP proxy will use 192.168.2.254 as source for IPv4"}
+{"level":"info","event":0,"ip":"198.41.192.67","connIndex":0,"time":"2026-10-07T13:07:59Z","message":"Tunnel connection curve preferences: [X25519MLKEM768 CurveID(65074) CurveP256]"}
+{"level":"info","time":"2026-10-07T13:07:59Z","message":"ICMP proxy will use fe80::44d0:f53c:fcd5:cebc in zone Local Area Connection* 8 as source for IPv6"}
+{"level":"info","time":"2026-10-07T13:07:59Z","message":"Starting metrics server on 127.0.0.1:20241/metrics"}
+{"level":"info","time":"2026-10-07T13:07:59Z","message":"+--------------------------------------------------------------------------------------+"}
+{"level":"info","time":"2026-10-07T13:07:59Z","message":"|                               CONNECTIVITY PRE-CHECKS                                |"}
+{"level":"info","time":"2026-10-07T13:07:59Z","message":"+--------------------------------------------------------------------------------------+"}
+{"level":"info","time":"2026-10-07T13:07:59Z","message":"|  COMPONENT         TARGET                     STATUS  DETAILS                        |"}
+{"level":"info","time":"2026-10-07T13:07:59Z","message":"|  DNS Resolution    region1.v2.argotunnel.com  PASS    DNS Resolved successfully      |"}
+{"level":"info","time":"2026-10-07T13:07:59Z","message":"|  DNS Resolution    region2.v2.argotunnel.com  PASS    DNS Resolved successfully      |"}
+{"level":"info","time":"2026-10-07T13:07:59Z","message":"|  UDP Connectivity  region1.v2.argotunnel.com  PASS    QUIC connection successful     |"}
+{"level":"info","time":"2026-10-07T13:07:59Z","message":"|  UDP Connectivity  region2.v2.argotunnel.com  PASS    QUIC connection successful     |"}
+{"level":"info","time":"2026-10-07T13:07:59Z","message":"|  TCP Connectivity  region1.v2.argotunnel.com  PASS    HTTP/2 connection successful   |"}
+{"level":"info","time":"2026-10-07T13:07:59Z","message":"|  TCP Connectivity  region2.v2.argotunnel.com  PASS    HTTP/2 connection successful   |"}
+{"level":"info","time":"2026-10-07T13:07:59Z","message":"|  Cloudflare API    api.cloudflare.com:443     PASS    API is reachable               |"}
+{"level":"info","time":"2026-10-07T13:07:59Z","message":"|                                                                                      |"}
+{"level":"info","time":"2026-10-07T13:07:59Z","message":"|  SUMMARY: Environment is healthy. cloudflared will use 'http2' as primary protocol.  |"}
+{"level":"info","time":"2026-10-07T13:07:59Z","message":"+--------------------------------------------------------------------------------------+"}
+{"level":"info","run_id":"999f8a5e-c91a-43f3-ba70-ca11f71cc641","component":"DNS Resolution","target":"region1.v2.argotunnel.com","status":"pass","details":"DNS Resolved successfully","time":"2026-10-07T13:07:59Z","message":"precheck"}
+{"level":"info","run_id":"999f8a5e-c91a-43f3-ba70-ca11f71cc641","component":"DNS Resolution","target":"region2.v2.argotunnel.com","status":"pass","details":"DNS Resolved successfully","time":"2026-10-07T13:08:00Z","message":"precheck"}
+{"level":"info","run_id":"999f8a5e-c91a-43f3-ba70-ca11f71cc641","component":"UDP Connectivity","target":"region1.v2.argotunnel.com","status":"pass","details":"QUIC connection successful","time":"2026-10-07T13:08:00Z","message":"precheck"}
+{"level":"info","run_id":"999f8a5e-c91a-43f3-ba70-ca11f71cc641","component":"UDP Connectivity","target":"region2.v2.argotunnel.com","status":"pass","details":"QUIC connection successful","time":"2026-10-07T13:08:00Z","message":"precheck"}
+{"level":"info","run_id":"999f8a5e-c91a-43f3-ba70-ca11f71cc641","component":"TCP Connectivity","target":"region1.v2.argotunnel.com","status":"pass","details":"HTTP/2 connection successful","time":"2026-10-07T13:08:00Z","message":"precheck"}
+{"level":"info","run_id":"999f8a5e-c91a-43f3-ba70-ca11f71cc641","component":"TCP Connectivity","target":"region2.v2.argotunnel.com","status":"pass","details":"HTTP/2 connection successful","time":"2026-10-07T13:08:00Z","message":"precheck"}
+{"level":"info","run_id":"999f8a5e-c91a-43f3-ba70-ca11f71cc641","component":"Cloudflare API","target":"api.cloudflare.com:443","status":"pass","details":"API is reachable","time":"2026-10-07T13:08:00Z","message":"precheck"}
+{"level":"info","run_id":"999f8a5e-c91a-43f3-ba70-ca11f71cc641","hard_fail":false,"suggested_protocol":"http2","time":"2026-10-07T13:08:00Z","message":"precheck complete"}
+{"level":"info","event":0,"connection":"29fde3d8-b0f5-40e2-8272-8b426ace39f4","connIndex":0,"location":"cgk01","ip":"198.41.192.67","protocol":"http2","time":"2026-10-07T13:08:00Z","message":"Registered tunnel connection"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T13:08:04Z","message":"Failed to initialize DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T13:13:09Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T13:18:14Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T13:23:19Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T13:28:24Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T13:33:29Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T13:38:34Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T13:43:39Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T13:48:44Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T13:53:49Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T13:58:54Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T14:03:59Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T14:09:04Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T14:14:09Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T14:19:14Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T14:24:19Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T14:29:24Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"Error shutting down control stream: context canceled","time":"2026-10-07T14:31:30Z","message":"failed to serve incoming request"}
+{"level":"info","event":0,"ip":"198.41.192.67","connIndex":0,"time":"2026-10-07T14:31:30Z","message":"Retrying connection in up to 2s"}
+{"level":"error","error":"Error shutting down control stream: context canceled","connIndex":0,"time":"2026-10-07T14:31:30Z","message":"Connection terminated"}
+{"level":"info","event":0,"ip":"198.41.192.67","connIndex":0,"time":"2026-10-07T14:31:42Z","message":"Tunnel connection curve preferences: [X25519MLKEM768 CurveID(65074) CurveP256]"}
+{"level":"error","event":0,"ip":"198.41.192.67","connIndex":0,"error":"DialContext error: dial tcp 198.41.192.67:7844: connectex: No connection could be made because the target machine actively refused it.","time":"2026-10-07T14:31:44Z","message":"Unable to establish connection with Cloudflare edge"}
+{"level":"error","event":0,"ip":"198.41.192.67","connIndex":0,"error":"DialContext error: dial tcp 198.41.192.67:7844: connectex: No connection could be made because the target machine actively refused it.","time":"2026-10-07T14:31:44Z","message":"Serve tunnel error"}
+{"level":"info","event":0,"ip":"198.41.192.67","connIndex":0,"time":"2026-10-07T14:31:44Z","message":"Retrying connection in up to 4s"}
+{"level":"error","error":"DialContext error: dial tcp 198.41.192.67:7844: connectex: No connection could be made because the target machine actively refused it.","connIndex":0,"time":"2026-10-07T14:31:45Z","message":"Connection terminated"}
+{"level":"info","event":0,"ip":"198.41.192.227","connIndex":0,"time":"2026-10-07T14:32:21Z","message":"Tunnel connection curve preferences: [X25519MLKEM768 CurveID(65074) CurveP256]"}
+{"level":"error","event":0,"ip":"198.41.192.227","connIndex":0,"error":"DialContext error: dial tcp 198.41.192.227:7844: connectex: No connection could be made because the target machine actively refused it.","time":"2026-10-07T14:32:23Z","message":"Unable to establish connection with Cloudflare edge"}
+{"level":"error","event":0,"ip":"198.41.192.227","connIndex":0,"error":"DialContext error: dial tcp 198.41.192.227:7844: connectex: No connection could be made because the target machine actively refused it.","time":"2026-10-07T14:32:23Z","message":"Serve tunnel error"}
+{"level":"info","event":0,"ip":"198.41.192.227","connIndex":0,"time":"2026-10-07T14:32:23Z","message":"Retrying connection in up to 8s"}
+{"level":"error","error":"DialContext error: dial tcp 198.41.192.227:7844: connectex: No connection could be made because the target machine actively refused it.","connIndex":0,"time":"2026-10-07T14:32:28Z","message":"Connection terminated"}
+{"level":"info","event":0,"ip":"198.41.192.107","connIndex":0,"time":"2026-10-07T14:32:31Z","message":"Tunnel connection curve preferences: [X25519MLKEM768 CurveID(65074) CurveP256]"}
+{"level":"info","event":0,"connection":"bea8dd25-e8d7-4a28-947a-4334d5c9ceb3","connIndex":0,"location":"cgk01","ip":"198.41.192.107","protocol":"http2","time":"2026-10-07T14:32:33Z","message":"Registered tunnel connection"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T14:34:29Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T14:39:34Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T14:44:39Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T14:49:44Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T14:54:49Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T14:59:54Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T15:04:59Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T15:10:04Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T15:15:09Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T15:20:14Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T15:25:19Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T15:30:24Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T15:35:29Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T15:40:34Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T15:45:39Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T15:50:45Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T15:55:50Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T16:00:55Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T16:06:00Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T16:11:05Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T16:16:10Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T16:21:15Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T16:26:20Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T16:31:25Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T16:36:30Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T16:41:35Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T16:46:40Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T16:51:45Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T16:56:50Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T17:01:55Z","message":"Failed to refresh DNS local resolver"}
+{"level":"error","error":"lookup region1.v2.argotunnel.com: i/o timeout","time":"2026-10-07T17:07:00Z","message":"Failed to refresh DNS local resolver"}
+{"level":"info","time":"2026-10-07T17:11:44Z","message":"Initiating graceful shutdown due to signal terminated ..."}
+{"level":"info","event":0,"connIndex":0,"ip":"198.41.192.107","time":"2026-10-07T17:11:45Z","message":"Unregistered tunnel connection"}
+{"level":"error","connIndex":0,"time":"2026-10-07T17:11:45Z","message":"Connection terminated"}
+{"level":"error","time":"2026-10-07T17:11:45Z","message":"no more connections active and exiting"}
+{"level":"info","time":"2026-10-07T17:11:45Z","message":"Tunnel server stopped"}
+{"level":"info","time":"2026-10-07T17:11:45Z","message":"Metrics server stopped"}

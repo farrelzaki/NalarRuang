@@ -1,0 +1,4195 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-09T05:15:50Z",
+    "timestamp_areas_base": "2026-10-08T05:09:19Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "way",
+  "id": 277208627,
+  "bounds": {
+    "minlat": -6.1769411,
+    "minlon": 106.6304498,
+    "maxlat": -6.1768034,
+    "maxlon": 106.6336457
+  },
+  "geometry": [
+    { "lat": -6.1769411, "lon": 106.6336457 },
+    { "lat": -6.1768139, "lon": 106.6307174 },
+    { "lat": -6.1768034, "lon": 106.6304498 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "75",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "railway:track_ref": "1",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 458241232,
+  "bounds": {
+    "minlat": -6.1716669,
+    "minlon": 106.6687845,
+    "maxlat": -6.1631400,
+    "maxlon": 106.7206729
+  },
+  "geometry": [
+    { "lat": -6.1716669, "lon": 106.6687845 },
+    { "lat": -6.1712822, "lon": 106.6712144 },
+    { "lat": -6.1703711, "lon": 106.6768719 },
+    { "lat": -6.1699194, "lon": 106.6796612 },
+    { "lat": -6.1699125, "lon": 106.6797197 },
+    { "lat": -6.1694796, "lon": 106.6823959 },
+    { "lat": -6.1689480, "lon": 106.6856662 },
+    { "lat": -6.1677661, "lon": 106.6928773 },
+    { "lat": -6.1672780, "lon": 106.6958825 },
+    { "lat": -6.1667374, "lon": 106.6991772 },
+    { "lat": -6.1658779, "lon": 106.7043347 },
+    { "lat": -6.1658175, "lon": 106.7047005 },
+    { "lat": -6.1647765, "lon": 106.7109541 },
+    { "lat": -6.1642216, "lon": 106.7143148 },
+    { "lat": -6.1632448, "lon": 106.7200055 },
+    { "lat": -6.1631400, "lon": 106.7206729 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 464131144,
+  "bounds": {
+    "minlat": -6.1486299,
+    "minlon": 106.6350570,
+    "maxlat": -6.1426589,
+    "maxlon": 106.6526902
+  },
+  "geometry": [
+    { "lat": -6.1481195, "lon": 106.6350570 },
+    { "lat": -6.1482600, "lon": 106.6353022 },
+    { "lat": -6.1483383, "lon": 106.6354621 },
+    { "lat": -6.1483870, "lon": 106.6355840 },
+    { "lat": -6.1484398, "lon": 106.6357343 },
+    { "lat": -6.1484932, "lon": 106.6359104 },
+    { "lat": -6.1485833, "lon": 106.6362867 },
+    { "lat": -6.1486299, "lon": 106.6366783 },
+    { "lat": -6.1486289, "lon": 106.6370558 },
+    { "lat": -6.1486058, "lon": 106.6374855 },
+    { "lat": -6.1485343, "lon": 106.6378819 },
+    { "lat": -6.1484476, "lon": 106.6381978 },
+    { "lat": -6.1482969, "lon": 106.6385801 },
+    { "lat": -6.1481745, "lon": 106.6388412 },
+    { "lat": -6.1480083, "lon": 106.6391339 },
+    { "lat": -6.1466984, "lon": 106.6409419 },
+    { "lat": -6.1464816, "lon": 106.6412648 },
+    { "lat": -6.1462423, "lon": 106.6416767 },
+    { "lat": -6.1460580, "lon": 106.6421038 },
+    { "lat": -6.1430611, "lon": 106.6494935 },
+    { "lat": -6.1428650, "lon": 106.6500415 },
+    { "lat": -6.1427592, "lon": 106.6504446 },
+    { "lat": -6.1427015, "lon": 106.6508168 },
+    { "lat": -6.1426624, "lon": 106.6511702 },
+    { "lat": -6.1426589, "lon": 106.6515096 },
+    { "lat": -6.1426612, "lon": 106.6519584 },
+    { "lat": -6.1427176, "lon": 106.6523587 },
+    { "lat": -6.1427809, "lon": 106.6526902 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 464131145,
+  "bounds": {
+    "minlat": -6.1485889,
+    "minlon": 106.6350967,
+    "maxlat": -6.1426205,
+    "maxlon": 106.6526985
+  },
+  "geometry": [
+    { "lat": -6.1427350, "lon": 106.6526985 },
+    { "lat": -6.1426698, "lon": 106.6523669 },
+    { "lat": -6.1426205, "lon": 106.6519455 },
+    { "lat": -6.1426209, "lon": 106.6511751 },
+    { "lat": -6.1426591, "lon": 106.6508181 },
+    { "lat": -6.1427210, "lon": 106.6504480 },
+    { "lat": -6.1428205, "lon": 106.6500396 },
+    { "lat": -6.1430156, "lon": 106.6494816 },
+    { "lat": -6.1460142, "lon": 106.6420874 },
+    { "lat": -6.1462062, "lon": 106.6416553 },
+    { "lat": -6.1464460, "lon": 106.6412394 },
+    { "lat": -6.1466580, "lon": 106.6409121 },
+    { "lat": -6.1479535, "lon": 106.6391215 },
+    { "lat": -6.1481302, "lon": 106.6388239 },
+    { "lat": -6.1482552, "lon": 106.6385617 },
+    { "lat": -6.1484092, "lon": 106.6381854 },
+    { "lat": -6.1484984, "lon": 106.6378678 },
+    { "lat": -6.1485602, "lon": 106.6374762 },
+    { "lat": -6.1485883, "lon": 106.6370435 },
+    { "lat": -6.1485889, "lon": 106.6366986 },
+    { "lat": -6.1485289, "lon": 106.6362857 },
+    { "lat": -6.1484418, "lon": 106.6359187 },
+    { "lat": -6.1483915, "lon": 106.6357617 },
+    { "lat": -6.1483378, "lon": 106.6356055 },
+    { "lat": -6.1482738, "lon": 106.6354547 },
+    { "lat": -6.1481963, "lon": 106.6353053 },
+    { "lat": -6.1480753, "lon": 106.6350967 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 475871015,
+  "bounds": {
+    "minlat": -6.1296138,
+    "minlon": 106.6466960,
+    "maxlat": -6.1294565,
+    "maxlon": 106.6470872
+  },
+  "geometry": [
+    { "lat": -6.1296138, "lon": 106.6466960 },
+    { "lat": -6.1294565, "lon": 106.6470872 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "alternating",
+    "railway": "rail",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 475871017,
+  "bounds": {
+    "minlat": -6.1295658,
+    "minlon": 106.6466802,
+    "maxlat": -6.1294074,
+    "maxlon": 106.6470687
+  },
+  "geometry": [
+    { "lat": -6.1294074, "lon": 106.6470687 },
+    { "lat": -6.1295658, "lon": 106.6466802 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 475871019,
+  "bounds": {
+    "minlat": -6.1294565,
+    "minlon": 106.6470872,
+    "maxlat": -6.1292617,
+    "maxlon": 106.6475670
+  },
+  "geometry": [
+    { "lat": -6.1294565, "lon": 106.6470872 },
+    { "lat": -6.1292617, "lon": 106.6475670 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "-1",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "alternating",
+    "railway": "rail",
+    "tunnel": "yes",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 475871020,
+  "bounds": {
+    "minlat": -6.1294074,
+    "minlon": 106.6470687,
+    "maxlat": -6.1292143,
+    "maxlon": 106.6475471
+  },
+  "geometry": [
+    { "lat": -6.1292143, "lon": 106.6475471 },
+    { "lat": -6.1294074, "lon": 106.6470687 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "-1",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "tunnel": "yes",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 475871021,
+  "bounds": {
+    "minlat": -6.1297938,
+    "minlon": 106.6462486,
+    "maxlat": -6.1296138,
+    "maxlon": 106.6466960
+  },
+  "geometry": [
+    { "lat": -6.1297938, "lon": 106.6462486 },
+    { "lat": -6.1296138, "lon": 106.6466960 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "-1",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "alternating",
+    "railway": "rail",
+    "tunnel": "yes",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 475871022,
+  "bounds": {
+    "minlat": -6.1284707,
+    "minlon": 106.6495511,
+    "maxlat": -6.1275720,
+    "maxlon": 106.6518239
+  },
+  "geometry": [
+    { "lat": -6.1275720, "lon": 106.6518239 },
+    { "lat": -6.1278814, "lon": 106.6510436 },
+    { "lat": -6.1284707, "lon": 106.6495511 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "alternating",
+    "railway": "rail",
+    "railway:track_ref": "2",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 475871023,
+  "bounds": {
+    "minlat": -6.1297500,
+    "minlon": 106.6462286,
+    "maxlat": -6.1295658,
+    "maxlon": 106.6466802
+  },
+  "geometry": [
+    { "lat": -6.1295658, "lon": 106.6466802 },
+    { "lat": -6.1297500, "lon": 106.6462286 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "-1",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "tunnel": "yes",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 475871024,
+  "bounds": {
+    "minlat": -6.1288561,
+    "minlon": 106.6484676,
+    "maxlat": -6.1284417,
+    "maxlon": 106.6495381
+  },
+  "geometry": [
+    { "lat": -6.1288561, "lon": 106.6484676 },
+    { "lat": -6.1284417, "lon": 106.6495381 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "alternating",
+    "railway": "rail",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 576120458,
+  "bounds": {
+    "minlat": -6.1244963,
+    "minlon": 106.6533928,
+    "maxlat": -6.1206777,
+    "maxlon": 106.6635671
+  },
+  "geometry": [
+    { "lat": -6.1206777, "lon": 106.6635671 },
+    { "lat": -6.1213365, "lon": 106.6622893 },
+    { "lat": -6.1219767, "lon": 106.6610410 },
+    { "lat": -6.1220776, "lon": 106.6608565 },
+    { "lat": -6.1222115, "lon": 106.6606306 },
+    { "lat": -6.1223388, "lon": 106.6604327 },
+    { "lat": -6.1228347, "lon": 106.6596915 },
+    { "lat": -6.1229795, "lon": 106.6594684 },
+    { "lat": -6.1230894, "lon": 106.6592869 },
+    { "lat": -6.1232158, "lon": 106.6590594 },
+    { "lat": -6.1233138, "lon": 106.6588702 },
+    { "lat": -6.1234236, "lon": 106.6586335 },
+    { "lat": -6.1235387, "lon": 106.6583647 },
+    { "lat": -6.1243763, "lon": 106.6562689 },
+    { "lat": -6.1244375, "lon": 106.6561104 },
+    { "lat": -6.1244773, "lon": 106.6559744 },
+    { "lat": -6.1244963, "lon": 106.6558402 },
+    { "lat": -6.1244961, "lon": 106.6557040 },
+    { "lat": -6.1244800, "lon": 106.6555896 },
+    { "lat": -6.1244402, "lon": 106.6554506 },
+    { "lat": -6.1243895, "lon": 106.6553459 },
+    { "lat": -6.1243288, "lon": 106.6552483 },
+    { "lat": -6.1242392, "lon": 106.6551460 },
+    { "lat": -6.1241523, "lon": 106.6550661 },
+    { "lat": -6.1240345, "lon": 106.6549840 },
+    { "lat": -6.1238975, "lon": 106.6549175 },
+    { "lat": -6.1234567, "lon": 106.6547352 },
+    { "lat": -6.1233406, "lon": 106.6546706 },
+    { "lat": -6.1232324, "lon": 106.6545918 },
+    { "lat": -6.1231364, "lon": 106.6544947 },
+    { "lat": -6.1230411, "lon": 106.6543666 },
+    { "lat": -6.1229801, "lon": 106.6542393 },
+    { "lat": -6.1229395, "lon": 106.6541050 },
+    { "lat": -6.1229189, "lon": 106.6539713 },
+    { "lat": -6.1229192, "lon": 106.6538096 },
+    { "lat": -6.1229322, "lon": 106.6537132 },
+    { "lat": -6.1229610, "lon": 106.6535998 },
+    { "lat": -6.1230431, "lon": 106.6533928 }
+  ],
+  "tags": {
+    "alt_name": "Kereta Layang Bandar Udara",
+    "bridge": "yes",
+    "electrified": "rail",
+    "gauge": "1067",
+    "layer": "2",
+    "name": "Kalayang Bandar Udara",
+    "name:en": "Airport Skytrain",
+    "railway": "light_rail",
+    "wikidata": "Q55075145",
+    "wikipedia": "id:Kalayang Bandara Soekarno–Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 579096983,
+  "bounds": {
+    "minlat": -6.1244487,
+    "minlon": 106.6533403,
+    "maxlat": -6.1208677,
+    "maxlon": 106.6628698
+  },
+  "geometry": [
+    { "lat": -6.1229130, "lon": 106.6533403 },
+    { "lat": -6.1228842, "lon": 106.6534138 },
+    { "lat": -6.1228381, "lon": 106.6535573 },
+    { "lat": -6.1228051, "lon": 106.6536883 },
+    { "lat": -6.1227938, "lon": 106.6538063 },
+    { "lat": -6.1227988, "lon": 106.6539546 },
+    { "lat": -6.1228263, "lon": 106.6540921 },
+    { "lat": -6.1228720, "lon": 106.6542139 },
+    { "lat": -6.1229240, "lon": 106.6543260 },
+    { "lat": -6.1229916, "lon": 106.6544312 },
+    { "lat": -6.1230783, "lon": 106.6545319 },
+    { "lat": -6.1231892, "lon": 106.6546295 },
+    { "lat": -6.1233055, "lon": 106.6547070 },
+    { "lat": -6.1234404, "lon": 106.6547788 },
+    { "lat": -6.1238689, "lon": 106.6549542 },
+    { "lat": -6.1239807, "lon": 106.6550102 },
+    { "lat": -6.1240960, "lon": 106.6550897 },
+    { "lat": -6.1241882, "lon": 106.6551727 },
+    { "lat": -6.1242572, "lon": 106.6552529 },
+    { "lat": -6.1243436, "lon": 106.6553809 },
+    { "lat": -6.1243887, "lon": 106.6554944 },
+    { "lat": -6.1244239, "lon": 106.6556035 },
+    { "lat": -6.1244405, "lon": 106.6557130 },
+    { "lat": -6.1244487, "lon": 106.6558348 },
+    { "lat": -6.1244302, "lon": 106.6559650 },
+    { "lat": -6.1243954, "lon": 106.6560929 },
+    { "lat": -6.1243398, "lon": 106.6562497 },
+    { "lat": -6.1234998, "lon": 106.6583476 },
+    { "lat": -6.1233838, "lon": 106.6586185 },
+    { "lat": -6.1232744, "lon": 106.6588501 },
+    { "lat": -6.1230552, "lon": 106.6592667 },
+    { "lat": -6.1229476, "lon": 106.6594426 },
+    { "lat": -6.1228028, "lon": 106.6596659 },
+    { "lat": -6.1216842, "lon": 106.6613406 },
+    { "lat": -6.1215250, "lon": 106.6616073 },
+    { "lat": -6.1213869, "lon": 106.6618603 },
+    { "lat": -6.1208677, "lon": 106.6628698 }
+  ],
+  "tags": {
+    "alt_name": "Kereta Layang Bandar Udara",
+    "bridge": "yes",
+    "electrified": "rail",
+    "gauge": "1067",
+    "layer": "2",
+    "name": "Kalayang Bandar Udara",
+    "name:en": "Airport Skytrain",
+    "railway": "light_rail",
+    "wikidata": "Q55075145",
+    "wikipedia": "id:Kalayang Bandara Soekarno–Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 619146833,
+  "bounds": {
+    "minlat": -6.1717163,
+    "minlon": 106.6682708,
+    "maxlat": -6.1716669,
+    "maxlon": 106.6687845
+  },
+  "geometry": [
+    { "lat": -6.1717163, "lon": 106.6682708 },
+    { "lat": -6.1716669, "lon": 106.6687845 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "gauge": "1067",
+    "maxspeed": "30",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "railway": "rail",
+    "service": "crossover",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 619146846,
+  "bounds": {
+    "minlat": -6.1715533,
+    "minlon": 106.6692582,
+    "maxlat": -6.1632753,
+    "maxlon": 106.7195497
+  },
+  "geometry": [
+    { "lat": -6.1632753, "lon": 106.7195497 },
+    { "lat": -6.1641779, "lon": 106.7143277 },
+    { "lat": -6.1647356, "lon": 106.7109648 },
+    { "lat": -6.1657900, "lon": 106.7047022 },
+    { "lat": -6.1661506, "lon": 106.7025108 },
+    { "lat": -6.1666997, "lon": 106.6991739 },
+    { "lat": -6.1672437, "lon": 106.6958691 },
+    { "lat": -6.1677197, "lon": 106.6929167 },
+    { "lat": -6.1689130, "lon": 106.6856830 },
+    { "lat": -6.1697901, "lon": 106.6802736 },
+    { "lat": -6.1698720, "lon": 106.6797314 },
+    { "lat": -6.1698836, "lon": 106.6796704 },
+    { "lat": -6.1703299, "lon": 106.6768728 },
+    { "lat": -6.1712423, "lon": 106.6712119 },
+    { "lat": -6.1715533, "lon": 106.6692582 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 628115620,
+  "bounds": {
+    "minlat": -6.1284707,
+    "minlon": 106.6495511,
+    "maxlat": -6.1276409,
+    "maxlon": 106.6518518
+  },
+  "geometry": [
+    { "lat": -6.1276409, "lon": 106.6518518 },
+    { "lat": -6.1279488, "lon": 106.6510696 },
+    { "lat": -6.1282742, "lon": 106.6502428 },
+    { "lat": -6.1283008, "lon": 106.6501682 },
+    { "lat": -6.1283242, "lon": 106.6500864 },
+    { "lat": -6.1283805, "lon": 106.6498532 },
+    { "lat": -6.1284149, "lon": 106.6497215 },
+    { "lat": -6.1284707, "lon": 106.6495511 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "30",
+    "oneway": "alternating",
+    "railway": "rail",
+    "railway:track_ref": "1",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 628115622,
+  "bounds": {
+    "minlat": -6.1284417,
+    "minlon": 106.6495381,
+    "maxlat": -6.1274776,
+    "maxlon": 106.6517865
+  },
+  "geometry": [
+    { "lat": -6.1284417, "lon": 106.6495381 },
+    { "lat": -6.1283722, "lon": 106.6496838 },
+    { "lat": -6.1283016, "lon": 106.6498206 },
+    { "lat": -6.1281721, "lon": 106.6500474 },
+    { "lat": -6.1281389, "lon": 106.6501121 },
+    { "lat": -6.1281104, "lon": 106.6501788 },
+    { "lat": -6.1277839, "lon": 106.6510059 },
+    { "lat": -6.1274776, "lon": 106.6517865 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "30",
+    "oneway": "alternating",
+    "railway": "rail",
+    "railway:track_ref": "4",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 730041390,
+  "bounds": {
+    "minlat": -6.1293592,
+    "minlon": 106.6504127,
+    "maxlat": -6.1290265,
+    "maxlon": 106.6512597
+  },
+  "geometry": [
+    { "lat": -6.1293592, "lon": 106.6504127 },
+    { "lat": -6.1290265, "lon": 106.6512597 }
+  ],
+  "tags": {
+    "covered": "yes",
+    "electrified": "rail",
+    "railway": "light_rail",
+    "service": "yard"
+  }
+},
+{
+  "type": "way",
+  "id": 730041391,
+  "bounds": {
+    "minlat": -6.1287175,
+    "minlon": 106.6521461,
+    "maxlat": -6.1283802,
+    "maxlon": 106.6529611
+  },
+  "geometry": [
+    { "lat": -6.1283802, "lon": 106.6529611 },
+    { "lat": -6.1286409, "lon": 106.6523008 },
+    { "lat": -6.1286734, "lon": 106.6522265 },
+    { "lat": -6.1287175, "lon": 106.6521461 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "rail",
+    "layer": "2",
+    "railway": "light_rail",
+    "service": "yard"
+  }
+},
+{
+  "type": "way",
+  "id": 730041392,
+  "bounds": {
+    "minlat": -6.1291068,
+    "minlon": 106.6512928,
+    "maxlat": -6.1284341,
+    "maxlon": 106.6529825
+  },
+  "geometry": [
+    { "lat": -6.1291068, "lon": 106.6512928 },
+    { "lat": -6.1289283, "lon": 106.6517384 },
+    { "lat": -6.1288402, "lon": 106.6519539 },
+    { "lat": -6.1287470, "lon": 106.6521834 },
+    { "lat": -6.1284341, "lon": 106.6529825 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "rail",
+    "layer": "2",
+    "railway": "light_rail",
+    "service": "yard"
+  }
+},
+{
+  "type": "way",
+  "id": 730041393,
+  "bounds": {
+    "minlat": -6.1289283,
+    "minlon": 106.6517384,
+    "maxlat": -6.1285266,
+    "maxlon": 106.6523271
+  },
+  "geometry": [
+    { "lat": -6.1285266, "lon": 106.6523271 },
+    { "lat": -6.1285705, "lon": 106.6522392 },
+    { "lat": -6.1286102, "lon": 106.6521774 },
+    { "lat": -6.1288437, "lon": 106.6518752 },
+    { "lat": -6.1288816, "lon": 106.6518194 },
+    { "lat": -6.1289283, "lon": 106.6517384 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "rail",
+    "layer": "2",
+    "railway": "light_rail",
+    "service": "yard"
+  }
+},
+{
+  "type": "way",
+  "id": 730041394,
+  "bounds": {
+    "minlat": -6.1287165,
+    "minlon": 106.6516804,
+    "maxlat": -6.1286249,
+    "maxlon": 106.6520795
+  },
+  "geometry": [
+    { "lat": -6.1287165, "lon": 106.6516804 },
+    { "lat": -6.1286912, "lon": 106.6517670 },
+    { "lat": -6.1286780, "lon": 106.6518344 },
+    { "lat": -6.1286683, "lon": 106.6519021 },
+    { "lat": -6.1286550, "lon": 106.6519726 },
+    { "lat": -6.1286249, "lon": 106.6520795 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "rail",
+    "layer": "2",
+    "railway": "light_rail",
+    "service": "yard"
+  }
+},
+{
+  "type": "way",
+  "id": 730041395,
+  "bounds": {
+    "minlat": -6.1287470,
+    "minlon": 106.6521834,
+    "maxlat": -6.1287060,
+    "maxlon": 106.6525314
+  },
+  "geometry": [
+    { "lat": -6.1287470, "lon": 106.6521834 },
+    { "lat": -6.1287307, "lon": 106.6522381 },
+    { "lat": -6.1287244, "lon": 106.6522804 },
+    { "lat": -6.1287236, "lon": 106.6523165 },
+    { "lat": -6.1287285, "lon": 106.6523847 },
+    { "lat": -6.1287275, "lon": 106.6524267 },
+    { "lat": -6.1287223, "lon": 106.6524736 },
+    { "lat": -6.1287060, "lon": 106.6525314 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "rail",
+    "layer": "2",
+    "railway": "light_rail",
+    "service": "yard"
+  }
+},
+{
+  "type": "way",
+  "id": 730041396,
+  "bounds": {
+    "minlat": -6.1290631,
+    "minlon": 106.6508038,
+    "maxlat": -6.1283174,
+    "maxlon": 106.6526856
+  },
+  "geometry": [
+    { "lat": -6.1283174, "lon": 106.6526856 },
+    { "lat": -6.1286029, "lon": 106.6519569 },
+    { "lat": -6.1287165, "lon": 106.6516804 },
+    { "lat": -6.1290631, "lon": 106.6508038 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "rail",
+    "layer": "2",
+    "railway": "light_rail",
+    "service": "yard"
+  }
+},
+{
+  "type": "way",
+  "id": 730041397,
+  "bounds": {
+    "minlat": -6.1291833,
+    "minlon": 106.6513242,
+    "maxlat": -6.1285134,
+    "maxlon": 106.6530166
+  },
+  "geometry": [
+    { "lat": -6.1291833, "lon": 106.6513242 },
+    { "lat": -6.1287060, "lon": 106.6525314 },
+    { "lat": -6.1285134, "lon": 106.6530166 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "rail",
+    "layer": "2",
+    "railway": "light_rail",
+    "service": "yard"
+  }
+},
+{
+  "type": "way",
+  "id": 730041398,
+  "bounds": {
+    "minlat": -6.1288402,
+    "minlon": 106.6519539,
+    "maxlat": -6.1284533,
+    "maxlon": 106.6526634
+  },
+  "geometry": [
+    { "lat": -6.1284533, "lon": 106.6526634 },
+    { "lat": -6.1285648, "lon": 106.6523928 },
+    { "lat": -6.1285969, "lon": 106.6523182 },
+    { "lat": -6.1286279, "lon": 106.6522685 },
+    { "lat": -6.1287175, "lon": 106.6521461 },
+    { "lat": -6.1287561, "lon": 106.6520922 },
+    { "lat": -6.1287989, "lon": 106.6520317 },
+    { "lat": -6.1288402, "lon": 106.6519539 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "rail",
+    "layer": "2",
+    "railway": "light_rail",
+    "service": "yard"
+  }
+},
+{
+  "type": "way",
+  "id": 730041399,
+  "bounds": {
+    "minlat": -6.1293323,
+    "minlon": 106.6535458,
+    "maxlat": -6.1288792,
+    "maxlon": 106.6538059
+  },
+  "geometry": [
+    { "lat": -6.1293323, "lon": 106.6538059 },
+    { "lat": -6.1292506, "lon": 106.6537626 },
+    { "lat": -6.1291938, "lon": 106.6537320 },
+    { "lat": -6.1290639, "lon": 106.6536460 },
+    { "lat": -6.1289886, "lon": 106.6535994 },
+    { "lat": -6.1288792, "lon": 106.6535458 }
+  ],
+  "tags": {
+    "alt_name": "Kereta Layang Bandar Udara",
+    "bridge": "yes",
+    "electrified": "rail",
+    "gauge": "1067",
+    "layer": "2",
+    "name": "Kalayang Bandar Udara",
+    "name:en": "Airport Skytrain",
+    "railway": "light_rail",
+    "service": "crossover",
+    "wikidata": "Q55075145",
+    "wikipedia": "id:Kalayang Bandara Soekarno–Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 730041400,
+  "bounds": {
+    "minlat": -6.1299566,
+    "minlon": 106.6538315,
+    "maxlat": -6.1294004,
+    "maxlon": 106.6539712
+  },
+  "geometry": [
+    { "lat": -6.1299566, "lon": 106.6539712 },
+    { "lat": -6.1298308, "lon": 106.6539314 },
+    { "lat": -6.1297325, "lon": 106.6539087 },
+    { "lat": -6.1295870, "lon": 106.6538805 },
+    { "lat": -6.1294904, "lon": 106.6538570 },
+    { "lat": -6.1294004, "lon": 106.6538315 }
+  ],
+  "tags": {
+    "alt_name": "Kereta Layang Bandar Udara",
+    "bridge": "yes",
+    "electrified": "rail",
+    "gauge": "1067",
+    "layer": "2",
+    "name": "Kalayang Bandar Udara",
+    "name:en": "Airport Skytrain",
+    "railway": "light_rail",
+    "service": "crossover",
+    "wikidata": "Q55075145",
+    "wikipedia": "id:Kalayang Bandara Soekarno–Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 730041401,
+  "bounds": {
+    "minlat": -6.1727781,
+    "minlon": 106.6600471,
+    "maxlat": -6.1725903,
+    "maxlon": 106.6627581
+  },
+  "geometry": [
+    { "lat": -6.1725903, "lon": 106.6627581 },
+    { "lat": -6.1727250, "lon": 106.6605976 },
+    { "lat": -6.1727781, "lon": 106.6600471 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "30",
+    "name": "Jalur KA Bandara Soekarno-Hatta",
+    "railway": "rail",
+    "service": "crossover",
+    "source": "digitalglobe",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 730041402,
+  "bounds": {
+    "minlat": -6.1288440,
+    "minlon": 106.6515357,
+    "maxlat": -6.1283200,
+    "maxlon": 106.6535196
+  },
+  "geometry": [
+    { "lat": -6.1288168, "lon": 106.6535196 },
+    { "lat": -6.1287223, "lon": 106.6534690 },
+    { "lat": -6.1286700, "lon": 106.6534334 },
+    { "lat": -6.1285121, "lon": 106.6533151 },
+    { "lat": -6.1284510, "lon": 106.6532632 },
+    { "lat": -6.1283973, "lon": 106.6531982 },
+    { "lat": -6.1283556, "lon": 106.6531237 },
+    { "lat": -6.1283311, "lon": 106.6530513 },
+    { "lat": -6.1283200, "lon": 106.6529698 },
+    { "lat": -6.1283219, "lon": 106.6528878 },
+    { "lat": -6.1283390, "lon": 106.6528106 },
+    { "lat": -6.1283673, "lon": 106.6527326 },
+    { "lat": -6.1285266, "lon": 106.6523271 },
+    { "lat": -6.1286249, "lon": 106.6520795 },
+    { "lat": -6.1287102, "lon": 106.6518670 },
+    { "lat": -6.1288440, "lon": 106.6515357 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "rail",
+    "layer": "2",
+    "railway": "light_rail",
+    "service": "yard"
+  }
+},
+{
+  "type": "way",
+  "id": 730044566,
+  "bounds": {
+    "minlat": -6.1488834,
+    "minlon": 106.6601196,
+    "maxlat": -6.1483317,
+    "maxlon": 106.6602142
+  },
+  "geometry": [
+    { "lat": -6.1488834, "lon": 106.6602142 },
+    { "lat": -6.1483317, "lon": 106.6601196 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 730044567,
+  "bounds": {
+    "minlat": -6.1488992,
+    "minlon": 106.6600705,
+    "maxlat": -6.1483349,
+    "maxlon": 106.6601683
+  },
+  "geometry": [
+    { "lat": -6.1483349, "lon": 106.6600705 },
+    { "lat": -6.1488992, "lon": 106.6601683 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 730044568,
+  "bounds": {
+    "minlat": -6.1546030,
+    "minlon": 106.6601251,
+    "maxlat": -6.1488834,
+    "maxlon": 106.6602782
+  },
+  "geometry": [
+    { "lat": -6.1546030, "lon": 106.6602782 },
+    { "lat": -6.1539372, "lon": 106.6602159 },
+    { "lat": -6.1530132, "lon": 106.6601399 },
+    { "lat": -6.1525470, "lon": 106.6601251 },
+    { "lat": -6.1517455, "lon": 106.6601541 },
+    { "lat": -6.1500970, "lon": 106.6602497 },
+    { "lat": -6.1495371, "lon": 106.6602630 },
+    { "lat": -6.1492326, "lon": 106.6602475 },
+    { "lat": -6.1488834, "lon": 106.6602142 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "embankment": "yes",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 730044569,
+  "bounds": {
+    "minlat": -6.1545895,
+    "minlon": 106.6600636,
+    "maxlat": -6.1488992,
+    "maxlon": 106.6602314
+  },
+  "geometry": [
+    { "lat": -6.1488992, "lon": 106.6601683 },
+    { "lat": -6.1492596, "lon": 106.6601910 },
+    { "lat": -6.1495458, "lon": 106.6602096 },
+    { "lat": -6.1501030, "lon": 106.6601947 },
+    { "lat": -6.1517379, "lon": 106.6600984 },
+    { "lat": -6.1525513, "lon": 106.6600636 },
+    { "lat": -6.1530137, "lon": 106.6600850 },
+    { "lat": -6.1545895, "lon": 106.6602314 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "embankment": "yes",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 730044570,
+  "bounds": {
+    "minlat": -6.1549489,
+    "minlon": 106.6602314,
+    "maxlat": -6.1545895,
+    "maxlon": 106.6602648
+  },
+  "geometry": [
+    { "lat": -6.1545895, "lon": 106.6602314 },
+    { "lat": -6.1549489, "lon": 106.6602648 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "60",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 730044571,
+  "bounds": {
+    "minlat": -6.1549421,
+    "minlon": 106.6602782,
+    "maxlat": -6.1546030,
+    "maxlon": 106.6603099
+  },
+  "geometry": [
+    { "lat": -6.1549421, "lon": 106.6603099 },
+    { "lat": -6.1546030, "lon": 106.6602782 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "60",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 730044572,
+  "bounds": {
+    "minlat": -6.1601144,
+    "minlon": 106.6585991,
+    "maxlat": -6.1549421,
+    "maxlon": 106.6604976
+  },
+  "geometry": [
+    { "lat": -6.1601144, "lon": 106.6585991 },
+    { "lat": -6.1591540, "lon": 106.6596195 },
+    { "lat": -6.1588308, "lon": 106.6598940 },
+    { "lat": -6.1584004, "lon": 106.6601721 },
+    { "lat": -6.1581117, "lon": 106.6603194 },
+    { "lat": -6.1578761, "lon": 106.6604045 },
+    { "lat": -6.1576266, "lon": 106.6604607 },
+    { "lat": -6.1572966, "lon": 106.6604960 },
+    { "lat": -6.1569496, "lon": 106.6604976 },
+    { "lat": -6.1549421, "lon": 106.6603099 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "embankment": "yes",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "60",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 730044573,
+  "bounds": {
+    "minlat": -6.1600656,
+    "minlon": 106.6585844,
+    "maxlat": -6.1549489,
+    "maxlon": 106.6604504
+  },
+  "geometry": [
+    { "lat": -6.1549489, "lon": 106.6602648 },
+    { "lat": -6.1569459, "lon": 106.6604504 },
+    { "lat": -6.1573062, "lon": 106.6604432 },
+    { "lat": -6.1576270, "lon": 106.6604030 },
+    { "lat": -6.1578578, "lon": 106.6603615 },
+    { "lat": -6.1580876, "lon": 106.6602707 },
+    { "lat": -6.1583799, "lon": 106.6601257 },
+    { "lat": -6.1588011, "lon": 106.6598595 },
+    { "lat": -6.1591072, "lon": 106.6595990 },
+    { "lat": -6.1600656, "lon": 106.6585844 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "embankment": "yes",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "60",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 730044574,
+  "bounds": {
+    "minlat": -6.1616233,
+    "minlon": 106.6570198,
+    "maxlat": -6.1612428,
+    "maxlon": 106.6574176
+  },
+  "geometry": [
+    { "lat": -6.1616233, "lon": 106.6570198 },
+    { "lat": -6.1612428, "lon": 106.6574176 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 730044575,
+  "bounds": {
+    "minlat": -6.1616046,
+    "minlon": 106.6569799,
+    "maxlat": -6.1612068,
+    "maxlon": 106.6573914
+  },
+  "geometry": [
+    { "lat": -6.1612068, "lon": 106.6573914 },
+    { "lat": -6.1616046, "lon": 106.6569799 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 730044576,
+  "bounds": {
+    "minlat": -6.1634127,
+    "minlon": 106.6550888,
+    "maxlat": -6.1616233,
+    "maxlon": 106.6570198
+  },
+  "geometry": [
+    { "lat": -6.1634127, "lon": 106.6550888 },
+    { "lat": -6.1633010, "lon": 106.6552051 },
+    { "lat": -6.1616233, "lon": 106.6570198 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "embankment": "yes",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 730044577,
+  "bounds": {
+    "minlat": -6.1633675,
+    "minlon": 106.6550796,
+    "maxlat": -6.1616046,
+    "maxlon": 106.6569799
+  },
+  "geometry": [
+    { "lat": -6.1616046, "lon": 106.6569799 },
+    { "lat": -6.1633675, "lon": 106.6550796 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "embankment": "yes",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 730044578,
+  "bounds": {
+    "minlat": -6.1635407,
+    "minlon": 106.6549552,
+    "maxlat": -6.1634127,
+    "maxlon": 106.6550888
+  },
+  "geometry": [
+    { "lat": -6.1635407, "lon": 106.6549552 },
+    { "lat": -6.1634127, "lon": 106.6550888 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 730044579,
+  "bounds": {
+    "minlat": -6.1634936,
+    "minlon": 106.6549481,
+    "maxlat": -6.1633675,
+    "maxlon": 106.6550796
+  },
+  "geometry": [
+    { "lat": -6.1633675, "lon": 106.6550796 },
+    { "lat": -6.1634936, "lon": 106.6549481 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 730044580,
+  "bounds": {
+    "minlat": -6.1642300,
+    "minlon": 106.6542382,
+    "maxlat": -6.1635407,
+    "maxlon": 106.6549552
+  },
+  "geometry": [
+    { "lat": -6.1642300, "lon": 106.6542382 },
+    { "lat": -6.1635407, "lon": 106.6549552 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "embankment": "yes",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 730044581,
+  "bounds": {
+    "minlat": -6.1642453,
+    "minlon": 106.6541645,
+    "maxlat": -6.1634936,
+    "maxlon": 106.6549481
+  },
+  "geometry": [
+    { "lat": -6.1634936, "lon": 106.6549481 },
+    { "lat": -6.1642453, "lon": 106.6541645 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "embankment": "yes",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 730044582,
+  "bounds": {
+    "minlat": -6.1655779,
+    "minlon": 106.6527200,
+    "maxlat": -6.1642453,
+    "maxlon": 106.6541645
+  },
+  "geometry": [
+    { "lat": -6.1642453, "lon": 106.6541645 },
+    { "lat": -6.1655779, "lon": 106.6527200 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 730044583,
+  "bounds": {
+    "minlat": -6.1655795,
+    "minlon": 106.6527989,
+    "maxlat": -6.1642300,
+    "maxlon": 106.6542382
+  },
+  "geometry": [
+    { "lat": -6.1655795, "lon": 106.6527989 },
+    { "lat": -6.1642300, "lon": 106.6542382 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 730044584,
+  "bounds": {
+    "minlat": -6.1737090,
+    "minlon": 106.6490829,
+    "maxlat": -6.1655779,
+    "maxlon": 106.6527200
+  },
+  "geometry": [
+    { "lat": -6.1655779, "lon": 106.6527200 },
+    { "lat": -6.1657104, "lon": 106.6525696 },
+    { "lat": -6.1660561, "lon": 106.6521844 },
+    { "lat": -6.1663796, "lon": 106.6518107 },
+    { "lat": -6.1665050, "lon": 106.6516672 },
+    { "lat": -6.1666983, "lon": 106.6514580 },
+    { "lat": -6.1669956, "lon": 106.6511388 },
+    { "lat": -6.1673490, "lon": 106.6507754 },
+    { "lat": -6.1674663, "lon": 106.6506547 },
+    { "lat": -6.1676116, "lon": 106.6505125 },
+    { "lat": -6.1676976, "lon": 106.6504312 },
+    { "lat": -6.1678783, "lon": 106.6502617 },
+    { "lat": -6.1680383, "lon": 106.6501128 },
+    { "lat": -6.1682076, "lon": 106.6499560 },
+    { "lat": -6.1683930, "lon": 106.6498084 },
+    { "lat": -6.1686384, "lon": 106.6496314 },
+    { "lat": -6.1688463, "lon": 106.6495148 },
+    { "lat": -6.1692423, "lon": 106.6493270 },
+    { "lat": -6.1694250, "lon": 106.6492573 },
+    { "lat": -6.1696637, "lon": 106.6491862 },
+    { "lat": -6.1698623, "lon": 106.6491352 },
+    { "lat": -6.1700730, "lon": 106.6491044 },
+    { "lat": -6.1703583, "lon": 106.6490829 },
+    { "lat": -6.1707116, "lon": 106.6490842 },
+    { "lat": -6.1710810, "lon": 106.6491057 },
+    { "lat": -6.1715067, "lon": 106.6492034 },
+    { "lat": -6.1718115, "lon": 106.6492848 },
+    { "lat": -6.1720604, "lon": 106.6493903 },
+    { "lat": -6.1723518, "lon": 106.6495544 },
+    { "lat": -6.1727352, "lon": 106.6498411 },
+    { "lat": -6.1732778, "lon": 106.6503521 },
+    { "lat": -6.1733902, "lon": 106.6504907 },
+    { "lat": -6.1735520, "lon": 106.6507350 },
+    { "lat": -6.1737090, "lon": 106.6509953 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "embankment": "yes",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 730044585,
+  "bounds": {
+    "minlat": -6.1736743,
+    "minlon": 106.6491218,
+    "maxlat": -6.1655795,
+    "maxlon": 106.6527989
+  },
+  "geometry": [
+    { "lat": -6.1736743, "lon": 106.6510154 },
+    { "lat": -6.1735350, "lon": 106.6507707 },
+    { "lat": -6.1733997, "lon": 106.6505688 },
+    { "lat": -6.1732930, "lon": 106.6504287 },
+    { "lat": -6.1732347, "lon": 106.6503694 },
+    { "lat": -6.1731210, "lon": 106.6502550 },
+    { "lat": -6.1729143, "lon": 106.6500525 },
+    { "lat": -6.1727303, "lon": 106.6498755 },
+    { "lat": -6.1726717, "lon": 106.6498232 },
+    { "lat": -6.1723237, "lon": 106.6495818 },
+    { "lat": -6.1720317, "lon": 106.6494155 },
+    { "lat": -6.1718223, "lon": 106.6493323 },
+    { "lat": -6.1717557, "lon": 106.6493042 },
+    { "lat": -6.1715690, "lon": 106.6492465 },
+    { "lat": -6.1711690, "lon": 106.6491634 },
+    { "lat": -6.1710357, "lon": 106.6491459 },
+    { "lat": -6.1707197, "lon": 106.6491258 },
+    { "lat": -6.1705250, "lon": 106.6491218 },
+    { "lat": -6.1700877, "lon": 106.6491499 },
+    { "lat": -6.1698237, "lon": 106.6491942 },
+    { "lat": -6.1695410, "lon": 106.6492693 },
+    { "lat": -6.1693277, "lon": 106.6493336 },
+    { "lat": -6.1691010, "lon": 106.6494383 },
+    { "lat": -6.1687810, "lon": 106.6496167 },
+    { "lat": -6.1685704, "lon": 106.6497481 },
+    { "lat": -6.1682342, "lon": 106.6500066 },
+    { "lat": -6.1679437, "lon": 106.6502791 },
+    { "lat": -6.1677930, "lon": 106.6504294 },
+    { "lat": -6.1676037, "lon": 106.6506077 },
+    { "lat": -6.1673237, "lon": 106.6508974 },
+    { "lat": -6.1670157, "lon": 106.6512111 },
+    { "lat": -6.1666166, "lon": 106.6516337 },
+    { "lat": -6.1664329, "lon": 106.6518375 },
+    { "lat": -6.1662196, "lon": 106.6520856 },
+    { "lat": -6.1658339, "lon": 106.6525166 },
+    { "lat": -6.1655795, "lon": 106.6527989 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "embankment": "yes",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 730416118,
+  "bounds": {
+    "minlat": -6.1208533,
+    "minlon": 106.6628978,
+    "maxlat": -6.1206777,
+    "maxlon": 106.6635671
+  },
+  "geometry": [
+    { "lat": -6.1208533, "lon": 106.6628978 },
+    { "lat": -6.1208150, "lon": 106.6629968 },
+    { "lat": -6.1207910, "lon": 106.6630769 },
+    { "lat": -6.1207745, "lon": 106.6631561 },
+    { "lat": -6.1207482, "lon": 106.6633229 },
+    { "lat": -6.1207347, "lon": 106.6634007 },
+    { "lat": -6.1207152, "lon": 106.6634726 },
+    { "lat": -6.1206777, "lon": 106.6635671 }
+  ],
+  "tags": {
+    "alt_name": "Kereta Layang Bandar Udara",
+    "bridge": "yes",
+    "electrified": "rail",
+    "gauge": "1067",
+    "layer": "2",
+    "name": "Kalayang Bandar Udara",
+    "name:en": "Airport Skytrain",
+    "railway": "light_rail",
+    "service": "crossover",
+    "wikidata": "Q55075145",
+    "wikipedia": "id:Kalayang Bandara Soekarno–Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 730416119,
+  "bounds": {
+    "minlat": -6.1213365,
+    "minlon": 106.6622893,
+    "maxlat": -6.1208677,
+    "maxlon": 106.6628698
+  },
+  "geometry": [
+    { "lat": -6.1208677, "lon": 106.6628698 },
+    { "lat": -6.1209405, "lon": 106.6627595 },
+    { "lat": -6.1209849, "lon": 106.6627020 },
+    { "lat": -6.1210443, "lon": 106.6626368 },
+    { "lat": -6.1211716, "lon": 106.6625134 },
+    { "lat": -6.1212237, "lon": 106.6624586 },
+    { "lat": -6.1212728, "lon": 106.6623894 },
+    { "lat": -6.1213365, "lon": 106.6622893 }
+  ],
+  "tags": {
+    "alt_name": "Kereta Layang Bandar Udara",
+    "bridge": "yes",
+    "electrified": "rail",
+    "gauge": "1067",
+    "layer": "2",
+    "name": "Kalayang Bandar Udara",
+    "name:en": "Airport Skytrain",
+    "railway": "light_rail",
+    "service": "crossover"
+  }
+},
+{
+  "type": "way",
+  "id": 757271233,
+  "bounds": {
+    "minlat": -6.1303622,
+    "minlon": 106.6447077,
+    "maxlat": -6.1302157,
+    "maxlon": 106.6452319
+  },
+  "geometry": [
+    { "lat": -6.1302157, "lon": 106.6452319 },
+    { "lat": -6.1303622, "lon": 106.6447077 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "30",
+    "oneway": "alternating",
+    "railway": "rail",
+    "service": "crossover",
+    "source": "digitalglobe",
+    "usage": "branch"
+  }
+},
+{
+  "type": "way",
+  "id": 757271234,
+  "bounds": {
+    "minlat": -6.1291346,
+    "minlon": 106.6478894,
+    "maxlat": -6.1288561,
+    "maxlon": 106.6484676
+  },
+  "geometry": [
+    { "lat": -6.1288561, "lon": 106.6484676 },
+    { "lat": -6.1291346, "lon": 106.6478894 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "gauge": "1067",
+    "layer": "1",
+    "oneway": "alternating",
+    "railway": "rail",
+    "service": "crossover",
+    "source": "digitalglobe"
+  }
+},
+{
+  "type": "way",
+  "id": 787308986,
+  "bounds": {
+    "minlat": -6.1770864,
+    "minlon": 106.6304445,
+    "maxlat": -6.1769558,
+    "maxlon": 106.6336352
+  },
+  "geometry": [
+    { "lat": -6.1770864, "lon": 106.6336352 },
+    { "lat": -6.1770810, "lon": 106.6333464 },
+    { "lat": -6.1769742, "lon": 106.6308713 },
+    { "lat": -6.1769558, "lon": 106.6304445 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "30",
+    "railway": "rail",
+    "railway:track_ref": "4",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 868618594,
+  "bounds": {
+    "minlat": -6.1771913,
+    "minlon": 106.6306015,
+    "maxlat": -6.1770416,
+    "maxlon": 106.6345341
+  },
+  "geometry": [
+    { "lat": -6.1770844, "lon": 106.6306015 },
+    { "lat": -6.1771856, "lon": 106.6330000 },
+    { "lat": -6.1771913, "lon": 106.6334438 },
+    { "lat": -6.1771838, "lon": 106.6336553 },
+    { "lat": -6.1771470, "lon": 106.6339246 },
+    { "lat": -6.1771090, "lon": 106.6341876 },
+    { "lat": -6.1770847, "lon": 106.6343098 },
+    { "lat": -6.1770656, "lon": 106.6344054 },
+    { "lat": -6.1770416, "lon": 106.6345341 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "30",
+    "railway": "rail",
+    "railway:track_ref": "6",
+    "service": "yard",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 868618595,
+  "bounds": {
+    "minlat": -6.1771592,
+    "minlon": 106.6306044,
+    "maxlat": -6.1770523,
+    "maxlon": 106.6339246
+  },
+  "geometry": [
+    { "lat": -6.1770523, "lon": 106.6306044 },
+    { "lat": -6.1771574, "lon": 106.6330189 },
+    { "lat": -6.1771592, "lon": 106.6336847 },
+    { "lat": -6.1771470, "lon": 106.6339246 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "30",
+    "railway": "rail",
+    "railway:track_ref": "5",
+    "service": "yard",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 985083308,
+  "bounds": {
+    "minlat": -6.1601356,
+    "minlon": 106.6585127,
+    "maxlat": -6.1600656,
+    "maxlon": 106.6585844
+  },
+  "geometry": [
+    { "lat": -6.1600656, "lon": 106.6585844 },
+    { "lat": -6.1601356, "lon": 106.6585127 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "60",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 985083309,
+  "bounds": {
+    "minlat": -6.1612068,
+    "minlon": 106.6573914,
+    "maxlat": -6.1601356,
+    "maxlon": 106.6585127
+  },
+  "geometry": [
+    { "lat": -6.1601356, "lon": 106.6585127 },
+    { "lat": -6.1612068, "lon": 106.6573914 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "embankment": "yes",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 985083310,
+  "bounds": {
+    "minlat": -6.1612428,
+    "minlon": 106.6574176,
+    "maxlat": -6.1601839,
+    "maxlon": 106.6585258
+  },
+  "geometry": [
+    { "lat": -6.1612428, "lon": 106.6574176 },
+    { "lat": -6.1601839, "lon": 106.6585258 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "embankment": "yes",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 985083311,
+  "bounds": {
+    "minlat": -6.1601839,
+    "minlon": 106.6585258,
+    "maxlat": -6.1601144,
+    "maxlon": 106.6585991
+  },
+  "geometry": [
+    { "lat": -6.1601839, "lon": 106.6585258 },
+    { "lat": -6.1601144, "lon": 106.6585991 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "60",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1120338014,
+  "bounds": {
+    "minlat": -6.1289354,
+    "minlon": 106.6513095,
+    "maxlat": -6.1288440,
+    "maxlon": 106.6515357
+  },
+  "geometry": [
+    { "lat": -6.1288440, "lon": 106.6515357 },
+    { "lat": -6.1289354, "lon": 106.6513095 }
+  ],
+  "tags": {
+    "covered": "yes",
+    "electrified": "rail",
+    "railway": "light_rail",
+    "service": "yard"
+  }
+},
+{
+  "type": "way",
+  "id": 1120342693,
+  "bounds": {
+    "minlat": -6.1290265,
+    "minlon": 106.6512597,
+    "maxlat": -6.1287102,
+    "maxlon": 106.6518670
+  },
+  "geometry": [
+    { "lat": -6.1290265, "lon": 106.6512597 },
+    { "lat": -6.1289189, "lon": 106.6515366 },
+    { "lat": -6.1288920, "lon": 106.6515948 },
+    { "lat": -6.1288593, "lon": 106.6516445 },
+    { "lat": -6.1287880, "lon": 106.6517365 },
+    { "lat": -6.1287532, "lon": 106.6517870 },
+    { "lat": -6.1287102, "lon": 106.6518670 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "rail",
+    "layer": "2",
+    "railway": "light_rail",
+    "service": "yard"
+  }
+},
+{
+  "type": "way",
+  "id": 1120342694,
+  "bounds": {
+    "minlat": -6.1294362,
+    "minlon": 106.6504558,
+    "maxlat": -6.1291068,
+    "maxlon": 106.6512928
+  },
+  "geometry": [
+    { "lat": -6.1294362, "lon": 106.6504558 },
+    { "lat": -6.1291068, "lon": 106.6512928 }
+  ],
+  "tags": {
+    "covered": "yes",
+    "electrified": "rail",
+    "railway": "light_rail",
+    "service": "yard"
+  }
+},
+{
+  "type": "way",
+  "id": 1120342695,
+  "bounds": {
+    "minlat": -6.1295142,
+    "minlon": 106.6504847,
+    "maxlat": -6.1291833,
+    "maxlon": 106.6513242
+  },
+  "geometry": [
+    { "lat": -6.1295142, "lon": 106.6504847 },
+    { "lat": -6.1291833, "lon": 106.6513242 }
+  ],
+  "tags": {
+    "covered": "yes",
+    "electrified": "rail",
+    "railway": "light_rail",
+    "service": "yard"
+  }
+},
+{
+  "type": "way",
+  "id": 1123978536,
+  "bounds": {
+    "minlat": -6.1300982,
+    "minlon": 106.6561642,
+    "maxlat": -6.1299944,
+    "maxlon": 106.6564256
+  },
+  "geometry": [
+    { "lat": -6.1300982, "lon": 106.6561642 },
+    { "lat": -6.1299944, "lon": 106.6564256 }
+  ],
+  "tags": {
+    "alt_name": "Kereta Layang Bandar Udara",
+    "bridge": "yes",
+    "electrified": "rail",
+    "gauge": "1067",
+    "layer": "2",
+    "name": "Kalayang Bandar Udara",
+    "name:en": "Airport Skytrain",
+    "railway": "light_rail",
+    "wikidata": "Q55075145",
+    "wikipedia": "id:Kalayang Bandara Soekarno–Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1123978537,
+  "bounds": {
+    "minlat": -6.1302271,
+    "minlon": 106.6562162,
+    "maxlat": -6.1301217,
+    "maxlon": 106.6564797
+  },
+  "geometry": [
+    { "lat": -6.1301217, "lon": 106.6564797 },
+    { "lat": -6.1302271, "lon": 106.6562162 }
+  ],
+  "tags": {
+    "alt_name": "Kereta Layang Bandar Udara",
+    "bridge": "yes",
+    "electrified": "rail",
+    "gauge": "1067",
+    "layer": "2",
+    "name": "Kalayang Bandar Udara",
+    "name:en": "Airport Skytrain",
+    "railway": "light_rail",
+    "wikidata": "Q55075145",
+    "wikipedia": "id:Kalayang Bandara Soekarno–Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1123978538,
+  "bounds": {
+    "minlat": -6.1208677,
+    "minlon": 106.6628698,
+    "maxlat": -6.1199953,
+    "maxlon": 106.6645578
+  },
+  "geometry": [
+    { "lat": -6.1208677, "lon": 106.6628698 },
+    { "lat": -6.1208533, "lon": 106.6628978 },
+    { "lat": -6.1199953, "lon": 106.6645578 }
+  ],
+  "tags": {
+    "alt_name": "Kereta Layang Bandar Udara",
+    "bridge": "yes",
+    "electrified": "rail",
+    "gauge": "1067",
+    "layer": "2",
+    "name": "Kalayang Bandar Udara",
+    "name:en": "Airport Skytrain",
+    "railway": "light_rail",
+    "wikidata": "Q55075145",
+    "wikipedia": "id:Kalayang Bandara Soekarno–Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1123978539,
+  "bounds": {
+    "minlat": -6.1206777,
+    "minlon": 106.6635671,
+    "maxlat": -6.1201363,
+    "maxlon": 106.6646120
+  },
+  "geometry": [
+    { "lat": -6.1206777, "lon": 106.6635671 },
+    { "lat": -6.1203903, "lon": 106.6641268 },
+    { "lat": -6.1201363, "lon": 106.6646120 }
+  ],
+  "tags": {
+    "alt_name": "Kereta Layang Bandar Udara",
+    "bridge": "yes",
+    "electrified": "rail",
+    "gauge": "1067",
+    "layer": "2",
+    "name": "Kalayang Bandar Udara",
+    "name:en": "Airport Skytrain",
+    "railway": "light_rail",
+    "wikidata": "Q55075145",
+    "wikipedia": "id:Kalayang Bandara Soekarno–Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1123978540,
+  "bounds": {
+    "minlat": -6.1306810,
+    "minlon": 106.6539712,
+    "maxlat": -6.1299566,
+    "maxlon": 106.6555087
+  },
+  "geometry": [
+    { "lat": -6.1305092, "lon": 106.6555087 },
+    { "lat": -6.1306125, "lon": 106.6552487 },
+    { "lat": -6.1306356, "lon": 106.6551849 },
+    { "lat": -6.1306541, "lon": 106.6551139 },
+    { "lat": -6.1306720, "lon": 106.6550244 },
+    { "lat": -6.1306795, "lon": 106.6549427 },
+    { "lat": -6.1306810, "lon": 106.6548587 },
+    { "lat": -6.1306758, "lon": 106.6547911 },
+    { "lat": -6.1306657, "lon": 106.6547168 },
+    { "lat": -6.1306511, "lon": 106.6546432 },
+    { "lat": -6.1306286, "lon": 106.6545704 },
+    { "lat": -6.1306015, "lon": 106.6545055 },
+    { "lat": -6.1305728, "lon": 106.6544454 },
+    { "lat": -6.1305335, "lon": 106.6543826 },
+    { "lat": -6.1304823, "lon": 106.6543114 },
+    { "lat": -6.1304304, "lon": 106.6542495 },
+    { "lat": -6.1303760, "lon": 106.6542040 },
+    { "lat": -6.1303290, "lon": 106.6541642 },
+    { "lat": -6.1302761, "lon": 106.6541240 },
+    { "lat": -6.1302258, "lon": 106.6540941 },
+    { "lat": -6.1301604, "lon": 106.6540589 },
+    { "lat": -6.1300573, "lon": 106.6540122 },
+    { "lat": -6.1299566, "lon": 106.6539712 }
+  ],
+  "tags": {
+    "alt_name": "Kereta Layang Bandar Udara",
+    "bridge": "yes",
+    "electrified": "rail",
+    "gauge": "1067",
+    "layer": "2",
+    "name": "Kalayang Bandar Udara",
+    "name:en": "Airport Skytrain",
+    "railway": "light_rail",
+    "wikidata": "Q55075145",
+    "wikipedia": "id:Kalayang Bandara Soekarno–Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1123978541,
+  "bounds": {
+    "minlat": -6.1305310,
+    "minlon": 106.6538059,
+    "maxlat": -6.1293323,
+    "maxlon": 106.6554564
+  },
+  "geometry": [
+    { "lat": -6.1293323, "lon": 106.6538059 },
+    { "lat": -6.1294004, "lon": 106.6538315 },
+    { "lat": -6.1298032, "lon": 106.6539883 },
+    { "lat": -6.1299362, "lon": 106.6540433 },
+    { "lat": -6.1300269, "lon": 106.6540832 },
+    { "lat": -6.1301040, "lon": 106.6541274 },
+    { "lat": -6.1301624, "lon": 106.6541683 },
+    { "lat": -6.1302208, "lon": 106.6542132 },
+    { "lat": -6.1302712, "lon": 106.6542610 },
+    { "lat": -6.1303199, "lon": 106.6543134 },
+    { "lat": -6.1303691, "lon": 106.6543707 },
+    { "lat": -6.1304066, "lon": 106.6544264 },
+    { "lat": -6.1304363, "lon": 106.6544810 },
+    { "lat": -6.1304630, "lon": 106.6545432 },
+    { "lat": -6.1304917, "lon": 106.6546253 },
+    { "lat": -6.1305095, "lon": 106.6546948 },
+    { "lat": -6.1305230, "lon": 106.6547663 },
+    { "lat": -6.1305289, "lon": 106.6548464 },
+    { "lat": -6.1305310, "lon": 106.6549241 },
+    { "lat": -6.1305250, "lon": 106.6550017 },
+    { "lat": -6.1305122, "lon": 106.6550748 },
+    { "lat": -6.1304963, "lon": 106.6551384 },
+    { "lat": -6.1304741, "lon": 106.6552143 },
+    { "lat": -6.1303792, "lon": 106.6554564 }
+  ],
+  "tags": {
+    "alt_name": "Kereta Layang Bandar Udara",
+    "bridge": "yes",
+    "electrified": "rail",
+    "gauge": "1067",
+    "layer": "2",
+    "name": "Kalayang Bandar Udara",
+    "name:en": "Airport Skytrain",
+    "railway": "light_rail",
+    "wikidata": "Q55075145",
+    "wikipedia": "id:Kalayang Bandara Soekarno–Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1123978542,
+  "bounds": {
+    "minlat": -6.1299566,
+    "minlon": 106.6535458,
+    "maxlat": -6.1288792,
+    "maxlon": 106.6539712
+  },
+  "geometry": [
+    { "lat": -6.1299566, "lon": 106.6539712 },
+    { "lat": -6.1288792, "lon": 106.6535458 }
+  ],
+  "tags": {
+    "alt_name": "Kereta Layang Bandar Udara",
+    "bridge": "yes",
+    "electrified": "rail",
+    "gauge": "1067",
+    "layer": "2",
+    "name": "Kalayang Bandar Udara",
+    "name:en": "Airport Skytrain",
+    "railway": "light_rail",
+    "wikidata": "Q55075145",
+    "wikipedia": "id:Kalayang Bandara Soekarno–Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1124069940,
+  "bounds": {
+    "minlat": -6.1196773,
+    "minlon": 106.6652196,
+    "maxlat": -6.1194841,
+    "maxlon": 106.6656684
+  },
+  "geometry": [
+    { "lat": -6.1196773, "lon": 106.6652196 },
+    { "lat": -6.1194841, "lon": 106.6656684 }
+  ],
+  "tags": {
+    "alt_name": "Kereta Layang Bandar Udara",
+    "covered": "yes",
+    "gauge": "1067",
+    "layer": "2",
+    "name": "Kalayang Bandar Udara",
+    "name:en": "Airport Skytrain",
+    "railway": "light_rail",
+    "wikidata": "Q55075145",
+    "wikipedia": "id:Kalayang Bandara Soekarno–Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1124069941,
+  "bounds": {
+    "minlat": -6.1197223,
+    "minlon": 106.6654696,
+    "maxlat": -6.1196102,
+    "maxlon": 106.6657208
+  },
+  "geometry": [
+    { "lat": -6.1196102, "lon": 106.6657208 },
+    { "lat": -6.1197223, "lon": 106.6654696 }
+  ],
+  "tags": {
+    "alt_name": "Kereta Layang Bandar Udara",
+    "covered": "yes",
+    "gauge": "1067",
+    "layer": "2",
+    "name": "Kalayang Bandar Udara",
+    "name:en": "Airport Skytrain",
+    "railway": "light_rail",
+    "wikidata": "Q55075145",
+    "wikipedia": "id:Kalayang Bandara Soekarno–Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1124146163,
+  "bounds": {
+    "minlat": -6.1293323,
+    "minlon": 106.6531603,
+    "maxlat": -6.1275469,
+    "maxlon": 106.6538059
+  },
+  "geometry": [
+    { "lat": -6.1275469, "lon": 106.6531603 },
+    { "lat": -6.1275749, "lon": 106.6531701 },
+    { "lat": -6.1276363, "lon": 106.6531886 },
+    { "lat": -6.1277059, "lon": 106.6532045 },
+    { "lat": -6.1279966, "lon": 106.6532757 },
+    { "lat": -6.1280590, "lon": 106.6532931 },
+    { "lat": -6.1281461, "lon": 106.6533229 },
+    { "lat": -6.1293323, "lon": 106.6538059 }
+  ],
+  "tags": {
+    "alt_name": "Kereta Layang Bandar Udara",
+    "bridge": "yes",
+    "electrified": "rail",
+    "gauge": "1067",
+    "layer": "2",
+    "name": "Kalayang Bandar Udara",
+    "name:en": "Airport Skytrain",
+    "railway": "light_rail",
+    "wikidata": "Q55075145",
+    "wikipedia": "id:Kalayang Bandara Soekarno–Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1124146164,
+  "bounds": {
+    "minlat": -6.1288792,
+    "minlon": 106.6530304,
+    "maxlat": -6.1275976,
+    "maxlon": 106.6535458
+  },
+  "geometry": [
+    { "lat": -6.1288792, "lon": 106.6535458 },
+    { "lat": -6.1288168, "lon": 106.6535196 },
+    { "lat": -6.1275976, "lon": 106.6530304 }
+  ],
+  "tags": {
+    "alt_name": "Kereta Layang Bandar Udara",
+    "bridge": "yes",
+    "electrified": "rail",
+    "gauge": "1067",
+    "layer": "2",
+    "name": "Kalayang Bandar Udara",
+    "name:en": "Airport Skytrain",
+    "railway": "light_rail",
+    "wikidata": "Q55075145",
+    "wikipedia": "id:Kalayang Bandara Soekarno–Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1124146165,
+  "bounds": {
+    "minlat": -6.1275976,
+    "minlon": 106.6526883,
+    "maxlat": -6.1267347,
+    "maxlon": 106.6530304
+  },
+  "geometry": [
+    { "lat": -6.1275976, "lon": 106.6530304 },
+    { "lat": -6.1269460, "lon": 106.6527726 },
+    { "lat": -6.1267347, "lon": 106.6526883 }
+  ],
+  "tags": {
+    "alt_name": "Kereta Layang Bandar Udara",
+    "covered": "yes",
+    "electrified": "rail",
+    "gauge": "1067",
+    "layer": "2",
+    "name": "Kalayang Bandar Udara",
+    "name:en": "Airport Skytrain",
+    "railway": "light_rail"
+  }
+},
+{
+  "type": "way",
+  "id": 1124146166,
+  "bounds": {
+    "minlat": -6.1275469,
+    "minlon": 106.6528201,
+    "maxlat": -6.1266832,
+    "maxlon": 106.6531603
+  },
+  "geometry": [
+    { "lat": -6.1266832, "lon": 106.6528201 },
+    { "lat": -6.1272863, "lon": 106.6530568 },
+    { "lat": -6.1275469, "lon": 106.6531603 }
+  ],
+  "tags": {
+    "alt_name": "Kereta Layang Bandar Udara",
+    "covered": "yes",
+    "electrified": "rail",
+    "gauge": "1067",
+    "layer": "2",
+    "name": "Kalayang Bandar Udara",
+    "name:en": "Airport Skytrain",
+    "railway": "light_rail"
+  }
+},
+{
+  "type": "way",
+  "id": 1124146167,
+  "bounds": {
+    "minlat": -6.1304408,
+    "minlon": 106.6556805,
+    "maxlat": -6.1302271,
+    "maxlon": 106.6562162
+  },
+  "geometry": [
+    { "lat": -6.1302271, "lon": 106.6562162 },
+    { "lat": -6.1304408, "lon": 106.6556805 }
+  ],
+  "tags": {
+    "alt_name": "Kereta Layang Bandar Udara",
+    "covered": "yes",
+    "electrified": "rail",
+    "gauge": "1067",
+    "layer": "2",
+    "name": "Kalayang Bandar Udara",
+    "name:en": "Airport Skytrain",
+    "railway": "light_rail",
+    "wikidata": "Q55075145",
+    "wikipedia": "id:Kalayang Bandara Soekarno–Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1124146168,
+  "bounds": {
+    "minlat": -6.1303792,
+    "minlon": 106.6554564,
+    "maxlat": -6.1301314,
+    "maxlon": 106.6560793
+  },
+  "geometry": [
+    { "lat": -6.1303792, "lon": 106.6554564 },
+    { "lat": -6.1301314, "lon": 106.6560793 }
+  ],
+  "tags": {
+    "alt_name": "Kereta Layang Bandar Udara",
+    "covered": "yes",
+    "electrified": "rail",
+    "gauge": "1067",
+    "layer": "2",
+    "name": "Kalayang Bandar Udara",
+    "name:en": "Airport Skytrain",
+    "railway": "light_rail",
+    "wikidata": "Q55075145",
+    "wikipedia": "id:Kalayang Bandara Soekarno–Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1124146169,
+  "bounds": {
+    "minlat": -6.1301314,
+    "minlon": 106.6560793,
+    "maxlat": -6.1300982,
+    "maxlon": 106.6561642
+  },
+  "geometry": [
+    { "lat": -6.1301314, "lon": 106.6560793 },
+    { "lat": -6.1300982, "lon": 106.6561642 }
+  ],
+  "tags": {
+    "alt_name": "Kereta Layang Bandar Udara",
+    "covered": "yes",
+    "electrified": "rail",
+    "gauge": "1067",
+    "layer": "2",
+    "name": "Kalayang Bandar Udara",
+    "name:en": "Airport Skytrain",
+    "railway": "light_rail",
+    "wikidata": "Q55075145",
+    "wikipedia": "id:Kalayang Bandara Soekarno–Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1124146171,
+  "bounds": {
+    "minlat": -6.1267347,
+    "minlon": 106.6517833,
+    "maxlat": -6.1231979,
+    "maxlon": 106.6526883
+  },
+  "geometry": [
+    { "lat": -6.1267347, "lon": 106.6526883 },
+    { "lat": -6.1267191, "lon": 106.6526820 },
+    { "lat": -6.1266586, "lon": 106.6526599 },
+    { "lat": -6.1265894, "lon": 106.6526392 },
+    { "lat": -6.1263520, "lon": 106.6525765 },
+    { "lat": -6.1262616, "lon": 106.6525511 },
+    { "lat": -6.1261718, "lon": 106.6525187 },
+    { "lat": -6.1254446, "lon": 106.6522248 },
+    { "lat": -6.1246030, "lon": 106.6518907 },
+    { "lat": -6.1244774, "lon": 106.6518411 },
+    { "lat": -6.1243799, "lon": 106.6518145 },
+    { "lat": -6.1242675, "lon": 106.6517911 },
+    { "lat": -6.1241714, "lon": 106.6517833 },
+    { "lat": -6.1240853, "lon": 106.6517847 },
+    { "lat": -6.1239842, "lon": 106.6517971 },
+    { "lat": -6.1238911, "lon": 106.6518222 },
+    { "lat": -6.1238124, "lon": 106.6518503 },
+    { "lat": -6.1237320, "lon": 106.6518878 },
+    { "lat": -6.1236457, "lon": 106.6519393 },
+    { "lat": -6.1235692, "lon": 106.6519966 },
+    { "lat": -6.1235076, "lon": 106.6520592 },
+    { "lat": -6.1234493, "lon": 106.6521220 },
+    { "lat": -6.1234027, "lon": 106.6521863 },
+    { "lat": -6.1233493, "lon": 106.6522796 },
+    { "lat": -6.1233185, "lon": 106.6523439 },
+    { "lat": -6.1232716, "lon": 106.6524508 },
+    { "lat": -6.1231979, "lon": 106.6526319 }
+  ],
+  "tags": {
+    "alt_name": "Kereta Layang Bandar Udara",
+    "bridge": "yes",
+    "electrified": "rail",
+    "gauge": "1067",
+    "layer": "2",
+    "name": "Kalayang Bandar Udara",
+    "name:en": "Airport Skytrain",
+    "railway": "light_rail",
+    "wikidata": "Q55075145",
+    "wikipedia": "id:Kalayang Bandara Soekarno–Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1124146172,
+  "bounds": {
+    "minlat": -6.1266832,
+    "minlon": 106.6518695,
+    "maxlat": -6.1233251,
+    "maxlon": 106.6528201
+  },
+  "geometry": [
+    { "lat": -6.1233251, "lon": 106.6526833 },
+    { "lat": -6.1233975, "lon": 106.6525070 },
+    { "lat": -6.1234466, "lon": 106.6524004 },
+    { "lat": -6.1234772, "lon": 106.6523391 },
+    { "lat": -6.1235346, "lon": 106.6522445 },
+    { "lat": -6.1235906, "lon": 106.6521736 },
+    { "lat": -6.1236855, "lon": 106.6520827 },
+    { "lat": -6.1237719, "lon": 106.6520218 },
+    { "lat": -6.1238647, "lon": 106.6519650 },
+    { "lat": -6.1239771, "lon": 106.6519156 },
+    { "lat": -6.1240917, "lon": 106.6518821 },
+    { "lat": -6.1241970, "lon": 106.6518695 },
+    { "lat": -6.1243089, "lon": 106.6518708 },
+    { "lat": -6.1244182, "lon": 106.6518810 },
+    { "lat": -6.1245249, "lon": 106.6519057 },
+    { "lat": -6.1246576, "lon": 106.6519517 },
+    { "lat": -6.1254361, "lon": 106.6522688 },
+    { "lat": -6.1261448, "lon": 106.6525520 },
+    { "lat": -6.1262382, "lon": 106.6525923 },
+    { "lat": -6.1263038, "lon": 106.6526238 },
+    { "lat": -6.1265421, "lon": 106.6527515 },
+    { "lat": -6.1266041, "lon": 106.6527821 },
+    { "lat": -6.1266561, "lon": 106.6528083 },
+    { "lat": -6.1266736, "lon": 106.6528163 },
+    { "lat": -6.1266832, "lon": 106.6528201 }
+  ],
+  "tags": {
+    "alt_name": "Kereta Layang Bandar Udara",
+    "bridge": "yes",
+    "electrified": "rail",
+    "gauge": "1067",
+    "layer": "2",
+    "name": "Kalayang Bandar Udara",
+    "name:en": "Airport Skytrain",
+    "railway": "light_rail",
+    "wikidata": "Q55075145",
+    "wikipedia": "id:Kalayang Bandara Soekarno–Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1124146173,
+  "bounds": {
+    "minlat": -6.1233251,
+    "minlon": 106.6526833,
+    "maxlat": -6.1230431,
+    "maxlon": 106.6533928
+  },
+  "geometry": [
+    { "lat": -6.1230431, "lon": 106.6533928 },
+    { "lat": -6.1232225, "lon": 106.6529358 },
+    { "lat": -6.1233251, "lon": 106.6526833 }
+  ],
+  "tags": {
+    "alt_name": "Kereta Layang Bandar Udara",
+    "covered": "yes",
+    "electrified": "rail",
+    "gauge": "1067",
+    "layer": "2",
+    "name": "Kalayang Bandar Udara",
+    "name:en": "Airport Skytrain",
+    "railway": "light_rail",
+    "wikidata": "Q55075145",
+    "wikipedia": "id:Kalayang Bandara Soekarno–Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1124146174,
+  "bounds": {
+    "minlat": -6.1231979,
+    "minlon": 106.6526319,
+    "maxlat": -6.1229130,
+    "maxlon": 106.6533403
+  },
+  "geometry": [
+    { "lat": -6.1231979, "lon": 106.6526319 },
+    { "lat": -6.1230094, "lon": 106.6530946 },
+    { "lat": -6.1229130, "lon": 106.6533403 }
+  ],
+  "tags": {
+    "alt_name": "Kereta Layang Bandar Udara",
+    "covered": "yes",
+    "electrified": "rail",
+    "gauge": "1067",
+    "name": "Kalayang Bandar Udara",
+    "name:en": "Airport Skytrain",
+    "railway": "light_rail",
+    "wikidata": "Q55075145",
+    "wikipedia": "id:Kalayang Bandara Soekarno–Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1124220312,
+  "bounds": {
+    "minlat": -6.1201363,
+    "minlon": 106.6646120,
+    "maxlat": -6.1197223,
+    "maxlon": 106.6654696
+  },
+  "geometry": [
+    { "lat": -6.1201363, "lon": 106.6646120 },
+    { "lat": -6.1199075, "lon": 106.6650680 },
+    { "lat": -6.1197223, "lon": 106.6654696 }
+  ],
+  "tags": {
+    "alt_name": "Kereta Layang Bandar Udara",
+    "covered": "yes",
+    "electrified": "rail",
+    "gauge": "1067",
+    "layer": "2",
+    "name": "Kalayang Bandar Udara",
+    "name:en": "Airport Skytrain",
+    "railway": "light_rail",
+    "wikidata": "Q55075145",
+    "wikipedia": "id:Kalayang Bandara Soekarno–Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1130847329,
+  "bounds": {
+    "minlat": -6.1719821,
+    "minlon": 106.6651499,
+    "maxlat": -6.1719639,
+    "maxlon": 106.6654421
+  },
+  "geometry": [
+    { "lat": -6.1719639, "lon": 106.6654421 },
+    { "lat": -6.1719821, "lon": 106.6651499 }
+  ],
+  "tags": {
+    "covered": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "tunnel": "building_passage",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1130847330,
+  "bounds": {
+    "minlat": -6.1719639,
+    "minlon": 106.6654421,
+    "maxlat": -6.1718485,
+    "maxlon": 106.6675558
+  },
+  "geometry": [
+    { "lat": -6.1718485, "lon": 106.6675558 },
+    { "lat": -6.1718743, "lon": 106.6670861 },
+    { "lat": -6.1719024, "lon": 106.6665280 },
+    { "lat": -6.1719198, "lon": 106.6661183 },
+    { "lat": -6.1719324, "lon": 106.6659155 },
+    { "lat": -6.1719450, "lon": 106.6657126 },
+    { "lat": -6.1719639, "lon": 106.6654421 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "30",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1130847332,
+  "bounds": {
+    "minlat": -6.1749974,
+    "minlon": 106.6478566,
+    "maxlat": -6.1722270,
+    "maxlon": 106.6653003
+  },
+  "geometry": [
+    { "lat": -6.1749974, "lon": 106.6478566 },
+    { "lat": -6.1749828, "lon": 106.6479487 },
+    { "lat": -6.1747831, "lon": 106.6492634 },
+    { "lat": -6.1743992, "lon": 106.6516637 },
+    { "lat": -6.1743532, "lon": 106.6519547 },
+    { "lat": -6.1736521, "lon": 106.6563857 },
+    { "lat": -6.1733985, "lon": 106.6579746 },
+    { "lat": -6.1731083, "lon": 106.6598057 },
+    { "lat": -6.1727969, "lon": 106.6617158 },
+    { "lat": -6.1724890, "lon": 106.6636269 },
+    { "lat": -6.1722736, "lon": 106.6650024 },
+    { "lat": -6.1722270, "lon": 106.6653003 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "75",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1130847333,
+  "bounds": {
+    "minlat": -6.1722270,
+    "minlon": 106.6653003,
+    "maxlat": -6.1722119,
+    "maxlon": 106.6653886
+  },
+  "geometry": [
+    { "lat": -6.1722270, "lon": 106.6653003 },
+    { "lat": -6.1722119, "lon": 106.6653886 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "100",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1130847338,
+  "bounds": {
+    "minlat": -6.1718296,
+    "minlon": 106.6654192,
+    "maxlat": -6.1715533,
+    "maxlon": 106.6692582
+  },
+  "geometry": [
+    { "lat": -6.1718296, "lon": 106.6654192 },
+    { "lat": -6.1717671, "lon": 106.6658711 },
+    { "lat": -6.1717628, "lon": 106.6659366 },
+    { "lat": -6.1716916, "lon": 106.6670329 },
+    { "lat": -6.1716203, "lon": 106.6680239 },
+    { "lat": -6.1715533, "lon": 106.6692582 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1130847339,
+  "bounds": {
+    "minlat": -6.1718720,
+    "minlon": 106.6651310,
+    "maxlat": -6.1718296,
+    "maxlon": 106.6654192
+  },
+  "geometry": [
+    { "lat": -6.1718720, "lon": 106.6651310 },
+    { "lat": -6.1718413, "lon": 106.6653362 },
+    { "lat": -6.1718296, "lon": 106.6654192 }
+  ],
+  "tags": {
+    "covered": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "tunnel": "building_passage",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1130847348,
+  "bounds": {
+    "minlat": -6.1740450,
+    "minlon": 106.6510154,
+    "maxlat": -6.1718720,
+    "maxlon": 106.6651310
+  },
+  "geometry": [
+    { "lat": -6.1718720, "lon": 106.6651310 },
+    { "lat": -6.1719213, "lon": 106.6648164 },
+    { "lat": -6.1719939, "lon": 106.6643837 },
+    { "lat": -6.1727624, "lon": 106.6597634 },
+    { "lat": -6.1728984, "lon": 106.6589681 },
+    { "lat": -6.1729730, "lon": 106.6585015 },
+    { "lat": -6.1731030, "lon": 106.6578806 },
+    { "lat": -6.1734310, "lon": 106.6563292 },
+    { "lat": -6.1736498, "lon": 106.6553250 },
+    { "lat": -6.1737603, "lon": 106.6548181 },
+    { "lat": -6.1738950, "lon": 106.6541503 },
+    { "lat": -6.1740277, "lon": 106.6530358 },
+    { "lat": -6.1740423, "lon": 106.6527636 },
+    { "lat": -6.1740450, "lon": 106.6524115 },
+    { "lat": -6.1740257, "lon": 106.6521782 },
+    { "lat": -6.1739996, "lon": 106.6519890 },
+    { "lat": -6.1739497, "lon": 106.6517523 },
+    { "lat": -6.1739115, "lon": 106.6516178 },
+    { "lat": -6.1737977, "lon": 106.6512809 },
+    { "lat": -6.1736743, "lon": 106.6510154 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1130847349,
+  "bounds": {
+    "minlat": -6.1741036,
+    "minlon": 106.6509953,
+    "maxlat": -6.1719821,
+    "maxlon": 106.6651499
+  },
+  "geometry": [
+    { "lat": -6.1737090, "lon": 106.6509953 },
+    { "lat": -6.1738356, "lon": 106.6512609 },
+    { "lat": -6.1739500, "lon": 106.6516129 },
+    { "lat": -6.1740554, "lon": 106.6519769 },
+    { "lat": -6.1741004, "lon": 106.6522800 },
+    { "lat": -6.1741036, "lon": 106.6525473 },
+    { "lat": -6.1740732, "lon": 106.6530318 },
+    { "lat": -6.1739345, "lon": 106.6541504 },
+    { "lat": -6.1738055, "lon": 106.6548233 },
+    { "lat": -6.1734727, "lon": 106.6563395 },
+    { "lat": -6.1731436, "lon": 106.6578944 },
+    { "lat": -6.1728390, "lon": 106.6596799 },
+    { "lat": -6.1728233, "lon": 106.6597756 },
+    { "lat": -6.1727781, "lon": 106.6600471 },
+    { "lat": -6.1720953, "lon": 106.6640527 },
+    { "lat": -6.1720544, "lon": 106.6643016 },
+    { "lat": -6.1720256, "lon": 106.6645223 },
+    { "lat": -6.1719998, "lon": 106.6648304 },
+    { "lat": -6.1719821, "lon": 106.6651499 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1172335200,
+  "bounds": {
+    "minlat": -6.1768225,
+    "minlon": 106.6363027,
+    "maxlat": -6.1766949,
+    "maxlon": 106.6368733
+  },
+  "geometry": [
+    { "lat": -6.1768225, "lon": 106.6363027 },
+    { "lat": -6.1766949, "lon": 106.6368733 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "gauge": "1067",
+    "maxspeed": "30",
+    "railway": "rail",
+    "service": "crossover",
+    "usage": "main",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 1172335201,
+  "bounds": {
+    "minlat": -6.1766742,
+    "minlon": 106.6370005,
+    "maxlat": -6.1765928,
+    "maxlon": 106.6377205
+  },
+  "geometry": [
+    { "lat": -6.1766742, "lon": 106.6370005 },
+    { "lat": -6.1765928, "lon": 106.6377205 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "gauge": "1067",
+    "maxspeed": "30",
+    "railway": "rail",
+    "service": "crossover",
+    "usage": "main",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 1172335202,
+  "bounds": {
+    "minlat": -6.1769755,
+    "minlon": 106.6304484,
+    "maxlat": -6.1768436,
+    "maxlon": 106.6336459
+  },
+  "geometry": [
+    { "lat": -6.1768436, "lon": 106.6304484 },
+    { "lat": -6.1768571, "lon": 106.6307162 },
+    { "lat": -6.1768693, "lon": 106.6309491 },
+    { "lat": -6.1769755, "lon": 106.6336459 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "75",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "railway:track_ref": "2",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1172335203,
+  "bounds": {
+    "minlat": -6.1770486,
+    "minlon": 106.6304458,
+    "maxlat": -6.1769175,
+    "maxlon": 106.6336360
+  },
+  "geometry": [
+    { "lat": -6.1770486, "lon": 106.6336360 },
+    { "lat": -6.1769829, "lon": 106.6318353 },
+    { "lat": -6.1769255, "lon": 106.6306155 },
+    { "lat": -6.1769175, "lon": 106.6304458 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "30",
+    "railway": "rail",
+    "railway:track_ref": "3",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 1172335204,
+  "bounds": {
+    "minlat": -6.1727969,
+    "minlon": 106.6617158,
+    "maxlat": -6.1726750,
+    "maxlon": 106.6622199
+  },
+  "geometry": [
+    { "lat": -6.1726750, "lon": 106.6622199 },
+    { "lat": -6.1727969, "lon": 106.6617158 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "gauge": "1067",
+    "maxspeed": "30",
+    "railway": "rail",
+    "service": "crossover",
+    "usage": "main",
+    "voltage": "1050"
+  }
+},
+{
+  "type": "way",
+  "id": 1172335205,
+  "bounds": {
+    "minlat": -6.1725342,
+    "minlon": 106.6631314,
+    "maxlat": -6.1724890,
+    "maxlon": 106.6636269
+  },
+  "geometry": [
+    { "lat": -6.1725342, "lon": 106.6631314 },
+    { "lat": -6.1724890, "lon": 106.6636269 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "gauge": "1067",
+    "maxspeed": "30",
+    "railway": "rail",
+    "service": "crossover",
+    "usage": "main",
+    "voltage": "1050"
+  }
+},
+{
+  "type": "way",
+  "id": 1172335207,
+  "bounds": {
+    "minlat": -6.1335965,
+    "minlon": 106.6366884,
+    "maxlat": -6.1302157,
+    "maxlon": 106.6452319
+  },
+  "geometry": [
+    { "lat": -6.1335965, "lon": 106.6366884 },
+    { "lat": -6.1302157, "lon": 106.6452319 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1172335208,
+  "bounds": {
+    "minlat": -6.1335550,
+    "minlon": 106.6366683,
+    "maxlat": -6.1303622,
+    "maxlon": 106.6447077
+  },
+  "geometry": [
+    { "lat": -6.1303622, "lon": 106.6447077 },
+    { "lat": -6.1335550, "lon": 106.6366683 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1172335209,
+  "bounds": {
+    "minlat": -6.1376154,
+    "minlon": 106.6335283,
+    "maxlat": -6.1335965,
+    "maxlon": 106.6366884
+  },
+  "geometry": [
+    { "lat": -6.1376154, "lon": 106.6335283 },
+    { "lat": -6.1369649, "lon": 106.6335718 },
+    { "lat": -6.1364939, "lon": 106.6336339 },
+    { "lat": -6.1361629, "lon": 106.6337244 },
+    { "lat": -6.1358914, "lon": 106.6338475 },
+    { "lat": -6.1356196, "lon": 106.6340076 },
+    { "lat": -6.1351475, "lon": 106.6343549 },
+    { "lat": -6.1348046, "lon": 106.6346358 },
+    { "lat": -6.1344679, "lon": 106.6350114 },
+    { "lat": -6.1343257, "lon": 106.6351666 },
+    { "lat": -6.1341604, "lon": 106.6354054 },
+    { "lat": -6.1340057, "lon": 106.6357085 },
+    { "lat": -6.1338803, "lon": 106.6359713 },
+    { "lat": -6.1335965, "lon": 106.6366884 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "60",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1172335210,
+  "bounds": {
+    "minlat": -6.1376099,
+    "minlon": 106.6334796,
+    "maxlat": -6.1335550,
+    "maxlon": 106.6366683
+  },
+  "geometry": [
+    { "lat": -6.1335550, "lon": 106.6366683 },
+    { "lat": -6.1338403, "lon": 106.6359499 },
+    { "lat": -6.1339683, "lon": 106.6356790 },
+    { "lat": -6.1341204, "lon": 106.6353786 },
+    { "lat": -6.1342830, "lon": 106.6351398 },
+    { "lat": -6.1344348, "lon": 106.6349673 },
+    { "lat": -6.1347738, "lon": 106.6345991 },
+    { "lat": -6.1351176, "lon": 106.6343134 },
+    { "lat": -6.1355995, "lon": 106.6339553 },
+    { "lat": -6.1358867, "lon": 106.6338037 },
+    { "lat": -6.1361589, "lon": 106.6336777 },
+    { "lat": -6.1364745, "lon": 106.6335908 },
+    { "lat": -6.1369613, "lon": 106.6335242 },
+    { "lat": -6.1376099, "lon": 106.6334796 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "60",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1196226279,
+  "bounds": {
+    "minlat": -6.1480168,
+    "minlon": 106.6330996,
+    "maxlat": -6.1376099,
+    "maxlon": 106.6348933
+  },
+  "geometry": [
+    { "lat": -6.1376099, "lon": 106.6334796 },
+    { "lat": -6.1402195, "lon": 106.6333002 },
+    { "lat": -6.1423990, "lon": 106.6331661 },
+    { "lat": -6.1445810, "lon": 106.6330996 },
+    { "lat": -6.1449413, "lon": 106.6331055 },
+    { "lat": -6.1453105, "lon": 106.6331354 },
+    { "lat": -6.1456427, "lon": 106.6332018 },
+    { "lat": -6.1458220, "lon": 106.6332535 },
+    { "lat": -6.1459902, "lon": 106.6333020 },
+    { "lat": -6.1462870, "lon": 106.6334218 },
+    { "lat": -6.1465748, "lon": 106.6335540 },
+    { "lat": -6.1468745, "lon": 106.6337521 },
+    { "lat": -6.1471826, "lon": 106.6339901 },
+    { "lat": -6.1475301, "lon": 106.6342871 },
+    { "lat": -6.1477661, "lon": 106.6345475 },
+    { "lat": -6.1480168, "lon": 106.6348933 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1196226280,
+  "bounds": {
+    "minlat": -6.1481195,
+    "minlon": 106.6348933,
+    "maxlat": -6.1480168,
+    "maxlon": 106.6350570
+  },
+  "geometry": [
+    { "lat": -6.1480168, "lon": 106.6348933 },
+    { "lat": -6.1481195, "lon": 106.6350570 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1196226281,
+  "bounds": {
+    "minlat": -6.1480753,
+    "minlon": 106.6349618,
+    "maxlat": -6.1479878,
+    "maxlon": 106.6350967
+  },
+  "geometry": [
+    { "lat": -6.1480753, "lon": 106.6350967 },
+    { "lat": -6.1479878, "lon": 106.6349618 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1196226282,
+  "bounds": {
+    "minlat": -6.1479878,
+    "minlon": 106.6331629,
+    "maxlat": -6.1376154,
+    "maxlon": 106.6349618
+  },
+  "geometry": [
+    { "lat": -6.1479878, "lon": 106.6349618 },
+    { "lat": -6.1477179, "lon": 106.6345823 },
+    { "lat": -6.1474761, "lon": 106.6343196 },
+    { "lat": -6.1471523, "lon": 106.6340298 },
+    { "lat": -6.1468344, "lon": 106.6337929 },
+    { "lat": -6.1465380, "lon": 106.6336099 },
+    { "lat": -6.1462647, "lon": 106.6334731 },
+    { "lat": -6.1459701, "lon": 106.6333565 },
+    { "lat": -6.1457352, "lon": 106.6332850 },
+    { "lat": -6.1456349, "lon": 106.6332545 },
+    { "lat": -6.1452994, "lon": 106.6331902 },
+    { "lat": -6.1449201, "lon": 106.6331629 },
+    { "lat": -6.1445836, "lon": 106.6331638 },
+    { "lat": -6.1423983, "lon": 106.6332128 },
+    { "lat": -6.1413294, "lon": 106.6332699 },
+    { "lat": -6.1402248, "lon": 106.6333537 },
+    { "lat": -6.1376154, "lon": 106.6335283 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1236919324,
+  "bounds": {
+    "minlat": -6.1728984,
+    "minlon": 106.6589681,
+    "maxlat": -6.1728390,
+    "maxlon": 106.6596799
+  },
+  "geometry": [
+    { "lat": -6.1728984, "lon": 106.6589681 },
+    { "lat": -6.1728390, "lon": 106.6596799 }
+  ],
+  "tags": {
+    "railway": "rail",
+    "service": "crossover"
+  }
+},
+{
+  "type": "way",
+  "id": 1241564994,
+  "bounds": {
+    "minlat": -6.1464196,
+    "minlon": 106.6590662,
+    "maxlat": -6.1462366,
+    "maxlon": 106.6591957
+  },
+  "geometry": [
+    { "lat": -6.1462366, "lon": 106.6590662 },
+    { "lat": -6.1464196, "lon": 106.6591957 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1241564995,
+  "bounds": {
+    "minlat": -6.1483349,
+    "minlon": 106.6591957,
+    "maxlat": -6.1464196,
+    "maxlon": 106.6600705
+  },
+  "geometry": [
+    { "lat": -6.1464196, "lon": 106.6591957 },
+    { "lat": -6.1467934, "lon": 106.6594635 },
+    { "lat": -6.1471283, "lon": 106.6596197 },
+    { "lat": -6.1475273, "lon": 106.6598063 },
+    { "lat": -6.1479110, "lon": 106.6599496 },
+    { "lat": -6.1483349, "lon": 106.6600705 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "embankment": "yes",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1241564996,
+  "bounds": {
+    "minlat": -6.1483317,
+    "minlon": 106.6592385,
+    "maxlat": -6.1464013,
+    "maxlon": 106.6601196
+  },
+  "geometry": [
+    { "lat": -6.1483317, "lon": 106.6601196 },
+    { "lat": -6.1478996, "lon": 106.6599953 },
+    { "lat": -6.1475130, "lon": 106.6598645 },
+    { "lat": -6.1470954, "lon": 106.6596615 },
+    { "lat": -6.1467801, "lon": 106.6595082 },
+    { "lat": -6.1464013, "lon": 106.6592385 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "embankment": "yes",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1241564997,
+  "bounds": {
+    "minlat": -6.1464013,
+    "minlon": 106.6590976,
+    "maxlat": -6.1462203,
+    "maxlon": 106.6592385
+  },
+  "geometry": [
+    { "lat": -6.1464013, "lon": 106.6592385 },
+    { "lat": -6.1462203, "lon": 106.6590976 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1289375411,
+  "bounds": {
+    "minlat": -6.1749649,
+    "minlon": 106.6478534,
+    "maxlat": -6.1718485,
+    "maxlon": 106.6675558
+  },
+  "geometry": [
+    { "lat": -6.1718485, "lon": 106.6675558 },
+    { "lat": -6.1719237, "lon": 106.6670979 },
+    { "lat": -6.1720310, "lon": 106.6663275 },
+    { "lat": -6.1724069, "lon": 106.6639437 },
+    { "lat": -6.1725342, "lon": 106.6631314 },
+    { "lat": -6.1725903, "lon": 106.6627581 },
+    { "lat": -6.1726750, "lon": 106.6622199 },
+    { "lat": -6.1730803, "lon": 106.6598030 },
+    { "lat": -6.1733612, "lon": 106.6579626 },
+    { "lat": -6.1736193, "lon": 106.6563776 },
+    { "lat": -6.1740442, "lon": 106.6536791 },
+    { "lat": -6.1741807, "lon": 106.6528128 },
+    { "lat": -6.1742425, "lon": 106.6524200 },
+    { "lat": -6.1743629, "lon": 106.6516556 },
+    { "lat": -6.1747474, "lon": 106.6492641 },
+    { "lat": -6.1749515, "lon": 106.6479365 },
+    { "lat": -6.1749649, "lon": 106.6478534 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "75",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1289375412,
+  "bounds": {
+    "minlat": -6.1718485,
+    "minlon": 106.6675558,
+    "maxlat": -6.1717163,
+    "maxlon": 106.6682708
+  },
+  "geometry": [
+    { "lat": -6.1717163, "lon": 106.6682708 },
+    { "lat": -6.1717683, "lon": 106.6679728 },
+    { "lat": -6.1718401, "lon": 106.6676080 },
+    { "lat": -6.1718485, "lon": 106.6675558 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1289375413,
+  "bounds": {
+    "minlat": -6.1722119,
+    "minlon": 106.6653886,
+    "maxlat": -6.1716669,
+    "maxlon": 106.6687845
+  },
+  "geometry": [
+    { "lat": -6.1722119, "lon": 106.6653886 },
+    { "lat": -6.1721134, "lon": 106.6660066 },
+    { "lat": -6.1720570, "lon": 106.6663604 },
+    { "lat": -6.1719602, "lon": 106.6671037 },
+    { "lat": -6.1718758, "lon": 106.6676138 },
+    { "lat": -6.1718052, "lon": 106.6679627 },
+    { "lat": -6.1716669, "lon": 106.6687845 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "75",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1289375417,
+  "bounds": {
+    "minlat": -6.1717163,
+    "minlon": 106.6682708,
+    "maxlat": -6.1715533,
+    "maxlon": 106.6692582
+  },
+  "geometry": [
+    { "lat": -6.1715533, "lon": 106.6692582 },
+    { "lat": -6.1717163, "lon": 106.6682708 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1289384637,
+  "bounds": {
+    "minlat": -6.1199953,
+    "minlon": 106.6645578,
+    "maxlat": -6.1196773,
+    "maxlon": 106.6652196
+  },
+  "geometry": [
+    { "lat": -6.1199953, "lon": 106.6645578 },
+    { "lat": -6.1198939, "lon": 106.6647592 },
+    { "lat": -6.1196773, "lon": 106.6652196 }
+  ],
+  "tags": {
+    "alt_name": "Kereta Layang Bandar Udara",
+    "covered": "yes",
+    "electrified": "rail",
+    "gauge": "1067",
+    "layer": "2",
+    "name": "Kalayang Bandar Udara",
+    "name:en": "Airport Skytrain",
+    "railway": "light_rail",
+    "wikidata": "Q55075145",
+    "wikipedia": "id:Kalayang Bandara Soekarno–Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1289384638,
+  "bounds": {
+    "minlat": -6.1305092,
+    "minlon": 106.6555087,
+    "maxlat": -6.1304408,
+    "maxlon": 106.6556805
+  },
+  "geometry": [
+    { "lat": -6.1304408, "lon": 106.6556805 },
+    { "lat": -6.1305092, "lon": 106.6555087 }
+  ],
+  "tags": {
+    "alt_name": "Kereta Layang Bandar Udara",
+    "covered": "yes",
+    "electrified": "rail",
+    "gauge": "1067",
+    "layer": "2",
+    "name": "Kalayang Bandar Udara",
+    "name:en": "Airport Skytrain",
+    "railway": "light_rail",
+    "wikidata": "Q55075145",
+    "wikipedia": "id:Kalayang Bandara Soekarno–Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1312049342,
+  "bounds": {
+    "minlat": -6.1284417,
+    "minlon": 106.6495381,
+    "maxlat": -6.1275444,
+    "maxlon": 106.6518132
+  },
+  "geometry": [
+    { "lat": -6.1284417, "lon": 106.6495381 },
+    { "lat": -6.1278530, "lon": 106.6510326 },
+    { "lat": -6.1275444, "lon": 106.6518132 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "alternating",
+    "railway": "rail",
+    "railway:track_ref": "3",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1312049343,
+  "bounds": {
+    "minlat": -6.1292617,
+    "minlon": 106.6475670,
+    "maxlat": -6.1284707,
+    "maxlon": 106.6495511
+  },
+  "geometry": [
+    { "lat": -6.1284707, "lon": 106.6495511 },
+    { "lat": -6.1291346, "lon": 106.6478894 },
+    { "lat": -6.1292617, "lon": 106.6475670 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "alternating",
+    "railway": "rail",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1346627748,
+  "bounds": {
+    "minlat": -6.1462203,
+    "minlon": 106.6526985,
+    "maxlat": -6.1427350,
+    "maxlon": 106.6590976
+  },
+  "geometry": [
+    { "lat": -6.1462203, "lon": 106.6590976 },
+    { "lat": -6.1457101, "lon": 106.6586498 },
+    { "lat": -6.1453576, "lon": 106.6582669 },
+    { "lat": -6.1450305, "lon": 106.6577977 },
+    { "lat": -6.1448471, "lon": 106.6574742 },
+    { "lat": -6.1446046, "lon": 106.6569872 },
+    { "lat": -6.1435599, "lon": 106.6547433 },
+    { "lat": -6.1430973, "lon": 106.6537989 },
+    { "lat": -6.1429423, "lon": 106.6534197 },
+    { "lat": -6.1428116, "lon": 106.6530476 },
+    { "lat": -6.1427350, "lon": 106.6526985 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "embankment": "yes",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1346627749,
+  "bounds": {
+    "minlat": -6.1462366,
+    "minlon": 106.6526902,
+    "maxlat": -6.1427809,
+    "maxlon": 106.6590662
+  },
+  "geometry": [
+    { "lat": -6.1427809, "lon": 106.6526902 },
+    { "lat": -6.1428569, "lon": 106.6530383 },
+    { "lat": -6.1429924, "lon": 106.6534071 },
+    { "lat": -6.1431433, "lon": 106.6537791 },
+    { "lat": -6.1446487, "lon": 106.6569641 },
+    { "lat": -6.1448991, "lon": 106.6574637 },
+    { "lat": -6.1450719, "lon": 106.6577692 },
+    { "lat": -6.1454013, "lon": 106.6582359 },
+    { "lat": -6.1457506, "lon": 106.6586155 },
+    { "lat": -6.1462366, "lon": 106.6590662 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "embankment": "yes",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1346831899,
+  "bounds": {
+    "minlat": -6.1769868,
+    "minlon": 106.6336459,
+    "maxlat": -6.1769569,
+    "maxlon": 106.6351087
+  },
+  "geometry": [
+    { "lat": -6.1769755, "lon": 106.6336459 },
+    { "lat": -6.1769846, "lon": 106.6340074 },
+    { "lat": -6.1769868, "lon": 106.6343918 },
+    { "lat": -6.1769847, "lon": 106.6346695 },
+    { "lat": -6.1769569, "lon": 106.6351087 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "75",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1346831900,
+  "bounds": {
+    "minlat": -6.1770916,
+    "minlon": 106.6336352,
+    "maxlat": -6.1770847,
+    "maxlon": 106.6343098
+  },
+  "geometry": [
+    { "lat": -6.1770847, "lon": 106.6343098 },
+    { "lat": -6.1770916, "lon": 106.6339979 },
+    { "lat": -6.1770864, "lon": 106.6336352 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "30",
+    "railway": "rail",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 1346831901,
+  "bounds": {
+    "minlat": -6.1770562,
+    "minlon": 106.6336360,
+    "maxlat": -6.1769569,
+    "maxlon": 106.6351087
+  },
+  "geometry": [
+    { "lat": -6.1769569, "lon": 106.6351087 },
+    { "lat": -6.1770159, "lon": 106.6346689 },
+    { "lat": -6.1770416, "lon": 106.6345341 },
+    { "lat": -6.1770562, "lon": 106.6340021 },
+    { "lat": -6.1770486, "lon": 106.6336360 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "30",
+    "railway": "rail",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 1360980694,
+  "bounds": {
+    "minlat": -6.1769742,
+    "minlon": 106.6306155,
+    "maxlat": -6.1769255,
+    "maxlon": 106.6308713
+  },
+  "geometry": [
+    { "lat": -6.1769742, "lon": 106.6308713 },
+    { "lat": -6.1769255, "lon": 106.6306155 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "railway": "rail",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 1360980695,
+  "bounds": {
+    "minlat": -6.1769569,
+    "minlon": 106.6351087,
+    "maxlat": -6.1753327,
+    "maxlon": 106.6457306
+  },
+  "geometry": [
+    { "lat": -6.1769569, "lon": 106.6351087 },
+    { "lat": -6.1768622, "lon": 106.6360245 },
+    { "lat": -6.1768225, "lon": 106.6363027 },
+    { "lat": -6.1765928, "lon": 106.6377205 },
+    { "lat": -6.1765514, "lon": 106.6379753 },
+    { "lat": -6.1765391, "lon": 106.6380564 },
+    { "lat": -6.1759045, "lon": 106.6421180 },
+    { "lat": -6.1758899, "lon": 106.6422073 },
+    { "lat": -6.1755523, "lon": 106.6443974 },
+    { "lat": -6.1755325, "lon": 106.6445227 },
+    { "lat": -6.1753327, "lon": 106.6457306 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "75",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1360980696,
+  "bounds": {
+    "minlat": -6.1769504,
+    "minlon": 106.6336457,
+    "maxlat": -6.1752995,
+    "maxlon": 106.6457290
+  },
+  "geometry": [
+    { "lat": -6.1752995, "lon": 106.6457290 },
+    { "lat": -6.1754913, "lon": 106.6445195 },
+    { "lat": -6.1755111, "lon": 106.6443955 },
+    { "lat": -6.1758500, "lon": 106.6422043 },
+    { "lat": -6.1758646, "lon": 106.6421187 },
+    { "lat": -6.1765033, "lon": 106.6380509 },
+    { "lat": -6.1765156, "lon": 106.6379697 },
+    { "lat": -6.1766742, "lon": 106.6370005 },
+    { "lat": -6.1766949, "lon": 106.6368733 },
+    { "lat": -6.1768211, "lon": 106.6360088 },
+    { "lat": -6.1769244, "lon": 106.6349824 },
+    { "lat": -6.1769504, "lon": 106.6346742 },
+    { "lat": -6.1769491, "lon": 106.6340061 },
+    { "lat": -6.1769411, "lon": 106.6336457 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "75",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1360980697,
+  "bounds": {
+    "minlat": -6.1752995,
+    "minlon": 106.6457290,
+    "maxlat": -6.1749649,
+    "maxlon": 106.6478534
+  },
+  "geometry": [
+    { "lat": -6.1749649, "lon": 106.6478534 },
+    { "lat": -6.1752995, "lon": 106.6457290 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "75",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "railway:track_ref": "1",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1360980698,
+  "bounds": {
+    "minlat": -6.1753327,
+    "minlon": 106.6457306,
+    "maxlat": -6.1749974,
+    "maxlon": 106.6478566
+  },
+  "geometry": [
+    { "lat": -6.1753327, "lon": 106.6457306 },
+    { "lat": -6.1752407, "lon": 106.6463080 },
+    { "lat": -6.1749974, "lon": 106.6478566 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "75",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "railway:track_ref": "1",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1366733705,
+  "bounds": {
+    "minlat": -6.1292143,
+    "minlon": 106.6475471,
+    "maxlat": -6.1288561,
+    "maxlon": 106.6484676
+  },
+  "geometry": [
+    { "lat": -6.1288561, "lon": 106.6484676 },
+    { "lat": -6.1292143, "lon": 106.6475471 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1366733706,
+  "bounds": {
+    "minlat": -6.1302157,
+    "minlon": 106.6452319,
+    "maxlat": -6.1297938,
+    "maxlon": 106.6462486
+  },
+  "geometry": [
+    { "lat": -6.1302157, "lon": 106.6452319 },
+    { "lat": -6.1297938, "lon": 106.6462486 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "alternating",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+},
+{
+  "type": "way",
+  "id": 1366733707,
+  "bounds": {
+    "minlat": -6.1303622,
+    "minlon": 106.6447077,
+    "maxlat": -6.1297500,
+    "maxlon": 106.6462286
+  },
+  "geometry": [
+    { "lat": -6.1297500, "lon": 106.6462286 },
+    { "lat": -6.1303622, "lon": 106.6447077 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Bandara Soekarno-Hatta",
+    "oneway": "yes",
+    "railway": "rail",
+    "source": "digitalglobe",
+    "usage": "branch",
+    "voltage": "1500",
+    "wikidata": "Q56392844",
+    "wikipedia": "id:Jalur kereta api Batu Ceper–Bandara Soekarno-Hatta"
+  }
+}
+
+  ]
+}

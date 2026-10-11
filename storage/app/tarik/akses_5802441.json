@@ -1,0 +1,521 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-08T18:39:36Z",
+    "timestamp_areas_base": "2026-10-07T07:59:59Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 2567245926,
+  "lat": -6.2385487,
+  "lon": 106.9058271,
+  "tags": {
+    "addr:city": "Jakarta Timur",
+    "addr:housename": "Sultan Soffat Asmawi",
+    "addr:housenumber": "319",
+    "addr:street": "Tutul 2",
+    "emergency": "no",
+    "name": "Sultan Soffat Asmawi \"Pijat & Urut Tulang\"",
+    "note": "Sabtu Tutup, hari libur nasional tutup",
+    "phone": "+62 21 8617011",
+    "toilets:wheelchair": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4069790363,
+  "lat": -6.3009357,
+  "lon": 106.8996938,
+  "tags": {
+    "amenity": "restaurant",
+    "brand": "California Fried Chicken",
+    "brand:wikidata": "Q5020502",
+    "cuisine": "chicken",
+    "name": "CFC",
+    "takeaway": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5483044090,
+  "lat": -6.2652691,
+  "lon": 106.8853836,
+  "tags": {
+    "addr:city": "East Jakarta",
+    "addr:postcode": "13650",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop",
+    "internet_access:fee": "no",
+    "level": "1",
+    "name": "Bengawan Solo",
+    "outdoor_seating": "yes",
+    "smoking": "isolated",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6604475785,
+  "lat": -6.1883420,
+  "lon": 106.8822098,
+  "tags": {
+    "addr:city": "jakarta",
+    "addr:housenumber": "jakarta raya",
+    "addr:postcode": "15417",
+    "addr:street": "jakarta raya",
+    "amenity": "bank",
+    "name": "Poker-Online-tunaspoker",
+    "toilets:wheelchair": "no",
+    "website": "http://tunaspoker.club",
+    "wheelchair": "yes",
+    "wheelchair:description": "Poker online terpercaya"
+  }
+},
+{
+  "type": "node",
+  "id": 10554018661,
+  "lat": -6.2078757,
+  "lon": 106.8675387,
+  "tags": {
+    "addr:city": "DKI Jakarta",
+    "addr:housenumber": "22",
+    "addr:postcode": "13120",
+    "addr:street": "Jalan Kelapa Tunggal",
+    "amenity": "hospital",
+    "emergency": "no",
+    "healthcare": "hospital",
+    "healthcare:speciality": "general",
+    "name": "Klinik SouthernUK",
+    "operator": "Medical Herb",
+    "operator:type": "private",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11365051523,
+  "lat": -6.2912657,
+  "lon": 106.8865242,
+  "tags": {
+    "access": "customers",
+    "door": "gate",
+    "entrance": "exit",
+    "exit": "no",
+    "level": "0",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11576378127,
+  "lat": -6.2129840,
+  "lon": 106.8612303,
+  "tags": {
+    "amenity": "bus_station",
+    "bench": "yes",
+    "bin": "yes",
+    "bus": "yes",
+    "highway": "bus_stop",
+    "lit": "yes",
+    "name": "Matraman Baru",
+    "network": "Transjakarta",
+    "network:wikidata": "Q1671143",
+    "old_name": "Kebon Pala",
+    "operator": "Transjakarta",
+    "public_transport": "platform",
+    "ref": "5-15",
+    "route_ref": "5;5C;5D",
+    "shelter": "yes",
+    "wheelchair": "yes",
+    "wikidata": "Q20427267",
+    "wikipedia": "id:Halte Transjakarta Matraman Baru"
+  }
+},
+{
+  "type": "node",
+  "id": 11576512495,
+  "lat": -6.3065257,
+  "lon": 106.8657507,
+  "tags": {
+    "amenity": "bus_station",
+    "bench": "yes",
+    "bin": "yes",
+    "bus": "yes",
+    "departures_board": "realtime",
+    "highway": "bus_stop",
+    "lit": "yes",
+    "name": "Flyover Raya Bogor",
+    "network": "Transjakarta",
+    "network:wikidata": "Q1671143",
+    "operator": "Transjakarta",
+    "public_transport": "platform",
+    "ref": "7-3",
+    "route_ref": "10D;7;7F;7B",
+    "shelter": "yes",
+    "wheelchair": "yes",
+    "wikidata": "Q19943242",
+    "wikimedia_commons": "Category:Halte Transjakarta Flyover Raya Bogor",
+    "wikipedia": "id:Halte Transjakarta Flyover Raya Bogor"
+  }
+},
+{
+  "type": "node",
+  "id": 11933114049,
+  "lat": -6.2912347,
+  "lon": 106.8864703,
+  "tags": {
+    "addr:city": "East Jakarta",
+    "addr:housenumber": "RT.14/RW.2",
+    "addr:postcode": "13560",
+    "addr:street": "Jl. Pondok Gede",
+    "amenity": "bus_station",
+    "bin": "yes",
+    "bus": "yes",
+    "covered": "yes",
+    "departures_board": "realtime",
+    "highway": "bus_stop",
+    "level": "0",
+    "lit": "yes",
+    "name": "Pinang Ranti",
+    "network": "Transjakarta",
+    "network:wikidata": "Q1671143",
+    "operator": "Transjakarta",
+    "public_transport": "platform",
+    "ref": "9-1",
+    "route_ref": "9;9C;M9",
+    "shelter": "yes",
+    "smoking": "no",
+    "type": "public_transport",
+    "website": "https://www.transjakarta.co.id/",
+    "wheelchair": "yes",
+    "wikidata": "Q19944086",
+    "wikipedia": "id:Halte Transjakarta Pinang Ranti"
+  }
+},
+{
+  "type": "node",
+  "id": 11947776913,
+  "lat": -6.2901107,
+  "lon": 106.8810057,
+  "tags": {
+    "access": "customers",
+    "entrance": "main",
+    "exit": "yes",
+    "level": "1",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11952074939,
+  "lat": -6.2912262,
+  "lon": 106.8864788,
+  "tags": {
+    "access": "customers",
+    "entrance": "main",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11952074940,
+  "lat": -6.2912850,
+  "lon": 106.8864878,
+  "tags": {
+    "access": "customers",
+    "door": "gate",
+    "entrance": "yes",
+    "level": "0",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13626270812,
+  "lat": -6.2132317,
+  "lon": 106.8613805,
+  "tags": {
+    "amenity": "toilets",
+    "fee": "no",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 120184483,
+  "center": {
+    "lat": -6.2481335,
+    "lon": 106.9096278
+  },
+  "tags": {
+    "access:roof": "yes",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Inspeksi Saluran Tarum barat Kali malang No. 24 Kelurahan Cipinang Melayu, Kecamatan Makasar, Jakarta Timur 13620",
+    "addr:postcode": "13620",
+    "addr:street": "Tarum Barat",
+    "amenity": "hospital",
+    "backup_generator": "yes",
+    "building": "hospital",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "3",
+    "building:roof": "concrete",
+    "building:structure": "confined_masonry",
+    "building:use": "medical",
+    "building:walls": "concrete",
+    "capacity:persons": ">500",
+    "email": "rsharum@sismamedika.co.id",
+    "emergency": "yes",
+    "evacuation_center": "no",
+    "flood_prone": "no",
+    "healthcare": "hospital",
+    "healthcare:speciality": "general;intensive;psychiatry;dentistry",
+    "layer": "1",
+    "name": "Rumah Sakit Harum Sisma Medika",
+    "operator:type": "private",
+    "phone": "+62218617212",
+    "rooms": "> 100",
+    "source": "HOT_InAWARESurvey_2017",
+    "website": "https://harumsismamedika.com/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 155950878,
+  "center": {
+    "lat": -6.2142561,
+    "lon": 106.8723720
+  },
+  "tags": {
+    "addr:city": "DKI Jakarta",
+    "addr:housenumber": "2A",
+    "addr:postcode": "13110",
+    "addr:street": "Jalan Pisangan Baru Timur",
+    "amenity": "clinic",
+    "building": "yes",
+    "email": "puskesmas.matraman@jakarta.go.id",
+    "emergency": "yes",
+    "healthcare": "clinic",
+    "healthcare:speciality": "general",
+    "name": "Puskesmas Kecamatan Matraman",
+    "name:en": "Matraman Public Health Centre",
+    "operator": "Ministry of Health",
+    "operator:en": "Ministry of Health",
+    "operator:id": "Kementerian Kesehatan",
+    "operator:wikidata": "Q12490745",
+    "phone": "+62 21 21011622",
+    "website": "https://puskesmasmatraman.jakarta.go.id/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 155961326,
+  "center": {
+    "lat": -6.1870819,
+    "lon": 106.9491089
+  },
+  "tags": {
+    "addr:city": "DKI Jakarta",
+    "addr:housenumber": "KM 19 No. 24",
+    "addr:postcode": "13910",
+    "addr:street": "Bekasi Raya",
+    "building": "commercial",
+    "name": "Lulu Hypermarket & Department Store",
+    "opening_hours": "Tu-Su 09:00-22:00",
+    "shop": "department_store",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 174128186,
+  "center": {
+    "lat": -6.2015188,
+    "lon": 106.8863918
+  },
+  "tags": {
+    "addr:city": "Jakarta Timur",
+    "addr:district": "Pulo Gadung",
+    "addr:housenumber": "1",
+    "addr:postcode": "13220",
+    "addr:province": "DKI Jakarta",
+    "addr:street": "Jalan Balai Pustaka Timur",
+    "addr:subdistrict": "Rawamangun",
+    "air_conditioning": "yes",
+    "alt_name": "GKJ Rawamangun",
+    "amenity": "place_of_worship",
+    "building": "church",
+    "building:floor": "ceramics",
+    "building:levels": "2",
+    "building:roof": "clay_tiles",
+    "denomination": "presbyterian",
+    "email": "gkjjkt[at]bitnet.net.id",
+    "mobile": "+628111021642",
+    "name": "Gereja Kristen Jawa Jakarta",
+    "phone": "+6221 489 3435",
+    "religion": "christian",
+    "service_times": "Su 06:30,09:00,17:00",
+    "short_name": "GKJ Jakarta",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 315857307,
+  "center": {
+    "lat": -6.2466362,
+    "lon": 106.8704214
+  },
+  "tags": {
+    "access:roof": "yes",
+    "addr:city": "Jakarta Timur",
+    "addr:full": "Jalan MT Haryono",
+    "backup_generator": "yes",
+    "building": "hospital",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "11",
+    "building:roof": "concrete",
+    "building:structure": "confined_masonry",
+    "building:walls": "concrete",
+    "capacity:persons": ">500",
+    "check_date": "2024-07-03",
+    "evacuation_center": "no",
+    "flood_prone": "yes",
+    "healthcare": "hospital",
+    "name": "Gedung A & B Rumah Sakit Pusat Otak Nasional Prof. Dr. dr. Mahar Mardjono Jakarta",
+    "operator:type": "government",
+    "short_name": "RSPON",
+    "source": "HOT_InAWARESurvey_2017",
+    "start_date": "2013",
+    "website": "http://www.rspon.co.id/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 473314060,
+  "center": {
+    "lat": -6.2453145,
+    "lon": 106.8723644
+  },
+  "tags": {
+    "addr:street": "Jalan Biru Laut X",
+    "building": "hotel",
+    "building:levels": "21",
+    "internet_access": "wlan",
+    "name": "Harper Hotel MT. Haryono",
+    "stars": "4",
+    "start_date": "2015",
+    "tourism": "hotel",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 489530522,
+  "center": {
+    "lat": -6.1753512,
+    "lon": 106.8927097
+  },
+  "tags": {
+    "addr:city": "East Jakarta",
+    "addr:district": "Pulogadung",
+    "addr:housenumber": "23",
+    "addr:postcode": "13210",
+    "addr:province": "DKI Jakarta",
+    "addr:street": "Jalan Perintis Kemerdekaan",
+    "addr:subdistrict": "Kayu Putih",
+    "building": "apartments",
+    "building:levels": "39",
+    "name": "Tifolia Apartment",
+    "start_date": "2015",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 503162608,
+  "center": {
+    "lat": -6.2542422,
+    "lon": 106.8762471
+  },
+  "tags": {
+    "addr:city": "Jakarta Timur",
+    "addr:postcode": "13650",
+    "addr:street": "Jalan Mayjen Sutoyo No.1",
+    "building": "yes",
+    "building:levels": "5",
+    "name": "PT Transportasi Jakarta",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 927020149,
+  "center": {
+    "lat": -6.2463095,
+    "lon": 106.8696599
+  },
+  "tags": {
+    "addr:city": "Jakarta Timur",
+    "addr:province": "DKI Jakarta",
+    "amenity": "hospital",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "healthcare:speciality": "neurology",
+    "name": "Rumah Sakit Pusat Otak Nasional Prof. Dr. dr. Mahar Mardjono Jakarta",
+    "phone": "+62 (021)",
+    "short_name": "RSPON",
+    "website": "http://www.rspon.go.id/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1455973878,
+  "center": {
+    "lat": -6.2465322,
+    "lon": 106.8695248
+  },
+  "tags": {
+    "addr:city": "Jakarta Timur",
+    "addr:province": "DKI Jakarta",
+    "building": "hospital",
+    "check_date": "2025-12-04",
+    "layer": "2",
+    "name": "Gedung C Rumah Sakit Pusat Otak Nasional Prof. Dr. dr. Mahar Mardjono Jakarta",
+    "short_name": "RSPON",
+    "website": "http://www.rspon.co.id/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1455973879,
+  "center": {
+    "lat": -6.2460700,
+    "lon": 106.8690479
+  },
+  "tags": {
+    "addr:city": "Jakarta Timur",
+    "building": "hospital",
+    "building:levels": "11",
+    "check_date": "2025-12-04",
+    "name": "Gedung D Rumah Sakit Pusat Otak Nasional Prof. Dr. dr. Mahar Mardjono Jakarta",
+    "short_name": "RSPON",
+    "website": "http://www.rspon.co.id/",
+    "wheelchair": "yes"
+  }
+}
+
+  ]
+}

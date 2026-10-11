@@ -1,0 +1,56 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-09T04:52:15Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "way",
+  "id": 895339270,
+  "bounds": {
+    "minlat": -6.1736123,
+    "minlon": 106.9515013,
+    "maxlat": -6.1733742,
+    "maxlon": 106.9516904
+  },
+  "geometry": [
+    { "lat": -6.1736023, "lon": 106.9515013 },
+    { "lat": -6.1736123, "lon": 106.9516528 },
+    { "lat": -6.1736103, "lon": 106.9516696 },
+    { "lat": -6.1735950, "lon": 106.9516770 },
+    { "lat": -6.1733742, "lon": 106.9516904 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1214260549,
+  "bounds": {
+    "minlat": -6.1925494,
+    "minlon": 106.9051293,
+    "maxlat": -6.1924252,
+    "maxlon": 106.9056893
+  },
+  "geometry": [
+    { "lat": -6.1925494, "lon": 106.9056852 },
+    { "lat": -6.1925029, "lon": 106.9056893 },
+    { "lat": -6.1924776, "lon": 106.9056811 },
+    { "lat": -6.1924411, "lon": 106.9056417 },
+    { "lat": -6.1924280, "lon": 106.9056095 },
+    { "lat": -6.1924252, "lon": 106.9055496 },
+    { "lat": -6.1924554, "lon": 106.9051293 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+}
+
+  ]
+}

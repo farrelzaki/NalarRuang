@@ -1,0 +1,424 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-07-28T02:16:18Z",
+    "timestamp_areas_base": "2026-07-28T02:16:18Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 1782783966,
+  "lat": -6.4210479,
+  "lon": 106.8936776,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Toll Gate Cimanggis"
+  }
+},
+{
+  "type": "node",
+  "id": 1782783967,
+  "lat": -6.4211118,
+  "lon": 106.8937527,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Toll Gate Cimanggis"
+  }
+},
+{
+  "type": "node",
+  "id": 2334451480,
+  "lat": -6.3828121,
+  "lon": 106.8957109,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Toll Gate Cimanggis 2"
+  }
+},
+{
+  "type": "node",
+  "id": 3999530636,
+  "lat": -6.3806189,
+  "lon": 106.8645123,
+  "tags": {
+    "access": "yes",
+    "barrier": "toll_booth",
+    "name": "Toll Gate Cisalak 3"
+  }
+},
+{
+  "type": "node",
+  "id": 3999530656,
+  "lat": -6.3820758,
+  "lon": 106.8712798,
+  "tags": {
+    "barrier": "toll_booth",
+    "motor_vehicle": "yes",
+    "motorcycle": "no",
+    "name": "Cisalak 2"
+  }
+},
+{
+  "type": "node",
+  "id": 4879617243,
+  "lat": -6.3807293,
+  "lon": 106.8644997,
+  "tags": {
+    "access": "yes",
+    "barrier": "toll_booth",
+    "name": "Toll Gate Cisalak 3"
+  }
+},
+{
+  "type": "node",
+  "id": 4879617256,
+  "lat": -6.3810116,
+  "lon": 106.8619469,
+  "tags": {
+    "access": "yes",
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 4879617285,
+  "lat": -6.3791805,
+  "lon": 106.8402190,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Margonda 2"
+  }
+},
+{
+  "type": "node",
+  "id": 4879623933,
+  "lat": -6.3768839,
+  "lon": 106.8347034,
+  "tags": {
+    "barrier": "toll_booth",
+    "motor_vehicle": "yes",
+    "motorcycle": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 4879623937,
+  "lat": -6.3767533,
+  "lon": 106.8347650,
+  "tags": {
+    "access": "yes",
+    "barrier": "toll_booth",
+    "name": "Margonda 1"
+  }
+},
+{
+  "type": "node",
+  "id": 5937923557,
+  "lat": -6.3206504,
+  "lon": 106.8037069,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 5986405370,
+  "lat": -6.3867659,
+  "lon": 106.8966038,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Toll Gate Cimanggis 3"
+  }
+},
+{
+  "type": "node",
+  "id": 6427368560,
+  "lat": -6.3819359,
+  "lon": 106.8728569,
+  "tags": {
+    "access": "yes",
+    "barrier": "toll_booth",
+    "name": "Toll Gate Cisalak 1"
+  }
+},
+{
+  "type": "node",
+  "id": 6615493935,
+  "lat": -6.3823037,
+  "lon": 106.8719007,
+  "tags": {
+    "barrier": "toll_booth",
+    "motor_vehicle": "yes",
+    "motorcycle": "no",
+    "name": "Cisalak 2"
+  }
+},
+{
+  "type": "node",
+  "id": 6997575422,
+  "lat": -6.3697846,
+  "lon": 106.8154120,
+  "tags": {
+    "barrier": "toll_booth",
+    "motor_vehicle": "yes",
+    "name": "Kukusan 2"
+  }
+},
+{
+  "type": "node",
+  "id": 7036765880,
+  "lat": -6.3877252,
+  "lon": 106.8981138,
+  "tags": {
+    "access": "yes",
+    "barrier": "toll_booth",
+    "name": "Cimanggis 5"
+  }
+},
+{
+  "type": "node",
+  "id": 7205557428,
+  "lat": -6.3777702,
+  "lon": 106.8356516,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Margonda 2"
+  }
+},
+{
+  "type": "node",
+  "id": 7281346684,
+  "lat": -6.3559311,
+  "lon": 106.7890835,
+  "tags": {
+    "access": "yes",
+    "barrier": "toll_booth",
+    "name": "Krukut 1"
+  }
+},
+{
+  "type": "node",
+  "id": 7674225391,
+  "lat": -6.3928027,
+  "lon": 106.7825844,
+  "tags": {
+    "access": "yes",
+    "barrier": "toll_booth",
+    "name": "Sawangan 4"
+  }
+},
+{
+  "type": "node",
+  "id": 7674225392,
+  "lat": -6.3926842,
+  "lon": 106.7831426,
+  "tags": {
+    "access": "yes",
+    "barrier": "toll_booth",
+    "name": "Sawangan 1"
+  }
+},
+{
+  "type": "node",
+  "id": 7674225456,
+  "lat": -6.3542650,
+  "lon": 106.7891144,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Krukut 4"
+  }
+},
+{
+  "type": "node",
+  "id": 7975425863,
+  "lat": -6.3851308,
+  "lon": 106.8955674,
+  "tags": {
+    "access": "yes",
+    "barrier": "toll_booth",
+    "name": "Cimanggis 4"
+  }
+},
+{
+  "type": "node",
+  "id": 9985743318,
+  "lat": -6.3701704,
+  "lon": 106.8149065,
+  "tags": {
+    "access": "yes",
+    "barrier": "toll_booth",
+    "motor_vehicle": "yes",
+    "name": "Gerbang Tol Kukusan 1"
+  }
+},
+{
+  "type": "node",
+  "id": 10091960413,
+  "lat": -6.3649880,
+  "lon": 106.7937212,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Krukut 3"
+  }
+},
+{
+  "type": "node",
+  "id": 10091991819,
+  "lat": -6.3652717,
+  "lon": 106.7917467,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Krukut 5"
+  }
+},
+{
+  "type": "node",
+  "id": 10091991820,
+  "lat": -6.3655054,
+  "lon": 106.7930660,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Krukut 4"
+  }
+},
+{
+  "type": "node",
+  "id": 10278450524,
+  "lat": -6.3688157,
+  "lon": 106.8114075,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Kukusan 3"
+  }
+},
+{
+  "type": "node",
+  "id": 10278450525,
+  "lat": -6.3683820,
+  "lon": 106.8117613,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Kukusan 4"
+  }
+},
+{
+  "type": "node",
+  "id": 11142678241,
+  "lat": -6.3413499,
+  "lon": 106.7990654,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 11142678242,
+  "lat": -6.3416439,
+  "lon": 106.7995140,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 11178931553,
+  "lat": -6.3630254,
+  "lon": 106.7738791,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Limo 2"
+  }
+},
+{
+  "type": "node",
+  "id": 11178931554,
+  "lat": -6.3628841,
+  "lon": 106.7738715,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Limo 2"
+  }
+},
+{
+  "type": "node",
+  "id": 11178931572,
+  "lat": -6.3618686,
+  "lon": 106.7715946,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Limo Utama"
+  }
+},
+{
+  "type": "node",
+  "id": 11178931573,
+  "lat": -6.3616810,
+  "lon": 106.7716054,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Limo Utama"
+  }
+},
+{
+  "type": "node",
+  "id": 11178931582,
+  "lat": -6.3608262,
+  "lon": 106.7738224,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Limo 1"
+  }
+},
+{
+  "type": "node",
+  "id": 11178931583,
+  "lat": -6.3606934,
+  "lon": 106.7738225,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Limo 1"
+  }
+},
+{
+  "type": "node",
+  "id": 11409626621,
+  "lat": -6.3627366,
+  "lon": 106.7858085,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 11409626627,
+  "lat": -6.3640068,
+  "lon": 106.7873239,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 11503278400,
+  "lat": -6.3206303,
+  "lon": 106.8032853,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 12201649665,
+  "lat": -6.4118703,
+  "lon": 106.8978385,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Cimanggis 6"
+  }
+}
+
+  ]
+}

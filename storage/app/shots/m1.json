@@ -1,0 +1,17 @@
+{"width":390,"height":844,"mobile":true,"langkah":[
+{"buka":"http://127.0.0.1:8000/peta?persona=commuter,zen","tunggu":4500},
+{"foto":"m2-peta.png"},
+{"klik":[150,30]},{"ketik":"dekat stasiun, tidak banjir, di Bogor"},{"enter":true,"tunggu":5000},
+{"foto":"m3-top3.png"},
+{"js":"document.querySelector('.nr-top3__item').click()","tunggu":5000},
+{"foto":"m4-detail.png"},
+{"js":"document.querySelector('.nr-inspector .nr-iconbtn').click()","tunggu":800},
+{"js":"[...document.querySelectorAll('.nr-capsbtn')][0].click()","tunggu":1200},
+{"js":"document.querySelectorAll('.nr-app__kanan [role=switch]')[0].click()","tunggu":5000},
+{"foto":"m5-layer.png"},
+{"js":"document.querySelector('.nr-app__kanan .nr-iconbtn').click()","tunggu":600},
+{"js":"document.querySelector('.nr-search__btn[aria-pressed]:last-child, .nr-search__tools button:last-child').click()","tunggu":1500},
+{"foto":"m6-rute.png"},
+{"js":"document.querySelector('.nr-brandbtn').click()","tunggu":1200},
+{"foto":"m7-drawer.png"}
+]}

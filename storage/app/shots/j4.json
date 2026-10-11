@@ -1,0 +1,7 @@
+{"width":1280,"height":720,"langkah":[
+{"buka":"http://127.0.0.1:8000/peta?persona=commuter","tunggu":5000},
+{"js":"[...document.querySelectorAll('.nr-capsbtn')][0].click()","tunggu":800},
+{"js":"document.querySelectorAll('.nr-app__kanan [role=switch]')[1].click()","tunggu":9000},
+{"js":"(()=>{const t=[...document.querySelectorAll('img.leaflet-tile')];const r=performance.getEntriesByType('resource').filter(e=>e.name.includes('tile.openstreetmap'));return {n:t.length, loaded:t.filter(i=>i.classList.contains('leaflet-tile-loaded')).length, complete:t.filter(i=>i.complete&&i.naturalWidth>0).length, res:r.length, resRecent:r.slice(-3).map(e=>[e.name.split('/').slice(-3).join('/'), Math.round(e.duration), e.responseStatus])}})()"},
+{"js":"(()=>{const m=document.querySelector('.leaflet-container');return {zoom: document.querySelector('.leaflet-tile-container')?.style.transform, panes:[...document.querySelectorAll('.leaflet-tile-container')].length}})()"}
+]}

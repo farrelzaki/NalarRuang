@@ -1,0 +1,9 @@
+{"width":390,"height":844,"mobile":true,"langkah":[
+{"buka":"http://127.0.0.1:8000/","tunggu":4000},
+{"js":"document.documentElement.scrollWidth + ' x ' + document.documentElement.scrollHeight"},
+{"foto":"l-m1.png"},
+{"js":"window.scrollTo(0,1600)","tunggu":800},{"foto":"l-m2.png"},
+{"js":"window.scrollTo(0,3400)","tunggu":800},{"foto":"l-m3.png"},
+{"js":"window.scrollTo(0,5600)","tunggu":800},{"foto":"l-m4.png"},
+{"js":"window.scrollTo(0,8000)","tunggu":800},{"foto":"l-m5.png"}
+]}

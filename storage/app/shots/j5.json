@@ -1,0 +1,7 @@
+{"width":1536,"height":864,"langkah":[
+{"buka":"http://127.0.0.1:8000/peta?persona=commuter","tunggu":5000},
+{"js":"[...document.querySelectorAll('.nr-capsbtn')][0].click()","tunggu":800},
+{"js":"document.querySelectorAll('.nr-app__kanan [role=switch]')[1].click()","tunggu":7000},
+{"klik":[190,40]},{"ketik":"dekat stasiun di Jakarta"},{"enter":true,"tunggu":12000},
+{"js":"(()=>{const t=[...document.querySelectorAll('img.leaflet-tile')];const r=performance.getEntriesByType('resource').filter(e=>e.name.includes('tile.openstreetmap'));return {n:t.length, loaded:t.filter(i=>i.classList.contains('leaflet-tile-loaded')).length, complete:t.filter(i=>i.complete).length, broken:t.filter(i=>i.complete&&i.naturalWidth===0).length, res:r.length, contoh:t.slice(0,2).map(i=>i.src), cont:[...document.querySelectorAll('.leaflet-tile-container')].map(c=>c.style.transform+' '+c.children.length)}})()"}
+]}

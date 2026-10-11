@@ -1,0 +1,423 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-09T04:53:19Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "way",
+  "id": 1028931800,
+  "bounds": {
+    "minlat": -6.4373731,
+    "minlon": 107.0519786,
+    "maxlat": -6.4372438,
+    "maxlon": 107.0521907
+  },
+  "geometry": [
+    { "lat": -6.4373731, "lon": 107.0519864 },
+    { "lat": -6.4373527, "lon": 107.0521145 },
+    { "lat": -6.4373406, "lon": 107.0521907 },
+    { "lat": -6.4372438, "lon": 107.0521827 },
+    { "lat": -6.4372443, "lon": 107.0521063 },
+    { "lat": -6.4372452, "lon": 107.0519786 }
+  ],
+  "tags": {
+    "access": "private",
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1028931801,
+  "bounds": {
+    "minlat": -6.4379329,
+    "minlon": 107.0519091,
+    "maxlat": -6.4378880,
+    "maxlon": 107.0522102
+  },
+  "geometry": [
+    { "lat": -6.4379329, "lon": 107.0519091 },
+    { "lat": -6.4379246, "lon": 107.0519651 },
+    { "lat": -6.4379150, "lon": 107.0520291 },
+    { "lat": -6.4379056, "lon": 107.0520922 },
+    { "lat": -6.4378962, "lon": 107.0521554 },
+    { "lat": -6.4378880, "lon": 107.0522102 }
+  ],
+  "tags": {
+    "access": "private",
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1028931802,
+  "bounds": {
+    "minlat": -6.4379888,
+    "minlon": 107.0520271,
+    "maxlat": -6.4377356,
+    "maxlon": 107.0521049
+  },
+  "geometry": [
+    { "lat": -6.4379888, "lon": 107.0521049 },
+    { "lat": -6.4379056, "lon": 107.0520922 },
+    { "lat": -6.4377875, "lon": 107.0520741 },
+    { "lat": -6.4377356, "lon": 107.0520271 }
+  ],
+  "tags": {
+    "access": "private",
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1028931803,
+  "bounds": {
+    "minlat": -6.4380261,
+    "minlon": 107.0520097,
+    "maxlat": -6.4377356,
+    "maxlon": 107.0520473
+  },
+  "geometry": [
+    { "lat": -6.4380261, "lon": 107.0520473 },
+    { "lat": -6.4379150, "lon": 107.0520291 },
+    { "lat": -6.4377969, "lon": 107.0520097 },
+    { "lat": -6.4377356, "lon": 107.0520271 }
+  ],
+  "tags": {
+    "access": "private",
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1028931804,
+  "bounds": {
+    "minlat": -6.4379648,
+    "minlon": 107.0521186,
+    "maxlat": -6.4376403,
+    "maxlon": 107.0521653
+  },
+  "geometry": [
+    { "lat": -6.4379648, "lon": 107.0521653 },
+    { "lat": -6.4378962, "lon": 107.0521554 },
+    { "lat": -6.4376403, "lon": 107.0521186 }
+  ],
+  "tags": {
+    "access": "private",
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1028931805,
+  "bounds": {
+    "minlat": -6.4379568,
+    "minlon": 107.0521729,
+    "maxlat": -6.4376329,
+    "maxlon": 107.0522203
+  },
+  "geometry": [
+    { "lat": -6.4376329, "lon": 107.0521729 },
+    { "lat": -6.4378880, "lon": 107.0522102 },
+    { "lat": -6.4379568, "lon": 107.0522203 }
+  ],
+  "tags": {
+    "access": "private",
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1028931806,
+  "bounds": {
+    "minlat": -6.4376372,
+    "minlon": 107.0521145,
+    "maxlat": -6.4373527,
+    "maxlon": 107.0521412
+  },
+  "geometry": [
+    { "lat": -6.4373527, "lon": 107.0521145 },
+    { "lat": -6.4376372, "lon": 107.0521412 }
+  ],
+  "tags": {
+    "access": "private",
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1028931807,
+  "bounds": {
+    "minlat": -6.4372443,
+    "minlon": 107.0520982,
+    "maxlat": -6.4369609,
+    "maxlon": 107.0521063
+  },
+  "geometry": [
+    { "lat": -6.4369609, "lon": 107.0520982 },
+    { "lat": -6.4372443, "lon": 107.0521063 }
+  ],
+  "tags": {
+    "access": "private",
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1028931808,
+  "bounds": {
+    "minlat": -6.4367000,
+    "minlon": 107.0518302,
+    "maxlat": -6.4366935,
+    "maxlon": 107.0521350
+  },
+  "geometry": [
+    { "lat": -6.4366935, "lon": 107.0518302 },
+    { "lat": -6.4366946, "lon": 107.0518849 },
+    { "lat": -6.4366960, "lon": 107.0519479 },
+    { "lat": -6.4366974, "lon": 107.0520134 },
+    { "lat": -6.4366987, "lon": 107.0520764 },
+    { "lat": -6.4367000, "lon": 107.0521350 }
+  ],
+  "tags": {
+    "access": "private",
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1028931809,
+  "bounds": {
+    "minlat": -6.4368773,
+    "minlon": 107.0519708,
+    "maxlat": -6.4365535,
+    "maxlon": 107.0520177
+  },
+  "geometry": [
+    { "lat": -6.4365535, "lon": 107.0520177 },
+    { "lat": -6.4366974, "lon": 107.0520134 },
+    { "lat": -6.4368187, "lon": 107.0520097 },
+    { "lat": -6.4368773, "lon": 107.0519708 }
+  ],
+  "tags": {
+    "access": "private",
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1028931810,
+  "bounds": {
+    "minlat": -6.4368773,
+    "minlon": 107.0519440,
+    "maxlat": -6.4365642,
+    "maxlon": 107.0519708
+  },
+  "geometry": [
+    { "lat": -6.4365642, "lon": 107.0519520 },
+    { "lat": -6.4366960, "lon": 107.0519479 },
+    { "lat": -6.4368200, "lon": 107.0519440 },
+    { "lat": -6.4368773, "lon": 107.0519708 }
+  ],
+  "tags": {
+    "access": "private",
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1028931811,
+  "bounds": {
+    "minlat": -6.4369605,
+    "minlon": 107.0521304,
+    "maxlat": -6.4366588,
+    "maxlon": 107.0521358
+  },
+  "geometry": [
+    { "lat": -6.4369605, "lon": 107.0521304 },
+    { "lat": -6.4367000, "lon": 107.0521350 },
+    { "lat": -6.4366588, "lon": 107.0521358 }
+  ],
+  "tags": {
+    "access": "private",
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1028931812,
+  "bounds": {
+    "minlat": -6.4369613,
+    "minlon": 107.0520727,
+    "maxlat": -6.4365748,
+    "maxlon": 107.0520781
+  },
+  "geometry": [
+    { "lat": -6.4369613, "lon": 107.0520727 },
+    { "lat": -6.4366987, "lon": 107.0520764 },
+    { "lat": -6.4365748, "lon": 107.0520781 }
+  ],
+  "tags": {
+    "access": "private",
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1028931813,
+  "bounds": {
+    "minlat": -6.4369626,
+    "minlon": 107.0517777,
+    "maxlat": -6.4369560,
+    "maxlon": 107.0521733
+  },
+  "geometry": [
+    { "lat": -6.4369560, "lon": 107.0517777 },
+    { "lat": -6.4369576, "lon": 107.0518261 },
+    { "lat": -6.4369594, "lon": 107.0518783 },
+    { "lat": -6.4369626, "lon": 107.0519726 },
+    { "lat": -6.4369613, "lon": 107.0520727 },
+    { "lat": -6.4369609, "lon": 107.0520982 },
+    { "lat": -6.4369605, "lon": 107.0521304 },
+    { "lat": -6.4369600, "lon": 107.0521733 }
+  ],
+  "tags": {
+    "access": "private",
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1028931814,
+  "bounds": {
+    "minlat": -6.4376722,
+    "minlon": 107.0518205,
+    "maxlat": -6.4376276,
+    "maxlon": 107.0522122
+  },
+  "geometry": [
+    { "lat": -6.4376722, "lon": 107.0518205 },
+    { "lat": -6.4376678, "lon": 107.0518677 },
+    { "lat": -6.4376623, "lon": 107.0519279 },
+    { "lat": -6.4376539, "lon": 107.0520179 },
+    { "lat": -6.4376403, "lon": 107.0521186 },
+    { "lat": -6.4376372, "lon": 107.0521412 },
+    { "lat": -6.4376329, "lon": 107.0521729 },
+    { "lat": -6.4376276, "lon": 107.0522122 }
+  ],
+  "tags": {
+    "access": "private",
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1028931815,
+  "bounds": {
+    "minlat": -6.4380314,
+    "minlon": 107.0518783,
+    "maxlat": -6.4365842,
+    "maxlon": 107.0519802
+  },
+  "geometry": [
+    { "lat": -6.4365842, "lon": 107.0518877 },
+    { "lat": -6.4366946, "lon": 107.0518849 },
+    { "lat": -6.4369594, "lon": 107.0518783 },
+    { "lat": -6.4373157, "lon": 107.0518943 },
+    { "lat": -6.4376623, "lon": 107.0519279 },
+    { "lat": -6.4379246, "lon": 107.0519651 },
+    { "lat": -6.4380314, "lon": 107.0519802 }
+  ],
+  "tags": {
+    "access": "private",
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1028931816,
+  "bounds": {
+    "minlat": -6.4380101,
+    "minlon": 107.0518261,
+    "maxlat": -6.4366228,
+    "maxlon": 107.0519212
+  },
+  "geometry": [
+    { "lat": -6.4380101, "lon": 107.0519212 },
+    { "lat": -6.4379329, "lon": 107.0519091 },
+    { "lat": -6.4376678, "lon": 107.0518677 },
+    { "lat": -6.4373148, "lon": 107.0518380 },
+    { "lat": -6.4369576, "lon": 107.0518261 },
+    { "lat": -6.4366935, "lon": 107.0518302 },
+    { "lat": -6.4366228, "lon": 107.0518313 }
+  ],
+  "tags": {
+    "access": "private",
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1181006333,
+  "bounds": {
+    "minlat": -6.2253087,
+    "minlon": 107.1138435,
+    "maxlat": -6.2248200,
+    "maxlon": 107.1139160
+  },
+  "geometry": [
+    { "lat": -6.2253087, "lon": 107.1138435 },
+    { "lat": -6.2248200, "lon": 107.1139160 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1301324285,
+  "bounds": {
+    "minlat": -6.3207532,
+    "minlon": 107.2749332,
+    "maxlat": -6.3207345,
+    "maxlon": 107.2750808
+  },
+  "geometry": [
+    { "lat": -6.3207345, "lon": 107.2750808 },
+    { "lat": -6.3207532, "lon": 107.2749332 }
+  ],
+  "tags": {
+    "bicycle": "yes",
+    "foot": "yes",
+    "footway": "sidewalk",
+    "highway": "footway",
+    "horse": "unknown",
+    "motor_vehicle": "no",
+    "surface": "concrete",
+    "width": "2"
+  }
+}
+
+  ]
+}

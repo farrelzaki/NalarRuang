@@ -1,0 +1,605 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-08T18:47:46Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 316743611,
+  "lat": -6.2245133,
+  "lon": 106.9798267,
+  "tags": {
+    "addr:city": "RT.1/RW.20, Kranji, Bekasi Barat",
+    "addr:housenumber": "7",
+    "addr:postcode": "17135",
+    "addr:street": "Jalan Sultan Agung",
+    "alt_name": "Stasiun Kranji",
+    "ele": "18",
+    "name": "Kranji",
+    "name:en": "Kranji",
+    "name:id": "Kranji",
+    "network": "KAI Commuter",
+    "network:wikidata": "Q12501611",
+    "operator": "PT Kereta Api Indonesia",
+    "operator:website": "https://www.kai.id",
+    "operator:wikidata": "Q2745027",
+    "public_transport": "station",
+    "railway": "station",
+    "railway:ref": "KRI",
+    "train": "yes",
+    "wheelchair": "yes",
+    "wikidata": "Q2465391",
+    "wikipedia": "id:Stasiun Kranji"
+  }
+},
+{
+  "type": "node",
+  "id": 316744738,
+  "lat": -6.2618245,
+  "lon": 107.0837982,
+  "tags": {
+    "alt_name": "Stasiun Cibitung",
+    "ele": "19",
+    "name": "Cibitung",
+    "name:en": "Cibitung",
+    "name:id": "Cibitung",
+    "name:ja": "チビトン",
+    "network": "KAI Commuter",
+    "network:wikidata": "Q12501611",
+    "operator": "KAI Commuter",
+    "operator:wikidata": "Q12501611",
+    "public_transport": "station",
+    "railway": "station",
+    "railway:ref": "CIT",
+    "train": "yes",
+    "wheelchair": "yes",
+    "wikidata": "Q2198245",
+    "wikipedia": "id:Stasiun Cibitung"
+  }
+},
+{
+  "type": "node",
+  "id": 4696829628,
+  "lat": -6.3929865,
+  "lon": 106.9994780,
+  "tags": {
+    "access": "yes",
+    "leisure": "swimming_pool",
+    "location": "outdoor",
+    "name": "Water Joy",
+    "toilets:wheelchair": "no",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5713318139,
+  "lat": -6.3994805,
+  "lon": 106.9755533,
+  "tags": {
+    "toilets:wheelchair": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7647951818,
+  "lat": -6.2277195,
+  "lon": 107.0062700,
+  "tags": {
+    "addr:city": "Bekasi Utara",
+    "addr:housenumber": "28",
+    "addr:postcode": "17124",
+    "addr:street": "Jalan Perjuangan No 28",
+    "name": "Mama Foods Agen Frozen Foods",
+    "opening_hours": "Mo-Su 07:00-19:00",
+    "operator": "Mama Foods",
+    "payment:cash": "yes",
+    "payment:coins": "yes",
+    "payment:cryptocurrencies": "yes",
+    "payment:telephone_cards": "yes",
+    "shop": "frozen_food",
+    "stroller": "yes",
+    "website": "https://mamafoodss.business.site/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9333138701,
+  "lat": -6.2926996,
+  "lon": 107.1869561,
+  "tags": {
+    "access": "destination",
+    "bicycle": "yes",
+    "foot": "yes",
+    "horse": "yes",
+    "locked": "no",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10666033364,
+  "lat": -6.3176302,
+  "lon": 107.2918394,
+  "tags": {
+    "addr:city": "Kabupaten Karawang",
+    "addr:housenumber": "Ruko Pandawa no 1-2",
+    "addr:postcode": "41361",
+    "addr:street": "Jalan Pakuncen no 1",
+    "amenity": "clinic",
+    "healthcare": "clinic",
+    "healthcare:speciality": "clinic",
+    "name": "Mardhani Clinic",
+    "opening_hours": "Mo-Su 07:00-21:00",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11107507589,
+  "lat": -6.2614089,
+  "lon": 106.9937459,
+  "tags": {
+    "access": "permissive",
+    "barrier": "gate",
+    "locked": "no",
+    "material": "steel",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12114182406,
+  "lat": -6.2429096,
+  "lon": 107.0021036,
+  "tags": {
+    "access": "yes",
+    "addr:city": "Kota Bekasi",
+    "addr:province": "Jawa Barat",
+    "addr:street": "Jalan Mayor Oking",
+    "entrance": "main",
+    "name": "Pintu Masuk Gedung F",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12543529495,
+  "lat": -6.2341439,
+  "lon": 106.9735646,
+  "tags": {
+    "addr:city": "Bekasi",
+    "addr:district": "Kranji",
+    "addr:housenumber": "01",
+    "addr:postcode": "17111",
+    "addr:province": "West Java",
+    "addr:street": "Jalan Pemuda Raya",
+    "addr:subdistrict": "Kranji",
+    "air_conditioning": "yes",
+    "amenity": "bar",
+    "brewery": "yes",
+    "min_age": "2q",
+    "name": "Savory Heights at Punto",
+    "name:id": "Keajaiban di Punto",
+    "opening_hours": "24/7",
+    "outdoor_seating": "no",
+    "smoking": "dedicated",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12890386085,
+  "lat": -6.3566085,
+  "lon": 107.2439431,
+  "tags": {
+    "access": "yes",
+    "amenity": "toilets",
+    "female": "yes",
+    "male": "yes",
+    "toilets:disposal": "flush",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12890386086,
+  "lat": -6.3563863,
+  "lon": 107.2427032,
+  "tags": {
+    "access": "yes",
+    "amenity": "toilets",
+    "female": "yes",
+    "male": "yes",
+    "toilets:disposal": "flush",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12890386087,
+  "lat": -6.3571351,
+  "lon": 107.2432608,
+  "tags": {
+    "access": "yes",
+    "amenity": "toilets",
+    "female": "yes",
+    "male": "yes",
+    "toilets:disposal": "flush",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12890386088,
+  "lat": -6.3575598,
+  "lon": 107.2426050,
+  "tags": {
+    "access": "yes",
+    "amenity": "toilets",
+    "female": "yes",
+    "male": "yes",
+    "toilets:disposal": "flush",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12890386610,
+  "lat": -6.3566951,
+  "lon": 107.2422195,
+  "tags": {
+    "access": "yes",
+    "amenity": "toilets",
+    "female": "yes",
+    "male": "yes",
+    "toilets:disposal": "flush",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12917106901,
+  "lat": -6.2951094,
+  "lon": 106.9989934,
+  "tags": {
+    "amenity": "toilets",
+    "fee": "no",
+    "level": "0",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 227762674,
+  "center": {
+    "lat": -6.2605573,
+    "lon": 107.0133208
+  },
+  "tags": {
+    "addr:city": "Bekasi",
+    "addr:postcode": "17113",
+    "addr:street": "Jalan Pengasinan",
+    "amenity": "hospital",
+    "description": "Rumah Sakit Swasta Mitra Keluarga Bekasi Timur",
+    "email": "appointment.bt@mitrakeluarga.com",
+    "emergency": "yes",
+    "fax": "+62218820707",
+    "healthcare": "hospital",
+    "healthcare:speciality": "general;dentistry;emergency;surgery;cardiology;radiology;laparoscopy;arthroscopy;internal",
+    "name": "RS Mitra Keluarga Bekasi Timur",
+    "official_name": "Rumah Sakit Mitra Keluarga Bekasi Timur",
+    "operator": "Mitra Keluarga",
+    "operator:type": "private",
+    "phone": "+622189999222",
+    "website": "https://www.mitrakeluarga.com/bekasi-timur/menu-fasilitas-rs",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 499506122,
+  "center": {
+    "lat": -6.2578068,
+    "lon": 107.0111903
+  },
+  "tags": {
+    "addr:city": "Bekasi",
+    "addr:housenumber": "111",
+    "addr:postcode": "17113",
+    "addr:street": "Jalan Chairil Anwar",
+    "amenity": "clinic",
+    "building": "yes",
+    "description": "Pusat Kesehatan Masyarakat (PUSKESMAS) Karang Kitri Kota Bekasi adalah layanan kesehatan milik pemerintah Kota Bekasi.",
+    "government": "yes",
+    "healthcare": "clinic",
+    "healthcare:speciality": "general;stomatology",
+    "name": "Puskesmas Karang Kitri",
+    "official_name": "UPTD Puskesmas Karangkitri",
+    "operator": "Dinas Kesehatan Kota Bekasi",
+    "operator:en": "Bekasi City Department of Health",
+    "operator:id": "Dinas Kesehatan Kota Bekasi",
+    "operator:type": "government",
+    "operator:wikidata": "Q12490745",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 504321534,
+  "center": {
+    "lat": -6.2447805,
+    "lon": 107.1082080
+  },
+  "tags": {
+    "addr:full": "kirana lengkeng blok D2., Jl. Metland Cibitung, Wanajaya, Cibitung, Bekasi, Jawa Barat 17520",
+    "building": "yes",
+    "name": "Warung Rokok Abdullah",
+    "opening_hours": "24/7",
+    "shop": "kiosk",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1118500925,
+  "center": {
+    "lat": -6.2254363,
+    "lon": 106.9706546
+  },
+  "tags": {
+    "amenity": "police",
+    "building": "yes",
+    "name": "Kantor Sub Sektor Kranji",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1208665705,
+  "center": {
+    "lat": -6.2844454,
+    "lon": 107.2858917
+  },
+  "tags": {
+    "addr:city": "Karawang, Jawa Barat",
+    "addr:housenumber": "Jl. Pangkal Perjuangan, RT.05/RW.04",
+    "addr:postcode": "41316",
+    "addr:street": "Tanjungpura, Kec. Karawang Bar",
+    "amenity": "school",
+    "capacity": "3008",
+    "grades": "10-12",
+    "name": "SMKN 1 Karawang",
+    "source": "local knowledge;pemda karawang",
+    "start_date": "1965-08-13",
+    "wheelchair": "yes",
+    "wikidata": "Q65212541",
+    "wikipedia": "id:SMK Negeri 1 Karawang"
+  }
+},
+{
+  "type": "way",
+  "id": 1231693659,
+  "center": {
+    "lat": -6.3066467,
+    "lon": 107.2797386
+  },
+  "tags": {
+    "leisure": "water_park",
+    "name": "Taruma Leisure Waterpark",
+    "opening_hours": "08:00-18:00",
+    "sport": "swimming",
+    "website": "https://tarumaleisurewaterpark.com/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1233296408,
+  "center": {
+    "lat": -6.3571539,
+    "lon": 107.2423479
+  },
+  "tags": {
+    "addr:city": "Karawang",
+    "addr:district": "Karawang",
+    "addr:postcode": "41361",
+    "addr:province": "Jawa Barat",
+    "addr:street": "Jalan Transheksa",
+    "addr:subdistrict": "Telukjambe Barat",
+    "landuse": "retail",
+    "name": "The Grand Outlet East Jakarta",
+    "opening_hours": "10:00-22:00",
+    "operator": "The Grand Outlet",
+    "payment:cash": "yes",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "payment:mastercard": "yes",
+    "payment:visa": "yes",
+    "phone": "+62 21 3970 8484",
+    "shop": "mall",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1308095368,
+  "center": {
+    "lat": -6.2427698,
+    "lon": 107.0017961
+  },
+  "tags": {
+    "addr:city": "Kota Bekasi",
+    "addr:province": "Jawa Barat",
+    "addr:street": "Jalan Mayor Oking",
+    "building": "hospital",
+    "building:levels": "7",
+    "name": "Gedung F RSUD Kota Bekasi",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1375152885,
+  "center": {
+    "lat": -6.2610072,
+    "lon": 107.2745156
+  },
+  "tags": {
+    "ferry": "unclassified",
+    "ferry:cable": "yes",
+    "foot": "yes",
+    "motor_vehicle": "no",
+    "route": "ferry",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1375152888,
+  "center": {
+    "lat": -6.2464568,
+    "lon": 107.2753455
+  },
+  "tags": {
+    "ferry": "unclassified",
+    "ferry:cable": "yes",
+    "foot": "yes",
+    "motor_vehicle": "no",
+    "route": "ferry",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1375152891,
+  "center": {
+    "lat": -6.2491541,
+    "lon": 107.2763398
+  },
+  "tags": {
+    "ferry": "unclassified",
+    "ferry:cable": "yes",
+    "foot": "yes",
+    "motor_vehicle": "no",
+    "route": "ferry",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1375152895,
+  "center": {
+    "lat": -6.2549298,
+    "lon": 107.2774156
+  },
+  "tags": {
+    "ferry": "unclassified",
+    "ferry:cable": "yes",
+    "foot": "yes",
+    "motor_vehicle": "no",
+    "route": "ferry",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1375152897,
+  "center": {
+    "lat": -6.2567042,
+    "lon": 107.2749549
+  },
+  "tags": {
+    "ferry": "unclassified",
+    "ferry:cable": "yes",
+    "foot": "yes",
+    "motor_vehicle": "no",
+    "route": "ferry",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1394541620,
+  "center": {
+    "lat": -6.1731000,
+    "lon": 107.0555271
+  },
+  "tags": {
+    "access": "yes",
+    "amenity": "toilets",
+    "building": "yes",
+    "female": "yes",
+    "layer": "1",
+    "male": "yes",
+    "toilets:disposal": "flush",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1395012752,
+  "center": {
+    "lat": -6.1685571,
+    "lon": 107.0565277
+  },
+  "tags": {
+    "access": "yes",
+    "amenity": "toilets",
+    "building": "yes",
+    "name": "Toilet Umum Danisa",
+    "operator": "Damai Putra Group",
+    "surface": "paved",
+    "toilets:disposal": "flush",
+    "unisex": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1498819883,
+  "center": {
+    "lat": -6.2340761,
+    "lon": 106.9690814
+  },
+  "tags": {
+    "addr:city": "bekasi",
+    "addr:district": "bekasi barat",
+    "addr:housename": "Optik Melawai",
+    "addr:neighbourhood": "009",
+    "addr:province": "jawa barat",
+    "addr:street": "Jalan Bintara Raya",
+    "addr:subdistrict": "jakasamourna",
+    "building": "yes",
+    "name": "Optik melawai",
+    "opening_hours": "Mo-Su 09:00-22:00",
+    "shop": "optician",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1554920270,
+  "center": {
+    "lat": -6.1622017,
+    "lon": 107.1607240
+  },
+  "tags": {
+    "access": "permit",
+    "barrier": "gate",
+    "colour": "Merah",
+    "horse": "no",
+    "material": "metal",
+    "operator": "Perumahan Sukamulya Park Residence",
+    "wheelchair": "yes"
+  }
+}
+
+  ]
+}

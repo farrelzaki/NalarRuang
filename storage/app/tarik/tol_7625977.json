@@ -1,0 +1,43 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-09T05:50:39Z",
+    "timestamp_areas_base": "2026-10-08T05:09:19Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 309715853,
+  "lat": -6.2150498,
+  "lon": 106.8092465,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Toll Gate Senayan"
+  }
+},
+{
+  "type": "node",
+  "id": 309825165,
+  "lat": -6.2066662,
+  "lon": 106.8027715,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Pejompongan"
+  }
+},
+{
+  "type": "node",
+  "id": 6427301312,
+  "lat": -6.1830075,
+  "lon": 106.8754560,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Toll Gate Pulomas"
+  }
+}
+
+  ]
+}

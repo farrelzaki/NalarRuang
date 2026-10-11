@@ -1,0 +1,419 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-06-01T08:52:28Z",
+    "timestamp_areas_base": "2026-06-01T08:52:28Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 310046034,
+  "lat": -6.1998165,
+  "lon": 106.7985942,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Slipi 1",
+    "payment:cash": "no",
+    "payment:ep_brizzi": "yes",
+    "payment:ep_flazz": "yes",
+    "payment:ep_mandiri_emoney": "yes",
+    "payment:ep_tapcash": "yes",
+    "payment:id_jakcard": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 310048086,
+  "lat": -6.1951496,
+  "lon": 106.7975301,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Slipi 2",
+    "payment:cash": "no",
+    "payment:ep_brizzi": "yes",
+    "payment:ep_flazz": "yes",
+    "payment:ep_mandiri_emoney": "yes",
+    "payment:ep_tapcash": "yes",
+    "payment:id_jakcard": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 316224558,
+  "lat": -6.1899143,
+  "lon": 106.7302563,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Kembangan Selatan"
+  }
+},
+{
+  "type": "node",
+  "id": 316224586,
+  "lat": -6.1912032,
+  "lon": 106.7442464,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Toll Gate Meruya 2"
+  }
+},
+{
+  "type": "node",
+  "id": 316224587,
+  "lat": -6.1916478,
+  "lon": 106.7442097,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Meruya 1"
+  }
+},
+{
+  "type": "node",
+  "id": 331479393,
+  "lat": -6.1444909,
+  "lon": 106.7898237,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Toll Gate Angke 2"
+  }
+},
+{
+  "type": "node",
+  "id": 332526144,
+  "lat": -6.1902840,
+  "lon": 106.7679973,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Toll Gate Kebon Jeruk 1"
+  }
+},
+{
+  "type": "node",
+  "id": 332526384,
+  "lat": -6.1897093,
+  "lon": 106.7679965,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "gerbang Tol Kebon Jeruk 2"
+  }
+},
+{
+  "type": "node",
+  "id": 1757817775,
+  "lat": -6.1564933,
+  "lon": 106.7929305,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Jelambar 2"
+  }
+},
+{
+  "type": "node",
+  "id": 1757817783,
+  "lat": -6.1576382,
+  "lon": 106.7918972,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Toll Gate Jelambar 1"
+  }
+},
+{
+  "type": "node",
+  "id": 2408396716,
+  "lat": -6.1928490,
+  "lon": 106.7332393,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Meruya Utara 3"
+  }
+},
+{
+  "type": "node",
+  "id": 2597827550,
+  "lat": -6.1920321,
+  "lon": 106.7334727,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Meruya Utara 2"
+  }
+},
+{
+  "type": "node",
+  "id": 2600679299,
+  "lat": -6.1913292,
+  "lon": 106.7359937,
+  "tags": {
+    "access": "yes",
+    "barrier": "toll_booth",
+    "name": "Meruya Utara 1"
+  }
+},
+{
+  "type": "node",
+  "id": 2600699413,
+  "lat": -6.2211759,
+  "lon": 106.7471471,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Joglo 1"
+  }
+},
+{
+  "type": "node",
+  "id": 2600712058,
+  "lat": -6.2041092,
+  "lon": 106.7372833,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Meruya Selatan 2"
+  }
+},
+{
+  "type": "node",
+  "id": 2600823721,
+  "lat": -6.1520046,
+  "lon": 106.7273325,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Toll Gate Rawa Buaya Utara"
+  }
+},
+{
+  "type": "node",
+  "id": 3266497621,
+  "lat": -6.1816384,
+  "lon": 106.7935213,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Tomang"
+  }
+},
+{
+  "type": "node",
+  "id": 3601682996,
+  "lat": -6.1574339,
+  "lon": 106.7275810,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Toll Gate Rawa Buaya Selatan"
+  }
+},
+{
+  "type": "node",
+  "id": 4181871306,
+  "lat": -6.1285533,
+  "lon": 106.7300243,
+  "tags": {
+    "barrier": "toll_booth",
+    "motorcycle": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 4551163773,
+  "lat": -6.1901999,
+  "lon": 106.7680022,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Toll Gate Kebon Jeruk 1"
+  }
+},
+{
+  "type": "node",
+  "id": 4735893521,
+  "lat": -6.1732769,
+  "lon": 106.7903126,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Tanjung Duren"
+  }
+},
+{
+  "type": "node",
+  "id": 4879645331,
+  "lat": -6.2087232,
+  "lon": 106.7402031,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 5283529129,
+  "lat": -6.1940058,
+  "lon": 106.7314002,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Meruya Utara 4"
+  }
+},
+{
+  "type": "node",
+  "id": 5487643138,
+  "lat": -6.1948339,
+  "lon": 106.7331715,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Meruya Utama 2"
+  }
+},
+{
+  "type": "node",
+  "id": 6427290355,
+  "lat": -6.2163404,
+  "lon": 106.7440934,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Joglo 2"
+  }
+},
+{
+  "type": "node",
+  "id": 6427348907,
+  "lat": -6.1941700,
+  "lon": 106.7313173,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 6427427591,
+  "lat": -6.1809556,
+  "lon": 106.7288920,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 6427427592,
+  "lat": -6.1814009,
+  "lon": 106.7290087,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Kembangan Utara"
+  }
+},
+{
+  "type": "node",
+  "id": 6618522017,
+  "lat": -6.1917006,
+  "lon": 106.7447305,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Meruya 1"
+  }
+},
+{
+  "type": "node",
+  "id": 7024852577,
+  "lat": -6.1299221,
+  "lon": 106.7302519,
+  "tags": {
+    "barrier": "toll_booth",
+    "motorcycle": "no",
+    "name": "Kayu Besar 3"
+  }
+},
+{
+  "type": "node",
+  "id": 7096717261,
+  "lat": -6.1051021,
+  "lon": 106.6977435,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 7101555075,
+  "lat": -6.1049849,
+  "lon": 106.6975813,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 7101619639,
+  "lat": -6.1057463,
+  "lon": 106.6965634,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 7101619640,
+  "lat": -6.1059837,
+  "lon": 106.6959572,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 7101619641,
+  "lat": -6.1056530,
+  "lon": 106.6964990,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 7243967599,
+  "lat": -6.1897941,
+  "lon": 106.7680024,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Toll Gate Kebon Jeruk 2"
+  }
+},
+{
+  "type": "node",
+  "id": 7265440769,
+  "lat": -6.1931595,
+  "lon": 106.7327505,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Meruya Utama 3"
+  }
+},
+{
+  "type": "node",
+  "id": 7756835415,
+  "lat": -6.1294674,
+  "lon": 106.7301433,
+  "tags": {
+    "barrier": "toll_booth",
+    "motorcycle": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 9271321245,
+  "lat": -6.1938732,
+  "lon": 106.7328347,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Meruya Utama 1"
+  }
+},
+{
+  "type": "node",
+  "id": 10130937350,
+  "lat": -6.2219692,
+  "lon": 106.7476755,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Joglo 1"
+  }
+}
+
+  ]
+}

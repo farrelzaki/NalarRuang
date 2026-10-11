@@ -1,0 +1,151 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-09T04:49:05Z",
+    "timestamp_areas_base": "2026-10-08T05:09:19Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "way",
+  "id": 825632112,
+  "bounds": {
+    "minlat": -6.2390012,
+    "minlon": 106.7165897,
+    "maxlat": -6.2386673,
+    "maxlon": 106.7168047
+  },
+  "geometry": [
+    { "lat": -6.2390012, "lon": 106.7165897 },
+    { "lat": -6.2387547, "lon": 106.7166558 },
+    { "lat": -6.2387800, "lon": 106.7167886 },
+    { "lat": -6.2386673, "lon": 106.7168047 }
+  ],
+  "tags": {
+    "access": "no",
+    "bicycle": "yes",
+    "foot": "yes",
+    "footway": "sidewalk",
+    "highway": "footway",
+    "motor_vehicle": "yes",
+    "name": "Gang Syareah 1",
+    "surface": "paved",
+    "width": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 825632113,
+  "bounds": {
+    "minlat": -6.2389131,
+    "minlon": 106.7163853,
+    "maxlat": -6.2384960,
+    "maxlon": 106.7164969
+  },
+  "geometry": [
+    { "lat": -6.2389131, "lon": 106.7163853 },
+    { "lat": -6.2384960, "lon": 106.7164969 }
+  ],
+  "tags": {
+    "access": "no",
+    "bicycle": "yes",
+    "foot": "yes",
+    "footway": "sidewalk",
+    "highway": "footway",
+    "motor_vehicle": "yes",
+    "name": "Gang Syareah 2",
+    "surface": "paved",
+    "width": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 825632114,
+  "bounds": {
+    "minlat": -6.2388333,
+    "minlon": 106.7162756,
+    "maxlat": -6.2384427,
+    "maxlon": 106.7163800
+  },
+  "geometry": [
+    { "lat": -6.2388333, "lon": 106.7162756 },
+    { "lat": -6.2386718, "lon": 106.7163217 },
+    { "lat": -6.2385947, "lon": 106.7163451 },
+    { "lat": -6.2384427, "lon": 106.7163800 }
+  ],
+  "tags": {
+    "access": "no",
+    "bicycle": "yes",
+    "foot": "yes",
+    "footway": "sidewalk",
+    "highway": "footway",
+    "motor_vehicle": "yes",
+    "name": "Gang Syareah 3",
+    "surface": "paved",
+    "width": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 1498797728,
+  "bounds": {
+    "minlat": -6.2070913,
+    "minlon": 106.6069011,
+    "maxlat": -6.2068089,
+    "maxlon": 106.6070877
+  },
+  "geometry": [
+    { "lat": -6.2068089, "lon": 106.6070877 },
+    { "lat": -6.2070913, "lon": 106.6069011 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway",
+    "name": "Gang Sempit",
+    "width": "20"
+  }
+},
+{
+  "type": "way",
+  "id": 1498798639,
+  "bounds": {
+    "minlat": -6.2055872,
+    "minlon": 106.6090680,
+    "maxlat": -6.2054047,
+    "maxlon": 106.6091008
+  },
+  "geometry": [
+    { "lat": -6.2055872, "lon": 106.6090680 },
+    { "lat": -6.2054047, "lon": 106.6091008 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "footway": "sidewalk",
+    "highway": "footway",
+    "layer": "1",
+    "name": "Jalan Salak 6"
+  }
+},
+{
+  "type": "way",
+  "id": 1498798640,
+  "bounds": {
+    "minlat": -6.2054047,
+    "minlon": 106.6091008,
+    "maxlat": -6.2053998,
+    "maxlon": 106.6091016
+  },
+  "geometry": [
+    { "lat": -6.2054047, "lon": 106.6091008 },
+    { "lat": -6.2053998, "lon": 106.6091016 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+}
+
+  ]
+}

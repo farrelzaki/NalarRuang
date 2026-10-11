@@ -1,0 +1,13 @@
+{"width":1536,"height":864,"langkah":[
+{"buka":"http://127.0.0.1:8000/peta?persona=commuter,zen","tunggu":5000},
+{"js":"[...document.querySelectorAll('.nr-capsbtn')][0].click()","tunggu":1000},
+{"js":"window.__t0=performance.now(); document.querySelectorAll('.nr-app__kanan [role=switch]')[1].click()","tunggu":6000},
+{"js":"document.querySelector('.nr-app__kanan .nr-iconbtn').click()","tunggu":500},
+{"klik":[190,40]},{"ketik":"dekat stasiun di Jakarta"},{"enter":true,"tunggu":10000},
+{"js":"({tiles: document.querySelectorAll('img.leaflet-tile-loaded').length + '/' + document.querySelectorAll('img.leaflet-tile').length})"},
+{"foto":"j1-jakarta.png"},
+{"js":"[...document.querySelectorAll('.nr-search__tools button')].pop().click()","tunggu":3000},
+{"klik":[700,700],"tunggu":3000},{"klik":[300,600],"tunggu":12000},
+{"js":"document.querySelector('.nr-route')?.innerText"},
+{"foto":"j3-rute.png"}
+]}

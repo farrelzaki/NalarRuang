@@ -1,0 +1,604 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-08T18:47:46Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 316743611,
+  "lat": -6.2245133,
+  "lon": 106.9798267,
+  "tags": {
+    "addr:city": "RT.1/RW.20, Kranji, Bekasi Barat",
+    "addr:housenumber": "7",
+    "addr:postcode": "17135",
+    "addr:street": "Jalan Sultan Agung",
+    "alt_name": "Stasiun Kranji",
+    "ele": "18",
+    "name": "Kranji",
+    "name:en": "Kranji",
+    "name:id": "Kranji",
+    "network": "KAI Commuter",
+    "network:wikidata": "Q12501611",
+    "operator": "PT Kereta Api Indonesia",
+    "operator:website": "https://www.kai.id",
+    "operator:wikidata": "Q2745027",
+    "public_transport": "station",
+    "railway": "station",
+    "railway:ref": "KRI",
+    "train": "yes",
+    "wheelchair": "yes",
+    "wikidata": "Q2465391",
+    "wikipedia": "id:Stasiun Kranji"
+  }
+},
+{
+  "type": "node",
+  "id": 2567245926,
+  "lat": -6.2385487,
+  "lon": 106.9058271,
+  "tags": {
+    "addr:city": "Jakarta Timur",
+    "addr:housename": "Sultan Soffat Asmawi",
+    "addr:housenumber": "319",
+    "addr:street": "Tutul 2",
+    "emergency": "no",
+    "name": "Sultan Soffat Asmawi \"Pijat & Urut Tulang\"",
+    "note": "Sabtu Tutup, hari libur nasional tutup",
+    "phone": "+62 21 8617011",
+    "toilets:wheelchair": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4069790363,
+  "lat": -6.3009357,
+  "lon": 106.8996938,
+  "tags": {
+    "amenity": "restaurant",
+    "brand": "California Fried Chicken",
+    "brand:wikidata": "Q5020502",
+    "cuisine": "chicken",
+    "name": "CFC",
+    "takeaway": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4152501731,
+  "lat": -6.3823404,
+  "lon": 106.9276507,
+  "tags": {
+    "addr:city": "Bekasi, West Java",
+    "addr:postcode": "17435",
+    "addr:street": "JL. Trans Yogi - Cibubur",
+    "name": "Mall Citra Gran",
+    "shop": "mall",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4152523896,
+  "lat": -6.3823382,
+  "lon": 106.9261300,
+  "tags": {
+    "addr:city": "Bekasi, West Java",
+    "addr:postcode": "17435",
+    "addr:street": "Jalan Raya Alternatif Cibubur/ Trans Yogi",
+    "name": "Mal Ciputra",
+    "shop": "mall",
+    "toilets:wheelchair": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4261963173,
+  "lat": -6.3882148,
+  "lon": 106.9428757,
+  "tags": {
+    "addr:city": "Cibubur, East Jakarta",
+    "addr:postcode": "13720",
+    "addr:street": "Jalan Raya Transyogie Km. 6",
+    "name": "The Harvest",
+    "shop": "bakery",
+    "toilets:wheelchair": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4696829628,
+  "lat": -6.3929865,
+  "lon": 106.9994780,
+  "tags": {
+    "access": "yes",
+    "leisure": "swimming_pool",
+    "location": "outdoor",
+    "name": "Water Joy",
+    "toilets:wheelchair": "no",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5748466620,
+  "lat": -6.3827765,
+  "lon": 106.9257900,
+  "tags": {
+    "name": "Hotel Ciputra Cibubur",
+    "toilets:wheelchair": "yes",
+    "tourism": "hotel",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6763932252,
+  "lat": -6.2856822,
+  "lon": 106.9362535,
+  "tags": {
+    "addr:city": "Bekasi",
+    "addr:postcode": "17413",
+    "addr:street": "Duta Indah Raya",
+    "air_conditioning": "yes",
+    "brand": "Indomaret",
+    "brand:wikidata": "Q4262825",
+    "brand:wikipedia": "id:Indomaret",
+    "currency:IDR": "yes",
+    "name": "Indomaret Fresh Duta Indah",
+    "name:en": "Indomaret",
+    "name:id": "Indomaret",
+    "name:ja": "インドマレット",
+    "operator": "PT. Indomarco Prismatama",
+    "shop": "convenience",
+    "stroller": "yes",
+    "toilets": "yes",
+    "toilets:access": "permissive",
+    "website": "https://www.klikindomaret.com",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7059982329,
+  "lat": -6.2569540,
+  "lon": 106.9665451,
+  "tags": {
+    "amenity": "cafe",
+    "cuisine": "Indomie",
+    "delivery": "no",
+    "internet_access": "no",
+    "name": "Warkop Matahari",
+    "outdoor_seating": "yes",
+    "payment:cash": "yes",
+    "payment:credit_cards": "no",
+    "payment:cryptocurrencies": "no",
+    "payment:debit_cards": "no",
+    "payment:maestro": "no",
+    "smoking": "yes",
+    "takeaway": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7647951818,
+  "lat": -6.2277195,
+  "lon": 107.0062700,
+  "tags": {
+    "addr:city": "Bekasi Utara",
+    "addr:housenumber": "28",
+    "addr:postcode": "17124",
+    "addr:street": "Jalan Perjuangan No 28",
+    "name": "Mama Foods Agen Frozen Foods",
+    "opening_hours": "Mo-Su 07:00-19:00",
+    "operator": "Mama Foods",
+    "payment:cash": "yes",
+    "payment:coins": "yes",
+    "payment:cryptocurrencies": "yes",
+    "payment:telephone_cards": "yes",
+    "shop": "frozen_food",
+    "stroller": "yes",
+    "website": "https://mamafoodss.business.site/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8704847390,
+  "lat": -6.2641382,
+  "lon": 106.9448041,
+  "tags": {
+    "addr:housenumber": "88F",
+    "addr:street": "Jalan Caman Raya",
+    "name": "Grand Caman Hotel",
+    "parking": "yes",
+    "phone": "+622185509116",
+    "tourism": "hotel",
+    "website": "https://www.grandcamanhotel.com/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8705154970,
+  "lat": -6.2326417,
+  "lon": 106.9654036,
+  "tags": {
+    "addr:housenumber": "17",
+    "addr:street": "Jl. Bintara",
+    "amenity": "fast_food",
+    "brand": "McDonald's",
+    "brand:wikidata": "Q38076",
+    "brand:wikipedia": "en:McDonald's",
+    "cuisine": "burger",
+    "delivery": "yes",
+    "name": "McDonald's",
+    "opening_hours": "24/7",
+    "phone": "14045",
+    "takeaway": "yes",
+    "website": "https://mcdonalds.co.id/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8772002074,
+  "lat": -6.2562283,
+  "lon": 106.9347450,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Kopi Kawaji",
+    "outdoor_seating": "yes",
+    "toilets": "no",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11107507589,
+  "lat": -6.2614089,
+  "lon": 106.9937459,
+  "tags": {
+    "access": "permissive",
+    "barrier": "gate",
+    "locked": "no",
+    "material": "steel",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11716127451,
+  "lat": -6.2827771,
+  "lon": 106.9139296,
+  "tags": {
+    "bus": "yes",
+    "highway": "bus_stop",
+    "name": "Seberang Koramil Pondok Gede",
+    "network": "Transjakarta",
+    "network:wikidata": "Q1671143",
+    "operator": "PT Transportasi Jakarta",
+    "public_transport": "platform",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11925040275,
+  "lat": -6.3423148,
+  "lon": 106.9328820,
+  "tags": {
+    "access": "permit",
+    "barrier": "gate",
+    "material": "steel",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12114182406,
+  "lat": -6.2429096,
+  "lon": 107.0021036,
+  "tags": {
+    "access": "yes",
+    "addr:city": "Kota Bekasi",
+    "addr:province": "Jawa Barat",
+    "addr:street": "Jalan Mayor Oking",
+    "entrance": "main",
+    "name": "Pintu Masuk Gedung F",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12543529495,
+  "lat": -6.2341439,
+  "lon": 106.9735646,
+  "tags": {
+    "addr:city": "Bekasi",
+    "addr:district": "Kranji",
+    "addr:housenumber": "01",
+    "addr:postcode": "17111",
+    "addr:province": "West Java",
+    "addr:street": "Jalan Pemuda Raya",
+    "addr:subdistrict": "Kranji",
+    "air_conditioning": "yes",
+    "amenity": "bar",
+    "brewery": "yes",
+    "min_age": "2q",
+    "name": "Savory Heights at Punto",
+    "name:id": "Keajaiban di Punto",
+    "opening_hours": "24/7",
+    "outdoor_seating": "no",
+    "smoking": "dedicated",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12917106901,
+  "lat": -6.2951094,
+  "lon": 106.9989934,
+  "tags": {
+    "amenity": "toilets",
+    "fee": "no",
+    "level": "0",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 120184483,
+  "center": {
+    "lat": -6.2481335,
+    "lon": 106.9096278
+  },
+  "tags": {
+    "access:roof": "yes",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Inspeksi Saluran Tarum barat Kali malang No. 24 Kelurahan Cipinang Melayu, Kecamatan Makasar, Jakarta Timur 13620",
+    "addr:postcode": "13620",
+    "addr:street": "Tarum Barat",
+    "amenity": "hospital",
+    "backup_generator": "yes",
+    "building": "hospital",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "3",
+    "building:roof": "concrete",
+    "building:structure": "confined_masonry",
+    "building:use": "medical",
+    "building:walls": "concrete",
+    "capacity:persons": ">500",
+    "email": "rsharum@sismamedika.co.id",
+    "emergency": "yes",
+    "evacuation_center": "no",
+    "flood_prone": "no",
+    "healthcare": "hospital",
+    "healthcare:speciality": "general;intensive;psychiatry;dentistry",
+    "layer": "1",
+    "name": "Rumah Sakit Harum Sisma Medika",
+    "operator:type": "private",
+    "phone": "+62218617212",
+    "rooms": "> 100",
+    "source": "HOT_InAWARESurvey_2017",
+    "website": "https://harumsismamedika.com/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 155961326,
+  "center": {
+    "lat": -6.1870819,
+    "lon": 106.9491089
+  },
+  "tags": {
+    "addr:city": "DKI Jakarta",
+    "addr:housenumber": "KM 19 No. 24",
+    "addr:postcode": "13910",
+    "addr:street": "Bekasi Raya",
+    "building": "commercial",
+    "name": "Lulu Hypermarket & Department Store",
+    "opening_hours": "Tu-Su 09:00-22:00",
+    "shop": "department_store",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 227762674,
+  "center": {
+    "lat": -6.2605573,
+    "lon": 107.0133208
+  },
+  "tags": {
+    "addr:city": "Bekasi",
+    "addr:postcode": "17113",
+    "addr:street": "Jalan Pengasinan",
+    "amenity": "hospital",
+    "description": "Rumah Sakit Swasta Mitra Keluarga Bekasi Timur",
+    "email": "appointment.bt@mitrakeluarga.com",
+    "emergency": "yes",
+    "fax": "+62218820707",
+    "healthcare": "hospital",
+    "healthcare:speciality": "general;dentistry;emergency;surgery;cardiology;radiology;laparoscopy;arthroscopy;internal",
+    "name": "RS Mitra Keluarga Bekasi Timur",
+    "official_name": "Rumah Sakit Mitra Keluarga Bekasi Timur",
+    "operator": "Mitra Keluarga",
+    "operator:type": "private",
+    "phone": "+622189999222",
+    "website": "https://www.mitrakeluarga.com/bekasi-timur/menu-fasilitas-rs",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 499506122,
+  "center": {
+    "lat": -6.2578068,
+    "lon": 107.0111903
+  },
+  "tags": {
+    "addr:city": "Bekasi",
+    "addr:housenumber": "111",
+    "addr:postcode": "17113",
+    "addr:street": "Jalan Chairil Anwar",
+    "amenity": "clinic",
+    "building": "yes",
+    "description": "Pusat Kesehatan Masyarakat (PUSKESMAS) Karang Kitri Kota Bekasi adalah layanan kesehatan milik pemerintah Kota Bekasi.",
+    "government": "yes",
+    "healthcare": "clinic",
+    "healthcare:speciality": "general;stomatology",
+    "name": "Puskesmas Karang Kitri",
+    "official_name": "UPTD Puskesmas Karangkitri",
+    "operator": "Dinas Kesehatan Kota Bekasi",
+    "operator:en": "Bekasi City Department of Health",
+    "operator:id": "Dinas Kesehatan Kota Bekasi",
+    "operator:type": "government",
+    "operator:wikidata": "Q12490745",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 720893943,
+  "center": {
+    "lat": -6.2782539,
+    "lon": 106.9335363
+  },
+  "tags": {
+    "addr:city": "Bekasi",
+    "addr:street": "Kemangsari",
+    "alt_name": "Kantor Pos",
+    "amenity": "post_office",
+    "building": "yes",
+    "name": "Kantor Pos Jatimakmur",
+    "operator": "Pos Indonesia",
+    "operator:wikidata": "Q4273095",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1118500925,
+  "center": {
+    "lat": -6.2254363,
+    "lon": 106.9706546
+  },
+  "tags": {
+    "amenity": "police",
+    "building": "yes",
+    "name": "Kantor Sub Sektor Kranji",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1308095368,
+  "center": {
+    "lat": -6.2427698,
+    "lon": 107.0017961
+  },
+  "tags": {
+    "addr:city": "Kota Bekasi",
+    "addr:province": "Jawa Barat",
+    "addr:street": "Jalan Mayor Oking",
+    "building": "hospital",
+    "building:levels": "7",
+    "name": "Gedung F RSUD Kota Bekasi",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1396666331,
+  "center": {
+    "lat": -6.2252857,
+    "lon": 106.9622674
+  },
+  "tags": {
+    "amenity": "place_of_worship",
+    "building": "yes",
+    "name": "Masjid Jami Al-Hidayah",
+    "religion": "muslim",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1396666334,
+  "center": {
+    "lat": -6.2306671,
+    "lon": 106.9598314
+  },
+  "tags": {
+    "amenity": "police",
+    "building": "yes",
+    "name": "Kantor Polisi Subsektor Bintara",
+    "opening_hours": "24/7",
+    "operator": "Kepolisian Negara Republik Indonesia",
+    "operator:en": "Indonesian National Police",
+    "operator:id": "Kepolisian Negara Republik Indonesia",
+    "operator:short": "POLRI",
+    "operator:wikidata": "Q3103954",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1484489276,
+  "center": {
+    "lat": -6.3642235,
+    "lon": 106.9592734
+  },
+  "tags": {
+    "addr:city": "Ciangsana",
+    "addr:province": "Jawa Barat",
+    "brand": "Hero Supermarket",
+    "brand:wikidata": "Q12485604",
+    "building": "yes",
+    "name": "Hero Supermarket",
+    "opening_hours": "Mo-Su 07:00-22:00",
+    "payment:app": "yes",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "shop": "supermarket",
+    "toilets": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1498819883,
+  "center": {
+    "lat": -6.2340761,
+    "lon": 106.9690814
+  },
+  "tags": {
+    "addr:city": "bekasi",
+    "addr:district": "bekasi barat",
+    "addr:housename": "Optik Melawai",
+    "addr:neighbourhood": "009",
+    "addr:province": "jawa barat",
+    "addr:street": "Jalan Bintara Raya",
+    "addr:subdistrict": "jakasamourna",
+    "building": "yes",
+    "name": "Optik melawai",
+    "opening_hours": "Mo-Su 09:00-22:00",
+    "shop": "optician",
+    "wheelchair": "yes"
+  }
+}
+
+  ]
+}

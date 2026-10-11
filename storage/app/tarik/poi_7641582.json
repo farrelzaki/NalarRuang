@@ -1,0 +1,8153 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-08T17:45:34Z",
+    "timestamp_areas_base": "2026-10-07T07:59:59Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 1757947230,
+  "lat": -6.3423998,
+  "lon": 106.7253515,
+  "tags": {
+    "alt_name": "Kentucky Fried Chicken",
+    "amenity": "fast_food",
+    "brand": "KFC",
+    "brand:wikidata": "Q524757",
+    "brand:wikipedia": "en:KFC",
+    "cuisine": "chicken",
+    "name": "KFC",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 1757947232,
+  "lat": -6.3424744,
+  "lon": 106.7249438,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "A&W"
+  }
+},
+{
+  "type": "node",
+  "id": 1848345400,
+  "lat": -6.3470112,
+  "lon": 106.7506430,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Restoran Padang Sederhana"
+  }
+},
+{
+  "type": "node",
+  "id": 1848345404,
+  "lat": -6.3471974,
+  "lon": 106.7487806,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Warung Nasi AMPERA"
+  }
+},
+{
+  "type": "node",
+  "id": 2002262685,
+  "lat": -6.3447093,
+  "lon": 106.7577248,
+  "tags": {
+    "addr:housename": "Pujasera UT",
+    "addr:postcode": "15418",
+    "addr:street": "Jalan Cabe Raya",
+    "amenity": "restaurant",
+    "cuisine": "asian",
+    "name": "Pujasera UT"
+  }
+},
+{
+  "type": "node",
+  "id": 2372319551,
+  "lat": -6.2790461,
+  "lon": 106.7183377,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Sederhana Bintaro"
+  }
+},
+{
+  "type": "node",
+  "id": 2377254725,
+  "lat": -6.2967003,
+  "lon": 106.7114046,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "asian",
+    "name": "Sederhana Padang"
+  }
+},
+{
+  "type": "node",
+  "id": 2377254829,
+  "lat": -6.2965990,
+  "lon": 106.7120376,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Padang"
+  }
+},
+{
+  "type": "node",
+  "id": 2377487590,
+  "lat": -6.2607344,
+  "lon": 106.7505085,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "asian",
+    "name": "Tenda Biru Padang"
+  }
+},
+{
+  "type": "node",
+  "id": 2766427235,
+  "lat": -6.2671095,
+  "lon": 106.7318759,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Coffee Day STAPALA"
+  }
+},
+{
+  "type": "node",
+  "id": 2831181025,
+  "lat": -6.3282232,
+  "lon": 106.6718815,
+  "tags": {
+    "addr:city": "Tangerang Selatan, Banten",
+    "addr:housenumber": "Komplek",
+    "addr:postcode": "15313",
+    "addr:street": "Batan Indah Blok I no.11 Kademangan, Serpong",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop",
+    "internet_access": "wlan",
+    "name": "Kenaliwa Coffee",
+    "opening_hours": "09:00-20:00",
+    "payment:litecoin": "yes",
+    "phone": "+62 856 9543 8963",
+    "smoking": "yes",
+    "website": "http://golampung.com"
+  }
+},
+{
+  "type": "node",
+  "id": 2987140459,
+  "lat": -6.2442229,
+  "lon": 106.6500883,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "japanese",
+    "name": "Hoka Hoka Bento (HokBen)"
+  }
+},
+{
+  "type": "node",
+  "id": 2989497107,
+  "lat": -6.2437569,
+  "lon": 106.6506675,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Eastern KopiTM"
+  }
+},
+{
+  "type": "node",
+  "id": 2989497108,
+  "lat": -6.2435527,
+  "lon": 106.6509757,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Radja Ketjil"
+  }
+},
+{
+  "type": "node",
+  "id": 3614958278,
+  "lat": -6.2724767,
+  "lon": 106.7506177,
+  "tags": {
+    "addr:street": "Bintaro Utama 1",
+    "amenity": "fast_food",
+    "brand": "Dunkin' Donuts",
+    "brand:wikidata": "Q847743",
+    "brand:wikipedia": "en:Dunkin' Donuts",
+    "cuisine": "donut;coffee_shop",
+    "name": "Dunkin' Donuts",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3615173288,
+  "lat": -6.2731544,
+  "lon": 106.7234747,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Sate Khas Senayan"
+  }
+},
+{
+  "type": "node",
+  "id": 4111202091,
+  "lat": -6.2696196,
+  "lon": 106.7389872,
+  "tags": {
+    "addr:street": "Bintaro Utama 3A",
+    "amenity": "fast_food",
+    "name": "PHD - Pizza Hut"
+  }
+},
+{
+  "type": "node",
+  "id": 4111208489,
+  "lat": -6.2702117,
+  "lon": 106.7395226,
+  "tags": {
+    "addr:street": "Bintaro Utama 3A",
+    "amenity": "restaurant",
+    "cuisine": "steak_house",
+    "name": "ABUBA Steak",
+    "opening_hours": "Mo-Su,PH 10:00-22:00"
+  }
+},
+{
+  "type": "node",
+  "id": 4148507697,
+  "lat": -6.2725017,
+  "lon": 106.7422896,
+  "tags": {
+    "addr:city": "Betung, Pondok Pucung, Pondok Aren",
+    "addr:postcode": "15225",
+    "addr:street": "Jalan Bintaro Utama, Sektor 3A",
+    "name": "Bintaro Plaza",
+    "shop": "mall"
+  }
+},
+{
+  "type": "node",
+  "id": 4150378467,
+  "lat": -6.3427282,
+  "lon": 106.7251721,
+  "tags": {
+    "addr:city": "South Tangerang, Banten",
+    "addr:postcode": "151416",
+    "addr:street": "Jl. Raya Siliwangi",
+    "name": "Pamulang Square",
+    "shop": "mall"
+  }
+},
+{
+  "type": "node",
+  "id": 4239917124,
+  "lat": -6.3254633,
+  "lon": 106.7412533,
+  "tags": {
+    "amenity": "fast_food",
+    "name": "sasak tinggi nongkrong"
+  }
+},
+{
+  "type": "node",
+  "id": 4240845890,
+  "lat": -6.2790993,
+  "lon": 106.7210944,
+  "tags": {
+    "addr:city": "Pondok Aren, Tangerang, Banten",
+    "addr:housenumber": "No.12",
+    "addr:postcode": "15224",
+    "addr:street": "Jl. Jend. Sudirman Blok A1",
+    "name": "Bintaro Trade Center",
+    "shop": "mall"
+  }
+},
+{
+  "type": "node",
+  "id": 4240892885,
+  "lat": -6.2792519,
+  "lon": 106.6624738,
+  "tags": {
+    "addr:city": "Lengkong Wetan, Serpong, Tangerang, Banten",
+    "addr:postcode": "15322",
+    "addr:street": "Jl. Pahlawan Seribu",
+    "name": "BSD Plaza",
+    "shop": "mall"
+  }
+},
+{
+  "type": "node",
+  "id": 4242550986,
+  "lat": -6.2723646,
+  "lon": 106.6991264,
+  "tags": {
+    "addr:city": "Parigi, Tangerang",
+    "addr:postcode": "12330",
+    "addr:street": "Jalan Boulevard Bintaro Jaya",
+    "amenity": "fast_food",
+    "brand": "Subway",
+    "brand:wikidata": "Q244457",
+    "cuisine": "sandwich",
+    "name": "Subway",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4255934975,
+  "lat": -6.2819345,
+  "lon": 106.7293331,
+  "tags": {
+    "addr:city": "Banten",
+    "addr:housenumber": "Sektor 7",
+    "addr:postcode": "15225",
+    "addr:street": "Boulevard Bintaro Jaya",
+    "amenity": "restaurant",
+    "name": "Talaga Sampireun Bintaro"
+  }
+},
+{
+  "type": "node",
+  "id": 4373227553,
+  "lat": -6.2657677,
+  "lon": 106.6549793,
+  "tags": {
+    "addr:city": "South Tangerang, Banten",
+    "addr:housenumber": "3-2",
+    "addr:postcode": "15326",
+    "addr:street": "WTC Matahari Serpong, Lt 3 Unit TC 1 No. 3-2",
+    "alt_name": "Kentucky Fried Chicken",
+    "amenity": "fast_food",
+    "brand": "KFC",
+    "brand:wikidata": "Q524757",
+    "brand:wikipedia": "en:KFC",
+    "cuisine": "chicken",
+    "name": "KFC",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4398606890,
+  "lat": -6.3181090,
+  "lon": 106.7684630,
+  "tags": {
+    "addr:street": "Cirendeu Raya",
+    "alt_name": "Kentucky Fried Chicken",
+    "amenity": "fast_food",
+    "brand": "KFC",
+    "brand:wikidata": "Q524757",
+    "cuisine": "chicken",
+    "name": "KFC",
+    "name:en": "KFC",
+    "opening_hours": "24/7",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4555616289,
+  "lat": -6.3171389,
+  "lon": 106.7124672,
+  "tags": {
+    "addr:street": "Jalan Sarua",
+    "amenity": "cafe",
+    "internet_access": "wlan",
+    "name": "Cylo"
+  }
+},
+{
+  "type": "node",
+  "id": 5201540821,
+  "lat": -6.3018561,
+  "lon": 106.6714538,
+  "tags": {
+    "addr:street": "Anggrek Ungu",
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "internet_access": "wlan",
+    "name": "mr. ropang"
+  }
+},
+{
+  "type": "node",
+  "id": 5209901832,
+  "lat": -6.2997159,
+  "lon": 106.6694094,
+  "tags": {
+    "amenity": "restaurant",
+    "capacity": "20",
+    "cuisine": "indonesian",
+    "name": "Pempek Kenari"
+  }
+},
+{
+  "type": "node",
+  "id": 5502259849,
+  "lat": -6.2490977,
+  "lon": 106.6722299,
+  "tags": {
+    "addr:city": "Tangerang Selatan",
+    "addr:housenumber": "Pasar Segar Graha Raya Blok RB1 No.28",
+    "addr:postcode": "15326",
+    "addr:street": "Jalan Graha Raya Bintaro",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop;sandwich;regional;italian;bakery;bread",
+    "email": "aabakeryncafe@gmail.com",
+    "name": "Aa Bakery & Cafe"
+  }
+},
+{
+  "type": "node",
+  "id": 5636344125,
+  "lat": -6.2581698,
+  "lon": 106.7364036,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "padang",
+    "name": "RM Putra Minang Group"
+  }
+},
+{
+  "type": "node",
+  "id": 5636344126,
+  "lat": -6.2590723,
+  "lon": 106.7366154,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Mie Aceh Bang Jaly"
+  }
+},
+{
+  "type": "node",
+  "id": 5636351010,
+  "lat": -6.2610799,
+  "lon": 106.7388631,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "padang",
+    "name": "RM Telaga Sari"
+  }
+},
+{
+  "type": "node",
+  "id": 5636351011,
+  "lat": -6.2599602,
+  "lon": 106.7405838,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "padang",
+    "name": "RM Kamang Indah"
+  }
+},
+{
+  "type": "node",
+  "id": 5636361683,
+  "lat": -6.2601881,
+  "lon": 106.7474234,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "padang",
+    "name": "RM Sari Bunda"
+  }
+},
+{
+  "type": "node",
+  "id": 5636361684,
+  "lat": -6.2597909,
+  "lon": 106.7454748,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "padang",
+    "name": "RM Taraso"
+  }
+},
+{
+  "type": "node",
+  "id": 5973703518,
+  "lat": -6.3070571,
+  "lon": 106.7547793,
+  "tags": {
+    "addr:city": "Tangerang Selatan",
+    "addr:housenumber": "39B",
+    "addr:postcode": "15417",
+    "addr:street": "Jalan Pesanggrahan",
+    "amenity": "restaurant",
+    "capacity": "40",
+    "cuisine": "noodle",
+    "name": "Mie Dahsyat Peudes Ciputat",
+    "opening_hours": "Mo-Su 09:00-21:00",
+    "smoking": "separated",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6006096885,
+  "lat": -6.2733592,
+  "lon": 106.7231821,
+  "tags": {
+    "amenity": "cafe",
+    "brand": "Starbucks",
+    "brand:wikidata": "Q37158",
+    "cuisine": "coffee_shop",
+    "name": "Starbucks",
+    "name:en": "Starbucks",
+    "official_name": "Starbucks Coffee",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6270685377,
+  "lat": -6.3200305,
+  "lon": 106.6635346,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Sate Haji Mamat"
+  }
+},
+{
+  "type": "node",
+  "id": 6341214424,
+  "lat": -6.2690417,
+  "lon": 106.7381067,
+  "tags": {
+    "amenity": "fast_food",
+    "name": "bebek bambu"
+  }
+},
+{
+  "type": "node",
+  "id": 6416059460,
+  "lat": -6.2726259,
+  "lon": 106.7417023,
+  "tags": {
+    "amenity": "fast_food",
+    "cuisine": "japanese",
+    "delivery": "yes",
+    "name": "HokBen (Hoka-Hoka Bento)",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "takeaway": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6416059461,
+  "lat": -6.2729238,
+  "lon": 106.7418310,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "asian",
+    "delivery": "yes",
+    "name": "Solaria",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "takeaway": "yes",
+    "wheelchair": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 6416059462,
+  "lat": -6.2728698,
+  "lon": 106.7417418,
+  "tags": {
+    "alt_name": "Kentucky Fried Chicken",
+    "amenity": "fast_food",
+    "brand": "KFC",
+    "brand:wikidata": "Q524757",
+    "brand:wikipedia": "en:KFC",
+    "cuisine": "chicken",
+    "name": "KFC",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "takeaway": "yes",
+    "wheelchair": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 6416059484,
+  "lat": -6.2727252,
+  "lon": 106.7418256,
+  "tags": {
+    "amenity": "cafe",
+    "delivery": "yes",
+    "name": "J.CO",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "outdoor_seating": "no",
+    "takeaway": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6416059502,
+  "lat": -6.2722793,
+  "lon": 106.7421173,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Starbucks"
+  }
+},
+{
+  "type": "node",
+  "id": 6422338281,
+  "lat": -6.2986959,
+  "lon": 106.6694461,
+  "tags": {
+    "amenity": "cafe",
+    "brand": "Starbucks",
+    "brand:wikidata": "Q37158",
+    "brand:wikipedia": "en:Starbucks",
+    "cuisine": "coffee_shop",
+    "name": "Starbucks",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6429487178,
+  "lat": -6.2934130,
+  "lon": 106.6656318,
+  "tags": {
+    "amenity": "fast_food",
+    "brand": "KFC",
+    "brand:wikidata": "Q524757",
+    "brand:wikipedia": "en:KFC",
+    "cuisine": "chicken",
+    "name": "KFC",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6429487179,
+  "lat": -6.2938878,
+  "lon": 106.6657323,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Donut JCo"
+  }
+},
+{
+  "type": "node",
+  "id": 6429487180,
+  "lat": -6.2940601,
+  "lon": 106.6657664,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Hoka Hoka Bento"
+  }
+},
+{
+  "type": "node",
+  "id": 6746736908,
+  "lat": -6.3318166,
+  "lon": 106.7491019,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Broaster Chicken"
+  }
+},
+{
+  "type": "node",
+  "id": 6746736909,
+  "lat": -6.3316332,
+  "lon": 106.7492186,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Bakso Atom"
+  }
+},
+{
+  "type": "node",
+  "id": 6761019475,
+  "lat": -6.3267163,
+  "lon": 106.7466797,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Cafe Ruang Tengah"
+  }
+},
+{
+  "type": "node",
+  "id": 7257150738,
+  "lat": -6.2421409,
+  "lon": 106.6518522,
+  "tags": {
+    "air_conditioning": "yes",
+    "amenity": "restaurant",
+    "branch": "Flavor Bliss Alam Sutera",
+    "cuisine": "japanese",
+    "diet:halal": "yes",
+    "name": "Sushi Tei",
+    "opening_hours": "Mo-Su,PH 10:00-22:00",
+    "outdoor_seating": "no",
+    "payment:ovo": "yes",
+    "ref:halal:mui": "00160095470419",
+    "smoking": "outside",
+    "takeaway": "yes",
+    "wheelchair": "limited"
+  }
+},
+{
+  "type": "node",
+  "id": 7257150739,
+  "lat": -6.2424160,
+  "lon": 106.6518546,
+  "tags": {
+    "amenity": "restaurant",
+    "branch": "Flavor Bliss Alam Sutera",
+    "cuisine": "indonesian",
+    "name": "Warung Tekko",
+    "outdoor_seating": "yes",
+    "payment:coins": "yes",
+    "payment:notes": "yes",
+    "payment:yukk": "yes",
+    "smoking": "outside",
+    "wheelchair": "limited"
+  }
+},
+{
+  "type": "node",
+  "id": 7257150741,
+  "lat": -6.2426953,
+  "lon": 106.6518321,
+  "tags": {
+    "air_conditioning": "yes",
+    "amenity": "restaurant",
+    "name": "Betawi Corner",
+    "outdoor_seating": "no",
+    "smoking": "outside",
+    "toilets": "yes",
+    "toilets:wheelchair": "no",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7257150742,
+  "lat": -6.2422568,
+  "lon": 106.6518559,
+  "tags": {
+    "air_conditioning": "yes",
+    "amenity": "restaurant",
+    "cuisine": "vietnamese;noodle",
+    "name": "Pho 24",
+    "outdoor_seating": "yes",
+    "payment:atm_bersama": "yes",
+    "payment:bca_card": "yes",
+    "payment:ep_flazz": "yes",
+    "payment:gopay_id": "yes",
+    "payment:jcb": "yes",
+    "payment:maestro": "yes",
+    "payment:mastercard": "yes",
+    "payment:mastercard_debit": "yes",
+    "payment:visa": "yes",
+    "payment:visa_debit": "yes",
+    "payment:visa_electron": "yes",
+    "wheelchair": "limited"
+  }
+},
+{
+  "type": "node",
+  "id": 7257150743,
+  "lat": -6.2425936,
+  "lon": 106.6518616,
+  "tags": {
+    "amenity": "restaurant"
+  }
+},
+{
+  "type": "node",
+  "id": 7257150744,
+  "lat": -6.2420190,
+  "lon": 106.6518503,
+  "tags": {
+    "air_conditioning": "yes",
+    "amenity": "restaurant",
+    "branch": "Flavor Bliss Alam Sutera",
+    "cuisine": "korean",
+    "name": "Seorae"
+  }
+},
+{
+  "type": "node",
+  "id": 7257150745,
+  "lat": -6.2423588,
+  "lon": 106.6518533,
+  "tags": {
+    "amenity": "restaurant",
+    "branch": "Flavor Bliss Alam Sutera",
+    "cuisine": "indonesian",
+    "name": "Stevan Meat Shop",
+    "payment:coins": "yes",
+    "payment:notes": "yes",
+    "payment:yukk": "yes",
+    "smoking": "outside",
+    "wheelchair": "limited"
+  }
+},
+{
+  "type": "node",
+  "id": 7257150747,
+  "lat": -6.2427808,
+  "lon": 106.6517985,
+  "tags": {
+    "air_conditioning": "yes",
+    "amenity": "restaurant",
+    "name": "Ikkudo Ichi",
+    "outdoor_seating": "yes",
+    "wheelchair": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 7633546806,
+  "lat": -6.3057368,
+  "lon": 106.6842808,
+  "tags": {
+    "addr:city": "Tanggerang, Banten",
+    "addr:housenumber": "no 28-29",
+    "addr:street": "Jalan Cemara IV",
+    "amenity": "cafe",
+    "internet_access": "no",
+    "name": "ikost kupii",
+    "opening_hours": "16:00-24:00"
+  }
+},
+{
+  "type": "node",
+  "id": 7757051650,
+  "lat": -6.3031308,
+  "lon": 106.6923934,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Warung Bang Jek"
+  }
+},
+{
+  "type": "node",
+  "id": 7757051652,
+  "lat": -6.3005101,
+  "lon": 106.6901216,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "minangkabau",
+    "name": "Putra Minang"
+  }
+},
+{
+  "type": "node",
+  "id": 7757051653,
+  "lat": -6.3005133,
+  "lon": 106.6896649,
+  "tags": {
+    "amenity": "cafe",
+    "brand": "Haus!",
+    "brand:wikidata": "Q114824757",
+    "cuisine": "bubble_tea",
+    "name": "Haus!",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7757051656,
+  "lat": -6.3006315,
+  "lon": 106.6870342,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "italian",
+    "name": "San Marco"
+  }
+},
+{
+  "type": "node",
+  "id": 7757051658,
+  "lat": -6.3006313,
+  "lon": 106.6874638,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Warteg Jayabahari"
+  }
+},
+{
+  "type": "node",
+  "id": 7757051662,
+  "lat": -6.3005917,
+  "lon": 106.6883862,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Pondok Sakpore"
+  }
+},
+{
+  "type": "node",
+  "id": 7757051663,
+  "lat": -6.3006192,
+  "lon": 106.6866830,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Snatch It"
+  }
+},
+{
+  "type": "node",
+  "id": 7757051668,
+  "lat": -6.3006462,
+  "lon": 106.6851417,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "noodle",
+    "name": "Bakso Soeltan Djawa"
+  }
+},
+{
+  "type": "node",
+  "id": 7757051669,
+  "lat": -6.3003942,
+  "lon": 106.6847093,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Dapoer Ngeboel"
+  }
+},
+{
+  "type": "node",
+  "id": 7757051671,
+  "lat": -6.3010693,
+  "lon": 106.6842402,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Sate Karyo"
+  }
+},
+{
+  "type": "node",
+  "id": 7764938590,
+  "lat": -6.2903228,
+  "lon": 106.7270319,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Rummah Go'a"
+  }
+},
+{
+  "type": "node",
+  "id": 7770623724,
+  "lat": -6.2386701,
+  "lon": 106.6595225,
+  "tags": {
+    "amenity": "restaurant",
+    "brand": "Pizza Hut",
+    "brand:wikidata": "Q191615",
+    "brand:wikipedia": "en:Pizza Hut",
+    "cuisine": "pizza",
+    "name": "Pizza Hut"
+  }
+},
+{
+  "type": "node",
+  "id": 7770623725,
+  "lat": -6.2386841,
+  "lon": 106.6597808,
+  "tags": {
+    "alt_name": "Kentucky Fried Chicken",
+    "amenity": "fast_food",
+    "brand": "KFC",
+    "brand:wikidata": "Q524757",
+    "brand:wikipedia": "en:KFC",
+    "cuisine": "chicken",
+    "name": "KFC",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7770623759,
+  "lat": -6.2427230,
+  "lon": 106.6549972,
+  "tags": {
+    "amenity": "restaurant",
+    "check_date": "2023-07-22",
+    "name": "The Spoke Bistro"
+  }
+},
+{
+  "type": "node",
+  "id": 7780253975,
+  "lat": -6.2949087,
+  "lon": 106.7145687,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "minang",
+    "name": "Simpang Raya"
+  }
+},
+{
+  "type": "node",
+  "id": 7801310003,
+  "lat": -6.2866437,
+  "lon": 106.6658762,
+  "tags": {
+    "amenity": "cafe",
+    "brand": "Starbucks",
+    "brand:wikidata": "Q37158",
+    "brand:wikipedia": "en:Starbucks",
+    "cuisine": "coffee_shop",
+    "name": "Starbucks",
+    "official_name": "Starbucks Coffee",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7801310007,
+  "lat": -6.2867925,
+  "lon": 106.6658169,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Sate Khas Senayan"
+  }
+},
+{
+  "type": "node",
+  "id": 7909973233,
+  "lat": -6.2945969,
+  "lon": 106.7233343,
+  "tags": {
+    "addr:city": "Tangerang elatan",
+    "addr:housenumber": "44",
+    "addr:postcode": "15413",
+    "addr:street": "Jalan Cenderawasih V",
+    "air_conditioning": "yes",
+    "amenity": "cafe",
+    "capacity": "50",
+    "cuisine": "coffee_shop",
+    "delivery": "yes",
+    "email": "jessechazcafe@gmail.com",
+    "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACoCAMAAABt9SM9AAAA2FBMVEX///8AAAD39/f7+/tWVlb19fXp6enz8/Ps7Ozc3Nzm5ubLy8vj4+NNTU3u7u64uLjS0tLFxcW8vLyrq6t9fX3Y2NjPz8+urq6enp7AwMClpaV0dHSSkpI7OzuhoaGampogICBCQkKGhoYrKyskJCRiYmI2NjZcXFxqamoQEBD2xMWMjIyCg",
+    "internet_access": "wlan",
+    "internet_access:fee": "no",
+    "internet_access:ssid": "JesseChaz Cafe",
+    "name": "Jesse & Chaz Cafe",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "outdoor_seating": "yes",
+    "phone": "+6287771767168",
+    "reservation": "yes",
+    "smoking": "yes",
+    "takeaway": "yes",
+    "website": "https://jesseandchaz.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 8164895249,
+  "lat": -6.3141988,
+  "lon": 106.6964225,
+  "tags": {
+    "amenity": "cafe",
+    "cuisine": "coffee_shop",
+    "delivery": "yes",
+    "name": "Kopi Kenangan",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8206679714,
+  "lat": -6.3002768,
+  "lon": 106.6857104,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Teraskopi"
+  }
+},
+{
+  "type": "node",
+  "id": 8206722718,
+  "lat": -6.3008480,
+  "lon": 106.6845810,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Nasi Kapau Salero Denai"
+  }
+},
+{
+  "type": "node",
+  "id": 8206722719,
+  "lat": -6.3005867,
+  "lon": 106.6843697,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Teras Minang"
+  }
+},
+{
+  "type": "node",
+  "id": 8632407325,
+  "lat": -6.3414446,
+  "lon": 106.7378054,
+  "tags": {
+    "addr:street": "Jalan Pajajaran Raya",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-09-27",
+    "cuisine": "coffee_shop",
+    "name": "Kopi Darat Pamulang",
+    "opening_hours:signed": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 8651678197,
+  "lat": -6.2693046,
+  "lon": 106.6888983,
+  "tags": {
+    "addr:city": "Tangerang Selatan",
+    "addr:street": "Jalan Graha Bintaro",
+    "amenity": "cafe",
+    "cuisine": "coffee;coffee_shop",
+    "name": "Flavorpath",
+    "outdoor_seating": "yes",
+    "website": "https://www.instagram.com/flavorpath"
+  }
+},
+{
+  "type": "node",
+  "id": 8704216633,
+  "lat": -6.2400006,
+  "lon": 106.6524597,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "chinese",
+    "diet:halal": "no",
+    "name": "Nasi Campur Harum Segar"
+  }
+},
+{
+  "type": "node",
+  "id": 9684550576,
+  "lat": -6.2410999,
+  "lon": 106.6533074,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Kopi Nako"
+  }
+},
+{
+  "type": "node",
+  "id": 9694318016,
+  "lat": -6.2347286,
+  "lon": 106.6463345,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Segari - Tangerang"
+  }
+},
+{
+  "type": "node",
+  "id": 9696289695,
+  "lat": -6.2976351,
+  "lon": 106.7132628,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Teguk - Sudimara"
+  }
+},
+{
+  "type": "node",
+  "id": 9728501432,
+  "lat": -6.2737798,
+  "lon": 106.7421446,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Mata Kopi Coffee Shop - Pondok Karya"
+  }
+},
+{
+  "type": "node",
+  "id": 9731515363,
+  "lat": -6.2796703,
+  "lon": 106.7389460,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Bunda Joeli - Pondok Ranji"
+  }
+},
+{
+  "type": "node",
+  "id": 9754403917,
+  "lat": -6.3104688,
+  "lon": 106.7430996,
+  "tags": {
+    "addr:street": "Jalan Tabanas",
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Nasi Goreng Padang Birugo"
+  }
+},
+{
+  "type": "node",
+  "id": 9774708051,
+  "lat": -6.3499377,
+  "lon": 106.7314472,
+  "tags": {
+    "addr:city": "Tangerang Selatan",
+    "addr:housenumber": "M1",
+    "addr:postcode": "15417",
+    "addr:street": "Pamulang Lestari Residence",
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "diet:halal": "yes",
+    "name": "Dapur Ihsan",
+    "opening_hours": "Mo-Sa 08:00-18:00",
+    "phone": "+62 81 808076775"
+  }
+},
+{
+  "type": "node",
+  "id": 9829637017,
+  "lat": -6.3026571,
+  "lon": 106.7610570,
+  "tags": {
+    "alt_name": "Dunkin' Donuts",
+    "amenity": "fast_food",
+    "brand": "Dunkin'",
+    "brand:wikidata": "Q847743",
+    "cuisine": "donut;coffee_shop",
+    "name": "Dunkin'",
+    "shop": "bakery",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9986425914,
+  "lat": -6.2957197,
+  "lon": 106.6669928,
+  "tags": {
+    "amenity": "cafe",
+    "brand": "Starbucks",
+    "brand:wikidata": "Q37158",
+    "cuisine": "coffee_shop",
+    "name": "Starbucks",
+    "official_name": "Starbucks Coffee",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9986425915,
+  "lat": -6.2958623,
+  "lon": 106.6669961,
+  "tags": {
+    "amenity": "restaurant",
+    "brand": "Wingstop",
+    "cuisine": "wings",
+    "name": "Wingstop"
+  }
+},
+{
+  "type": "node",
+  "id": 10164624665,
+  "lat": -6.3398470,
+  "lon": 106.7382964,
+  "tags": {
+    "addr:city": "Tangerang Selatan",
+    "addr:postcode": "15417",
+    "addr:street": "Jalan Pajajaran Raya",
+    "amenity": "fast_food",
+    "brand": "McDonald's",
+    "brand:wikidata": "Q38076",
+    "cuisine": "burger",
+    "diet:halal": "yes",
+    "drive_through": "yes",
+    "name": "McDonald's",
+    "opening_hours": "24/7",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10183159439,
+  "lat": -6.3533494,
+  "lon": 106.7130876,
+  "tags": {
+    "addr:city": "Tangerang Selatan",
+    "addr:housename": "Permata Pamulang",
+    "addr:housenumber": "Blok E2 No. 9-10",
+    "addr:neighbourhood": "Bakti Jaya",
+    "addr:postcode": "15315",
+    "addr:province": "Banten",
+    "addr:street": "Jalan Permata Indah II",
+    "addr:subdistrict": "Setu",
+    "alt_name": "Meatingsteak",
+    "amenity": "restaurant",
+    "cuisine": "steak_house",
+    "delivery": "yes",
+    "description": "Steak Berbumbu Rempah-Rempah & Habbatussauda",
+    "name": "Meating Steak House",
+    "outdoor_seating": "yes",
+    "phone": "+62 817 919 9992",
+    "reservation": "required",
+    "website": "https://www.instagram.com/meatingsteakofficial"
+  }
+},
+{
+  "type": "node",
+  "id": 10185603666,
+  "lat": -6.3221652,
+  "lon": 106.6753352,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Nasi Goreng NRB"
+  }
+},
+{
+  "type": "node",
+  "id": 10557820627,
+  "lat": -6.3435550,
+  "lon": 106.7040745,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "mobile": "+62 838 7689 8892",
+    "name": "Warung Nasi Tumpang Pecel Kertosono Jawa Timur",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10573759423,
+  "lat": -6.3468931,
+  "lon": 106.7066356,
+  "tags": {
+    "amenity": "restaurant",
+    "branch": "Puspiptek",
+    "brand": "Mie Gacoan",
+    "brand:wikidata": "Q111995141",
+    "cuisine": "noodle",
+    "name": "Mie Gacoan"
+  }
+},
+{
+  "type": "node",
+  "id": 10576551177,
+  "lat": -6.3376912,
+  "lon": 106.7009883,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "chicken;indonesian",
+    "name": "Ayam Penyet Mang'Kal",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10576551178,
+  "lat": -6.3427899,
+  "lon": 106.7022735,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Gado Gado Soto Betawi"
+  }
+},
+{
+  "type": "node",
+  "id": 10578818793,
+  "lat": -6.3442113,
+  "lon": 106.7042139,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Tanakawan Angkringan",
+    "outdoor_seating": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10628119122,
+  "lat": -6.2948110,
+  "lon": 106.6812171,
+  "tags": {
+    "access": "unknown",
+    "addr:city": "Tangerang Selatan, Serpong, BSD",
+    "addr:street": "Jalan Lengkong Gudang Timur Raya",
+    "amenity": "fast_food",
+    "fast_food": "cafeteria",
+    "name": "Kedai Presisi",
+    "operator": "Polsek Serpong"
+  }
+},
+{
+  "type": "node",
+  "id": 10656518844,
+  "lat": -6.3209766,
+  "lon": 106.6843796,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Lawson"
+  }
+},
+{
+  "type": "node",
+  "id": 10656518845,
+  "lat": -6.3202397,
+  "lon": 106.6817867,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Kopi Kenangan"
+  }
+},
+{
+  "type": "node",
+  "id": 10676084227,
+  "lat": -6.3295947,
+  "lon": 106.6976246,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Warung Kampung"
+  }
+},
+{
+  "type": "node",
+  "id": 10692808915,
+  "lat": -6.2327601,
+  "lon": 106.6586235,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Ryuko"
+  }
+},
+{
+  "type": "node",
+  "id": 10725861004,
+  "lat": -6.2408357,
+  "lon": 106.6565569,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Kafe Pendekar"
+  }
+},
+{
+  "type": "node",
+  "id": 10725861005,
+  "lat": -6.2409457,
+  "lon": 106.6565408,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Nasi Kapau Merdeka"
+  }
+},
+{
+  "type": "node",
+  "id": 10725861086,
+  "lat": -6.2326267,
+  "lon": 106.6601390,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "chinese",
+    "name": "Lao Lao Huo Guo"
+  }
+},
+{
+  "type": "node",
+  "id": 10725945175,
+  "lat": -6.2426468,
+  "lon": 106.6479242,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Grand Serpong Kitchen"
+  }
+},
+{
+  "type": "node",
+  "id": 10729581936,
+  "lat": -6.3141667,
+  "lon": 106.7342505,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date": "2025-12-18",
+    "check_date:opening_hours": "2025-12-18",
+    "diet:halal": "yes",
+    "diet:kosher": "no",
+    "diet:vegetarian": "no",
+    "indoor_seating": "yes",
+    "name": "INDORAMA",
+    "opening_hours": "24/7",
+    "outdoor_seating": "yes",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10729711425,
+  "lat": -6.2725412,
+  "lon": 106.7266997,
+  "tags": {
+    "amenity": "restaurant",
+    "food": "japanese;sushi",
+    "name": "Okinawa Sushi"
+  }
+},
+{
+  "type": "node",
+  "id": 10731191100,
+  "lat": -6.3128815,
+  "lon": 106.7290672,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "restaurant",
+    "check_date:opening_hours": "2023-03-13",
+    "diet:halal": "yes",
+    "diet:kosher": "no",
+    "diet:vegetarian": "no",
+    "indoor_seating": "yes",
+    "name": "Warteg Kharisma",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10735082042,
+  "lat": -6.2946855,
+  "lon": 106.6855914,
+  "tags": {
+    "amenity": "fast_food",
+    "cuisine": "indonesian;fried_rice",
+    "name": "Nasi Goreng 37",
+    "source": "streetlevel imagery;Mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 10739044032,
+  "lat": -6.2967272,
+  "lon": 106.6817475,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Medan Ria"
+  }
+},
+{
+  "type": "node",
+  "id": 10739044034,
+  "lat": -6.2976161,
+  "lon": 106.6821440,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "seafood",
+    "name": "Bintang Kepiting"
+  }
+},
+{
+  "type": "node",
+  "id": 10739044035,
+  "lat": -6.2979590,
+  "lon": 106.6823439,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "RM BPK Sinabung"
+  }
+},
+{
+  "type": "node",
+  "id": 10739228460,
+  "lat": -6.2947248,
+  "lon": 106.6833419,
+  "tags": {
+    "addr:city": "Tangerang Selatan, Serpong, Bumi Serpong Damai",
+    "addr:street": "Jalan Lengkong Gudang Timur Raya",
+    "amenity": "fast_food",
+    "cuisine": "chicken",
+    "name": "Kenchick"
+  }
+},
+{
+  "type": "node",
+  "id": 10739228470,
+  "lat": -6.2946261,
+  "lon": 106.6830934,
+  "tags": {
+    "addr:city": "Tangerang Selatan, Serpong, Bumi Serpong Damai",
+    "addr:street": "Jalan Lengkong Gudang Timur Raya",
+    "amenity": "restaurant",
+    "name": "Warung Nasi Sumedang"
+  }
+},
+{
+  "type": "node",
+  "id": 10739399366,
+  "lat": -6.2947890,
+  "lon": 106.6842017,
+  "tags": {
+    "amenity": "fast_food",
+    "name": "Bakso Gajah Mungkur"
+  }
+},
+{
+  "type": "node",
+  "id": 10758003840,
+  "lat": -6.2946232,
+  "lon": 106.6860498,
+  "tags": {
+    "addr:city": "Tangerang Selatan, Serpong, Bumi Serpong Damai",
+    "addr:street": "Jalan Lengkong Gudang Timur Raya",
+    "amenity": "fast_food",
+    "cuisine": "indonesian;fried_rice;rice",
+    "name": "Nasi Goreng Brojak"
+  }
+},
+{
+  "type": "node",
+  "id": 10758003841,
+  "lat": -6.2946243,
+  "lon": 106.6860873,
+  "tags": {
+    "addr:city": "Tangerang Selatan, Serpong, Bumi Serpong Damai",
+    "addr:street": "Jalan Lengkong Gudang Timur Raya",
+    "amenity": "restaurant",
+    "cuisine": "indonesian;padang",
+    "name": "Rumah Makan Minang"
+  }
+},
+{
+  "type": "node",
+  "id": 10758003842,
+  "lat": -6.2946251,
+  "lon": 106.6861249,
+  "tags": {
+    "addr:city": "Tangerang Selatan, Serpong, Bumi Serpong Damai",
+    "addr:street": "Jalan Lengkong Gudang Timur Raya",
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Warung Ibu Lia"
+  }
+},
+{
+  "type": "node",
+  "id": 10758012545,
+  "lat": -6.2948268,
+  "lon": 106.6870409,
+  "tags": {
+    "amenity": "fast_food",
+    "cuisine": "indonesian;fried_food"
+  }
+},
+{
+  "type": "node",
+  "id": 10775350255,
+  "lat": -6.2946506,
+  "lon": 106.6856815,
+  "tags": {
+    "addr:city": "Tangerang Selatan, Serpong, Bumi Serpong Damai",
+    "addr:street": "Jalan Lengkong Gudang Timur Raya",
+    "amenity": "fast_food",
+    "cuisine": "indonesian;noodle;meatball",
+    "name": "Mpok Yul · Bakso, Mie Ayam, Mie Yamien",
+    "phone": "+62 812 2083 9697",
+    "source": "streetlevel imagery;Mapillary"
+  }
+},
+{
+  "type": "node",
+  "id": 10775350264,
+  "lat": -6.2946076,
+  "lon": 106.6850592,
+  "tags": {
+    "addr:city": "Tangerang Selatan, Serpong, Bumi Serpong Damai",
+    "addr:street": "Jalan Lengkong Gudang Timur Raya",
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Warteg Putra Bahari"
+  }
+},
+{
+  "type": "node",
+  "id": 10775350266,
+  "lat": -6.2946059,
+  "lon": 106.6849820,
+  "tags": {
+    "addr:city": "Tangerang Selatan, Serpong, Bumi Serpong Damai",
+    "addr:street": "Jalan Lengkong Gudang Timur Raya",
+    "amenity": "restaurant",
+    "cuisine": "indonesian;porridge",
+    "name": "Bubur Ayam Family"
+  }
+},
+{
+  "type": "node",
+  "id": 10777989138,
+  "lat": -6.3235329,
+  "lon": 106.6836562,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "chicken;regional;beef",
+    "name": "Payakumbuah Masakan Padang"
+  }
+},
+{
+  "type": "node",
+  "id": 10784633985,
+  "lat": -6.2947848,
+  "lon": 106.6851241,
+  "tags": {
+    "addr:city": "Tangerang Selatan, Serpong, Bumi Serpong Damai",
+    "addr:street": "Jalan Lengkong Gudang Timur Raya",
+    "amenity": "restaurant",
+    "name": "Warkop"
+  }
+},
+{
+  "type": "node",
+  "id": 10845003347,
+  "lat": -6.3093127,
+  "lon": 106.6625593,
+  "tags": {
+    "addr:city": "Kota Tangerang Selatan",
+    "addr:housenumber": "17J",
+    "addr:postcode": "15310",
+    "addr:street": "Jalan Raya Serpong",
+    "amenity": "cafe",
+    "cuisine": "canned_drinks;instant_noodles;bootled_drinks;snacks;cocacola;chilsung;lotte;drinks;water",
+    "internet_access": "wlan",
+    "internet_access:fee": "customers",
+    "internet_access:ssid": "Tagoya Vending Machine",
+    "name": "Haski und Kolli Vending Machine",
+    "name:ja-Hira": "ハンスキーとコリ自動販売機",
+    "opening_hours": "24/7",
+    "outdoor_seating": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10857914211,
+  "lat": -6.3434474,
+  "lon": 106.7333284,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Nasi Kapau Tanjung Baru Masakan Padang"
+  }
+},
+{
+  "type": "node",
+  "id": 10910686986,
+  "lat": -6.3018815,
+  "lon": 106.6798254,
+  "tags": {
+    "addr:city": "Tangerang Selatan",
+    "addr:street": "Jalan Rawa Buntu Utara",
+    "amenity": "fast_food",
+    "cuisine": "porridge;indonesian",
+    "diet:halal": "yes",
+    "name": "Bubur Ayam Asli Cirebon"
+  }
+},
+{
+  "type": "node",
+  "id": 10936333089,
+  "lat": -6.2425846,
+  "lon": 106.6657571,
+  "tags": {
+    "addr:city": "Kota Tangerang Selatan",
+    "addr:postcode": "15326",
+    "addr:street": "Ruko Silktown Avenue Blok.RK/5A-05",
+    "amenity": "cafe",
+    "name": "jhonlbf coffeeshop",
+    "opening_hours": "Mo-Su 09:00-21:00",
+    "website": "https://jhontainment.co/jhonlbf-coffeeshop/"
+  }
+},
+{
+  "type": "node",
+  "id": 11030262974,
+  "lat": -6.3165511,
+  "lon": 106.7151134,
+  "tags": {
+    "amenity": "cafe",
+    "check_date:opening_hours": "2023-07-06",
+    "diet:halal": "yes",
+    "diet:kosher": "no",
+    "diet:vegetarian": "no",
+    "indoor_seating": "no",
+    "name": "Warkop D SAS",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11031903572,
+  "lat": -6.3171302,
+  "lon": 106.7212900,
+  "tags": {
+    "amenity": "cafe",
+    "check_date:opening_hours": "2023-07-07",
+    "diet:halal": "yes",
+    "diet:kosher": "no",
+    "diet:vegetarian": "no",
+    "indoor_seating": "no",
+    "name": "Warung Kopi Bukit Serua",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11061425948,
+  "lat": -6.2385401,
+  "lon": 106.6581973,
+  "tags": {
+    "amenity": "restaurant",
+    "check_date": "2023-07-22",
+    "cuisine": "asian;ramen;noodle;chinese;japanese;seafood",
+    "level": "0",
+    "name": "Come-Xia"
+  }
+},
+{
+  "type": "node",
+  "id": 11061439594,
+  "lat": -6.2384515,
+  "lon": 106.6581081,
+  "tags": {
+    "amenity": "restaurant",
+    "check_date": "2023-07-22",
+    "name": "Tan Ramen"
+  }
+},
+{
+  "type": "node",
+  "id": 11061439595,
+  "lat": -6.2381793,
+  "lon": 106.6579230,
+  "tags": {
+    "amenity": "restaurant",
+    "check_date": "2023-07-22",
+    "name": "Robinson"
+  }
+},
+{
+  "type": "node",
+  "id": 11061439596,
+  "lat": -6.2383711,
+  "lon": 106.6580441,
+  "tags": {
+    "amenity": "restaurant",
+    "check_date": "2023-07-22",
+    "name": "Sunyi"
+  }
+},
+{
+  "type": "node",
+  "id": 11113261111,
+  "lat": -6.2793970,
+  "lon": 106.7190927,
+  "tags": {
+    "addr:city": "Tangerang Selatan",
+    "addr:postcode": "15220",
+    "addr:street": "Jl. Jenderal Sudirman Blok RA -23, Pd. Jaya, Kec. Pd. Aren, Kota Tangerang Selatan, Banten 15220",
+    "amenity": "restaurant",
+    "cuisine": "indonesian;javanese;traditional;traditional_salad;pecel",
+    "delivery": "yes",
+    "diet:halal": "yes",
+    "diet:healthy": "yes",
+    "diet:local": "yes",
+    "diet:organic": "yes",
+    "diet:ovo_vegetarian": "yes",
+    "diet:vegetarian": "yes",
+    "name": "Pecel Bu KIM",
+    "opening_hours": "Mo-Su 06:30-15:00",
+    "payment:cash": "yes",
+    "payment:debit_cards": "yes",
+    "payment:gopay_id": "yes",
+    "phone": "+6281290902009",
+    "takeaway": "yes",
+    "website": "https://www.instagram.com/pecel_bukim/"
+  }
+},
+{
+  "type": "node",
+  "id": 11186872056,
+  "lat": -6.3470679,
+  "lon": 106.6578075,
+  "tags": {
+    "addr:city": "Tangerang Selatan",
+    "addr:housenumber": "31",
+    "addr:postcode": "15312",
+    "addr:street": "Jalan Lingkar Selatan Kel. Keranggan RT10/04",
+    "air_conditioning": "yes",
+    "amenity": "cafe",
+    "bar": "yes",
+    "capacity": "30",
+    "cuisine": "indonesian",
+    "delivery": "yes",
+    "description": "Kalceri Cafe, Coffee & Eatery, sebuah kedai kopi kekinian yang menyajikan makanan lezat dan minuman kopi dengan cita rasa yang khas. Kami selalu menjaga kebersihan dapur secara berkala untuk memastikan makanan dan minuman yang tersaji tetap higienis.",
+    "email": "kalcericafe@gmail.com",
+    "internet_access": "wlan",
+    "internet_access:fee": "no",
+    "internet_access:ssid": "Kalceri Cafe Free",
+    "name": "Kalceri Cafe Serpong",
+    "opening_hours": "08:00-22:00",
+    "outdoor_seating": "yes",
+    "payment:cash": "yes",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "payment:mastercard": "yes",
+    "payment:visa": "yes",
+    "phone": "+6285161345400",
+    "smoking": "outside",
+    "takeaway": "yes",
+    "toilets": "yes",
+    "website": "https://kalcericafe.id"
+  }
+},
+{
+  "type": "node",
+  "id": 11412719140,
+  "lat": -6.2728765,
+  "lon": 106.6977422,
+  "tags": {
+    "amenity": "fast_food",
+    "brand": "Wingstop",
+    "brand:wikidata": "Q8025339",
+    "cuisine": "wings",
+    "name": "Wingstop",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11412719141,
+  "lat": -6.2728912,
+  "lon": 106.6978776,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "sushi",
+    "name": "Sushi Mentai"
+  }
+},
+{
+  "type": "node",
+  "id": 11412719142,
+  "lat": -6.2729098,
+  "lon": 106.6980426,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Simpang Raya"
+  }
+},
+{
+  "type": "node",
+  "id": 11412719143,
+  "lat": -6.2729365,
+  "lon": 106.6982102,
+  "tags": {
+    "alt_name": "Kentucky Fried Chicken",
+    "amenity": "fast_food",
+    "brand": "KFC",
+    "brand:wikidata": "Q524757",
+    "cuisine": "chicken",
+    "name": "KFC",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11438822124,
+  "lat": -6.2854979,
+  "lon": 106.7286265,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Monsieur Spoon"
+  }
+},
+{
+  "type": "node",
+  "id": 11438822161,
+  "lat": -6.2859964,
+  "lon": 106.7282644,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Excelso"
+  }
+},
+{
+  "type": "node",
+  "id": 11438822162,
+  "lat": -6.2857325,
+  "lon": 106.7282698,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Djournal Coffee"
+  }
+},
+{
+  "type": "node",
+  "id": 11438822163,
+  "lat": -6.2850420,
+  "lon": 106.7282107,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "donut",
+    "name": "Krispy Kreme"
+  }
+},
+{
+  "type": "node",
+  "id": 11438822164,
+  "lat": -6.2848660,
+  "lon": 106.7282537,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Sate Khas Senayan"
+  }
+},
+{
+  "type": "node",
+  "id": 11438822165,
+  "lat": -6.2853059,
+  "lon": 106.7292219,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "pizza",
+    "name": "Pizza Marzano"
+  }
+},
+{
+  "type": "node",
+  "id": 11438825270,
+  "lat": -6.2852433,
+  "lon": 106.7282107,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Fore"
+  }
+},
+{
+  "type": "node",
+  "id": 11438825271,
+  "lat": -6.2854192,
+  "lon": 106.7282228,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Starbucks"
+  }
+},
+{
+  "type": "node",
+  "id": 11474852569,
+  "lat": -6.2929104,
+  "lon": 106.7362190,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Kayu Menjangan"
+  }
+},
+{
+  "type": "node",
+  "id": 11502998269,
+  "lat": -6.2513947,
+  "lon": 106.7374822,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Putra Minang"
+  }
+},
+{
+  "type": "node",
+  "id": 11539192869,
+  "lat": -6.3107526,
+  "lon": 106.7232364,
+  "tags": {
+    "addr:street": "Jalan Aria Putra Raya",
+    "amenity": "restaurant",
+    "name": "Wuffy Space"
+  }
+},
+{
+  "type": "node",
+  "id": 11567679069,
+  "lat": -6.3440345,
+  "lon": 106.6870743,
+  "tags": {
+    "alt_name": "Kentucky Fried Chicken",
+    "amenity": "fast_food",
+    "brand": "KFC",
+    "brand:wikidata": "Q524757",
+    "cuisine": "chicken",
+    "name": "KFC",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11590702131,
+  "lat": -6.2692176,
+  "lon": 106.7242045,
+  "tags": {
+    "amenity": "restaurant"
+  }
+},
+{
+  "type": "node",
+  "id": 11606705182,
+  "lat": -6.2742325,
+  "lon": 106.6565426,
+  "tags": {
+    "amenity": "cafe",
+    "check_date": "2024-02-10",
+    "cuisine": "coffee_shop;sandwich;breakfast",
+    "name": "Sidecar Coffee",
+    "outdoor_seating": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11622312803,
+  "lat": -6.3006040,
+  "lon": 106.6885973,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Dapoer Selasar"
+  }
+},
+{
+  "type": "node",
+  "id": 11622312804,
+  "lat": -6.3004920,
+  "lon": 106.6893483,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Waroeng Mas'Ze"
+  }
+},
+{
+  "type": "node",
+  "id": 11622312807,
+  "lat": -6.3005040,
+  "lon": 106.6900171,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "chicken",
+    "name": "Bu Tjondro"
+  }
+},
+{
+  "type": "node",
+  "id": 11622312816,
+  "lat": -6.3039322,
+  "lon": 106.6924308,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Warteg Gading Bahari"
+  }
+},
+{
+  "type": "node",
+  "id": 11622312822,
+  "lat": -6.3051335,
+  "lon": 106.6930251,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Urang Awak"
+  }
+},
+{
+  "type": "node",
+  "id": 11623693434,
+  "lat": -6.3005767,
+  "lon": 106.6882957,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Sate Tegal & Warteg Bahari"
+  }
+},
+{
+  "type": "node",
+  "id": 11623693452,
+  "lat": -6.3004866,
+  "lon": 106.6829726,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "japanese",
+    "name": "Kedai Kokoho"
+  }
+},
+{
+  "type": "node",
+  "id": 11687217469,
+  "lat": -6.3256479,
+  "lon": 106.7479968,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Warung Kondre"
+  }
+},
+{
+  "type": "node",
+  "id": 11719388310,
+  "lat": -6.3059997,
+  "lon": 106.6796909,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Balai Coffee"
+  }
+},
+{
+  "type": "node",
+  "id": 11757816869,
+  "lat": -6.2509685,
+  "lon": 106.7378415,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Nasi Uduk Bu Anisa"
+  }
+},
+{
+  "type": "node",
+  "id": 11809279424,
+  "lat": -6.2790413,
+  "lon": 106.7211819,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Ayam Goreng Hayam Wuruk"
+  }
+},
+{
+  "type": "node",
+  "id": 11809294442,
+  "lat": -6.2790558,
+  "lon": 106.7210206,
+  "tags": {
+    "alt_name": "Dunkin' Donuts",
+    "amenity": "fast_food",
+    "brand": "Dunkin'",
+    "brand:wikidata": "Q847743",
+    "cuisine": "donut;coffee_shop",
+    "name": "Dunkin'",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11809314687,
+  "lat": -6.2783172,
+  "lon": 106.7212296,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Bakso Boedjangan"
+  }
+},
+{
+  "type": "node",
+  "id": 11809324467,
+  "lat": -6.2790579,
+  "lon": 106.7210801,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Nasi Kapau Sutan Mangkuto"
+  }
+},
+{
+  "type": "node",
+  "id": 11811508841,
+  "lat": -6.2766202,
+  "lon": 106.7404902,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Hwamei Chinese Food"
+  }
+},
+{
+  "type": "node",
+  "id": 11873596169,
+  "lat": -6.3437011,
+  "lon": 106.7348789,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Bakso Malang Enggal"
+  }
+},
+{
+  "type": "node",
+  "id": 12007412257,
+  "lat": -6.2802691,
+  "lon": 106.7176289,
+  "tags": {
+    "amenity": "cafe",
+    "brand": "TOMORO Coffee",
+    "brand:wikidata": "Q126326801",
+    "cuisine": "coffee_shop",
+    "name": "TOMORO Coffee",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12104274946,
+  "lat": -6.3033189,
+  "lon": 106.6921171,
+  "tags": {
+    "amenity": "cafe",
+    "cuisine": "coffee_shop",
+    "name": "Suksestama"
+  }
+},
+{
+  "type": "node",
+  "id": 12109913864,
+  "lat": -6.3057505,
+  "lon": 106.6795155,
+  "tags": {
+    "amenity": "cafe",
+    "cuisine": "coffee_shop",
+    "internet_access": "yes",
+    "internet_access:fee": "customers",
+    "name": "Toko Kopi TUKU - BSD",
+    "opening_hours": "Mo-Su 07:00-21:00",
+    "outdoor_seating": "yes",
+    "website": "https://tuku.coffee"
+  }
+},
+{
+  "type": "node",
+  "id": 12161111956,
+  "lat": -6.2618857,
+  "lon": 106.7376521,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Emados"
+  }
+},
+{
+  "type": "node",
+  "id": 12161147016,
+  "lat": -6.2579502,
+  "lon": 106.7369739,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Cafe Nuansa"
+  }
+},
+{
+  "type": "node",
+  "id": 12163514724,
+  "lat": -6.2581478,
+  "lon": 106.7363719,
+  "tags": {
+    "amenity": "fast_food",
+    "name": "Pancoeng Lumer"
+  }
+},
+{
+  "type": "node",
+  "id": 12163520878,
+  "lat": -6.2585541,
+  "lon": 106.7365025,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Pecel Lele Mandiri"
+  }
+},
+{
+  "type": "node",
+  "id": 12163525094,
+  "lat": -6.2584729,
+  "lon": 106.7363910,
+  "tags": {
+    "amenity": "fast_food",
+    "name": "Ayam Bersih Berkah"
+  }
+},
+{
+  "type": "node",
+  "id": 12163529912,
+  "lat": -6.2585081,
+  "lon": 106.7363630,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Warung Kopi Toro-Chan"
+  }
+},
+{
+  "type": "node",
+  "id": 12163531139,
+  "lat": -6.2577189,
+  "lon": 106.7364287,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Warteg Kharisma"
+  }
+},
+{
+  "type": "node",
+  "id": 12174161101,
+  "lat": -6.2386098,
+  "lon": 106.6524525,
+  "tags": {
+    "addr:postcode": "15325",
+    "amenity": "restaurant",
+    "name": "Seporsi Mie Kari",
+    "opening_hours": "Mo-Su 08:00-22:00",
+    "outdoor_seating": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 12272026391,
+  "lat": -6.3548590,
+  "lon": 106.7216820,
+  "tags": {
+    "addr:city": "Tangerang Selatan",
+    "addr:district": "Pamulang",
+    "addr:housenumber": "1A",
+    "addr:postcode": "15416",
+    "addr:province": "Banten",
+    "addr:street": "Jalan Salak Raya",
+    "addr:subdistrict": "Pondok Benda",
+    "amenity": "restaurant",
+    "cuisine": "indonesian;dumplings;regional",
+    "cuisine:ja": "Pempek, Tekwan, Es Kacang Merah, Cendol Durian",
+    "diet:halal": "yes",
+    "name": "Pempek Dan Dimsum Adindas",
+    "opening_hours": "Mo-Su 09:00-22:00",
+    "phone": "+6285895109366",
+    "website": "https://adindas.com"
+  }
+},
+{
+  "type": "node",
+  "id": 12337071424,
+  "lat": -6.2377608,
+  "lon": 106.6587087,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "japanese",
+    "name": "Yuimaru"
+  }
+},
+{
+  "type": "node",
+  "id": 12337071436,
+  "lat": -6.2376515,
+  "lon": 106.6588636,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "noodle",
+    "name": "Bakmi Palu"
+  }
+},
+{
+  "type": "node",
+  "id": 12386084583,
+  "lat": -6.2570036,
+  "lon": 106.6825275,
+  "tags": {
+    "addr:city": "Tangerang Selatan",
+    "addr:district": "Pondok Aren",
+    "addr:housenumber": "157",
+    "addr:postcode": "15226",
+    "addr:province": "Banten",
+    "addr:street": "Jl. AMD Raya",
+    "addr:subdistrict": "Pondok Kacang Barat",
+    "amenity": "fast_food",
+    "branch": "AMD Raya",
+    "brand": "KENchick",
+    "contact:facebook": "https://www.facebook.com/kenchick.id",
+    "cuisine": "chicken;breakfast;diner;wings;fries;lunch;ayam;ayam_goreng;fried_chicken;fine_dining",
+    "delivery": "yes",
+    "diet:chicken": "yes",
+    "diet:halal": "yes",
+    "drive_through": "yes",
+    "email": "kenchick.id@gmail.com",
+    "name": "KENchick Fried Chicken AMD Raya",
+    "official_name": "KENchick Fried Chicken AMD Raya",
+    "opening_hours": "Mo-Sa 05:00-20:00",
+    "operator": "KENchick",
+    "payment:app": "yes",
+    "payment:cash": "yes",
+    "payment:qris": "yes",
+    "phone": "+62 838 7030 6000",
+    "short_name": "KENchick",
+    "start_date": "2022-05-27",
+    "takeaway": "only",
+    "website": "https://kenchick.id/"
+  }
+},
+{
+  "type": "node",
+  "id": 12634742965,
+  "lat": -6.3580820,
+  "lon": 106.7480184,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Spesial Soto Boyolali"
+  }
+},
+{
+  "type": "node",
+  "id": 12688231876,
+  "lat": -6.2860924,
+  "lon": 106.6660599,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Restoran Simpang Raya"
+  }
+},
+{
+  "type": "node",
+  "id": 12787294608,
+  "lat": -6.2723648,
+  "lon": 106.7252520,
+  "tags": {
+    "amenity": "cafe",
+    "brand": "TOMORO Coffee",
+    "brand:wikidata": "Q126326801",
+    "cuisine": "coffee_shop",
+    "name": "TOMORO Coffee",
+    "outdoor_seating": "yes",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12787294609,
+  "lat": -6.2699587,
+  "lon": 106.7310123,
+  "tags": {
+    "amenity": "cafe",
+    "brand": "TOMORO Coffee",
+    "brand:wikidata": "Q126326801",
+    "cuisine": "coffee_shop",
+    "name": "TOMORO Coffee",
+    "outdoor_seating": "yes",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12787294610,
+  "lat": -6.2701951,
+  "lon": 106.7393994,
+  "tags": {
+    "amenity": "fast_food",
+    "brand": "Richeese Factory",
+    "brand:wikidata": "Q22915087",
+    "cuisine": "chicken",
+    "name": "Richeese Factory",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12788044188,
+  "lat": -6.3041430,
+  "lon": 106.6662809,
+  "tags": {
+    "addr:city": "Cilenggang",
+    "addr:housename": "Batubata",
+    "addr:housenumber": "6",
+    "addr:postcode": "15310",
+    "addr:province": "Banten",
+    "addr:street": "Jalan Cilenggang II",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop",
+    "internet_access": "yes",
+    "internet_access:fee": "no",
+    "name": "Masagi Koffee at Batubata",
+    "opening_hours": "Mo-Su 07:00-22:00",
+    "outdoor_seating": "yes",
+    "website": "https://www.instagram.com/masagikoffee_batubata"
+  }
+},
+{
+  "type": "node",
+  "id": 12823716938,
+  "lat": -6.3482803,
+  "lon": 106.6736594,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Dua Saudara Masakan Padang"
+  }
+},
+{
+  "type": "node",
+  "id": 12877427264,
+  "lat": -6.3009063,
+  "lon": 106.6915144,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Imbi"
+  }
+},
+{
+  "type": "node",
+  "id": 12877427266,
+  "lat": -6.3016376,
+  "lon": 106.6916645,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "javanese",
+    "name": "Warung Jatim Pak Tompo"
+  }
+},
+{
+  "type": "node",
+  "id": 12877427267,
+  "lat": -6.3012856,
+  "lon": 106.6916033,
+  "tags": {
+    "amenity": "cafe",
+    "cuisine": "tea",
+    "name": "Es Teh Indonesia"
+  }
+},
+{
+  "type": "node",
+  "id": 12946644839,
+  "lat": -6.2854607,
+  "lon": 106.7278999,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Marugame Udon"
+  }
+},
+{
+  "type": "node",
+  "id": 13011829856,
+  "lat": -6.3470119,
+  "lon": 106.6597998,
+  "tags": {
+    "amenity": "cafe",
+    "cuisine": "coffee_shop;ice_cream",
+    "name": "BINGXUE"
+  }
+},
+{
+  "type": "node",
+  "id": 13155063768,
+  "lat": -6.3171363,
+  "lon": 106.7240849,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-09-19",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warkop ANIME",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "no",
+    "smoking": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13155270115,
+  "lat": -6.3090383,
+  "lon": 106.7185784,
+  "tags": {
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-09-19",
+    "diet:halal": "yes",
+    "indoor_seating": "no",
+    "name": "Warkop  AHMAD",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13157915020,
+  "lat": -6.3165814,
+  "lon": 106.7099722,
+  "tags": {
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-09-20",
+    "diet:halal": "yes",
+    "indoor_seating": "no",
+    "name": "Warkop DUA PUTRI",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13159578995,
+  "lat": -6.3165698,
+  "lon": 106.7169282,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "restaurant",
+    "check_date:opening_hours": "2025-09-21",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warteg IIS Bahari",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "no",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13159826329,
+  "lat": -6.3091908,
+  "lon": 106.7170957,
+  "tags": {
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-09-21",
+    "diet:halal": "yes",
+    "indoor_seating": "no",
+    "name": "Cafe Kopi WO",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13162270850,
+  "lat": -6.2602330,
+  "lon": 106.7468423,
+  "tags": {
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-09-22",
+    "name": "SIKO SELA",
+    "opening_hours:signed": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 13171208380,
+  "lat": -6.3143081,
+  "lon": 106.7078587,
+  "tags": {
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-09-25",
+    "indoor_seating": "no",
+    "name": "KICKSTART",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13172865940,
+  "lat": -6.3168414,
+  "lon": 106.7099339,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-11-02",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warkop PJR",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13173539587,
+  "lat": -6.3040716,
+  "lon": 106.7264696,
+  "tags": {
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-09-26",
+    "diet:halal": "yes",
+    "indoor_seating": "no",
+    "name": "Kedai Mie 99",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "smoking": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13175023298,
+  "lat": -6.3403946,
+  "lon": 106.7385510,
+  "tags": {
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-09-27",
+    "name": "Soekaria",
+    "opening_hours:signed": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 13176663431,
+  "lat": -6.3165937,
+  "lon": 106.7162453,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-09-28",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Abadi Kuningan",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "no",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13180060191,
+  "lat": -6.3143086,
+  "lon": 106.6975203,
+  "tags": {
+    "amenity": "restaurant",
+    "check_date:opening_hours": "2025-09-29",
+    "name": "Anisa Jaya",
+    "opening_hours:signed": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 13180081970,
+  "lat": -6.3142035,
+  "lon": 106.7218532,
+  "tags": {
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-09-29",
+    "diet:halal": "yes",
+    "indoor_seating": "no",
+    "name": "Warkop SAGAYA \"15\"",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "smoking": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13180273102,
+  "lat": -6.3009597,
+  "lon": 106.7149310,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-09-29",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warkop GAUL",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "smoking": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13181079606,
+  "lat": -6.3098892,
+  "lon": 106.7083275,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warkop Pancong \"2F\"",
+    "opening_hours": "24/7",
+    "outdoor_seating": "no",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13184058736,
+  "lat": -6.3160632,
+  "lon": 106.7351850,
+  "tags": {
+    "amenity": "restaurant",
+    "check_date:opening_hours": "2025-09-30",
+    "name": "AURA",
+    "opening_hours:signed": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 13184303584,
+  "lat": -6.3367753,
+  "lon": 106.7279060,
+  "tags": {
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-09-30",
+    "diet:halal": "yes",
+    "indoor_seating": "no",
+    "name": "WARKOP \"24\"",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13186248370,
+  "lat": -6.3091644,
+  "lon": 106.7172727,
+  "tags": {
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-10-01",
+    "diet:halal": "yes",
+    "indoor_seating": "no",
+    "name": "Pion Sruntul & Warkop",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13188445780,
+  "lat": -6.3236329,
+  "lon": 106.7451845,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "restaurant",
+    "check_date:opening_hours": "2025-10-02",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warung Nasi",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "no",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13196252089,
+  "lat": -6.3471253,
+  "lon": 106.6880650,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warkop Disini",
+    "opening_hours": "24/7",
+    "outdoor_seating": "yes",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13208569901,
+  "lat": -6.2728508,
+  "lon": 106.6926966,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Warkop Agam Aceh"
+  }
+},
+{
+  "type": "node",
+  "id": 13236086721,
+  "lat": -6.3150980,
+  "lon": 106.7009963,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-10-16",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warkop\" 家族\" KAZOKU",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "yes",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13239002935,
+  "lat": -6.3167092,
+  "lon": 106.7140772,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-10-17",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warmindo di.Emih.an",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13243159192,
+  "lat": -6.3421488,
+  "lon": 106.7237691,
+  "tags": {
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-10-19",
+    "diet:halal": "yes",
+    "indoor_seating": "no",
+    "name": "WARKOP",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "smoking": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13243524639,
+  "lat": -6.2983111,
+  "lon": 106.7134932,
+  "tags": {
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-10-19",
+    "diet:halal": "yes",
+    "indoor_seating": "no",
+    "name": "Warkop",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "smoking": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13245994383,
+  "lat": -6.2596501,
+  "lon": 106.7415217,
+  "tags": {
+    "amenity": "restaurant",
+    "check_date:opening_hours": "2025-10-20",
+    "indoor_seating": "yes",
+    "name": "Bahari Paradise",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 13271179375,
+  "lat": -6.3484043,
+  "lon": 106.6882965,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "SEGARA Warkop",
+    "opening_hours": "24/7",
+    "outdoor_seating": "yes",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13272886661,
+  "lat": -6.3496233,
+  "lon": 106.6889468,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warkop AGAM",
+    "opening_hours": "24/7",
+    "outdoor_seating": "yes",
+    "smoking": "outside"
+  }
+},
+{
+  "type": "node",
+  "id": 13273675031,
+  "lat": -6.3350043,
+  "lon": 106.7264624,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-11-01",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Sedjagatemu",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "smoking": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13276186990,
+  "lat": -6.2929669,
+  "lon": 106.7362936,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Kayu Menjangan"
+  }
+},
+{
+  "type": "node",
+  "id": 13277417636,
+  "lat": -6.3030202,
+  "lon": 106.7162944,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-11-03",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warkop VJB",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13277519150,
+  "lat": -6.2623345,
+  "lon": 106.7233067,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-11-03",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "THEMAMP",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "smoking": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13280076357,
+  "lat": -6.3212348,
+  "lon": 106.7248790,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-11-04",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Seblak Prasmanan & Kopi SUTARA",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13285583530,
+  "lat": -6.3419926,
+  "lon": 106.7112102,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-11-07",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warkop BOS",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "no",
+    "smoking": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13307494971,
+  "lat": -6.3170200,
+  "lon": 106.7238648,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-11-16",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "DGLO",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "no",
+    "smoking": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13311026475,
+  "lat": -6.2997453,
+  "lon": 106.6690291,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Salero Bundo"
+  }
+},
+{
+  "type": "node",
+  "id": 13311026477,
+  "lat": -6.2997106,
+  "lon": 106.6695709,
+  "tags": {
+    "addr:city": "Tangerang Selatan",
+    "addr:housenumber": "29",
+    "addr:postcode": "15321",
+    "addr:street": "Jl. Boulevard BSD Timur No. 29, Rawa Buntu, Serpong, Banten, Indonesia 15318 Serpong, Banten, Indonesia 15318",
+    "amenity": "restaurant",
+    "cuisine": "sei_sapi;sei_lidah;sei_ayam;nasi_goreng_sei_sapi",
+    "name": "Seilera",
+    "phone": "+6281283605043",
+    "website": "https://seilera.com"
+  }
+},
+{
+  "type": "node",
+  "id": 13311514245,
+  "lat": -6.3199911,
+  "lon": 106.6637174,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Bebek Salero"
+  }
+},
+{
+  "type": "node",
+  "id": 13316207326,
+  "lat": -6.3448222,
+  "lon": 106.7499623,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-11-19",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warkop MBA MAY",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "no",
+    "smoking": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13320523131,
+  "lat": -6.3292883,
+  "lon": 106.7254375,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-11-21",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warung Kopi PAK GEMBUL",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "no",
+    "smoking": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13321015337,
+  "lat": -6.3253615,
+  "lon": 106.7420876,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-11-21",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "KELAWAI.WARKOP",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "smoking": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13323876241,
+  "lat": -6.3115229,
+  "lon": 106.7222119,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-11-22",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "WARMINDO",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "smoking": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13324753556,
+  "lat": -6.2998988,
+  "lon": 106.7149715,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "restaurant",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Mandiri Jaya",
+    "opening_hours": "24/7",
+    "outdoor_seating": "no",
+    "smoking": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13326294535,
+  "lat": -6.3419694,
+  "lon": 106.7279224,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-11-23",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "MERONA",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "smoking": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13328248413,
+  "lat": -6.2619670,
+  "lon": 106.7556534,
+  "tags": {
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-11-24",
+    "diet:halal": "yes",
+    "indoor_seating": "no",
+    "name": "AROETALA",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "smoking": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13328403744,
+  "lat": -6.2588429,
+  "lon": 106.7074674,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-11-24",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "KOPI RINGAN",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "no",
+    "smoking": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13329869914,
+  "lat": -6.3149964,
+  "lon": 106.7077828,
+  "tags": {
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-11-25",
+    "diet:halal": "only",
+    "indoor_seating": "no",
+    "name": "Warkop SIGEKO",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13330106010,
+  "lat": -6.3320909,
+  "lon": 106.7259426,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-11-25",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warkop SEJAGAT",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13387941038,
+  "lat": -6.2441928,
+  "lon": 106.6534865,
+  "tags": {
+    "addr:city": "Serpong, Banten",
+    "addr:district": "Kota Tangerang Selatan",
+    "addr:housename": "Living World Alam Sutera",
+    "addr:postcode": "15325",
+    "addr:street": "Jl. Alam Sutera Boulevard",
+    "addr:subdistrict": "Kec. Serpong Utara",
+    "addr:unit": "G00CT-G10IC",
+    "amenity": "restaurant",
+    "cuisine": "chinese;seafood",
+    "name": "BanTianYao Grilled Fish Living World Alam Sutera",
+    "opening_hours": "Mo-Su,PH 10:00-22:00"
+  }
+},
+{
+  "type": "node",
+  "id": 13393924262,
+  "lat": -6.3407818,
+  "lon": 106.7101898,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warkop Chi-Ci",
+    "opening_hours": "24/7",
+    "outdoor_seating": "no",
+    "smoking": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13394313654,
+  "lat": -6.2893500,
+  "lon": 106.6835002,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Atmospace"
+  }
+},
+{
+  "type": "node",
+  "id": 13395211191,
+  "lat": -6.3345297,
+  "lon": 106.7310180,
+  "tags": {
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-12-22",
+    "diet:halal": "yes",
+    "indoor_seating": "no",
+    "name": "Warkop RAMBUTAN",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13397981099,
+  "lat": -6.2921194,
+  "lon": 106.7452493,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-12-23",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warkop DOELL's",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "smoking": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13405915670,
+  "lat": -6.3232112,
+  "lon": 106.7253336,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-12-26",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warkop SUTARA",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "no",
+    "smoking": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13442150381,
+  "lat": -6.3480510,
+  "lon": 106.7438378,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2026-01-09",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warkop BOEMI",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "smoking": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13449860049,
+  "lat": -6.3152490,
+  "lon": 106.7076720,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "restaurant",
+    "check_date:opening_hours": "2026-01-12",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warung APIP",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "no",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13450881911,
+  "lat": -6.3360602,
+  "lon": 106.7292747,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warkop BETA",
+    "opening_hours": "24/7",
+    "outdoor_seating": "yes",
+    "smoking": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13475269967,
+  "lat": -6.2654320,
+  "lon": 106.6721350,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Highway Park",
+    "outdoor_seating": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13519336695,
+  "lat": -6.3454249,
+  "lon": 106.7155133,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Warteg Langgeng Jaya"
+  }
+},
+{
+  "type": "node",
+  "id": 13519336696,
+  "lat": -6.3454779,
+  "lon": 106.7155236,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Sari Minang Jaya"
+  }
+},
+{
+  "type": "node",
+  "id": 13519336697,
+  "lat": -6.3455745,
+  "lon": 106.7155941,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Warteg Jayabahari"
+  }
+},
+{
+  "type": "node",
+  "id": 13519361801,
+  "lat": -6.3454073,
+  "lon": 106.7163002,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Bebek dan Ayam Kampung Mas Budi"
+  }
+},
+{
+  "type": "node",
+  "id": 13519361802,
+  "lat": -6.3454495,
+  "lon": 106.7161555,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Warteg Kharisma"
+  }
+},
+{
+  "type": "node",
+  "id": 13519361803,
+  "lat": -6.3454110,
+  "lon": 106.7160063,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Kangen Cafe Stop"
+  }
+},
+{
+  "type": "node",
+  "id": 13519361804,
+  "lat": -6.3454161,
+  "lon": 106.7159720,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Pusako Miang",
+    "reservation": "no",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13539346467,
+  "lat": -6.3409481,
+  "lon": 106.7372206,
+  "tags": {
+    "air_conditioning": "yes",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop",
+    "delivery": "yes",
+    "name": "Toko Kopi TUKU - Pamulang",
+    "payment:cash": "yes",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "payment:mastercard": "yes",
+    "payment:visa": "yes",
+    "smoking": "outside",
+    "takeaway": "yes",
+    "website": "https://tuku.coffee"
+  }
+},
+{
+  "type": "node",
+  "id": 13563237490,
+  "lat": -6.2477354,
+  "lon": 106.6732900,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Mie Loky"
+  }
+},
+{
+  "type": "node",
+  "id": 13615163277,
+  "lat": -6.3022606,
+  "lon": 106.7240066,
+  "tags": {
+    "addr:city": "Tangerang Selatan",
+    "addr:district": "Ciputat",
+    "addr:housename": "Ruko U-Ville A",
+    "addr:postcode": "15413",
+    "addr:province": "Banten",
+    "addr:street": "Jalan Boulevard UPJ",
+    "addr:subdistrict": "Sawah Baru",
+    "addr:unit": "No.7",
+    "air_conditioning": "yes",
+    "amenity": "cafe",
+    "branch": "U-Town Bintaro",
+    "cuisine": "coffee_shop;indonesian",
+    "internet_access": "wlan",
+    "internet_access:fee": "customers",
+    "name": "Creme Kopi Paling Creamy di Tangsel (U-Town Bintaro)",
+    "opening_hours": "Mo-Su 08:00-22:00",
+    "outdoor_seating": "yes",
+    "phone": "+6285123604640",
+    "smoking": "outside",
+    "toilets": "yes",
+    "website": "https://linktr.ee/cremekopipalingcreamy"
+  }
+},
+{
+  "type": "node",
+  "id": 13615222970,
+  "lat": -6.3095620,
+  "lon": 106.7140160,
+  "tags": {
+    "addr:city": "Tangerang Selatan",
+    "addr:district": "Ciputat",
+    "addr:postcode": "15414",
+    "addr:province": "Banten",
+    "addr:street": "Jalan Bukit Nusa Indah",
+    "addr:subdistrict": "Serua",
+    "addr:unit": "Ruko No.27",
+    "air_conditioning": "yes",
+    "amenity": "cafe",
+    "branch": "Bukit Nusa Indah",
+    "cuisine": "coffee_shop;indonesian",
+    "internet_access": "wlan",
+    "internet_access:fee": "customers",
+    "name": "Creme Kopi Paling Creamy di Tangsel (Bukit Nusa Indah)",
+    "opening_hours": "Mo-Su 08:00-22:00",
+    "outdoor_seating": "yes",
+    "phone": "+6287770983292",
+    "smoking": "outside",
+    "website": "https://linktr.ee/cremekopipalingcreamy"
+  }
+},
+{
+  "type": "node",
+  "id": 13619509314,
+  "lat": -6.3148933,
+  "lon": 106.7321923,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Restoran Kampung Kecil",
+    "opening_hours": "Mo-Su 10:00-22:00"
+  }
+},
+{
+  "type": "node",
+  "id": 13626137120,
+  "lat": -6.2727679,
+  "lon": 106.7241196,
+  "tags": {
+    "addr:city": "Tangerang Selatan",
+    "addr:district": "Pondok Aren",
+    "addr:housenumber": "No.12/37",
+    "addr:postcode": "15224",
+    "addr:province": "Banten",
+    "addr:street": "Jalan Wahid Hasyim",
+    "addr:subdistrict": "Pondok Jaya",
+    "addr:unit": "Blk. F-G",
+    "air_conditioning": "yes",
+    "amenity": "cafe",
+    "branch": "Bintaro",
+    "internet_access": "wlan",
+    "internet_access:fee": "customers",
+    "name": "Bakoel Koffie",
+    "opening_hours": "Mo-Su 08:00-00:00",
+    "outdoor_seating": "yes",
+    "phone": "+622174863443",
+    "website": "https://www.bakoelkoffie.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 13626139508,
+  "lat": -6.2788367,
+  "lon": 106.7220475,
+  "tags": {
+    "addr:city": "Tangerang Selatan",
+    "addr:district": "Pondok Aren",
+    "addr:housenumber": "No.6",
+    "addr:postcode": "15220",
+    "addr:province": "Banten",
+    "addr:street": "Jalan Jenderal Sudirman",
+    "addr:subdistrict": "Pondok Jaya",
+    "addr:unit": "Blok A2",
+    "air_conditioning": "yes",
+    "amenity": "cafe",
+    "branch": "Heritage Bintaro",
+    "cuisine": "coffee_shop;indonesian",
+    "internet_access": "wlan",
+    "internet_access:fee": "customers",
+    "name": "Wheels Coffee Roasters",
+    "opening_hours": "Mo-Su 07:00-22:00",
+    "outdoor_seating": "yes",
+    "phone": "+6281284858610",
+    "website": "https://wheelscoffeeroasters.com/"
+  }
+},
+{
+  "type": "node",
+  "id": 13635257476,
+  "lat": -6.3102131,
+  "lon": 106.6893742,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Tekko"
+  }
+},
+{
+  "type": "node",
+  "id": 13635257477,
+  "lat": -6.3100963,
+  "lon": 106.6893486,
+  "tags": {
+    "amenity": "fast_food",
+    "cuisine": "sandwich",
+    "name": "Subway"
+  }
+},
+{
+  "type": "node",
+  "id": 13635257479,
+  "lat": -6.3098200,
+  "lon": 106.6892919,
+  "tags": {
+    "amenity": "cafe",
+    "cuisine": "coffee_shop",
+    "name": "Starbucks"
+  }
+},
+{
+  "type": "node",
+  "id": 13649947534,
+  "lat": -6.3038860,
+  "lon": 106.6830224,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Bubur Pulen"
+  }
+},
+{
+  "type": "node",
+  "id": 13701032702,
+  "lat": -6.3025589,
+  "lon": 106.6922251,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Luce"
+  }
+},
+{
+  "type": "node",
+  "id": 13701032705,
+  "lat": -6.3035327,
+  "lon": 106.6926117,
+  "tags": {
+    "alt_name": "Indomaret Point",
+    "amenity": "cafe",
+    "brand": "Point Coffee",
+    "brand:wikidata": "Q124651558",
+    "cuisine": "coffee_shop",
+    "name": "Point Coffee",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13727670360,
+  "lat": -6.3136616,
+  "lon": 106.7332669,
+  "tags": {
+    "amenity": "cafe",
+    "check_date:opening_hours": "2026-04-13",
+    "indoor_seating": "no",
+    "name": "Warkop",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "smoking": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13734715611,
+  "lat": -6.3031304,
+  "lon": 106.7217591,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2026-04-16",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Angkringan 5 Watt",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13734731964,
+  "lat": -6.3093706,
+  "lon": 106.7087597,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2026-04-16",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warkop VOKAL",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "no",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13735483179,
+  "lat": -6.3326298,
+  "lon": 106.7097167,
+  "tags": {
+    "addr:block": "B3",
+    "addr:full": "Jalan Benda Raya, Blok B3 No. 18, Pondok Benda, Pamulang",
+    "addr:housenumber": "18",
+    "addr:street": "Jalan Benda Raya",
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warkop \"94\"",
+    "opening_hours": "24/7",
+    "outdoor_seating": "yes",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13759135277,
+  "lat": -6.3008170,
+  "lon": 106.6905579,
+  "tags": {
+    "amenity": "cafe",
+    "cuisine": "coffee_shop",
+    "name": "H47 Coffee",
+    "opening_hours": "Mo-Su 09:00-22:00"
+  }
+},
+{
+  "type": "node",
+  "id": 13780420003,
+  "lat": -6.3372320,
+  "lon": 106.7148601,
+  "tags": {
+    "amenity": "fast_food",
+    "cuisine": "indonesian",
+    "name": "Salero Basamo",
+    "outdoor_seating": "yes",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13780420006,
+  "lat": -6.3368735,
+  "lon": 106.7148198,
+  "tags": {
+    "amenity": "fast_food",
+    "cuisine": "indonesian",
+    "name": "Warteg Bahari Mugi Mulya",
+    "shop": "kiosk",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13780420008,
+  "lat": -6.3369521,
+  "lon": 106.7148265,
+  "tags": {
+    "amenity": "fast_food",
+    "cuisine": "indonesian",
+    "name": "Nasi Goreng Sudi Moro",
+    "shop": "bakery",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13780420009,
+  "lat": -6.3367429,
+  "lon": 106.7148989,
+  "tags": {
+    "amenity": "fast_food",
+    "cuisine": "indonesian",
+    "name": "Bubur Ayam",
+    "outdoor_seating": "yes",
+    "shop": "kiosk",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13780420014,
+  "lat": -6.3361944,
+  "lon": 106.7149767,
+  "tags": {
+    "amenity": "fast_food",
+    "cuisine": "indonesian",
+    "name": "Rawon",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13780420015,
+  "lat": -6.3361357,
+  "lon": 106.7149727,
+  "tags": {
+    "amenity": "fast_food",
+    "cuisine": "indonesian",
+    "name": "Bakso",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13780420017,
+  "lat": -6.3360871,
+  "lon": 106.7149740,
+  "tags": {
+    "amenity": "restaurant",
+    "delivery": "yes",
+    "name": "Pitaruahamak",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13780420020,
+  "lat": -6.3358458,
+  "lon": 106.7145757,
+  "tags": {
+    "amenity": "fast_food",
+    "cuisine": "indonesian",
+    "delivery": "yes",
+    "name": "Nasi Goreng Ojo Lali",
+    "opening_hours": "Mo-Su 17:00-23:00",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13780420027,
+  "lat": -6.3359591,
+  "lon": 106.7139937,
+  "tags": {
+    "amenity": "fast_food"
+  }
+},
+{
+  "type": "node",
+  "id": 13780420033,
+  "lat": -6.3360031,
+  "lon": 106.7133540,
+  "tags": {
+    "amenity": "fast_food"
+  }
+},
+{
+  "type": "node",
+  "id": 13780420052,
+  "lat": -6.3362750,
+  "lon": 106.7116374,
+  "tags": {
+    "amenity": "fast_food",
+    "name": "Mie Ayam"
+  }
+},
+{
+  "type": "node",
+  "id": 13780420054,
+  "lat": -6.3364669,
+  "lon": 106.7110513,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Andaleh Raya",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13780420058,
+  "lat": -6.3364616,
+  "lon": 106.7105967,
+  "tags": {
+    "amenity": "fast_food",
+    "cuisine": "indonesian",
+    "name": "Warteg Cahaya Bahari",
+    "outdoor_seating": "yes",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13803696092,
+  "lat": -6.3469655,
+  "lon": 106.6947709,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "restaurant",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "MULYA BAHARI Warteg",
+    "opening_hours": "24/7",
+    "outdoor_seating": "no",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13840078159,
+  "lat": -6.3257443,
+  "lon": 106.6842671,
+  "tags": {
+    "addr:city": "Tangerang Selatan",
+    "addr:district": "Serpong",
+    "addr:postcode": "15310",
+    "addr:province": "Banten",
+    "addr:street": "Jl. Ciater Barat, Rawa Buntu, Serpong, Tangerang Selatan 15310",
+    "addr:subdistrict": "Rawa Buntu",
+    "amenity": "cafe",
+    "contact:facebook": "https://www.facebook.com/profile.php?id=61589781695599",
+    "cuisine": "coffee_shop;tea",
+    "name": "Minuman Rempah Serpong",
+    "opening_hours": "Mo-Su 17:00-24:00",
+    "outdoor_seating": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13926226601,
+  "lat": -6.3209400,
+  "lon": 106.6820040,
+  "tags": {
+    "amenity": "restaurant",
+    "brand": "Solaria",
+    "cuisine": "asian",
+    "delivery": "yes",
+    "name": "Solaria",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13957753686,
+  "lat": -6.2624634,
+  "lon": 106.7370367,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Roscik"
+  }
+},
+{
+  "type": "node",
+  "id": 13973991417,
+  "lat": -6.2763596,
+  "lon": 106.6964059,
+  "tags": {
+    "amenity": "fast_food",
+    "fast_food": "cafeteria",
+    "name": "Kantin SMA PJ"
+  }
+},
+{
+  "type": "node",
+  "id": 14026424516,
+  "lat": -6.2633796,
+  "lon": 106.6664363,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Panggilan Kopi"
+  }
+},
+{
+  "type": "node",
+  "id": 14057423999,
+  "lat": -6.2631769,
+  "lon": 106.7349283,
+  "tags": {
+    "alt_name": "Kentucky Fried Chicken",
+    "amenity": "fast_food",
+    "brand": "KFC",
+    "brand:wikidata": "Q524757",
+    "cuisine": "chicken",
+    "name": "KFC",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 14063949403,
+  "lat": -6.3030664,
+  "lon": 106.7178274,
+  "tags": {
+    "addr:street": "Jalan Aria Putra Raya",
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "internet_access": "wlan",
+    "name": "Mie Gacoan"
+  }
+},
+{
+  "type": "node",
+  "id": 14067749848,
+  "lat": -6.3431674,
+  "lon": 106.7298548,
+  "tags": {
+    "addr:city": "Kota Tangerang Selatan",
+    "addr:district": "Pamulang",
+    "addr:postcode": "15417",
+    "addr:province": "Banten",
+    "addr:street": "Jalan Siliwangi",
+    "addr:subdistrict": "Pamulang Barat",
+    "amenity": "cafe",
+    "brand": "Starbucks",
+    "brand:wikidata": "Q37158",
+    "cuisine": "coffee_shop",
+    "name": "Starbucks",
+    "official_name": "Starbucks Coffee",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 14067749850,
+  "lat": -6.3432579,
+  "lon": 106.7300953,
+  "tags": {
+    "addr:city": "Tangerang Selatan",
+    "addr:district": "Pamulang",
+    "addr:postcode": "15417",
+    "addr:province": "Banten",
+    "addr:street": "Jalan Siliwangi",
+    "addr:subdistrict": "Pamulang Barat",
+    "amenity": "restaurant",
+    "contact:instagram": "https://www.instagram.com/seindonesia.idn/",
+    "cuisine": "beef;chicken",
+    "delivery": "yes",
+    "diet:halal": "only",
+    "name": "Restoran Se'indonesia",
+    "opening_hours": "24/7",
+    "takeaway": "yes",
+    "website": "https://seindonesia.co.id/"
+  }
+},
+{
+  "type": "node",
+  "id": 14067749851,
+  "lat": -6.3433426,
+  "lon": 106.7302191,
+  "tags": {
+    "addr:city": "Tangerang Selatan",
+    "addr:district": "Pamulang",
+    "addr:postcode": "15417",
+    "addr:province": "Banten",
+    "addr:street": "Jalan Siliwangi",
+    "addr:subdistrict": "Pamulang Barat",
+    "amenity": "cafe",
+    "contact:instagram": "https://www.instagram.com/kopinako.id/",
+    "contact:linkedin": "https://id.linkedin.com/company/kanmagroup",
+    "cuisine": "coffee_shop",
+    "diet:halal": "yes",
+    "email": "support@kanmagroup.id",
+    "name": "Kopi Nako",
+    "official_name": "Kopi Nako Pamulang",
+    "operator": "Kanma Group",
+    "website": "https://www.kopinako.id/"
+  }
+},
+{
+  "type": "node",
+  "id": 14067776941,
+  "lat": -6.3435210,
+  "lon": 106.7314845,
+  "tags": {
+    "addr:city": "Kota Tangerang Selatan",
+    "addr:district": "Pamulang",
+    "addr:postcode": "15417",
+    "addr:province": "Banten",
+    "addr:street": "Jalan Siliwangi",
+    "addr:subdistrict": "Pamulang Barat",
+    "amenity": "fast_food",
+    "brand": "Subway",
+    "brand:wikidata": "Q244457",
+    "building": "yes",
+    "cuisine": "sandwich",
+    "name": "Subway",
+    "opening_hours": "Mo-Sa 07:00-22:00",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 14068558695,
+  "lat": -6.2592420,
+  "lon": 106.7422077,
+  "tags": {
+    "amenity": "cafe",
+    "check_date:opening_hours": "2026-08-02",
+    "diet:halal": "yes",
+    "indoor_seating": "no",
+    "name": "Warkop Teh SOLO",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 14073570858,
+  "lat": -6.3503820,
+  "lon": 106.6896064,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warkop DOA MEMBAWA BERKAH",
+    "opening_hours": "24/7",
+    "outdoor_seating": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 14096716920,
+  "lat": -6.2674743,
+  "lon": 106.7429795,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Bakso Gajahmungkur"
+  }
+},
+{
+  "type": "node",
+  "id": 14121859002,
+  "lat": -6.2973288,
+  "lon": 106.7125114,
+  "tags": {
+    "addr:street": "Jalan Jawa Jombang Raya",
+    "amenity": "cafe",
+    "name": "Warkop Bunda Ilham"
+  }
+},
+{
+  "type": "node",
+  "id": 14166792601,
+  "lat": -6.2856733,
+  "lon": 106.7290681,
+  "tags": {
+    "amenity": "restaurant",
+    "check_date": "2026-09-09",
+    "name": "Kitchenette"
+  }
+},
+{
+  "type": "node",
+  "id": 14168230913,
+  "lat": -6.3433624,
+  "lon": 106.7121453,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2026-09-10",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warkop KOPI JOS",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 14168580729,
+  "lat": -6.3092424,
+  "lon": 106.7262103,
+  "tags": {
+    "amenity": "cafe",
+    "check_date:opening_hours": "2026-09-10",
+    "indoor_seating": "no",
+    "name": "Warung Kopi \"12\"",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 14170560795,
+  "lat": -6.3471384,
+  "lon": 106.6787218,
+  "tags": {
+    "amenity": "cafe",
+    "indoor_seating": "yes",
+    "name": "Warkop WAWAT",
+    "opening_hours": "24/7",
+    "outdoor_seating": "no"
+  }
+},
+{
+  "type": "node",
+  "id": 14173873772,
+  "lat": -6.3097166,
+  "lon": 106.7092371,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2026-09-12",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "SERDADU Motor Wash & Warkop",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 14178183245,
+  "lat": -6.3160041,
+  "lon": 106.7462213,
+  "tags": {
+    "amenity": "cafe",
+    "diet:halal": "yes",
+    "indoor_seating": "no",
+    "name": "Warkop RAHAYU",
+    "opening_hours": "24/7",
+    "outdoor_seating": "yes",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 14180944271,
+  "lat": -6.3124346,
+  "lon": 106.6908132,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Warkop MAMOY"
+  }
+},
+{
+  "type": "node",
+  "id": 14183712114,
+  "lat": -6.3330739,
+  "lon": 106.7314590,
+  "tags": {
+    "amenity": "cafe",
+    "indoor_seating": "yes",
+    "name": "WARKOPAT Pamulang",
+    "opening_hours": "24/7",
+    "outdoor_seating": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 14226147499,
+  "lat": -6.3351146,
+  "lon": 106.7098244,
+  "tags": {
+    "amenity": "fast_food",
+    "cuisine": "indonesian;regional",
+    "name": "Warteg Dian Jaya"
+  }
+},
+{
+  "type": "node",
+  "id": 14226274909,
+  "lat": -6.3345252,
+  "lon": 106.7098931,
+  "tags": {
+    "addr:block": "F29",
+    "addr:full": "Jalan Benda Raya, Blok F29 No. 27, Benda Baru, Pamulang",
+    "addr:housenumber": "27",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "restaurant",
+    "name": "Nasi Pecel Nganjuk \"Bu Anita 4\""
+  }
+},
+{
+  "type": "node",
+  "id": 14226274910,
+  "lat": -6.3345656,
+  "lon": 106.7098916,
+  "tags": {
+    "addr:block": "F29",
+    "addr:full": "Jalan Benda Raya, Blok F29 No. 27, Benda Baru, Pamulang",
+    "addr:housenumber": "27",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "cafe",
+    "name": "Ramdji Coffee"
+  }
+},
+{
+  "type": "node",
+  "id": 14226274917,
+  "lat": -6.3340011,
+  "lon": 106.7098851,
+  "tags": {
+    "addr:block": "F29",
+    "addr:full": "Jalan Benda Raya, Blok F29 No. 21, Benda Baru, Pamulang",
+    "addr:housenumber": "21",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Sambel Jontor"
+  }
+},
+{
+  "type": "node",
+  "id": 14226274920,
+  "lat": -6.3347215,
+  "lon": 106.7096429,
+  "tags": {
+    "addr:block": "B2",
+    "addr:full": "Jalan Benda Raya, Blok B2 No. 2, Pondok Benda, Pamulang",
+    "addr:housenumber": "2",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "cafe",
+    "internet_access": "yes",
+    "internet_access:fee": "customers",
+    "name": "Warkop Yamsu",
+    "opening_hours": "24/7"
+  }
+},
+{
+  "type": "node",
+  "id": 14226274926,
+  "lat": -6.3339230,
+  "lon": 106.7096986,
+  "tags": {
+    "addr:block": "B2",
+    "addr:full": "Jalan Benda Raya, Blok B2 No. 10, Pondok Benda, Pamulang",
+    "addr:housenumber": "10",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "fast_food",
+    "cuisine": "dimsum",
+    "name": "Jeju Dimsum"
+  }
+},
+{
+  "type": "node",
+  "id": 14226274927,
+  "lat": -6.3339511,
+  "lon": 106.7096535,
+  "tags": {
+    "addr:block": "B2",
+    "addr:full": "Jalan Benda Raya, Blok B2 No. 10, Pondok Benda, Pamulang",
+    "addr:housenumber": "10",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "restaurant",
+    "cuisine": "indonesian;regional;minangkabau",
+    "name": "Sate Padang Mananti Keluarga",
+    "phone": "+62 822-8659-9433"
+  }
+},
+{
+  "type": "node",
+  "id": 14226422798,
+  "lat": -6.3357828,
+  "lon": 106.7097039,
+  "tags": {
+    "addr:street": "Jalan Parakan",
+    "amenity": "fast_food",
+    "cuisine": "chicken",
+    "diet:halal": "yes",
+    "name": "Hisana Fried Chicken"
+  }
+},
+{
+  "type": "node",
+  "id": 14226606270,
+  "lat": -6.3365286,
+  "lon": 106.7106970,
+  "tags": {
+    "amenity": "fast_food",
+    "cuisine": "chicken",
+    "name": "Reno Fried Chicken"
+  }
+},
+{
+  "type": "node",
+  "id": 14226606273,
+  "lat": -6.3363394,
+  "lon": 106.7120683,
+  "tags": {
+    "amenity": "fast_food",
+    "cuisine": "chicken",
+    "name": "Sabana"
+  }
+},
+{
+  "type": "node",
+  "id": 14229517422,
+  "lat": -6.3263606,
+  "lon": 106.7061423,
+  "tags": {
+    "amenity": "fast_food",
+    "cuisine": "indonesian;regional",
+    "name": "Lesehan Pamulang"
+  }
+},
+{
+  "type": "node",
+  "id": 14229589477,
+  "lat": -6.3335910,
+  "lon": 106.7099657,
+  "tags": {
+    "addr:block": "F30",
+    "addr:full": "Jalan Benda Raya, Blok F30 No. 31, Benda Baru, Pamulang",
+    "addr:housenumber": "31",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "restaurant",
+    "branch": "Pamulang",
+    "contact:instagram": "https://www.instagram.com/baksomasmin.aslisolo/",
+    "cuisine": "meatball",
+    "delivery": "yes",
+    "name": "Bakso Keling Mas Min Solo",
+    "opening_hours": "Mo-Su 10:00-21:00",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 14229589482,
+  "lat": -6.3332637,
+  "lon": 106.7099637,
+  "tags": {
+    "addr:block": "F30",
+    "addr:full": "Jalan Benda Raya, Blok F30 No. 27, Benda Baru, Pamulang",
+    "addr:housenumber": "27",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "cafe",
+    "cuisine": "indonesian;regional;coffee_shop",
+    "name": "Bubur Ayam & Warkop"
+  }
+},
+{
+  "type": "node",
+  "id": 14229589490,
+  "lat": -6.3332183,
+  "lon": 106.7097251,
+  "tags": {
+    "addr:block": "B12",
+    "addr:full": "Jalan Benda Raya, Blok B12 No. 9, Pondok Benda, Pamulang",
+    "addr:housenumber": "9",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "restaurant",
+    "cuisine": "seafood",
+    "name": "Arya Mas Seafood"
+  }
+},
+{
+  "type": "node",
+  "id": 14229589492,
+  "lat": -6.3332697,
+  "lon": 106.7096715,
+  "tags": {
+    "addr:block": "B12",
+    "addr:full": "Jalan Benda Raya, Blok B12 No. 9, Pondok Benda, Pamulang",
+    "addr:housenumber": "9",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "restaurant",
+    "cuisine": "chicken",
+    "name": "Ayam Bang Jarwo"
+  }
+},
+{
+  "type": "node",
+  "id": 14229592701,
+  "lat": -6.3333790,
+  "lon": 106.7091750,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian;regional;meatball",
+    "name": "Bakso Solo Mas Heri"
+  }
+},
+{
+  "type": "node",
+  "id": 14233996859,
+  "lat": -6.3320817,
+  "lon": 106.7096456,
+  "tags": {
+    "addr:block": "B3",
+    "addr:full": "Jalan Benda Raya, Blok B3 No. 13, Pondok Benda, Pamulang",
+    "addr:housenumber": "13",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "fast_food",
+    "cuisine": "chicken",
+    "name": "Geprek Gold Chick"
+  }
+},
+{
+  "type": "node",
+  "id": 14233996861,
+  "lat": -6.3319480,
+  "lon": 106.7096261,
+  "tags": {
+    "addr:block": "B3",
+    "addr:full": "Jalan Benda Raya, Blok B3 No. 11, Pondok Benda, Pamulang",
+    "addr:housenumber": "11",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "fast_food",
+    "branch": "Pamulang",
+    "cuisine": "indonesian;martabak",
+    "delivery": "yes",
+    "name": "Martabak Pizza Orins",
+    "ref": "066",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 14233996864,
+  "lat": -6.3317405,
+  "lon": 106.7095858,
+  "tags": {
+    "addr:block": "B3",
+    "addr:full": "Jalan Benda Raya, Blok B3 No. 9, Pondok Benda, Pamulang",
+    "addr:housenumber": "9",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "restaurant",
+    "cuisine": "indonesian;regional",
+    "name": "Soto Ayam Surabaya Cak No"
+  }
+},
+{
+  "type": "node",
+  "id": 14233996871,
+  "lat": -6.3322814,
+  "lon": 106.7098822,
+  "tags": {
+    "addr:block": "F31",
+    "addr:full": "Jalan Benda Raya, Blok F31 No. 30, Benda Baru, Pamulang",
+    "addr:housenumber": "30",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "fast_food",
+    "brand": "d'Besto",
+    "cuisine": "chicken",
+    "name": "d'Besto"
+  }
+},
+{
+  "type": "node",
+  "id": 14234266679,
+  "lat": -6.3313497,
+  "lon": 106.7095652,
+  "tags": {
+    "addr:block": "B4",
+    "addr:full": "Jalan Benda Raya, Blok B4 No. 18, Pondok Benda, Pamulang",
+    "addr:housenumber": "18",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "fast_food",
+    "name": "Warteg Kharisma"
+  }
+},
+{
+  "type": "node",
+  "id": 14234266688,
+  "lat": -6.3307811,
+  "lon": 106.7094747,
+  "tags": {
+    "addr:block": "B4",
+    "addr:full": "Jalan Benda Raya, Blok B4 No. 12, Pondok Benda, Pamulang",
+    "addr:housenumber": "12",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "fast_food",
+    "cuisine": "chicken;burger",
+    "name": "dKrispy",
+    "official_name": "dKrispy, ayam & burger",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 14234266693,
+  "lat": -6.3307093,
+  "lon": 106.7097004,
+  "tags": {
+    "addr:block": "F1",
+    "addr:full": "Jalan Benda Raya, Blok F1 No. 24, Benda Baru, Pamulang",
+    "addr:housenumber": "24",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "fast_food",
+    "building": "retail",
+    "cuisine": "indonesian;regional",
+    "name": "Lumpia Semarang"
+  }
+},
+{
+  "type": "node",
+  "id": 14237667997,
+  "lat": -6.3259907,
+  "lon": 106.7110005,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "RM Karya Minang Baru"
+  }
+},
+{
+  "type": "node",
+  "id": 14237785903,
+  "lat": -6.3256235,
+  "lon": 106.7109482,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian;regional",
+    "name": "Soto Ayam Gombong"
+  }
+},
+{
+  "type": "node",
+  "id": 14237785915,
+  "lat": -6.3252189,
+  "lon": 106.7105884,
+  "tags": {
+    "amenity": "fast_food",
+    "cuisine": "chicken",
+    "name": "Kentaki"
+  }
+},
+{
+  "type": "node",
+  "id": 14237785930,
+  "lat": -6.3253001,
+  "lon": 106.7098742,
+  "tags": {
+    "amenity": "fast_food",
+    "cuisine": "chicken"
+  }
+},
+{
+  "type": "node",
+  "id": 14237785938,
+  "lat": -6.3255016,
+  "lon": 106.7093362,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Nasi Goreng"
+  }
+},
+{
+  "type": "node",
+  "id": 14239530092,
+  "lat": -6.3304699,
+  "lon": 106.7094205,
+  "tags": {
+    "addr:block": "B5",
+    "addr:full": "Jalan Benda Raya, Blok B5 No. 15, Pondok Benda, Pamulang",
+    "addr:housenumber": "15",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "restaurant",
+    "cuisine": "satay;indonesian",
+    "name": "Pondok Sate Tegal Bu Erna"
+  }
+},
+{
+  "type": "node",
+  "id": 14239530093,
+  "lat": -6.3303325,
+  "lon": 106.7094104,
+  "tags": {
+    "addr:block": "B5",
+    "addr:full": "Jalan Benda Raya, Blok B5 No. 14, Pondok Benda, Pamulang",
+    "addr:housenumber": "14",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "restaurant",
+    "cuisine": "pasta;coffee_shop",
+    "name": "Hoz Pasta"
+  }
+},
+{
+  "type": "node",
+  "id": 14239530095,
+  "lat": -6.3300238,
+  "lon": 106.7096502,
+  "tags": {
+    "addr:block": "F2",
+    "addr:full": "Jalan Benda Raya, Blok F2 No. 12, Benda Baru, Pamulang",
+    "addr:housenumber": "12",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "fast_food",
+    "cuisine": "indonesian;regional",
+    "name": "Warteg Bumi Bahari"
+  }
+},
+{
+  "type": "node",
+  "id": 14239530098,
+  "lat": -6.3299460,
+  "lon": 106.7093479,
+  "tags": {
+    "addr:block": "B5",
+    "addr:full": "Jalan Benda Raya, Blok B5 No. 10, Pondok Benda, Pamulang",
+    "addr:housenumber": "10",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "fast_food",
+    "branch": "Benda Raya",
+    "cuisine": "burger",
+    "name": "Burger Bangor"
+  }
+},
+{
+  "type": "node",
+  "id": 14239568701,
+  "lat": -6.3303931,
+  "lon": 106.7097156,
+  "tags": {
+    "addr:block": "F2",
+    "addr:full": "Jalan Benda Raya, Blok F2 No. 16, Benda Baru, Pamulang",
+    "addr:housenumber": "16",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "restaurant",
+    "contact:phone": "+62 881-0242-88687",
+    "cuisine": "indonesian;chicken",
+    "description": "Spesialis ayam ingkung. Menerima pesanan.",
+    "name": "Warung Sumeleh",
+    "opening_hours": "Mo-Su 09:00-22:00"
+  }
+},
+{
+  "type": "node",
+  "id": 14239591666,
+  "lat": -6.3293832,
+  "lon": 106.7095407,
+  "tags": {
+    "addr:block": "F3",
+    "addr:full": "Jalan Benda Raya, Blok F3 No. 14, Benda Baru, Pamulang",
+    "addr:housenumber": "14",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "restaurant",
+    "cuisine": "indonesian;regional;javanese;noodle",
+    "name": "Mie Ayam DS Wonogiri"
+  }
+},
+{
+  "type": "node",
+  "id": 14239591667,
+  "lat": -6.3293403,
+  "lon": 106.7095360,
+  "tags": {
+    "addr:block": "F3",
+    "addr:full": "Jalan Benda Raya, Blok F3 No. 14, Benda Baru, Pamulang",
+    "addr:housenumber": "14",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "restaurant",
+    "cuisine": "indonesian;regional;javanese;soto",
+    "name": "Soto Ayam Lamongan"
+  }
+},
+{
+  "type": "node",
+  "id": 14239591673,
+  "lat": -6.3293097,
+  "lon": 106.7092412,
+  "tags": {
+    "addr:block": "B6",
+    "addr:full": "Jalan Benda Raya, Blok B6 No. 12, Pondok Benda, Pamulang",
+    "addr:housenumber": "12",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "restaurant",
+    "cuisine": "indonesian;regional;javanese;satay",
+    "name": "Sate Ponorogo \"Darno\""
+  }
+},
+{
+  "type": "node",
+  "id": 14239591680,
+  "lat": -6.3294665,
+  "lon": 106.7092785,
+  "tags": {
+    "addr:block": "B6",
+    "addr:full": "Jalan Benda Raya, Blok B6 No. 14, Pondok Benda, Pamulang",
+    "addr:housenumber": "14",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "restaurant",
+    "cuisine": "indonesian;noodle;beef",
+    "diet:halal": "only",
+    "name": "Bakmie & Kwetiau Sapi A'un 88"
+  }
+},
+{
+  "type": "node",
+  "id": 14239591681,
+  "lat": -6.3292205,
+  "lon": 106.7092353,
+  "tags": {
+    "addr:block": "B6",
+    "addr:full": "Jalan Benda Raya, Blok B6 No. 11, Pondok Benda, Pamulang",
+    "addr:housenumber": "11",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "fast_food",
+    "cuisine": "burger",
+    "name": "Gun Burger"
+  }
+},
+{
+  "type": "node",
+  "id": 14251307070,
+  "lat": -6.3467489,
+  "lon": 106.6879554,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "coffee_shop",
+    "name": "Sop Iga Kang Jana"
+  }
+},
+{
+  "type": "node",
+  "id": 14251307071,
+  "lat": -6.3467675,
+  "lon": 106.6880091,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian;regional;acehnese",
+    "name": "Masakan Aceh"
+  }
+},
+{
+  "type": "node",
+  "id": 14251307072,
+  "lat": -6.3464008,
+  "lon": 106.6881772,
+  "tags": {
+    "amenity": "cafe",
+    "cuisine": "coffee_shop;indonesian;regional",
+    "indoor_seating": "yes",
+    "name": "Warkop Agam Medan",
+    "outdoor_seating": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 14251307073,
+  "lat": -6.3462372,
+  "lon": 106.6881795,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Restoran Sambal Bakar"
+  }
+},
+{
+  "type": "node",
+  "id": 14259082322,
+  "lat": -6.3286124,
+  "lon": 106.7094682,
+  "tags": {
+    "addr:block": "F4",
+    "addr:full": "Jalan Benda Raya, Blok F4 No. 15, Benda Baru, Pamulang",
+    "addr:housenumber": "15",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "restaurant",
+    "cuisine": "indonesian;arabic",
+    "diet:halal": "yes",
+    "name": "Nasi Kebuli"
+  }
+},
+{
+  "type": "node",
+  "id": 14259082326,
+  "lat": -6.3282863,
+  "lon": 106.7093958,
+  "tags": {
+    "addr:block": "F4",
+    "addr:full": "Jalan Benda Raya, Blok F4 No. 11, Benda Baru, Pamulang",
+    "addr:housenumber": "11",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "restaurant",
+    "cuisine": "indonesian;betawi",
+    "diet:halal": "yes",
+    "name": "Nasi Uduk Pamulang 2"
+  }
+},
+{
+  "type": "node",
+  "id": 14259082333,
+  "lat": -6.3275982,
+  "lon": 106.7092715,
+  "tags": {
+    "addr:block": "F5",
+    "addr:full": "Jalan Benda Raya, Blok F5 No. 13, Benda Baru, Pamulang",
+    "addr:housenumber": "13",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "restaurant",
+    "cuisine": "indonesian;cirebon",
+    "diet:halal": "yes",
+    "name": "Bubur Cirebon"
+  }
+},
+{
+  "type": "node",
+  "id": 14259082337,
+  "lat": -6.3273029,
+  "lon": 106.7092545,
+  "tags": {
+    "addr:block": "F5",
+    "addr:full": "Jalan Benda Raya, Blok F5 No. 10, Benda Baru, Pamulang",
+    "addr:housenumber": "10",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "restaurant",
+    "cuisine": "indonesian;regional;minangkabau",
+    "diet:halal": "yes",
+    "name": "RM Jamgadang"
+  }
+},
+{
+  "type": "node",
+  "id": 14263430950,
+  "lat": -6.3267916,
+  "lon": 106.7089696,
+  "tags": {
+    "addr:block": "B9",
+    "addr:full": "Jalan Benda Raya, Blok B9 No. 12, Pondok Benda, Pamulang",
+    "addr:housenumber": "12",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop",
+    "name": "Baker Old"
+  }
+},
+{
+  "type": "node",
+  "id": 14263430951,
+  "lat": -6.3267080,
+  "lon": 106.7089299,
+  "tags": {
+    "addr:block": "B9",
+    "addr:full": "Jalan Benda Raya, Blok B9 No. 11, Pondok Benda, Pamulang",
+    "addr:housenumber": "11",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "diet:halal": "yes",
+    "diet:vegan": "yes",
+    "diet:vegetarian": "yes",
+    "name": "Warung Nasi Pecel Selaras"
+  }
+},
+{
+  "type": "node",
+  "id": 14263430952,
+  "lat": -6.3268902,
+  "lon": 106.7089223,
+  "tags": {
+    "addr:block": "B9",
+    "addr:full": "Jalan Benda Raya, Blok B9 No. 13, Pondok Benda, Pamulang",
+    "addr:housenumber": "13",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop",
+    "name": "Kedai Qu"
+  }
+},
+{
+  "type": "node",
+  "id": 14263430953,
+  "lat": -6.3269767,
+  "lon": 106.7089614,
+  "tags": {
+    "addr:block": "B9",
+    "addr:full": "Jalan Benda Raya, Blok B9 No. 14, Pondok Benda, Pamulang",
+    "addr:housenumber": "14",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "restaurant",
+    "cuisine": "indonesian;regional;javanese;lamongan",
+    "name": "Sedap Malam Khas Lamongan"
+  }
+},
+{
+  "type": "node",
+  "id": 14263430956,
+  "lat": -6.3268223,
+  "lon": 106.7092154,
+  "tags": {
+    "addr:block": "F6",
+    "addr:full": "Jalan Benda Raya, Blok F6 No. 22, Benda Baru, Pamulang",
+    "addr:housenumber": "22",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "cafe",
+    "name": "Warkop 8"
+  }
+},
+{
+  "type": "node",
+  "id": 14263430961,
+  "lat": -6.3263994,
+  "lon": 106.7091663,
+  "tags": {
+    "addr:block": "F6",
+    "addr:full": "Jalan Benda Raya, Blok F6 No. 17, Benda Baru, Pamulang",
+    "addr:housenumber": "17",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop",
+    "name": "Happiness Kitchen & Coffee"
+  }
+},
+{
+  "type": "node",
+  "id": 14263430965,
+  "lat": -6.3261804,
+  "lon": 106.7090878,
+  "tags": {
+    "addr:block": "F7",
+    "addr:full": "Jalan Benda Raya, Blok F7 No. 24, Benda Baru, Pamulang",
+    "addr:housenumber": "24",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "fast_food",
+    "cuisine": "indonesian;regional",
+    "name": "Warteg Ikhlas"
+  }
+},
+{
+  "type": "node",
+  "id": 14263430969,
+  "lat": -6.3255299,
+  "lon": 106.7089804,
+  "tags": {
+    "addr:block": "F7",
+    "addr:full": "Jalan Benda Raya, Blok F7 No. 17, Pondok Benda, Pamulang",
+    "addr:housenumber": "17",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "fast_food",
+    "cuisine": "chicken",
+    "diet:halal": "yes",
+    "name": "D'bro"
+  }
+},
+{
+  "type": "node",
+  "id": 14263430971,
+  "lat": -6.3261622,
+  "lon": 106.7088363,
+  "tags": {
+    "addr:block": "B10",
+    "addr:full": "Jalan Benda Raya, Blok B10 No. 14, Pondok Benda, Pamulang",
+    "addr:housenumber": "14",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "restaurant",
+    "cuisine": "indonesian;regional;minangkabau",
+    "diet:halal": "yes",
+    "name": "Nasi Kapau Salero Denai"
+  }
+},
+{
+  "type": "node",
+  "id": 14263430977,
+  "lat": -6.3257197,
+  "lon": 106.7089989,
+  "tags": {
+    "addr:block": "F7",
+    "addr:full": "Jalan Benda Raya, Blok F7 No. 19, Benda Baru, Pamulang",
+    "addr:housenumber": "19",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "restaurant",
+    "cuisine": "indonesian;sundanese",
+    "diet:halal": "yes",
+    "name": "Es Teler Sultan Bandung"
+  }
+},
+{
+  "type": "node",
+  "id": 14263430978,
+  "lat": -6.3254376,
+  "lon": 106.7087622,
+  "tags": {
+    "addr:block": "B13",
+    "addr:full": "Jalan Benda Barat 14, Blok B13 No. 33, Pondok Benda, Pamulang",
+    "addr:housenumber": "33",
+    "addr:street": "Jalan Benda Barat 14",
+    "amenity": "fast_food",
+    "cuisine": "indonesian;martabak",
+    "diet:halal": "yes",
+    "name": "Martabak Telor Manis"
+  }
+},
+{
+  "type": "node",
+  "id": 14263430980,
+  "lat": -6.3252803,
+  "lon": 106.7087609,
+  "tags": {
+    "addr:block": "B13",
+    "addr:full": "Jalan Benda Raya, Blok B13 No. 32, Pondok Benda, Pamulang",
+    "addr:housenumber": "32",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "restaurant",
+    "cuisine": "indonesian;javanese",
+    "diet:halal": "yes",
+    "name": "Ayam Geprek LOL"
+  }
+},
+{
+  "type": "node",
+  "id": 14263430982,
+  "lat": -6.3247222,
+  "lon": 106.7088679,
+  "tags": {
+    "addr:block": "F8",
+    "addr:full": "Jalan Benda Raya, Blok F8 No. 17, Benda Baru, Pamulang",
+    "addr:housenumber": "17",
+    "addr:street": "Jalan Benda Raya",
+    "amenity": "fast_food",
+    "cuisine": "indonesian;regional",
+    "name": "Warung Jaya Bahari"
+  }
+},
+{
+  "type": "node",
+  "id": 14263430991,
+  "lat": -6.3244267,
+  "lon": 106.7092030,
+  "tags": {
+    "addr:block": "E26",
+    "addr:full": "Jalan Benda Permai 6, Blok E26 No. 30, Benda Baru, Pamulang",
+    "addr:housenumber": "30",
+    "addr:street": "Jalan Benda Permai 6",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop",
+    "name": "Brainmaker Coffee"
+  }
+},
+{
+  "type": "node",
+  "id": 14263431000,
+  "lat": -6.3245271,
+  "lon": 106.7088600,
+  "tags": {
+    "amenity": "cafe",
+    "cuisine": "indonesian",
+    "name": "Warkop"
+  }
+},
+{
+  "type": "node",
+  "id": 14263433502,
+  "lat": -6.3239245,
+  "lon": 106.7089768,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Pondok Reagan Nasgor"
+  }
+},
+{
+  "type": "node",
+  "id": 14263433503,
+  "lat": -6.3238304,
+  "lon": 106.7089175,
+  "tags": {
+    "amenity": "fast_food",
+    "cuisine": "indonesian",
+    "name": "Bakso Lawang Cendana"
+  }
+},
+{
+  "type": "node",
+  "id": 14263433504,
+  "lat": -6.3237821,
+  "lon": 106.7089182,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian;regional;minangkabau",
+    "name": "Sate Padang Piaman"
+  }
+},
+{
+  "type": "node",
+  "id": 14263433505,
+  "lat": -6.3237117,
+  "lon": 106.7089305,
+  "tags": {
+    "amenity": "fast_food",
+    "cuisine": "indonesian;regional;palembang;pempek",
+    "name": "Rian Pempek"
+  }
+},
+{
+  "type": "node",
+  "id": 14263433508,
+  "lat": -6.3235570,
+  "lon": 106.7089421,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "durian",
+    "name": "Mamora Durian"
+  }
+},
+{
+  "type": "way",
+  "id": 174094680,
+  "center": {
+    "lat": -6.3466230,
+    "lon": 106.7501286
+  },
+  "tags": {
+    "alt_name": "Kentucky Fried Chicken",
+    "amenity": "fast_food",
+    "brand": "KFC",
+    "brand:wikidata": "Q524757",
+    "brand:wikipedia": "en:KFC",
+    "building": "yes",
+    "cuisine": "chicken",
+    "name": "KFC Gaplek",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 174094683,
+  "center": {
+    "lat": -6.3467489,
+    "lon": 106.7492483
+  },
+  "tags": {
+    "addr:city": "Pamulang Timur, Tangerang",
+    "addr:housenumber": "45",
+    "addr:postcode": "15417",
+    "addr:street": "Jl. R.E. Martadinata",
+    "amenity": "fast_food",
+    "brand": "McDonald's",
+    "brand:wikidata": "Q38076",
+    "brand:wikipedia": "en:McDonald's",
+    "building": "yes",
+    "cuisine": "burger",
+    "name": "McDonald's Pondok Cabe",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 225081499,
+  "center": {
+    "lat": -6.2956010,
+    "lon": 106.6675281
+  },
+  "tags": {
+    "addr:housenumber": "7B",
+    "addr:postcode": "15322",
+    "addr:street": "Jalan Pahlawan Seribu",
+    "building": "commercial",
+    "building:levels": "4",
+    "contact:facebook": "TeraskotaMall",
+    "contact:instagram": "teraskotabsd",
+    "email": "merry@teraskota.com",
+    "height": "20",
+    "name": "Teraskota",
+    "opening_hours": "10:00-22:00",
+    "phone": "+622155695758",
+    "shop": "mall"
+  }
+},
+{
+  "type": "way",
+  "id": 225090839,
+  "center": {
+    "lat": -6.2448539,
+    "lon": 106.6537575
+  },
+  "tags": {
+    "addr:city": "Serpong, Banten",
+    "addr:housenumber": "Kav. 21",
+    "addr:postcode": "15325",
+    "addr:street": "Jalan Alam Sutera Boulevard",
+    "building": "retail",
+    "check_date": "2026-07-05",
+    "check_date:opening_hours": "2026-07-05",
+    "name": "Living World Alam Sutera",
+    "opening_hours": "Mo-Su,PH 10:00-22:00",
+    "shop": "mall",
+    "toilets": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 230183836,
+  "center": {
+    "lat": -6.2989602,
+    "lon": 106.6652423
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "building:levels": "2",
+    "cuisine": "indonesian;sundanese",
+    "height": "7",
+    "name": "Lembur Kuring",
+    "roof:shape": "mansard",
+    "type": "multipolygon"
+  }
+},
+{
+  "type": "way",
+  "id": 352935226,
+  "center": {
+    "lat": -6.2726696,
+    "lon": 106.7417492
+  },
+  "tags": {
+    "addr:city": "Tangerang Selatan",
+    "addr:housenumber": "3A",
+    "addr:postcode": "15225",
+    "addr:street": "Bintaro Utama",
+    "alt_name": "Bintaro Plaza",
+    "building": "yes",
+    "building:levels": "3",
+    "name": "Plaza Bintaro Jaya",
+    "shop": "mall"
+  }
+},
+{
+  "type": "way",
+  "id": 355474629,
+  "center": {
+    "lat": -6.2856663,
+    "lon": 106.7280346
+  },
+  "tags": {
+    "building": "yes",
+    "name": "Bintaro Xchange Mall 1",
+    "shop": "mall",
+    "short_name": "BXc Mall 1"
+  }
+},
+{
+  "type": "way",
+  "id": 355474631,
+  "center": {
+    "lat": -6.2745699,
+    "lon": 106.7239989
+  },
+  "tags": {
+    "addr:postcode": "15220",
+    "addr:street": "GSSJ Samratulangi",
+    "alt_name": "Lotte Mart",
+    "building": "commercial",
+    "building:levels": "4",
+    "name": "Lotte Mall",
+    "shop": "mall"
+  }
+},
+{
+  "type": "way",
+  "id": 361666505,
+  "center": {
+    "lat": -6.2719896,
+    "lon": 106.6984808
+  },
+  "tags": {
+    "addr:city": "Tangerang Selatan",
+    "addr:postcode": "15227",
+    "addr:street": "Boulevard Bintaro Jaya",
+    "amenity": "fast_food",
+    "branch": "Emerald Bintaro",
+    "brand": "McDonald's",
+    "brand:wikidata": "Q38076",
+    "brand:wikipedia": "en:McDonald's",
+    "building": "yes",
+    "cuisine": "burger",
+    "delivery": "yes",
+    "name": "McDonald's",
+    "opening_hours": "open",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 373152515,
+  "center": {
+    "lat": -6.2662447,
+    "lon": 106.6555782
+  },
+  "tags": {
+    "addr:city": "South Tangerang, Banten",
+    "addr:housenumber": "No.39",
+    "addr:postcode": "15310",
+    "addr:street": "Jalan Raya Serpong",
+    "building": "commercial",
+    "building:levels": "5",
+    "name": "Mall WTC Matahari",
+    "operator": "PT. Lippo Karawaci Tbk",
+    "shop": "mall",
+    "smoking": "no"
+  }
+},
+{
+  "type": "way",
+  "id": 398152445,
+  "center": {
+    "lat": -6.2849317,
+    "lon": 106.6652761
+  },
+  "tags": {
+    "building": "yes",
+    "building:height": "20",
+    "building:levels": "5",
+    "name": "BSD Junction",
+    "operator": "Bumi Serpong Damai",
+    "shop": "mall"
+  }
+},
+{
+  "type": "way",
+  "id": 398152446,
+  "center": {
+    "lat": -6.2862808,
+    "lon": 106.6642569
+  },
+  "tags": {
+    "building": "yes",
+    "building:levels": "4",
+    "height": "16",
+    "name": "ITC BSD",
+    "shop": "mall"
+  }
+},
+{
+  "type": "way",
+  "id": 398181513,
+  "center": {
+    "lat": -6.2937779,
+    "lon": 106.6655070
+  },
+  "tags": {
+    "addr:street": "Jalan Kapten Soebianto Djojohadikusumo",
+    "building": "yes",
+    "building:height": "6",
+    "building:levels": "2",
+    "name": "BSD Square",
+    "shop": "mall"
+  }
+},
+{
+  "type": "way",
+  "id": 398181533,
+  "center": {
+    "lat": -6.2964323,
+    "lon": 106.6680516
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "building:levels": "2",
+    "cuisine": "indonesian",
+    "height": "5",
+    "name": "Resto Saepisan",
+    "roof:shape": "hipped"
+  }
+},
+{
+  "type": "way",
+  "id": 411028301,
+  "center": {
+    "lat": -6.2732717,
+    "lon": 106.7250717
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "sushi",
+    "name": "Sushi Hiro",
+    "opening_hours": "Mo-Su 10:45-22:00"
+  }
+},
+{
+  "type": "way",
+  "id": 437773790,
+  "center": {
+    "lat": -6.2945932,
+    "lon": 106.7152294
+  },
+  "tags": {
+    "amenity": "cafe",
+    "brand": "Starbucks",
+    "brand:wikidata": "Q37158",
+    "brand:wikipedia": "en:Starbucks",
+    "building": "yes",
+    "cuisine": "coffee_shop",
+    "drive_through": "yes",
+    "name": "Starbucks",
+    "official_name": "Starbucks Coffee",
+    "opening_hours": "24/7",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 478699854,
+  "center": {
+    "lat": -6.2749078,
+    "lon": 106.6598919
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "shophouse",
+    "building:levels": "3",
+    "cuisine": "indonesian",
+    "name": "Angkringan GT Asli Jogja"
+  }
+},
+{
+  "type": "way",
+  "id": 478699873,
+  "center": {
+    "lat": -6.2747162,
+    "lon": 106.6592895
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "shophouse",
+    "building:levels": "3",
+    "contact:instagram": "https://www.instagram.com/kwetiausapi_pancoran/",
+    "cuisine": "indonesian",
+    "name": "Kwetiau Sapi Pancoran",
+    "phone": "+62 813 8726 5427"
+  }
+},
+{
+  "type": "way",
+  "id": 478699875,
+  "center": {
+    "lat": -6.2747038,
+    "lon": 106.6592507
+  },
+  "tags": {
+    "amenity": "fast_food",
+    "building": "shophouse",
+    "building:levels": "3",
+    "contact:instagram": "https://www.instagram.com/donat_siotin/",
+    "cuisine": "donut",
+    "drive_through": "no",
+    "name": "Donat Kentang Si Otin",
+    "phone": "+62 821 1310 5755"
+  }
+},
+{
+  "type": "way",
+  "id": 478699896,
+  "center": {
+    "lat": -6.2754380,
+    "lon": 106.6574347
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "seafood",
+    "name": "Pondok Kemangi"
+  }
+},
+{
+  "type": "way",
+  "id": 478699897,
+  "center": {
+    "lat": -6.2756390,
+    "lon": 106.6577918
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "seafood",
+    "name": "Telaga Seafood"
+  }
+},
+{
+  "type": "way",
+  "id": 478700037,
+  "center": {
+    "lat": -6.2753682,
+    "lon": 106.6597277
+  },
+  "tags": {
+    "amenity": "cafe",
+    "building": "shophouse",
+    "building:levels": "3",
+    "contact:instagram": "https://www.instagram.com/kongdjie_coffee/",
+    "name": "Kong Djie Coffee"
+  }
+},
+{
+  "type": "way",
+  "id": 478700087,
+  "center": {
+    "lat": -6.2754876,
+    "lon": 106.6601110
+  },
+  "tags": {
+    "amenity": "cafe",
+    "building": "shophouse",
+    "building:levels": "3"
+  }
+},
+{
+  "type": "way",
+  "id": 478700109,
+  "center": {
+    "lat": -6.2752095,
+    "lon": 106.6588984
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "shophouse",
+    "building:levels": "3",
+    "cuisine": "indonesian",
+    "name": "Nasi Bogana Ny. An Lay",
+    "website": "https://boganaanlay.com"
+  }
+},
+{
+  "type": "way",
+  "id": 478700163,
+  "center": {
+    "lat": -6.2754766,
+    "lon": 106.6590905
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "shophouse",
+    "building:levels": "3",
+    "contact:instagram": "https://www.instagram.com/warteg_bumi_bahari_official/",
+    "cuisine": "indonesian",
+    "name": "Warteg Bumi Bahari"
+  }
+},
+{
+  "type": "way",
+  "id": 478829616,
+  "center": {
+    "lat": -6.2802497,
+    "lon": 106.6628877
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "building:height": "13",
+    "building:levels": "4",
+    "name": "Kuring Nusantara"
+  }
+},
+{
+  "type": "way",
+  "id": 478829617,
+  "center": {
+    "lat": -6.2833502,
+    "lon": 106.6643703
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "building:levels": "3",
+    "height": "9",
+    "name": "Midori Japanese Restaurant"
+  }
+},
+{
+  "type": "way",
+  "id": 478829685,
+  "center": {
+    "lat": -6.2804979,
+    "lon": 106.6619557
+  },
+  "tags": {
+    "amenity": "fast_food",
+    "brand": "McDonald's",
+    "brand:wikidata": "Q38076",
+    "brand:wikipedia": "en:McDonald's",
+    "building": "yes",
+    "building:levels": "1",
+    "cuisine": "burger",
+    "height": "5",
+    "name": "McDonald's",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 478829710,
+  "center": {
+    "lat": -6.2816361,
+    "lon": 106.6630561
+  },
+  "tags": {
+    "alt_name": "Dunkin' Donuts",
+    "amenity": "fast_food",
+    "brand": "Dunkin'",
+    "brand:wikidata": "Q847743",
+    "brand:wikipedia": "en:Dunkin' Donuts",
+    "building": "restaurant",
+    "building:levels": "3",
+    "cuisine": "donut;coffee_shop",
+    "height": "9",
+    "name": "Dunkin'",
+    "roof:shape": "hipped",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 478829711,
+  "center": {
+    "lat": -6.2816332,
+    "lon": 106.6629977
+  },
+  "tags": {
+    "alt_name": "Dunkin' Donuts",
+    "amenity": "fast_food",
+    "brand": "Dunkin'",
+    "brand:wikidata": "Q847743",
+    "brand:wikipedia": "en:Dunkin' Donuts",
+    "building": "yes",
+    "building:levels": "3",
+    "cuisine": "donut;coffee_shop",
+    "height": "9",
+    "name": "Dunkin'",
+    "roof:shape": "hipped",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 531065696,
+  "center": {
+    "lat": -6.2836515,
+    "lon": 106.7133361
+  },
+  "tags": {
+    "amenity": "cafe",
+    "building": "yes",
+    "internet_access": "yes",
+    "name": "Saudagar Kopi Bintaro",
+    "outdoor_seating": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 534501112,
+  "center": {
+    "lat": -6.3116800,
+    "lon": 106.7517019
+  },
+  "tags": {
+    "access:roof": "no",
+    "addr:full": "Jalan Ir. H Juanda",
+    "backup_generator": "yes",
+    "building": "bank",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "2",
+    "building:roof": "concrete",
+    "building:structure": "confined_masonry",
+    "building:walls": "concrete",
+    "capacity:persons": "<50",
+    "name": "Mega Mall Ciputat",
+    "shop": "mall",
+    "source": "survey"
+  }
+},
+{
+  "type": "way",
+  "id": 534517839,
+  "center": {
+    "lat": -6.3044050,
+    "lon": 106.7585016
+  },
+  "tags": {
+    "addr:city": "Tangerang Selatan",
+    "addr:district": "Ciputat Timur",
+    "addr:housenumber": "129 A",
+    "addr:postcode": "15412",
+    "addr:province": "Banten",
+    "addr:street": "Jalan Insinyur Haji Juanda",
+    "addr:subdistrict": "Cemp Putih",
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "dimsum",
+    "name": "Huisaeng Dimsum"
+  }
+},
+{
+  "type": "way",
+  "id": 536402663,
+  "center": {
+    "lat": -6.2769015,
+    "lon": 106.7460200
+  },
+  "tags": {
+    "amenity": "cafe",
+    "building": "yes",
+    "name": "Kopi Kenangan x Cerita Roti - Alfamidi Stasiun Pondok Ranji"
+  }
+},
+{
+  "type": "way",
+  "id": 536422656,
+  "center": {
+    "lat": -6.3212623,
+    "lon": 106.7679515
+  },
+  "tags": {
+    "air_conditioning": "yes",
+    "amenity": "cafe",
+    "building": "yes",
+    "cuisine": "coffee_shop",
+    "delivery": "yes",
+    "name": "Toko Kopi TUKU - Cirendeu",
+    "opening_hours": "Mo-Su 07:00-21:00",
+    "outdoor_seating": "yes",
+    "website": "https://tuku.coffee"
+  }
+},
+{
+  "type": "way",
+  "id": 537062363,
+  "center": {
+    "lat": -6.3248565,
+    "lon": 106.7547352
+  },
+  "tags": {
+    "addr:city": "Tangsel",
+    "addr:housename": "Griyasatwik",
+    "addr:housenumber": "A7",
+    "addr:street": "No 1",
+    "amenity": "cafe",
+    "building": "yes",
+    "cuisine": "regional",
+    "internet_access": "yes",
+    "name": "DUTAMA Bar & Coffee Lounge"
+  }
+},
+{
+  "type": "way",
+  "id": 538172792,
+  "center": {
+    "lat": -6.3052292,
+    "lon": 106.6801344
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "capacity": "15",
+    "name": "RM Pagi Sore"
+  }
+},
+{
+  "type": "way",
+  "id": 538185221,
+  "center": {
+    "lat": -6.3040466,
+    "lon": 106.6801295
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "building:levels": "1",
+    "capacity": "15",
+    "name": "Bakmi Goreng Harum & Nikmat"
+  }
+},
+{
+  "type": "way",
+  "id": 538185224,
+  "center": {
+    "lat": -6.3044747,
+    "lon": 106.6804742
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "building:levels": "1",
+    "capacity": "25",
+    "name": "Salemba"
+  }
+},
+{
+  "type": "way",
+  "id": 538185671,
+  "center": {
+    "lat": -6.3024426,
+    "lon": 106.6797497
+  },
+  "tags": {
+    "access:roof": "yes",
+    "amenity": "restaurant",
+    "building": "yes",
+    "building:levels": "3",
+    "building:roof": "asbestos",
+    "building:structure": "confined_masonry",
+    "building:walls": "brick",
+    "capacity": "55",
+    "name": "Tungkoe Minang Resto"
+  }
+},
+{
+  "type": "way",
+  "id": 538185672,
+  "center": {
+    "lat": -6.3026753,
+    "lon": 106.6796684
+  },
+  "tags": {
+    "amenity": "cafe",
+    "building": "yes",
+    "building:levels": "1",
+    "building:structure": "confined_masonry",
+    "capacity": "25",
+    "name": "Velind's Bakery"
+  }
+},
+{
+  "type": "way",
+  "id": 538186993,
+  "center": {
+    "lat": -6.3023167,
+    "lon": 106.6797427
+  },
+  "tags": {
+    "access:roof": "no",
+    "amenity": "restaurant",
+    "building": "yes",
+    "building:levels": "1",
+    "building:roof": "tile",
+    "building:structure": "confined_masonry",
+    "building:walls": "brick",
+    "capacity": "20",
+    "name": "Bakso Bola Mania"
+  }
+},
+{
+  "type": "way",
+  "id": 545462985,
+  "center": {
+    "lat": -6.3475877,
+    "lon": 106.6831355
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "height": "3",
+    "min_height": "0",
+    "name": "Warung makan",
+    "source": "Mapped by FajrAl using Citra Udara ATR"
+  }
+},
+{
+  "type": "way",
+  "id": 563686611,
+  "center": {
+    "lat": -6.2329184,
+    "lon": 106.6601895
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "commercial",
+    "building:levels": "2",
+    "cuisine": "indonesian",
+    "name": "Kayukayu"
+  }
+},
+{
+  "type": "way",
+  "id": 563686645,
+  "center": {
+    "lat": -6.2444238,
+    "lon": 106.6498019
+  },
+  "tags": {
+    "amenity": "fast_food",
+    "branch": "Alam Sutera",
+    "brand": "McDonald's",
+    "brand:wikidata": "Q38076",
+    "brand:wikipedia": "en:McDonald's",
+    "building": "yes",
+    "cuisine": "burger",
+    "name": "McDonald's",
+    "smoking": "outside",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 563686688,
+  "center": {
+    "lat": -6.2407671,
+    "lon": 106.6531411
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "seafood",
+    "name": "Ikan Bakar Cianjur"
+  }
+},
+{
+  "type": "way",
+  "id": 571065206,
+  "center": {
+    "lat": -6.2401964,
+    "lon": 106.6759401
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "brand": "McDonald's",
+    "brand:wikidata": "Q38076",
+    "brand:wikipedia": "en:McDonald's",
+    "cuisine": "burger",
+    "name": "McDonald's",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 578367870,
+  "center": {
+    "lat": -6.3451145,
+    "lon": 106.6522006
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "name": "Warung Makan \"Ikan Cere\" Bu Tini",
+    "outdoor_seating": "no"
+  }
+},
+{
+  "type": "way",
+  "id": 584513416,
+  "center": {
+    "lat": -6.3471977,
+    "lon": 106.7512158
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "name": "Surabi Bingung Gaplek"
+  }
+},
+{
+  "type": "way",
+  "id": 584836984,
+  "center": {
+    "lat": -6.2545597,
+    "lon": 106.7000525
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 585901767,
+  "center": {
+    "lat": -6.3427611,
+    "lon": 106.7251811
+  },
+  "tags": {
+    "addr:street": "Jalan Siliwangi",
+    "building": "commercial",
+    "layer": "-1",
+    "level": "4",
+    "name": "Pamulang Square",
+    "shop": "mall"
+  }
+},
+{
+  "type": "way",
+  "id": 632371570,
+  "center": {
+    "lat": -6.2659795,
+    "lon": 106.6541027
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "indonesian",
+    "name": "Sederhana"
+  }
+},
+{
+  "type": "way",
+  "id": 632670582,
+  "center": {
+    "lat": -6.2404663,
+    "lon": 106.6531366
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "noodle",
+    "name": "Mie Gacoan"
+  }
+},
+{
+  "type": "way",
+  "id": 684767698,
+  "center": {
+    "lat": -6.2726405,
+    "lon": 106.7424098
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "name": "Pizza Hut"
+  }
+},
+{
+  "type": "way",
+  "id": 684767702,
+  "center": {
+    "lat": -6.2729475,
+    "lon": 106.7425616
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "building:levels": "2",
+    "name": "Bakmi GM"
+  }
+},
+{
+  "type": "way",
+  "id": 684767704,
+  "center": {
+    "lat": -6.2731331,
+    "lon": 106.7426468
+  },
+  "tags": {
+    "addr:city": "Banten City",
+    "addr:housenumber": "3A",
+    "addr:postcode": "15225",
+    "addr:street": "Jl. Bintaro Utama",
+    "amenity": "restaurant",
+    "building": "yes",
+    "building:levels": "2",
+    "cuisine": "seafood",
+    "delivery": "yes",
+    "name": "D'COST",
+    "takeaway": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 685355874,
+  "center": {
+    "lat": -6.2814023,
+    "lon": 106.6637197
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "brand": "Pizza Hut",
+    "brand:wikidata": "Q191615",
+    "brand:wikipedia": "en:Pizza Hut",
+    "building": "yes",
+    "building:levels": "2",
+    "cuisine": "pizza",
+    "height": "6",
+    "name": "Pizza Hut",
+    "roof:shape": "hipped"
+  }
+},
+{
+  "type": "way",
+  "id": 714481107,
+  "center": {
+    "lat": -6.2784371,
+    "lon": 106.7197459
+  },
+  "tags": {
+    "building": "yes",
+    "name": "Living Plaza Bintaro",
+    "shop": "mall"
+  }
+},
+{
+  "type": "way",
+  "id": 714691761,
+  "center": {
+    "lat": -6.2782675,
+    "lon": 106.7211808
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "commercial",
+    "name": "Upnormal"
+  }
+},
+{
+  "type": "way",
+  "id": 714691795,
+  "center": {
+    "lat": -6.2810408,
+    "lon": 106.7132091
+  },
+  "tags": {
+    "amenity": "fast_food",
+    "branch": "Bintaro Sektor 9",
+    "brand": "McDonald's",
+    "brand:wikidata": "Q38076",
+    "brand:wikipedia": "en:McDonald's",
+    "building": "yes",
+    "cuisine": "burger",
+    "name": "McDonald's",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 761917904,
+  "center": {
+    "lat": -6.2859998,
+    "lon": 106.6650210
+  },
+  "tags": {
+    "building": "yes",
+    "height": "15",
+    "layer": "2",
+    "min_height": "5",
+    "shop": "mall"
+  }
+},
+{
+  "type": "way",
+  "id": 762767411,
+  "center": {
+    "lat": -6.2888692,
+    "lon": 106.6659433
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "building:height": "3",
+    "building:levels": "1",
+    "name": "Aliful",
+    "roof:shape": "gabled"
+  }
+},
+{
+  "type": "way",
+  "id": 762786601,
+  "center": {
+    "lat": -6.2890984,
+    "lon": 106.6658511
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "building:height": "2.5",
+    "building:levels": "1",
+    "name": "Mie Aceh Bang Nasir",
+    "roof:shape": "skillion"
+  }
+},
+{
+  "type": "way",
+  "id": 762794065,
+  "center": {
+    "lat": -6.2900035,
+    "lon": 106.6659761
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "restaurant",
+    "building:height": "2.5",
+    "building:levels": "1",
+    "name": "Nasi Uduk",
+    "roof:shape": "skillion"
+  }
+},
+{
+  "type": "way",
+  "id": 763009299,
+  "center": {
+    "lat": -6.2911320,
+    "lon": 106.6662477
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "building:height": "9",
+    "building:levels": "2",
+    "name": "RM Torani",
+    "roof:shape": "gabled"
+  }
+},
+{
+  "type": "way",
+  "id": 763009302,
+  "center": {
+    "lat": -6.2905721,
+    "lon": 106.6660944
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "restaurant",
+    "building:height": "10",
+    "building:levels": "3",
+    "name": "Pisang Prima Rasa",
+    "roof:shape": "flat"
+  }
+},
+{
+  "type": "way",
+  "id": 763009303,
+  "center": {
+    "lat": -6.2905288,
+    "lon": 106.6660913
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "restaurant",
+    "building:height": "10",
+    "building:levels": "3",
+    "name": "RM Minang Jaya",
+    "roof:shape": "flat"
+  }
+},
+{
+  "type": "way",
+  "id": 763035380,
+  "center": {
+    "lat": -6.2920333,
+    "lon": 106.6661714
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "building:height": "5",
+    "building:levels": "2",
+    "name": "Padang Surya Kencana",
+    "roof:shape": "gabled"
+  }
+},
+{
+  "type": "way",
+  "id": 763035382,
+  "center": {
+    "lat": -6.2918375,
+    "lon": 106.6662281
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "building:height": "8",
+    "building:levels": "3",
+    "name": "Soto Betawi H. Mamat",
+    "roof:shape": "flat"
+  }
+},
+{
+  "type": "way",
+  "id": 765684357,
+  "center": {
+    "lat": -6.2798478,
+    "lon": 106.6628986
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "building:levels": "1",
+    "height": "4",
+    "name": "Cafetaria BSD Plaza"
+  }
+},
+{
+  "type": "way",
+  "id": 765684358,
+  "center": {
+    "lat": -6.2792145,
+    "lon": 106.6628480
+  },
+  "tags": {
+    "building": "yes",
+    "building:levels": "3",
+    "height": "11",
+    "name": "BSD Plaza",
+    "shop": "mall"
+  }
+},
+{
+  "type": "way",
+  "id": 768693427,
+  "center": {
+    "lat": -6.2992459,
+    "lon": 106.6644520
+  },
+  "tags": {
+    "amenity": "fast_food",
+    "brand": "McDonald's",
+    "brand:wikidata": "Q38076",
+    "brand:wikipedia": "en:McDonald's",
+    "building": "yes",
+    "building:colour": "brown",
+    "cuisine": "burger",
+    "height": "4",
+    "name": "McDonald's",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 768697401,
+  "center": {
+    "lat": -6.2991908,
+    "lon": 106.6647539
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Intro Bistro"
+  }
+},
+{
+  "type": "way",
+  "id": 768697404,
+  "center": {
+    "lat": -6.2991908,
+    "lon": 106.6647921
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "building:levels": "2",
+    "building:material": "glass",
+    "height": "15",
+    "roof:colour": "#A88C86",
+    "roof:direction": "90",
+    "roof:height": "6.8",
+    "roof:shape": "skillion"
+  }
+},
+{
+  "type": "way",
+  "id": 768697405,
+  "center": {
+    "lat": -6.2991908,
+    "lon": 106.6647423
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "building:levels": "2",
+    "building:material": "glass",
+    "height": "15",
+    "roof:colour": "#A88C86",
+    "roof:direction": "270",
+    "roof:height": "2",
+    "roof:shape": "skillion"
+  }
+},
+{
+  "type": "way",
+  "id": 768697406,
+  "center": {
+    "lat": -6.2991908,
+    "lon": 106.6647041
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "building:colour": "#824335",
+    "building:levels": "2",
+    "building:material": "plaster",
+    "height": "13",
+    "roof:colour": "#A88C86",
+    "roof:direction": "270",
+    "roof:height": "5",
+    "roof:shape": "skillion"
+  }
+},
+{
+  "type": "way",
+  "id": 782296758,
+  "center": {
+    "lat": -6.3141272,
+    "lon": 106.6997349
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "indonesian",
+    "name": "Solaria"
+  }
+},
+{
+  "type": "way",
+  "id": 795855918,
+  "center": {
+    "lat": -6.2625605,
+    "lon": 106.7280861
+  },
+  "tags": {
+    "amenity": "fast_food",
+    "brand": "McDonald's",
+    "brand:wikidata": "Q38076",
+    "building": "yes",
+    "cuisine": "burger",
+    "name": "McDonald's",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 796391848,
+  "center": {
+    "lat": -6.2764470,
+    "lon": 106.7182228
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "indonesian",
+    "name": "Ayam Bakar Pak Atok"
+  }
+},
+{
+  "type": "way",
+  "id": 797825696,
+  "center": {
+    "lat": -6.2856759,
+    "lon": 106.7291789
+  },
+  "tags": {
+    "building": "yes",
+    "building:levels": "5",
+    "name": "Bintaro Xchange Mall 2",
+    "shop": "mall",
+    "short_name": "BXc Mall 2"
+  }
+},
+{
+  "type": "way",
+  "id": 817409763,
+  "center": {
+    "lat": -6.2720257,
+    "lon": 106.6981293
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "brand": "Pizza Hut",
+    "brand:wikidata": "Q191615",
+    "brand:wikipedia": "en:Pizza Hut",
+    "building": "yes",
+    "cuisine": "pizza",
+    "name": "Pizza Hut"
+  }
+},
+{
+  "type": "way",
+  "id": 817409766,
+  "center": {
+    "lat": -6.2724511,
+    "lon": 106.6993633
+  },
+  "tags": {
+    "amenity": "cafe",
+    "brand": "Starbucks",
+    "brand:wikidata": "Q37158",
+    "brand:wikipedia": "en:Starbucks",
+    "building": "yes",
+    "cuisine": "coffee_shop",
+    "name": "Starbucks",
+    "official_name": "Starbucks Coffee",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 823487306,
+  "center": {
+    "lat": -6.3434526,
+    "lon": 106.6769318
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "building:levels": "1",
+    "cuisine": "regional",
+    "diet:halal": "yes",
+    "diet:local": "yes",
+    "height": "4",
+    "min_height": "0",
+    "name": "Kantin ITI",
+    "opening_hours": "Mo-Fr 08:00-16:00",
+    "roof:shape": "flat",
+    "source": "Mapped by FajrAl using Citra Udara ATR"
+  }
+},
+{
+  "type": "way",
+  "id": 832315742,
+  "center": {
+    "lat": -6.2378799,
+    "lon": 106.6591579
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "brazilian",
+    "name": "Fogo"
+  }
+},
+{
+  "type": "way",
+  "id": 832315745,
+  "center": {
+    "lat": -6.2404864,
+    "lon": 106.6565442
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "commercial",
+    "building:levels": "3",
+    "cuisine": "indonesian",
+    "name": "Pondok Kemangi"
+  }
+},
+{
+  "type": "way",
+  "id": 877546087,
+  "center": {
+    "lat": -6.3144213,
+    "lon": 106.7004725
+  },
+  "tags": {
+    "air_conditioning": "yes",
+    "amenity": "fast_food",
+    "brand": "McDonald's",
+    "brand:wikidata": "Q38076",
+    "brand:wikipedia": "en:McDonald's",
+    "building": "yes",
+    "cuisine": "burger",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "McDonald's",
+    "opening_hours": "24/7",
+    "outdoor_seating": "yes",
+    "smoking": "outside",
+    "takeaway": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1040612165,
+  "center": {
+    "lat": -6.2672201,
+    "lon": 106.6912370
+  },
+  "tags": {
+    "alt_name": "Hoka Hoka Bento",
+    "amenity": "fast_food",
+    "brand": "HokBen",
+    "brand:wikidata": "Q5877948",
+    "brand:wikipedia": "en:HokBen",
+    "building": "yes",
+    "cuisine": "japanese",
+    "name": "HokBen",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1040612166,
+  "center": {
+    "lat": -6.2673273,
+    "lon": 106.6914983
+  },
+  "tags": {
+    "amenity": "fast_food",
+    "brand": "Burger King",
+    "brand:wikidata": "Q177054",
+    "brand:wikipedia": "en:Burger King",
+    "building": "yes",
+    "cuisine": "burger",
+    "name": "Burger King",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1049283727,
+  "center": {
+    "lat": -6.3573896,
+    "lon": 106.7507913
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "name": "Gadsa Online Shop - Pondok Cabe Udik"
+  }
+},
+{
+  "type": "way",
+  "id": 1049546855,
+  "center": {
+    "lat": -6.2953570,
+    "lon": 106.7350797
+  },
+  "tags": {
+    "amenity": "fast_food",
+    "brand": "McDonald's",
+    "brand:wikidata": "Q38076",
+    "cuisine": "burger",
+    "drive_through": "yes",
+    "name": "McDonald's",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1049600991,
+  "center": {
+    "lat": -6.3350747,
+    "lon": 106.7293600
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "name": "Dimsum Nonahau - Bambu Apus"
+  }
+},
+{
+  "type": "way",
+  "id": 1049831270,
+  "center": {
+    "lat": -6.2624266,
+    "lon": 106.6916497
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "name": "Yuma Cheese Stick - Parigi Baru"
+  }
+},
+{
+  "type": "way",
+  "id": 1085972459,
+  "center": {
+    "lat": -6.3463982,
+    "lon": 106.6994396
+  },
+  "tags": {
+    "amenity": "fast_food",
+    "brand": "McDonald's",
+    "brand:wikidata": "Q38076",
+    "building": "yes",
+    "cuisine": "burger",
+    "name": "McDonald's",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1096477741,
+  "center": {
+    "lat": -6.3466022,
+    "lon": 106.6925298
+  },
+  "tags": {
+    "alt_name": "Hoka Hoka Bento",
+    "amenity": "fast_food",
+    "brand": "HokBen",
+    "brand:wikidata": "Q5877948",
+    "building": "commercial",
+    "building:levels": "1",
+    "cuisine": "japanese",
+    "name": "HokBen",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1096477743,
+  "center": {
+    "lat": -6.3474003,
+    "lon": 106.6944907
+  },
+  "tags": {
+    "alt_name": "Kentucky Fried Chicken",
+    "amenity": "fast_food",
+    "brand": "KFC",
+    "brand:wikidata": "Q524757",
+    "building": "retail",
+    "building:levels": "2",
+    "cuisine": "chicken",
+    "name": "KFC",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1096477744,
+  "center": {
+    "lat": -6.3483939,
+    "lon": 106.6946731
+  },
+  "tags": {
+    "addr:city": "Tangerang Selatan",
+    "addr:postcode": "15315",
+    "addr:street": "Jalan Paradise Serpong City",
+    "building": "commercial",
+    "building:levels": "2",
+    "name": "Paradise Walk Serpong",
+    "opening_hours": "Mo-Su 10:00-21:00",
+    "operator": "Progress Group",
+    "payment:cash": "yes",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "phone": "+62 81250001300",
+    "shop": "mall"
+  }
+},
+{
+  "type": "way",
+  "id": 1107063251,
+  "center": {
+    "lat": -6.2532864,
+    "lon": 106.6681428
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "name": "Warunk Upnormal"
+  }
+},
+{
+  "type": "way",
+  "id": 1112999118,
+  "center": {
+    "lat": -6.3175681,
+    "lon": 106.6795579
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "name": "Warunk Upnormal"
+  }
+},
+{
+  "type": "way",
+  "id": 1113298008,
+  "center": {
+    "lat": -6.3177759,
+    "lon": 106.6804458
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "padang",
+    "name": "Minang Raya BSD",
+    "phone": "+6281290999642"
+  }
+},
+{
+  "type": "way",
+  "id": 1113298009,
+  "center": {
+    "lat": -6.3176610,
+    "lon": 106.6804118
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "name": "Hello Chingu"
+  }
+},
+{
+  "type": "way",
+  "id": 1113298011,
+  "center": {
+    "lat": -6.3174670,
+    "lon": 106.6802666
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "name": "Mang Ncep - Empal Gentong & Gultik"
+  }
+},
+{
+  "type": "way",
+  "id": 1113298013,
+  "center": {
+    "lat": -6.3173260,
+    "lon": 106.6800597
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "name": "Nasi Goreng Pesek"
+  }
+},
+{
+  "type": "way",
+  "id": 1113298017,
+  "center": {
+    "lat": -6.3168823,
+    "lon": 106.6796861
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "name": "Bakso Malang Sudiman"
+  }
+},
+{
+  "type": "way",
+  "id": 1113298018,
+  "center": {
+    "lat": -6.3169080,
+    "lon": 106.6797054
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "name": "Onde-Onde Ny. Djuni Istimewa Bayumas"
+  }
+},
+{
+  "type": "way",
+  "id": 1113298019,
+  "center": {
+    "lat": -6.3167664,
+    "lon": 106.6795987
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "name": "Teras Berkah - Nasi T.O Tasik & Ayam Bakar"
+  }
+},
+{
+  "type": "way",
+  "id": 1113305135,
+  "center": {
+    "lat": -6.3169363,
+    "lon": 106.6800566
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "name": "Summer Minibar"
+  }
+},
+{
+  "type": "way",
+  "id": 1113305136,
+  "center": {
+    "lat": -6.3170709,
+    "lon": 106.6801468
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "name": "Hotdog Booth"
+  }
+},
+{
+  "type": "way",
+  "id": 1116721129,
+  "center": {
+    "lat": -6.2787312,
+    "lon": 106.7182327
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "indonesian",
+    "name": "Bebek Kaleyo"
+  }
+},
+{
+  "type": "way",
+  "id": 1116721130,
+  "center": {
+    "lat": -6.2791212,
+    "lon": 106.7182998
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "indonesian",
+    "name": "Rumah Makan Padang Sederhana"
+  }
+},
+{
+  "type": "way",
+  "id": 1116721131,
+  "center": {
+    "lat": -6.2790595,
+    "lon": 106.7180540
+  },
+  "tags": {
+    "amenity": "cafe",
+    "building": "yes",
+    "name": "Seven Dials"
+  }
+},
+{
+  "type": "way",
+  "id": 1116722194,
+  "center": {
+    "lat": -6.2808194,
+    "lon": 106.7144566
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "indonesian",
+    "name": "Lot 9"
+  }
+},
+{
+  "type": "way",
+  "id": 1116722195,
+  "center": {
+    "lat": -6.2810098,
+    "lon": 106.7140519
+  },
+  "tags": {
+    "amenity": "fast_food",
+    "brand": "Burger King",
+    "brand:wikidata": "Q177054",
+    "building": "yes",
+    "building:levels": "2",
+    "cuisine": "burger",
+    "drive_through": "yes",
+    "name": "Burger King",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1116722196,
+  "center": {
+    "lat": -6.2809921,
+    "lon": 106.7138766
+  },
+  "tags": {
+    "amenity": "cafe",
+    "brand": "Starbucks",
+    "brand:wikidata": "Q37158",
+    "building": "yes",
+    "building:levels": "2",
+    "cuisine": "coffee_shop",
+    "name": "Starbucks",
+    "official_name": "Starbucks Coffee",
+    "outdoor_seating": "yes",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1132360568,
+  "center": {
+    "lat": -6.2824496,
+    "lon": 106.7130497
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "name": "Emados"
+  }
+},
+{
+  "type": "way",
+  "id": 1132360569,
+  "center": {
+    "lat": -6.2825902,
+    "lon": 106.7130749
+  },
+  "tags": {
+    "amenity": "cafe",
+    "building": "yes",
+    "name": "Sensory Tree",
+    "outdoor_seating": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1132360571,
+  "center": {
+    "lat": -6.2828945,
+    "lon": 106.7137704
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "noodle",
+    "name": "Amen"
+  }
+},
+{
+  "type": "way",
+  "id": 1132360572,
+  "center": {
+    "lat": -6.2825556,
+    "lon": 106.7136647
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "noodle"
+  }
+},
+{
+  "type": "way",
+  "id": 1134174846,
+  "center": {
+    "lat": -6.3175552,
+    "lon": 106.6803226
+  },
+  "tags": {
+    "addr:city": "Serpong, Kota Tangerang Selatan, Banten",
+    "addr:housenumber": "121",
+    "addr:postcode": "15310",
+    "addr:street": "Jalan Raya Rawa Buntu",
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "pasta;makanan_ringan",
+    "name": "Makaroni Ngehe",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "phone": "+62 811 1236 733",
+    "website": "https://ngehe.com/"
+  }
+},
+{
+  "type": "way",
+  "id": 1137985852,
+  "center": {
+    "lat": -6.3366587,
+    "lon": 106.7392253
+  },
+  "tags": {
+    "addr:city": "South Tangerang",
+    "addr:postcode": "15417",
+    "addr:street": "Jalan Pajajaran Raya",
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "indonesian",
+    "name": "Pecel Lele Agus"
+  }
+},
+{
+  "type": "way",
+  "id": 1138384073,
+  "center": {
+    "lat": -6.3381692,
+    "lon": 106.7391186
+  },
+  "tags": {
+    "addr:city": "South Tangerang",
+    "addr:postcode": "15417",
+    "addr:street": "Jalan Pajajaran Raya",
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "building": "yes",
+    "check_date:opening_hours": "2025-11-17",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warkop Kuningan",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "smoking": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1141845911,
+  "center": {
+    "lat": -6.2946006,
+    "lon": 106.6834802
+  },
+  "tags": {
+    "addr:city": "Tangerang Selatan, Serpong, Bumi Serpong Damai",
+    "addr:street": "Jalan Lengkong Gudang Timur Raya",
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "indonesian",
+    "name": "Warteg Putra Bahari"
+  }
+},
+{
+  "type": "way",
+  "id": 1153254435,
+  "center": {
+    "lat": -6.2364642,
+    "lon": 106.6604032
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "commercial",
+    "building:levels": "1",
+    "cuisine": "international",
+    "name": "Hey Beach"
+  }
+},
+{
+  "type": "way",
+  "id": 1156849545,
+  "center": {
+    "lat": -6.2947433,
+    "lon": 106.6867409
+  },
+  "tags": {
+    "addr:city": "Tangerang Selatan, Serpong, Bumi Serpong Damai",
+    "addr:street": "Jalan Lengkong Gudang Timur Raya",
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "indonesian",
+    "name": "Warteg Kharisma Bahari · Sedia Soto Ayam",
+    "wikidata": "Q117351410",
+    "wikipedia": "id:Warteg Bahari"
+  }
+},
+{
+  "type": "way",
+  "id": 1156849547,
+  "center": {
+    "lat": -6.2947108,
+    "lon": 106.6868352
+  },
+  "tags": {
+    "addr:city": "Tangerang Selatan, Serpong, Bumi Serpong Damai",
+    "addr:street": "Jalan Lengkong Gudang Timur Raya",
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "chicken;indonesian",
+    "name": "Ayam Penyet Panglima"
+  }
+},
+{
+  "type": "way",
+  "id": 1177279856,
+  "center": {
+    "lat": -6.3057613,
+    "lon": 106.6799579
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "noodle",
+    "name": "Bakmi Bangka Asli 17",
+    "outdoor_seating": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1177514179,
+  "center": {
+    "lat": -6.2719516,
+    "lon": 106.7176483
+  },
+  "tags": {
+    "addr:city": "Kecamatan Pondok Aren, Tangerang Selatan",
+    "addr:full": "Jl. Raya Pondok Jaya No.5 Kec. Pondok Aren - Tangerang Selatan",
+    "addr:housenumber": "5",
+    "addr:street": "Jalan Raya Pondok Jaya",
+    "air_conditioning": "yes",
+    "alt_name": "Rumah Makan Sayur Asem Betawi Haji Masa",
+    "amenity": "restaurant",
+    "building": "restaurant",
+    "building:condition": "good",
+    "building:floor": "wood;ceramics",
+    "building:roof": "metal",
+    "building:structure": "confined_masonry",
+    "building:wall": "concrete",
+    "capacity": ">35",
+    "cuisine": "indonesian;betawi",
+    "diet:halal": "yes",
+    "name": "RM. Sayur Asem Betawi H. Masa",
+    "opening_hours": "Mo-Su 09:00-17:00; Su[2] off",
+    "phone": "+62 813 1606 8805;+62 813 1966 1913",
+    "source": "survey",
+    "toilets": "yes",
+    "toilets:wheelchair": "no",
+    "wheelchair": "no"
+  }
+},
+{
+  "type": "way",
+  "id": 1185521473,
+  "center": {
+    "lat": -6.3220662,
+    "lon": 106.6753466
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "commercial",
+    "name": "Centro - Pujasera - Coffee & Juice Bar"
+  }
+},
+{
+  "type": "way",
+  "id": 1185521495,
+  "center": {
+    "lat": -6.3217486,
+    "lon": 106.6778542
+  },
+  "tags": {
+    "addr:housenumber": "7",
+    "addr:place": "Blok NA",
+    "amenity": "restaurant",
+    "building": "commercial",
+    "name": "Waroeng Kongkow"
+  }
+},
+{
+  "type": "way",
+  "id": 1206536028,
+  "center": {
+    "lat": -6.3316987,
+    "lon": 106.6867780
+  },
+  "tags": {
+    "addr:country": "ID",
+    "addr:district": "Tangerang Selatan",
+    "addr:full": "Jalan Ciater Barat, no. 54, Bumi Serpong Damai City, Serpong, Tangerang Selatan",
+    "addr:housenumber": "54",
+    "addr:province": "Banten",
+    "addr:street": "Jalan Ciater Barat",
+    "addr:subdistrict": "Serpong",
+    "addr:suburb": "Bumi Serpong Damai City",
+    "amenity": "restaurant",
+    "area": "yes",
+    "contact:whatsapp": "+62 812 2700 0707",
+    "cuisine": "seafood",
+    "diet:halal": "yes",
+    "internet_access": "no",
+    "kids_area": "yes",
+    "kids_area:fee": "no",
+    "kids_area:indoor": "no",
+    "kids_area:outdoor": "yes",
+    "kids_area:supervised": "no",
+    "name": "Gubug Berkah",
+    "name:en": "Gubug Berkah Restaurant and Café",
+    "name:id": "Restoran dan Kafe Gubug Berkah",
+    "opening_hours": "Mo-Su 10:00-22:00; PH off",
+    "phone": "+62 21 29215399",
+    "takeaway": "yes",
+    "toilets": "yes",
+    "toilets:access": "customers",
+    "wheelchair": "no",
+    "wikimedia_commons": "File:Gubug Berkah.png"
+  }
+},
+{
+  "type": "way",
+  "id": 1209461153,
+  "center": {
+    "lat": -6.2418151,
+    "lon": 106.6665823
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "chicken",
+    "name": "Richeese Factory"
+  }
+},
+{
+  "type": "way",
+  "id": 1230620883,
+  "center": {
+    "lat": -6.2676133,
+    "lon": 106.6919826
+  },
+  "tags": {
+    "amenity": "fast_food",
+    "brand": "Popeyes",
+    "brand:wikidata": "Q1330910",
+    "building": "yes",
+    "cuisine": "chicken",
+    "name": "Popeyes",
+    "official_name": "Popeyes Louisiana Kitchen",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1232955909,
+  "center": {
+    "lat": -6.3125367,
+    "lon": 106.6911222
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "sandwich",
+    "name": "Roti Bakar Eddy"
+  }
+},
+{
+  "type": "way",
+  "id": 1233391368,
+  "center": {
+    "lat": -6.2915057,
+    "lon": 106.7270822
+  },
+  "tags": {
+    "amenity": "fast_food",
+    "building": "yes",
+    "cuisine": "american",
+    "delivery": "yes",
+    "internet_access": "wlan",
+    "name": "McDonald's",
+    "opening_hours": "24/7",
+    "outdoor_seating": "yes",
+    "smoking": "outside",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1234942561,
+  "center": {
+    "lat": -6.3468178,
+    "lon": 106.6982662
+  },
+  "tags": {
+    "amenity": "fast_food",
+    "building": "commercial",
+    "building:levels": "2",
+    "cuisine": "chicken",
+    "delivery": "yes",
+    "name": "Richeese Factory",
+    "opening_hours": "24/7",
+    "outdoor_seating": "yes",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1239520187,
+  "center": {
+    "lat": -6.2328979,
+    "lon": 106.6595139
+  },
+  "tags": {
+    "alt_name": "Dunkin' Donuts",
+    "amenity": "fast_food",
+    "brand": "Dunkin'",
+    "brand:wikidata": "Q847743",
+    "building": "commercial",
+    "building:levels": "2",
+    "cuisine": "donut;coffee_shop",
+    "name": "Dunkin'",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1239520192,
+  "center": {
+    "lat": -6.2334447,
+    "lon": 106.6585618
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "commercial",
+    "building:levels": "2",
+    "cuisine": "japanese",
+    "name": "Hachi Grill"
+  }
+},
+{
+  "type": "way",
+  "id": 1246753858,
+  "center": {
+    "lat": -6.2692304,
+    "lon": 106.7242061
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "name": "Pantry"
+  }
+},
+{
+  "type": "way",
+  "id": 1256418481,
+  "center": {
+    "lat": -6.2831559,
+    "lon": 106.6994682
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "name": "Emerald Tree Resto and Coffee Bar Bintaro"
+  }
+},
+{
+  "type": "way",
+  "id": 1292088353,
+  "center": {
+    "lat": -6.3187607,
+    "lon": 106.7681103
+  },
+  "tags": {
+    "amenity": "fast_food",
+    "fast_food": "cafeteria"
+  }
+},
+{
+  "type": "way",
+  "id": 1295811563,
+  "center": {
+    "lat": -6.2802292,
+    "lon": 106.7142939
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "acehnese",
+    "name": "Waroeng Aceh Kemang"
+  }
+},
+{
+  "type": "way",
+  "id": 1295811565,
+  "center": {
+    "lat": -6.2799385,
+    "lon": 106.7157727
+  },
+  "tags": {
+    "alt_name": "Kentucky Fried Chicken",
+    "amenity": "fast_food",
+    "brand": "KFC",
+    "brand:wikidata": "Q524757",
+    "building": "yes",
+    "building:levels": "2",
+    "cuisine": "chicken",
+    "name": "KFC",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1314298014,
+  "center": {
+    "lat": -6.3462755,
+    "lon": 106.7029476
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "name": "Ristorante"
+  }
+},
+{
+  "type": "way",
+  "id": 1332434664,
+  "center": {
+    "lat": -6.2624010,
+    "lon": 106.7339461
+  },
+  "tags": {
+    "alt_name": "Dunkin' Donuts",
+    "amenity": "fast_food",
+    "brand": "Dunkin'",
+    "brand:wikidata": "Q847743",
+    "building": "yes",
+    "cuisine": "donut;coffee_shop",
+    "name": "Dunkin'",
+    "takeaway": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1332434665,
+  "center": {
+    "lat": -6.2624102,
+    "lon": 106.7338013
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "name": "Richeese Factory Ceger"
+  }
+},
+{
+  "type": "way",
+  "id": 1333472247,
+  "center": {
+    "lat": -6.2410575,
+    "lon": 106.6541002
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "steak_house",
+    "name": "Justus Steakhouse"
+  }
+},
+{
+  "type": "way",
+  "id": 1381288979,
+  "center": {
+    "lat": -6.2723169,
+    "lon": 106.7255011
+  },
+  "tags": {
+    "building": "yes",
+    "name": "Park 8 Boulevard",
+    "opening_hours": "Mo-Sa 08:00-22:00",
+    "shop": "mall"
+  }
+},
+{
+  "type": "way",
+  "id": 1382763386,
+  "center": {
+    "lat": -6.2781923,
+    "lon": 106.7166582
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "name": "Nyaba Pecak"
+  }
+},
+{
+  "type": "way",
+  "id": 1382763387,
+  "center": {
+    "lat": -6.2795639,
+    "lon": 106.7165426
+  },
+  "tags": {
+    "addr:city": "Tangerang Selatan",
+    "amenity": "restaurant",
+    "building": "yes",
+    "name": "Warung Pok Yeyen"
+  }
+},
+{
+  "type": "way",
+  "id": 1385095012,
+  "center": {
+    "lat": -6.3483838,
+    "lon": 106.6736940
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "indonesian",
+    "name": "Sinar Minang Masakan Padang"
+  }
+},
+{
+  "type": "way",
+  "id": 1385102710,
+  "center": {
+    "lat": -6.3484771,
+    "lon": 106.6735990
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "indonesian",
+    "name": "Ranah Minang Masakan Padang"
+  }
+},
+{
+  "type": "way",
+  "id": 1388699232,
+  "center": {
+    "lat": -6.3471196,
+    "lon": 106.6906803
+  },
+  "tags": {
+    "amenity": "cafe",
+    "building": "yes",
+    "cuisine": "indonesian;regional"
+  }
+},
+{
+  "type": "way",
+  "id": 1390860039,
+  "center": {
+    "lat": -6.3351312,
+    "lon": 106.7222272
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1410468978,
+  "center": {
+    "lat": -6.2421277,
+    "lon": 106.6665361
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "commercial",
+    "cuisine": "indonesian",
+    "name": "Solaria"
+  }
+},
+{
+  "type": "way",
+  "id": 1410468979,
+  "center": {
+    "lat": -6.2424258,
+    "lon": 106.6664699
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "commercial",
+    "cuisine": "noodle",
+    "name": "Mie Gacoan"
+  }
+},
+{
+  "type": "way",
+  "id": 1421672728,
+  "center": {
+    "lat": -6.3383970,
+    "lon": 106.7589485
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "asian;coffee_shop",
+    "diet:halal": "yes",
+    "name": "Green Cafe"
+  }
+},
+{
+  "type": "way",
+  "id": 1443428958,
+  "center": {
+    "lat": -6.2475796,
+    "lon": 106.6495376
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "indonesian",
+    "level": "2",
+    "name": "Warteg Dwi"
+  }
+},
+{
+  "type": "way",
+  "id": 1449726830,
+  "center": {
+    "lat": -6.3148458,
+    "lon": 106.7473622
+  },
+  "tags": {
+    "building": "yes",
+    "shop": "mall"
+  }
+},
+{
+  "type": "way",
+  "id": 1449727108,
+  "center": {
+    "lat": -6.3121856,
+    "lon": 106.7467338
+  },
+  "tags": {
+    "building": "yes",
+    "name": "Plaza Ciputat",
+    "shop": "mall"
+  }
+},
+{
+  "type": "way",
+  "id": 1451409882,
+  "center": {
+    "lat": -6.3191379,
+    "lon": 106.6608364
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "indonesian",
+    "name": "Sirah Naga Sundanese Resto & Cafe",
+    "source": "Mapped by FajrAl using Citra Udara ATR 2024"
+  }
+},
+{
+  "type": "way",
+  "id": 1485584780,
+  "center": {
+    "lat": -6.3149189,
+    "lon": 106.7321974
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "indonesian",
+    "name": "Restoran Kampung Kecil",
+    "opening_hours": "Mo-Su 10:00-22:00"
+  }
+},
+{
+  "type": "way",
+  "id": 1512783528,
+  "center": {
+    "lat": -6.3307211,
+    "lon": 106.6841954
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "indonesian;sundanese",
+    "name": "Remaja Kuring"
+  }
+},
+{
+  "type": "way",
+  "id": 1540714301,
+  "center": {
+    "lat": -6.2634264,
+    "lon": 106.6658063
+  },
+  "tags": {
+    "access": "private",
+    "amenity": "fast_food",
+    "building": "school",
+    "fast_food": "cafeteria",
+    "operator": "SMK Negeri 6 Kota Tangerang Selatan"
+  }
+},
+{
+  "type": "way",
+  "id": 1540738359,
+  "center": {
+    "lat": -6.2635089,
+    "lon": 106.6666944
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "indonesian;javanese",
+    "diet:halal": "yes",
+    "name": "Sambal Bakar"
+  }
+},
+{
+  "type": "relation",
+  "id": 21040900,
+  "center": {
+    "lat": -6.2749389,
+    "lon": 106.6599889
+  },
+  "tags": {
+    "amenity": "restaurant",
+    "building": "shophouse",
+    "building:levels": "3",
+    "contact:instagram": "https://www.instagram.com/pempek_golden18/",
+    "cuisine": "indonesian",
+    "name": "Pempek Golden 18",
+    "phone": "+62 859-2106-6119",
+    "type": "multipolygon",
+    "website": "https://linktr.ee/pempekgolden18"
+  }
+}
+
+  ]
+}

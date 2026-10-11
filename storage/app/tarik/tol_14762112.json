@@ -1,0 +1,343 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-09T06:09:00Z",
+    "timestamp_areas_base": "2026-10-08T05:09:19Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 309351694,
+  "lat": -6.4614322,
+  "lon": 106.8891969,
+  "tags": {
+    "access": "yes",
+    "barrier": "toll_booth",
+    "name": "Toll Gate Gunung Putri"
+  }
+},
+{
+  "type": "node",
+  "id": 309352140,
+  "lat": -6.4612855,
+  "lon": 106.8893324,
+  "tags": {
+    "access": "yes",
+    "barrier": "toll_booth",
+    "name": "Toll Gate Gunung Putri"
+  }
+},
+{
+  "type": "node",
+  "id": 321538399,
+  "lat": -6.5639063,
+  "lon": 106.8449143,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Sentul Selatan 1",
+    "name:en": "Toll Gate Sentul Selatan 1"
+  }
+},
+{
+  "type": "node",
+  "id": 692759976,
+  "lat": -6.4824347,
+  "lon": 106.8744367,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Citeureup I"
+  }
+},
+{
+  "type": "node",
+  "id": 1474062464,
+  "lat": -6.6310677,
+  "lon": 106.8391460,
+  "tags": {
+    "alt_name": "Gerbang Tol Ciawi",
+    "barrier": "toll_booth",
+    "foot": "permissive",
+    "name": "Gerbang Tol Ciawi",
+    "name:en": "Toll Gate Ciawi"
+  }
+},
+{
+  "type": "node",
+  "id": 1554222322,
+  "lat": -6.5645009,
+  "lon": 106.8356907,
+  "tags": {
+    "access": "yes",
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Sentul Barat"
+  }
+},
+{
+  "type": "node",
+  "id": 1554222785,
+  "lat": -6.5642738,
+  "lon": 106.8356744,
+  "tags": {
+    "access": "yes",
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Sentul Barat"
+  }
+},
+{
+  "type": "node",
+  "id": 1694196651,
+  "lat": -6.5275813,
+  "lon": 106.8544047,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Toll Gate Sentul 1"
+  }
+},
+{
+  "type": "node",
+  "id": 1694196654,
+  "lat": -6.5314573,
+  "lon": 106.8526237,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Toll Gate Sentul 2"
+  }
+},
+{
+  "type": "node",
+  "id": 4218687074,
+  "lat": -6.4834013,
+  "lon": 106.8731433,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Toll Gate Citeureup 2"
+  }
+},
+{
+  "type": "node",
+  "id": 6109515476,
+  "lat": -6.7537705,
+  "lon": 106.8037100,
+  "tags": {
+    "barrier": "toll_booth",
+    "bicycle": "no",
+    "foot": "no",
+    "horse": "no",
+    "name": "Cigombong 1"
+  }
+},
+{
+  "type": "node",
+  "id": 6109547318,
+  "lat": -6.7012511,
+  "lon": 106.8245713,
+  "tags": {
+    "barrier": "toll_booth",
+    "bicycle": "no",
+    "foot": "no",
+    "horse": "no",
+    "motorcar": "yes",
+    "name": "Caringin"
+  }
+},
+{
+  "type": "node",
+  "id": 6112444042,
+  "lat": -6.5625031,
+  "lon": 106.8426509,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Sentul Selatan 2"
+  }
+},
+{
+  "type": "node",
+  "id": 6427465056,
+  "lat": -6.4571812,
+  "lon": 106.8840223,
+  "tags": {
+    "access": "yes",
+    "barrier": "toll_booth",
+    "name": "Toll Gate Karanggan"
+  }
+},
+{
+  "type": "node",
+  "id": 6435762530,
+  "lat": -6.6022733,
+  "lon": 106.8312954,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Ciawi 2",
+    "name:en": "Toll Gate Ciawi 2"
+  }
+},
+{
+  "type": "node",
+  "id": 6510205414,
+  "lat": -6.7537363,
+  "lon": 106.8035658,
+  "tags": {
+    "barrier": "toll_booth",
+    "bicycle": "no",
+    "foot": "no",
+    "horse": "no",
+    "motorcar": "yes",
+    "name": "Cigombong 1"
+  }
+},
+{
+  "type": "node",
+  "id": 6510235269,
+  "lat": -6.5334959,
+  "lon": 106.8519545,
+  "tags": {
+    "barrier": "toll_booth",
+    "bicycle": "no",
+    "foot": "no",
+    "horse": "no",
+    "motorcar": "yes",
+    "name": "Sentul 4"
+  }
+},
+{
+  "type": "node",
+  "id": 6510242776,
+  "lat": -6.4860676,
+  "lon": 106.8718466,
+  "tags": {
+    "barrier": "toll_booth",
+    "bicycle": "no",
+    "foot": "no",
+    "horse": "no",
+    "name": "Citeurep 4"
+  }
+},
+{
+  "type": "node",
+  "id": 6862044962,
+  "lat": -6.4572323,
+  "lon": 106.8840537,
+  "tags": {
+    "access": "yes",
+    "barrier": "toll_booth",
+    "name": "Toll Gate Karanggan"
+  }
+},
+{
+  "type": "node",
+  "id": 6993924668,
+  "lat": -6.3780915,
+  "lon": 106.9713688,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Narogong"
+  }
+},
+{
+  "type": "node",
+  "id": 6993924672,
+  "lat": -6.3780151,
+  "lon": 106.9713176,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Narogong"
+  }
+},
+{
+  "type": "node",
+  "id": 7052972550,
+  "lat": -6.5286646,
+  "lon": 106.8541405,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Toll Gate Sentul 1"
+  }
+},
+{
+  "type": "node",
+  "id": 7216771686,
+  "lat": -6.7011323,
+  "lon": 106.8247593,
+  "tags": {
+    "barrier": "toll_booth",
+    "bicycle": "no",
+    "foot": "no",
+    "horse": "no",
+    "motorcar": "yes",
+    "name": "Caringin"
+  }
+},
+{
+  "type": "node",
+  "id": 7271437000,
+  "lat": -6.6137016,
+  "lon": 106.8323871,
+  "tags": {
+    "addr:state": "JW",
+    "addr:street": "Jalan Tol Jakarta–Bogor–Ciawi",
+    "alt_name": "Gerbang Tol Bogor Selatan",
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Bogor Selatan",
+    "name:en": "Toll Gate Bogor Selatan"
+  }
+},
+{
+  "type": "node",
+  "id": 10302199395,
+  "lat": -6.5646498,
+  "lon": 106.8357324,
+  "tags": {
+    "access": "yes",
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Sentul Barat"
+  }
+},
+{
+  "type": "node",
+  "id": 10589160849,
+  "lat": -6.3838542,
+  "lon": 106.9456929,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Nagrak"
+  }
+},
+{
+  "type": "node",
+  "id": 10589160850,
+  "lat": -6.3837219,
+  "lon": 106.9456561,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Nagrak"
+  }
+},
+{
+  "type": "node",
+  "id": 11898539310,
+  "lat": -6.6841387,
+  "lon": 106.8308271,
+  "tags": {
+    "barrier": "toll_booth",
+    "fee": "yes",
+    "name": "Gerbang Tol Caringin Utama"
+  }
+},
+{
+  "type": "node",
+  "id": 11898539311,
+  "lat": -6.6840705,
+  "lon": 106.8307268,
+  "tags": {
+    "barrier": "toll_booth",
+    "fee": "yes",
+    "name": "Gerbang Tol Caringin Utama"
+  }
+}
+
+  ]
+}

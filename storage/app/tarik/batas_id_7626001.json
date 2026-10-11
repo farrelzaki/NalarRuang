@@ -1,0 +1,269 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-08T14:25:41Z",
+    "timestamp_areas_base": "2026-10-07T10:19:21Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "relation",
+  "id": 5802122
+},
+{
+  "type": "relation",
+  "id": 5802126
+},
+{
+  "type": "relation",
+  "id": 5802127
+},
+{
+  "type": "relation",
+  "id": 5802137
+},
+{
+  "type": "relation",
+  "id": 5802139
+},
+{
+  "type": "relation",
+  "id": 5802142
+},
+{
+  "type": "relation",
+  "id": 5802145
+},
+{
+  "type": "relation",
+  "id": 5802149
+},
+{
+  "type": "relation",
+  "id": 5802150
+},
+{
+  "type": "relation",
+  "id": 5802151
+},
+{
+  "type": "relation",
+  "id": 5802156
+},
+{
+  "type": "relation",
+  "id": 5802166
+},
+{
+  "type": "relation",
+  "id": 5802168
+},
+{
+  "type": "relation",
+  "id": 5802170
+},
+{
+  "type": "relation",
+  "id": 5802171
+},
+{
+  "type": "relation",
+  "id": 5802174
+},
+{
+  "type": "relation",
+  "id": 5802178
+},
+{
+  "type": "relation",
+  "id": 5802179
+},
+{
+  "type": "relation",
+  "id": 5802185
+},
+{
+  "type": "relation",
+  "id": 5802188
+},
+{
+  "type": "relation",
+  "id": 5802201
+},
+{
+  "type": "relation",
+  "id": 5802204
+},
+{
+  "type": "relation",
+  "id": 5802207
+},
+{
+  "type": "relation",
+  "id": 5802216
+},
+{
+  "type": "relation",
+  "id": 5802222
+},
+{
+  "type": "relation",
+  "id": 5802225
+},
+{
+  "type": "relation",
+  "id": 5802226
+},
+{
+  "type": "relation",
+  "id": 5802231
+},
+{
+  "type": "relation",
+  "id": 5802235
+},
+{
+  "type": "relation",
+  "id": 5802239
+},
+{
+  "type": "relation",
+  "id": 5802248
+},
+{
+  "type": "relation",
+  "id": 5802250
+},
+{
+  "type": "relation",
+  "id": 5802252
+},
+{
+  "type": "relation",
+  "id": 5802260
+},
+{
+  "type": "relation",
+  "id": 5802262
+},
+{
+  "type": "relation",
+  "id": 5802267
+},
+{
+  "type": "relation",
+  "id": 5802269
+},
+{
+  "type": "relation",
+  "id": 5802274
+},
+{
+  "type": "relation",
+  "id": 5802279
+},
+{
+  "type": "relation",
+  "id": 5802282
+},
+{
+  "type": "relation",
+  "id": 5802287
+},
+{
+  "type": "relation",
+  "id": 5802291
+},
+{
+  "type": "relation",
+  "id": 5802297
+},
+{
+  "type": "relation",
+  "id": 5802310
+},
+{
+  "type": "relation",
+  "id": 5802317
+},
+{
+  "type": "relation",
+  "id": 5802321
+},
+{
+  "type": "relation",
+  "id": 5802324
+},
+{
+  "type": "relation",
+  "id": 5802335
+},
+{
+  "type": "relation",
+  "id": 5802347
+},
+{
+  "type": "relation",
+  "id": 5802351
+},
+{
+  "type": "relation",
+  "id": 5802353
+},
+{
+  "type": "relation",
+  "id": 5802364
+},
+{
+  "type": "relation",
+  "id": 5802366
+},
+{
+  "type": "relation",
+  "id": 5802375
+},
+{
+  "type": "relation",
+  "id": 5802383
+},
+{
+  "type": "relation",
+  "id": 5802384
+},
+{
+  "type": "relation",
+  "id": 5802392
+},
+{
+  "type": "relation",
+  "id": 5802407
+},
+{
+  "type": "relation",
+  "id": 5802409
+},
+{
+  "type": "relation",
+  "id": 5802420
+},
+{
+  "type": "relation",
+  "id": 5802425
+},
+{
+  "type": "relation",
+  "id": 5802427
+},
+{
+  "type": "relation",
+  "id": 5802436
+},
+{
+  "type": "relation",
+  "id": 7409546
+}
+
+  ]
+}

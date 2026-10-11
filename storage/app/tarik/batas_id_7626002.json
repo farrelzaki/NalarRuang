@@ -1,0 +1,161 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-08T14:19:36Z",
+    "timestamp_areas_base": "2026-10-07T10:19:21Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "relation",
+  "id": 5802121
+},
+{
+  "type": "relation",
+  "id": 5802123
+},
+{
+  "type": "relation",
+  "id": 5802125
+},
+{
+  "type": "relation",
+  "id": 5802129
+},
+{
+  "type": "relation",
+  "id": 5802140
+},
+{
+  "type": "relation",
+  "id": 5802157
+},
+{
+  "type": "relation",
+  "id": 5802165
+},
+{
+  "type": "relation",
+  "id": 5802175
+},
+{
+  "type": "relation",
+  "id": 5802177
+},
+{
+  "type": "relation",
+  "id": 5802186
+},
+{
+  "type": "relation",
+  "id": 5802192
+},
+{
+  "type": "relation",
+  "id": 5802197
+},
+{
+  "type": "relation",
+  "id": 5802206
+},
+{
+  "type": "relation",
+  "id": 5802213
+},
+{
+  "type": "relation",
+  "id": 5802240
+},
+{
+  "type": "relation",
+  "id": 5802243
+},
+{
+  "type": "relation",
+  "id": 5802254
+},
+{
+  "type": "relation",
+  "id": 5802256
+},
+{
+  "type": "relation",
+  "id": 5802258
+},
+{
+  "type": "relation",
+  "id": 5802270
+},
+{
+  "type": "relation",
+  "id": 5802280
+},
+{
+  "type": "relation",
+  "id": 5802286
+},
+{
+  "type": "relation",
+  "id": 5802288
+},
+{
+  "type": "relation",
+  "id": 5802305
+},
+{
+  "type": "relation",
+  "id": 5802328
+},
+{
+  "type": "relation",
+  "id": 5802333
+},
+{
+  "type": "relation",
+  "id": 5802343
+},
+{
+  "type": "relation",
+  "id": 5802345
+},
+{
+  "type": "relation",
+  "id": 5802362
+},
+{
+  "type": "relation",
+  "id": 5802379
+},
+{
+  "type": "relation",
+  "id": 5802387
+},
+{
+  "type": "relation",
+  "id": 5802394
+},
+{
+  "type": "relation",
+  "id": 5802395
+},
+{
+  "type": "relation",
+  "id": 5802398
+},
+{
+  "type": "relation",
+  "id": 5802401
+},
+{
+  "type": "relation",
+  "id": 5802414
+},
+{
+  "type": "relation",
+  "id": 5802433
+}
+
+  ]
+}

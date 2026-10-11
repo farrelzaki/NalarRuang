@@ -1,0 +1,1216 @@
+Batas administrasi (OSM)...
+  ulang batas_id_7625977.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_7625977_0.json (1): HTTP Error 429: Too Many Requests
+  Jakarta Pusat: 52 relasi
+  ulang batas_7626002.json (1): IncompleteRead(98272 bytes read)
+  ulang batas_id_7626002.json (1): HTTP Error 504: Gateway Timeout
+  Jakarta Utara: 37 relasi
+  ulang batas_7626001.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_7626001.json (2): HTTP Error 504: Gateway Timeout
+  ulang batas_id_7626001.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_7626001_0.json (1): HTTP Error 429: Too Many Requests
+  ulang batas_7626001_0.json (2): HTTP Error 504: Gateway Timeout
+  ulang batas_7626001_0.json (3): HTTP Error 504: Gateway Timeout
+  ulang batas_7626001_0.json (4): IncompleteRead(454368 bytes read)
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh batas_7626001_0.json
+  ulang batas_7626001_0.json (1): HTTP Error 500: Internal Server Error
+=== putaran 1 ===
+Batas administrasi (OSM)...
+  ulang batas_7625977_20.json (1): IncompleteRead(98272 bytes read)
+  ulang batas_7625977_20.json (2): HTTP Error 504: Gateway Timeout
+  Jakarta Pusat: 52 relasi
+  Jakarta Utara: 37 relasi
+  ulang batas_7626001_40.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_7626001_40.json (2): IncompleteRead(186272 bytes read)
+  Jakarta Barat: 64 relasi
+  ulang batas_5802438.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_5802438.json (2): HTTP Error 504: Gateway Timeout
+  ulang batas_5802438.json (3): HTTP Error 504: Gateway Timeout
+  ulang batas_id_5802438.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_id_5802438.json (2): HTTP Error 504: Gateway Timeout
+  ulang batas_id_5802438.json (3): HTTP Error 504: Gateway Timeout
+  ulang batas_5802438_0.json (1): IncompleteRead(94176 bytes read)
+  ulang batas_5802438_0.json (2): HTTP Error 429: Too Many Requests
+  ulang batas_5802438_40.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_5802438_40.json (2): IncompleteRead(94176 bytes read)
+  ulang batas_5802438_60.json (1): IncompleteRead(158368 bytes read)
+  ulang batas_5802438_60.json (2): HTTP Error 504: Gateway Timeout
+  ulang batas_5802438_60.json (3): HTTP Error 504: Gateway Timeout
+  ulang batas_5802438_60.json (4): IncompleteRead(167968 bytes read)
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh batas_5802438_60.json
+  ulang batas_5802438_60.json (1): HTTP Error 500: Internal Server Error
+  ulang batas_5802438_60.json (2): HTTP Error 500: Internal Server Error
+  ulang batas_5802438_60.json (3): HTTP Error 500: Internal Server Error
+  ulang batas_5802438_60.json (4): HTTP Error 500: Internal Server Error
+  https://overpass.private.coffee/api/interpreter gagal: Gagal mengunduh batas_5802438_60.json
+  Jakarta Selatan: 75 relasi
+  ulang batas_id_5802441.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_5802441_40.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_5802441_40.json (2): HTTP Error 504: Gateway Timeout
+  Jakarta Timur: 76 relasi
+  ulang batas_id_14745927.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_14745927_20.json (1): HTTP Error 504: Gateway Timeout
+  Kota Bogor: 74 relasi
+  ulang batas_14762112.json (1): The read operation timed out
+  ulang batas_14762112.json (2): HTTP Error 504: Gateway Timeout
+  ulang batas_14762112.json (3): HTTP Error 504: Gateway Timeout
+  ulang batas_id_14762112.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_id_14762112.json (2): HTTP Error 504: Gateway Timeout
+  ulang batas_14762112_20.json (1): HTTP Error 429: Too Many Requests
+  ulang batas_14762112_20.json (2): HTTP Error 429: Too Many Requests
+  ulang batas_14762112_60.json (1): HTTP Error 429: Too Many Requests
+  ulang batas_14762112_60.json (2): HTTP Error 429: Too Many Requests
+  ulang batas_14762112_100.json (1): HTTP Error 429: Too Many Requests
+  ulang batas_14762112_100.json (2): HTTP Error 504: Gateway Timeout
+  ulang batas_14762112_120.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_14762112_120.json (2): HTTP Error 504: Gateway Timeout
+  ulang batas_14762112_120.json (3): HTTP Error 504: Gateway Timeout
+  ulang batas_14762112_120.json (4): HTTP Error 504: Gateway Timeout
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh batas_14762112_120.json
+  ulang batas_14762112_120.json (1): HTTP Error 500: Internal Server Error
+  ulang batas_14762112_120.json (2): HTTP Error 500: Internal Server Error
+  ulang batas_14762112_120.json (3): HTTP Error 500: Internal Server Error
+  ulang batas_14762112_120.json (4): HTTP Error 500: Internal Server Error
+  https://overpass.private.coffee/api/interpreter gagal: Gagal mengunduh batas_14762112_120.json
+  ulang batas_14762112_160.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_14762112_180.json (1): HTTP Error 429: Too Many Requests
+  ulang batas_14762112_180.json (2): HTTP Error 504: Gateway Timeout
+  ulang batas_14762112_180.json (3): HTTP Error 504: Gateway Timeout
+  ulang batas_14762112_220.json (1): HTTP Error 429: Too Many Requests
+  ulang batas_14762112_220.json (2): HTTP Error 504: Gateway Timeout
+  ulang batas_14762112_220.json (3): HTTP Error 504: Gateway Timeout
+  ulang batas_14762112_260.json (1): HTTP Error 429: Too Many Requests
+  ulang batas_14762112_260.json (2): HTTP Error 429: Too Many Requests
+  ulang batas_14762112_260.json (3): HTTP Error 504: Gateway Timeout
+  ulang batas_14762112_280.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_14762112_300.json (1): HTTP Error 429: Too Many Requests
+  ulang batas_14762112_300.json (2): HTTP Error 504: Gateway Timeout
+  ulang batas_14762112_320.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_14762112_340.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_14762112_340.json (2): HTTP Error 504: Gateway Timeout
+  ulang batas_14762112_380.json (1): HTTP Error 429: Too Many Requests
+  ulang batas_14762112_380.json (2): HTTP Error 429: Too Many Requests
+  ulang batas_14762112_380.json (3): HTTP Error 504: Gateway Timeout
+  ulang batas_14762112_380.json (4): HTTP Error 504: Gateway Timeout
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh batas_14762112_380.json
+  ulang batas_14762112_440.json (1): HTTP Error 429: Too Many Requests
+  ulang batas_14762112_460.json (1): HTTP Error 504: Gateway Timeout
+  Kabupaten Bogor: 475 relasi
+  ulang batas_14525364.json (1): <urlopen error _ssl.c:1003: The handshake operation timed out>
+  ulang batas_14525364_0.json (1): HTTP Error 429: Too Many Requests
+  ulang batas_14525364_0.json (2): HTTP Error 429: Too Many Requests
+  ulang batas_14525364_0.json (3): HTTP Error 504: Gateway Timeout
+  ulang batas_14525364_0.json (4): HTTP Error 504: Gateway Timeout
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh batas_14525364_0.json
+  ulang batas_14525364_0.json (1): HTTP Error 500: Internal Server Error
+  ulang batas_14525364_0.json (2): HTTP Error 500: Internal Server Error
+  ulang batas_14525364_0.json (3): HTTP Error 500: Internal Server Error
+  ulang batas_14525364_0.json (4): HTTP Error 500: Internal Server Error
+  https://overpass.private.coffee/api/interpreter gagal: Gagal mengunduh batas_14525364_0.json
+  ulang batas_14525364_20.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_14525364_40.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_14525364_40.json (2): HTTP Error 504: Gateway Timeout
+  ulang batas_14525364_40.json (3): HTTP Error 504: Gateway Timeout
+  Kota Depok: 54 relasi
+  ulang batas_id_7641583.json (1): HTTP Error 429: Too Many Requests
+  ulang batas_id_7641583.json (2): HTTP Error 504: Gateway Timeout
+  ulang batas_id_7641583.json (3): HTTP Error 504: Gateway Timeout
+  ulang batas_id_7641583.json (4): HTTP Error 504: Gateway Timeout
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh batas_id_7641583.json
+  ulang batas_id_7641583.json (1): HTTP Error 500: Internal Server Error
+  ulang batas_id_7641583.json (2): HTTP Error 500: Internal Server Error
+  ulang batas_id_7641583.json (3): HTTP Error 500: Internal Server Error
+  ulang batas_id_7641583.json (4): HTTP Error 500: Internal Server Error
+  https://overpass.private.coffee/api/interpreter gagal: Gagal mengunduh batas_id_7641583.json
+  ulang batas_7641583_0.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_7641583_0.json (2): HTTP Error 504: Gateway Timeout
+  ulang batas_7641583_0.json (3): HTTP Error 504: Gateway Timeout
+  ulang batas_7641583_0.json (4): HTTP Error 504: Gateway Timeout
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh batas_7641583_0.json
+  ulang batas_7641583_0.json (1): HTTP Error 500: Internal Server Error
+  ulang batas_7641583_0.json (2): HTTP Error 500: Internal Server Error
+  ulang batas_7641583_0.json (3): HTTP Error 500: Internal Server Error
+  ulang batas_7641583_0.json (4): HTTP Error 500: Internal Server Error
+  https://overpass.private.coffee/api/interpreter gagal: Gagal mengunduh batas_7641583_0.json
+  ulang batas_7641583_0.json (1): HTTP Error 504: Gateway Time-out
+  ulang batas_7641583_20.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_7641583_20.json (2): HTTP Error 504: Gateway Timeout
+  ulang batas_7641583_60.json (1): HTTP Error 429: Too Many Requests
+  ulang batas_7641583_80.json (1): HTTP Error 429: Too Many Requests
+  ulang batas_7641583_80.json (2): HTTP Error 504: Gateway Timeout
+  ulang batas_7641583_80.json (3): HTTP Error 504: Gateway Timeout
+  ulang batas_7641583_80.json (4): HTTP Error 504: Gateway Timeout
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh batas_7641583_80.json
+  ulang batas_7641583_80.json (1): HTTP Error 500: Internal Server Error
+  ulang batas_7641583_80.json (2): HTTP Error 500: Internal Server Error
+  ulang batas_7641583_80.json (3): HTTP Error 500: Internal Server Error
+  Kota Tangerang: 116 relasi
+  ulang batas_7641584.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_7641584.json (2): HTTP Error 504: Gateway Timeout
+  ulang batas_7641584_0.json (1): HTTP Error 429: Too Many Requests
+  ulang batas_7641584_0.json (2): HTTP Error 429: Too Many Requests
+  ulang batas_7641584_0.json (3): HTTP Error 504: Gateway Timeout
+  ulang batas_7641584_20.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_7641584_40.json (1): HTTP Error 429: Too Many Requests
+  ulang batas_7641584_40.json (2): HTTP Error 504: Gateway Timeout
+  ulang batas_7641584_40.json (3): HTTP Error 504: Gateway Timeout
+  ulang batas_7641584_60.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_7641584_60.json (2): HTTP Error 504: Gateway Timeout
+  Kabupaten Tangerang: 70 relasi
+  ulang batas_id_7641582.json (1): HTTP Error 429: Too Many Requests
+  ulang batas_id_7641582.json (2): HTTP Error 429: Too Many Requests
+  ulang batas_7641582_0.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_7641582_20.json (1): HTTP Error 429: Too Many Requests
+  ulang batas_7641582_20.json (2): HTTP Error 429: Too Many Requests
+  Kota Tangerang Selatan: 60 relasi
+  ulang batas_14509733.json (1): HTTP Error 429: Too Many Requests
+  ulang batas_14509733.json (2): HTTP Error 429: Too Many Requests
+  ulang batas_14509733_0.json (1): HTTP Error 429: Too Many Requests
+  ulang batas_14509733_0.json (2): HTTP Error 429: Too Many Requests
+  Kota Bekasi: 2 relasi
+  ulang batas_id_14765575.json (1): HTTP Error 429: Too Many Requests
+  ulang batas_id_14765575.json (2): HTTP Error 429: Too Many Requests
+  Kabupaten Bekasi: 0 relasi
+  kelurahan: 1010
+Ekosistem (OSM)...
+=== putaran B1 ===
+Batas administrasi (OSM)...
+  Jakarta Pusat: 52 relasi
+  Jakarta Utara: 37 relasi
+  Jakarta Barat: 64 relasi
+  Jakarta Selatan: 75 relasi
+  Jakarta Timur: 76 relasi
+  Kota Bogor: 74 relasi
+  Kabupaten Bogor: 475 relasi
+  Kota Depok: 54 relasi
+  Kota Tangerang: 116 relasi
+  ulang batas_id_7641584_bbox.json (1): HTTP Error 429: Too Many Requests
+  ulang batas_7641584_bbox_20.json (1): HTTP Error 429: Too Many Requests
+  ulang batas_7641584_bbox_20.json (2): HTTP Error 429: Too Many Requests
+  ulang batas_7641584_bbox_20.json (3): HTTP Error 504: Gateway Timeout
+  ulang batas_7641584_bbox_40.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_7641584_bbox_60.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_7641584_bbox_60.json (2): HTTP Error 504: Gateway Timeout
+  ulang batas_7641584_bbox_60.json (3): HTTP Error 504: Gateway Timeout
+  ulang batas_7641584_bbox_60.json (4): HTTP Error 504: Gateway Timeout
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh batas_7641584_bbox_60.json
+  ulang batas_7641584_bbox_60.json (1): HTTP Error 500: Internal Server Error
+  ulang batas_7641584_bbox_60.json (2): HTTP Error 500: Internal Server Error
+  ulang batas_7641584_bbox_60.json (3): HTTP Error 500: Internal Server Error
+  ulang batas_7641584_bbox_60.json (4): HTTP Error 500: Internal Server Error
+  https://overpass.private.coffee/api/interpreter gagal: Gagal mengunduh batas_7641584_bbox_60.json
+  ulang batas_7641584_bbox_60.json (1): HTTP Error 504: Gateway Time-out
+  ulang batas_7641584_bbox_80.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_7641584_bbox_80.json (2): HTTP Error 504: Gateway Timeout
+  ulang batas_7641584_bbox_80.json (3): HTTP Error 504: Gateway Timeout
+  ulang batas_7641584_bbox_80.json (4): HTTP Error 504: Gateway Timeout
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh batas_7641584_bbox_80.json
+  ulang batas_7641584_bbox_80.json (1): HTTP Error 500: Internal Server Error
+  ulang batas_7641584_bbox_80.json (2): HTTP Error 500: Internal Server Error
+  ulang batas_7641584_bbox_120.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_7641584_bbox_120.json (2): HTTP Error 504: Gateway Timeout
+  ulang batas_7641584_bbox_120.json (3): HTTP Error 504: Gateway Timeout
+  ulang batas_7641584_bbox_120.json (4): HTTP Error 504: Gateway Timeout
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh batas_7641584_bbox_120.json
+  ulang batas_7641584_bbox_120.json (1): HTTP Error 500: Internal Server Error
+  ulang batas_7641584_bbox_120.json (2): HTTP Error 500: Internal Server Error
+  ulang batas_7641584_bbox_120.json (3): HTTP Error 500: Internal Server Error
+  ulang batas_7641584_bbox_120.json (4): HTTP Error 500: Internal Server Error
+  https://overpass.private.coffee/api/interpreter gagal: Gagal mengunduh batas_7641584_bbox_120.json
+  ulang batas_7641584_bbox_160.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_7641584_bbox_220.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_7641584_bbox_220.json (2): HTTP Error 504: Gateway Timeout
+  ulang batas_7641584_bbox_220.json (3): HTTP Error 504: Gateway Timeout
+  ulang batas_7641584_bbox_240.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_7641584_bbox_240.json (2): HTTP Error 504: Gateway Timeout
+  ulang batas_7641584_bbox_260.json (1): HTTP Error 504: Gateway Timeout
+  Kabupaten Tangerang: 271 relasi
+  Kota Tangerang Selatan: 60 relasi
+  ulang batas_id_14509733_bbox.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_14509733_bbox_0.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_14509733_bbox_0.json (2): HTTP Error 504: Gateway Timeout
+  ulang batas_14509733_bbox_0.json (3): HTTP Error 504: Gateway Timeout
+  ulang batas_14509733_bbox_0.json (4): HTTP Error 504: Gateway Timeout
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh batas_14509733_bbox_0.json
+  ulang batas_14509733_bbox_0.json (1): HTTP Error 500: Internal Server Error
+  ulang batas_14509733_bbox_0.json (2): HTTP Error 500: Internal Server Error
+  ulang batas_14509733_bbox_0.json (3): HTTP Error 500: Internal Server Error
+  ulang batas_14509733_bbox_0.json (4): HTTP Error 500: Internal Server Error
+  https://overpass.private.coffee/api/interpreter gagal: Gagal mengunduh batas_14509733_bbox_0.json
+  ulang batas_14509733_bbox_20.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_14509733_bbox_20.json (2): HTTP Error 504: Gateway Timeout
+  Kota Bekasi: 55 relasi
+  ulang batas_14765575_bbox_40.json (1): HTTP Error 504: Gateway Timeout
+  ulang batas_14765575_bbox_40.json (2): HTTP Error 504: Gateway Timeout
+  ulang batas_14765575_bbox_40.json (3): HTTP Error 504: Gateway Timeout
+  ulang batas_14765575_bbox_60.json (1): HTTP Error 504: Gateway Timeout
+  Kabupaten Bekasi: 61 relasi
+  kelurahan: 1010
+Ekosistem (OSM)...
+  ulang poi_7625977.json (1): HTTP Error 504: Gateway Timeout
+  ulang poi_7625977.json (2): HTTP Error 504: Gateway Timeout
+  ulang poi_7626001.json (1): HTTP Error 504: Gateway Timeout
+  ulang poi_7626001.json (2): HTTP Error 504: Gateway Timeout
+  ulang poi_14762112.json (1): HTTP Error 504: Gateway Timeout
+  ulang poi_7641583.json (1): HTTP Error 429: Too Many Requests
+  ulang poi_7641583.json (2): HTTP Error 429: Too Many Requests
+  ulang poi_7641584_bbox.json (1): HTTP Error 504: Gateway Timeout
+  ulang poi_7641582.json (1): HTTP Error 504: Gateway Timeout
+  ulang poi_7641582.json (2): HTTP Error 504: Gateway Timeout
+  ulang poi_14765575_bbox.json (1): HTTP Error 504: Gateway Timeout
+  ulang rth_7626002.json (1): HTTP Error 504: Gateway Timeout
+  ulang rth_7626002.json (2): HTTP Error 504: Gateway Timeout
+  ulang rth_7626002.json (3): HTTP Error 504: Gateway Timeout
+  ulang rth_7626002.json (4): HTTP Error 504: Gateway Timeout
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh rth_7626002.json
+  ulang rth_7626002.json (1): HTTP Error 500: Internal Server Error
+  ulang rth_7626002.json (2): HTTP Error 500: Internal Server Error
+  ulang rth_7626002.json (3): HTTP Error 500: Internal Server Error
+  ulang rth_7626002.json (4): HTTP Error 500: Internal Server Error
+  https://overpass.private.coffee/api/interpreter gagal: Gagal mengunduh rth_7626002.json
+  ulang rth_5802438.json (1): HTTP Error 504: Gateway Timeout
+  ulang rth_5802441.json (1): HTTP Error 504: Gateway Timeout
+  ulang rth_5802441.json (2): HTTP Error 504: Gateway Timeout
+  ulang rth_14745927.json (1): HTTP Error 504: Gateway Timeout
+  ulang rth_14745927.json (2): HTTP Error 504: Gateway Timeout
+  ulang rth_14745927.json (3): HTTP Error 504: Gateway Timeout
+  ulang rth_14745927.json (4): HTTP Error 504: Gateway Timeout
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh rth_14745927.json
+  ulang rth_14745927.json (1): HTTP Error 500: Internal Server Error
+  ulang rth_14745927.json (2): HTTP Error 500: Internal Server Error
+  ulang rth_14745927.json (3): HTTP Error 500: Internal Server Error
+  ulang rth_14745927.json (4): HTTP Error 500: Internal Server Error
+  https://overpass.private.coffee/api/interpreter gagal: Gagal mengunduh rth_14745927.json
+  ulang rth_14745927.json (1): HTTP Error 504: Gateway Time-out
+  ulang rth_7641583.json (1): HTTP Error 504: Gateway Timeout
+  ulang rth_7641583.json (2): HTTP Error 504: Gateway Timeout
+  ulang rth_7641583.json (3): HTTP Error 504: Gateway Timeout
+  ulang rth_7641583.json (4): HTTP Error 504: Gateway Timeout
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh rth_7641583.json
+  ulang rth_7641583.json (1): HTTP Error 500: Internal Server Error
+  ulang rth_7641583.json (2): HTTP Error 500: Internal Server Error
+  ulang rth_7641583.json (3): HTTP Error 500: Internal Server Error
+  ulang rth_7641583.json (4): HTTP Error 500: Internal Server Error
+  https://overpass.private.coffee/api/interpreter gagal: Gagal mengunduh rth_7641583.json
+  ulang rth_7641583.json (1): HTTP Error 504: Gateway Timeout
+  ulang rth_7641583.json (2): HTTP Error 504: Gateway Time-out
+  ulang rth_7641583.json (3): HTTP Error 504: Gateway Time-out
+  ulang rth_7641583.json (4): HTTP Error 504: Gateway Time-out
+  https://maps.mail.ru/osm/tools/overpass/api/interpreter gagal: Gagal mengunduh rth_7641583.json
+Traceback (most recent call last):
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 398, in <module>
+    simpan_fitur('ekosistem', ekosistem)
+             ^^^^^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 386, in main
+    'geometry', ST_AsGeoJSON(geom, 6)::json)
+            ^^^^^^^^^^^^^^^^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 207, in tarik_ekosistem
+    DELETE FROM tarik.kel WHERE kota IS NULL;
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 101, in per_wilayah
+    for e in overpass(kueri, f'{nama}_{rid}{akhiran}.json'):
+             ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 76, in overpass
+    raise RuntimeError(f'Overpass gagal untuk {nama}: {terakhir}')
+RuntimeError: Overpass gagal untuk rth_7641583.json: Gagal mengunduh rth_7641583.json
+putaran B1 gagal, tunggu
+=== putaran B2 ===
+Batas administrasi (OSM)...
+  Jakarta Pusat: 52 relasi
+  Jakarta Utara: 37 relasi
+  Jakarta Barat: 64 relasi
+  Jakarta Selatan: 75 relasi
+  Jakarta Timur: 76 relasi
+  Kota Bogor: 74 relasi
+  Kabupaten Bogor: 475 relasi
+  Kota Depok: 54 relasi
+  Kota Tangerang: 116 relasi
+  Kabupaten Tangerang: 271 relasi
+  Kota Tangerang Selatan: 60 relasi
+  Kota Bekasi: 55 relasi
+  Kabupaten Bekasi: 61 relasi
+  wilayah: kecamatan 24, kelurahan 1010
+Ekosistem (OSM)...
+  ulang rth_7641584_bbox.json (1): HTTP Error 504: Gateway Timeout
+  ulang rth_7641584_bbox.json (2): HTTP Error 504: Gateway Timeout
+  ulang rth_7641584_bbox.json (3): HTTP Error 504: Gateway Timeout
+  ulang rth_7641584_bbox.json (4): HTTP Error 504: Gateway Timeout
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh rth_7641584_bbox.json
+  ulang rth_7641584_bbox.json (1): HTTP Error 500: Internal Server Error
+  ulang rth_7641584_bbox.json (2): HTTP Error 500: Internal Server Error
+  ulang rth_14509733_bbox.json (1): HTTP Error 504: Gateway Timeout
+  ulang rth_14509733_bbox.json (2): HTTP Error 504: Gateway Timeout
+  ulang rth_14765575_bbox.json (1): HTTP Error 504: Gateway Timeout
+  ulang rth_14765575_bbox.json (2): HTTP Error 504: Gateway Timeout
+  ulang rth_14765575_bbox.json (3): HTTP Error 504: Gateway Timeout
+Inklusivitas (OSM)...
+  ulang akses_7626002.json (1): HTTP Error 504: Gateway Timeout
+  ulang akses_7626002.json (2): HTTP Error 504: Gateway Timeout
+  ulang akses_7626002.json (3): HTTP Error 504: Gateway Timeout
+  ulang akses_5802438.json (1): HTTP Error 504: Gateway Timeout
+  ulang akses_7641583.json (1): HTTP Error 504: Gateway Timeout
+  ulang akses_7641583.json (2): HTTP Error 504: Gateway Timeout
+  ulang akses_7641583.json (3): HTTP Error 504: Gateway Timeout
+  ulang akses_7641584_bbox.json (1): HTTP Error 504: Gateway Timeout
+  ulang akses_7641584_bbox.json (2): HTTP Error 504: Gateway Timeout
+  ulang trotoar_7625977.json (1): HTTP Error 504: Gateway Timeout
+  ulang trotoar_7625977.json (2): HTTP Error 504: Gateway Timeout
+  ulang trotoar_7625977.json (3): HTTP Error 504: Gateway Timeout
+  ulang trotoar_7626001.json (1): HTTP Error 504: Gateway Timeout
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://overpass.private.coffee/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://maps.mail.ru/osm/tools/overpass/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+Traceback (most recent call last):
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 407, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 396, in main
+    inklusivitas = tarik_inklusivitas()
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 239, in tarik_inklusivitas
+    trotoar = per_wilayah('way(area.j)["footway"="sidewalk"];out geom tags;', 'trotoar')
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 101, in per_wilayah
+    for e in overpass(kueri, f'{nama}_{rid}{akhiran}.json'):
+             ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 76, in overpass
+    raise RuntimeError(f'Overpass gagal untuk {nama}: {terakhir}')
+RuntimeError: Overpass gagal untuk trotoar_7626001.json: Gagal mengunduh trotoar_7626001.json
+putaran B2 gagal, tunggu
+=== putaran B3 ===
+Batas administrasi (OSM)...
+  Jakarta Pusat: 52 relasi
+  Jakarta Utara: 37 relasi
+  Jakarta Barat: 64 relasi
+  Jakarta Selatan: 75 relasi
+  Jakarta Timur: 76 relasi
+  Kota Bogor: 74 relasi
+  Kabupaten Bogor: 475 relasi
+  Kota Depok: 54 relasi
+  Kota Tangerang: 116 relasi
+  Kabupaten Tangerang: 271 relasi
+  Kota Tangerang Selatan: 60 relasi
+  Kota Bekasi: 55 relasi
+  Kabupaten Bekasi: 61 relasi
+  wilayah: kecamatan 24, kelurahan 1010
+Ekosistem (OSM)...
+Inklusivitas (OSM)...
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://overpass.private.coffee/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://maps.mail.ru/osm/tools/overpass/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+Traceback (most recent call last):
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 407, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 396, in main
+    inklusivitas = tarik_inklusivitas()
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 239, in tarik_inklusivitas
+    trotoar = per_wilayah('way(area.j)["footway"="sidewalk"];out geom tags;', 'trotoar')
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 101, in per_wilayah
+    for e in overpass(kueri, f'{nama}_{rid}{akhiran}.json'):
+             ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 76, in overpass
+    raise RuntimeError(f'Overpass gagal untuk {nama}: {terakhir}')
+RuntimeError: Overpass gagal untuk trotoar_7626001.json: Gagal mengunduh trotoar_7626001.json
+putaran B3 gagal, tunggu
+=== putaran B4 ===
+Batas administrasi (OSM)...
+  Jakarta Pusat: 52 relasi
+  Jakarta Utara: 37 relasi
+  Jakarta Barat: 64 relasi
+  Jakarta Selatan: 75 relasi
+  Jakarta Timur: 76 relasi
+  Kota Bogor: 74 relasi
+  Kabupaten Bogor: 475 relasi
+  Kota Depok: 54 relasi
+  Kota Tangerang: 116 relasi
+  Kabupaten Tangerang: 271 relasi
+  Kota Tangerang Selatan: 60 relasi
+  Kota Bekasi: 55 relasi
+  Kabupaten Bekasi: 61 relasi
+  wilayah: kecamatan 24, kelurahan 1010
+Ekosistem (OSM)...
+Inklusivitas (OSM)...
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://overpass.private.coffee/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://maps.mail.ru/osm/tools/overpass/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+Traceback (most recent call last):
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 407, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 396, in main
+    inklusivitas = tarik_inklusivitas()
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 239, in tarik_inklusivitas
+    trotoar = per_wilayah('way(area.j)["footway"="sidewalk"];out geom tags;', 'trotoar')
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 101, in per_wilayah
+    for e in overpass(kueri, f'{nama}_{rid}{akhiran}.json'):
+             ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 76, in overpass
+    raise RuntimeError(f'Overpass gagal untuk {nama}: {terakhir}')
+RuntimeError: Overpass gagal untuk trotoar_7626001.json: Gagal mengunduh trotoar_7626001.json
+putaran B4 gagal, tunggu
+=== putaran B5 ===
+Batas administrasi (OSM)...
+  Jakarta Pusat: 52 relasi
+  Jakarta Utara: 37 relasi
+  Jakarta Barat: 64 relasi
+  Jakarta Selatan: 75 relasi
+  Jakarta Timur: 76 relasi
+  Kota Bogor: 74 relasi
+  Kabupaten Bogor: 475 relasi
+  Kota Depok: 54 relasi
+  Kota Tangerang: 116 relasi
+  Kabupaten Tangerang: 271 relasi
+  Kota Tangerang Selatan: 60 relasi
+  Kota Bekasi: 55 relasi
+  Kabupaten Bekasi: 61 relasi
+  wilayah: kecamatan 24, kelurahan 1010
+Ekosistem (OSM)...
+Inklusivitas (OSM)...
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://overpass.private.coffee/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://maps.mail.ru/osm/tools/overpass/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+Traceback (most recent call last):
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 407, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 396, in main
+    inklusivitas = tarik_inklusivitas()
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 239, in tarik_inklusivitas
+    trotoar = per_wilayah('way(area.j)["footway"="sidewalk"];out geom tags;', 'trotoar')
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 101, in per_wilayah
+    for e in overpass(kueri, f'{nama}_{rid}{akhiran}.json'):
+             ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 76, in overpass
+    raise RuntimeError(f'Overpass gagal untuk {nama}: {terakhir}')
+RuntimeError: Overpass gagal untuk trotoar_7626001.json: Gagal mengunduh trotoar_7626001.json
+putaran B5 gagal, tunggu
+=== putaran B6 ===
+Batas administrasi (OSM)...
+  Jakarta Pusat: 52 relasi
+  Jakarta Utara: 37 relasi
+  Jakarta Barat: 64 relasi
+  Jakarta Selatan: 75 relasi
+  Jakarta Timur: 76 relasi
+  Kota Bogor: 74 relasi
+  Kabupaten Bogor: 475 relasi
+  Kota Depok: 54 relasi
+  Kota Tangerang: 116 relasi
+  Kabupaten Tangerang: 271 relasi
+  Kota Tangerang Selatan: 60 relasi
+  Kota Bekasi: 55 relasi
+  Kabupaten Bekasi: 61 relasi
+  wilayah: kecamatan 24, kelurahan 1010
+Ekosistem (OSM)...
+Inklusivitas (OSM)...
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://overpass.private.coffee/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://maps.mail.ru/osm/tools/overpass/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+Traceback (most recent call last):
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 407, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 396, in main
+    inklusivitas = tarik_inklusivitas()
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 239, in tarik_inklusivitas
+    trotoar = per_wilayah('way(area.j)["footway"="sidewalk"];out geom tags;', 'trotoar')
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 101, in per_wilayah
+    for e in overpass(kueri, f'{nama}_{rid}{akhiran}.json'):
+             ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 76, in overpass
+    raise RuntimeError(f'Overpass gagal untuk {nama}: {terakhir}')
+RuntimeError: Overpass gagal untuk trotoar_7626001.json: Gagal mengunduh trotoar_7626001.json
+putaran B6 gagal, tunggu
+=== putaran B7 ===
+Batas administrasi (OSM)...
+  Jakarta Pusat: 52 relasi
+  Jakarta Utara: 37 relasi
+  Jakarta Barat: 64 relasi
+  Jakarta Selatan: 75 relasi
+  Jakarta Timur: 76 relasi
+  Kota Bogor: 74 relasi
+  Kabupaten Bogor: 475 relasi
+  Kota Depok: 54 relasi
+  Kota Tangerang: 116 relasi
+  Kabupaten Tangerang: 271 relasi
+  Kota Tangerang Selatan: 60 relasi
+  Kota Bekasi: 55 relasi
+  Kabupaten Bekasi: 61 relasi
+  wilayah: kecamatan 24, kelurahan 1010
+Ekosistem (OSM)...
+Inklusivitas (OSM)...
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://overpass.private.coffee/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://maps.mail.ru/osm/tools/overpass/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+Traceback (most recent call last):
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 407, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 396, in main
+    inklusivitas = tarik_inklusivitas()
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 239, in tarik_inklusivitas
+    trotoar = per_wilayah('way(area.j)["footway"="sidewalk"];out geom tags;', 'trotoar')
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 101, in per_wilayah
+    for e in overpass(kueri, f'{nama}_{rid}{akhiran}.json'):
+             ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 76, in overpass
+    raise RuntimeError(f'Overpass gagal untuk {nama}: {terakhir}')
+RuntimeError: Overpass gagal untuk trotoar_7626001.json: Gagal mengunduh trotoar_7626001.json
+putaran B7 gagal, tunggu
+=== putaran B8 ===
+Batas administrasi (OSM)...
+  Jakarta Pusat: 52 relasi
+  Jakarta Utara: 37 relasi
+  Jakarta Barat: 64 relasi
+  Jakarta Selatan: 75 relasi
+  Jakarta Timur: 76 relasi
+  Kota Bogor: 74 relasi
+  Kabupaten Bogor: 475 relasi
+  Kota Depok: 54 relasi
+  Kota Tangerang: 116 relasi
+  Kabupaten Tangerang: 271 relasi
+  Kota Tangerang Selatan: 60 relasi
+  Kota Bekasi: 55 relasi
+  Kabupaten Bekasi: 61 relasi
+  wilayah: kecamatan 24, kelurahan 1010
+Ekosistem (OSM)...
+Inklusivitas (OSM)...
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://overpass.private.coffee/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://maps.mail.ru/osm/tools/overpass/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+Traceback (most recent call last):
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 407, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 396, in main
+    inklusivitas = tarik_inklusivitas()
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 239, in tarik_inklusivitas
+    trotoar = per_wilayah('way(area.j)["footway"="sidewalk"];out geom tags;', 'trotoar')
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 101, in per_wilayah
+    for e in overpass(kueri, f'{nama}_{rid}{akhiran}.json'):
+             ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 76, in overpass
+    raise RuntimeError(f'Overpass gagal untuk {nama}: {terakhir}')
+RuntimeError: Overpass gagal untuk trotoar_7626001.json: Gagal mengunduh trotoar_7626001.json
+putaran B8 gagal, tunggu
+=== putaran B9 ===
+Batas administrasi (OSM)...
+  Jakarta Pusat: 52 relasi
+  Jakarta Utara: 37 relasi
+  Jakarta Barat: 64 relasi
+  Jakarta Selatan: 75 relasi
+  Jakarta Timur: 76 relasi
+  Kota Bogor: 74 relasi
+  Kabupaten Bogor: 475 relasi
+  Kota Depok: 54 relasi
+  Kota Tangerang: 116 relasi
+  Kabupaten Tangerang: 271 relasi
+  Kota Tangerang Selatan: 60 relasi
+  Kota Bekasi: 55 relasi
+  Kabupaten Bekasi: 61 relasi
+  wilayah: kecamatan 24, kelurahan 1010
+Ekosistem (OSM)...
+Inklusivitas (OSM)...
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://overpass.private.coffee/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://maps.mail.ru/osm/tools/overpass/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+Traceback (most recent call last):
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 407, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 396, in main
+    inklusivitas = tarik_inklusivitas()
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 239, in tarik_inklusivitas
+    trotoar = per_wilayah('way(area.j)["footway"="sidewalk"];out geom tags;', 'trotoar')
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 101, in per_wilayah
+    for e in overpass(kueri, f'{nama}_{rid}{akhiran}.json'):
+             ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 76, in overpass
+    raise RuntimeError(f'Overpass gagal untuk {nama}: {terakhir}')
+RuntimeError: Overpass gagal untuk trotoar_7626001.json: Gagal mengunduh trotoar_7626001.json
+putaran B9 gagal, tunggu
+=== putaran B10 ===
+Batas administrasi (OSM)...
+  Jakarta Pusat: 52 relasi
+  Jakarta Utara: 37 relasi
+  Jakarta Barat: 64 relasi
+  Jakarta Selatan: 75 relasi
+  Jakarta Timur: 76 relasi
+  Kota Bogor: 74 relasi
+  Kabupaten Bogor: 475 relasi
+  Kota Depok: 54 relasi
+  Kota Tangerang: 116 relasi
+  Kabupaten Tangerang: 271 relasi
+  Kota Tangerang Selatan: 60 relasi
+  Kota Bekasi: 55 relasi
+  Kabupaten Bekasi: 61 relasi
+  wilayah: kecamatan 24, kelurahan 1010
+Ekosistem (OSM)...
+Inklusivitas (OSM)...
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://overpass.private.coffee/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://maps.mail.ru/osm/tools/overpass/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+Traceback (most recent call last):
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 407, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 396, in main
+    inklusivitas = tarik_inklusivitas()
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 239, in tarik_inklusivitas
+    trotoar = per_wilayah('way(area.j)["footway"="sidewalk"];out geom tags;', 'trotoar')
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 101, in per_wilayah
+    for e in overpass(kueri, f'{nama}_{rid}{akhiran}.json'):
+             ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 76, in overpass
+    raise RuntimeError(f'Overpass gagal untuk {nama}: {terakhir}')
+RuntimeError: Overpass gagal untuk trotoar_7626001.json: Gagal mengunduh trotoar_7626001.json
+putaran B10 gagal, tunggu
+=== putaran B11 ===
+Batas administrasi (OSM)...
+  Jakarta Pusat: 52 relasi
+  Jakarta Utara: 37 relasi
+  Jakarta Barat: 64 relasi
+  Jakarta Selatan: 75 relasi
+  Jakarta Timur: 76 relasi
+  Kota Bogor: 74 relasi
+  Kabupaten Bogor: 475 relasi
+  Kota Depok: 54 relasi
+  Kota Tangerang: 116 relasi
+  Kabupaten Tangerang: 271 relasi
+  Kota Tangerang Selatan: 60 relasi
+  Kota Bekasi: 55 relasi
+  Kabupaten Bekasi: 61 relasi
+  wilayah: kecamatan 24, kelurahan 1010
+Ekosistem (OSM)...
+Inklusivitas (OSM)...
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://overpass.private.coffee/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://maps.mail.ru/osm/tools/overpass/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+Traceback (most recent call last):
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 407, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 396, in main
+    inklusivitas = tarik_inklusivitas()
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 239, in tarik_inklusivitas
+    trotoar = per_wilayah('way(area.j)["footway"="sidewalk"];out geom tags;', 'trotoar')
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 101, in per_wilayah
+    for e in overpass(kueri, f'{nama}_{rid}{akhiran}.json'):
+             ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 76, in overpass
+    raise RuntimeError(f'Overpass gagal untuk {nama}: {terakhir}')
+RuntimeError: Overpass gagal untuk trotoar_7626001.json: Gagal mengunduh trotoar_7626001.json
+putaran B11 gagal, tunggu
+=== putaran B12 ===
+Batas administrasi (OSM)...
+  Jakarta Pusat: 52 relasi
+  Jakarta Utara: 37 relasi
+  Jakarta Barat: 64 relasi
+  Jakarta Selatan: 75 relasi
+  Jakarta Timur: 76 relasi
+  Kota Bogor: 74 relasi
+  Kabupaten Bogor: 475 relasi
+  Kota Depok: 54 relasi
+  Kota Tangerang: 116 relasi
+  Kabupaten Tangerang: 271 relasi
+  Kota Tangerang Selatan: 60 relasi
+  Kota Bekasi: 55 relasi
+  Kabupaten Bekasi: 61 relasi
+  wilayah: kecamatan 24, kelurahan 1010
+Ekosistem (OSM)...
+Inklusivitas (OSM)...
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://overpass.private.coffee/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://maps.mail.ru/osm/tools/overpass/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+Traceback (most recent call last):
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 407, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 396, in main
+    inklusivitas = tarik_inklusivitas()
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 239, in tarik_inklusivitas
+    trotoar = per_wilayah('way(area.j)["footway"="sidewalk"];out geom tags;', 'trotoar')
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 101, in per_wilayah
+    for e in overpass(kueri, f'{nama}_{rid}{akhiran}.json'):
+             ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 76, in overpass
+    raise RuntimeError(f'Overpass gagal untuk {nama}: {terakhir}')
+RuntimeError: Overpass gagal untuk trotoar_7626001.json: Gagal mengunduh trotoar_7626001.json
+putaran B12 gagal, tunggu
+=== putaran B13 ===
+Batas administrasi (OSM)...
+  Jakarta Pusat: 52 relasi
+  Jakarta Utara: 37 relasi
+  Jakarta Barat: 64 relasi
+  Jakarta Selatan: 75 relasi
+  Jakarta Timur: 76 relasi
+  Kota Bogor: 74 relasi
+  Kabupaten Bogor: 475 relasi
+  Kota Depok: 54 relasi
+  Kota Tangerang: 116 relasi
+  Kabupaten Tangerang: 271 relasi
+  Kota Tangerang Selatan: 60 relasi
+  Kota Bekasi: 55 relasi
+  Kabupaten Bekasi: 61 relasi
+  wilayah: kecamatan 24, kelurahan 1010
+Ekosistem (OSM)...
+Inklusivitas (OSM)...
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://overpass.private.coffee/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://maps.mail.ru/osm/tools/overpass/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+Traceback (most recent call last):
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 407, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 396, in main
+    inklusivitas = tarik_inklusivitas()
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 239, in tarik_inklusivitas
+    trotoar = per_wilayah('way(area.j)["footway"="sidewalk"];out geom tags;', 'trotoar')
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 101, in per_wilayah
+    for e in overpass(kueri, f'{nama}_{rid}{akhiran}.json'):
+             ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 76, in overpass
+    raise RuntimeError(f'Overpass gagal untuk {nama}: {terakhir}')
+RuntimeError: Overpass gagal untuk trotoar_7626001.json: Gagal mengunduh trotoar_7626001.json
+putaran B13 gagal, tunggu
+=== putaran B14 ===
+Batas administrasi (OSM)...
+  Jakarta Pusat: 52 relasi
+  Jakarta Utara: 37 relasi
+  Jakarta Barat: 64 relasi
+  Jakarta Selatan: 75 relasi
+  Jakarta Timur: 76 relasi
+  Kota Bogor: 74 relasi
+  Kabupaten Bogor: 475 relasi
+  Kota Depok: 54 relasi
+  Kota Tangerang: 116 relasi
+  Kabupaten Tangerang: 271 relasi
+  Kota Tangerang Selatan: 60 relasi
+  Kota Bekasi: 55 relasi
+  Kabupaten Bekasi: 61 relasi
+  wilayah: kecamatan 24, kelurahan 1010
+Ekosistem (OSM)...
+Inklusivitas (OSM)...
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://overpass.private.coffee/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://maps.mail.ru/osm/tools/overpass/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+Traceback (most recent call last):
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 407, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 396, in main
+    inklusivitas = tarik_inklusivitas()
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 239, in tarik_inklusivitas
+    trotoar = per_wilayah('way(area.j)["footway"="sidewalk"];out geom tags;', 'trotoar')
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 101, in per_wilayah
+    for e in overpass(kueri, f'{nama}_{rid}{akhiran}.json'):
+             ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 76, in overpass
+    raise RuntimeError(f'Overpass gagal untuk {nama}: {terakhir}')
+RuntimeError: Overpass gagal untuk trotoar_7626001.json: Gagal mengunduh trotoar_7626001.json
+putaran B14 gagal, tunggu
+=== putaran B15 ===
+Batas administrasi (OSM)...
+  Jakarta Pusat: 52 relasi
+  Jakarta Utara: 37 relasi
+  Jakarta Barat: 64 relasi
+  Jakarta Selatan: 75 relasi
+  Jakarta Timur: 76 relasi
+  Kota Bogor: 74 relasi
+  Kabupaten Bogor: 475 relasi
+  Kota Depok: 54 relasi
+  Kota Tangerang: 116 relasi
+  Kabupaten Tangerang: 271 relasi
+  Kota Tangerang Selatan: 60 relasi
+  Kota Bekasi: 55 relasi
+  Kabupaten Bekasi: 61 relasi
+  wilayah: kecamatan 24, kelurahan 1010
+Ekosistem (OSM)...
+Inklusivitas (OSM)...
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://overpass.private.coffee/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+  ulang trotoar_7626001.json (1): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (2): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (3): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  ulang trotoar_7626001.json (4): <urlopen error [SSL: UNEXPECTED_EOF_WHILE_READING] EOF occurred in violation of protocol (_ssl.c:1020)>
+  https://maps.mail.ru/osm/tools/overpass/api/interpreter gagal: Gagal mengunduh trotoar_7626001.json
+Traceback (most recent call last):
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 407, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 396, in main
+    inklusivitas = tarik_inklusivitas()
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 239, in tarik_inklusivitas
+    trotoar = per_wilayah('way(area.j)["footway"="sidewalk"];out geom tags;', 'trotoar')
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 101, in per_wilayah
+    for e in overpass(kueri, f'{nama}_{rid}{akhiran}.json'):
+             ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 76, in overpass
+    raise RuntimeError(f'Overpass gagal untuk {nama}: {terakhir}')
+RuntimeError: Overpass gagal untuk trotoar_7626001.json: Gagal mengunduh trotoar_7626001.json
+putaran B15 gagal, tunggu
+=== putaran C1 ===
+Batas administrasi (OSM)...
+  Jakarta Pusat: 52 relasi
+  Jakarta Utara: 37 relasi
+  Jakarta Barat: 64 relasi
+  Jakarta Selatan: 75 relasi
+  Jakarta Timur: 76 relasi
+  Kota Bogor: 74 relasi
+  Kabupaten Bogor: 475 relasi
+  Kota Depok: 54 relasi
+  Kota Tangerang: 116 relasi
+  Kabupaten Tangerang: 271 relasi
+  Kota Tangerang Selatan: 60 relasi
+  Kota Bekasi: 55 relasi
+  Kabupaten Bekasi: 61 relasi
+  wilayah: kecamatan 24, kelurahan 1010
+Ekosistem (OSM)...
+Inklusivitas (OSM)...
+  ulang trotoar_5802441.json (1): HTTP Error 429: Too Many Requests
+  ulang trotoar_14745927.json (1): HTTP Error 504: Gateway Timeout
+  ulang trotoar_14762112.json (1): HTTP Error 504: Gateway Timeout
+  ulang trotoar_14525364.json (1): HTTP Error 504: Gateway Timeout
+  ulang trotoar_14525364.json (2): HTTP Error 504: Gateway Timeout
+  ulang trotoar_14525364.json (3): HTTP Error 504: Gateway Timeout
+  ulang trotoar_14525364.json (4): HTTP Error 504: Gateway Timeout
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh trotoar_14525364.json
+  ulang trotoar_14525364.json (1): HTTP Error 500: Internal Server Error
+  ulang trotoar_7641584_bbox.json (1): HTTP Error 504: Gateway Timeout
+  ulang trotoar_7641582.json (1): HTTP Error 504: Gateway Timeout
+  ulang trotoar_14765575_bbox.json (1): HTTP Error 504: Gateway Timeout
+Mobilitas (OSM + Commute Data API + Biskita)...
+  ulang rel_rute_7626001.json (1): HTTP Error 504: Gateway Timeout
+  ulang rel_rute_14745927.json (1): HTTP Error 504: Gateway Timeout
+  ulang rel_rute_14525364.json (1): HTTP Error 504: Gateway Timeout
+  ulang rel_rute_14525364.json (2): HTTP Error 504: Gateway Timeout
+  ulang rel_rute_7641583.json (1): HTTP Error 504: Gateway Timeout
+  ulang rel_rute_7641582.json (1): HTTP Error 504: Gateway Timeout
+  ulang rel_rute_14765575_bbox.json (1): HTTP Error 504: Gateway Timeout
+  ulang rel_ways_7625977.json (1): HTTP Error 504: Gateway Timeout
+  ulang rel_ways_7625977.json (2): HTTP Error 504: Gateway Timeout
+  ulang rel_ways_7625977.json (3): HTTP Error 504: Gateway Timeout
+  ulang rel_ways_7626002.json (1): HTTP Error 504: Gateway Timeout
+  ulang rel_ways_14745927.json (1): HTTP Error 504: Gateway Timeout
+  ulang rel_ways_14762112.json (1): HTTP Error 504: Gateway Timeout
+  ulang rel_ways_14525364.json (1): HTTP Error 504: Gateway Timeout
+  ulang rel_ways_14525364.json (2): HTTP Error 504: Gateway Timeout
+  ulang rel_ways_14509733_bbox.json (1): HTTP Error 504: Gateway Timeout
+  ulang rel_ways_14765575_bbox.json (1): HTTP Error 504: Gateway Timeout
+  ulang tol_7625977.json (1): HTTP Error 504: Gateway Timeout
+  ulang tol_7625977.json (2): HTTP Error 504: Gateway Timeout
+  ulang tol_7625977.json (3): HTTP Error 504: Gateway Timeout
+  ulang tol_7625977.json (4): HTTP Error 504: Gateway Timeout
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh tol_7625977.json
+  ulang tol_7625977.json (1): HTTP Error 500: Internal Server Error
+  ulang tol_7625977.json (2): HTTP Error 500: Internal Server Error
+  ulang tol_7625977.json (3): HTTP Error 500: Internal Server Error
+  ulang tol_7625977.json (4): HTTP Error 500: Internal Server Error
+  https://overpass.private.coffee/api/interpreter gagal: Gagal mengunduh tol_7625977.json
+  ulang tol_7626002.json (1): HTTP Error 504: Gateway Timeout
+  ulang tol_7626001.json (1): HTTP Error 504: Gateway Timeout
+  ulang tol_7626001.json (2): HTTP Error 504: Gateway Timeout
+  ulang tol_7626001.json (3): HTTP Error 504: Gateway Timeout
+  ulang tol_5802441.json (1): HTTP Error 504: Gateway Timeout
+  ulang tol_5802441.json (2): HTTP Error 504: Gateway Timeout
+  ulang tol_5802441.json (3): HTTP Error 504: Gateway Timeout
+  ulang tol_14762112.json (1): HTTP Error 504: Gateway Timeout
+  ulang tol_7641583.json (1): HTTP Error 504: Gateway Timeout
+  ulang tol_7641584_bbox.json (1): HTTP Error 504: Gateway Timeout
+  ulang tol_7641584_bbox.json (2): HTTP Error 504: Gateway Timeout
+  ulang tol_7641584_bbox.json (3): HTTP Error 504: Gateway Timeout
+  ulang tol_7641584_bbox.json (4): HTTP Error 504: Gateway Timeout
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh tol_7641584_bbox.json
+  ulang tol_14765575_bbox.json (1): HTTP Error 504: Gateway Timeout
+  ulang tol_14765575_bbox.json (2): HTTP Error 504: Gateway Timeout
+  ulang tol_14765575_bbox.json (3): HTTP Error 504: Gateway Timeout
+  halte Biskita: 146
+Traceback (most recent call last):
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 407, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 397, in main
+    mobilitas = tarik_mobilitas()
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 319, in tarik_mobilitas
+    hasil.append(fitur({'type': 'Point', 'coordinates': titik(e)}, layer_id='mobilitas', jenis='tol', nama=e.get('tags', {}).get('name'), sumber='OSM', atribut={}))
+                                                        ~~~~~^^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 121, in titik
+    return [round(e['lon'], 6), round(e['lat'], 6)]
+                  ~^^^^^^^
+KeyError: 'lon'
+putaran C1 gagal, tunggu
+=== putaran C2 ===
+Batas administrasi (OSM)...
+  Jakarta Pusat: 52 relasi
+  Jakarta Utara: 37 relasi
+  Jakarta Barat: 64 relasi
+  Jakarta Selatan: 75 relasi
+  Jakarta Timur: 76 relasi
+  Kota Bogor: 74 relasi
+  Kabupaten Bogor: 475 relasi
+  Kota Depok: 54 relasi
+  Kota Tangerang: 116 relasi
+  Kabupaten Tangerang: 271 relasi
+  Kota Tangerang Selatan: 60 relasi
+  Kota Bekasi: 55 relasi
+  Kabupaten Bekasi: 61 relasi
+  wilayah: kecamatan 24, kelurahan 1010
+Ekosistem (OSM)...
+Inklusivitas (OSM)...
+Mobilitas (OSM + Commute Data API + Biskita)...
+  ulang tol_7626002.json (1): HTTP Error 504: Gateway Timeout
+  ulang tol_7626002.json (2): HTTP Error 504: Gateway Timeout
+  ulang tol_7626002.json (3): HTTP Error 504: Gateway Timeout
+  ulang tol_7626002.json (4): HTTP Error 504: Gateway Timeout
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh tol_7626002.json
+  ulang tol_7626002.json (1): HTTP Error 500: Internal Server Error
+  ulang tol_7626002.json (2): HTTP Error 500: Internal Server Error
+  ulang tol_7626002.json (3): HTTP Error 500: Internal Server Error
+  ulang tol_7626002.json (4): HTTP Error 500: Internal Server Error
+  https://overpass.private.coffee/api/interpreter gagal: Gagal mengunduh tol_7626002.json
+  ulang tol_7626002.json (1): HTTP Error 504: Gateway Time-out
+  ulang tol_7626002.json (2): HTTP Error 504: Gateway Time-out
+  ulang tol_7626002.json (3): HTTP Error 504: Gateway Time-out
+  ulang tol_7626001.json (1): HTTP Error 504: Gateway Timeout
+  ulang tol_7626001.json (2): HTTP Error 504: Gateway Timeout
+  ulang tol_7626001.json (3): HTTP Error 504: Gateway Timeout
+  ulang tol_7626001.json (4): HTTP Error 504: Gateway Timeout
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh tol_7626001.json
+  ulang tol_7626001.json (1): HTTP Error 500: Internal Server Error
+  ulang tol_7626001.json (2): HTTP Error 500: Internal Server Error
+  ulang tol_5802438.json (1): HTTP Error 504: Gateway Timeout
+  ulang tol_14745927.json (1): HTTP Error 504: Gateway Timeout
+  ulang tol_14745927.json (2): HTTP Error 504: Gateway Timeout
+  ulang tol_14525364.json (1): HTTP Error 504: Gateway Timeout
+  ulang tol_14525364.json (2): HTTP Error 504: Gateway Timeout
+  ulang tol_14525364.json (3): HTTP Error 504: Gateway Timeout
+  ulang tol_14525364.json (4): HTTP Error 504: Gateway Timeout
+  https://overpass-api.de/api/interpreter gagal: Gagal mengunduh tol_14525364.json
+  ulang tol_14525364.json (1): HTTP Error 500: Internal Server Error
+  ulang tol_7641583.json (1): HTTP Error 504: Gateway Timeout
+  ulang tol_7641583.json (2): HTTP Error 504: Gateway Timeout
+  ulang tol_7641583.json (3): HTTP Error 504: Gateway Timeout
+  ulang tol_7641582.json (1): HTTP Error 504: Gateway Timeout
+  ulang tol_7641582.json (2): HTTP Error 504: Gateway Timeout
+  ulang tol_7641582.json (3): HTTP Error 504: Gateway Timeout
+  ulang tol_14765575_bbox.json (1): HTTP Error 504: Gateway Timeout
+  ulang tol_14765575_bbox.json (2): HTTP Error 504: Gateway Timeout
+  ulang tol_14765575_bbox.json (3): HTTP Error 504: Gateway Timeout
+  halte Biskita: 146
+  data/geojson/demo/fitur/ekosistem.geojson: 13916 fitur, 5598 KB
+  data/geojson/demo/fitur/inklusivitas.geojson: 1508 fitur, 407 KB
+  data/geojson/demo/fitur/mobilitas.geojson: 2105 fitur, 716 KB
+Wilayah...
+Traceback (most recent call last):
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 407, in <module>
+    sys.exit(main())
+             ~~~~^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 401, in main
+    ekspor_wilayah()
+    ~~~~~~~~~~~~~~^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 368, in ekspor_wilayah
+    ekspor("""
+    ~~~~~~^^^^
+      WITH h AS (
+      ^^^^^^^^^^^
+    ...<17 lines>...
+      FROM h ORDER BY kota, kecamatan, nama;
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    """, f'{KELUAR}/wilayah.geojson')
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 150, in ekspor
+    baris = [json.loads(l) for l in psql(sql).splitlines() if l.strip()]
+                                    ~~~~^^^^^
+  File "C:\laragon\www\NalarRuang\data\scripts\tarik_data.py", line 134, in psql
+    raise RuntimeError(r.stderr)
+RuntimeError: ERROR:  lwgeom_intersection_prec: GEOS Error: TopologyException: side location conflict at 106.51066928361237 -6.3900585606291278. This can occur if the input geometry is invalid.
+
+putaran C2 gagal, tunggu
+=== putaran C3 ===
+Batas administrasi (OSM)...
+  Jakarta Pusat: 52 relasi
+  Jakarta Utara: 37 relasi
+  Jakarta Barat: 64 relasi
+  Jakarta Selatan: 75 relasi
+  Jakarta Timur: 76 relasi
+  Kota Bogor: 74 relasi
+  Kabupaten Bogor: 475 relasi
+  Kota Depok: 54 relasi
+  Kota Tangerang: 116 relasi
+  Kabupaten Tangerang: 271 relasi
+  Kota Tangerang Selatan: 60 relasi
+  Kota Bekasi: 55 relasi
+  Kabupaten Bekasi: 61 relasi
+  wilayah: kecamatan 24, kelurahan 1010
+Ekosistem (OSM)...
+Inklusivitas (OSM)...
+Mobilitas (OSM + Commute Data API + Biskita)...
+  halte Biskita: 146
+  data/geojson/demo/fitur/ekosistem.geojson: 13916 fitur, 5598 KB
+  data/geojson/demo/fitur/inklusivitas.geojson: 1508 fitur, 407 KB
+  data/geojson/demo/fitur/mobilitas.geojson: 2105 fitur, 716 KB
+Wilayah...
+  data/geojson/demo/wilayah.geojson: 1034 fitur, 3170 KB
+Selesai. Muat ke basis data: php artisan db:seed --class=DemoPetaSeeder --force
+SELESAI-OK

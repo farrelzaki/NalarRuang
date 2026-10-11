@@ -1,0 +1,7 @@
+{"width":1280,"height":720,"langkah":[
+{"buka":"http://127.0.0.1:8000/peta?persona=commuter","tunggu":7000},
+{"foto":"j0-awal.png"},
+{"klik":[190,40]},{"ketik":"dekat stasiun di Jakarta"},{"enter":true,"tunggu":15000},
+{"js":"({img: document.querySelectorAll('img.leaflet-tile').length, loaded: document.querySelectorAll('img.leaflet-tile-loaded').length, tp: getComputedStyle(document.querySelector('.leaflet-tile-pane')).opacity})"},
+{"foto":"j0-cari.png"}
+]}

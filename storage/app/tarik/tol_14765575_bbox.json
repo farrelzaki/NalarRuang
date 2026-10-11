@@ -1,0 +1,584 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-09T06:26:21Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 506082248,
+  "lat": -6.2506897,
+  "lon": 106.9871402,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 610975432,
+  "lat": -6.2830808,
+  "lon": 107.0751928,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Cibitung 3"
+  }
+},
+{
+  "type": "node",
+  "id": 692713390,
+  "lat": -6.3127388,
+  "lon": 107.1371542,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Cikarang Barat 1"
+  }
+},
+{
+  "type": "node",
+  "id": 692713400,
+  "lat": -6.3114833,
+  "lon": 107.1400248,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Cikarang Barat 4"
+  }
+},
+{
+  "type": "node",
+  "id": 1275831194,
+  "lat": -6.2524732,
+  "lon": 106.9879357,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Bekasi Barat 2"
+  }
+},
+{
+  "type": "node",
+  "id": 1287572858,
+  "lat": -6.3119048,
+  "lon": 107.1360406,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Cikarang Barat 3"
+  }
+},
+{
+  "type": "node",
+  "id": 1343038373,
+  "lat": -6.3322114,
+  "lon": 107.1621674,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Cibatu"
+  }
+},
+{
+  "type": "node",
+  "id": 1782507201,
+  "lat": -6.3118298,
+  "lon": 107.1368043,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Cikarang Barat 2"
+  }
+},
+{
+  "type": "node",
+  "id": 1782518028,
+  "lat": -6.3417884,
+  "lon": 107.1856681,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Cikarang Timur"
+  }
+},
+{
+  "type": "node",
+  "id": 1782538968,
+  "lat": -6.2635156,
+  "lon": 107.0158643,
+  "tags": {
+    "barrier": "toll_booth",
+    "lanes": "3",
+    "name": "Gerbang Tol Bekasi Timur 2"
+  }
+},
+{
+  "type": "node",
+  "id": 1805963174,
+  "lat": -6.3459205,
+  "lon": 107.2695860,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Karawang Barat"
+  }
+},
+{
+  "type": "node",
+  "id": 1809304020,
+  "lat": -6.3458552,
+  "lon": 107.2693881,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Karawang Barat"
+  }
+},
+{
+  "type": "node",
+  "id": 2640676992,
+  "lat": -6.2499367,
+  "lon": 106.9844482,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang tol Bekasi Barat 3"
+  }
+},
+{
+  "type": "node",
+  "id": 3255085214,
+  "lat": -6.2615265,
+  "lon": 107.0168789,
+  "tags": {
+    "barrier": "toll_booth",
+    "lanes": "3",
+    "name": "Gerbang Tol Bekasi Timur 1",
+    "payment:cards": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3339413051,
+  "lat": -6.2785673,
+  "lon": 107.0516585,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Tambun"
+  }
+},
+{
+  "type": "node",
+  "id": 3339413052,
+  "lat": -6.2783899,
+  "lon": 107.0515846,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Tambun"
+  }
+},
+{
+  "type": "node",
+  "id": 4181738311,
+  "lat": -6.3519184,
+  "lon": 107.2668436,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Karawang Barat 2"
+  }
+},
+{
+  "type": "node",
+  "id": 4181738312,
+  "lat": -6.3528056,
+  "lon": 107.2666029,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Karawang Barat 2"
+  }
+},
+{
+  "type": "node",
+  "id": 4181746097,
+  "lat": -6.3322506,
+  "lon": 107.1623386,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Cibatu",
+    "name:id": "gerbang tol cibatu"
+  }
+},
+{
+  "type": "node",
+  "id": 5933690811,
+  "lat": -6.3135164,
+  "lon": 107.1357295,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Cikarang Barat 5"
+  }
+},
+{
+  "type": "node",
+  "id": 6307439514,
+  "lat": -6.2859876,
+  "lon": 107.0854047,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Cibitung 2"
+  }
+},
+{
+  "type": "node",
+  "id": 6562745085,
+  "lat": -6.2993649,
+  "lon": 107.1244826,
+  "tags": {
+    "barrier": "toll_booth",
+    "currency:IDR": "yes",
+    "name": "Cikarang Utara",
+    "operator": "raisakhoiriana"
+  }
+},
+{
+  "type": "node",
+  "id": 6562745086,
+  "lat": -6.2992157,
+  "lon": 107.1243085,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Cikarang Utara",
+    "operator": "raisakhoiriana"
+  }
+},
+{
+  "type": "node",
+  "id": 6745049914,
+  "lat": -6.2500164,
+  "lon": 106.9900346,
+  "tags": {
+    "barrier": "toll_booth",
+    "lanes": "2",
+    "name": "Gerbang Tol Bekasi Barat 1"
+  }
+},
+{
+  "type": "node",
+  "id": 6777179698,
+  "lat": -6.2497628,
+  "lon": 106.9903541,
+  "tags": {
+    "barrier": "toll_booth",
+    "lanes": "4",
+    "name": "Gerbang Tol Bekasi Barat 1"
+  }
+},
+{
+  "type": "node",
+  "id": 6819113738,
+  "lat": -6.2784617,
+  "lon": 107.0516099,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Tambun"
+  }
+},
+{
+  "type": "node",
+  "id": 6993924668,
+  "lat": -6.3780915,
+  "lon": 106.9713688,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Narogong"
+  }
+},
+{
+  "type": "node",
+  "id": 6993924672,
+  "lat": -6.3780151,
+  "lon": 106.9713176,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Narogong"
+  }
+},
+{
+  "type": "node",
+  "id": 7298175595,
+  "lat": -6.2862580,
+  "lon": 107.0799420,
+  "tags": {
+    "alt_name": "gerbang tol cibitung 7",
+    "barrier": "toll_booth",
+    "name": "Cibitung 7"
+  }
+},
+{
+  "type": "node",
+  "id": 7985419338,
+  "lat": -6.3105678,
+  "lon": 107.0698454,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Setu Utara 1"
+  }
+},
+{
+  "type": "node",
+  "id": 7985419357,
+  "lat": -6.3104811,
+  "lon": 107.0697811,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Setu Utara 1"
+  }
+},
+{
+  "type": "node",
+  "id": 8005033970,
+  "lat": -6.1080188,
+  "lon": 106.9910222,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Tarumajaya"
+  }
+},
+{
+  "type": "node",
+  "id": 8005033982,
+  "lat": -6.1079530,
+  "lon": 106.9910897,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Tarumajaya"
+  }
+},
+{
+  "type": "node",
+  "id": 8073716306,
+  "lat": -6.2871881,
+  "lon": 107.0834237,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Cibitung 1"
+  }
+},
+{
+  "type": "node",
+  "id": 8073716348,
+  "lat": -6.2855244,
+  "lon": 107.0811232,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Cibitung 4"
+  }
+},
+{
+  "type": "node",
+  "id": 8389001160,
+  "lat": -6.2863721,
+  "lon": 107.0807445,
+  "tags": {
+    "alt_name": "gerbang tol cibitung 2",
+    "barrier": "toll_booth",
+    "name": "Cibitung 8"
+  }
+},
+{
+  "type": "node",
+  "id": 8972051734,
+  "lat": -6.2692894,
+  "lon": 107.0969174,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Telaga Asih"
+  }
+},
+{
+  "type": "node",
+  "id": 8972051735,
+  "lat": -6.2693265,
+  "lon": 107.0967085,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Telaga Asih"
+  }
+},
+{
+  "type": "node",
+  "id": 9771208913,
+  "lat": -6.1867061,
+  "lon": 107.0685332,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Gabus"
+  }
+},
+{
+  "type": "node",
+  "id": 9771208914,
+  "lat": -6.1866249,
+  "lon": 107.0684705,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Gabus"
+  }
+},
+{
+  "type": "node",
+  "id": 9823155590,
+  "lat": -6.2860243,
+  "lon": 107.0845973,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Cibitung 6"
+  }
+},
+{
+  "type": "node",
+  "id": 9937690473,
+  "lat": -6.2475967,
+  "lon": 106.9969748,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Margajaya 1"
+  }
+},
+{
+  "type": "node",
+  "id": 9937690474,
+  "lat": -6.2475899,
+  "lon": 106.9968620,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Margajaya 2"
+  }
+},
+{
+  "type": "node",
+  "id": 10025788992,
+  "lat": -6.3418058,
+  "lon": 107.1855138,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Cikarang Timur"
+  }
+},
+{
+  "type": "node",
+  "id": 10027701328,
+  "lat": -6.3321831,
+  "lon": 107.1619952,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Cibatu"
+  }
+},
+{
+  "type": "node",
+  "id": 10779790046,
+  "lat": -6.1164294,
+  "lon": 106.9771953,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Marunda"
+  }
+},
+{
+  "type": "node",
+  "id": 10779790047,
+  "lat": -6.1162989,
+  "lon": 106.9771652,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Marunda"
+  }
+},
+{
+  "type": "node",
+  "id": 11203192152,
+  "lat": -6.3906264,
+  "lon": 107.0972073,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Sukaragam"
+  }
+},
+{
+  "type": "node",
+  "id": 11203192179,
+  "lat": -6.3907224,
+  "lon": 107.0972653,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Sukaragam"
+  }
+},
+{
+  "type": "node",
+  "id": 11407662935,
+  "lat": -6.3056780,
+  "lon": 107.0744451,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Setu Utara 2"
+  }
+},
+{
+  "type": "node",
+  "id": 11407662936,
+  "lat": -6.3056298,
+  "lon": 107.0743683,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Setu Utara 2"
+  }
+},
+{
+  "type": "node",
+  "id": 11622008626,
+  "lat": -6.3498348,
+  "lon": 107.0266620,
+  "tags": {
+    "barrier": "toll_booth",
+    "currency:IDR": "yes",
+    "name": "Gerbang Tol Burangkeng"
+  }
+},
+{
+  "type": "node",
+  "id": 11622008627,
+  "lat": -6.3497466,
+  "lon": 107.0266195,
+  "tags": {
+    "barrier": "toll_booth",
+    "currency:IDR": "yes",
+    "name": "Gerbang Tol Burangkeng"
+  }
+},
+{
+  "type": "node",
+  "id": 11757690629,
+  "lat": -6.4244589,
+  "lon": 107.1940021,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Bojongmangu"
+  }
+},
+{
+  "type": "node",
+  "id": 11757690630,
+  "lat": -6.4245293,
+  "lon": 107.1939722,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Bojongmangu"
+  }
+},
+{
+  "type": "node",
+  "id": 12045493830,
+  "lat": -6.2876456,
+  "lon": 107.0831193,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "GT Cibitung 5"
+  }
+}
+
+  ]
+}

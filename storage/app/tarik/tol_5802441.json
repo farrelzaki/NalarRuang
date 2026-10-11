@@ -1,0 +1,489 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-09T06:05:54Z",
+    "timestamp_areas_base": "2026-10-08T05:09:19Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 196783740,
+  "lat": -6.2463685,
+  "lon": 106.8873842,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Halim"
+  }
+},
+{
+  "type": "node",
+  "id": 309484691,
+  "lat": -6.2871032,
+  "lon": 106.8782549,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Toll Gate Ramp Taman Mini 1"
+  }
+},
+{
+  "type": "node",
+  "id": 309497126,
+  "lat": -6.2873722,
+  "lon": 106.8775927,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Toll Gate Ramp Taman Mini 2"
+  }
+},
+{
+  "type": "node",
+  "id": 309498666,
+  "lat": -6.3101963,
+  "lon": 106.8847672,
+  "tags": {
+    "barrier": "toll_booth",
+    "destination": "Jalan Tol Lingkar Luar Jakarta, Jalan Tol Jakarta-Serpong, Jalan Tol Jakarta-Cikampek",
+    "name": "Pasar Rebo",
+    "ref": "8"
+  }
+},
+{
+  "type": "node",
+  "id": 309511905,
+  "lat": -6.3102060,
+  "lon": 106.9009219,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Bambu Apus 1"
+  }
+},
+{
+  "type": "node",
+  "id": 316771427,
+  "lat": -6.1871189,
+  "lon": 106.9384149,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Cakung 1"
+  }
+},
+{
+  "type": "node",
+  "id": 317192401,
+  "lat": -6.2243676,
+  "lon": 106.8749302,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Pedati"
+  }
+},
+{
+  "type": "node",
+  "id": 321964977,
+  "lat": -6.3657844,
+  "lon": 106.8950485,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Toll Gate Cibubur 1"
+  }
+},
+{
+  "type": "node",
+  "id": 1345564971,
+  "lat": -6.2563368,
+  "lon": 106.9081360,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Toll Gate Pondok Gede Barat 2"
+  }
+},
+{
+  "type": "node",
+  "id": 1782539140,
+  "lat": -6.3122188,
+  "lon": 106.9103765,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Setu"
+  }
+},
+{
+  "type": "node",
+  "id": 2041988404,
+  "lat": -6.3080474,
+  "lon": 106.8688937,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gedong 1",
+    "ref": "30"
+  }
+},
+{
+  "type": "node",
+  "id": 2041992852,
+  "lat": -6.3071894,
+  "lon": 106.8777604,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Kampung Rambutan",
+    "ref": "32"
+  }
+},
+{
+  "type": "node",
+  "id": 3596790127,
+  "lat": -6.3056804,
+  "lon": 106.8618672,
+  "tags": {
+    "barrier": "toll_booth",
+    "destination": "Tol Jakarta Serpong",
+    "name": "Gedong 2",
+    "ref": "30"
+  }
+},
+{
+  "type": "node",
+  "id": 3723635040,
+  "lat": -6.2014730,
+  "lon": 106.8734238,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Rawamangun"
+  }
+},
+{
+  "type": "node",
+  "id": 3723635071,
+  "lat": -6.2102456,
+  "lon": 106.8737605,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Jatinegara"
+  }
+},
+{
+  "type": "node",
+  "id": 3732689858,
+  "lat": -6.1780712,
+  "lon": 106.9432448,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Cakung 2"
+  }
+},
+{
+  "type": "node",
+  "id": 3855856827,
+  "lat": -6.3044502,
+  "lon": 106.8835554,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Toll Gate Dukuh 2"
+  }
+},
+{
+  "type": "node",
+  "id": 4152867177,
+  "lat": -6.2354332,
+  "lon": 106.8771151,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Kebon Nanas"
+  }
+},
+{
+  "type": "node",
+  "id": 4750088535,
+  "lat": -6.3016330,
+  "lon": 106.8834903,
+  "tags": {
+    "barrier": "toll_booth",
+    "destination": "Jalan Tol Lingkar Luar Jakarta, Jalan Tol Jakarta-Serpong, Jalan Tol Jakarta-Cikampek",
+    "name": "Dukuh",
+    "ref": "7"
+  }
+},
+{
+  "type": "node",
+  "id": 5005077711,
+  "lat": -6.2555419,
+  "lon": 106.9077884,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 5925872024,
+  "lat": -6.2130390,
+  "lon": 106.9518945,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 5933397933,
+  "lat": -6.3075559,
+  "lon": 106.8955937,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Bambu Apus 2"
+  }
+},
+{
+  "type": "node",
+  "id": 6427038033,
+  "lat": -6.2486839,
+  "lon": 106.9335267,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Pondok Kelapa 1"
+  }
+},
+{
+  "type": "node",
+  "id": 6427334529,
+  "lat": -6.1722463,
+  "lon": 106.8771806,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Toll Gate Cempaka Putih"
+  }
+},
+{
+  "type": "node",
+  "id": 6427636434,
+  "lat": -6.3024539,
+  "lon": 106.8830265,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Dukuh 2",
+    "ref": "7"
+  }
+},
+{
+  "type": "node",
+  "id": 6429527221,
+  "lat": -6.3073300,
+  "lon": 106.8772423,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 6429542482,
+  "lat": -6.3056724,
+  "lon": 106.8614363,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 6429646755,
+  "lat": -6.2998486,
+  "lon": 106.8831539,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 6429646756,
+  "lat": -6.3022766,
+  "lon": 106.8836381,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 6429905985,
+  "lat": -6.2451469,
+  "lon": 106.8890328,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Toll Gate Halim Utama"
+  }
+},
+{
+  "type": "node",
+  "id": 6429920183,
+  "lat": -6.2670476,
+  "lon": 106.8729231,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Toll Gate Cililitan"
+  }
+},
+{
+  "type": "node",
+  "id": 6437565719,
+  "lat": -6.2484410,
+  "lon": 106.9260050,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Toll Gate Pondok Kelapa 2"
+  }
+},
+{
+  "type": "node",
+  "id": 6734611137,
+  "lat": -6.2484900,
+  "lon": 106.9265400,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Toll Gate Pondok Kelapa 2"
+  }
+},
+{
+  "type": "node",
+  "id": 7009841205,
+  "lat": -6.2486276,
+  "lon": 106.9330263,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Pondok Kelapa 1"
+  }
+},
+{
+  "type": "node",
+  "id": 7633508624,
+  "lat": -6.3108024,
+  "lon": 106.8848934,
+  "tags": {
+    "barrier": "toll_booth",
+    "destination": "Jalan Tol Lingkar Luar Jakarta, Jalan Tol Jakarta-Serpong, Jalan Tol Jakarta-Cikampek",
+    "name": "Pasar Rebo",
+    "ref": "8"
+  }
+},
+{
+  "type": "node",
+  "id": 7633508787,
+  "lat": -6.3095347,
+  "lon": 106.8847189,
+  "tags": {
+    "barrier": "toll_booth",
+    "destination": "Jalan Tol Lingkar Luar Jakarta, Jalan Tol Jakarta-Serpong, Jalan Tol Jakarta-Cikampek",
+    "name": "Pasar Rebo",
+    "ref": "8"
+  }
+},
+{
+  "type": "node",
+  "id": 7735131946,
+  "lat": -6.2660553,
+  "lon": 106.8727189,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Cililitan 2"
+  }
+},
+{
+  "type": "node",
+  "id": 7737808731,
+  "lat": -6.3652783,
+  "lon": 106.8942652,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 8132773397,
+  "lat": -6.2272015,
+  "lon": 106.8750229,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Pisangan"
+  }
+},
+{
+  "type": "node",
+  "id": 8956339735,
+  "lat": -6.1839898,
+  "lon": 106.9376617,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Cakung"
+  }
+},
+{
+  "type": "node",
+  "id": 8956339736,
+  "lat": -6.1839346,
+  "lon": 106.9406908,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Bekasi Raya"
+  }
+},
+{
+  "type": "node",
+  "id": 10090564509,
+  "lat": -6.3628565,
+  "lon": 106.8937773,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 10711282484,
+  "lat": -6.2461040,
+  "lon": 106.9041726,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Jatiwaringin 2"
+  }
+},
+{
+  "type": "node",
+  "id": 11246220884,
+  "lat": -6.2447088,
+  "lon": 106.8884572,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang tol Halim 3"
+  }
+},
+{
+  "type": "node",
+  "id": 11259282204,
+  "lat": -6.2447693,
+  "lon": 106.8884871,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "GT Halim 3"
+  }
+},
+{
+  "type": "node",
+  "id": 11479397422,
+  "lat": -6.2454620,
+  "lon": 106.9037524,
+  "tags": {
+    "barrier": "toll_booth",
+    "fee": "yes",
+    "name": "Gerbang Tol Jatiwaringin 1"
+  }
+},
+{
+  "type": "node",
+  "id": 12245893816,
+  "lat": -6.1872203,
+  "lon": 106.9383236,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Cakung 1"
+  }
+}
+
+  ]
+}

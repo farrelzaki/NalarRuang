@@ -1,0 +1,2606 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-08T18:39:36Z",
+    "timestamp_areas_base": "2026-10-07T07:59:59Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 972186784,
+  "lat": -6.2646617,
+  "lon": 106.7843092,
+  "tags": {
+    "addr:city": "South Jakarta",
+    "addr:street": "Jalan Metro Pondok Indah",
+    "amenity": "cinema",
+    "branch": "PIM 1",
+    "brand": "Cinema XXI",
+    "brand:wikidata": "Q4630986",
+    "ele": "2",
+    "name": "XXI",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "screen": "6",
+    "short_name": "XXI",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 1708442915,
+  "lat": -6.2274971,
+  "lon": 106.8256943,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "french",
+    "name": "Loewy",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 2063493247,
+  "lat": -6.3483498,
+  "lon": 106.8297711,
+  "tags": {
+    "bench": "yes",
+    "bus": "yes",
+    "highway": "bus_stop",
+    "name": "Asrama UI",
+    "public_transport": "platform",
+    "shelter": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 2063528168,
+  "lat": -6.3485275,
+  "lon": 106.8293467,
+  "tags": {
+    "amenity": "bicycle_rental",
+    "capacity": "20",
+    "name": "Shelter Asrama",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3415431328,
+  "lat": -6.2383774,
+  "lon": 106.7831893,
+  "tags": {
+    "bus": "yes",
+    "name": "Kebayoran",
+    "network": "Transjakarta",
+    "old_name": "Pasar Kebayoran Lama",
+    "operator": "Transjakarta",
+    "public_transport": "stop_position",
+    "ref": "8-7",
+    "shelter": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3415431355,
+  "lat": -6.3057626,
+  "lon": 106.8190175,
+  "tags": {
+    "amenity": "bus_station",
+    "bus": "yes",
+    "departures_board": "realtime",
+    "highway": "bus_stop",
+    "name": "Ragunan",
+    "network": "Transjakarta",
+    "network:wikidata": "Q1671143",
+    "operator": "Transjakarta",
+    "public_transport": "platform",
+    "ref": "6-1",
+    "route_ref": "6;6A;6B;6V",
+    "service": "Transjakarta",
+    "shelter": "yes",
+    "wheelchair": "yes",
+    "wikidata": "Q19944133",
+    "wikipedia": "id:Halte Transjakarta Ragunan"
+  }
+},
+{
+  "type": "node",
+  "id": 4245714333,
+  "lat": -6.2452177,
+  "lon": 106.7830538,
+  "tags": {
+    "addr:city": "South Jakarta",
+    "addr:postcode": "12240",
+    "addr:street": "Sultan Iskandar Muda",
+    "brand": "Sheraton",
+    "brand:wikidata": "Q634831",
+    "check_date": "2023-10-11",
+    "internet_access": "wlan",
+    "internet_access:fee": "customers",
+    "name": "Sheraton Grand Jakarta Gandaria City Hotel",
+    "payment:cash": "yes",
+    "payment:gpn_debit": "yes",
+    "payment:gpn_qris": "yes",
+    "payment:mastercard": "yes",
+    "payment:visa": "yes",
+    "rooms": "293",
+    "tourism": "hotel",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4683365743,
+  "lat": -6.2242180,
+  "lon": 106.8229358,
+  "tags": {
+    "name": "Ranch Market",
+    "organic": "only",
+    "shop": "supermarket",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5008616541,
+  "lat": -6.2272329,
+  "lon": 106.8244357,
+  "tags": {
+    "addr:city": "Setiabudi, South Jakarta",
+    "door": "yes",
+    "entrance": "main",
+    "level": "0",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5160469522,
+  "lat": -6.3116282,
+  "lon": 106.8173314,
+  "tags": {
+    "amenity": "school",
+    "name": "Yayasan Ayah Bunda Cintaku",
+    "operator": "Yayasan Ayah Bunda Cintaku",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5988924716,
+  "lat": -6.2444061,
+  "lon": 106.7830258,
+  "tags": {
+    "check_date": "2023-10-11",
+    "disused:amenity": "cafe",
+    "name": "North Pole Cafe",
+    "tourism": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6088036886,
+  "lat": -6.2516247,
+  "lon": 106.8614465,
+  "tags": {
+    "amenity": "pharmacy",
+    "healthcare": "pharmacy",
+    "name": "Century",
+    "payment:coins": "yes",
+    "payment:gpn_debit": "yes",
+    "payment:maestro": "yes",
+    "payment:mastercard": "yes",
+    "payment:notes": "yes",
+    "payment:ovo": "yes",
+    "payment:visa": "yes",
+    "payment:visa_debit": "yes",
+    "payment:visa_electron": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6089948085,
+  "lat": -6.2451776,
+  "lon": 106.7838146,
+  "tags": {
+    "amenity": "bank",
+    "atm": "yes",
+    "brand": "Bank Central Asia",
+    "brand:wikidata": "Q806626",
+    "check_date": "2023-10-11",
+    "drive_through": "no",
+    "name": "Bank Central Asia",
+    "website": "https://bca.co.id",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6249633581,
+  "lat": -6.2415527,
+  "lon": 106.8380523,
+  "tags": {
+    "amenity": "bus_station",
+    "bench": "yes",
+    "bin": "yes",
+    "bus": "yes",
+    "covered": "yes",
+    "departures_board": "realtime",
+    "highway": "bus_stop",
+    "lit": "yes",
+    "name": "Pancoran Arah Timur",
+    "network": "Transjakarta",
+    "network:wikidata": "Q1671143",
+    "old_name": "Pancoran Barat Arah Barat",
+    "operator": "Transjakarta",
+    "public_transport": "platform",
+    "ref": "9-9",
+    "route_ref": "13B;9;9A;9C;9D;M9",
+    "shelter": "yes",
+    "smoking": "no",
+    "type": "public_transport",
+    "wheelchair": "yes",
+    "wikidata": "Q19944036",
+    "wikipedia": "id:Halte Transjakarta Pancoran",
+    "wikipedia:id": "Halte Transjakarta Pancoran"
+  }
+},
+{
+  "type": "node",
+  "id": 6389027549,
+  "lat": -6.2241713,
+  "lon": 106.8233552,
+  "tags": {
+    "name": "Manzone",
+    "shop": "clothes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6393628285,
+  "lat": -6.2246228,
+  "lon": 106.8233627,
+  "tags": {
+    "brand": "Uniqlo",
+    "brand:wikidata": "Q26070",
+    "brand:wikipedia": "en:Uniqlo",
+    "name": "Uniqlo",
+    "name:en": "Uniqlo",
+    "shop": "clothes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6577753463,
+  "lat": -6.2892744,
+  "lon": 106.7749355,
+  "tags": {
+    "alt_name": "Stasiun Lebak Bulus",
+    "name": "Lebak Bulus Bank Syariah Indonesia",
+    "name:th": "เลอบักบูลุซ",
+    "network": "MRT Jakarta",
+    "network:short": "MRTJ",
+    "network:wikidata": "Q3333785",
+    "operator": "MRT Jakarta",
+    "operator:wikidata": "Q3333785",
+    "public_transport": "station",
+    "railway": "station",
+    "railway:ref": "LBB",
+    "station": "subway",
+    "subway": "yes",
+    "wheelchair": "yes",
+    "wikidata": "Q61365057",
+    "wikipedia": "id:Stasiun MRT Lebak Bulus"
+  }
+},
+{
+  "type": "node",
+  "id": 6604464785,
+  "lat": -6.2714155,
+  "lon": 106.7524204,
+  "tags": {
+    "addr:city": "Abbeville",
+    "addr:housenumber": "jakarta raya",
+    "addr:postcode": "15417",
+    "addr:street": "jakarta raya",
+    "leisure": "sports_centre",
+    "name": "Tunaspoker",
+    "toilets:wheelchair": "no",
+    "website": "http://tunaspoker.club/",
+    "wheelchair": "yes",
+    "wheelchair:description": "Situs poker terbaik di Indonesia"
+  }
+},
+{
+  "type": "node",
+  "id": 6718719193,
+  "lat": -6.2660997,
+  "lon": 106.7850823,
+  "tags": {
+    "air_conditioning": "yes",
+    "amenity": "restaurant",
+    "cuisine": "indonesian;noodles",
+    "delivery": "yes",
+    "level": "1",
+    "name": "Mitarik Laiker",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "payment:coins": "yes",
+    "payment:gopay_id": "yes",
+    "payment:linkaja": "yes",
+    "payment:notes": "yes",
+    "payment:ovo": "yes",
+    "payment:yukk": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6718719195,
+  "lat": -6.2661599,
+  "lon": 106.7850605,
+  "tags": {
+    "air_conditioning": "yes",
+    "amenity": "restaurant",
+    "cuisine": "vietnamese",
+    "delivery": "yes",
+    "level": "1",
+    "name": "Do An",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "payment:coins": "yes",
+    "payment:notes": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6718719196,
+  "lat": -6.2660380,
+  "lon": 106.7850800,
+  "tags": {
+    "air_conditioning": "yes",
+    "amenity": "restaurant",
+    "delivery": "yes",
+    "level": "1",
+    "name": "Yong Tau Fu",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "payment:coins": "yes",
+    "payment:notes": "yes",
+    "payment:ovo": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6718719197,
+  "lat": -6.2659903,
+  "lon": 106.7850557,
+  "tags": {
+    "air_conditioning": "yes",
+    "amenity": "cafe",
+    "brand": "Chatime",
+    "brand:en": "Chatime",
+    "brand:wikidata": "Q16829306",
+    "brand:wikipedia": "en:Chatime",
+    "brand:zh": "日出茶太",
+    "cuisine": "bubble_tea",
+    "level": "1",
+    "name": "Chatime",
+    "name:en": "Chatime",
+    "name:zh": "日出茶太",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "payment:coins": "yes",
+    "payment:gopay_id": "yes",
+    "payment:linkaja": "yes",
+    "payment:notes": "yes",
+    "takeaway": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6718719203,
+  "lat": -6.2659462,
+  "lon": 106.7847891,
+  "tags": {
+    "air_conditioning": "yes",
+    "amenity": "restaurant",
+    "cuisine": "japanese",
+    "delivery": "yes",
+    "level": "1",
+    "name": "Ichiban Sushi",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "payment:coins": "yes",
+    "payment:notes": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6718719205,
+  "lat": -6.2662234,
+  "lon": 106.7846288,
+  "tags": {
+    "air_conditioning": "yes",
+    "amenity": "fast_food",
+    "brand": "Dairy Queen",
+    "brand:wikidata": "Q1141226",
+    "brand:wikipedia": "en:Dairy Queen",
+    "cuisine": "ice_cream;burger",
+    "delivery": "yes",
+    "level": "1",
+    "name": "Dairy Queen",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "payment:coins": "yes",
+    "payment:dana": "yes",
+    "payment:linkaja": "yes",
+    "payment:notes": "yes",
+    "takeaway": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6718719209,
+  "lat": -6.2662802,
+  "lon": 106.7846742,
+  "tags": {
+    "air_conditioning": "yes",
+    "amenity": "cafe",
+    "brand": "Quickly",
+    "brand:en": "Quickly",
+    "brand:wikidata": "Q3771463",
+    "brand:wikipedia": "en:Quickly",
+    "brand:zh": "快可立",
+    "cuisine": "bubble_tea",
+    "level": "1",
+    "name": "Quickly",
+    "name:en": "Quickly",
+    "name:zh": "快可立",
+    "takeaway": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6718719210,
+  "lat": -6.2663386,
+  "lon": 106.7847795,
+  "tags": {
+    "air_conditioning": "yes",
+    "amenity": "fast_food",
+    "brand": "Auntie Anne's",
+    "brand:wikidata": "Q4822010",
+    "brand:wikipedia": "en:Auntie Anne's",
+    "cuisine": "pretzel",
+    "drive_through": "no",
+    "level": "1",
+    "name": "Auntie Anne's",
+    "takeaway": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6718719211,
+  "lat": -6.2661250,
+  "lon": 106.7848040,
+  "tags": {
+    "air_conditioning": "yes",
+    "amenity": "ice_cream",
+    "brand": "Cold Stone Creamery",
+    "brand:wikidata": "Q1094923",
+    "brand:wikipedia": "en:Cold Stone Creamery",
+    "cuisine": "ice_cream",
+    "name": "Cold Stone Creamery",
+    "payment:coins": "yes",
+    "payment:linkaja": "yes",
+    "payment:notes": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6718719212,
+  "lat": -6.2660547,
+  "lon": 106.7846905,
+  "tags": {
+    "air_conditioning": "yes",
+    "amenity": "restaurant",
+    "brand": "Yoshinoya",
+    "brand:wikidata": "Q776272",
+    "cuisine": "japanese",
+    "delivery": "yes",
+    "level": "1",
+    "name": "Yoshinoya",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "payment:coins": "yes",
+    "payment:id_linkaja": "yes",
+    "payment:notes": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6718719213,
+  "lat": -6.2662514,
+  "lon": 106.7844278,
+  "tags": {
+    "air_conditioning": "yes",
+    "amenity": "fast_food",
+    "cuisine": "japanese",
+    "drive_through": "no",
+    "level": "1",
+    "name": "Hoka-Hoka Bento",
+    "payment:coins": "yes",
+    "payment:dana": "yes",
+    "payment:gopay_id": "yes",
+    "payment:notes": "yes",
+    "payment:ovo": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6718719214,
+  "lat": -6.2662460,
+  "lon": 106.7845592,
+  "tags": {
+    "air_conditioning": "yes",
+    "amenity": "restaurant",
+    "name": "Chop Buntut Cak Yo",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "payment:coins": "yes",
+    "payment:notes": "yes",
+    "payment:ovo": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6718719215,
+  "lat": -6.2662460,
+  "lon": 106.7844948,
+  "tags": {
+    "brand": "Muji",
+    "brand:en": "Muji",
+    "brand:ja": "無印良品",
+    "brand:wikidata": "Q708789",
+    "brand:wikipedia": "en:Muji",
+    "level": "2",
+    "name": "Muji",
+    "name:en": "Muji",
+    "name:ja": "無印良品",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "shop": "department_store",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6718719216,
+  "lat": -6.2657463,
+  "lon": 106.7842536,
+  "tags": {
+    "brand": "Ace Hardware",
+    "brand:wikidata": "Q4672981",
+    "brand:wikipedia": "en:Ace Hardware",
+    "level": "2",
+    "name": "Ace Hardware",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "payment:coins": "yes",
+    "payment:gopay_id": "yes",
+    "payment:gpn_debit": "yes",
+    "payment:maestro": "yes",
+    "payment:mastercard": "yes",
+    "payment:notes": "yes",
+    "payment:ovo": "yes",
+    "payment:visa": "yes",
+    "payment:visa_debit": "yes",
+    "payment:visa_electron": "yes",
+    "shop": "doityourself",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6718719217,
+  "lat": -6.2659285,
+  "lon": 106.7842561,
+  "tags": {
+    "air_conditioning": "yes",
+    "brand": "Electronic City",
+    "level": "1",
+    "name": "Electronic City",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "payment:aeon_credit": "yes",
+    "payment:coins": "yes",
+    "payment:gopay_id": "yes",
+    "payment:gpn_debit": "yes",
+    "payment:home_credit": "yes",
+    "payment:jcb": "yes",
+    "payment:maestro": "yes",
+    "payment:mastercard": "yes",
+    "payment:notes": "yes",
+    "payment:visa": "yes",
+    "payment:visa_debit": "yes",
+    "payment:visa_electron": "yes",
+    "shop": "electronics",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6718719220,
+  "lat": -6.2659154,
+  "lon": 106.7851198,
+  "tags": {
+    "air_conditioning": "yes",
+    "amenity": "restaurant",
+    "cuisine": "japanese",
+    "level": "2",
+    "name": "Hanamasa",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6718719221,
+  "lat": -6.2659208,
+  "lon": 106.7845967,
+  "tags": {
+    "brand": "Periplus",
+    "level": "1",
+    "name": "Periplus",
+    "shop": "books",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6718719222,
+  "lat": -6.2661234,
+  "lon": 106.7847121,
+  "tags": {
+    "air_conditioning": "yes",
+    "amenity": "cafe",
+    "bar": "yes",
+    "brand": "The Coffee Bean & Tea Leaf",
+    "brand:wikidata": "Q1141384",
+    "brand:wikipedia": "en:The Coffee Bean & Tea Leaf",
+    "cuisine": "coffee_shop",
+    "level": "1",
+    "name": "The Coffee Bean & Tea Leaf",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "payment:coins": "yes",
+    "payment:dana": "yes",
+    "payment:notes": "yes",
+    "takeaway": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6718719224,
+  "lat": -6.2656835,
+  "lon": 106.7848167,
+  "tags": {
+    "air_conditioning": "yes",
+    "level": "1",
+    "name": "Gramedia",
+    "payment:coins": "yes",
+    "payment:ep_flazz": "yes",
+    "payment:ep_mandiri_emoney": "yes",
+    "payment:gopay_id": "yes",
+    "payment:linkaja": "yes",
+    "payment:notes": "yes",
+    "payment:ovo": "yes",
+    "shop": "books",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6718719225,
+  "lat": -6.2657741,
+  "lon": 106.7848167,
+  "tags": {
+    "level": "2",
+    "name": "Planet Sport",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "payment:coins": "yes",
+    "payment:gpn_debit": "yes",
+    "payment:maestro": "yes",
+    "payment:mastercard": "yes",
+    "payment:notes": "yes",
+    "payment:visa": "yes",
+    "payment:visa_debit": "yes",
+    "payment:visa_electron": "yes",
+    "shop": "sports",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6718719226,
+  "lat": -6.2655982,
+  "lon": 106.7848167,
+  "tags": {
+    "level": "0",
+    "name": "HERO",
+    "payment:coins": "yes",
+    "payment:gpn_debit": "yes",
+    "payment:maestro": "yes",
+    "payment:mastercard": "yes",
+    "payment:notes": "yes",
+    "payment:visa": "yes",
+    "payment:visa_debit": "yes",
+    "payment:visa_electron": "yes",
+    "shop": "supermarket",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6718719228,
+  "lat": -6.2643622,
+  "lon": 106.7845611,
+  "tags": {
+    "addr:housename": "Pondok Indah Mall 1",
+    "air_conditioning": "yes",
+    "branch": "Pondok Indah",
+    "brand": "Metro",
+    "brand:wikidata": "Q6824450",
+    "level": "0;1",
+    "name": "Metro",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "operator": "PT. Metropolitan Retailmart",
+    "payment:coins": "yes",
+    "payment:gpn_debit": "yes",
+    "payment:maestro": "yes",
+    "payment:mastercard": "yes",
+    "payment:notes": "yes",
+    "payment:visa": "yes",
+    "payment:visa_contactless": "yes",
+    "payment:visa_debit": "yes",
+    "payment:visa_electron": "yes",
+    "phone": "+62 21 7507018",
+    "ref:vatin": "ID01.353.238.7.062.000",
+    "shop": "department_store",
+    "start_date": "1991-12-12",
+    "website": "https://www.metroindonesia.com",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6718719229,
+  "lat": -6.2647888,
+  "lon": 106.7847096,
+  "tags": {
+    "air_conditioning": "yes",
+    "brand": "Uniqlo",
+    "brand:wikidata": "Q26070",
+    "brand:wikipedia": "en:Uniqlo",
+    "level": "2",
+    "name": "Uniqlo",
+    "payment:coins": "yes",
+    "payment:gpn_debit": "yes",
+    "payment:maestro": "yes",
+    "payment:mastercard": "yes",
+    "payment:notes": "yes",
+    "payment:visa": "yes",
+    "payment:visa_debit": "yes",
+    "payment:visa_electron": "yes",
+    "shop": "clothes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6718719230,
+  "lat": -6.2649292,
+  "lon": 106.7847099,
+  "tags": {
+    "air_conditioning": "yes",
+    "brand": "H&M",
+    "brand:wikidata": "Q188326",
+    "brand:wikipedia": "en:H&M",
+    "level": "0",
+    "name": "H&M",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "payment:coins": "yes",
+    "payment:gpn_debit": "yes",
+    "payment:maestro": "yes",
+    "payment:mastercard": "yes",
+    "payment:notes": "yes",
+    "payment:visa": "yes",
+    "payment:visa_debit": "yes",
+    "payment:visa_electron": "yes",
+    "shop": "clothes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6718719231,
+  "lat": -6.2651200,
+  "lon": 106.7842132,
+  "tags": {
+    "air_conditioning": "yes",
+    "amenity": "restaurant",
+    "brand": "Bakmi GM",
+    "brand:wikidata": "Q25464984",
+    "cuisine": "noodles;indonesian",
+    "level": "2",
+    "name": "Bakmi GM",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "payment:coins": "yes",
+    "payment:dana": "yes",
+    "payment:linkaja": "yes",
+    "payment:notes": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6718719233,
+  "lat": -6.2647977,
+  "lon": 106.7842117,
+  "tags": {
+    "air_conditioning": "yes",
+    "amenity": "cafe",
+    "bar": "yes",
+    "brand": "Starbucks",
+    "brand:wikidata": "Q37158",
+    "brand:wikipedia": "en:Starbucks",
+    "cuisine": "coffee_shop",
+    "internet_access": "wlan",
+    "level": "0",
+    "name": "Starbucks",
+    "official_name": "Starbucks Coffee",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "payment:coins": "yes",
+    "payment:ep_flazz": "yes",
+    "payment:gopay_id": "yes",
+    "payment:notes": "yes",
+    "takeaway": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6718719234,
+  "lat": -6.2658393,
+  "lon": 106.7841867,
+  "tags": {
+    "air_conditioning": "yes",
+    "brand": "Stradivarius",
+    "brand:wikidata": "Q3322945",
+    "brand:wikipedia": "en:Stradivarius (clothing brand)",
+    "clothes": "women",
+    "level": "0",
+    "name": "Stradivarius",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "payment:coins": "yes",
+    "payment:gpn_debit": "yes",
+    "payment:maestro": "yes",
+    "payment:mastercard": "yes",
+    "payment:notes": "yes",
+    "payment:visa": "yes",
+    "payment:visa_debit": "yes",
+    "payment:visa_electron": "yes",
+    "shop": "clothes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6718719235,
+  "lat": -6.2658393,
+  "lon": 106.7842567,
+  "tags": {
+    "air_conditioning": "yes",
+    "brand": "Cotton On",
+    "brand:wikidata": "Q5175717",
+    "clothes": "women",
+    "level": "0",
+    "name": "Cotton On",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "payment:coins": "yes",
+    "payment:gpn_debit": "yes",
+    "payment:maestro": "yes",
+    "payment:mastercard": "yes",
+    "payment:notes": "yes",
+    "payment:visa": "yes",
+    "payment:visa_debit": "yes",
+    "payment:visa_electron": "yes",
+    "shop": "clothes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6923955557,
+  "lat": -6.2666787,
+  "lon": 106.7831965,
+  "tags": {
+    "brand": "Miniso",
+    "brand:wikidata": "Q20732498",
+    "brand:wikipedia": "en:Miniso",
+    "name": "Miniso",
+    "payment:coins": "yes",
+    "payment:gpn_debit": "yes",
+    "payment:maestro": "yes",
+    "payment:mastercard": "yes",
+    "payment:notes": "yes",
+    "payment:ovo": "yes",
+    "payment:visa": "yes",
+    "payment:visa_debit": "yes",
+    "payment:visa_electron": "yes",
+    "shop": "variety_store",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6923955559,
+  "lat": -6.2658539,
+  "lon": 106.7847983,
+  "tags": {
+    "amenity": "atm",
+    "currency:IDR": "yes",
+    "drive_through": "no",
+    "operator": "ATM Center",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6923955560,
+  "lat": -6.2649651,
+  "lon": 106.7848554,
+  "tags": {
+    "amenity": "pharmacy",
+    "brand": "Century",
+    "brand:wikidata": "Q66424280",
+    "dispensing": "yes",
+    "drive_through": "no",
+    "healthcare": "pharmacy",
+    "level": "2",
+    "name": "Century",
+    "payment:coins": "yes",
+    "payment:gpn_debit": "yes",
+    "payment:maestro": "yes",
+    "payment:mastercard": "yes",
+    "payment:notes": "yes",
+    "payment:ovo": "yes",
+    "payment:visa": "yes",
+    "payment:visa_debit": "yes",
+    "payment:visa_electron": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6923955561,
+  "lat": -6.2658452,
+  "lon": 106.7844323,
+  "tags": {
+    "level": "1",
+    "name": "Ciputra Bakery",
+    "payment:coins": "yes",
+    "payment:gopay_id": "yes",
+    "shop": "bakery",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6954192885,
+  "lat": -6.2296160,
+  "lon": 106.8219259,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "name": "Nasi Uduk \"Emak\" Guru Mughni",
+    "opening_hours": "Mo-Fr 11:00-00:00",
+    "outdoor_seating": "no",
+    "takeaway": "only",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7027707285,
+  "lat": -6.2439769,
+  "lon": 106.7835058,
+  "tags": {
+    "addr:postcode": "12240",
+    "addr:street": "Jalan Sultan Iskandar Muda",
+    "amenity": "fast_food",
+    "name": "Smorre Brod",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "phone": "+62 21 2923 6334",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7027707385,
+  "lat": -6.2452249,
+  "lon": 106.7835399,
+  "tags": {
+    "addr:postcode": "12240",
+    "addr:street": "Jalan Sultan Iskandar Muda",
+    "amenity": "restaurant",
+    "cuisine": "sushi",
+    "name": "Sushi Tei",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "website": "https://www.sushitei.com/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7060205195,
+  "lat": -6.2125590,
+  "lon": 106.8302354,
+  "tags": {
+    "access": "private",
+    "barrier": "gate",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7178451816,
+  "lat": -6.2651006,
+  "lon": 106.7846936,
+  "tags": {
+    "amenity": "cafe",
+    "level": "1",
+    "name": "Lokal",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7178451817,
+  "lat": -6.2655053,
+  "lon": 106.7847584,
+  "tags": {
+    "level": "2",
+    "name": "Toys City",
+    "shop": "toys",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7178451818,
+  "lat": -6.2660907,
+  "lon": 106.7843295,
+  "tags": {
+    "amenity": "cafe",
+    "level": "1",
+    "name": "Hop Hop",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "payment:cashbac": "yes",
+    "payment:coins": "yes",
+    "payment:dana": "yes",
+    "payment:dana:gpn_qris": "yes",
+    "payment:gopay_id": "yes",
+    "payment:gpn_qris": "yes",
+    "payment:linkaja": "yes",
+    "payment:notes": "yes",
+    "payment:ovo": "yes",
+    "payment:sakuku": "yes",
+    "payment:sakuku:gpn_qris": "yes",
+    "payment:shopeepay": "yes",
+    "payment:shopeepay:gpn_qris": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7178451820,
+  "lat": -6.2660642,
+  "lon": 106.7842354,
+  "tags": {
+    "amenity": "place_of_worship",
+    "level": "1",
+    "name": "Musholla",
+    "place_of_worship": "musalla",
+    "religion": "muslim",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7178451821,
+  "lat": -6.2659360,
+  "lon": 106.7844389,
+  "tags": {
+    "level": "1",
+    "name": "Le Gourmet",
+    "payment:coins": "yes",
+    "payment:dana": "yes",
+    "payment:dana:gpn_qris": "yes",
+    "payment:gpn_qris": "yes",
+    "payment:linkaja": "yes",
+    "payment:notes": "yes",
+    "payment:ovo": "yes",
+    "shop": "bakery",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7178451822,
+  "lat": -6.2660280,
+  "lon": 106.7843603,
+  "tags": {
+    "level": "1",
+    "name": "Amante",
+    "payment:coins": "yes",
+    "payment:notes": "yes",
+    "payment:ultra_voucher": "yes",
+    "shop": "shoes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7196702711,
+  "lat": -6.2208857,
+  "lon": 106.8333964,
+  "tags": {
+    "addr:housename": "Plaza Festival",
+    "addr:street": "Jalan Hajjah R. Rasuna Said",
+    "level": "1",
+    "name": "Sports Station",
+    "payment:gpn_debit": "yes",
+    "payment:maestro": "yes",
+    "payment:map_club": "yes",
+    "payment:map_voucher": "yes",
+    "payment:mastercard": "yes",
+    "payment:mastercard_debit": "yes",
+    "payment:visa": "yes",
+    "payment:visa_debit": "yes",
+    "payment:visa_electron": "yes",
+    "shop": "sports",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7196702716,
+  "lat": -6.2452375,
+  "lon": 106.7838518,
+  "tags": {
+    "addr:housename": "Gandaria City",
+    "amenity": "restaurant",
+    "cuisine": "chinese",
+    "level": "0",
+    "name": "Fook Yew",
+    "name:en": "福友",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7333022676,
+  "lat": -6.2658214,
+  "lon": 106.7831186,
+  "tags": {
+    "brand": "Hugo Boss",
+    "brand:wikidata": "Q491627",
+    "brand:wikipedia": "en:Hugo Boss",
+    "name": "Hugo Boss",
+    "shop": "clothes",
+    "short_name": "Boss",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7333022677,
+  "lat": -6.2659441,
+  "lon": 106.7831133,
+  "tags": {
+    "brand": "Massimo Dutti",
+    "brand:wikidata": "Q788231",
+    "brand:wikipedia": "en:Massimo Dutti",
+    "name": "Massimo Dutti",
+    "shop": "clothes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7333022680,
+  "lat": -6.2659371,
+  "lon": 106.7828665,
+  "tags": {
+    "addr:city": "South Jakarta",
+    "addr:street": "Jalan Metro Pondok Indah",
+    "amenity": "cinema",
+    "name": "PIM 2 XXI",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "screen": "3",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7333022681,
+  "lat": -6.2656348,
+  "lon": 106.7830542,
+  "tags": {
+    "brand": "Nike",
+    "brand:wikidata": "Q483915",
+    "brand:wikipedia": "en:Nike, Inc.",
+    "name": "Nike",
+    "shop": "clothes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7333022682,
+  "lat": -6.2673185,
+  "lon": 106.7841137,
+  "tags": {
+    "amenity": "ice_cream",
+    "name": "Sour Sally",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7333022684,
+  "lat": -6.2672545,
+  "lon": 106.7839903,
+  "tags": {
+    "amenity": "restaurant",
+    "name": "Nanny's Pavillon",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7355084686,
+  "lat": -6.2836316,
+  "lon": 106.7816699,
+  "tags": {
+    "addr:full": "Jl. Metro Duta Kav. UE, Pondok Indah, Daerah Khusus Ibukota Jakarta 12310, Indonesia",
+    "amenity": "clinic",
+    "contact:phone": "+62 21 7657525",
+    "emergency": "yes",
+    "healthcare": "birthing_centre;clinic;doctor;hospital;laboratory",
+    "insurance:health": "private;public",
+    "name": "Rumah Sakit Pondok Indah",
+    "opening_hours": "24/7",
+    "operational_status": "operational",
+    "operator:type": "private",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7433265417,
+  "lat": -6.2230278,
+  "lon": 106.8424728,
+  "tags": {
+    "addr:full": "Kota Kasablanka Lt. LG No. Blok L88-L89, Jalan Casablanka, Jakarta Selatan",
+    "amenity": "pharmacy",
+    "healthcare": "pharmacy",
+    "name": "Apotek Century",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7892364524,
+  "lat": -6.2155970,
+  "lon": 106.8176651,
+  "tags": {
+    "addr:city": "DKI Jakarta",
+    "addr:street": "Jalan Jenderal Sudirman",
+    "air_conditioning": "yes",
+    "brand": "FamilyMart",
+    "brand:wikidata": "Q11247682",
+    "brand:wikipedia": "en:FamilyMart",
+    "name": "FamilyMart",
+    "name:id": "FamilyMart Stasiun Bendungan Hilir",
+    "opening_hours": "Mo-Su 08:00-21:00",
+    "operator": "PT. Fajar Mitra Indah",
+    "payment:cash": "yes",
+    "payment:coins": "yes",
+    "payment:credit_cards": "yes",
+    "payment:mastercard": "yes",
+    "payment:visa": "yes",
+    "shop": "convenience",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7892364527,
+  "lat": -6.2467693,
+  "lon": 106.7917884,
+  "tags": {
+    "addr:city": "South Jakarta",
+    "addr:street": "Jalan Kyai Haji Ahmad Dahlan",
+    "air_conditioning": "yes",
+    "brand": "FamilyMart",
+    "brand:wikidata": "Q1191685",
+    "brand:wikipedia": "en:FamilyMart",
+    "name": "FamilyMart",
+    "name:id": "FamilyMart Jl. Ahmad Dahlan",
+    "opening_hours": "Mo-Su 05:00-23:30",
+    "operator": "PT. Fajar Mitra Indah",
+    "payment:cash": "yes",
+    "payment:coins": "yes",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "payment:mastercard": "yes",
+    "payment:visa": "yes",
+    "shop": "convenience",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8303410176,
+  "lat": -6.2316009,
+  "lon": 106.8414684,
+  "tags": {
+    "access": "permissive",
+    "barrier": "gate",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8588679517,
+  "lat": -6.2216516,
+  "lon": 106.8099973,
+  "tags": {
+    "access": "yes",
+    "goods": "yes",
+    "highway": "elevator",
+    "level": "2",
+    "tactile_writing:braille:lg": "no",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9176896882,
+  "lat": -6.3245922,
+  "lon": 106.8177177,
+  "tags": {
+    "access": "private",
+    "barrier": "gate",
+    "material": "brick",
+    "opening_hours": "24/7",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9367544002,
+  "lat": -6.2134732,
+  "lon": 106.8196846,
+  "tags": {
+    "access": "yes",
+    "bicycle": "yes",
+    "fee": "no",
+    "highway": "elevator",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9660319864,
+  "lat": -6.2307883,
+  "lon": 106.8433835,
+  "tags": {
+    "access": "permissive",
+    "barrier": "gate",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9744089960,
+  "lat": -6.2397642,
+  "lon": 106.8310075,
+  "tags": {
+    "addr:floor": "L",
+    "addr:housename": "Mercure Jakarta Gatot Subroto",
+    "addr:housenumber": "Nomor 18A",
+    "addr:street": "Jl. Kapten Tendean",
+    "amenity": "restaurant",
+    "check_date": "2023-10-10",
+    "level": "0",
+    "name": "Wayang Cafè",
+    "opening_hours": "07:30-23:00",
+    "outdoor_seating": "yes",
+    "payment:credit_cards": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9751137214,
+  "lat": -6.2227680,
+  "lon": 106.8431034,
+  "tags": {
+    "alt_name": "Kentucky Fried Chicken",
+    "amenity": "fast_food",
+    "branch": "Kota Kasablanka",
+    "brand": "KFC",
+    "brand:wikidata": "Q524757",
+    "cuisine": "chicken",
+    "name": "KFC",
+    "takeaway": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9891580818,
+  "lat": -6.2239859,
+  "lon": 106.8424029,
+  "tags": {
+    "brand": "Telkomsel",
+    "brand:wikidata": "Q1786124",
+    "name": "Telkomsel",
+    "name:en": "Telkomsel",
+    "office": "telecommunication",
+    "opening_hours": "Mo-Su 11:00-21:00",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9918887952,
+  "lat": -6.2748609,
+  "lon": 106.8161230,
+  "tags": {
+    "amenity": "restaurant",
+    "check_date": "2022-07-29",
+    "internet_access": "no",
+    "name": "Warteg Bahari Sentosa",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9936549071,
+  "lat": -6.2729394,
+  "lon": 106.8150611,
+  "tags": {
+    "amenity": "cafe",
+    "check_date": "2022-08-07",
+    "cuisine": "coffee_shop",
+    "internet_access": "wlan",
+    "internet_access:fee": "customers",
+    "name": "Jambo Kupi",
+    "outdoor_seating": "yes",
+    "payment:mastercard": "yes",
+    "payment:visa": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9941538889,
+  "lat": -6.2740260,
+  "lon": 106.8163051,
+  "tags": {
+    "amenity": "restaurant",
+    "check_date": "2022-08-09",
+    "cuisine": "asian",
+    "internet_access": "no",
+    "name": "Angkringan Tulung Agung",
+    "payment:cards": "no",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10048902218,
+  "lat": -6.2388638,
+  "lon": 106.8452934,
+  "tags": {
+    "amenity": "restaurant",
+    "check_date": "2022-09-24",
+    "cuisine": "coffee_shop;asian",
+    "diet:halal": "yes",
+    "internet_access": "no",
+    "name": "Mie Aceh Jaly-jaly",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10065441769,
+  "lat": -6.3096598,
+  "lon": 106.8209586,
+  "tags": {
+    "amenity": "toilets",
+    "portable": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10132456590,
+  "lat": -6.2797481,
+  "lon": 106.8196136,
+  "tags": {
+    "amenity": "restaurant",
+    "brand": "Restoran",
+    "check_date": "2022-10-27",
+    "cuisine": "asian",
+    "name": "Restoran Sederhana",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10187320875,
+  "lat": -6.2693692,
+  "lon": 106.8158800,
+  "tags": {
+    "addr:housenumber": "81A",
+    "addr:street": "Jalan Kemang Raya",
+    "amenity": "clinic",
+    "check_date": "2022-11-16",
+    "healthcare": "clinic",
+    "healthcare:speciality": "general",
+    "internet_access": "no",
+    "name": "Klinik Utama SpeedLab",
+    "opening_hours": "08:00-22:00",
+    "operator:type": "private",
+    "payment:mastercard": "yes",
+    "payment:visa": "yes",
+    "phone": "+62 821 8088 2250",
+    "website": "https://reg.sppedlab.id",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11153751434,
+  "lat": -6.2266714,
+  "lon": 106.8071824,
+  "tags": {
+    "addr:city": "South Jakarta",
+    "addr:housenumber": "14",
+    "addr:postcode": "12190",
+    "addr:street": "Fairgrounds SCBD Lot 14, Jl. Jenderal Sudirman No.14, Daerah Khusus Ibukota Jakarta 12190",
+    "air_conditioning": "yes",
+    "amenity": "bar",
+    "brewery": "yes",
+    "internet_access": "wlan",
+    "min_age": "21",
+    "mobile": "+62 812 2221 5568",
+    "name": "Carrots Bar",
+    "opening_hours": "Tu-Sa 18:00-24:00",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11222351455,
+  "lat": -6.2526172,
+  "lon": 106.8015152,
+  "tags": {
+    "check_date": "2023-09-27",
+    "name": "Market Ranch",
+    "payment:cash": "yes",
+    "payment:credit_cards": "yes",
+    "shop": "supermarket",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11222584390,
+  "lat": -6.2539817,
+  "lon": 106.8018144,
+  "tags": {
+    "addr:floor": "1",
+    "addr:housename": "Darmawangsa Square The City Walk",
+    "addr:street": "Jalan Darmawangsa 6 & 9",
+    "amenity": "restaurant",
+    "check_date": "2023-09-27",
+    "level": "1",
+    "name": "Tos.Ca",
+    "payment:credit_cards": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11226313203,
+  "lat": -6.2536808,
+  "lon": 106.8015431,
+  "tags": {
+    "addr:floor": "GF",
+    "amenity": "cafe",
+    "check_date": "2023-09-29",
+    "level": "0",
+    "name": "Weirdough Bakehouse",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11226409596,
+  "lat": -6.2534208,
+  "lon": 106.8015310,
+  "tags": {
+    "check_date": "2023-09-29",
+    "name": "Weirdough",
+    "shop": "pastry",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11228640235,
+  "lat": -6.2533713,
+  "lon": 106.8017462,
+  "tags": {
+    "check_date": "2023-09-30",
+    "level": "0",
+    "name": "Boaz",
+    "shop": "bakery",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11232909856,
+  "lat": -6.3377746,
+  "lon": 106.8132507,
+  "tags": {
+    "brand": "Alfamidi",
+    "brand:wikidata": "Q12471462",
+    "check_date": "2023-10-02",
+    "name": "Alfamidi",
+    "shop": "convenience",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11234894267,
+  "lat": -6.2936419,
+  "lon": 106.8022559,
+  "tags": {
+    "alt_name": "Rà Premiere Simatupang",
+    "check_date": "2023-10-03",
+    "food": "yes",
+    "internet_access": "wlan",
+    "internet_access:fee": "customers",
+    "name": "Rà Premiere",
+    "tourism": "hotel",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11235385382,
+  "lat": -6.2936783,
+  "lon": 106.8024512,
+  "tags": {
+    "addr:floor": "G",
+    "amenity": "restaurant",
+    "check_date": "2023-10-04",
+    "cuisine": "indonesian;regional",
+    "internet_access": "wlan",
+    "internet_access:fee": "customers",
+    "level": "0",
+    "name": "Layàna Cilandak",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11254203544,
+  "lat": -6.2267928,
+  "lon": 106.8195000,
+  "tags": {
+    "amenity": "atm",
+    "brand": "Bank Mandiri",
+    "brand:wikidata": "Q806639",
+    "cash_in": "no",
+    "check_date": "2023-10-11",
+    "currency:IDR": "yes",
+    "drive_through": "no",
+    "level": "0",
+    "operator": "Bank Mandiri",
+    "operator:wikidata": "Q806639",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11256537900,
+  "lat": -6.2262951,
+  "lon": 106.8191707,
+  "tags": {
+    "amenity": "cafe",
+    "check_date": "2023-10-13",
+    "description": "Take-away coffee",
+    "level": "0",
+    "name": "Kopi Nako",
+    "opening_hours": "10:00-22:00",
+    "outdoor_seating": "no",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11256916505,
+  "lat": -6.2236254,
+  "lon": 106.8096599,
+  "tags": {
+    "addr:city": "South Jakarta",
+    "addr:housenumber": "Kav 52-53",
+    "addr:postcode": "12190",
+    "addr:street": "Jalan Jenderal Sudirman",
+    "air_conditioning": "yes",
+    "amenity": "cafe",
+    "check_date": "2023-10-12",
+    "cuisine": "coffee_shop;indonesian;local",
+    "delivery": "yes",
+    "internet_access": "wlan",
+    "internet_access:fee": "no",
+    "level": "0",
+    "name": "Tanamera",
+    "outdoor_seating": "yes",
+    "payment:cash": "no",
+    "payment:credit_cards": "yes",
+    "phone": "+6281289019989",
+    "website": "https://tanameracoffee.com/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11258952029,
+  "lat": -6.2263473,
+  "lon": 106.8190977,
+  "tags": {
+    "amenity": "doctors",
+    "check_date": "2023-10-13",
+    "healthcare": "doctor",
+    "level": "0",
+    "name": "DRC DR's Clinic",
+    "opening_hours": "Mo-Fr 10:00-17:00; Sa-Su 10:00-15:00",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11258952030,
+  "lat": -6.2262164,
+  "lon": 106.8190285,
+  "tags": {
+    "addr:floor": "GF",
+    "amenity": "dentist",
+    "check_date": "2023-10-13",
+    "healthcare": "dentist",
+    "level": "0",
+    "name": "Dari Hari Dental Clinic",
+    "short_name": "DHDC",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11259647078,
+  "lat": -6.2244365,
+  "lon": 106.8229499,
+  "tags": {
+    "addr:floor": "1",
+    "amenity": "cafe",
+    "check_date": "2023-10-13",
+    "level": "1",
+    "name": "Saturday",
+    "payment:cash": "no",
+    "payment:credit_cards": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11311423972,
+  "lat": -6.2294328,
+  "lon": 106.8205197,
+  "tags": {
+    "addr:floor": "L",
+    "air_conditioning": "yes",
+    "amenity": "cafe",
+    "bar": "no",
+    "branch": "Graha BIP",
+    "brand": "Pick Cup",
+    "check_date": "2023-11-06",
+    "cuisine": "coffee_shop",
+    "delivery:gofood": "yes",
+    "delivery:grabfood": "yes",
+    "diet:halal": "yes",
+    "highchair": "no",
+    "level": "0",
+    "name": "Pick Cup",
+    "outdoor_seating": "no",
+    "payment:cash": "yes",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "payment:gopay_id": "yes",
+    "payment:gopay_id:gpn_qris": "yes",
+    "payment:gpn_qris": "yes",
+    "smoking": "isolated",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11488407391,
+  "lat": -6.2384128,
+  "lon": 106.7832939,
+  "tags": {
+    "bus": "yes",
+    "name": "Kebayoran",
+    "old_name": "Pasar Kebayoran Lama",
+    "operator": "Transjakarta",
+    "public_transport": "stop_position",
+    "ref": "8-7",
+    "shelter": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11564482127,
+  "lat": -6.2124217,
+  "lon": 106.8200573,
+  "tags": {
+    "amenity": "bus_station",
+    "bin": "yes",
+    "bus": "yes",
+    "covered": "yes",
+    "highway": "bus_stop",
+    "name": "Karet",
+    "network": "Transjakarta",
+    "network:wikidata": "Q1671143",
+    "old_name": "Karet Sudirman",
+    "operator": "Transjakarta",
+    "passenger_information_display": "yes",
+    "public_transport": "platform",
+    "ref": "1-8",
+    "route_ref": "1B;1;M1;6B",
+    "shelter": "yes",
+    "tactile_paving": "yes",
+    "wheelchair": "yes",
+    "wikidata": "Q19943534",
+    "wikipedia": "id:Halte Transjakarta Karet Sudirman"
+  }
+},
+{
+  "type": "node",
+  "id": 11690216697,
+  "lat": -6.2233267,
+  "lon": 106.8423554,
+  "tags": {
+    "amenity": "cafe",
+    "name": "TAMANI KOTA KASABLANKA",
+    "toilets:wheelchair": "no",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11756936777,
+  "lat": -6.2384050,
+  "lon": 106.7832306,
+  "tags": {
+    "amenity": "bus_station",
+    "bench": "yes",
+    "bin": "yes",
+    "bus": "yes",
+    "covered": "yes",
+    "departures_board": "realtime",
+    "highway": "bus_stop",
+    "lit": "yes",
+    "name": "Kebayoran",
+    "network": "Transjakarta",
+    "network:wikidata": "Q1671143",
+    "old_name": "Pasar Kebayoran Lama",
+    "operator": "Transjakarta",
+    "public_transport": "platform",
+    "ref": "8-7",
+    "route_ref": "8",
+    "shelter": "yes",
+    "wheelchair": "yes",
+    "wikidata": "Q20427059",
+    "wikipedia": "id:Halte Transjakarta Kebayoran"
+  }
+},
+{
+  "type": "node",
+  "id": 11956298137,
+  "lat": -6.2186355,
+  "lon": 106.8359816,
+  "tags": {
+    "bus": "yes",
+    "highway": "bus_stop",
+    "name": "Taman Rasuna Tower 10",
+    "network": "Transjakarta",
+    "network:wikidata": "Q1671143",
+    "public_transport": "platform",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11957654249,
+  "lat": -6.2526735,
+  "lon": 106.7816460,
+  "tags": {
+    "amenity": "bus_station",
+    "bench": "no",
+    "bin": "yes",
+    "bus": "yes",
+    "departures_board": "realtime",
+    "highway": "bus_stop",
+    "lit": "yes",
+    "name": "Bungur",
+    "network": "Transjakarta",
+    "network:wikidata": "Q1671143",
+    "old_name": "Kebayoran Lama Bungur",
+    "operator": "Transjakarta",
+    "public_transport": "platform",
+    "ref": "8-6",
+    "route_ref": "1Q;8;8E;M8",
+    "shelter": "yes",
+    "wheelchair": "yes",
+    "wikidata": "Q20427261",
+    "wikipedia": "id:Halte Transjakarta Bungur"
+  }
+},
+{
+  "type": "node",
+  "id": 11957654250,
+  "lat": -6.2569704,
+  "lon": 106.7816931,
+  "tags": {
+    "amenity": "bus_station",
+    "bus": "yes",
+    "departures_board": "realtime",
+    "highway": "bus_stop",
+    "name": "Tanah Kusir",
+    "network": "Transjakarta",
+    "network:wikidata": "Q1671143",
+    "old_name": "Tanah Kusir Kodim",
+    "operator": "Transjakarta",
+    "public_transport": "platform",
+    "ref": "8-5",
+    "route_ref": "1Q;8;8E;M8",
+    "shelter": "yes",
+    "wheelchair": "yes",
+    "wikidata": "Q20427614",
+    "wikipedia": "id:Halte Transjakarta Tanah Kusir"
+  }
+},
+{
+  "type": "node",
+  "id": 11957654252,
+  "lat": -6.2672166,
+  "lon": 106.7836553,
+  "tags": {
+    "amenity": "bus_station",
+    "bus": "yes",
+    "departures_board": "realtime",
+    "highway": "bus_stop",
+    "name": "Pondok Indah",
+    "network": "Transjakarta",
+    "network:wikidata": "Q1671143",
+    "operator": "Transjakarta",
+    "public_transport": "platform",
+    "ref": "8-4",
+    "route_ref": "8;M8;S21",
+    "shelter": "yes",
+    "wheelchair": "yes",
+    "wikidata": "Q20427191",
+    "wikipedia": "id:Halte Transjakarta Pondok Indah"
+  }
+},
+{
+  "type": "node",
+  "id": 12073657866,
+  "lat": -6.2171580,
+  "lon": 106.8152466,
+  "tags": {
+    "amenity": "toilets",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12151915872,
+  "lat": -6.2394179,
+  "lon": 106.7951614,
+  "tags": {
+    "addr:city": "Special capital Region of Jakarta",
+    "addr:housenumber": "5",
+    "addr:postcode": "12130",
+    "addr:street": "Jalan Hang Jebat IV",
+    "amenity": "studio",
+    "check_date:opening_hours": "2024-09-02",
+    "description": "A multidisciplinary digital accelerator studio based in Jakarta",
+    "email": "hi@humanconnection.studio",
+    "name": "Human Connection Studio",
+    "note": "New business",
+    "opening_hours": "24/7",
+    "phone": "+622174861006",
+    "website": "https://www.humanconnection.studio",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12169421105,
+  "lat": -6.2426055,
+  "lon": 106.8500374,
+  "tags": {
+    "amenity": "parking",
+    "surface": "asphalt",
+    "survey:date": "2024-09-11",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12866838384,
+  "lat": -6.2387080,
+  "lon": 106.7831089,
+  "tags": {
+    "bicycle": "no",
+    "capacity:persons": "9",
+    "fee": "no",
+    "highway": "elevator",
+    "level": "1;2",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13690159128,
+  "lat": -6.3004860,
+  "lon": 106.7796747,
+  "tags": {
+    "access": "no",
+    "barrier": "swing_gate",
+    "bicycle": "yes",
+    "foot": "yes",
+    "motor_vehicle": "permissive",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13724618901,
+  "lat": -6.2843240,
+  "lon": 106.8270480,
+  "tags": {
+    "amenity": "hospital",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "healthcare:speciality": "neurosurgery",
+    "name": "Lamina Hospital",
+    "operator": "PT. Sejahtera Berkah Medika",
+    "operator:type": "business",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13795049997,
+  "lat": -6.2383229,
+  "lon": 106.7641391,
+  "tags": {
+    "addr:city": "South Jakarta",
+    "addr:district": "Pesanggrahan",
+    "addr:housename": "Kebayoran Park Hotel",
+    "addr:housenumber": "1",
+    "addr:neighbourhood": "5",
+    "addr:postcode": "12230",
+    "addr:province": "Jakarta",
+    "addr:street": "Jalan Ciledug Raya",
+    "addr:subdistrict": "Ulujami",
+    "addr:unit": "Hotel",
+    "brand": "Kebayoran Park",
+    "contact:instagram": "https://www.instagram.com/kebayoranparkhotel/",
+    "internet_access": "yes",
+    "internet_access:fee": "no",
+    "name": "Kebayoran Park Hotel",
+    "payment:account_cards": "yes",
+    "payment:cards": "yes",
+    "payment:cash": "yes",
+    "payment:contactless": "yes",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "phone": "+622127084499",
+    "rooms": "159",
+    "tourism": "motel",
+    "website": "https://kebayoranparkhotel",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 14068567697,
+  "lat": -6.2565373,
+  "lon": 106.7621673,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2026-08-02",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "CHAMPION Warkop",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 124163125,
+  "center": {
+    "lat": -6.2185961,
+    "lon": 106.8163304
+  },
+  "tags": {
+    "access:roof": "yes",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Garnisun No.1 Kav. 49",
+    "addr:postcode": "12930",
+    "amenity": "hospital",
+    "backup_generator": "yes",
+    "building": "hospital",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "4",
+    "building:roof": "concrete",
+    "building:structure": "confined_masonry",
+    "building:walls": "glass",
+    "capacity:persons": "100-250",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "name": "Rumah Sakit Jakarta",
+    "operator:type": "private",
+    "source": "HOT_InAWARESurvey_2017",
+    "toilets:wheelchair": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 157362650,
+  "center": {
+    "lat": -6.2372887,
+    "lon": 106.8473899
+  },
+  "tags": {
+    "access:roof": "no",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Tebet Barat Dalam V No. 3",
+    "amenity": "place_of_worship",
+    "backup_generator": "no",
+    "building": "mosque",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "1",
+    "building:roof": "tin",
+    "building:structure": "confined_masonry",
+    "building:walls": "brick",
+    "capacity:persons": "50-100",
+    "check_date": "2022-10-15",
+    "denomination": "sunni",
+    "internet_access": "no",
+    "name": "Masjid Namira",
+    "religion": "muslim",
+    "source": "HOT_InAWARESurvey_2017",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 176433009,
+  "center": {
+    "lat": -6.2232393,
+    "lon": 106.8426851
+  },
+  "tags": {
+    "addr:city": "Jakarta Selatan",
+    "addr:housename": "Kota Kasablanka",
+    "addr:housenumber": "Kavling 88",
+    "addr:postcode": "12870",
+    "addr:street": "Jalan Casablanca Raya",
+    "building": "commercial",
+    "building:levels": "5",
+    "building:levels:underground": "3",
+    "name": "Kota Kasablanka",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "operator": "Pakuwon Jati",
+    "phone": "+62 21 83709888; +62 21 83706888",
+    "shop": "mall",
+    "toilets:wheelchair": "yes",
+    "website": "https://www.pakuwon.com/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 229557764,
+  "center": {
+    "lat": -6.2944609,
+    "lon": 106.7945332
+  },
+  "tags": {
+    "access:roof": "no",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan RS. Fatmawati",
+    "amenity": "post_office",
+    "backup_generator": "no",
+    "building": "post_office",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "3",
+    "building:roof": "tile",
+    "building:structure": "confined_masonry",
+    "building:walls": "brick",
+    "capacity:persons": ">500",
+    "evacuation_center": "no",
+    "name": "Kantor Pos Fatmawati",
+    "opening_hours": "PH,Mo-Su 00:00-23:59",
+    "roof:shape": "hipped",
+    "source": "HOT_InAWARESurvey_2017",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 234872101,
+  "center": {
+    "lat": -6.2229181,
+    "lon": 106.8480146
+  },
+  "tags": {
+    "building": "yes",
+    "name": "Hotel Harris Tebet",
+    "name:en": "HARRIS Hotel Tebet",
+    "tourism": "hotel",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 401969868,
+  "center": {
+    "lat": -6.3605290,
+    "lon": 106.8260881
+  },
+  "tags": {
+    "addr:city": "Depok, West Java",
+    "addr:postcode": "16424",
+    "addr:street": "Jalan Prof. Dr. Sudjono D Pusponegoro",
+    "amenity": "university",
+    "name": "Universitas Indonesia",
+    "name:en": "University of Indonesia",
+    "name:id": "Universitas Indonesia",
+    "name:th": "มหาวิทยาลัยอินโดนีเซีย",
+    "operator": "Universitas Indonesia",
+    "short_name": "UI",
+    "website": "https://www.ui.ac.id/",
+    "wheelchair": "yes",
+    "wikidata": "Q534515",
+    "wikipedia": "id:Universitas Indonesia"
+  }
+},
+{
+  "type": "way",
+  "id": 482353598,
+  "center": {
+    "lat": -6.2282997,
+    "lon": 106.8580872
+  },
+  "tags": {
+    "addr:city": "DKI Jakarta",
+    "leisure": "pitch",
+    "source": "HOT_InAWARESurvey_2017",
+    "sport": "basketball",
+    "toilets:wheelchair": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 482367920,
+  "center": {
+    "lat": -6.2635701,
+    "lon": 106.8158987
+  },
+  "tags": {
+    "addr:city": "jakarta",
+    "addr:housenumber": "58",
+    "addr:housenumber_1": "jakarta",
+    "addr:postcode": "12730",
+    "addr:street": "Kemang Raya",
+    "building": "yes",
+    "name": "Gallery kemang 58",
+    "note": "Galeri seni yang berlokasi Jakarta selatan tepatnya di jl kemang raya no 58 ini bernuansa rumah yang asri",
+    "opening_hours": "10:00-20:00",
+    "operator": "talentaorganizer",
+    "phone": "+622191647959",
+    "shop": "art",
+    "source": "talentaorganizer",
+    "website": "http://artgallerykemang58.com/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 511963744,
+  "center": {
+    "lat": -6.3005056,
+    "lon": 106.7852424
+  },
+  "tags": {
+    "addr:city": "DKI Jakarta",
+    "addr:district": "Cilandak",
+    "addr:full": "Jalan Bonavista Raya",
+    "addr:housename": "Singapore Intercultural School",
+    "addr:housenumber": "8",
+    "addr:postcode": "12440",
+    "addr:province": "DKI Jakarta",
+    "addr:street": "Jalan Bonavista Raya",
+    "addr:subdistrict": "Lebak Bulus",
+    "amenity": "school",
+    "description": "With 15 schools across Indonesia and abroad, SIS has delivered exceptional education for 30 years. From Preschool, Primary, Secondary, to Junior College, we offer a seamless, future-ready journey through the Singapore, Cambridge, and IB curricula.",
+    "evacuation_center": "no",
+    "grades": "0-12",
+    "image": "https://sisschools.org/sis-southjakarta/wp-content/uploads/sites/32/2025/08/SIS-South-Jakarta-Logo-300x300.png",
+    "landuse": "education",
+    "name": "SIS South Jakarta",
+    "official_name": "SIS Schools",
+    "operator:type": "private",
+    "phone": "+622175914414",
+    "school:type_idn": "sd, smp, sma",
+    "source": "HOT_InAWARESurvey_2017",
+    "start_date": "1996-03-07",
+    "website": "https://sisschools.org/",
+    "wheelchair": "yes",
+    "wikidata": "Q7523029",
+    "wikipedia": "en:Singapore Intercultural School, Indonesia"
+  }
+},
+{
+  "type": "way",
+  "id": 516528309,
+  "center": {
+    "lat": -6.2356972,
+    "lon": 106.7592817
+  },
+  "tags": {
+    "access:roof": "no",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Reformasi",
+    "addr:housenumber": "15",
+    "addr:postcode": "12260",
+    "addr:province": "Jakarta Selatan",
+    "addr:street": "Jalan Reformasi",
+    "air_conditioning": "yes",
+    "amenity": "place_of_worship",
+    "backup_generator": "no",
+    "building": "church",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "2",
+    "building:roof": "tile",
+    "building:structure": "confined_masonry",
+    "building:walls": "brick",
+    "capacity:persons": "100-250",
+    "evacuation_center": "no",
+    "name": "Gereja GPIB Sejahtera",
+    "religion": "christian",
+    "source": "HOT_InAWARESurvey_2017",
+    "website": "https://www.gpibsejahterajkt.org",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 528008117,
+  "center": {
+    "lat": -6.2697697,
+    "lon": 106.7545502
+  },
+  "tags": {
+    "air_conditioning": "yes",
+    "amenity": "cafe",
+    "building": "yes",
+    "check_date": "2026-02-12",
+    "cuisine": "coffee_shop",
+    "drive_through": "no",
+    "internet_access": "no",
+    "name": "Toko Kopi TUKU - Bintaro",
+    "opening_hours": "Mo-Su 07:00-21:00",
+    "outdoor_seating": "yes",
+    "payment:cash": "yes",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "smoking": "outside",
+    "takeaway": "yes",
+    "toilets": "yes",
+    "website": "https://tuku.coffee/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 529341836,
+  "center": {
+    "lat": -6.2644627,
+    "lon": 106.8087091
+  },
+  "tags": {
+    "addr:housenumber": "60",
+    "addr:street": "Jalan Pangeran Antasari",
+    "air_conditioning": "yes",
+    "bar": "yes",
+    "building": "hotel",
+    "building:levels": "9",
+    "building:levels:underground": "1",
+    "check_date": "2023-09-27",
+    "contact:website": "https://goodrichsuites.com",
+    "internet_access": "wlan",
+    "internet_access:fee": "customers",
+    "name": "Goodrich Suites",
+    "payment:credit_cards": "yes",
+    "reservation": "yes",
+    "source": "survey",
+    "stars": "5",
+    "tourism": "hotel",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 917333594,
+  "center": {
+    "lat": -6.2939840,
+    "lon": 106.8198692
+  },
+  "tags": {
+    "access:roof": "yes",
+    "addr:city": "Jakarta Selatan",
+    "addr:district": "Ragunan",
+    "addr:full": "Jalan TB Simatupang Nomor 1",
+    "addr:postcode": "12550",
+    "addr:province": "DKI Jakarta",
+    "addr:street": "Jalan Tahi Bonar Simatupang",
+    "amenity": "hospital",
+    "backup_generator": "yes",
+    "capacity:persons": "250-500",
+    "emergency": "no",
+    "health_amenity:type": "dialysis;emergency_department;imaging_equipment;intensive_care_unit;laboratory;mri;operating_theater;ultrasound;x_ray",
+    "healthcare": "birthing_centre;blood_donation;clinic;dentist;doctor;hospital;laboratory;optometrist;pharmacy;physiotherapist;rehabilitation",
+    "healthcare:speciality": "allergology;anaesthetics;anatomy;biochemistry;biological_haematology;biology;blood_check;cardiac_surgery;gynaecology;haematology;immunology;infectious_diseases;internal;medical_engineering;orthopaedics;surgery;vaccination",
+    "insurance:health": "private;public",
+    "name": "RSUD Pasar Minggu Jakarta",
+    "opening_hours": "24/7",
+    "operator": "Government",
+    "operator:type": "government",
+    "phone": "+62 21 29059999",
+    "source": "HOT_InAWARESurvey_2017;http://rsudpasarminggu.jakarta.go.id/",
+    "website": "https://rsudpasarminggu.jakarta.go.id/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 933772265,
+  "center": {
+    "lat": -6.3144209,
+    "lon": 106.7941713
+  },
+  "tags": {
+    "amenity": "hospital",
+    "name": "RS Prikasih",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1193274356,
+  "center": {
+    "lat": -6.2307341,
+    "lon": 106.8344752
+  },
+  "tags": {
+    "addr:housenumber": "5-6",
+    "addr:postcode": "12950",
+    "addr:street": "Jalan Patra Kuningan",
+    "contact:website": "https://www.gov.uk/world/organisations/british-embassy-jakarta",
+    "country": "GB",
+    "diplomatic": "embassy",
+    "embassy": "yes",
+    "emergency:phone": "+62 21 23565200",
+    "facebook": "https://www.instagram.com/ukinindonesia/",
+    "instagram": "https://www.instagram.com/ukinindonesia/",
+    "name": "Kedutaan Besar Britania Raya",
+    "name:en": "British Embassy",
+    "name:fr": "Ambassade du Royaume-Uni",
+    "name:id": "Kedutaan Besar Britania Raya",
+    "name:tr": "Birleşik Krallık Büyükelçiliği",
+    "office": "diplomatic",
+    "opening_hours": "open \"By appointment only\"",
+    "subject:wikimedia_commons": "File:British Embassy Jakarta.JPG",
+    "target": "ID;TL",
+    "wheelchair": "yes",
+    "wikidata": "Q25052258",
+    "wikipedia": "id:Kedutaan Besar Britania Raya, Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 1282469318,
+  "center": {
+    "lat": -6.2396539,
+    "lon": 106.8307884
+  },
+  "tags": {
+    "branch": "Gatot Subroto",
+    "brand": "Mercure",
+    "brand:website": "https://mercure.accor.com/gb/city/hotels-jakarta-v5213.shtml",
+    "brand:wikidata": "Q1709809",
+    "building": "yes",
+    "building:levels": "31",
+    "check_date": "2023-10-07",
+    "contact:instagram": "mercuregatotsubroto",
+    "internet_access": "wlan",
+    "internet_access:fee": "customers",
+    "name": "Mercure Hotel",
+    "payment:credit_cards": "yes",
+    "start_date": "2019",
+    "tourism": "hotel",
+    "wheelchair": "yes"
+  }
+}
+
+  ]
+}

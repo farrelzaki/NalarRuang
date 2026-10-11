@@ -1,0 +1,313 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-09T06:18:18Z",
+    "timestamp_areas_base": "2026-10-08T05:09:19Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 316224197,
+  "lat": -6.2230717,
+  "lon": 106.6216895,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 316224215,
+  "lat": -6.2216372,
+  "lon": 106.6378690,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Toll Gate Tangerang 2"
+  }
+},
+{
+  "type": "node",
+  "id": 2107528695,
+  "lat": -6.2170945,
+  "lon": 106.6686161,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 2107528736,
+  "lat": -6.2184214,
+  "lon": 106.6660160,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Kunciran 8"
+  }
+},
+{
+  "type": "node",
+  "id": 2107528782,
+  "lat": -6.2203092,
+  "lon": 106.6669720,
+  "tags": {
+    "barrier": "toll_booth",
+    "motorcycle": "no",
+    "name": "Kunciran 1"
+  }
+},
+{
+  "type": "node",
+  "id": 4294226044,
+  "lat": -6.2224176,
+  "lon": 106.6394344,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Tangerang 1"
+  }
+},
+{
+  "type": "node",
+  "id": 4295053538,
+  "lat": -6.2024783,
+  "lon": 106.7052232,
+  "tags": {
+    "barrier": "toll_booth",
+    "motorcycle": "no",
+    "name": "Toll Gate Karang Tengah Barat 2"
+  }
+},
+{
+  "type": "node",
+  "id": 4341942764,
+  "lat": -6.1095060,
+  "lon": 106.6914719,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Benda"
+  }
+},
+{
+  "type": "node",
+  "id": 4554013801,
+  "lat": -6.2214745,
+  "lon": 106.6371880,
+  "tags": {
+    "barrier": "toll_booth",
+    "motorcycle": "no",
+    "name": "Gerbang Tol Tanggerang Serpong"
+  }
+},
+{
+  "type": "node",
+  "id": 6615827276,
+  "lat": -6.2173803,
+  "lon": 106.6680455,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Kunciran 2 (GTO)"
+  }
+},
+{
+  "type": "node",
+  "id": 6835837642,
+  "lat": -6.2198553,
+  "lon": 106.6691368,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Kunciran 3"
+  }
+},
+{
+  "type": "node",
+  "id": 6835837722,
+  "lat": -6.2200992,
+  "lon": 106.6686885,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Kunciran 4"
+  }
+},
+{
+  "type": "node",
+  "id": 7037487225,
+  "lat": -6.2183001,
+  "lon": 106.6625020,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Kunciran 5"
+  }
+},
+{
+  "type": "node",
+  "id": 7804806536,
+  "lat": -6.1963584,
+  "lon": 106.7139293,
+  "tags": {
+    "access": "yes",
+    "barrier": "toll_booth",
+    "name": "Karang Tengah Barat 1"
+  }
+},
+{
+  "type": "node",
+  "id": 7968512142,
+  "lat": -6.2155410,
+  "lon": 106.6653299,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Kunciran 7"
+  }
+},
+{
+  "type": "node",
+  "id": 7968512151,
+  "lat": -6.2165000,
+  "lon": 106.6681954,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Kunciran 6"
+  }
+},
+{
+  "type": "node",
+  "id": 7968512176,
+  "lat": -6.2050799,
+  "lon": 106.6554261,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Tirtayasa 3"
+  }
+},
+{
+  "type": "node",
+  "id": 7968512180,
+  "lat": -6.2080707,
+  "lon": 106.6570162,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Pinang 2"
+  }
+},
+{
+  "type": "node",
+  "id": 7968512188,
+  "lat": -6.2082228,
+  "lon": 106.6578189,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Pinang 1"
+  }
+},
+{
+  "type": "node",
+  "id": 7968512193,
+  "lat": -6.2056431,
+  "lon": 106.6561861,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Tirtayasa 4"
+  }
+},
+{
+  "type": "node",
+  "id": 7968512259,
+  "lat": -6.1807760,
+  "lon": 106.6534657,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Buaran Indah 1"
+  }
+},
+{
+  "type": "node",
+  "id": 7968512265,
+  "lat": -6.1814539,
+  "lon": 106.6526540,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Buaran Indah 2"
+  }
+},
+{
+  "type": "node",
+  "id": 7968512308,
+  "lat": -6.1689659,
+  "lon": 106.6531260,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Tanah Tinggi 2"
+  }
+},
+{
+  "type": "node",
+  "id": 7968512312,
+  "lat": -6.1685509,
+  "lon": 106.6537015,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Tanah Tinggi 1"
+  }
+},
+{
+  "type": "node",
+  "id": 8589135082,
+  "lat": -6.1355090,
+  "lon": 106.6816991,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Benda Utama"
+  }
+},
+{
+  "type": "node",
+  "id": 8589135083,
+  "lat": -6.1353890,
+  "lon": 106.6816072,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Benda Utama"
+  }
+},
+{
+  "type": "node",
+  "id": 10042829179,
+  "lat": -6.2017502,
+  "lon": 106.7061636,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 10316567994,
+  "lat": -6.1356445,
+  "lon": 106.6818030,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Benda Utama"
+  }
+},
+{
+  "type": "node",
+  "id": 10316567995,
+  "lat": -6.1352004,
+  "lon": 106.6814380,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Benda Utama"
+  }
+},
+{
+  "type": "node",
+  "id": 12526185630,
+  "lat": -6.2247355,
+  "lon": 106.6165358,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+}
+
+  ]
+}

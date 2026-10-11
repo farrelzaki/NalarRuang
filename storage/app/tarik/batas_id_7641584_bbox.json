@@ -1,0 +1,1096 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-08T16:38:47Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "relation",
+  "id": 4439772
+},
+{
+  "type": "relation",
+  "id": 4439773
+},
+{
+  "type": "relation",
+  "id": 4443544
+},
+{
+  "type": "relation",
+  "id": 4443546
+},
+{
+  "type": "relation",
+  "id": 4448807
+},
+{
+  "type": "relation",
+  "id": 4493675
+},
+{
+  "type": "relation",
+  "id": 4682027
+},
+{
+  "type": "relation",
+  "id": 4682045
+},
+{
+  "type": "relation",
+  "id": 5802145
+},
+{
+  "type": "relation",
+  "id": 5802171
+},
+{
+  "type": "relation",
+  "id": 5802192
+},
+{
+  "type": "relation",
+  "id": 5802235
+},
+{
+  "type": "relation",
+  "id": 5802260
+},
+{
+  "type": "relation",
+  "id": 5802267
+},
+{
+  "type": "relation",
+  "id": 5802274
+},
+{
+  "type": "relation",
+  "id": 5802291
+},
+{
+  "type": "relation",
+  "id": 5802297
+},
+{
+  "type": "relation",
+  "id": 5802324
+},
+{
+  "type": "relation",
+  "id": 5802353
+},
+{
+  "type": "relation",
+  "id": 5802366
+},
+{
+  "type": "relation",
+  "id": 5802420
+},
+{
+  "type": "relation",
+  "id": 5802427
+},
+{
+  "type": "relation",
+  "id": 5802433
+},
+{
+  "type": "relation",
+  "id": 7409546
+},
+{
+  "type": "relation",
+  "id": 10989407
+},
+{
+  "type": "relation",
+  "id": 10989408
+},
+{
+  "type": "relation",
+  "id": 10989409
+},
+{
+  "type": "relation",
+  "id": 10989413
+},
+{
+  "type": "relation",
+  "id": 10989414
+},
+{
+  "type": "relation",
+  "id": 10989415
+},
+{
+  "type": "relation",
+  "id": 10989417
+},
+{
+  "type": "relation",
+  "id": 10989418
+},
+{
+  "type": "relation",
+  "id": 10989419
+},
+{
+  "type": "relation",
+  "id": 10989420
+},
+{
+  "type": "relation",
+  "id": 10989421
+},
+{
+  "type": "relation",
+  "id": 10989422
+},
+{
+  "type": "relation",
+  "id": 10989423
+},
+{
+  "type": "relation",
+  "id": 10989424
+},
+{
+  "type": "relation",
+  "id": 10989425
+},
+{
+  "type": "relation",
+  "id": 10989426
+},
+{
+  "type": "relation",
+  "id": 10989427
+},
+{
+  "type": "relation",
+  "id": 10989428
+},
+{
+  "type": "relation",
+  "id": 10989429
+},
+{
+  "type": "relation",
+  "id": 10989431
+},
+{
+  "type": "relation",
+  "id": 10989432
+},
+{
+  "type": "relation",
+  "id": 10989433
+},
+{
+  "type": "relation",
+  "id": 10989434
+},
+{
+  "type": "relation",
+  "id": 10989435
+},
+{
+  "type": "relation",
+  "id": 10989436
+},
+{
+  "type": "relation",
+  "id": 10989437
+},
+{
+  "type": "relation",
+  "id": 10989439
+},
+{
+  "type": "relation",
+  "id": 10989440
+},
+{
+  "type": "relation",
+  "id": 10989441
+},
+{
+  "type": "relation",
+  "id": 10989442
+},
+{
+  "type": "relation",
+  "id": 10989443
+},
+{
+  "type": "relation",
+  "id": 10989444
+},
+{
+  "type": "relation",
+  "id": 10989445
+},
+{
+  "type": "relation",
+  "id": 10989448
+},
+{
+  "type": "relation",
+  "id": 10989449
+},
+{
+  "type": "relation",
+  "id": 10989450
+},
+{
+  "type": "relation",
+  "id": 10989451
+},
+{
+  "type": "relation",
+  "id": 10989452
+},
+{
+  "type": "relation",
+  "id": 10989453
+},
+{
+  "type": "relation",
+  "id": 10989454
+},
+{
+  "type": "relation",
+  "id": 10989455
+},
+{
+  "type": "relation",
+  "id": 10989456
+},
+{
+  "type": "relation",
+  "id": 11220051
+},
+{
+  "type": "relation",
+  "id": 11220052
+},
+{
+  "type": "relation",
+  "id": 11220053
+},
+{
+  "type": "relation",
+  "id": 11220054
+},
+{
+  "type": "relation",
+  "id": 11220055
+},
+{
+  "type": "relation",
+  "id": 11220056
+},
+{
+  "type": "relation",
+  "id": 11220057
+},
+{
+  "type": "relation",
+  "id": 11220058
+},
+{
+  "type": "relation",
+  "id": 11220059
+},
+{
+  "type": "relation",
+  "id": 11220060
+},
+{
+  "type": "relation",
+  "id": 11220061
+},
+{
+  "type": "relation",
+  "id": 11220062
+},
+{
+  "type": "relation",
+  "id": 11220063
+},
+{
+  "type": "relation",
+  "id": 11220064
+},
+{
+  "type": "relation",
+  "id": 11220065
+},
+{
+  "type": "relation",
+  "id": 11220066
+},
+{
+  "type": "relation",
+  "id": 11220067
+},
+{
+  "type": "relation",
+  "id": 11220068
+},
+{
+  "type": "relation",
+  "id": 11220069
+},
+{
+  "type": "relation",
+  "id": 11220070
+},
+{
+  "type": "relation",
+  "id": 11220071
+},
+{
+  "type": "relation",
+  "id": 11220072
+},
+{
+  "type": "relation",
+  "id": 11220073
+},
+{
+  "type": "relation",
+  "id": 11220074
+},
+{
+  "type": "relation",
+  "id": 11220075
+},
+{
+  "type": "relation",
+  "id": 11220076
+},
+{
+  "type": "relation",
+  "id": 11220077
+},
+{
+  "type": "relation",
+  "id": 11220082
+},
+{
+  "type": "relation",
+  "id": 11220083
+},
+{
+  "type": "relation",
+  "id": 11220085
+},
+{
+  "type": "relation",
+  "id": 11220086
+},
+{
+  "type": "relation",
+  "id": 11220087
+},
+{
+  "type": "relation",
+  "id": 11220088
+},
+{
+  "type": "relation",
+  "id": 11220089
+},
+{
+  "type": "relation",
+  "id": 11220090
+},
+{
+  "type": "relation",
+  "id": 11220091
+},
+{
+  "type": "relation",
+  "id": 11220092
+},
+{
+  "type": "relation",
+  "id": 11220093
+},
+{
+  "type": "relation",
+  "id": 11220094
+},
+{
+  "type": "relation",
+  "id": 11220095
+},
+{
+  "type": "relation",
+  "id": 11220096
+},
+{
+  "type": "relation",
+  "id": 11220097
+},
+{
+  "type": "relation",
+  "id": 11220098
+},
+{
+  "type": "relation",
+  "id": 11220099
+},
+{
+  "type": "relation",
+  "id": 11220100
+},
+{
+  "type": "relation",
+  "id": 11220101
+},
+{
+  "type": "relation",
+  "id": 11220102
+},
+{
+  "type": "relation",
+  "id": 11220103
+},
+{
+  "type": "relation",
+  "id": 11220104
+},
+{
+  "type": "relation",
+  "id": 11220105
+},
+{
+  "type": "relation",
+  "id": 11220106
+},
+{
+  "type": "relation",
+  "id": 11220107
+},
+{
+  "type": "relation",
+  "id": 11220108
+},
+{
+  "type": "relation",
+  "id": 11220109
+},
+{
+  "type": "relation",
+  "id": 11220110
+},
+{
+  "type": "relation",
+  "id": 11220111
+},
+{
+  "type": "relation",
+  "id": 11220112
+},
+{
+  "type": "relation",
+  "id": 11220113
+},
+{
+  "type": "relation",
+  "id": 11220114
+},
+{
+  "type": "relation",
+  "id": 11220115
+},
+{
+  "type": "relation",
+  "id": 11220116
+},
+{
+  "type": "relation",
+  "id": 11220117
+},
+{
+  "type": "relation",
+  "id": 11220118
+},
+{
+  "type": "relation",
+  "id": 11220119
+},
+{
+  "type": "relation",
+  "id": 11220120
+},
+{
+  "type": "relation",
+  "id": 11220121
+},
+{
+  "type": "relation",
+  "id": 11220122
+},
+{
+  "type": "relation",
+  "id": 11220123
+},
+{
+  "type": "relation",
+  "id": 11220124
+},
+{
+  "type": "relation",
+  "id": 11220125
+},
+{
+  "type": "relation",
+  "id": 11220126
+},
+{
+  "type": "relation",
+  "id": 11220127
+},
+{
+  "type": "relation",
+  "id": 11220128
+},
+{
+  "type": "relation",
+  "id": 11220129
+},
+{
+  "type": "relation",
+  "id": 11220130
+},
+{
+  "type": "relation",
+  "id": 11220132
+},
+{
+  "type": "relation",
+  "id": 11220133
+},
+{
+  "type": "relation",
+  "id": 11220134
+},
+{
+  "type": "relation",
+  "id": 11220135
+},
+{
+  "type": "relation",
+  "id": 11220136
+},
+{
+  "type": "relation",
+  "id": 11220137
+},
+{
+  "type": "relation",
+  "id": 11220138
+},
+{
+  "type": "relation",
+  "id": 11220139
+},
+{
+  "type": "relation",
+  "id": 11220140
+},
+{
+  "type": "relation",
+  "id": 11220141
+},
+{
+  "type": "relation",
+  "id": 11220142
+},
+{
+  "type": "relation",
+  "id": 11220143
+},
+{
+  "type": "relation",
+  "id": 11220144
+},
+{
+  "type": "relation",
+  "id": 11220145
+},
+{
+  "type": "relation",
+  "id": 11220146
+},
+{
+  "type": "relation",
+  "id": 11220147
+},
+{
+  "type": "relation",
+  "id": 11220148
+},
+{
+  "type": "relation",
+  "id": 11220149
+},
+{
+  "type": "relation",
+  "id": 11220150
+},
+{
+  "type": "relation",
+  "id": 11220151
+},
+{
+  "type": "relation",
+  "id": 11220152
+},
+{
+  "type": "relation",
+  "id": 11220153
+},
+{
+  "type": "relation",
+  "id": 11220154
+},
+{
+  "type": "relation",
+  "id": 11220155
+},
+{
+  "type": "relation",
+  "id": 11220156
+},
+{
+  "type": "relation",
+  "id": 11220157
+},
+{
+  "type": "relation",
+  "id": 11220158
+},
+{
+  "type": "relation",
+  "id": 11220159
+},
+{
+  "type": "relation",
+  "id": 11220160
+},
+{
+  "type": "relation",
+  "id": 11220161
+},
+{
+  "type": "relation",
+  "id": 11220162
+},
+{
+  "type": "relation",
+  "id": 11220163
+},
+{
+  "type": "relation",
+  "id": 11220164
+},
+{
+  "type": "relation",
+  "id": 11220165
+},
+{
+  "type": "relation",
+  "id": 11220166
+},
+{
+  "type": "relation",
+  "id": 11220167
+},
+{
+  "type": "relation",
+  "id": 16192944
+},
+{
+  "type": "relation",
+  "id": 16192945
+},
+{
+  "type": "relation",
+  "id": 16192946
+},
+{
+  "type": "relation",
+  "id": 16192947
+},
+{
+  "type": "relation",
+  "id": 16192948
+},
+{
+  "type": "relation",
+  "id": 16192949
+},
+{
+  "type": "relation",
+  "id": 16192950
+},
+{
+  "type": "relation",
+  "id": 16192951
+},
+{
+  "type": "relation",
+  "id": 16192952
+},
+{
+  "type": "relation",
+  "id": 16192953
+},
+{
+  "type": "relation",
+  "id": 16192954
+},
+{
+  "type": "relation",
+  "id": 16192955
+},
+{
+  "type": "relation",
+  "id": 16192956
+},
+{
+  "type": "relation",
+  "id": 16192957
+},
+{
+  "type": "relation",
+  "id": 16192958
+},
+{
+  "type": "relation",
+  "id": 16192959
+},
+{
+  "type": "relation",
+  "id": 16192960
+},
+{
+  "type": "relation",
+  "id": 16192961
+},
+{
+  "type": "relation",
+  "id": 16192962
+},
+{
+  "type": "relation",
+  "id": 16192963
+},
+{
+  "type": "relation",
+  "id": 16192964
+},
+{
+  "type": "relation",
+  "id": 16192965
+},
+{
+  "type": "relation",
+  "id": 16192966
+},
+{
+  "type": "relation",
+  "id": 16192967
+},
+{
+  "type": "relation",
+  "id": 16192968
+},
+{
+  "type": "relation",
+  "id": 16192969
+},
+{
+  "type": "relation",
+  "id": 16192970
+},
+{
+  "type": "relation",
+  "id": 16192971
+},
+{
+  "type": "relation",
+  "id": 16192972
+},
+{
+  "type": "relation",
+  "id": 17572947
+},
+{
+  "type": "relation",
+  "id": 17572948
+},
+{
+  "type": "relation",
+  "id": 17572949
+},
+{
+  "type": "relation",
+  "id": 17572950
+},
+{
+  "type": "relation",
+  "id": 17572951
+},
+{
+  "type": "relation",
+  "id": 17572952
+},
+{
+  "type": "relation",
+  "id": 17625758
+},
+{
+  "type": "relation",
+  "id": 17625759
+},
+{
+  "type": "relation",
+  "id": 17625760
+},
+{
+  "type": "relation",
+  "id": 17625761
+},
+{
+  "type": "relation",
+  "id": 17625762
+},
+{
+  "type": "relation",
+  "id": 17625763
+},
+{
+  "type": "relation",
+  "id": 17625764
+},
+{
+  "type": "relation",
+  "id": 17625765
+},
+{
+  "type": "relation",
+  "id": 17625766
+},
+{
+  "type": "relation",
+  "id": 17625767
+},
+{
+  "type": "relation",
+  "id": 17625768
+},
+{
+  "type": "relation",
+  "id": 17630378
+},
+{
+  "type": "relation",
+  "id": 17630379
+},
+{
+  "type": "relation",
+  "id": 17630380
+},
+{
+  "type": "relation",
+  "id": 17630381
+},
+{
+  "type": "relation",
+  "id": 17630382
+},
+{
+  "type": "relation",
+  "id": 17630383
+},
+{
+  "type": "relation",
+  "id": 17630384
+},
+{
+  "type": "relation",
+  "id": 17630385
+},
+{
+  "type": "relation",
+  "id": 17630386
+},
+{
+  "type": "relation",
+  "id": 17630387
+},
+{
+  "type": "relation",
+  "id": 17630388
+},
+{
+  "type": "relation",
+  "id": 17630389
+},
+{
+  "type": "relation",
+  "id": 17630390
+},
+{
+  "type": "relation",
+  "id": 17630391
+},
+{
+  "type": "relation",
+  "id": 17630392
+},
+{
+  "type": "relation",
+  "id": 17630393
+},
+{
+  "type": "relation",
+  "id": 17630394
+},
+{
+  "type": "relation",
+  "id": 17630395
+},
+{
+  "type": "relation",
+  "id": 17630396
+},
+{
+  "type": "relation",
+  "id": 17630397
+},
+{
+  "type": "relation",
+  "id": 17630398
+},
+{
+  "type": "relation",
+  "id": 17630399
+},
+{
+  "type": "relation",
+  "id": 17630400
+},
+{
+  "type": "relation",
+  "id": 17630401
+},
+{
+  "type": "relation",
+  "id": 19957666
+},
+{
+  "type": "relation",
+  "id": 19957678
+},
+{
+  "type": "relation",
+  "id": 19957687
+},
+{
+  "type": "relation",
+  "id": 19957708
+},
+{
+  "type": "relation",
+  "id": 19957716
+},
+{
+  "type": "relation",
+  "id": 19957725
+},
+{
+  "type": "relation",
+  "id": 19957787
+},
+{
+  "type": "relation",
+  "id": 19957812
+},
+{
+  "type": "relation",
+  "id": 19957859
+},
+{
+  "type": "relation",
+  "id": 19957863
+},
+{
+  "type": "relation",
+  "id": 19957957
+},
+{
+  "type": "relation",
+  "id": 19957994
+},
+{
+  "type": "relation",
+  "id": 19957997
+},
+{
+  "type": "relation",
+  "id": 19958004
+},
+{
+  "type": "relation",
+  "id": 19958038
+},
+{
+  "type": "relation",
+  "id": 19958066
+},
+{
+  "type": "relation",
+  "id": 19958081
+},
+{
+  "type": "relation",
+  "id": 19958089
+},
+{
+  "type": "relation",
+  "id": 19958119
+},
+{
+  "type": "relation",
+  "id": 19958149
+},
+{
+  "type": "relation",
+  "id": 19958154
+},
+{
+  "type": "relation",
+  "id": 19958155
+},
+{
+  "type": "relation",
+  "id": 19958168
+},
+{
+  "type": "relation",
+  "id": 19958213
+}
+
+  ]
+}

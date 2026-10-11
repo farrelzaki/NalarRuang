@@ -1,0 +1,4910 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-09T05:09:41Z",
+    "timestamp_areas_base": "2026-10-08T05:09:19Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "way",
+  "id": 12719163,
+  "bounds": {
+    "minlat": -6.1376305,
+    "minlon": 106.8147854,
+    "maxlat": -6.1370146,
+    "maxlon": 106.8166373
+  },
+  "geometry": [
+    { "lat": -6.1376305, "lon": 106.8147854 },
+    { "lat": -6.1372574, "lon": 106.8160618 },
+    { "lat": -6.1371544, "lon": 106.8163350 },
+    { "lat": -6.1370146, "lon": 106.8166373 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "name": "Jalur Kereta Api Jakarta Kota–Tanjung Priuk",
+    "railway": "rail",
+    "railway:track_ref": "7",
+    "source": "yahoo photography",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 48060957,
+  "bounds": {
+    "minlat": -6.1378551,
+    "minlon": 106.8148544,
+    "maxlat": -6.1372229,
+    "maxlon": 106.8166459
+  },
+  "geometry": [
+    { "lat": -6.1378551, "lon": 106.8148544 },
+    { "lat": -6.1375391, "lon": 106.8159213 },
+    { "lat": -6.1374675, "lon": 106.8161187 },
+    { "lat": -6.1374608, "lon": 106.8161371 },
+    { "lat": -6.1373873, "lon": 106.8163024 },
+    { "lat": -6.1373232, "lon": 106.8164226 },
+    { "lat": -6.1372229, "lon": 106.8166459 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "name": "Jalur Kereta Api Jakarta Kota–Bogor",
+    "railway": "rail",
+    "railway:track_ref": "11",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487135",
+    "wikipedia": "id: Jalur kereta api Jakarta Kota–Bogor–Padalarang"
+  }
+},
+{
+  "type": "way",
+  "id": 48060959,
+  "bounds": {
+    "minlat": -6.1377844,
+    "minlon": 106.8148316,
+    "maxlat": -6.1371909,
+    "maxlon": 106.8166338
+  },
+  "geometry": [
+    { "lat": -6.1377844, "lon": 106.8148316 },
+    { "lat": -6.1377699, "lon": 106.8148797 },
+    { "lat": -6.1373978, "lon": 106.8161055 },
+    { "lat": -6.1373323, "lon": 106.8163093 },
+    { "lat": -6.1371909, "lon": 106.8166338 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "gauge": "1067",
+    "name": "Jalur Kereta Api Jakarta Kota–Bogor",
+    "railway": "rail",
+    "railway:track_ref": "10",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487135",
+    "wikipedia": "id: Jalur kereta api Jakarta Kota–Bogor–Padalarang"
+  }
+},
+{
+  "type": "way",
+  "id": 106810758,
+  "bounds": {
+    "minlat": -6.1375501,
+    "minlon": 106.8147613,
+    "maxlat": -6.1369468,
+    "maxlon": 106.8166326
+  },
+  "geometry": [
+    { "lat": -6.1375501, "lon": 106.8147613 },
+    { "lat": -6.1372612, "lon": 106.8157562 },
+    { "lat": -6.1371765, "lon": 106.8160477 },
+    { "lat": -6.1371072, "lon": 106.8162509 },
+    { "lat": -6.1369972, "lon": 106.8165024 },
+    { "lat": -6.1369468, "lon": 106.8166326 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "railway": "rail",
+    "railway:track_ref": "6",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 107492941,
+  "bounds": {
+    "minlat": -6.1321135,
+    "minlon": 106.8056564,
+    "maxlat": -6.1318982,
+    "maxlon": 106.8065043
+  },
+  "geometry": [
+    { "lat": -6.1321135, "lon": 106.8056564 },
+    { "lat": -6.1318982, "lon": 106.8065043 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 107492944,
+  "bounds": {
+    "minlat": -6.1302919,
+    "minlon": 106.8148454,
+    "maxlat": -6.1302031,
+    "maxlon": 106.8152676
+  },
+  "geometry": [
+    { "lat": -6.1302031, "lon": 106.8148454 },
+    { "lat": -6.1302919, "lon": 106.8152676 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 107492951,
+  "bounds": {
+    "minlat": -6.1365449,
+    "minlon": 106.8002607,
+    "maxlat": -6.1321135,
+    "maxlon": 106.8056564
+  },
+  "geometry": [
+    { "lat": -6.1365449, "lon": 106.8002819 },
+    { "lat": -6.1359305, "lon": 106.8002607 },
+    { "lat": -6.1357081, "lon": 106.8002635 },
+    { "lat": -6.1353947, "lon": 106.8003161 },
+    { "lat": -6.1350489, "lon": 106.8003935 },
+    { "lat": -6.1347909, "lon": 106.8004811 },
+    { "lat": -6.1345686, "lon": 106.8005751 },
+    { "lat": -6.1342339, "lon": 106.8007567 },
+    { "lat": -6.1339831, "lon": 106.8009391 },
+    { "lat": -6.1337368, "lon": 106.8011579 },
+    { "lat": -6.1335323, "lon": 106.8013781 },
+    { "lat": -6.1333568, "lon": 106.8016008 },
+    { "lat": -6.1331872, "lon": 106.8018717 },
+    { "lat": -6.1330533, "lon": 106.8021429 },
+    { "lat": -6.1328962, "lon": 106.8025922 },
+    { "lat": -6.1321135, "lon": 106.8056564 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 107492953,
+  "bounds": {
+    "minlat": -6.1304481,
+    "minlon": 106.8120452,
+    "maxlat": -6.1300305,
+    "maxlon": 106.8148454
+  },
+  "geometry": [
+    { "lat": -6.1304481, "lon": 106.8120452 },
+    { "lat": -6.1303728, "lon": 106.8123294 },
+    { "lat": -6.1300934, "lon": 106.8133830 },
+    { "lat": -6.1300305, "lon": 106.8137295 },
+    { "lat": -6.1300433, "lon": 106.8141000 },
+    { "lat": -6.1302031, "lon": 106.8148454 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 107492957,
+  "bounds": {
+    "minlat": -6.1620377,
+    "minlon": 106.7737949,
+    "maxlat": -6.1615147,
+    "maxlon": 106.7871962
+  },
+  "geometry": [
+    { "lat": -6.1615147, "lon": 106.7737949 },
+    { "lat": -6.1616083, "lon": 106.7760304 },
+    { "lat": -6.1616272, "lon": 106.7766174 },
+    { "lat": -6.1618072, "lon": 106.7815711 },
+    { "lat": -6.1619321, "lon": 106.7846329 },
+    { "lat": -6.1619910, "lon": 106.7863354 },
+    { "lat": -6.1620377, "lon": 106.7871962 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 107492959,
+  "bounds": {
+    "minlat": -6.1309021,
+    "minlon": 106.8103519,
+    "maxlat": -6.1308258,
+    "maxlon": 106.8106455
+  },
+  "geometry": [
+    { "lat": -6.1309021, "lon": 106.8103519 },
+    { "lat": -6.1308258, "lon": 106.8106455 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 107492972,
+  "bounds": {
+    "minlat": -6.1309307,
+    "minlon": 106.8102367,
+    "maxlat": -6.1309021,
+    "maxlon": 106.8103519
+  },
+  "geometry": [
+    { "lat": -6.1309307, "lon": 106.8102367 },
+    { "lat": -6.1309021, "lon": 106.8103519 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 107492981,
+  "bounds": {
+    "minlat": -6.1484795,
+    "minlon": 106.8009738,
+    "maxlat": -6.1483617,
+    "maxlon": 106.8009801
+  },
+  "geometry": [
+    { "lat": -6.1484795, "lon": 106.8009801 },
+    { "lat": -6.1483617, "lon": 106.8009738 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 107636757,
+  "bounds": {
+    "minlat": -6.1370146,
+    "minlon": 106.8166373,
+    "maxlat": -6.1369230,
+    "maxlon": 106.8168830
+  },
+  "geometry": [
+    { "lat": -6.1370146, "lon": 106.8166373 },
+    { "lat": -6.1369230, "lon": 106.8168830 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "name": "Jalur Kereta Api Jakarta Kota–Tanjung Priuk",
+    "railway": "rail",
+    "railway:track_ref": "7",
+    "source": "yahoo photography",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 107636759,
+  "bounds": {
+    "minlat": -6.1371546,
+    "minlon": 106.8166241,
+    "maxlat": -6.1370458,
+    "maxlon": 106.8168667
+  },
+  "geometry": [
+    { "lat": -6.1371546, "lon": 106.8166241 },
+    { "lat": -6.1370458, "lon": 106.8168667 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "railway": "rail",
+    "railway:track_ref": "9",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 107636760,
+  "bounds": {
+    "minlat": -6.1369468,
+    "minlon": 106.8166326,
+    "maxlat": -6.1368796,
+    "maxlon": 106.8168744
+  },
+  "geometry": [
+    { "lat": -6.1369468, "lon": 106.8166326 },
+    { "lat": -6.1368796, "lon": 106.8168744 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "railway": "rail",
+    "railway:track_ref": "6",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 107636763,
+  "bounds": {
+    "minlat": -6.1371909,
+    "minlon": 106.8166338,
+    "maxlat": -6.1370819,
+    "maxlon": 106.8168763
+  },
+  "geometry": [
+    { "lat": -6.1371909, "lon": 106.8166338 },
+    { "lat": -6.1370819, "lon": 106.8168763 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "name": "Jalur Kereta Api Jakarta Kota–Bogor",
+    "railway": "rail",
+    "railway:track_ref": "10",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487135",
+    "wikipedia": "id: Jalur kereta api Jakarta Kota–Bogor–Padalarang"
+  }
+},
+{
+  "type": "way",
+  "id": 256809636,
+  "bounds": {
+    "minlat": -6.1372871,
+    "minlon": 106.8146824,
+    "maxlat": -6.1369083,
+    "maxlon": 106.8159803
+  },
+  "geometry": [
+    { "lat": -6.1372871, "lon": 106.8146824 },
+    { "lat": -6.1369083, "lon": 106.8159803 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "railway": "rail",
+    "railway:track_ref": "1",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 256809637,
+  "bounds": {
+    "minlat": -6.1373184,
+    "minlon": 106.8146918,
+    "maxlat": -6.1367987,
+    "maxlon": 106.8166302
+  },
+  "geometry": [
+    { "lat": -6.1373184, "lon": 106.8146918 },
+    { "lat": -6.1369084, "lon": 106.8161343 },
+    { "lat": -6.1368446, "lon": 106.8163662 },
+    { "lat": -6.1367987, "lon": 106.8166302 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "railway": "rail",
+    "railway:track_ref": "2",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 256809638,
+  "bounds": {
+    "minlat": -6.1373994,
+    "minlon": 106.8147161,
+    "maxlat": -6.1368326,
+    "maxlon": 106.8166175
+  },
+  "geometry": [
+    { "lat": -6.1373994, "lon": 106.8147161 },
+    { "lat": -6.1370543, "lon": 106.8159161 },
+    { "lat": -6.1369292, "lon": 106.8162730 },
+    { "lat": -6.1368326, "lon": 106.8166175 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "name": "Jalur Kereta Api Jakarta Kota–Cikampek",
+    "railway": "rail",
+    "railway:track_ref": "3",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726782",
+    "wikipedia": "id:Jalur kereta api Jakarta Kota–Cikampek"
+  }
+},
+{
+  "type": "way",
+  "id": 256809639,
+  "bounds": {
+    "minlat": -6.1377471,
+    "minlon": 106.8148204,
+    "maxlat": -6.1371546,
+    "maxlon": 106.8166241
+  },
+  "geometry": [
+    { "lat": -6.1377471, "lon": 106.8148204 },
+    { "lat": -6.1377100, "lon": 106.8149450 },
+    { "lat": -6.1373644, "lon": 106.8161057 },
+    { "lat": -6.1373095, "lon": 106.8162697 },
+    { "lat": -6.1371546, "lon": 106.8166241 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "railway": "rail",
+    "railway:track_ref": "9",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 256809640,
+  "bounds": {
+    "minlat": -6.1376687,
+    "minlon": 106.8147969,
+    "maxlat": -6.1370750,
+    "maxlon": 106.8165858
+  },
+  "geometry": [
+    { "lat": -6.1376687, "lon": 106.8147969 },
+    { "lat": -6.1372943, "lon": 106.8160713 },
+    { "lat": -6.1372542, "lon": 106.8161942 },
+    { "lat": -6.1370750, "lon": 106.8165858 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "name": "Jalur Kereta Api Jakarta Kota–Tanjung Priuk",
+    "railway": "rail",
+    "railway:track_ref": "8",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 256809641,
+  "bounds": {
+    "minlat": -6.1375140,
+    "minlon": 106.8147505,
+    "maxlat": -6.1369043,
+    "maxlon": 106.8166404
+  },
+  "geometry": [
+    { "lat": -6.1375140, "lon": 106.8147505 },
+    { "lat": -6.1371311, "lon": 106.8160644 },
+    { "lat": -6.1370666, "lon": 106.8162543 },
+    { "lat": -6.1369572, "lon": 106.8165024 },
+    { "lat": -6.1369043, "lon": 106.8166404 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "railway": "rail",
+    "railway:track_ref": "5",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 256809642,
+  "bounds": {
+    "minlat": -6.1374340,
+    "minlon": 106.8147265,
+    "maxlat": -6.1368672,
+    "maxlon": 106.8166274
+  },
+  "geometry": [
+    { "lat": -6.1374340, "lon": 106.8147265 },
+    { "lat": -6.1371008, "lon": 106.8158913 },
+    { "lat": -6.1368672, "lon": 106.8166274 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "name": "Jalur Kereta Api Jakarta Kota–Cikampek",
+    "railway": "rail",
+    "railway:track_ref": "4",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726782",
+    "wikipedia": "id:Jalur kereta api Jakarta Kota–Cikampek"
+  }
+},
+{
+  "type": "way",
+  "id": 368546032,
+  "bounds": {
+    "minlat": -6.1367987,
+    "minlon": 106.8166302,
+    "maxlat": -6.1367455,
+    "maxlon": 106.8168622
+  },
+  "geometry": [
+    { "lat": -6.1367987, "lon": 106.8166302 },
+    { "lat": -6.1367455, "lon": 106.8168622 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "railway": "rail",
+    "railway:track_ref": "2",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 368546033,
+  "bounds": {
+    "minlat": -6.1367655,
+    "minlon": 106.8166257,
+    "maxlat": -6.1367358,
+    "maxlon": 106.8168630
+  },
+  "geometry": [
+    { "lat": -6.1367655, "lon": 106.8166257 },
+    { "lat": -6.1367358, "lon": 106.8168630 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "railway": "rail",
+    "railway:track_ref": "1",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 368546035,
+  "bounds": {
+    "minlat": -6.1370750,
+    "minlon": 106.8165858,
+    "maxlat": -6.1369567,
+    "maxlon": 106.8168856
+  },
+  "geometry": [
+    { "lat": -6.1370750, "lon": 106.8165858 },
+    { "lat": -6.1369567, "lon": 106.8168856 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "name": "Jalur Kereta Api Jakarta Kota–Tanjung Priuk",
+    "railway": "rail",
+    "railway:track_ref": "8",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 368546038,
+  "bounds": {
+    "minlat": -6.1369043,
+    "minlon": 106.8166404,
+    "maxlat": -6.1368418,
+    "maxlon": 106.8168808
+  },
+  "geometry": [
+    { "lat": -6.1369043, "lon": 106.8166404 },
+    { "lat": -6.1368418, "lon": 106.8168808 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "railway": "rail",
+    "railway:track_ref": "5",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 368546039,
+  "bounds": {
+    "minlat": -6.1368672,
+    "minlon": 106.8166274,
+    "maxlat": -6.1368077,
+    "maxlon": 106.8168690
+  },
+  "geometry": [
+    { "lat": -6.1368672, "lon": 106.8166274 },
+    { "lat": -6.1368077, "lon": 106.8168690 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "name": "Jalur Kereta Api Jakarta Kota–Cikampek",
+    "railway": "rail",
+    "railway:track_ref": "4",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726782",
+    "wikipedia": "id:Jalur kereta api Jakarta Kota–Cikampek"
+  }
+},
+{
+  "type": "way",
+  "id": 368546042,
+  "bounds": {
+    "minlat": -6.1368326,
+    "minlon": 106.8166175,
+    "maxlat": -6.1367764,
+    "maxlon": 106.8168683
+  },
+  "geometry": [
+    { "lat": -6.1368326, "lon": 106.8166175 },
+    { "lat": -6.1367764, "lon": 106.8168683 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "name": "Jalur Kereta Api Jakarta Kota–Cikampek",
+    "railway": "rail",
+    "railway:track_ref": "3",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726782",
+    "wikipedia": "id:Jalur kereta api Jakarta Kota–Cikampek"
+  }
+},
+{
+  "type": "way",
+  "id": 458241223,
+  "bounds": {
+    "minlat": -6.1605664,
+    "minlon": 106.7667993,
+    "maxlat": -6.1605593,
+    "maxlon": 106.7668478
+  },
+  "geometry": [
+    { "lat": -6.1605593, "lon": 106.7667993 },
+    { "lat": -6.1605664, "lon": 106.7668478 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 458241225,
+  "bounds": {
+    "minlat": -6.1596891,
+    "minlon": 106.7374480,
+    "maxlat": -6.1596413,
+    "maxlon": 106.7375699
+  },
+  "geometry": [
+    { "lat": -6.1596413, "lon": 106.7375699 },
+    { "lat": -6.1596891, "lon": 106.7374480 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 458241232,
+  "bounds": {
+    "minlat": -6.1716669,
+    "minlon": 106.6687845,
+    "maxlat": -6.1631400,
+    "maxlon": 106.7206729
+  },
+  "geometry": [
+    { "lat": -6.1716669, "lon": 106.6687845 },
+    { "lat": -6.1712822, "lon": 106.6712144 },
+    { "lat": -6.1703711, "lon": 106.6768719 },
+    { "lat": -6.1699194, "lon": 106.6796612 },
+    { "lat": -6.1699125, "lon": 106.6797197 },
+    { "lat": -6.1694796, "lon": 106.6823959 },
+    { "lat": -6.1689480, "lon": 106.6856662 },
+    { "lat": -6.1677661, "lon": 106.6928773 },
+    { "lat": -6.1672780, "lon": 106.6958825 },
+    { "lat": -6.1667374, "lon": 106.6991772 },
+    { "lat": -6.1658779, "lon": 106.7043347 },
+    { "lat": -6.1658175, "lon": 106.7047005 },
+    { "lat": -6.1647765, "lon": 106.7109541 },
+    { "lat": -6.1642216, "lon": 106.7143148 },
+    { "lat": -6.1632448, "lon": 106.7200055 },
+    { "lat": -6.1631400, "lon": 106.7206729 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 458241234,
+  "bounds": {
+    "minlat": -6.1583351,
+    "minlon": 106.7475132,
+    "maxlat": -6.1582833,
+    "maxlon": 106.7479555
+  },
+  "geometry": [
+    { "lat": -6.1582833, "lon": 106.7479555 },
+    { "lat": -6.1583351, "lon": 106.7475132 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 458241235,
+  "bounds": {
+    "minlat": -6.1596413,
+    "minlon": 106.7375699,
+    "maxlat": -6.1583351,
+    "maxlon": 106.7475132
+  },
+  "geometry": [
+    { "lat": -6.1583351, "lon": 106.7475132 },
+    { "lat": -6.1583407, "lon": 106.7474505 },
+    { "lat": -6.1584931, "lon": 106.7456833 },
+    { "lat": -6.1586892, "lon": 106.7431843 },
+    { "lat": -6.1588597, "lon": 106.7407911 },
+    { "lat": -6.1589359, "lon": 106.7399812 },
+    { "lat": -6.1590886, "lon": 106.7391492 },
+    { "lat": -6.1592766, "lon": 106.7385204 },
+    { "lat": -6.1596413, "lon": 106.7375699 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 458241239,
+  "bounds": {
+    "minlat": -6.1586614,
+    "minlon": 106.7479555,
+    "maxlat": -6.1579378,
+    "maxlon": 106.7567201
+  },
+  "geometry": [
+    { "lat": -6.1582833, "lon": 106.7479555 },
+    { "lat": -6.1582772, "lon": 106.7480020 },
+    { "lat": -6.1580461, "lon": 106.7506670 },
+    { "lat": -6.1579438, "lon": 106.7521142 },
+    { "lat": -6.1579378, "lon": 106.7525541 },
+    { "lat": -6.1579687, "lon": 106.7528405 },
+    { "lat": -6.1579986, "lon": 106.7535396 },
+    { "lat": -6.1580240, "lon": 106.7537049 },
+    { "lat": -6.1581405, "lon": 106.7542520 },
+    { "lat": -6.1582079, "lon": 106.7545526 },
+    { "lat": -6.1584779, "lon": 106.7558372 },
+    { "lat": -6.1585651, "lon": 106.7562778 },
+    { "lat": -6.1586614, "lon": 106.7567201 }
+  ],
+  "tags": {
+    "addr:city": "DKI Jakarta",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "source": "HOT_InAWARESurvey_2017",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 494047093,
+  "bounds": {
+    "minlat": -6.1743247,
+    "minlon": 106.8016278,
+    "maxlat": -6.1600863,
+    "maxlon": 106.8065387
+  },
+  "geometry": [
+    { "lat": -6.1743247, "lon": 106.8065387 },
+    { "lat": -6.1724629, "lon": 106.8052527 },
+    { "lat": -6.1696312, "lon": 106.8032856 },
+    { "lat": -6.1689193, "lon": 106.8028178 },
+    { "lat": -6.1685341, "lon": 106.8025664 },
+    { "lat": -6.1683692, "lon": 106.8024712 },
+    { "lat": -6.1682261, "lon": 106.8024079 },
+    { "lat": -6.1678966, "lon": 106.8022635 },
+    { "lat": -6.1676565, "lon": 106.8021693 },
+    { "lat": -6.1673744, "lon": 106.8020922 },
+    { "lat": -6.1671842, "lon": 106.8020638 },
+    { "lat": -6.1669726, "lon": 106.8020394 },
+    { "lat": -6.1667150, "lon": 106.8020109 },
+    { "lat": -6.1615838, "lon": 106.8017056 },
+    { "lat": -6.1600863, "lon": 106.8016278 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "80",
+    "name": "Jalur Kereta Api Duri–Tanah Abang",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 496040941,
+  "bounds": {
+    "minlat": -6.1615467,
+    "minlon": 106.7979405,
+    "maxlat": -6.1613317,
+    "maxlon": 106.7984721
+  },
+  "geometry": [
+    { "lat": -6.1613317, "lon": 106.7984721 },
+    { "lat": -6.1615467, "lon": 106.7979405 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 497219628,
+  "bounds": {
+    "minlat": -6.1310836,
+    "minlon": 106.8096407,
+    "maxlat": -6.1309438,
+    "maxlon": 106.8101819
+  },
+  "geometry": [
+    { "lat": -6.1310836, "lon": 106.8096407 },
+    { "lat": -6.1309438, "lon": 106.8101819 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 497219629,
+  "bounds": {
+    "minlat": -6.1309438,
+    "minlon": 106.8101819,
+    "maxlat": -6.1309307,
+    "maxlon": 106.8102367
+  },
+  "geometry": [
+    { "lat": -6.1309438, "lon": 106.8101819 },
+    { "lat": -6.1309307, "lon": 106.8102367 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 497219630,
+  "bounds": {
+    "minlat": -6.1317369,
+    "minlon": 106.8071270,
+    "maxlat": -6.1311050,
+    "maxlon": 106.8095607
+  },
+  "geometry": [
+    { "lat": -6.1317369, "lon": 106.8071270 },
+    { "lat": -6.1311050, "lon": 106.8095607 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 497219631,
+  "bounds": {
+    "minlat": -6.1311050,
+    "minlon": 106.8095607,
+    "maxlat": -6.1310836,
+    "maxlon": 106.8096407
+  },
+  "geometry": [
+    { "lat": -6.1311050, "lon": 106.8095607 },
+    { "lat": -6.1310836, "lon": 106.8096407 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 497608688,
+  "bounds": {
+    "minlat": -6.1743463,
+    "minlon": 106.8015823,
+    "maxlat": -6.1596068,
+    "maxlon": 106.8065105
+  },
+  "geometry": [
+    { "lat": -6.1596068, "lon": 106.8015823 },
+    { "lat": -6.1615934, "lon": 106.8016772 },
+    { "lat": -6.1667190, "lon": 106.8019785 },
+    { "lat": -6.1669758, "lon": 106.8020032 },
+    { "lat": -6.1672041, "lon": 106.8020313 },
+    { "lat": -6.1673873, "lon": 106.8020654 },
+    { "lat": -6.1676688, "lon": 106.8021432 },
+    { "lat": -6.1679128, "lon": 106.8022342 },
+    { "lat": -6.1682224, "lon": 106.8023692 },
+    { "lat": -6.1683839, "lon": 106.8024385 },
+    { "lat": -6.1685647, "lon": 106.8025350 },
+    { "lat": -6.1696921, "lon": 106.8032843 },
+    { "lat": -6.1724937, "lon": 106.8052312 },
+    { "lat": -6.1743463, "lon": 106.8065105 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "80",
+    "name": "Jalur Kereta Api Duri–Tanah Abang",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 499809695,
+  "bounds": {
+    "minlat": -6.1318982,
+    "minlon": 106.8065043,
+    "maxlat": -6.1317566,
+    "maxlon": 106.8070475
+  },
+  "geometry": [
+    { "lat": -6.1318982, "lon": 106.8065043 },
+    { "lat": -6.1317566, "lon": 106.8070475 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 499809696,
+  "bounds": {
+    "minlat": -6.1317566,
+    "minlon": 106.8070475,
+    "maxlat": -6.1317369,
+    "maxlon": 106.8071270
+  },
+  "geometry": [
+    { "lat": -6.1317566, "lon": 106.8070475 },
+    { "lat": -6.1317369, "lon": 106.8071270 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 501036333,
+  "bounds": {
+    "minlat": -6.1589305,
+    "minlon": 106.8013721,
+    "maxlat": -6.1577088,
+    "maxlon": 106.8015322
+  },
+  "geometry": [
+    { "lat": -6.1577088, "lon": 106.8013721 },
+    { "lat": -6.1589305, "lon": 106.8015322 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "70",
+    "railway": "rail",
+    "service": "crossover",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 501084656,
+  "bounds": {
+    "minlat": -6.1304174,
+    "minlon": 106.8120335,
+    "maxlat": -6.1299886,
+    "maxlon": 106.8148541
+  },
+  "geometry": [
+    { "lat": -6.1301726, "lon": 106.8148541 },
+    { "lat": -6.1300028, "lon": 106.8141148 },
+    { "lat": -6.1299886, "lon": 106.8137355 },
+    { "lat": -6.1300446, "lon": 106.8134211 },
+    { "lat": -6.1303109, "lon": 106.8124297 },
+    { "lat": -6.1304174, "lon": 106.8120335 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 501084658,
+  "bounds": {
+    "minlat": -6.1302602,
+    "minlon": 106.8148541,
+    "maxlat": -6.1301726,
+    "maxlon": 106.8152724
+  },
+  "geometry": [
+    { "lat": -6.1302602, "lon": 106.8152724 },
+    { "lat": -6.1301726, "lon": 106.8148541 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 501084660,
+  "bounds": {
+    "minlat": -6.1365507,
+    "minlon": 106.8002286,
+    "maxlat": -6.1320655,
+    "maxlon": 106.8056435
+  },
+  "geometry": [
+    { "lat": -6.1320655, "lon": 106.8056435 },
+    { "lat": -6.1328523, "lon": 106.8025774 },
+    { "lat": -6.1330095, "lon": 106.8021383 },
+    { "lat": -6.1331512, "lon": 106.8018558 },
+    { "lat": -6.1333253, "lon": 106.8015709 },
+    { "lat": -6.1334958, "lon": 106.8013553 },
+    { "lat": -6.1337098, "lon": 106.8011144 },
+    { "lat": -6.1339846, "lon": 106.8008777 },
+    { "lat": -6.1342087, "lon": 106.8007223 },
+    { "lat": -6.1345374, "lon": 106.8005464 },
+    { "lat": -6.1348966, "lon": 106.8003964 },
+    { "lat": -6.1350944, "lon": 106.8003378 },
+    { "lat": -6.1353889, "lon": 106.8002796 },
+    { "lat": -6.1357172, "lon": 106.8002289 },
+    { "lat": -6.1359275, "lon": 106.8002286 },
+    { "lat": -6.1365507, "lon": 106.8002489 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 501084663,
+  "bounds": {
+    "minlat": -6.1320655,
+    "minlon": 106.8056435,
+    "maxlat": -6.1318488,
+    "maxlon": 106.8064913
+  },
+  "geometry": [
+    { "lat": -6.1318488, "lon": 106.8064913 },
+    { "lat": -6.1320655, "lon": 106.8056435 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 501084665,
+  "bounds": {
+    "minlat": -6.1318488,
+    "minlon": 106.8064913,
+    "maxlat": -6.1317069,
+    "maxlon": 106.8070333
+  },
+  "geometry": [
+    { "lat": -6.1317069, "lon": 106.8070333 },
+    { "lat": -6.1318488, "lon": 106.8064913 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 501084671,
+  "bounds": {
+    "minlat": -6.1316832,
+    "minlon": 106.8071160,
+    "maxlat": -6.1310574,
+    "maxlon": 106.8095507
+  },
+  "geometry": [
+    { "lat": -6.1310574, "lon": 106.8095507 },
+    { "lat": -6.1316832, "lon": 106.8071160 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 501084673,
+  "bounds": {
+    "minlat": -6.1310340,
+    "minlon": 106.8096303,
+    "maxlat": -6.1308953,
+    "maxlon": 106.8101682
+  },
+  "geometry": [
+    { "lat": -6.1308953, "lon": 106.8101682 },
+    { "lat": -6.1310340, "lon": 106.8096303 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 501084674,
+  "bounds": {
+    "minlat": -6.1308953,
+    "minlon": 106.8101682,
+    "maxlat": -6.1308814,
+    "maxlon": 106.8102227
+  },
+  "geometry": [
+    { "lat": -6.1308814, "lon": 106.8102227 },
+    { "lat": -6.1308953, "lon": 106.8101682 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 501084677,
+  "bounds": {
+    "minlat": -6.1308814,
+    "minlon": 106.8102227,
+    "maxlat": -6.1308498,
+    "maxlon": 106.8103374
+  },
+  "geometry": [
+    { "lat": -6.1308498, "lon": 106.8103374 },
+    { "lat": -6.1308814, "lon": 106.8102227 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 501084679,
+  "bounds": {
+    "minlat": -6.1308498,
+    "minlon": 106.8103374,
+    "maxlat": -6.1307774,
+    "maxlon": 106.8106320
+  },
+  "geometry": [
+    { "lat": -6.1307774, "lon": 106.8106320 },
+    { "lat": -6.1308498, "lon": 106.8103374 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 501084680,
+  "bounds": {
+    "minlat": -6.1484789,
+    "minlon": 106.8009397,
+    "maxlat": -6.1483615,
+    "maxlon": 106.8009446
+  },
+  "geometry": [
+    { "lat": -6.1483615, "lon": 106.8009397 },
+    { "lat": -6.1484789, "lon": 106.8009446 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 501084681,
+  "bounds": {
+    "minlat": -6.1532976,
+    "minlon": 106.8009446,
+    "maxlat": -6.1484789,
+    "maxlon": 106.8012160
+  },
+  "geometry": [
+    { "lat": -6.1484789, "lon": 106.8009446 },
+    { "lat": -6.1517891, "lon": 106.8011244 },
+    { "lat": -6.1521758, "lon": 106.8011545 },
+    { "lat": -6.1527180, "lon": 106.8011901 },
+    { "lat": -6.1529299, "lon": 106.8012008 },
+    { "lat": -6.1532976, "lon": 106.8012160 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 501084683,
+  "bounds": {
+    "minlat": -6.1589305,
+    "minlon": 106.8014482,
+    "maxlat": -6.1580778,
+    "maxlon": 106.8015322
+  },
+  "geometry": [
+    { "lat": -6.1580778, "lon": 106.8014482 },
+    { "lat": -6.1589305, "lon": 106.8015322 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "80",
+    "name": "Jalur Kereta Api Duri–Tanah Abang",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 502330738,
+  "bounds": {
+    "minlat": -6.1477201,
+    "minlon": 106.8005680,
+    "maxlat": -6.1422428,
+    "maxlon": 106.8009047
+  },
+  "geometry": [
+    { "lat": -6.1422428, "lon": 106.8005680 },
+    { "lat": -6.1427614, "lon": 106.8005985 },
+    { "lat": -6.1435488, "lon": 106.8006115 },
+    { "lat": -6.1458393, "lon": 106.8007363 },
+    { "lat": -6.1459477, "lon": 106.8007504 },
+    { "lat": -6.1461143, "lon": 106.8007787 },
+    { "lat": -6.1463115, "lon": 106.8008060 },
+    { "lat": -6.1464919, "lon": 106.8008188 },
+    { "lat": -6.1468869, "lon": 106.8008548 },
+    { "lat": -6.1471524, "lon": 106.8008716 },
+    { "lat": -6.1477201, "lon": 106.8009047 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "railway:track_ref": "3",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 502330740,
+  "bounds": {
+    "minlat": -6.1366129,
+    "minlon": 106.8002489,
+    "maxlat": -6.1365507,
+    "maxlon": 106.8002529
+  },
+  "geometry": [
+    { "lat": -6.1365507, "lon": 106.8002489 },
+    { "lat": -6.1366129, "lon": 106.8002529 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 502330741,
+  "bounds": {
+    "minlat": -6.1417691,
+    "minlon": 106.8002868,
+    "maxlat": -6.1366091,
+    "maxlon": 106.8005945
+  },
+  "geometry": [
+    { "lat": -6.1417691, "lon": 106.8005945 },
+    { "lat": -6.1391820, "lon": 106.8004514 },
+    { "lat": -6.1376106, "lon": 106.8003614 },
+    { "lat": -6.1367029, "lon": 106.8002938 },
+    { "lat": -6.1366091, "lon": 106.8002868 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 502330742,
+  "bounds": {
+    "minlat": -6.1366091,
+    "minlon": 106.8002819,
+    "maxlat": -6.1365449,
+    "maxlon": 106.8002868
+  },
+  "geometry": [
+    { "lat": -6.1366091, "lon": 106.8002868 },
+    { "lat": -6.1365449, "lon": 106.8002819 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 521155512,
+  "bounds": {
+    "minlat": -6.1621574,
+    "minlon": 106.7899258,
+    "maxlat": -6.1621524,
+    "maxlon": 106.7901649
+  },
+  "geometry": [
+    { "lat": -6.1621524, "lon": 106.7899258 },
+    { "lat": -6.1621574, "lon": 106.7901649 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 521155513,
+  "bounds": {
+    "minlat": -6.1623011,
+    "minlon": 106.7901649,
+    "maxlat": -6.1615467,
+    "maxlon": 106.7979405
+  },
+  "geometry": [
+    { "lat": -6.1621574, "lon": 106.7901649 },
+    { "lat": -6.1621646, "lon": 106.7904920 },
+    { "lat": -6.1621672, "lon": 106.7905518 },
+    { "lat": -6.1622825, "lon": 106.7943632 },
+    { "lat": -6.1623011, "lon": 106.7951425 },
+    { "lat": -6.1622585, "lon": 106.7956785 },
+    { "lat": -6.1621800, "lon": 106.7961093 },
+    { "lat": -6.1620743, "lon": 106.7964612 },
+    { "lat": -6.1616321, "lon": 106.7977116 },
+    { "lat": -6.1615467, "lon": 106.7979405 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 573879905,
+  "bounds": {
+    "minlat": -6.1631400,
+    "minlon": 106.7206729,
+    "maxlat": -6.1631081,
+    "maxlon": 106.7208823
+  },
+  "geometry": [
+    { "lat": -6.1631400, "lon": 106.7206729 },
+    { "lat": -6.1631081, "lon": 106.7208823 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 573879906,
+  "bounds": {
+    "minlat": -6.1624576,
+    "minlon": 106.7247232,
+    "maxlat": -6.1596891,
+    "maxlon": 106.7374480
+  },
+  "geometry": [
+    { "lat": -6.1596891, "lon": 106.7374480 },
+    { "lat": -6.1597832, "lon": 106.7372222 },
+    { "lat": -6.1597959, "lon": 106.7371918 },
+    { "lat": -6.1600986, "lon": 106.7364655 },
+    { "lat": -6.1602606, "lon": 106.7360744 },
+    { "lat": -6.1604910, "lon": 106.7353880 },
+    { "lat": -6.1606783, "lon": 106.7345850 },
+    { "lat": -6.1609205, "lon": 106.7332968 },
+    { "lat": -6.1611682, "lon": 106.7318807 },
+    { "lat": -6.1612829, "lon": 106.7312260 },
+    { "lat": -6.1619742, "lon": 106.7274834 },
+    { "lat": -6.1621582, "lon": 106.7264606 },
+    { "lat": -6.1624576, "lon": 106.7247232 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 619146835,
+  "bounds": {
+    "minlat": -6.1614743,
+    "minlon": 106.7979251,
+    "maxlat": -6.1612634,
+    "maxlon": 106.7984448
+  },
+  "geometry": [
+    { "lat": -6.1612634, "lon": 106.7984448 },
+    { "lat": -6.1614743, "lon": 106.7979251 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 619146836,
+  "bounds": {
+    "minlat": -6.1622631,
+    "minlon": 106.7901913,
+    "maxlat": -6.1614743,
+    "maxlon": 106.7979251
+  },
+  "geometry": [
+    { "lat": -6.1614743, "lon": 106.7979251 },
+    { "lat": -6.1615622, "lon": 106.7976865 },
+    { "lat": -6.1620316, "lon": 106.7964407 },
+    { "lat": -6.1621376, "lon": 106.7961027 },
+    { "lat": -6.1622050, "lon": 106.7956863 },
+    { "lat": -6.1622631, "lon": 106.7951465 },
+    { "lat": -6.1622571, "lon": 106.7943648 },
+    { "lat": -6.1621092, "lon": 106.7905805 },
+    { "lat": -6.1621073, "lon": 106.7905171 },
+    { "lat": -6.1620981, "lon": 106.7901913 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 619146837,
+  "bounds": {
+    "minlat": -6.1620981,
+    "minlon": 106.7899529,
+    "maxlat": -6.1620907,
+    "maxlon": 106.7901913
+  },
+  "geometry": [
+    { "lat": -6.1620981, "lon": 106.7901913 },
+    { "lat": -6.1620907, "lon": 106.7899529 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 619146838,
+  "bounds": {
+    "minlat": -6.1619976,
+    "minlon": 106.7737966,
+    "maxlat": -6.1614934,
+    "maxlon": 106.7872681
+  },
+  "geometry": [
+    { "lat": -6.1619976, "lon": 106.7872681 },
+    { "lat": -6.1619548, "lon": 106.7863388 },
+    { "lat": -6.1618903, "lon": 106.7846391 },
+    { "lat": -6.1617760, "lon": 106.7815641 },
+    { "lat": -6.1615965, "lon": 106.7766130 },
+    { "lat": -6.1615785, "lon": 106.7760552 },
+    { "lat": -6.1614934, "lon": 106.7737966 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 619146839,
+  "bounds": {
+    "minlat": -6.1605305,
+    "minlon": 106.7668009,
+    "maxlat": -6.1605229,
+    "maxlon": 106.7668501
+  },
+  "geometry": [
+    { "lat": -6.1605305, "lon": 106.7668501 },
+    { "lat": -6.1605229, "lon": 106.7668009 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 619146840,
+  "bounds": {
+    "minlat": -6.1586332,
+    "minlon": 106.7479576,
+    "maxlat": -6.1578970,
+    "maxlon": 106.7567234
+  },
+  "geometry": [
+    { "lat": -6.1586332, "lon": 106.7567234 },
+    { "lat": -6.1584472, "lon": 106.7558252 },
+    { "lat": -6.1581842, "lon": 106.7545627 },
+    { "lat": -6.1579884, "lon": 106.7537115 },
+    { "lat": -6.1579625, "lon": 106.7535432 },
+    { "lat": -6.1579163, "lon": 106.7529092 },
+    { "lat": -6.1578995, "lon": 106.7525331 },
+    { "lat": -6.1578970, "lon": 106.7521073 },
+    { "lat": -6.1581156, "lon": 106.7486650 },
+    { "lat": -6.1581757, "lon": 106.7480070 },
+    { "lat": -6.1581825, "lon": 106.7479576 }
+  ],
+  "tags": {
+    "addr:city": "DKI Jakarta",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "source": "HOT_InAWARESurvey_2017",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 619146841,
+  "bounds": {
+    "minlat": -6.1582323,
+    "minlon": 106.7474876,
+    "maxlat": -6.1581825,
+    "maxlon": 106.7479576
+  },
+  "geometry": [
+    { "lat": -6.1581825, "lon": 106.7479576 },
+    { "lat": -6.1582323, "lon": 106.7474876 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 619146842,
+  "bounds": {
+    "minlat": -6.1596077,
+    "minlon": 106.7375563,
+    "maxlat": -6.1582323,
+    "maxlon": 106.7474876
+  },
+  "geometry": [
+    { "lat": -6.1582323, "lon": 106.7474876 },
+    { "lat": -6.1582362, "lon": 106.7474448 },
+    { "lat": -6.1584310, "lon": 106.7456632 },
+    { "lat": -6.1586494, "lon": 106.7431676 },
+    { "lat": -6.1588207, "lon": 106.7407893 },
+    { "lat": -6.1588957, "lon": 106.7399156 },
+    { "lat": -6.1590407, "lon": 106.7391380 },
+    { "lat": -6.1592223, "lon": 106.7384984 },
+    { "lat": -6.1596077, "lon": 106.7375563 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 619146843,
+  "bounds": {
+    "minlat": -6.1596555,
+    "minlon": 106.7374343,
+    "maxlat": -6.1596077,
+    "maxlon": 106.7375563
+  },
+  "geometry": [
+    { "lat": -6.1596077, "lon": 106.7375563 },
+    { "lat": -6.1596555, "lon": 106.7374343 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 619146844,
+  "bounds": {
+    "minlat": -6.1623203,
+    "minlon": 106.7252368,
+    "maxlat": -6.1596555,
+    "maxlon": 106.7374343
+  },
+  "geometry": [
+    { "lat": -6.1596555, "lon": 106.7374343 },
+    { "lat": -6.1597503, "lon": 106.7372068 },
+    { "lat": -6.1599320, "lon": 106.7367710 },
+    { "lat": -6.1600652, "lon": 106.7364514 },
+    { "lat": -6.1602267, "lon": 106.7360615 },
+    { "lat": -6.1604561, "lon": 106.7353780 },
+    { "lat": -6.1605372, "lon": 106.7350302 },
+    { "lat": -6.1606428, "lon": 106.7345776 },
+    { "lat": -6.1608865, "lon": 106.7333131 },
+    { "lat": -6.1611396, "lon": 106.7318322 },
+    { "lat": -6.1612523, "lon": 106.7312372 },
+    { "lat": -6.1619392, "lon": 106.7274709 },
+    { "lat": -6.1621147, "lon": 106.7264475 },
+    { "lat": -6.1623203, "lon": 106.7252368 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 619146845,
+  "bounds": {
+    "minlat": -6.1631100,
+    "minlon": 106.7206513,
+    "maxlat": -6.1630741,
+    "maxlon": 106.7208751
+  },
+  "geometry": [
+    { "lat": -6.1630741, "lon": 106.7208751 },
+    { "lat": -6.1631100, "lon": 106.7206513 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "railway:track_ref": "2",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 619146846,
+  "bounds": {
+    "minlat": -6.1715533,
+    "minlon": 106.6692582,
+    "maxlat": -6.1632753,
+    "maxlon": 106.7195497
+  },
+  "geometry": [
+    { "lat": -6.1632753, "lon": 106.7195497 },
+    { "lat": -6.1641779, "lon": 106.7143277 },
+    { "lat": -6.1647356, "lon": 106.7109648 },
+    { "lat": -6.1657900, "lon": 106.7047022 },
+    { "lat": -6.1661506, "lon": 106.7025108 },
+    { "lat": -6.1666997, "lon": 106.6991739 },
+    { "lat": -6.1672437, "lon": 106.6958691 },
+    { "lat": -6.1677197, "lon": 106.6929167 },
+    { "lat": -6.1689130, "lon": 106.6856830 },
+    { "lat": -6.1697901, "lon": 106.6802736 },
+    { "lat": -6.1698720, "lon": 106.6797314 },
+    { "lat": -6.1698836, "lon": 106.6796704 },
+    { "lat": -6.1703299, "lon": 106.6768728 },
+    { "lat": -6.1712423, "lon": 106.6712119 },
+    { "lat": -6.1715533, "lon": 106.6692582 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 757271229,
+  "bounds": {
+    "minlat": -6.1592851,
+    "minlon": 106.7592111,
+    "maxlat": -6.1592243,
+    "maxlon": 106.7595138
+  },
+  "geometry": [
+    { "lat": -6.1592243, "lon": 106.7592111 },
+    { "lat": -6.1592851, "lon": 106.7595138 }
+  ],
+  "tags": {
+    "addr:city": "DKI Jakarta",
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "source": "HOT_InAWARESurvey_2017",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 757271230,
+  "bounds": {
+    "minlat": -6.1605105,
+    "minlon": 106.7595138,
+    "maxlat": -6.1592851,
+    "maxlon": 106.7664688
+  },
+  "geometry": [
+    { "lat": -6.1592851, "lon": 106.7595138 },
+    { "lat": -6.1596114, "lon": 106.7612535 },
+    { "lat": -6.1599778, "lon": 106.7629865 },
+    { "lat": -6.1599873, "lon": 106.7630430 },
+    { "lat": -6.1599924, "lon": 106.7630811 },
+    { "lat": -6.1600025, "lon": 106.7631418 },
+    { "lat": -6.1605105, "lon": 106.7664688 }
+  ],
+  "tags": {
+    "addr:city": "DKI Jakarta",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "source": "HOT_InAWARESurvey_2017",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 757271231,
+  "bounds": {
+    "minlat": -6.1592169,
+    "minlon": 106.7592169,
+    "maxlat": -6.1591517,
+    "maxlon": 106.7595300
+  },
+  "geometry": [
+    { "lat": -6.1592169, "lon": 106.7595300 },
+    { "lat": -6.1591517, "lon": 106.7592169 }
+  ],
+  "tags": {
+    "addr:city": "DKI Jakarta",
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "source": "HOT_InAWARESurvey_2017",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 757271232,
+  "bounds": {
+    "minlat": -6.1604747,
+    "minlon": 106.7595300,
+    "maxlat": -6.1592169,
+    "maxlon": 106.7664741
+  },
+  "geometry": [
+    { "lat": -6.1604747, "lon": 106.7664741 },
+    { "lat": -6.1599661, "lon": 106.7631423 },
+    { "lat": -6.1599563, "lon": 106.7630819 },
+    { "lat": -6.1599516, "lon": 106.7630431 },
+    { "lat": -6.1599428, "lon": 106.7629868 },
+    { "lat": -6.1595853, "lon": 106.7612581 },
+    { "lat": -6.1592169, "lon": 106.7595300 }
+  ],
+  "tags": {
+    "addr:city": "DKI Jakarta",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "source": "HOT_InAWARESurvey_2017",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 829405486,
+  "bounds": {
+    "minlat": -6.1570478,
+    "minlon": 106.8013227,
+    "maxlat": -6.1560399,
+    "maxlon": 106.8013478
+  },
+  "geometry": [
+    { "lat": -6.1560399, "lon": 106.8013450 },
+    { "lat": -6.1564159, "lon": 106.8013478 },
+    { "lat": -6.1567293, "lon": 106.8013362 },
+    { "lat": -6.1568931, "lon": 106.8013249 },
+    { "lat": -6.1570478, "lon": 106.8013227 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "passenger_lines": "2",
+    "railway": "rail",
+    "service": "crossover",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 1106870905,
+  "bounds": {
+    "minlat": -6.1605229,
+    "minlon": 106.7664741,
+    "maxlat": -6.1604747,
+    "maxlon": 106.7668009
+  },
+  "geometry": [
+    { "lat": -6.1605229, "lon": 106.7668009 },
+    { "lat": -6.1604747, "lon": 106.7664741 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1106870906,
+  "bounds": {
+    "minlat": -6.1605593,
+    "minlon": 106.7664688,
+    "maxlat": -6.1605105,
+    "maxlon": 106.7667993
+  },
+  "geometry": [
+    { "lat": -6.1605105, "lon": 106.7664688 },
+    { "lat": -6.1605593, "lon": 106.7667993 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1128000044,
+  "bounds": {
+    "minlat": -6.1468829,
+    "minlon": 106.8006554,
+    "maxlat": -6.1429676,
+    "maxlon": 106.8008861
+  },
+  "geometry": [
+    { "lat": -6.1468829, "lon": 106.8008861 },
+    { "lat": -6.1461419, "lon": 106.8008306 },
+    { "lat": -6.1455164, "lon": 106.8007959 },
+    { "lat": -6.1435409, "lon": 106.8006901 },
+    { "lat": -6.1429676, "lon": 106.8006554 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "railway:track_ref": "2",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 1128000045,
+  "bounds": {
+    "minlat": -6.1428661,
+    "minlon": 106.8005680,
+    "maxlat": -6.1422428,
+    "maxlon": 106.8006484
+  },
+  "geometry": [
+    { "lat": -6.1428661, "lon": 106.8006484 },
+    { "lat": -6.1422428, "lon": 106.8005680 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "railway": "rail",
+    "service": "crossover",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 1128000046,
+  "bounds": {
+    "minlat": -6.1612623,
+    "minlon": 106.7984476,
+    "maxlat": -6.1576585,
+    "maxlon": 106.8013638
+  },
+  "geometry": [
+    { "lat": -6.1576585, "lon": 106.8013271 },
+    { "lat": -6.1584337, "lon": 106.8013638 },
+    { "lat": -6.1587435, "lon": 106.8013465 },
+    { "lat": -6.1590025, "lon": 106.8012963 },
+    { "lat": -6.1594599, "lon": 106.8011314 },
+    { "lat": -6.1597282, "lon": 106.8009887 },
+    { "lat": -6.1602026, "lon": 106.8005858 },
+    { "lat": -6.1605564, "lon": 106.8000840 },
+    { "lat": -6.1606534, "lon": 106.7998842 },
+    { "lat": -6.1607984, "lon": 106.7995536 },
+    { "lat": -6.1612623, "lon": 106.7984476 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1128000047,
+  "bounds": {
+    "minlat": -6.1576585,
+    "minlon": 106.8013271,
+    "maxlat": -6.1571418,
+    "maxlon": 106.8013310
+  },
+  "geometry": [
+    { "lat": -6.1571418, "lon": 106.8013271 },
+    { "lat": -6.1574178, "lon": 106.8013310 },
+    { "lat": -6.1576585, "lon": 106.8013271 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "railway": "rail",
+    "service": "crossover",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 1128000048,
+  "bounds": {
+    "minlat": -6.1586518,
+    "minlon": 106.8014482,
+    "maxlat": -6.1580778,
+    "maxlon": 106.8015360
+  },
+  "geometry": [
+    { "lat": -6.1580778, "lon": 106.8014482 },
+    { "lat": -6.1586518, "lon": 106.8015360 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "railway": "rail",
+    "service": "crossover",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 1128000049,
+  "bounds": {
+    "minlat": -6.1574522,
+    "minlon": 106.8013511,
+    "maxlat": -6.1554926,
+    "maxlon": 106.8014475
+  },
+  "geometry": [
+    { "lat": -6.1554926, "lon": 106.8013511 },
+    { "lat": -6.1566058, "lon": 106.8014160 },
+    { "lat": -6.1571173, "lon": 106.8014475 },
+    { "lat": -6.1574522, "lon": 106.8014058 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "railway": "rail",
+    "railway:track_ref": "2",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 1128000050,
+  "bounds": {
+    "minlat": -6.1576497,
+    "minlon": 106.8012852,
+    "maxlat": -6.1571492,
+    "maxlon": 106.8013674
+  },
+  "geometry": [
+    { "lat": -6.1576497, "lon": 106.8013674 },
+    { "lat": -6.1574178, "lon": 106.8013310 },
+    { "lat": -6.1571492, "lon": 106.8012852 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "30",
+    "railway": "rail",
+    "service": "crossover",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 1128000051,
+  "bounds": {
+    "minlat": -6.1527180,
+    "minlon": 106.8011901,
+    "maxlat": -6.1521714,
+    "maxlon": 106.8011984
+  },
+  "geometry": [
+    { "lat": -6.1527180, "lon": 106.8011901 },
+    { "lat": -6.1521714, "lon": 106.8011984 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "railway": "rail",
+    "service": "crossover",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 1128092729,
+  "bounds": {
+    "minlat": -6.1477201,
+    "minlon": 106.8009039,
+    "maxlat": -6.1471516,
+    "maxlon": 106.8009047
+  },
+  "geometry": [
+    { "lat": -6.1477201, "lon": 106.8009047 },
+    { "lat": -6.1471516, "lon": 106.8009039 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "railway": "rail",
+    "service": "crossover",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 1128122129,
+  "bounds": {
+    "minlat": -6.1483617,
+    "minlon": 106.8009039,
+    "maxlat": -6.1471516,
+    "maxlon": 106.8009738
+  },
+  "geometry": [
+    { "lat": -6.1483617, "lon": 106.8009738 },
+    { "lat": -6.1477175, "lon": 106.8009370 },
+    { "lat": -6.1471516, "lon": 106.8009039 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 1128122130,
+  "bounds": {
+    "minlat": -6.1483615,
+    "minlon": 106.8009047,
+    "maxlat": -6.1477201,
+    "maxlon": 106.8009397
+  },
+  "geometry": [
+    { "lat": -6.1477201, "lon": 106.8009047 },
+    { "lat": -6.1483615, "lon": 106.8009397 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 1128122131,
+  "bounds": {
+    "minlat": -6.1471516,
+    "minlon": 106.8008861,
+    "maxlat": -6.1468829,
+    "maxlon": 106.8009039
+  },
+  "geometry": [
+    { "lat": -6.1471516, "lon": 106.8009039 },
+    { "lat": -6.1468829, "lon": 106.8008861 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 1128122132,
+  "bounds": {
+    "minlat": -6.1468829,
+    "minlon": 106.8007233,
+    "maxlat": -6.1435403,
+    "maxlon": 106.8008861
+  },
+  "geometry": [
+    { "lat": -6.1435403, "lon": 106.8007233 },
+    { "lat": -6.1455016, "lon": 106.8008375 },
+    { "lat": -6.1462418, "lon": 106.8008727 },
+    { "lat": -6.1468829, "lon": 106.8008861 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "railway:track_ref": "1",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 1128122133,
+  "bounds": {
+    "minlat": -6.1571492,
+    "minlon": 106.8011892,
+    "maxlat": -6.1555014,
+    "maxlon": 106.8012852
+  },
+  "geometry": [
+    { "lat": -6.1555014, "lon": 106.8011892 },
+    { "lat": -6.1565236, "lon": 106.8012402 },
+    { "lat": -6.1571492, "lon": 106.8012852 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "railway:track_ref": "5",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1128122134,
+  "bounds": {
+    "minlat": -6.1570478,
+    "minlon": 106.8012288,
+    "maxlat": -6.1554992,
+    "maxlon": 106.8013227
+  },
+  "geometry": [
+    { "lat": -6.1570478, "lon": 106.8013227 },
+    { "lat": -6.1561656, "lon": 106.8012629 },
+    { "lat": -6.1554992, "lon": 106.8012288 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "railway:track_ref": "4",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1128122135,
+  "bounds": {
+    "minlat": -6.1586518,
+    "minlon": 106.8014462,
+    "maxlat": -6.1555938,
+    "maxlon": 106.8015360
+  },
+  "geometry": [
+    { "lat": -6.1555938, "lon": 106.8014462 },
+    { "lat": -6.1561145, "lon": 106.8014761 },
+    { "lat": -6.1565675, "lon": 106.8015010 },
+    { "lat": -6.1567882, "lon": 106.8015036 },
+    { "lat": -6.1574429, "lon": 106.8014932 },
+    { "lat": -6.1575480, "lon": 106.8014903 },
+    { "lat": -6.1586518, "lon": 106.8015360 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "80",
+    "name": "Jalur Kereta Api Duri–Tanah Abang",
+    "railway": "rail",
+    "railway:track_ref": "1",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 1128122136,
+  "bounds": {
+    "minlat": -6.1521714,
+    "minlon": 106.8009801,
+    "maxlat": -6.1484795,
+    "maxlon": 106.8011984
+  },
+  "geometry": [
+    { "lat": -6.1521714, "lon": 106.8011984 },
+    { "lat": -6.1517873, "lon": 106.8011675 },
+    { "lat": -6.1484795, "lon": 106.8009801 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 1128122137,
+  "bounds": {
+    "minlat": -6.1536890,
+    "minlon": 106.8012160,
+    "maxlat": -6.1532976,
+    "maxlon": 106.8012304
+  },
+  "geometry": [
+    { "lat": -6.1532976, "lon": 106.8012160 },
+    { "lat": -6.1536890, "lon": 106.8012304 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 1128122165,
+  "bounds": {
+    "minlat": -6.1560399,
+    "minlon": 106.8013151,
+    "maxlat": -6.1554945,
+    "maxlon": 106.8013450
+  },
+  "geometry": [
+    { "lat": -6.1554945, "lon": 106.8013151 },
+    { "lat": -6.1560399, "lon": 106.8013450 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Duri–Tanah Abang",
+    "railway": "rail",
+    "railway:track_ref": "3",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 1128122166,
+  "bounds": {
+    "minlat": -6.1574522,
+    "minlon": 106.8013450,
+    "maxlat": -6.1560399,
+    "maxlon": 106.8014058
+  },
+  "geometry": [
+    { "lat": -6.1560399, "lon": 106.8013450 },
+    { "lat": -6.1574522, "lon": 106.8014058 }
+  ],
+  "tags": {
+    "gauge": "1067",
+    "maxspeed": "80",
+    "name": "Jalur Kereta Api Duri–Tanah Abang",
+    "railway": "rail",
+    "usage": "main",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 1172321926,
+  "bounds": {
+    "minlat": -6.1630499,
+    "minlon": 106.7206216,
+    "maxlat": -6.1630068,
+    "maxlon": 106.7208841
+  },
+  "geometry": [
+    { "lat": -6.1630499, "lon": 106.7206216 },
+    { "lat": -6.1630356, "lon": 106.7207086 },
+    { "lat": -6.1630068, "lon": 106.7208841 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "75",
+    "railway": "rail",
+    "railway:track_ref": "3",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 1172321927,
+  "bounds": {
+    "minlat": -6.1630068,
+    "minlon": 106.7208841,
+    "maxlat": -6.1624847,
+    "maxlon": 106.7239754
+  },
+  "geometry": [
+    { "lat": -6.1630068, "lon": 106.7208841 },
+    { "lat": -6.1629081, "lon": 106.7214686 },
+    { "lat": -6.1626917, "lon": 106.7227345 },
+    { "lat": -6.1624847, "lon": 106.7239754 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "75",
+    "railway": "rail",
+    "railway:track_ref": "3",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 1172321928,
+  "bounds": {
+    "minlat": -6.1625489,
+    "minlon": 106.7239800,
+    "maxlat": -6.1624576,
+    "maxlon": 106.7247232
+  },
+  "geometry": [
+    { "lat": -6.1625489, "lon": 106.7239800 },
+    { "lat": -6.1624576, "lon": 106.7247232 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "75",
+    "railway": "rail",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 1172321929,
+  "bounds": {
+    "minlat": -6.1624847,
+    "minlon": 106.7239754,
+    "maxlat": -6.1623203,
+    "maxlon": 106.7252368
+  },
+  "geometry": [
+    { "lat": -6.1624847, "lon": 106.7239754 },
+    { "lat": -6.1624708, "lon": 106.7240747 },
+    { "lat": -6.1623712, "lon": 106.7248869 },
+    { "lat": -6.1623479, "lon": 106.7250555 },
+    { "lat": -6.1623203, "lon": 106.7252368 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "75",
+    "railway": "rail",
+    "railway:track_ref": "3",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 1172321930,
+  "bounds": {
+    "minlat": -6.1630913,
+    "minlon": 106.7210003,
+    "maxlat": -6.1629954,
+    "maxlon": 106.7213862
+  },
+  "geometry": [
+    { "lat": -6.1630913, "lon": 106.7210003 },
+    { "lat": -6.1629954, "lon": 106.7213862 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "75",
+    "railway": "rail",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 1172321931,
+  "bounds": {
+    "minlat": -6.1632753,
+    "minlon": 106.7195497,
+    "maxlat": -6.1630499,
+    "maxlon": 106.7206216
+  },
+  "geometry": [
+    { "lat": -6.1630499, "lon": 106.7206216 },
+    { "lat": -6.1630762, "lon": 106.7204770 },
+    { "lat": -6.1631047, "lon": 106.7203374 },
+    { "lat": -6.1632384, "lon": 106.7197301 },
+    { "lat": -6.1632753, "lon": 106.7195497 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "75",
+    "railway": "rail",
+    "railway:track_ref": "3",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 1207910730,
+  "bounds": {
+    "minlat": -6.1372229,
+    "minlon": 106.8166459,
+    "maxlat": -6.1371199,
+    "maxlon": 106.8168819
+  },
+  "geometry": [
+    { "lat": -6.1371199, "lon": 106.8168819 },
+    { "lat": -6.1372229, "lon": 106.8166459 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "name": "Jalur Kereta Api Jakarta Kota–Bogor",
+    "railway": "rail",
+    "railway:track_ref": "11",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487135",
+    "wikipedia": "id: Jalur kereta api Jakarta Kota–Bogor–Padalarang"
+  }
+},
+{
+  "type": "way",
+  "id": 1208494881,
+  "bounds": {
+    "minlat": -6.1429676,
+    "minlon": 106.8006029,
+    "maxlat": -6.1419868,
+    "maxlon": 106.8006554
+  },
+  "geometry": [
+    { "lat": -6.1429676, "lon": 106.8006554 },
+    { "lat": -6.1428661, "lon": 106.8006484 },
+    { "lat": -6.1421349, "lon": 106.8006090 },
+    { "lat": -6.1420057, "lon": 106.8006032 },
+    { "lat": -6.1419868, "lon": 106.8006029 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 1208494882,
+  "bounds": {
+    "minlat": -6.1419868,
+    "minlon": 106.8005945,
+    "maxlat": -6.1417691,
+    "maxlon": 106.8006029
+  },
+  "geometry": [
+    { "lat": -6.1419868, "lon": 106.8006029 },
+    { "lat": -6.1417691, "lon": 106.8005945 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 1208494883,
+  "bounds": {
+    "minlat": -6.1419872,
+    "minlon": 106.8005474,
+    "maxlat": -6.1417731,
+    "maxlon": 106.8005573
+  },
+  "geometry": [
+    { "lat": -6.1417731, "lon": 106.8005474 },
+    { "lat": -6.1419872, "lon": 106.8005573 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 1208494884,
+  "bounds": {
+    "minlat": -6.1417731,
+    "minlon": 106.8002529,
+    "maxlat": -6.1366129,
+    "maxlon": 106.8005474
+  },
+  "geometry": [
+    { "lat": -6.1366129, "lon": 106.8002529 },
+    { "lat": -6.1367063, "lon": 106.8002602 },
+    { "lat": -6.1376005, "lon": 106.8003297 },
+    { "lat": -6.1391778, "lon": 106.8004198 },
+    { "lat": -6.1417731, "lon": 106.8005474 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 1208494885,
+  "bounds": {
+    "minlat": -6.1547795,
+    "minlon": 106.8011538,
+    "maxlat": -6.1544179,
+    "maxlon": 106.8011812
+  },
+  "geometry": [
+    { "lat": -6.1544179, "lon": 106.8011812 },
+    { "lat": -6.1547795, "lon": 106.8011538 }
+  ],
+  "tags": {
+    "railway": "rail",
+    "service": "crossover"
+  }
+},
+{
+  "type": "way",
+  "id": 1217483793,
+  "bounds": {
+    "minlat": -6.1437055,
+    "minlon": 106.8242354,
+    "maxlat": -6.1432786,
+    "maxlon": 106.8245413
+  },
+  "geometry": [
+    { "lat": -6.1432786, "lon": 106.8242354 },
+    { "lat": -6.1434838, "lon": 106.8243824 },
+    { "lat": -6.1437055, "lon": 106.8245413 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "layer": "1",
+    "railway": "rail",
+    "service": "crossover"
+  }
+},
+{
+  "type": "way",
+  "id": 1222396710,
+  "bounds": {
+    "minlat": -6.1307774,
+    "minlon": 106.8106320,
+    "maxlat": -6.1304577,
+    "maxlon": 106.8118768
+  },
+  "geometry": [
+    { "lat": -6.1304577, "lon": 106.8118768 },
+    { "lat": -6.1306791, "lon": 106.8110146 },
+    { "lat": -6.1307774, "lon": 106.8106320 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 1222396711,
+  "bounds": {
+    "minlat": -6.1304577,
+    "minlon": 106.8118768,
+    "maxlat": -6.1304174,
+    "maxlon": 106.8120335
+  },
+  "geometry": [
+    { "lat": -6.1304174, "lon": 106.8120335 },
+    { "lat": -6.1304577, "lon": 106.8118768 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 1222396712,
+  "bounds": {
+    "minlat": -6.1308258,
+    "minlon": 106.8106455,
+    "maxlat": -6.1304869,
+    "maxlon": 106.8118857
+  },
+  "geometry": [
+    { "lat": -6.1308258, "lon": 106.8106455 },
+    { "lat": -6.1305802, "lon": 106.8115444 },
+    { "lat": -6.1304869, "lon": 106.8118857 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 1222396713,
+  "bounds": {
+    "minlat": -6.1304869,
+    "minlon": 106.8118857,
+    "maxlat": -6.1304481,
+    "maxlon": 106.8120452
+  },
+  "geometry": [
+    { "lat": -6.1304869, "lon": 106.8118857 },
+    { "lat": -6.1304481, "lon": 106.8120452 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 1249387312,
+  "bounds": {
+    "minlat": -6.1544179,
+    "minlon": 106.8011812,
+    "maxlat": -6.1536890,
+    "maxlon": 106.8012304
+  },
+  "geometry": [
+    { "lat": -6.1544179, "lon": 106.8011812 },
+    { "lat": -6.1543240, "lon": 106.8011812 },
+    { "lat": -6.1540687, "lon": 106.8012080 },
+    { "lat": -6.1536890, "lon": 106.8012304 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1264123467,
+  "bounds": {
+    "minlat": -6.1435403,
+    "minlon": 106.8006554,
+    "maxlat": -6.1429676,
+    "maxlon": 106.8007233
+  },
+  "geometry": [
+    { "lat": -6.1429676, "lon": 106.8006554 },
+    { "lat": -6.1435403, "lon": 106.8007233 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "railway:track_ref": "1",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 1289375402,
+  "bounds": {
+    "minlat": -6.1545636,
+    "minlon": 106.8012304,
+    "maxlat": -6.1536890,
+    "maxlon": 106.8012650
+  },
+  "geometry": [
+    { "lat": -6.1536890, "lon": 106.8012304 },
+    { "lat": -6.1545636, "lon": 106.8012650 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "railway": "rail",
+    "railway:track_ref": "3",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 1289375403,
+  "bounds": {
+    "minlat": -6.1571418,
+    "minlon": 106.8013227,
+    "maxlat": -6.1570478,
+    "maxlon": 106.8013271
+  },
+  "geometry": [
+    { "lat": -6.1571418, "lon": 106.8013271 },
+    { "lat": -6.1570478, "lon": 106.8013227 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1289375404,
+  "bounds": {
+    "minlat": -6.1600863,
+    "minlon": 106.8015823,
+    "maxlat": -6.1596068,
+    "maxlon": 106.8016278
+  },
+  "geometry": [
+    { "lat": -6.1600863, "lon": 106.8016278 },
+    { "lat": -6.1596068, "lon": 106.8015823 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "railway": "rail",
+    "service": "crossover"
+  }
+},
+{
+  "type": "way",
+  "id": 1289375405,
+  "bounds": {
+    "minlat": -6.1600863,
+    "minlon": 106.8015360,
+    "maxlat": -6.1586518,
+    "maxlon": 106.8016278
+  },
+  "geometry": [
+    { "lat": -6.1586518, "lon": 106.8015360 },
+    { "lat": -6.1591381, "lon": 106.8015869 },
+    { "lat": -6.1594994, "lon": 106.8016080 },
+    { "lat": -6.1600863, "lon": 106.8016278 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "80",
+    "name": "Jalur Kereta Api Duri–Tanah Abang",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 1289375406,
+  "bounds": {
+    "minlat": -6.1596068,
+    "minlon": 106.8015322,
+    "maxlat": -6.1589305,
+    "maxlon": 106.8015823
+  },
+  "geometry": [
+    { "lat": -6.1589305, "lon": 106.8015322 },
+    { "lat": -6.1591471, "lon": 106.8015566 },
+    { "lat": -6.1596068, "lon": 106.8015823 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "80",
+    "name": "Jalur Kereta Api Duri–Tanah Abang",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 1289375407,
+  "bounds": {
+    "minlat": -6.1577088,
+    "minlon": 106.8013271,
+    "maxlat": -6.1571418,
+    "maxlon": 106.8013721
+  },
+  "geometry": [
+    { "lat": -6.1577088, "lon": 106.8013721 },
+    { "lat": -6.1576497, "lon": 106.8013674 },
+    { "lat": -6.1571418, "lon": 106.8013271 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1289375416,
+  "bounds": {
+    "minlat": -6.1576585,
+    "minlon": 106.8012852,
+    "maxlat": -6.1571492,
+    "maxlon": 106.8013271
+  },
+  "geometry": [
+    { "lat": -6.1571492, "lon": 106.8012852 },
+    { "lat": -6.1576585, "lon": 106.8013271 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1311239735,
+  "bounds": {
+    "minlat": -6.1369083,
+    "minlon": 106.8159803,
+    "maxlat": -6.1367655,
+    "maxlon": 106.8166257
+  },
+  "geometry": [
+    { "lat": -6.1369083, "lon": 106.8159803 },
+    { "lat": -6.1368775, "lon": 106.8160858 },
+    { "lat": -6.1368206, "lon": 106.8163126 },
+    { "lat": -6.1367655, "lon": 106.8166257 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "railway": "rail",
+    "railway:track_ref": "1",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 1311239738,
+  "bounds": {
+    "minlat": -6.1407378,
+    "minlon": 106.8188836,
+    "maxlat": -6.1363712,
+    "maxlon": 106.8227763
+  },
+  "geometry": [
+    { "lat": -6.1365654, "lon": 106.8188836 },
+    { "lat": -6.1364968, "lon": 106.8191705 },
+    { "lat": -6.1364025, "lon": 106.8196235 },
+    { "lat": -6.1363776, "lon": 106.8198752 },
+    { "lat": -6.1363712, "lon": 106.8201443 },
+    { "lat": -6.1364084, "lon": 106.8203889 },
+    { "lat": -6.1364800, "lon": 106.8206548 },
+    { "lat": -6.1365921, "lon": 106.8209006 },
+    { "lat": -6.1366780, "lon": 106.8210669 },
+    { "lat": -6.1367699, "lon": 106.8212112 },
+    { "lat": -6.1368934, "lon": 106.8213491 },
+    { "lat": -6.1370327, "lon": 106.8214649 },
+    { "lat": -6.1371852, "lon": 106.8215817 },
+    { "lat": -6.1374571, "lon": 106.8217490 },
+    { "lat": -6.1377272, "lon": 106.8218388 },
+    { "lat": -6.1396251, "lon": 106.8223690 },
+    { "lat": -6.1401840, "lon": 106.8225551 },
+    { "lat": -6.1402427, "lon": 106.8225775 },
+    { "lat": -6.1405410, "lon": 106.8226913 },
+    { "lat": -6.1407378, "lon": 106.8227763 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "level": "1",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Jakarta Kota–Bogor",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487135",
+    "wikipedia": "id: Jalur kereta api Jakarta Kota–Bogor–Padalarang"
+  }
+},
+{
+  "type": "way",
+  "id": 1311239739,
+  "bounds": {
+    "minlat": -6.1407275,
+    "minlon": 106.8213564,
+    "maxlat": -6.1368439,
+    "maxlon": 106.8228148
+  },
+  "geometry": [
+    { "lat": -6.1368439, "lon": 106.8213564 },
+    { "lat": -6.1368680, "lon": 106.8213840 },
+    { "lat": -6.1371539, "lon": 106.8216119 },
+    { "lat": -6.1374401, "lon": 106.8217833 },
+    { "lat": -6.1377358, "lon": 106.8218867 },
+    { "lat": -6.1396096, "lon": 106.8224044 },
+    { "lat": -6.1401864, "lon": 106.8226003 },
+    { "lat": -6.1403681, "lon": 106.8226688 },
+    { "lat": -6.1404771, "lon": 106.8227099 },
+    { "lat": -6.1405266, "lon": 106.8227285 },
+    { "lat": -6.1407275, "lon": 106.8228148 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Jakarta Kota–Bogor",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487135",
+    "wikipedia": "id: Jalur kereta api Jakarta Kota–Bogor–Padalarang"
+  }
+},
+{
+  "type": "way",
+  "id": 1311239741,
+  "bounds": {
+    "minlat": -6.1432786,
+    "minlon": 106.8227763,
+    "maxlat": -6.1407378,
+    "maxlon": 106.8242354
+  },
+  "geometry": [
+    { "lat": -6.1407378, "lon": 106.8227763 },
+    { "lat": -6.1410020, "lon": 106.8228946 },
+    { "lat": -6.1412563, "lon": 106.8230328 },
+    { "lat": -6.1416815, "lon": 106.8232753 },
+    { "lat": -6.1420959, "lon": 106.8235244 },
+    { "lat": -6.1432786, "lon": 106.8242354 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "level": "1",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Jakarta Kota–Bogor",
+    "railway": "rail",
+    "railway:track_ref": "1",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487135",
+    "wikipedia": "en:Manggarai–Padalarang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1311268004,
+  "bounds": {
+    "minlat": -6.1488230,
+    "minlon": 106.8242354,
+    "maxlat": -6.1432786,
+    "maxlon": 106.8268018
+  },
+  "geometry": [
+    { "lat": -6.1432786, "lon": 106.8242354 },
+    { "lat": -6.1437226, "lon": 106.8245118 },
+    { "lat": -6.1457194, "lon": 106.8257304 },
+    { "lat": -6.1465474, "lon": 106.8261440 },
+    { "lat": -6.1467527, "lon": 106.8262347 },
+    { "lat": -6.1471480, "lon": 106.8263857 },
+    { "lat": -6.1475645, "lon": 106.8265278 },
+    { "lat": -6.1478734, "lon": 106.8266126 },
+    { "lat": -6.1482306, "lon": 106.8266987 },
+    { "lat": -6.1488230, "lon": 106.8268018 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "level": "1",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Jakarta Kota–Bogor",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487135",
+    "wikipedia": "en:Manggarai–Padalarang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1311268010,
+  "bounds": {
+    "minlat": -6.1617916,
+    "minlon": 106.8274679,
+    "maxlat": -6.1594375,
+    "maxlon": 106.8280399
+  },
+  "geometry": [
+    { "lat": -6.1594375, "lon": 106.8274679 },
+    { "lat": -6.1596905, "lon": 106.8274840 },
+    { "lat": -6.1600237, "lon": 106.8275098 },
+    { "lat": -6.1604397, "lon": 106.8275777 },
+    { "lat": -6.1607113, "lon": 106.8276388 },
+    { "lat": -6.1611548, "lon": 106.8277717 },
+    { "lat": -6.1614751, "lon": 106.8278986 },
+    { "lat": -6.1616436, "lon": 106.8279728 },
+    { "lat": -6.1617916, "lon": 106.8280399 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "level": "1",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Jakarta Kota–Bogor",
+    "railway": "rail",
+    "railway:track_ref": "2",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487135",
+    "wikipedia": "en:Manggarai–Padalarang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1311268012,
+  "bounds": {
+    "minlat": -6.1651537,
+    "minlon": 106.8280399,
+    "maxlat": -6.1617916,
+    "maxlon": 106.8301208
+  },
+  "geometry": [
+    { "lat": -6.1617916, "lon": 106.8280399 },
+    { "lat": -6.1620175, "lon": 106.8281658 },
+    { "lat": -6.1623051, "lon": 106.8283354 },
+    { "lat": -6.1626009, "lon": 106.8285347 },
+    { "lat": -6.1631432, "lon": 106.8289201 },
+    { "lat": -6.1639214, "lon": 106.8294766 },
+    { "lat": -6.1642886, "lon": 106.8297052 },
+    { "lat": -6.1645309, "lon": 106.8298425 },
+    { "lat": -6.1648283, "lon": 106.8299943 },
+    { "lat": -6.1651537, "lon": 106.8301208 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "layer": "1",
+    "level": "1",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Jakarta Kota–Bogor",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487135",
+    "wikipedia": "en:Manggarai–Padalarang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1311980030,
+  "bounds": {
+    "minlat": -6.1573277,
+    "minlon": 106.8014475,
+    "maxlat": -6.1571173,
+    "maxlon": 106.8014575
+  },
+  "geometry": [
+    { "lat": -6.1571173, "lon": 106.8014475 },
+    { "lat": -6.1573277, "lon": 106.8014575 }
+  ],
+  "tags": {
+    "gauge": "1067",
+    "railway": "rail",
+    "service": "yard"
+  }
+},
+{
+  "type": "way",
+  "id": 1311980031,
+  "bounds": {
+    "minlat": -6.1545836,
+    "minlon": 106.8011812,
+    "maxlat": -6.1544179,
+    "maxlon": 106.8011838
+  },
+  "geometry": [
+    { "lat": -6.1545836, "lon": 106.8011838 },
+    { "lat": -6.1544179, "lon": 106.8011812 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "railway:track_ref": "4",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1311980032,
+  "bounds": {
+    "minlat": -6.1550667,
+    "minlon": 106.8011984,
+    "maxlat": -6.1521714,
+    "maxlon": 106.8014135
+  },
+  "geometry": [
+    { "lat": -6.1550667, "lon": 106.8014135 },
+    { "lat": -6.1549580, "lon": 106.8014059 },
+    { "lat": -6.1548503, "lon": 106.8013972 },
+    { "lat": -6.1544368, "lon": 106.8013553 },
+    { "lat": -6.1537799, "lon": 106.8013026 },
+    { "lat": -6.1521714, "lon": 106.8011984 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "railway": "rail",
+    "railway:track_ref": "1",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 1311980033,
+  "bounds": {
+    "minlat": -6.1550715,
+    "minlon": 106.8012160,
+    "maxlat": -6.1532976,
+    "maxlon": 106.8013252
+  },
+  "geometry": [
+    { "lat": -6.1532976, "lon": 106.8012160 },
+    { "lat": -6.1535033, "lon": 106.8012494 },
+    { "lat": -6.1537582, "lon": 106.8012612 },
+    { "lat": -6.1544308, "lon": 106.8012902 },
+    { "lat": -6.1550715, "lon": 106.8013252 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "railway": "rail",
+    "railway:track_ref": "2",
+    "service": "siding",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 1311980034,
+  "bounds": {
+    "minlat": -6.1550734,
+    "minlon": 106.8012650,
+    "maxlat": -6.1545636,
+    "maxlon": 106.8012910
+  },
+  "geometry": [
+    { "lat": -6.1545636, "lon": 106.8012650 },
+    { "lat": -6.1550734, "lon": 106.8012910 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "railway": "rail",
+    "railway:track_ref": "3",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 1311980035,
+  "bounds": {
+    "minlat": -6.1550800,
+    "minlon": 106.8011454,
+    "maxlat": -6.1543527,
+    "maxlon": 106.8011681
+  },
+  "geometry": [
+    { "lat": -6.1543527, "lon": 106.8011454 },
+    { "lat": -6.1544913, "lon": 106.8011470 },
+    { "lat": -6.1547795, "lon": 106.8011538 },
+    { "lat": -6.1550800, "lon": 106.8011681 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "railway:track_ref": "5",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1311980036,
+  "bounds": {
+    "minlat": -6.1550779,
+    "minlon": 106.8011838,
+    "maxlat": -6.1545836,
+    "maxlon": 106.8012081
+  },
+  "geometry": [
+    { "lat": -6.1550779, "lon": 106.8012081 },
+    { "lat": -6.1545836, "lon": 106.8011838 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "railway:track_ref": "4",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1311980037,
+  "bounds": {
+    "minlat": -6.1554945,
+    "minlon": 106.8012910,
+    "maxlat": -6.1550734,
+    "maxlon": 106.8013151
+  },
+  "geometry": [
+    { "lat": -6.1550734, "lon": 106.8012910 },
+    { "lat": -6.1554945, "lon": 106.8013151 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "railway": "rail",
+    "railway:track_ref": "3",
+    "tunnel": "building_passage",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 1311980038,
+  "bounds": {
+    "minlat": -6.1554926,
+    "minlon": 106.8013252,
+    "maxlat": -6.1550715,
+    "maxlon": 106.8013511
+  },
+  "geometry": [
+    { "lat": -6.1550715, "lon": 106.8013252 },
+    { "lat": -6.1554926, "lon": 106.8013511 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "railway": "rail",
+    "railway:track_ref": "2",
+    "service": "siding",
+    "tunnel": "building_passage",
+    "voltage": "1500"
+  }
+},
+{
+  "type": "way",
+  "id": 1311980039,
+  "bounds": {
+    "minlat": -6.1555938,
+    "minlon": 106.8014135,
+    "maxlat": -6.1550667,
+    "maxlon": 106.8014462
+  },
+  "geometry": [
+    { "lat": -6.1550667, "lon": 106.8014135 },
+    { "lat": -6.1555938, "lon": 106.8014462 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "railway": "rail",
+    "railway:track_ref": "1",
+    "tunnel": "building_passage",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 1311980040,
+  "bounds": {
+    "minlat": -6.1555014,
+    "minlon": 106.8011681,
+    "maxlat": -6.1550800,
+    "maxlon": 106.8011892
+  },
+  "geometry": [
+    { "lat": -6.1550800, "lon": 106.8011681 },
+    { "lat": -6.1555014, "lon": 106.8011892 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "railway:track_ref": "5",
+    "tunnel": "building_passage",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1311980041,
+  "bounds": {
+    "minlat": -6.1554992,
+    "minlon": 106.8012081,
+    "maxlat": -6.1550779,
+    "maxlon": 106.8012288
+  },
+  "geometry": [
+    { "lat": -6.1554992, "lon": 106.8012288 },
+    { "lat": -6.1550779, "lon": 106.8012081 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "railway:track_ref": "4",
+    "tunnel": "building_passage",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1311980042,
+  "bounds": {
+    "minlat": -6.1620907,
+    "minlon": 106.7894436,
+    "maxlat": -6.1620735,
+    "maxlon": 106.7899529
+  },
+  "geometry": [
+    { "lat": -6.1620907, "lon": 106.7899529 },
+    { "lat": -6.1620898, "lon": 106.7899227 },
+    { "lat": -6.1620875, "lon": 106.7898369 },
+    { "lat": -6.1620735, "lon": 106.7894436 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1311980043,
+  "bounds": {
+    "minlat": -6.1621524,
+    "minlon": 106.7893337,
+    "maxlat": -6.1621274,
+    "maxlon": 106.7899258
+  },
+  "geometry": [
+    { "lat": -6.1621274, "lon": 106.7893337 },
+    { "lat": -6.1621482, "lon": 106.7898111 },
+    { "lat": -6.1621513, "lon": 106.7898959 },
+    { "lat": -6.1621524, "lon": 106.7899258 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1311980044,
+  "bounds": {
+    "minlat": -6.1620735,
+    "minlon": 106.7872681,
+    "maxlat": -6.1619976,
+    "maxlon": 106.7894436
+  },
+  "geometry": [
+    { "lat": -6.1620735, "lon": 106.7894436 },
+    { "lat": -6.1619976, "lon": 106.7872681 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "railway:track_ref": "1",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1311980045,
+  "bounds": {
+    "minlat": -6.1621274,
+    "minlon": 106.7871962,
+    "maxlat": -6.1620377,
+    "maxlon": 106.7893337
+  },
+  "geometry": [
+    { "lat": -6.1620377, "lon": 106.7871962 },
+    { "lat": -6.1621274, "lon": 106.7893337 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "railway:track_ref": "2",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1311980046,
+  "bounds": {
+    "minlat": -6.1611889,
+    "minlon": 106.7668501,
+    "maxlat": -6.1605305,
+    "maxlon": 106.7715864
+  },
+  "geometry": [
+    { "lat": -6.1611889, "lon": 106.7715864 },
+    { "lat": -6.1608997, "lon": 106.7697036 },
+    { "lat": -6.1608768, "lon": 106.7694861 },
+    { "lat": -6.1608244, "lon": 106.7690653 },
+    { "lat": -6.1607676, "lon": 106.7686639 },
+    { "lat": -6.1607419, "lon": 106.7684845 },
+    { "lat": -6.1606608, "lon": 106.7678826 },
+    { "lat": -6.1605305, "lon": 106.7668501 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1311980047,
+  "bounds": {
+    "minlat": -6.1612121,
+    "minlon": 106.7668478,
+    "maxlat": -6.1605664,
+    "maxlon": 106.7715821
+  },
+  "geometry": [
+    { "lat": -6.1605664, "lon": 106.7668478 },
+    { "lat": -6.1606967, "lon": 106.7678780 },
+    { "lat": -6.1607745, "lon": 106.7684898 },
+    { "lat": -6.1607958, "lon": 106.7686620 },
+    { "lat": -6.1608603, "lon": 106.7690601 },
+    { "lat": -6.1609097, "lon": 106.7695038 },
+    { "lat": -6.1609464, "lon": 106.7697341 },
+    { "lat": -6.1610354, "lon": 106.7703221 },
+    { "lat": -6.1612121, "lon": 106.7715821 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1311980048,
+  "bounds": {
+    "minlat": -6.1614934,
+    "minlon": 106.7715864,
+    "maxlat": -6.1611889,
+    "maxlon": 106.7737966
+  },
+  "geometry": [
+    { "lat": -6.1614934, "lon": 106.7737966 },
+    { "lat": -6.1614681, "lon": 106.7735710 },
+    { "lat": -6.1611889, "lon": 106.7715864 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "railway:track_ref": "2",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1311980049,
+  "bounds": {
+    "minlat": -6.1615147,
+    "minlon": 106.7715821,
+    "maxlat": -6.1612121,
+    "maxlon": 106.7737949
+  },
+  "geometry": [
+    { "lat": -6.1612121, "lon": 106.7715821 },
+    { "lat": -6.1614901, "lon": 106.7735641 },
+    { "lat": -6.1615147, "lon": 106.7737949 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "railway:track_ref": "1",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1311980050,
+  "bounds": {
+    "minlat": -6.1591517,
+    "minlon": 106.7567234,
+    "maxlat": -6.1586332,
+    "maxlon": 106.7592169
+  },
+  "geometry": [
+    { "lat": -6.1591517, "lon": 106.7592169 },
+    { "lat": -6.1590228, "lon": 106.7585485 },
+    { "lat": -6.1588262, "lon": 106.7577160 },
+    { "lat": -6.1587145, "lon": 106.7571198 },
+    { "lat": -6.1586552, "lon": 106.7568434 },
+    { "lat": -6.1586332, "lon": 106.7567234 }
+  ],
+  "tags": {
+    "addr:city": "DKI Jakarta",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "source": "HOT_InAWARESurvey_2017",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1311980051,
+  "bounds": {
+    "minlat": -6.1592243,
+    "minlon": 106.7567201,
+    "maxlat": -6.1586614,
+    "maxlon": 106.7592111
+  },
+  "geometry": [
+    { "lat": -6.1586614, "lon": 106.7567201 },
+    { "lat": -6.1586839, "lon": 106.7568373 },
+    { "lat": -6.1587467, "lon": 106.7571104 },
+    { "lat": -6.1588600, "lon": 106.7577093 },
+    { "lat": -6.1590581, "lon": 106.7585403 },
+    { "lat": -6.1592243, "lon": 106.7592111 }
+  ],
+  "tags": {
+    "addr:city": "DKI Jakarta",
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "source": "HOT_InAWARESurvey_2017",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1312049334,
+  "bounds": {
+    "minlat": -6.1422428,
+    "minlon": 106.8005562,
+    "maxlat": -6.1419872,
+    "maxlon": 106.8005680
+  },
+  "geometry": [
+    { "lat": -6.1419872, "lon": 106.8005573 },
+    { "lat": -6.1420064, "lon": 106.8005562 },
+    { "lat": -6.1421373, "lon": 106.8005636 },
+    { "lat": -6.1422428, "lon": 106.8005680 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "50",
+    "name": "Jalur Kereta Api Kampung Bandan–Angke–Duri",
+    "operator": "Kereta Api Indonesia",
+    "owner": "Direktorat Jenderal, Kementerian Perhubungan",
+    "owner:en": "Directorate General of Railways, Ministry of Transportation",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q19726698",
+    "wikipedia": "id:Jalur kereta api lintas Jakarta"
+  }
+},
+{
+  "type": "way",
+  "id": 1346519451,
+  "bounds": {
+    "minlat": -6.1629954,
+    "minlon": 106.7213862,
+    "maxlat": -6.1625489,
+    "maxlon": 106.7239800
+  },
+  "geometry": [
+    { "lat": -6.1625489, "lon": 106.7239800 },
+    { "lat": -6.1627563, "lon": 106.7227805 },
+    { "lat": -6.1629954, "lon": 106.7213862 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "railway:track_ref": "2",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1346519452,
+  "bounds": {
+    "minlat": -6.1630913,
+    "minlon": 106.7210003,
+    "maxlat": -6.1624576,
+    "maxlon": 106.7247232
+  },
+  "geometry": [
+    { "lat": -6.1624576, "lon": 106.7247232 },
+    { "lat": -6.1627874, "lon": 106.7227859 },
+    { "lat": -6.1630913, "lon": 106.7210003 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "railway:track_ref": "1",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1346519453,
+  "bounds": {
+    "minlat": -6.1630741,
+    "minlon": 106.7208751,
+    "maxlat": -6.1629954,
+    "maxlon": 106.7213862
+  },
+  "geometry": [
+    { "lat": -6.1629954, "lon": 106.7213862 },
+    { "lat": -6.1630741, "lon": 106.7208751 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "railway:track_ref": "2",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1346519454,
+  "bounds": {
+    "minlat": -6.1631081,
+    "minlon": 106.7208823,
+    "maxlat": -6.1630913,
+    "maxlon": 106.7210003
+  },
+  "geometry": [
+    { "lat": -6.1630913, "lon": 106.7210003 },
+    { "lat": -6.1631081, "lon": 106.7208823 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1357694706,
+  "bounds": {
+    "minlat": -6.1632753,
+    "minlon": 106.7195497,
+    "maxlat": -6.1631100,
+    "maxlon": 106.7206513
+  },
+  "geometry": [
+    { "lat": -6.1631100, "lon": 106.7206513 },
+    { "lat": -6.1632753, "lon": 106.7195497 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+},
+{
+  "type": "way",
+  "id": 1357694707,
+  "bounds": {
+    "minlat": -6.1625489,
+    "minlon": 106.7239800,
+    "maxlat": -6.1623203,
+    "maxlon": 106.7252368
+  },
+  "geometry": [
+    { "lat": -6.1623203, "lon": 106.7252368 },
+    { "lat": -6.1625489, "lon": 106.7239800 }
+  ],
+  "tags": {
+    "electrified": "contact_line",
+    "frequency": "0",
+    "gauge": "1067",
+    "maxspeed": "90",
+    "name": "Jalur Kereta Api Duri–Tangerang",
+    "railway": "rail",
+    "usage": "main",
+    "voltage": "1500",
+    "wikidata": "Q12487146",
+    "wikipedia": "en:Duri–Tangerang railway"
+  }
+}
+
+  ]
+}

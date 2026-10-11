@@ -1,0 +1,347 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-08T18:44:36Z",
+    "timestamp_areas_base": "2026-10-07T07:59:59Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 5744182963,
+  "lat": -6.2203504,
+  "lon": 106.6634234,
+  "tags": {
+    "access": "yes",
+    "entrance": "exit",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5744182964,
+  "lat": -6.2203914,
+  "lon": 106.6631102,
+  "tags": {
+    "access": "yes",
+    "entrance": "main",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6535154685,
+  "lat": -6.2040879,
+  "lon": 106.5686865,
+  "tags": {
+    "amenity": "mortuary",
+    "name": "Rumah Duka Oasis Lestari",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6709138369,
+  "lat": -6.1717903,
+  "lon": 106.5805662,
+  "tags": {
+    "barrier": "gate",
+    "gate:type": "sliding",
+    "locked": "no",
+    "vehicle": "permissive",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7050496482,
+  "lat": -6.2053669,
+  "lon": 106.6133571,
+  "tags": {
+    "access": "permissive",
+    "barrier": "gate",
+    "locked": "no",
+    "opening_hours": "24/7",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7287518267,
+  "lat": -6.1975104,
+  "lon": 106.7194328,
+  "tags": {
+    "addr:city": "Tangerang",
+    "addr:housenumber": "16",
+    "addr:postcode": "15157",
+    "addr:street": "Jl. Kapuas Raya",
+    "amenity": "language_school",
+    "description": "Bagi yang ingin kuliah/Aupair/Ausbildung/FSJ/BFD/kerja/tinggal/menikah di Jerman saya bisa membantu anda belajar bahasa Jerman untuk persiapan Test A1/A2/B1 di Goethe Institut.",
+    "email": "bg.bahasajerman@gmail.com",
+    "internet_access": "wlan",
+    "language:de": "yes",
+    "language:en": "yes",
+    "language:id": "yes",
+    "language:jv": "yes",
+    "language:others": "yes",
+    "name": "Les Privat Bahasa Jerman | Pengajar asli Jerman",
+    "opening_hours": "Tu-Su 07:00-20:30",
+    "operator": "bg.bahasajerman",
+    "operator:type": "private",
+    "payment:cash": "yes",
+    "phone": "+62 821 4562 4585",
+    "website": "https://les-bahasa-jerman.business.site/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11217060697,
+  "lat": -6.1131072,
+  "lon": 106.6893016,
+  "tags": {
+    "addr:floor": "L",
+    "air_conditioning": "yes",
+    "amenity": "restaurant",
+    "check_date": "2023-09-26",
+    "cuisine": "regional",
+    "internet_access": "wlan",
+    "level": "0",
+    "name": "Aromatica",
+    "name:id": "Aromatica",
+    "outdoor_seating": "yes",
+    "payment:credit_cards": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11618413221,
+  "lat": -6.2304776,
+  "lon": 106.7237370,
+  "tags": {
+    "amenity": "bus_station",
+    "bench": "yes",
+    "bin": "yes",
+    "bus": "yes",
+    "covered": "yes",
+    "departures_board": "realtime",
+    "highway": "bus_stop",
+    "lit": "yes",
+    "name": "Puri Beta 2",
+    "network": "Transjakarta",
+    "network:wikidata": "Q1671143",
+    "operator": "Transjakarta",
+    "passenger_information_display": "yes",
+    "public_transport": "platform",
+    "ref": "13-13",
+    "route_ref": "13;L13E;13B",
+    "shelter": "yes",
+    "tactile_paving": "yes",
+    "wheelchair": "yes",
+    "wikidata": "Q56390323",
+    "wikipedia": "id:Halte Transjakarta Puri Beta 2"
+  }
+},
+{
+  "type": "node",
+  "id": 11778605108,
+  "lat": -6.2305403,
+  "lon": 106.7260168,
+  "tags": {
+    "amenity": "bus_station",
+    "bench": "yes",
+    "bin": "yes",
+    "bus": "yes",
+    "covered": "yes",
+    "departures_board": "realtime",
+    "highway": "bus_stop",
+    "name": "Puri Beta 1",
+    "network": "Transjakarta",
+    "network:wikidata": "Q1671143",
+    "operator": "Transjakarta",
+    "passenger_information_display": "yes",
+    "public_transport": "platform",
+    "ref": "13-14",
+    "route_ref": "13;L13E;13B",
+    "shelter": "yes",
+    "tactile_paving": "yes",
+    "wheelchair": "yes",
+    "wikidata": "Q56390975",
+    "wikipedia": "id:Halte Transjakarta Puri Beta 1"
+  }
+},
+{
+  "type": "node",
+  "id": 11991278401,
+  "lat": -6.2490126,
+  "lon": 106.6974386,
+  "tags": {
+    "barrier": "gate",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 230188982,
+  "center": {
+    "lat": -6.1940004,
+    "lon": 106.6339458
+  },
+  "tags": {
+    "addr:city": "Cikokol, Tangerang , Banten",
+    "addr:housenumber": "No. 1",
+    "addr:postcode": "11151",
+    "addr:street": "Jl. Jenderal Sudirman",
+    "building": "commercial",
+    "building:levels": "6",
+    "layer": "-1",
+    "name": "Tangerang City Mall",
+    "shop": "mall",
+    "start_date": "2013",
+    "toilets:wheelchair": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 231180253,
+  "center": {
+    "lat": -6.2220070,
+    "lon": 106.6532785
+  },
+  "tags": {
+    "addr:city": "Tangerang, Banten",
+    "addr:postcode": "15143",
+    "addr:street": "Jl.Panunggangan Tim.",
+    "building": "retail",
+    "name": "Mall @ Alam Sutera",
+    "shop": "mall",
+    "toilets:wheelchair": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 385527498,
+  "center": {
+    "lat": -6.2233892,
+    "lon": 106.6524125
+  },
+  "tags": {
+    "amenity": "parking",
+    "toilets:wheelchair": "no",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 555005856,
+  "center": {
+    "lat": -6.2451633,
+    "lon": 106.7318004
+  },
+  "tags": {
+    "addr:city": "Tangerang",
+    "addr:postcode": "15154",
+    "addr:street": "Jalan Taman Asri Utama",
+    "leisure": "park",
+    "name": "Taman Asri Park",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 674957038,
+  "center": {
+    "lat": -6.1191542,
+    "lon": 106.6625739
+  },
+  "tags": {
+    "highway": "footway",
+    "level": "1",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 674957073,
+  "center": {
+    "lat": -6.1195725,
+    "lon": 106.6662642
+  },
+  "tags": {
+    "highway": "footway",
+    "layer": "2",
+    "level": "3",
+    "name": "Zona Antar Keberangkatan Terminal 3",
+    "name:en": "Terminal 3 Departure Drop Off Zone",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 674957076,
+  "center": {
+    "lat": -6.1196991,
+    "lon": 106.6649283
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "footway",
+    "layer": "1",
+    "level": "3",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 674957087,
+  "center": {
+    "lat": -6.1194188,
+    "lon": 106.6655456
+  },
+  "tags": {
+    "bridge": "yes",
+    "highway": "footway",
+    "layer": "1",
+    "level": "3",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1210658222,
+  "center": {
+    "lat": -6.1131722,
+    "lon": 106.6895695
+  },
+  "tags": {
+    "addr:city": "Tangerang",
+    "addr:neighbourhood": "Cengkareng Business City",
+    "addr:street": "Jalan CBC Raya 2 No.1",
+    "air_conditioning": "yes",
+    "alt_name": "THE 1O1 Jakarta Airport CBC",
+    "bar": "yes",
+    "branch": "Jakarta Airport CBC",
+    "check_date": "2023-09-26",
+    "contact:phone": "+62 811 8286 101",
+    "contact:whatsapp": "+628118086101",
+    "internet_access": "wlan",
+    "internet_access:fee": "customers",
+    "name": "The101 Hotel",
+    "operator": "PT. Panorama Hospitality Management",
+    "payment:credit_cards": "yes",
+    "rooms": "128",
+    "smoking": "outside",
+    "source": "survey",
+    "stars": "4",
+    "tourism": "hotel",
+    "wheelchair": "yes"
+  }
+}
+
+  ]
+}

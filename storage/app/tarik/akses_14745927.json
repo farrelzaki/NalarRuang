@@ -1,0 +1,294 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-08T18:39:36Z",
+    "timestamp_areas_base": "2026-10-07T07:59:59Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 1711856733,
+  "lat": -6.6365028,
+  "lon": 106.7951786,
+  "tags": {
+    "internet_access": "yes",
+    "internet_access:fee": "no",
+    "name": "Aston Hotel Bogor",
+    "operator": "Aston",
+    "smoking": "yes",
+    "tourism": "hotel",
+    "url": "http://www.commoning.com/node/101",
+    "website": "https://www.aston-international.com/ourhotels_overview.php?id=NDg%3D",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3564813098,
+  "lat": -6.6016231,
+  "lon": 106.8126394,
+  "tags": {
+    "name": "PTSP SMAKBO",
+    "office": "educational_institution",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5614645318,
+  "lat": -6.5958481,
+  "lon": 106.8044901,
+  "tags": {
+    "access:roof": "no",
+    "addr:housenumber": "02",
+    "addr:street": "Jl.Padjajaran",
+    "building": "yes",
+    "building:condition": "good",
+    "building:levels": "5",
+    "building:material": "concrete",
+    "building:roof": "concrete",
+    "building:structure": "confined_masonry",
+    "name": "Rumah Sakit Siloan",
+    "office": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7531578585,
+  "lat": -6.5421511,
+  "lon": 106.7838371,
+  "tags": {
+    "addr:city": "Cibadak",
+    "addr:postcode": "16168",
+    "addr:street": "Jl. Pabuaran Cimanggis, RT.01/RW.01, Mekarwangi, Kec. Tanah Sereal, Kota Bogor, Jawa Barat ",
+    "amenity": "clinic",
+    "dispensing": "yes",
+    "healthcare": "clinic;dentist;laboratory;pharmacy",
+    "insurance:health": "public",
+    "name": "Puskesmas Mekarwangi / Public Medical Center",
+    "operational_status": "operational",
+    "water_source": "powered_pump",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 142494813,
+  "center": {
+    "lat": -6.6010898,
+    "lon": 106.8068818
+  },
+  "tags": {
+    "amenity": "university",
+    "name": "Kampus IPB Baranangsiang",
+    "operator": "Institut Pertanian Bogor",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 142570120,
+  "center": {
+    "lat": -6.6000485,
+    "lon": 106.7944005
+  },
+  "tags": {
+    "amenity": "pharmacy",
+    "brand": "Kimia Farma",
+    "brand:wikidata": "Q11264892",
+    "brand:wikipedia": "id:Kimia Farma",
+    "building": "retail",
+    "healthcare": "pharmacy",
+    "name": "Kimia Farma",
+    "petarakyat": "include",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 142590706,
+  "center": {
+    "lat": -6.5950800,
+    "lon": 106.7936931
+  },
+  "tags": {
+    "addr:street": "Jalan Ir. H. Juanda",
+    "amenity": "townhall",
+    "building": "public",
+    "building:levels": "2",
+    "height": "8",
+    "name": "Gedung Balai Kota Bogor",
+    "name:ko": "보고르 시청",
+    "petarakyat": "include",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 142604654,
+  "center": {
+    "lat": -6.6013225,
+    "lon": 106.8073647
+  },
+  "tags": {
+    "building": "commercial",
+    "name": "Botani Square",
+    "petarakyat": "include",
+    "shop": "mall",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 158372359,
+  "center": {
+    "lat": -6.5962032,
+    "lon": 106.8047985
+  },
+  "tags": {
+    "access:roof": "yes",
+    "addr:housenumber": "5",
+    "addr:street": "Jl. Padjajaran",
+    "building": "hotel",
+    "building:condition": "good",
+    "building:levels": "7",
+    "building:material": "concrete",
+    "building:roof": "concrete",
+    "building:structure": "confined_masonry",
+    "name": "Hotel Amaris Padjajaran",
+    "office": "yes",
+    "petarakyat": "include",
+    "tourism": "hotel",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 163110950,
+  "center": {
+    "lat": -6.5933754,
+    "lon": 106.8051006
+  },
+  "tags": {
+    "access:roof": "yes",
+    "addr:street": "Jl.Padjajaran",
+    "building": "hotel",
+    "building:condition": "good",
+    "building:levels": "8",
+    "building:material": "concrete",
+    "building:roof": "concrete",
+    "building:structure": "confined_masonry",
+    "name": "Zest Hotel Bogor",
+    "tourism": "hotel",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 519822952,
+  "center": {
+    "lat": -6.5590343,
+    "lon": 106.7920742
+  },
+  "tags": {
+    "addr:city": "Bogor",
+    "addr:full": "Jalan Perdana Raya No.15, Kedungbadak, Kec. Tanah Sereal, Kota Bogor, Jawa Barat 16164",
+    "addr:housenumber": "22",
+    "addr:postcode": "16710",
+    "addr:street": "Jl. Perdana Raya RT.02/RW.10, Kedungbadak, Kec. Tanah Sereal, Kota Bogor, Jawa Barat",
+    "amenity": "hospital",
+    "contact:phone": "+62 251 7558 159",
+    "emergency": "yes",
+    "health_amenity:type": "emergency_department;operating_theater",
+    "healthcare": "doctor;hospital",
+    "insurance:health": "private;public",
+    "name": "Rumah Sakit Islam Bogor",
+    "operational_status": "operational",
+    "operator:type": "public",
+    "water_source": "groundwater",
+    "website": "https://www.rsislambogor.or.id/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 584204988,
+  "center": {
+    "lat": -6.5960643,
+    "lon": 106.7936976
+  },
+  "tags": {
+    "addr:street": "Jalan Ir. H. Juanda",
+    "amenity": "bank",
+    "atm": "yes",
+    "name": "Mandiri Djuanda",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 584204989,
+  "center": {
+    "lat": -6.5959445,
+    "lon": 106.7937908
+  },
+  "tags": {
+    "addr:street": "Jalan Ir. H. Juanda",
+    "amenity": "bank",
+    "atm": "yes",
+    "name": "Bank Niaga KC Bogor",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 584207423,
+  "center": {
+    "lat": -6.5946132,
+    "lon": 106.7942598
+  },
+  "tags": {
+    "addr:street": "Jalan Ir. H. Juanda",
+    "area": "yes",
+    "name": "Hotel Salak",
+    "tourism": "hotel",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 752890222,
+  "center": {
+    "lat": -6.5720249,
+    "lon": 106.7464825
+  },
+  "tags": {
+    "building": "yes",
+    "name": "Hari Hari Dramaga",
+    "opening_hours": "09:00-21:00",
+    "shop": "department_store",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 752890223,
+  "center": {
+    "lat": -6.5720378,
+    "lon": 106.7428152
+  },
+  "tags": {
+    "building": "yes",
+    "name": "Yogya Dramaga",
+    "opening_hours": "09:00-21:00",
+    "shop": "department_store",
+    "wheelchair": "yes"
+  }
+}
+
+  ]
+}

@@ -1,0 +1,2275 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-08T18:37:35Z",
+    "timestamp_areas_base": "2026-10-07T07:59:59Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 5134335472,
+  "lat": -6.1589756,
+  "lon": 106.8703155,
+  "tags": {
+    "addr:city": "DKI Jakarta",
+    "addr:full": "jln Sumter kemayoran",
+    "amenity": "clinic",
+    "healthcare": "clinic",
+    "healthcare:speciality": "blood_check;intensive;vaccination",
+    "insurance": "gov",
+    "name": "Klinik Anggrek",
+    "opening_hours": "24/7",
+    "operator:type": "government",
+    "source": "HOT_InAWARESurvey_2017",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6114629116,
+  "lat": -6.1615556,
+  "lon": 106.9049415,
+  "tags": {
+    "addr:full": "Jalan Boulevard Raya 22",
+    "amenity": "pharmacy",
+    "backup_generator": "yes",
+    "healthcare": "pharmacy",
+    "healthcare:speciality": "vaccination",
+    "insurance": "private;gov",
+    "name": "Apotek Gading Jaya",
+    "opening_hours": "Mo-Su 09:00-22:00",
+    "operator:type": "private",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6114830279,
+  "lat": -6.1428829,
+  "lon": 106.8566912,
+  "tags": {
+    "addr:full": "Jalan Rukan Puri Mutiara D-12",
+    "amenity": "clinic",
+    "backup_generator": "yes",
+    "healthcare": "clinic",
+    "healthcare:speciality": "blood_check;clinical_pathology",
+    "insurance": "gov",
+    "name": "Klinik Utama Cahaya Mentari",
+    "opening_hours": "24/7",
+    "operator:type": "private",
+    "phone": "+62 21 2205 3992",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6117471375,
+  "lat": -6.1571281,
+  "lon": 106.8666523,
+  "tags": {
+    "addr:full": "Jalan Sunter Kemayoran",
+    "amenity": "pharmacy",
+    "backup_generator": "yes",
+    "healthcare": "pharmacy",
+    "insurance": "gov",
+    "name": "Apotek Medika Sisma Pharma",
+    "opening_hours": "24/7",
+    "operator:type": "government",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6117483446,
+  "lat": -6.1382613,
+  "lon": 106.8452174,
+  "tags": {
+    "addr:full": "Jalan Pademangan 2 Raya gg 21 No 30 B",
+    "amenity": "pharmacy",
+    "backup_generator": "no",
+    "healthcare": "pharmacy",
+    "name": "Praktek Dokter Umum dr. Rudy Wenarta",
+    "opening_hours": "Tu 16:30-19:30; Fr 16:30-19:30",
+    "operator:type": "private",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6117483447,
+  "lat": -6.1382946,
+  "lon": 106.8452027,
+  "tags": {
+    "addr:full": "Jalan Pademangan 2 Raya gg 21 No 30 B",
+    "amenity": "pharmacy",
+    "backup_generator": "no",
+    "healthcare": "pharmacy",
+    "name": "Praktek Dokter Umum dr. Sugiarto Sulaiman",
+    "opening_hours": "Mo 17:30-20:00; We 17:30-20:00",
+    "operator:type": "private",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6117483448,
+  "lat": -6.1382253,
+  "lon": 106.8452315,
+  "tags": {
+    "addr:full": "Jalan Pademangan 2 Raya gg 21 No 30 B",
+    "amenity": "pharmacy",
+    "backup_generator": "no",
+    "healthcare": "pharmacy",
+    "name": "Apotek Cahaya Sehat",
+    "operator:type": "private",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6117483449,
+  "lat": -6.1407955,
+  "lon": 106.8436557,
+  "tags": {
+    "addr:full": "Jalan pademangan 2 GG 12 no 239",
+    "amenity": "doctors",
+    "backup_generator": "no",
+    "healthcare": "doctor",
+    "insurance": "private",
+    "name": "Praktek Dokter Umum Dr. Lie Hermanto",
+    "opening_hours": "Mo-Fr 09:00-16:00,17:00-20:00",
+    "operator:type": "private",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6117483450,
+  "lat": -6.1407601,
+  "lon": 106.8436778,
+  "tags": {
+    "addr:full": "Jalan pademangan 2 GG 12 no 239",
+    "amenity": "doctors",
+    "backup_generator": "no",
+    "healthcare": "doctor",
+    "insurance": "private",
+    "name": "Praktek Dokter Umum dr. Ratnayati A Halim",
+    "opening_hours": "Mo-Fr 09:00-16:00",
+    "operator:type": "private",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6117483451,
+  "lat": -6.1407788,
+  "lon": 106.8436671,
+  "tags": {
+    "addr:full": "Jalan pademangan 2 GG 12 no 239",
+    "amenity": "pharmacy",
+    "backup_generator": "no",
+    "healthcare": "pharmacy",
+    "insurance": "private",
+    "name": "Apotek Pademangan Sehat",
+    "operator:type": "private",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6117530059,
+  "lat": -6.1173029,
+  "lon": 106.7831632,
+  "tags": {
+    "addr:full": "Jalan Muara Karang raya no 8",
+    "amenity": "pharmacy",
+    "healthcare": "pharmacy",
+    "insurance": "private",
+    "name": "apotek dunia sehat",
+    "opening_hours": "24/7",
+    "operator:type": "private",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6117530068,
+  "lat": -6.1168109,
+  "lon": 106.7795234,
+  "tags": {
+    "addr:full": "Jalan Muara Karang raya no 143",
+    "amenity": "pharmacy",
+    "backup_generator": "no",
+    "healthcare": "pharmacy",
+    "insurance": "private",
+    "name": "apotek century",
+    "opening_hours": "24/7",
+    "operator:type": "private",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6117713385,
+  "lat": -6.1363615,
+  "lon": 106.8354901,
+  "tags": {
+    "addr:full": "Jalan Ampera IV Raya",
+    "amenity": "midwife",
+    "backup_generator": "no",
+    "healthcare": "midwife",
+    "healthcare:speciality": "gynaecology;vaccination",
+    "name": "Bidan Rosdiana",
+    "opening_hours": "24/7",
+    "operator:type": "private",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6117713386,
+  "lat": -6.1363542,
+  "lon": 106.8354599,
+  "tags": {
+    "addr:full": "Jalan Ampera IV Raya",
+    "amenity": "doctors",
+    "backup_generator": "no",
+    "healthcare": "doctor",
+    "healthcare:speciality": "gynaecology;vaccination",
+    "name": "Praktek Dokter Umum dr. Linda Rosalina P",
+    "opening_hours": "Mo-Fr 17:00-21:00",
+    "operator:type": "private",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6118072889,
+  "lat": -6.1380993,
+  "lon": 106.7809457,
+  "tags": {
+    "addr:full": "JL. teluk gong raya no 2 kel. pejagalan kec. penjaringan",
+    "backup_generator": "yes",
+    "healthcare:speciality": "internal;blood_check;urology;gynaecology;emergency;pulmonology;vaccination",
+    "insurance": "gov",
+    "name": "puskesmas kecamatan penjaringan",
+    "opening_hours": "24/7",
+    "operator:type": "government",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6118072895,
+  "lat": -6.1382680,
+  "lon": 106.7791365,
+  "tags": {
+    "addr:full": "Jalan teluk gong Raya no 330",
+    "amenity": "doctors",
+    "backup_generator": "no",
+    "healthcare": "doctor",
+    "insurance": "private",
+    "name": "Dr. sentosa",
+    "opening_hours": "Mo-Su 16:00-21:00",
+    "operator:type": "private",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6118072898,
+  "lat": -6.1383273,
+  "lon": 106.7782849,
+  "tags": {
+    "addr:full": "Jalan teluk gong Raya no 224A",
+    "amenity": "pharmacy",
+    "backup_generator": "yes",
+    "healthcare": "pharmacy",
+    "insurance": "private",
+    "name": "apotek roxy",
+    "opening_hours": "24/7",
+    "operator:type": "private",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6285130486,
+  "lat": -6.1165033,
+  "lon": 106.7911924,
+  "tags": {
+    "brand": "Hypermart",
+    "brand:wikidata": "Q25468991",
+    "changing_table": "no",
+    "kids_area": "no",
+    "name": "Hypermart",
+    "old_name": "Carrefour",
+    "shop": "supermarket",
+    "toilets": "no",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6285130489,
+  "lat": -6.1160813,
+  "lon": 106.7888763,
+  "tags": {
+    "amenity": "bank",
+    "brand": "Bank Central Asia",
+    "brand:wikidata": "Q806626",
+    "name": "Bank Central Asia",
+    "official_name": "Bank Central Asia",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6444986233,
+  "lat": -6.1273134,
+  "lon": 106.8341000,
+  "tags": {
+    "barrier": "bar",
+    "foot": "yes",
+    "material": "steel",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6530666759,
+  "lat": -6.1093347,
+  "lon": 106.7407367,
+  "tags": {
+    "brand": "ACE Hardware",
+    "brand:wikidata": "Q4672981",
+    "name": "ACE Hardware",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "payment:coins": "yes",
+    "payment:gpn_debit": "yes",
+    "payment:maestro": "yes",
+    "payment:mastercard": "yes",
+    "payment:notes": "yes",
+    "payment:ovo": "yes",
+    "payment:visa": "yes",
+    "payment:visa_debit": "yes",
+    "payment:visa_electron": "yes",
+    "shop": "hardware",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6530666760,
+  "lat": -6.1086453,
+  "lon": 106.7403477,
+  "tags": {
+    "name": "The FoodHall",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "shop": "supermarket",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6530666762,
+  "lat": -6.1122057,
+  "lon": 106.7436992,
+  "tags": {
+    "amenity": "restaurant",
+    "delivery": "yes",
+    "name": "Sate Khas Senayan",
+    "outdoor_seating": "yes",
+    "takeaway": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6530666763,
+  "lat": -6.1128085,
+  "lon": 106.7433605,
+  "tags": {
+    "amenity": "cafe",
+    "name": "Wake Cup",
+    "payment:coins": "yes",
+    "payment:gopay_id": "yes",
+    "payment:notes": "yes",
+    "payment:ovo": "yes",
+    "smoking": "isolated",
+    "takeaway": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6564166177,
+  "lat": -6.1709442,
+  "lon": 106.9039812,
+  "tags": {
+    "addr:housenumber": "Q1-14",
+    "addr:street": "Jalan Kelapa Kopyor Raya",
+    "amenity": "restaurant",
+    "name": "Bakmi Ho Liaw",
+    "name:zh": "好料拉面店",
+    "phone": "+6281310581188",
+    "takeaway": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10052801764,
+  "lat": -6.1259734,
+  "lon": 106.8327742,
+  "tags": {
+    "barrier": "gate",
+    "material": "steel",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10055077085,
+  "lat": -6.1248530,
+  "lon": 106.8333186,
+  "tags": {
+    "entrance": "yes",
+    "level": "0",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11307787187,
+  "lat": -6.1274235,
+  "lon": 106.8304019,
+  "tags": {
+    "access": "yes",
+    "entrance": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13751649255,
+  "lat": -6.1574445,
+  "lon": 106.9137291,
+  "tags": {
+    "name": "A",
+    "railway": "train_station_entrance",
+    "ref": "A",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13751649256,
+  "lat": -6.1581905,
+  "lon": 106.9137875,
+  "tags": {
+    "name": "B",
+    "railway": "train_station_entrance",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 119503317,
+  "center": {
+    "lat": -6.1120749,
+    "lon": 106.8819941
+  },
+  "tags": {
+    "access:roof": "no",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Tenggiri No.18, Tanjung Priok, Koja, Jakarta Utara",
+    "addr:postcode": "14220",
+    "amenity": "hospital",
+    "backup_generator": "yes",
+    "brand": "Sukmul",
+    "building": "hospital",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "1",
+    "building:roof": "concrete",
+    "building:structure": "confined_masonry",
+    "building:use": "medical",
+    "building:walls": "concrete",
+    "capacity:persons": "250-500",
+    "emergency": "yes",
+    "healthcare": "hospital",
+    "insurance": "private;gov",
+    "name": "RS Sukmul Sisma Medika",
+    "opening_hours": "24/7",
+    "operator:type": "private",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 154828484,
+  "center": {
+    "lat": -6.1157690,
+    "lon": 106.8769658
+  },
+  "tags": {
+    "access:roof": "yes",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Kampung Bahari 3 Tanjung Priok Jakarta Utara",
+    "amenity": "clinic",
+    "backup_generator": "yes",
+    "building": "clinic",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "3",
+    "building:roof": "tile",
+    "building:structure": "confined_masonry",
+    "building:walls": "concrete",
+    "capacity:persons": "100-250",
+    "healthcare": "clinic",
+    "healthcare:speciality": "internal;blood_check;urology;emergency;intensive;neurology;vaccination;surgery",
+    "insurance": "gov",
+    "name": "Puskesmas Kelurahan Tanjung Priok",
+    "opening_hours": "24/7",
+    "operator": "Ministry of Health",
+    "operator:en": "Ministry of Health",
+    "operator:id": "Kementerian Kesehatan",
+    "operator:type": "government",
+    "operator:wikidata": "Q12490745",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 154830071,
+  "center": {
+    "lat": -6.1388292,
+    "lon": 106.8615683
+  },
+  "tags": {
+    "access:roof": "yes",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Agung Utara 24 blok A no. 1, RT. 2/Rw.18",
+    "backup_generator": "yes",
+    "building": "hospital",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "4",
+    "building:roof": "concrete",
+    "building:structure": "confined_masonry",
+    "building:walls": "concrete",
+    "capacity:persons": "250-500",
+    "healthcare": "hospital",
+    "healthcare:speciality": "internal;blood_check;radiology;clinical_pathology;gynaecology;emergency;pulmonology;psychiatry;urology;intensive;neurology;vaccination;surgery",
+    "insurance": "gov",
+    "opening_hours": "24/7",
+    "operator:type": "government",
+    "phone": "+62 21 6471 5200",
+    "source": "HOT_InAWARESurvey_2017",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 154830127,
+  "center": {
+    "lat": -6.1379481,
+    "lon": 106.7809331
+  },
+  "tags": {
+    "access:roof": "no",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "JL. teluk gong raya no 2 kel. pejagalan kec. penjaringan",
+    "amenity": "clinic",
+    "backup_generator": "no",
+    "building": "clinic",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "4",
+    "building:roof": "tile",
+    "building:structure": "confined_masonry",
+    "building:walls": "brick",
+    "capacity:persons": "50-100",
+    "healthcare:speciality": "internal;blood_check;urology;gynaecology;emergency;pulmonology;vaccination",
+    "insurance": "gov",
+    "name": "Puskesmas Kecamatan Penjaringan",
+    "opening_hours": "24/7",
+    "operator:type": "government",
+    "source": "HOT_InAWARESurvey_2017",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 154831665,
+  "center": {
+    "lat": -6.1396991,
+    "lon": 106.8414355
+  },
+  "tags": {
+    "access:roof": "yes",
+    "addr:full": "Jalan Pademangan 3 Raya GG 11",
+    "amenity": "clinic",
+    "backup_generator": "yes",
+    "building": "government_office",
+    "building:levels": "2",
+    "building:roof": "tile",
+    "building:structure": "reinforced_masonry",
+    "building:walls": "brick",
+    "healthcare": "clinic",
+    "healthcare:speciality": "blood_check;clinical_pathology;vaccination",
+    "insurance": "gov",
+    "name": "Puskesmas Kelurahan Pademangan Timur",
+    "opening_hours": "24/7",
+    "operator": "Ministry of Health",
+    "operator:en": "Ministry of Health",
+    "operator:id": "Kementerian Kesehatan",
+    "operator:type": "government",
+    "operator:wikidata": "Q12490745",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 154838070,
+  "center": {
+    "lat": -6.1148085,
+    "lon": 106.9102009
+  },
+  "tags": {
+    "access:roof": "no",
+    "addr:street": "Jalan Manggar",
+    "amenity": "clinic",
+    "building": "yes",
+    "building:levels": "1",
+    "building:roof": "tile",
+    "building:structure": "reinforced_masonry",
+    "building:walls": "brick",
+    "healthcare": "clinic",
+    "healthcare:speciality": "gynaecology",
+    "insurance": "gov",
+    "name": "Rumah Bersalin Lestari",
+    "opening_hours": "24/7",
+    "operator:type": "private",
+    "phone": "+62 21 43922950",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 154856491,
+  "center": {
+    "lat": -6.1141873,
+    "lon": 106.9174504
+  },
+  "tags": {
+    "internet_access": "yes",
+    "internet_access:fee": "yes",
+    "name": "Cipondoh",
+    "smoking": "separated",
+    "tourism": "hotel",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 240216043,
+  "center": {
+    "lat": -6.1155037,
+    "lon": 106.7807605
+  },
+  "tags": {
+    "addr:full": "JL. muara karang R IV timur 2-4",
+    "amenity": "clinic",
+    "backup_generator": "no",
+    "building": "pharmacy",
+    "healthcare": "laboratory, pharmacy, clinic",
+    "healthcare:speciality": "blood_check;gynaecology;vaccination",
+    "insurance": "private",
+    "name": "Apotik dan Laboratorium Klinik Muara Karang",
+    "opening_hours": "Mo-Fr 09:00-20:30",
+    "operator": "Medika Group",
+    "operator:type": "private",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 298468878,
+  "center": {
+    "lat": -6.1617008,
+    "lon": 106.9135422
+  },
+  "tags": {
+    "leisure": "park",
+    "name": "Taman Pancasila",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 298468879,
+  "center": {
+    "lat": -6.1567492,
+    "lon": 106.9126716
+  },
+  "tags": {
+    "leisure": "park",
+    "name": "Taman NKRI",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 298469165,
+  "center": {
+    "lat": -6.1621191,
+    "lon": 106.9096387
+  },
+  "tags": {
+    "leisure": "park",
+    "name": "Taman",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 298469168,
+  "center": {
+    "lat": -6.1630428,
+    "lon": 106.9134913
+  },
+  "tags": {
+    "leisure": "pitch",
+    "name": "Taman",
+    "sport": "five-a-side;volleyball",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 298470371,
+  "center": {
+    "lat": -6.1615875,
+    "lon": 106.9119568
+  },
+  "tags": {
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Kelapa Puan Timur V",
+    "landuse": "recreation_ground",
+    "leisure": "park",
+    "name": "RPTRA Kelapa Puan",
+    "source": "HOT_InAWARESurvey_2017",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 298471036,
+  "center": {
+    "lat": -6.1591537,
+    "lon": 106.9134936
+  },
+  "tags": {
+    "leisure": "park",
+    "name": "Taman",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 314131603,
+  "center": {
+    "lat": -6.1359324,
+    "lon": 106.9216332
+  },
+  "tags": {
+    "amenity": "clinic",
+    "building": "clinic",
+    "evacuation_center": "no",
+    "flood_prone": "yes",
+    "healthcare": "clinic",
+    "healthcare:speciality": "blood_check;radiology;gynaecology;vaccination",
+    "insurance": "gov",
+    "name": "Puskesmas Semper Barat II",
+    "opening_hours": "24/7",
+    "operator": "Ministry of Health",
+    "operator:en": "Ministry of Health",
+    "operator:id": "Kementerian Kesehatan",
+    "operator:type": "government",
+    "operator:wikidata": "Q12490745",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 315860221,
+  "center": {
+    "lat": -6.1328504,
+    "lon": 106.7791993
+  },
+  "tags": {
+    "access:roof": "no",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Gabus",
+    "amenity": "clinic",
+    "backup_generator": "no",
+    "building": "clinic",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "1",
+    "building:roof": "tile",
+    "building:structure": "confined_masonry",
+    "building:walls": "brick",
+    "capacity:persons": "50-100",
+    "evacuation_center": "no",
+    "flood_prone": "yes",
+    "healthcare:speciality": "internal;blood_check;radiology;urology;clinical_pathology;gynaecology;emergency;pulmonology;psychiatry;vaccination;surgery",
+    "insurance": "gov",
+    "name": "Puskesmas Kelurahan Penjagalan",
+    "opening_hours": "Mo-Su 09:00-22:00",
+    "operator:type": "government",
+    "source": "HOT_InAWARESurvey_2017",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 334982120,
+  "center": {
+    "lat": -6.1455012,
+    "lon": 106.9238650
+  },
+  "tags": {
+    "access:roof": "yes",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Raya Tipar Cakung",
+    "amenity": "hospital",
+    "backup_generator": "yes",
+    "building": "hospital",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "4",
+    "building:structure": "confined_masonry",
+    "building:walls": "concrete",
+    "capacity:persons": ">500",
+    "evacuation_center": "no",
+    "flood_prone": "no",
+    "healthcare": "hospital",
+    "healthcare:speciality": "internal;radiology;clinical_pathology;gynaecology;emergency;pulmonology;intensive;neurology;vaccination;surgery",
+    "insurance": "private",
+    "name": "Rumah Sakit Umum & Pekerja",
+    "opening_hours": "24/7",
+    "operator:type": "private",
+    "phone": "+62 21 2948 4848",
+    "source": "HOT_InAWARESurvey_2017",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 498420510,
+  "center": {
+    "lat": -6.1431317,
+    "lon": 106.8631811
+  },
+  "tags": {
+    "addr:full": "Jalan Agung Permai 1 blok C4 no. 31",
+    "amenity": "doctors",
+    "backup_generator": "no",
+    "building": "yes",
+    "healthcare": "doctor",
+    "healthcare:speciality": "blood_check",
+    "insurance": "private;gov",
+    "name": "Dokter Susanti R.Wijayamala",
+    "opening_hours": "Mo-Sa 17:00-20:00",
+    "operator:type": "private",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 498439150,
+  "center": {
+    "lat": -6.1142804,
+    "lon": 106.8897867
+  },
+  "tags": {
+    "access:roof": "yes",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Kebon Bawang 8 Tanjung Priok Jakarta Utara",
+    "amenity": "hospital",
+    "backup_generator": "yes",
+    "building": "hospital",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "4",
+    "building:roof": "concrete",
+    "building:structure": "confined_masonry",
+    "building:walls": "concrete",
+    "capacity:persons": "250-500",
+    "healthcare": "hospital",
+    "healthcare:speciality": "internal;blood_check;radiology;clinical_pathology;gynaecology;emergency;pulmonology;psychiatry;urology;intensive;neurology;vaccination;surgery",
+    "insurance": "gov",
+    "name": "Rumah Sakit Mata Primasana",
+    "opening_hours": "24/7",
+    "operator:type": "private",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 498718722,
+  "center": {
+    "lat": -6.1108621,
+    "lon": 106.8826638
+  },
+  "tags": {
+    "addr:full": "Jalan Tenggiri No. 7C Tanjung Priok Jakarta Utara",
+    "amenity": "clinic",
+    "backup_generator": "yes",
+    "building": "yes",
+    "healthcare": "clinic",
+    "insurance": "private",
+    "name": "Klinik Vidya Medika",
+    "opening_hours": "Mo-Sa 09:00-21:00",
+    "operator:type": "private",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 498733360,
+  "center": {
+    "lat": -6.1117953,
+    "lon": 106.8852553
+  },
+  "tags": {
+    "access:roof": "no",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Lagoa Kanal No. 1A Tanjung Priok Jakarta Utara",
+    "amenity": "clinic",
+    "backup_generator": "yes",
+    "building": "clinic",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "1",
+    "building:roof": "tile",
+    "building:structure": "confined_masonry",
+    "building:walls": "concrete",
+    "capacity:persons": "50-100",
+    "healthcare": "clinic",
+    "healthcare:speciality": "internal;blood_check;radiology;urology;emergency;intensive;vaccination",
+    "insurance": "gov",
+    "name": "Klinik Pratama",
+    "opening_hours": "24/7",
+    "operator:type": "government",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 499785932,
+  "center": {
+    "lat": -6.1554583,
+    "lon": 106.8665461
+  },
+  "tags": {
+    "access:roof": "no",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Sunter Jaya IV no 23",
+    "amenity": "clinic",
+    "backup_generator": "yes",
+    "building": "clinic",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "1",
+    "building:roof": "tile",
+    "building:structure": "confined_masonry",
+    "building:walls": "concrete",
+    "capacity:persons": "50-100",
+    "healthcare": "clinic",
+    "insurance": "gov",
+    "name": "Puskesmas Kelurahan Sunter Jaya I",
+    "opening_hours": "08:00-14:00",
+    "operator": "Ministry of Health",
+    "operator:en": "Ministry of Health",
+    "operator:id": "Kementerian Kesehatan",
+    "operator:type": "government",
+    "operator:wikidata": "Q12490745",
+    "source": "HOT_InAWARESurvey_2017",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 511412171,
+  "center": {
+    "lat": -6.1223322,
+    "lon": 106.8314971
+  },
+  "tags": {
+    "access": "customers",
+    "amenity": "toilets",
+    "building": "yes",
+    "toilets:disposal": "flush",
+    "unisex": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 511657298,
+  "center": {
+    "lat": -6.1117882,
+    "lon": 106.8748246
+  },
+  "tags": {
+    "addr:city": "Tanjung Priuk",
+    "addr:full": "JL nusantara no 2 tanjung priok Jakarta utara",
+    "addr:housename": "Jln. Nusantara No. 2 Pelabuhan Tanjung priok",
+    "addr:housenumber": "No. 2",
+    "backup_generator": "yes",
+    "building": "yes",
+    "building:levels": "4",
+    "insurance": "gov",
+    "nama": "bbkk",
+    "name": "Balai Besar Kekarantinaan Kesehatan Tanjung Priok",
+    "note": "Sesuai dengan Permenkes RI No. 08 Tahun 2026 Balai Besar Kekarantinaan Kesehatan Tanjung Priok sebagai Unit Pelaksana Teknis (UPT) Direktorat Jenderal Penanggulangan Penyakit kementerian kesehatan RI",
+    "operator": "government",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 511877645,
+  "center": {
+    "lat": -6.1100315,
+    "lon": 106.8997691
+  },
+  "tags": {
+    "addr:full": "Jalan Deli",
+    "amenity": "clinic",
+    "backup_generator": "yes",
+    "building": "yes",
+    "healthcare": "clinic",
+    "insurance": "gov",
+    "name": "Klinik Pertamedika",
+    "operator:type": "government",
+    "phone": "+62 21 4351 614",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 511880053,
+  "center": {
+    "lat": -6.1637863,
+    "lon": 106.9036296
+  },
+  "tags": {
+    "addr:full": "Jalan Boulevard Raya 95",
+    "amenity": "pharmacy",
+    "backup_generator": "yes",
+    "building": "yes",
+    "healthcare": "pharmacy",
+    "healthcare:speciality": "gynaecology;intensive;vaccination",
+    "insurance": "private;gov",
+    "name": "Dunia Sehat",
+    "opening_hours": "Mo-Sa 08:00-23:00",
+    "operator:type": "private",
+    "phone": "+62 21 4521 050",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 512706872,
+  "center": {
+    "lat": -6.1570477,
+    "lon": 106.8666762
+  },
+  "tags": {
+    "access:roof": "no",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Sunter Kemayoran",
+    "amenity": "clinic",
+    "backup_generator": "yes",
+    "building": "clinic",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "1",
+    "building:roof": "asbestos",
+    "building:structure": "confined_masonry",
+    "building:walls": "concrete",
+    "capacity:persons": "<50",
+    "healthcare": "clinic",
+    "healthcare:speciality": "blood_check;radiology;urology;gynaecology;emergency;intensive;vaccination",
+    "insurance": "gov",
+    "name": "Klinik Pratama Sunter Medical Center",
+    "opening_hours": "24/7",
+    "operator:type": "government",
+    "source": "HOT_InAWARESurvey_2017",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 513955899,
+  "center": {
+    "lat": -6.1130572,
+    "lon": 106.9112440
+  },
+  "tags": {
+    "access:roof": "no",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Mangga",
+    "amenity": "clinic",
+    "backup_generator": "no",
+    "building": "clinic",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "2",
+    "building:roof": "tin",
+    "building:structure": "confined_masonry",
+    "building:walls": "brick",
+    "capacity:persons": "50-100",
+    "healthcare": "clinic",
+    "healthcare:speciality": "emergency",
+    "insurance": "gov",
+    "name": "Puskesmas Kelurahan Lagoa",
+    "operator": "Ministry of Health",
+    "operator:en": "Ministry of Health",
+    "operator:id": "Kementerian Kesehatan",
+    "operator:type": "government",
+    "operator:wikidata": "Q12490745",
+    "phone": "+62 21 4302 114",
+    "source": "HOT_InAWARESurvey_2017",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 514074362,
+  "center": {
+    "lat": -6.1136054,
+    "lon": 106.8805465
+  },
+  "tags": {
+    "access:roof": "no",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Talang Talang No. 1 Tanjung Priok Jakarta Utara",
+    "admin_level": "9",
+    "amenity": "clinic",
+    "backup_generator": "no",
+    "building": "community_group_office",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "1",
+    "building:roof": "asbestos",
+    "building:structure": "confined_masonry",
+    "building:walls": "brick",
+    "capacity:persons": "<50",
+    "healthcare": "clinic",
+    "insurance": "gov",
+    "name": "Posyandu Teratai Putih",
+    "office": "government",
+    "opening_hours": "08:00-10:00",
+    "operator:type": "government",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 514074371,
+  "center": {
+    "lat": -6.1104012,
+    "lon": 106.8893894
+  },
+  "tags": {
+    "access:roof": "yes",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Enggano No. 10 Tanjung Priok Jakarta Utara",
+    "addr:postcode": "14310",
+    "addr:street": "Jalan Enggano No.10",
+    "amenity": "hospital",
+    "backup_generator": "yes",
+    "building": "hospital",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "3",
+    "building:roof": "concrete",
+    "building:structure": "confined_masonry",
+    "building:walls": "concrete",
+    "capacity:persons": "250-500",
+    "healthcare": "hospital",
+    "healthcare:speciality": "internal;blood_check;radiology;urology;clinical_pathology;emergency;pulmonology;psychiatry;intensive;neurology;surgery",
+    "insurance": "gov",
+    "name": "Rumah Sakit Port Medical Center",
+    "opening_hours": "24/7",
+    "operator:type": "government",
+    "phone": "+62 21 43902350; +62 21 43902351",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 514677663,
+  "center": {
+    "lat": -6.1291989,
+    "lon": 106.8901851
+  },
+  "tags": {
+    "access:roof": "yes",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Sungai Bambu Raya No. 5, Sungai Bambu, Tanjung Priok",
+    "amenity": "hospital",
+    "backup_generator": "yes",
+    "building": "hospital",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "6",
+    "building:roof": "concrete",
+    "building:structure": "steel_frame",
+    "building:walls": "concrete",
+    "capacity:persons": ">500",
+    "healthcare": "hospital",
+    "healthcare:speciality": "internal;blood_check;radiology;clinical_pathology;gynaecology;emergency;pulmonology;psychiatry;urology;intensive;neurology;vaccination;surgery",
+    "insurance": "gov",
+    "name": "RS Puri Medika",
+    "opening_hours": "24/7",
+    "operator:type": "government",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 514677664,
+  "center": {
+    "lat": -6.1171014,
+    "lon": 106.8816990
+  },
+  "tags": {
+    "access:roof": "no",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Ganggeng Raya Tanjung Priok Jakarta Utara",
+    "amenity": "hospital",
+    "backup_generator": "yes",
+    "building": "hospital",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "1",
+    "building:roof": "concrete",
+    "building:structure": "confined_masonry",
+    "building:walls": "concrete",
+    "capacity:persons": "100-250",
+    "healthcare": "hospital",
+    "healthcare:speciality": "blood_check;radiology;gynaecology;emergency;intensive;vaccination;surgery",
+    "insurance": "private",
+    "name": "RSIA SANTO YUSUF",
+    "opening_hours": "24/7",
+    "operator:type": "private",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 514699811,
+  "center": {
+    "lat": -6.1171293,
+    "lon": 106.8820109
+  },
+  "tags": {
+    "access:roof": "no",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Ganggeng 6 No. 9 Tanjung Priok Jakarta Utara",
+    "amenity": "clinic",
+    "backup_generator": "yes",
+    "building": "clinic",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "2",
+    "building:roof": "tile",
+    "building:structure": "confined_masonry",
+    "building:walls": "concrete",
+    "capacity:persons": "100-250",
+    "healthcare": "clinic",
+    "healthcare:speciality": "internal;blood_check;radiology;clinical_pathology;gynaecology;emergency;pulmonology;psychiatry;urology;intensive;neurology;vaccination;surgery",
+    "insurance": "private;gov",
+    "name": "Klinik Pratama Santo Yosef",
+    "opening_hours": "24/7",
+    "operator:type": "private",
+    "phone": "+62 21 4393 880",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 515581214,
+  "center": {
+    "lat": -6.1193739,
+    "lon": 106.9010026
+  },
+  "tags": {
+    "access:roof": "no",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Rawa Badak Barat No. 1",
+    "amenity": "clinic",
+    "building": "clinic",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "2",
+    "building:roof": "tile",
+    "building:structure": "confined_masonry",
+    "building:walls": "brick",
+    "capacity:persons": "50-100",
+    "healthcare": "clinic",
+    "healthcare:speciality": "blood_check;gynaecology;emergency",
+    "insurance": "gov",
+    "name": "Puskesmas Rawa Badak Utara I",
+    "opening_hours": "24/7",
+    "operator": "Ministry of Health",
+    "operator:en": "Ministry of Health",
+    "operator:id": "Kementerian Kesehatan",
+    "operator:type": "government",
+    "operator:wikidata": "Q12490745",
+    "phone": "+62 21 4393 382",
+    "source": "HOT_InAWARESurvey_2017",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 516015315,
+  "center": {
+    "lat": -6.1207050,
+    "lon": 106.8754876
+  },
+  "tags": {
+    "access:roof": "no",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Warakas IX Gg. 13 No. 22",
+    "amenity": "clinic",
+    "backup_generator": "yes",
+    "building": "clinic",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "3",
+    "building:roof": "tile",
+    "building:structure": "confined_masonry",
+    "building:walls": "concrete",
+    "capacity:persons": "100-250",
+    "healthcare": "clinic",
+    "healthcare:speciality": "gynaecology",
+    "insurance": "gov",
+    "name": "Puskesmas Kelurahan Warakas",
+    "opening_hours": "24/7",
+    "operator": "Ministry of Health",
+    "operator:en": "Ministry of Health",
+    "operator:id": "Kementerian Kesehatan",
+    "operator:type": "government",
+    "operator:wikidata": "Q12490745",
+    "source": "HOT_InAWARESurvey_2017",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 516015357,
+  "center": {
+    "lat": -6.1193116,
+    "lon": 106.8745026
+  },
+  "tags": {
+    "access:roof": "no",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Warakas 1 NO. 86-88",
+    "amenity": "clinic",
+    "backup_generator": "yes",
+    "building": "clinic",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "2",
+    "building:roof": "tile",
+    "building:structure": "confined_masonry",
+    "building:walls": "concrete",
+    "capacity:persons": "100-250",
+    "healthcare": "clinic",
+    "healthcare:speciality": "blood_check;gynaecology;emergency",
+    "insurance": "private",
+    "name": "Klinik Velda",
+    "opening_hours": "24/7",
+    "operator:type": "private",
+    "phone": "+62 21 4352 922",
+    "source": "HOT_InAWARESurvey_2017",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 517559312,
+  "center": {
+    "lat": -6.1089611,
+    "lon": 106.9000678
+  },
+  "tags": {
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Deli Nomor 4",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "healthcare:speciality": "internal;blood_check;radiology;clinical_pathology;gynaecology;emergency;pulmonology;psychiatry;urology;intensive;neurology;vaccination;surgery",
+    "insurance": "gov",
+    "name": "Rumah Sakit Umum Daerah (RSUD) Koja",
+    "opening_hours": "24/7",
+    "operator:type": "government",
+    "source": "HOT_InAWARESurvey_2017",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 518174000,
+  "center": {
+    "lat": -6.1161747,
+    "lon": 106.8889959
+  },
+  "tags": {
+    "access:roof": "yes",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Bugis No. 2 Tanjung Priok Jakarta Utara",
+    "amenity": "hospital",
+    "backup_generator": "yes",
+    "building": "hospital",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "3",
+    "building:roof": "concrete",
+    "building:structure": "confined_masonry",
+    "building:walls": "concrete",
+    "capacity:persons": ">500",
+    "healthcare": "hospital",
+    "healthcare:speciality": "internal;blood_check;radiology;urology;clinical_pathology;emergency;pulmonology;psychiatry;intensive;neurology;vaccination;surgery",
+    "insurance": "gov",
+    "name": "RSUD KECAMATAN TANJUNG PRIOK",
+    "opening_hours": "24/7",
+    "operator:type": "government",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 519469769,
+  "center": {
+    "lat": -6.1219114,
+    "lon": 106.9134710
+  },
+  "tags": {
+    "access:roof": "yes",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Mahoni Ujung",
+    "amenity": "clinic",
+    "backup_generator": "yes",
+    "building": "clinic",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "4",
+    "building:roof": "concrete",
+    "building:structure": "confined_masonry",
+    "building:walls": "concrete",
+    "capacity:persons": "250-500",
+    "check_date": "2023-03-06",
+    "healthcare": "clinic",
+    "healthcare:speciality": "blood_check;gynaecology;emergency",
+    "insurance": "gov",
+    "internet_access": "no",
+    "name": "Puskesmas Kecamatan Koja",
+    "opening_hours": "24/7",
+    "operator": "Ministry of Health",
+    "operator:en": "Ministry of Health",
+    "operator:id": "Kementerian Kesehatan",
+    "operator:type": "government",
+    "operator:wikidata": "Q12490745",
+    "phone": "+62 21 43905753; +62 21 43938307",
+    "source": "HOT_InAWARESurvey_2017",
+    "website": "https://puskesmaskoja.jakarta.go.id",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 519904459,
+  "center": {
+    "lat": -6.1272065,
+    "lon": 106.8788044
+  },
+  "tags": {
+    "access:roof": "yes",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Papanggo IIB",
+    "amenity": "clinic",
+    "backup_generator": "yes",
+    "building": "clinic",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "3",
+    "building:roof": "concrete",
+    "building:structure": "confined_masonry",
+    "building:walls": "concrete",
+    "capacity:persons": "250-500",
+    "healthcare": "clinic",
+    "healthcare:speciality": "blood_check;gynaecology;emergency",
+    "insurance": "gov",
+    "name": "Puskesmas Kecamatan Tanjung Priok",
+    "opening_hours": "Mo-Th 07:30-16:00, Fr 07:30-16:30",
+    "operator": "Ministry of Health",
+    "operator:en": "Ministry of Health",
+    "operator:id": "Kementerian Kesehatan",
+    "operator:type": "government",
+    "operator:wikidata": "Q12490745",
+    "phone": "+62 21 6583 3297",
+    "source": "HOT_InAWARESurvey_2017",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 519904608,
+  "center": {
+    "lat": -6.1298496,
+    "lon": 106.8623942
+  },
+  "tags": {
+    "access:roof": "yes",
+    "backup_generator": "yes",
+    "building": "hospital",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "4",
+    "building:roof": "concrete",
+    "building:structure": "confined_masonry",
+    "building:walls": "concrete",
+    "capacity:persons": ">500",
+    "source": "HOT_InAWARESurvey_2017",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 521141278,
+  "center": {
+    "lat": -6.1555874,
+    "lon": 106.8638410
+  },
+  "tags": {
+    "access:roof": "no",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Sunter Kemayoran No. 6",
+    "addr:street": "Jalan Sunter Kemayoran",
+    "amenity": "clinic",
+    "backup_generator": "yes",
+    "building": "clinic",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "1",
+    "building:roof": "asbestos",
+    "building:structure": "confined_masonry",
+    "building:walls": "concrete",
+    "capacity:persons": "<50",
+    "healthcare": "clinic",
+    "healthcare:speciality": "intensive",
+    "insurance": "private",
+    "name": "Klinik Cempaka",
+    "opening_hours": "08:00-22:00",
+    "operator:type": "private",
+    "source": "HOT_InAWARESurvey_2017",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 521457268,
+  "center": {
+    "lat": -6.1716574,
+    "lon": 106.8987035
+  },
+  "tags": {
+    "addr:full": "Jalan Boulevard Raya 12",
+    "amenity": "clinic",
+    "backup_generator": "yes",
+    "building": "yes",
+    "healthcare": "clinic",
+    "healthcare:speciality": "blood_check;vaccination",
+    "insurance": "private",
+    "name": "Jakarta Derma Clinic",
+    "opening_hours": "Mo-Fr 10:00-20:00",
+    "operator:type": "private",
+    "phone": "+62 21 2957 8538",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 522047495,
+  "center": {
+    "lat": -6.1127954,
+    "lon": 106.8831967
+  },
+  "tags": {
+    "addr:full": "Jalan Gorontalo No. 8 Tanjung Priok Jakarta Utara",
+    "amenity": "doctors",
+    "building": "yes",
+    "healthcare": "doctor",
+    "name": "Dokter Diah S. Wiryono",
+    "opening_hours": "Mo-Fr 17:00-21:00",
+    "operator:type": "private",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 522438785,
+  "center": {
+    "lat": -6.1394764,
+    "lon": 106.8416408
+  },
+  "tags": {
+    "addr:full": "Jalan Pademangan 3 Raya No 285a",
+    "amenity": "doctors",
+    "backup_generator": "no",
+    "building": "yes",
+    "healthcare": "doctor",
+    "name": "Praktek Dokter Umum dr. Andy",
+    "opening_hours": "Mo-Sa 16:00-21:00",
+    "operator:type": "private",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 524561410,
+  "center": {
+    "lat": -6.1121118,
+    "lon": 106.7711035
+  },
+  "tags": {
+    "access:roof": "no",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Muara Angke No. 2",
+    "amenity": "clinic",
+    "backup_generator": "no",
+    "building": "clinic",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "2",
+    "building:roof": "tile",
+    "building:structure": "confined_masonry",
+    "building:walls": "brick",
+    "capacity:persons": "100-250",
+    "healthcare": "clinic",
+    "healthcare:speciality": "blood_check;gynaecology;emergency;vaccination;surgery",
+    "height": "6",
+    "insurance": "gov",
+    "name": "Puskesmas Kelurahan Pluit",
+    "opening_hours": "Mo-Sa 10:00-20:00",
+    "operator": "Ministry of Health",
+    "operator:en": "Ministry of Health",
+    "operator:id": "Kementerian Kesehatan",
+    "operator:type": "government",
+    "operator:wikidata": "Q12490745",
+    "source": "HOT_InAWARESurvey_2017",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 524571822,
+  "center": {
+    "lat": -6.1091317,
+    "lon": 106.7404816
+  },
+  "tags": {
+    "building": "yes",
+    "building:levels": "5",
+    "name": "PIK Avenue",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "shop": "mall",
+    "start_date": "2016",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 524575649,
+  "center": {
+    "lat": -6.1328075,
+    "lon": 106.8402910
+  },
+  "tags": {
+    "access:roof": "yes",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Budi Mulia Raya No. 2 Pademangan Barat, Jakarta Utara",
+    "amenity": "hospital",
+    "backup_generator": "yes",
+    "building": "yes",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "4",
+    "building:roof": "concrete",
+    "building:structure": "confined_masonry",
+    "building:walls": "concrete",
+    "capacity:persons": "250-500",
+    "evacuation_center": "yes",
+    "healthcare": "hospital",
+    "healthcare:speciality": "blood_check;radiology;urology;clinical_pathology;gynaecology;emergency;intensive;vaccination",
+    "insurance": "gov",
+    "kitchen:facilities": "no",
+    "name": "Rumah Sakit Umum Pademangan",
+    "operator:type": "government",
+    "source": "HOT_InAWARESurvey_2017",
+    "toilet:facilities": "yes",
+    "toilets:number": "4",
+    "water_source": "water_works",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 524850411,
+  "center": {
+    "lat": -6.1354345,
+    "lon": 106.8379166
+  },
+  "tags": {
+    "access:roof": "no",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Waspada Raya No.23 RT 13 RW 15, Pademangan Barat Jakarta Utara",
+    "amenity": "clinic",
+    "backup_generator": "no",
+    "building": "clinic",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "1",
+    "building:roof": "tile",
+    "building:structure": "confined_masonry",
+    "building:walls": "concrete",
+    "capacity:persons": "<50",
+    "healthcare": "clinic",
+    "healthcare:speciality": "gynaecology;vaccination",
+    "insurance": "gov",
+    "name": "Puskesmas Pademangan Barat II",
+    "opening_hours": "24/7",
+    "operator": "Ministry of Health",
+    "operator:en": "Ministry of Health",
+    "operator:id": "Kementerian Kesehatan",
+    "operator:type": "government",
+    "operator:wikidata": "Q12490745",
+    "source": "HOT_InAWARESurvey_2017",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 524850424,
+  "center": {
+    "lat": -6.1355261,
+    "lon": 106.8386810
+  },
+  "tags": {
+    "access:roof": "no",
+    "addr:full": "Jalan Pademangan Barat RT/RW 08/10 No 8a",
+    "amenity": "clinic",
+    "backup_generator": "no",
+    "building": "yes",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "1",
+    "building:roof": "tile",
+    "building:structure": "confined_masonry",
+    "building:walls": "concrete",
+    "capacity:persons": "<50",
+    "healthcare": "clinic",
+    "healthcare:speciality": "gynaecology",
+    "insurance": "gov",
+    "opening_hours": "Mo-Su 16:30-20:30",
+    "operator:type": "private",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 525515460,
+  "center": {
+    "lat": -6.1262799,
+    "lon": 106.7929855
+  },
+  "tags": {
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Pluit Raya Nomor 2, Jakarta Utara",
+    "amenity": "hospital",
+    "backup_generator": "yes",
+    "healthcare": "hospital",
+    "healthcare:speciality": "internal;blood_check;radiology;gynaecology;emergency;pulmonology;psychiatry;urology;intensive;neurology;vaccination;surgery",
+    "insurance": "gov",
+    "name": "Rumah Sakit Atma Jaya",
+    "opening_hours": "24/7",
+    "operator:type": "private",
+    "phone": "+62 21 6606 127",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 525570437,
+  "center": {
+    "lat": -6.1357850,
+    "lon": 106.8424907
+  },
+  "tags": {
+    "addr:full": "Jalan Pademangan 3 Raya No 35",
+    "amenity": "doctors",
+    "backup_generator": "yes",
+    "building": "yes",
+    "healthcare": "doctor",
+    "healthcare:speciality": "gynaecology",
+    "insurance": "private",
+    "name": "Praktek Dokter Umum dr. Devy",
+    "opening_hours": "Mo-Fr 07:00-11:00,16:00-20:00",
+    "operator:type": "private",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 525766019,
+  "center": {
+    "lat": -6.1385261,
+    "lon": 106.7838090
+  },
+  "tags": {
+    "access:roof": "no",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Teluk Gong Raya",
+    "amenity": "hospital",
+    "backup_generator": "yes",
+    "building": "hospital",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "4",
+    "building:roof": "concrete",
+    "building:structure": "confined_masonry",
+    "building:walls": "brick",
+    "capacity:persons": "50-100",
+    "healthcare": "hospital",
+    "healthcare:speciality": "internal;blood_check;radiology;clinical_pathology;gynaecology;emergency;pulmonology;psychiatry;urology;intensive;neurology;vaccination;surgery",
+    "insurance": "gov",
+    "name": "Rumah Sakit Duta Indah",
+    "opening_hours": "24/7",
+    "operator:type": "private",
+    "source": "HOT_InAWARESurvey_2017",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 525830969,
+  "center": {
+    "lat": -6.1357497,
+    "lon": 106.8329445
+  },
+  "tags": {
+    "addr:full": "Jalan Ampera Raya No 16 Pademangan Barat",
+    "amenity": "pharmacy",
+    "backup_generator": "no",
+    "building": "yes",
+    "healthcare": "pharmacy",
+    "healthcare:speciality": "blood_check;vaccination",
+    "name": "Apotek Mitra Sehat",
+    "operator:type": "private",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 526051882,
+  "center": {
+    "lat": -6.1397900,
+    "lon": 106.9207828
+  },
+  "tags": {
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Tipar Cakung",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "healthcare:speciality": "internal;blood_check;radiology;urology;clinical_pathology;gynaecology;emergency;pulmonology;psychiatry;intensive;vaccination;surgery",
+    "insurance": "gov",
+    "name": "Rumah Sakit Islam Jakarta",
+    "operator:type": "private",
+    "source": "HOT_InAWARESurvey_2017",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 526051913,
+  "center": {
+    "lat": -6.1483289,
+    "lon": 106.9242106
+  },
+  "tags": {
+    "access:roof": "no",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Tipar Cakung",
+    "amenity": "clinic",
+    "backup_generator": "yes",
+    "building": "clinic",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "2",
+    "building:roof": "tile",
+    "building:structure": "confined_masonry",
+    "building:walls": "concrete",
+    "capacity:persons": "250-500",
+    "healthcare:speciality": "blood_check;gynaecology;emergency;vaccination",
+    "insurance": "gov",
+    "name": "Puskesmas Kecamatan Cilincing",
+    "opening_hours": "Mo-Su 08:00-16:00",
+    "operator:type": "government",
+    "phone": "+62 812 1241 1410",
+    "source": "HOT_InAWARESurvey_2017",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 526081060,
+  "center": {
+    "lat": -6.1561392,
+    "lon": 106.9230698
+  },
+  "tags": {
+    "access:roof": "yes",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Cendrawasih",
+    "amenity": "hospital",
+    "backup_generator": "yes",
+    "building": "hospital",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "4",
+    "building:roof": "concrete",
+    "building:structure": "confined_masonry",
+    "building:walls": "concrete",
+    "capacity:persons": ">500",
+    "healthcare": "hospital",
+    "healthcare:speciality": "internal;blood_check;radiology;clinical_pathology;gynaecology;emergency;pulmonology;intensive;vaccination",
+    "insurance": "private",
+    "name": "Rumah Sakit Firdaus",
+    "opening_hours": "24/7",
+    "operator:type": "private",
+    "phone": "+62 21 440011",
+    "source": "HOT_InAWARESurvey_2017",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 526123125,
+  "center": {
+    "lat": -6.1337456,
+    "lon": 106.8440172
+  },
+  "tags": {
+    "addr:full": "Jalan Pademangan Gang 32 No 14",
+    "amenity": "doctors",
+    "backup_generator": "no",
+    "building": "yes",
+    "healthcare": "doctor",
+    "name": "Praktek Dokter Umum Dokter Halim",
+    "opening_hours": "17:00-20:00",
+    "operator:type": "private",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 526636683,
+  "center": {
+    "lat": -6.1018981,
+    "lon": 106.9291477
+  },
+  "tags": {
+    "access:roof": "no",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Kali Baru Timur I No 10",
+    "amenity": "clinic",
+    "backup_generator": "no",
+    "building": "clinic",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "1",
+    "building:roof": "tile",
+    "building:structure": "confined_masonry",
+    "building:walls": "brick",
+    "capacity:persons": "50-100",
+    "healthcare": "clinic",
+    "insurance": "gov",
+    "name": "Puskesmas Kelurahan Kali Baru",
+    "opening_hours": "Mo-Sa 08:00-16:00",
+    "operator": "Ministry of Health",
+    "operator:en": "Ministry of Health",
+    "operator:id": "Kementerian Kesehatan",
+    "operator:type": "government",
+    "operator:wikidata": "Q12490745",
+    "source": "HOT_InAWARESurvey_2017",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 526701941,
+  "center": {
+    "lat": -6.1455484,
+    "lon": 106.8613679
+  },
+  "tags": {
+    "access:roof": "yes",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Danau Agung 2",
+    "amenity": "hospital",
+    "backup_generator": "yes",
+    "building": "hospital",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "3",
+    "building:roof": "concrete",
+    "building:structure": "confined_masonry",
+    "building:walls": "concrete",
+    "capacity:persons": "250-500",
+    "healthcare": "hospital",
+    "healthcare:speciality": "internal;blood_check;radiology;clinical_pathology;gynaecology;emergency;pulmonology;psychiatry;urology;intensive;neurology;vaccination;surgery",
+    "insurance": "gov",
+    "name": "Rumah Sakit Hermina Podomoro",
+    "opening_hours": "24/7",
+    "operator:type": "private",
+    "source": "HOT_InAWARESurvey_2017",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 526701955,
+  "center": {
+    "lat": -6.1394485,
+    "lon": 106.8654705
+  },
+  "tags": {
+    "access:roof": "yes",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Danau Sunter Utara, RT.6/RW.12, Sunter Agung, Tj. Priok, Kota Jakarta Utara, Daerah Khusus Ibukota Jakarta",
+    "amenity": "hospital",
+    "backup_generator": "yes",
+    "building": "hospital",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "6",
+    "building:roof": "concrete",
+    "building:structure": "confined_masonry",
+    "building:walls": "concrete",
+    "capacity:persons": ">500",
+    "healthcare": "hospital",
+    "healthcare:speciality": "internal;blood_check;radiology;clinical_pathology;gynaecology;emergency;pulmonology;psychiatry;urology;intensive;neurology;vaccination;surgery",
+    "insurance": "gov",
+    "name": "Rumah Sakit Royal Progress",
+    "opening_hours": "24/7",
+    "operator:type": "government",
+    "source": "HOT_InAWARESurvey_2017",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 528379762,
+  "center": {
+    "lat": -6.1526378,
+    "lon": 106.8718866
+  },
+  "tags": {
+    "access:roof": "no",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Cempaka",
+    "amenity": "clinic",
+    "backup_generator": "yes",
+    "building": "clinic",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "1",
+    "building:roof": "tile",
+    "building:structure": "confined_masonry",
+    "building:walls": "concrete",
+    "capacity:persons": "50-100",
+    "healthcare": "clinic",
+    "healthcare:speciality": "blood_check;vaccination",
+    "insurance": "gov",
+    "name": "Puskesmas Kelurahan Sunter Jaya II",
+    "opening_hours": "24/7",
+    "operator": "Ministry of Health",
+    "operator:en": "Ministry of Health",
+    "operator:id": "Kementerian Kesehatan",
+    "operator:type": "government",
+    "operator:wikidata": "Q12490745",
+    "source": "HOT_InAWARESurvey_2017",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 529457492,
+  "center": {
+    "lat": -6.1172367,
+    "lon": 106.8740146
+  },
+  "tags": {
+    "addr:full": "Jalan Bahari A7 Tanjung Priok Jakarta Utara",
+    "amenity": "clinic",
+    "building": "yes",
+    "healthcare": "clinic",
+    "healthcare:speciality": "emergency;intensive",
+    "insurance": "gov",
+    "name": "Klinik Almira Medika",
+    "opening_hours": "Mo-Su 16:00-21:00",
+    "operator:type": "private",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 532106110,
+  "center": {
+    "lat": -6.1399939,
+    "lon": 106.8596673
+  },
+  "tags": {
+    "addr:full": "Jalan Danau Sunter Utara blok B1B/9",
+    "amenity": "dentist",
+    "backup_generator": "yes",
+    "building": "yes",
+    "healthcare": "dentist",
+    "insurance": "private;gov",
+    "name": "Optik dan Dokter Gigi Sejahtera",
+    "opening_hours": "Mo-Sa 10:00-21:00",
+    "operator:type": "private",
+    "phone": "+62 21 6471 6368",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 652175771,
+  "center": {
+    "lat": -6.1424122,
+    "lon": 106.8627247
+  },
+  "tags": {
+    "addr:full": "Jalan Agung Permai 1 blok C5 no. 42",
+    "amenity": "clinic",
+    "backup_generator": "yes",
+    "building": "yes",
+    "healthcare": "clinic",
+    "healthcare:speciality": "clinical_pathology",
+    "insurance": "private;gov",
+    "name": "Klinik Pratama",
+    "opening_hours": "Mo-Sa 09:00-19:00",
+    "operator:type": "private",
+    "phone": "+62 21 6530 7932",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 652581662,
+  "center": {
+    "lat": -6.1344347,
+    "lon": 106.8362736
+  },
+  "tags": {
+    "addr:full": "Jalan Budi Mulia 6 No 7-9",
+    "amenity": "midwife",
+    "backup_generator": "no",
+    "building": "yes",
+    "healthcare": "midwife",
+    "healthcare:speciality": "gynaecology",
+    "name": "Bidan Musripah",
+    "opening_hours": "24/7",
+    "operator:type": "private",
+    "source": "survey",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 881957189,
+  "center": {
+    "lat": -6.1250992,
+    "lon": 106.8602007
+  },
+  "tags": {
+    "alt_name": "Stadion Internasional Jakarta",
+    "leisure": "stadium",
+    "name": "Jakarta International Stadium",
+    "sport": "multi",
+    "start_date": "2019",
+    "wheelchair": "yes",
+    "wikidata": "Q6124453",
+    "wikimedia_commons": "Category:Jakarta International Stadium",
+    "wikipedia": "id:Stadion Internasional Jakarta"
+  }
+}
+
+  ]
+}

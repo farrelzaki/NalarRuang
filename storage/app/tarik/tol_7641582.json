@@ -1,0 +1,246 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-09T06:22:21Z",
+    "timestamp_areas_base": "2026-10-08T05:09:19Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 239019394,
+  "lat": -6.2833124,
+  "lon": 106.7346329,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Pondok Ranji"
+  }
+},
+{
+  "type": "node",
+  "id": 427541115,
+  "lat": -6.2893057,
+  "lon": 106.7261857,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Toll Gate Pondok Aren 1"
+  }
+},
+{
+  "type": "node",
+  "id": 427541129,
+  "lat": -6.2897909,
+  "lon": 106.7265833,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Toll Gate Pondok Aren 2"
+  }
+},
+{
+  "type": "node",
+  "id": 427845417,
+  "lat": -6.2838114,
+  "lon": 106.7348362,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Pondok Ranji"
+  }
+},
+{
+  "type": "node",
+  "id": 5555537359,
+  "lat": -6.2827797,
+  "lon": 106.7358411,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 5950065481,
+  "lat": -6.3003850,
+  "lon": 106.7053757,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Serpong 1"
+  }
+},
+{
+  "type": "node",
+  "id": 5950065499,
+  "lat": -6.3040482,
+  "lon": 106.6993287,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Serpong 3"
+  }
+},
+{
+  "type": "node",
+  "id": 5950065538,
+  "lat": -6.3007611,
+  "lon": 106.7038966,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Serpong 4"
+  }
+},
+{
+  "type": "node",
+  "id": 5950065574,
+  "lat": -6.3020167,
+  "lon": 106.7001307,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Serpong 2"
+  }
+},
+{
+  "type": "node",
+  "id": 6424804268,
+  "lat": -6.2841947,
+  "lon": 106.7341385,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 6615910326,
+  "lat": -6.2845392,
+  "lon": 106.7334326,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 6618138533,
+  "lat": -6.2824267,
+  "lon": 106.7365209,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 6994033993,
+  "lat": -6.3372842,
+  "lon": 106.7469555,
+  "tags": {
+    "barrier": "toll_booth",
+    "bicycle": "no",
+    "foot": "no",
+    "horse": "no",
+    "motorcycle": "no",
+    "name": "Gerbang Tol Pamulang"
+  }
+},
+{
+  "type": "node",
+  "id": 6994033994,
+  "lat": -6.3371583,
+  "lon": 106.7468974,
+  "tags": {
+    "barrier": "toll_booth",
+    "bicycle": "no",
+    "foot": "no",
+    "horse": "no",
+    "motorcycle": "no",
+    "name": "Gerbang Tol Pamulang"
+  }
+},
+{
+  "type": "node",
+  "id": 6997081659,
+  "lat": -6.2669563,
+  "lon": 106.6855381,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Parigi"
+  }
+},
+{
+  "type": "node",
+  "id": 6997081660,
+  "lat": -6.2668245,
+  "lon": 106.6855561,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Parigi"
+  }
+},
+{
+  "type": "node",
+  "id": 6997703670,
+  "lat": -6.2670800,
+  "lon": 106.6749293,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Jelupang"
+  }
+},
+{
+  "type": "node",
+  "id": 6997703671,
+  "lat": -6.2669720,
+  "lon": 106.6749594,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Gerbang Tol Jelupang"
+  }
+},
+{
+  "type": "node",
+  "id": 7080508372,
+  "lat": -6.2823951,
+  "lon": 106.7363863,
+  "tags": {
+    "barrier": "toll_booth"
+  }
+},
+{
+  "type": "node",
+  "id": 7171517132,
+  "lat": -6.3018193,
+  "lon": 106.7006175,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Serpong 6"
+  }
+},
+{
+  "type": "node",
+  "id": 7757478114,
+  "lat": -6.2730605,
+  "lon": 106.7486304,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Bintaro 2"
+  }
+},
+{
+  "type": "node",
+  "id": 8620089629,
+  "lat": -6.3043890,
+  "lon": 106.7045731,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Serpong 7"
+  }
+},
+{
+  "type": "node",
+  "id": 10538387356,
+  "lat": -6.2995481,
+  "lon": 106.7066313,
+  "tags": {
+    "barrier": "toll_booth",
+    "name": "Serpong 5"
+  }
+}
+
+  ]
+}

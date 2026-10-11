@@ -1,0 +1,959 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-09T04:51:14Z",
+    "timestamp_areas_base": "2026-10-08T05:09:19Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "way",
+  "id": 158817046,
+  "bounds": {
+    "minlat": -6.2735668,
+    "minlon": 106.7392559,
+    "maxlat": -6.2732689,
+    "maxlon": 106.7392730
+  },
+  "geometry": [
+    { "lat": -6.2735668, "lon": 106.7392730 },
+    { "lat": -6.2732689, "lon": 106.7392559 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 565247694,
+  "bounds": {
+    "minlat": -6.2783847,
+    "minlon": 106.7409378,
+    "maxlat": -6.2747279,
+    "maxlon": 106.7415448
+  },
+  "geometry": [
+    { "lat": -6.2747279, "lon": 106.7411154 },
+    { "lat": -6.2771476, "lon": 106.7409378 },
+    { "lat": -6.2773049, "lon": 106.7409432 },
+    { "lat": -6.2774569, "lon": 106.7409673 },
+    { "lat": -6.2776515, "lon": 106.7410317 },
+    { "lat": -6.2778302, "lon": 106.7411122 },
+    { "lat": -6.2779821, "lon": 106.7412060 },
+    { "lat": -6.2781195, "lon": 106.7413131 },
+    { "lat": -6.2783847, "lon": 106.7415199 },
+    { "lat": -6.2783677, "lon": 106.7415448 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 667024394,
+  "bounds": {
+    "minlat": -6.3221388,
+    "minlon": 106.7083075,
+    "maxlat": -6.3215448,
+    "maxlon": 106.7085134
+  },
+  "geometry": [
+    { "lat": -6.3221388, "lon": 106.7085134 },
+    { "lat": -6.3218262, "lon": 106.7083989 },
+    { "lat": -6.3215448, "lon": 106.7083075 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "height": "1",
+    "highway": "footway",
+    "material": "concrete"
+  }
+},
+{
+  "type": "way",
+  "id": 667024399,
+  "bounds": {
+    "minlat": -6.3219816,
+    "minlon": 106.7077508,
+    "maxlat": -6.3211428,
+    "maxlon": 106.7083075
+  },
+  "geometry": [
+    { "lat": -6.3215448, "lon": 106.7083075 },
+    { "lat": -6.3211428, "lon": 106.7082058 },
+    { "lat": -6.3211912, "lon": 106.7080196 },
+    { "lat": -6.3213268, "lon": 106.7078769 },
+    { "lat": -6.3213915, "lon": 106.7078588 },
+    { "lat": -6.3214324, "lon": 106.7078704 },
+    { "lat": -6.3215247, "lon": 106.7080182 },
+    { "lat": -6.3215579, "lon": 106.7080243 },
+    { "lat": -6.3218900, "lon": 106.7078152 },
+    { "lat": -6.3219816, "lon": 106.7077508 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "height": "1",
+    "highway": "footway",
+    "material": "concrete"
+  }
+},
+{
+  "type": "way",
+  "id": 667024517,
+  "bounds": {
+    "minlat": -6.3232876,
+    "minlon": 106.7085134,
+    "maxlat": -6.3221388,
+    "maxlon": 106.7088928
+  },
+  "geometry": [
+    { "lat": -6.3232876, "lon": 106.7088563 },
+    { "lat": -6.3232190, "lon": 106.7088669 },
+    { "lat": -6.3231450, "lon": 106.7088794 },
+    { "lat": -6.3230117, "lon": 106.7088928 },
+    { "lat": -6.3228031, "lon": 106.7088600 },
+    { "lat": -6.3225245, "lon": 106.7087433 },
+    { "lat": -6.3222732, "lon": 106.7085964 },
+    { "lat": -6.3221699, "lon": 106.7085307 },
+    { "lat": -6.3221388, "lon": 106.7085134 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "height": "1",
+    "highway": "footway",
+    "material": "concrete"
+  }
+},
+{
+  "type": "way",
+  "id": 1175008903,
+  "bounds": {
+    "minlat": -6.2977977,
+    "minlon": 106.6706935,
+    "maxlat": -6.2977537,
+    "maxlon": 106.6707431
+  },
+  "geometry": [
+    { "lat": -6.2977537, "lon": 106.6706935 },
+    { "lat": -6.2977977, "lon": 106.6707431 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1175008905,
+  "bounds": {
+    "minlat": -6.2978044,
+    "minlon": 106.6704547,
+    "maxlat": -6.2977711,
+    "maxlon": 106.6706371
+  },
+  "geometry": [
+    { "lat": -6.2978044, "lon": 106.6704547 },
+    { "lat": -6.2977711, "lon": 106.6706371 }
+  ],
+  "tags": {
+    "bridge": "yes",
+    "footway": "sidewalk",
+    "highway": "footway",
+    "layer": "1"
+  }
+},
+{
+  "type": "way",
+  "id": 1193537785,
+  "bounds": {
+    "minlat": -6.3209405,
+    "minlon": 106.6800030,
+    "maxlat": -6.3173279,
+    "maxlon": 106.6825335
+  },
+  "geometry": [
+    { "lat": -6.3173279, "lon": 106.6800030 },
+    { "lat": -6.3174784, "lon": 106.6801272 },
+    { "lat": -6.3177218, "lon": 106.6803074 },
+    { "lat": -6.3178059, "lon": 106.6803701 },
+    { "lat": -6.3179086, "lon": 106.6804445 },
+    { "lat": -6.3179321, "lon": 106.6804576 },
+    { "lat": -6.3179794, "lon": 106.6804835 },
+    { "lat": -6.3183859, "lon": 106.6807756 },
+    { "lat": -6.3184177, "lon": 106.6808009 },
+    { "lat": -6.3187528, "lon": 106.6810672 },
+    { "lat": -6.3188975, "lon": 106.6811940 },
+    { "lat": -6.3190210, "lon": 106.6813247 },
+    { "lat": -6.3190456, "lon": 106.6813426 },
+    { "lat": -6.3190858, "lon": 106.6813896 },
+    { "lat": -6.3192849, "lon": 106.6815493 },
+    { "lat": -6.3194049, "lon": 106.6816393 },
+    { "lat": -6.3195195, "lon": 106.6817194 },
+    { "lat": -6.3196487, "lon": 106.6818113 },
+    { "lat": -6.3198263, "lon": 106.6819316 },
+    { "lat": -6.3198812, "lon": 106.6819688 },
+    { "lat": -6.3200358, "lon": 106.6820663 },
+    { "lat": -6.3202992, "lon": 106.6822041 },
+    { "lat": -6.3209405, "lon": 106.6825335 }
+  ],
+  "tags": {
+    "bicycle": "designated",
+    "foot": "designated",
+    "footway": "sidewalk",
+    "highway": "cycleway",
+    "horse": "no",
+    "oneway": "yes",
+    "segregated": "yes",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1193537792,
+  "bounds": {
+    "minlat": -6.3231919,
+    "minlon": 106.6826379,
+    "maxlat": -6.3211680,
+    "maxlon": 106.6833583
+  },
+  "geometry": [
+    { "lat": -6.3211680, "lon": 106.6826379 },
+    { "lat": -6.3217428, "lon": 106.6828508 },
+    { "lat": -6.3225040, "lon": 106.6831270 },
+    { "lat": -6.3231919, "lon": 106.6833583 }
+  ],
+  "tags": {
+    "bicycle": "designated",
+    "foot": "designated",
+    "footway": "sidewalk",
+    "highway": "cycleway",
+    "horse": "no",
+    "oneway": "yes",
+    "segregated": "yes",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1193537793,
+  "bounds": {
+    "minlat": -6.3209554,
+    "minlon": 106.6825335,
+    "maxlat": -6.3205029,
+    "maxlon": 106.6842184
+  },
+  "geometry": [
+    { "lat": -6.3209405, "lon": 106.6825335 },
+    { "lat": -6.3209508, "lon": 106.6825519 },
+    { "lat": -6.3209541, "lon": 106.6825659 },
+    { "lat": -6.3209554, "lon": 106.6825806 },
+    { "lat": -6.3209544, "lon": 106.6825972 },
+    { "lat": -6.3209508, "lon": 106.6826152 },
+    { "lat": -6.3208836, "lon": 106.6828525 },
+    { "lat": -6.3205403, "lon": 106.6840724 },
+    { "lat": -6.3205029, "lon": 106.6841990 },
+    { "lat": -6.3205687, "lon": 106.6842184 }
+  ],
+  "tags": {
+    "bicycle": "no",
+    "footway": "sidewalk",
+    "highway": "footway",
+    "horse": "no",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1193537795,
+  "bounds": {
+    "minlat": -6.3211680,
+    "minlon": 106.6826379,
+    "maxlat": -6.3205687,
+    "maxlon": 106.6842414
+  },
+  "geometry": [
+    { "lat": -6.3205687, "lon": 106.6842184 },
+    { "lat": -6.3206422, "lon": 106.6842414 },
+    { "lat": -6.3206532, "lon": 106.6842037 },
+    { "lat": -6.3208375, "lon": 106.6835831 },
+    { "lat": -6.3209906, "lon": 106.6830672 },
+    { "lat": -6.3210961, "lon": 106.6827149 },
+    { "lat": -6.3211062, "lon": 106.6826885 },
+    { "lat": -6.3211261, "lon": 106.6826595 },
+    { "lat": -6.3211461, "lon": 106.6826463 },
+    { "lat": -6.3211680, "lon": 106.6826379 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1193537800,
+  "bounds": {
+    "minlat": -6.3191875,
+    "minlon": 106.6801231,
+    "maxlat": -6.3179588,
+    "maxlon": 106.6810686
+  },
+  "geometry": [
+    { "lat": -6.3191875, "lon": 106.6810686 },
+    { "lat": -6.3190560, "lon": 106.6809384 },
+    { "lat": -6.3189714, "lon": 106.6808642 },
+    { "lat": -6.3187297, "lon": 106.6806825 },
+    { "lat": -6.3181443, "lon": 106.6802590 },
+    { "lat": -6.3179588, "lon": 106.6801231 }
+  ],
+  "tags": {
+    "bicycle": "designated",
+    "foot": "designated",
+    "footway": "sidewalk",
+    "highway": "cycleway",
+    "horse": "no",
+    "oneway": "yes",
+    "segregated": "yes",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1193537801,
+  "bounds": {
+    "minlat": -6.3193849,
+    "minlon": 106.6810686,
+    "maxlat": -6.3191399,
+    "maxlon": 106.6813431
+  },
+  "geometry": [
+    { "lat": -6.3193849, "lon": 106.6812684 },
+    { "lat": -6.3193322, "lon": 106.6813431 },
+    { "lat": -6.3191399, "lon": 106.6811865 },
+    { "lat": -6.3191875, "lon": 106.6810686 }
+  ],
+  "tags": {
+    "bicycle": "designated",
+    "foot": "designated",
+    "footway": "sidewalk",
+    "highway": "cycleway",
+    "horse": "no",
+    "oneway": "yes",
+    "segregated": "no",
+    "tactile_paving": "no"
+  }
+},
+{
+  "type": "way",
+  "id": 1193537802,
+  "bounds": {
+    "minlat": -6.3200523,
+    "minlon": 106.6812684,
+    "maxlat": -6.3193849,
+    "maxlon": 106.6817373
+  },
+  "geometry": [
+    { "lat": -6.3200523, "lon": 106.6817373 },
+    { "lat": -6.3193849, "lon": 106.6812684 }
+  ],
+  "tags": {
+    "bicycle": "designated",
+    "foot": "designated",
+    "footway": "sidewalk",
+    "highway": "cycleway",
+    "horse": "no",
+    "oneway": "yes",
+    "segregated": "yes",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1193537803,
+  "bounds": {
+    "minlat": -6.3177503,
+    "minlon": 106.6798655,
+    "maxlat": -6.3176153,
+    "maxlon": 106.6799668
+  },
+  "geometry": [
+    { "lat": -6.3177503, "lon": 106.6799668 },
+    { "lat": -6.3176153, "lon": 106.6798655 }
+  ],
+  "tags": {
+    "bicycle": "designated",
+    "foot": "designated",
+    "footway": "sidewalk",
+    "highway": "cycleway",
+    "horse": "no",
+    "oneway": "yes",
+    "segregated": "yes",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1193537804,
+  "bounds": {
+    "minlat": -6.3179588,
+    "minlon": 106.6800801,
+    "maxlat": -6.3179015,
+    "maxlon": 106.6801231
+  },
+  "geometry": [
+    { "lat": -6.3179588, "lon": 106.6801231 },
+    { "lat": -6.3179355, "lon": 106.6801056 },
+    { "lat": -6.3179015, "lon": 106.6800801 }
+  ],
+  "tags": {
+    "bicycle": "designated",
+    "crossing": "unmarked",
+    "crossing:markings": "no",
+    "cycleway": "crossing",
+    "foot": "designated",
+    "footway": "sidewalk",
+    "highway": "cycleway",
+    "horse": "no",
+    "oneway": "yes",
+    "surface": "asphalt",
+    "tactile_paving": "no"
+  }
+},
+{
+  "type": "way",
+  "id": 1193537805,
+  "bounds": {
+    "minlat": -6.3179015,
+    "minlon": 106.6800173,
+    "maxlat": -6.3178177,
+    "maxlon": 106.6800801
+  },
+  "geometry": [
+    { "lat": -6.3179015, "lon": 106.6800801 },
+    { "lat": -6.3178177, "lon": 106.6800173 }
+  ],
+  "tags": {
+    "bicycle": "designated",
+    "foot": "designated",
+    "footway": "sidewalk",
+    "highway": "cycleway",
+    "horse": "no",
+    "oneway": "yes",
+    "segregated": "yes",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1193537806,
+  "bounds": {
+    "minlat": -6.3178177,
+    "minlon": 106.6799668,
+    "maxlat": -6.3177503,
+    "maxlon": 106.6800173
+  },
+  "geometry": [
+    { "lat": -6.3178177, "lon": 106.6800173 },
+    { "lat": -6.3177878, "lon": 106.6799948 },
+    { "lat": -6.3177503, "lon": 106.6799668 }
+  ],
+  "tags": {
+    "bicycle": "designated",
+    "crossing": "unmarked",
+    "crossing:markings": "no",
+    "cycleway": "crossing",
+    "foot": "designated",
+    "footway": "sidewalk",
+    "highway": "cycleway",
+    "horse": "no",
+    "oneway": "yes",
+    "surface": "asphalt",
+    "tactile_paving": "no"
+  }
+},
+{
+  "type": "way",
+  "id": 1193537809,
+  "bounds": {
+    "minlat": -6.3208198,
+    "minlon": 106.6817373,
+    "maxlat": -6.3200130,
+    "maxlon": 106.6822429
+  },
+  "geometry": [
+    { "lat": -6.3208198, "lon": 106.6821455 },
+    { "lat": -6.3207823, "lon": 106.6822429 },
+    { "lat": -6.3204796, "lon": 106.6820956 },
+    { "lat": -6.3202256, "lon": 106.6819401 },
+    { "lat": -6.3200960, "lon": 106.6818602 },
+    { "lat": -6.3200130, "lon": 106.6818060 },
+    { "lat": -6.3200523, "lon": 106.6817373 }
+  ],
+  "tags": {
+    "bicycle": "designated",
+    "foot": "designated",
+    "footway": "sidewalk",
+    "highway": "cycleway",
+    "horse": "no",
+    "oneway": "yes",
+    "segregated": "no",
+    "tactile_paving": "no"
+  }
+},
+{
+  "type": "way",
+  "id": 1193537810,
+  "bounds": {
+    "minlat": -6.3173616,
+    "minlon": 106.6799619,
+    "maxlat": -6.3173279,
+    "maxlon": 106.6800030
+  },
+  "geometry": [
+    { "lat": -6.3173616, "lon": 106.6799619 },
+    { "lat": -6.3173279, "lon": 106.6800030 }
+  ],
+  "tags": {
+    "bicycle": "designated",
+    "foot": "designated",
+    "footway": "sidewalk",
+    "highway": "cycleway",
+    "horse": "no",
+    "oneway": "yes",
+    "segregated": "no",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1193537811,
+  "bounds": {
+    "minlat": -6.3176153,
+    "minlon": 106.6798655,
+    "maxlat": -6.3175557,
+    "maxlon": 106.6799851
+  },
+  "geometry": [
+    { "lat": -6.3176153, "lon": 106.6798655 },
+    { "lat": -6.3175557, "lon": 106.6799851 }
+  ],
+  "tags": {
+    "bicycle": "designated",
+    "foot": "designated",
+    "footway": "sidewalk",
+    "highway": "cycleway",
+    "horse": "no",
+    "oneway": "yes",
+    "segregated": "no",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1193537814,
+  "bounds": {
+    "minlat": -6.3273666,
+    "minlon": 106.6836831,
+    "maxlat": -6.3251019,
+    "maxlon": 106.6845126
+  },
+  "geometry": [
+    { "lat": -6.3273449, "lon": 106.6845126 },
+    { "lat": -6.3273666, "lon": 106.6844337 },
+    { "lat": -6.3262729, "lon": 106.6840712 },
+    { "lat": -6.3260869, "lon": 106.6840095 },
+    { "lat": -6.3260108, "lon": 106.6839843 },
+    { "lat": -6.3251268, "lon": 106.6836913 },
+    { "lat": -6.3251019, "lon": 106.6836831 }
+  ],
+  "tags": {
+    "bicycle": "designated",
+    "foot": "designated",
+    "footway": "sidewalk",
+    "highway": "cycleway",
+    "horse": "no",
+    "oneway": "yes",
+    "segregated": "yes",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1193537815,
+  "bounds": {
+    "minlat": -6.3236868,
+    "minlon": 106.6821455,
+    "maxlat": -6.3208198,
+    "maxlon": 106.6832153
+  },
+  "geometry": [
+    { "lat": -6.3236868, "lon": 106.6832153 },
+    { "lat": -6.3233124, "lon": 106.6830905 },
+    { "lat": -6.3224679, "lon": 106.6828090 },
+    { "lat": -6.3224019, "lon": 106.6827845 },
+    { "lat": -6.3217550, "lon": 106.6825446 },
+    { "lat": -6.3214849, "lon": 106.6824443 },
+    { "lat": -6.3212802, "lon": 106.6823656 },
+    { "lat": -6.3210565, "lon": 106.6822588 },
+    { "lat": -6.3208198, "lon": 106.6821455 }
+  ],
+  "tags": {
+    "bicycle": "designated",
+    "foot": "designated",
+    "footway": "sidewalk",
+    "highway": "cycleway",
+    "horse": "no",
+    "oneway": "yes",
+    "segregated": "yes",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1193537816,
+  "bounds": {
+    "minlat": -6.3240475,
+    "minlon": 106.6832153,
+    "maxlat": -6.3236543,
+    "maxlon": 106.6834508
+  },
+  "geometry": [
+    { "lat": -6.3240475, "lon": 106.6833273 },
+    { "lat": -6.3240071, "lon": 106.6834508 },
+    { "lat": -6.3236543, "lon": 106.6833339 },
+    { "lat": -6.3236868, "lon": 106.6832153 }
+  ],
+  "tags": {
+    "bicycle": "designated",
+    "foot": "designated",
+    "footway": "sidewalk",
+    "highway": "cycleway",
+    "horse": "no",
+    "oneway": "yes",
+    "segregated": "no",
+    "tactile_paving": "no"
+  }
+},
+{
+  "type": "way",
+  "id": 1193537817,
+  "bounds": {
+    "minlat": -6.3247438,
+    "minlon": 106.6833273,
+    "maxlat": -6.3240475,
+    "maxlon": 106.6835617
+  },
+  "geometry": [
+    { "lat": -6.3247438, "lon": 106.6835617 },
+    { "lat": -6.3243664, "lon": 106.6834356 },
+    { "lat": -6.3240475, "lon": 106.6833273 }
+  ],
+  "tags": {
+    "bicycle": "designated",
+    "foot": "designated",
+    "footway": "sidewalk",
+    "highway": "cycleway",
+    "horse": "no",
+    "oneway": "yes",
+    "segregated": "yes",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1193537818,
+  "bounds": {
+    "minlat": -6.3251019,
+    "minlon": 106.6835617,
+    "maxlat": -6.3247014,
+    "maxlon": 106.6838130
+  },
+  "geometry": [
+    { "lat": -6.3251019, "lon": 106.6836831 },
+    { "lat": -6.3250542, "lon": 106.6838130 },
+    { "lat": -6.3247014, "lon": 106.6836982 },
+    { "lat": -6.3247438, "lon": 106.6835617 }
+  ],
+  "tags": {
+    "bicycle": "designated",
+    "foot": "designated",
+    "footway": "sidewalk",
+    "highway": "cycleway",
+    "horse": "no",
+    "oneway": "yes",
+    "segregated": "no",
+    "tactile_paving": "no"
+  }
+},
+{
+  "type": "way",
+  "id": 1193543692,
+  "bounds": {
+    "minlat": -6.3180759,
+    "minlon": 106.6803522,
+    "maxlat": -6.3180480,
+    "maxlon": 106.6803902
+  },
+  "geometry": [
+    { "lat": -6.3180759, "lon": 106.6803522 },
+    { "lat": -6.3180480, "lon": 106.6803902 }
+  ],
+  "tags": {
+    "bicycle": "designated",
+    "foot": "designated",
+    "footway": "sidewalk",
+    "highway": "cycleway",
+    "horse": "no",
+    "oneway": "no",
+    "segregated": "no",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1193545269,
+  "bounds": {
+    "minlat": -6.3234983,
+    "minlon": 106.6834287,
+    "maxlat": -6.3234012,
+    "maxlon": 106.6834613
+  },
+  "geometry": [
+    { "lat": -6.3234012, "lon": 106.6834287 },
+    { "lat": -6.3234586, "lon": 106.6834480 },
+    { "lat": -6.3234983, "lon": 106.6834613 }
+  ],
+  "tags": {
+    "bicycle": "designated",
+    "crossing": "unmarked",
+    "crossing:markings": "no",
+    "cycleway": "crossing",
+    "foot": "designated",
+    "footway": "sidewalk",
+    "highway": "cycleway",
+    "horse": "no",
+    "oneway": "yes",
+    "surface": "asphalt",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1193545270,
+  "bounds": {
+    "minlat": -6.3271272,
+    "minlon": 106.6834613,
+    "maxlat": -6.3234983,
+    "maxlon": 106.6846636
+  },
+  "geometry": [
+    { "lat": -6.3234983, "lon": 106.6834613 },
+    { "lat": -6.3238560, "lon": 106.6835788 },
+    { "lat": -6.3247537, "lon": 106.6838784 },
+    { "lat": -6.3261535, "lon": 106.6843456 },
+    { "lat": -6.3271060, "lon": 106.6846636 },
+    { "lat": -6.3271272, "lon": 106.6846001 }
+  ],
+  "tags": {
+    "bicycle": "designated",
+    "foot": "designated",
+    "footway": "sidewalk",
+    "highway": "cycleway",
+    "horse": "no",
+    "oneway": "yes",
+    "segregated": "yes",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1193545271,
+  "bounds": {
+    "minlat": -6.3234012,
+    "minlon": 106.6833905,
+    "maxlat": -6.3232875,
+    "maxlon": 106.6834287
+  },
+  "geometry": [
+    { "lat": -6.3232875, "lon": 106.6833905 },
+    { "lat": -6.3234012, "lon": 106.6834287 }
+  ],
+  "tags": {
+    "bicycle": "designated",
+    "foot": "designated",
+    "footway": "sidewalk",
+    "highway": "cycleway",
+    "horse": "no",
+    "oneway": "yes",
+    "segregated": "yes",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1193545272,
+  "bounds": {
+    "minlat": -6.3232875,
+    "minlon": 106.6833583,
+    "maxlat": -6.3231919,
+    "maxlon": 106.6833905
+  },
+  "geometry": [
+    { "lat": -6.3231919, "lon": 106.6833583 },
+    { "lat": -6.3232474, "lon": 106.6833770 },
+    { "lat": -6.3232875, "lon": 106.6833905 }
+  ],
+  "tags": {
+    "bicycle": "designated",
+    "crossing": "unmarked",
+    "crossing:markings": "no",
+    "cycleway": "crossing",
+    "foot": "designated",
+    "footway": "sidewalk",
+    "highway": "cycleway",
+    "horse": "no",
+    "oneway": "yes",
+    "surface": "asphalt",
+    "tactile_paving": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1273256445,
+  "bounds": {
+    "minlat": -6.2769757,
+    "minlon": 106.7405811,
+    "maxlat": -6.2769730,
+    "maxlon": 106.7406495
+  },
+  "geometry": [
+    { "lat": -6.2769730, "lon": 106.7406495 },
+    { "lat": -6.2769757, "lon": 106.7405811 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1273256446,
+  "bounds": {
+    "minlat": -6.2766797,
+    "minlon": 106.7405985,
+    "maxlat": -6.2766784,
+    "maxlon": 106.7406750
+  },
+  "geometry": [
+    { "lat": -6.2766797, "lon": 106.7406750 },
+    { "lat": -6.2766784, "lon": 106.7405985 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1273256447,
+  "bounds": {
+    "minlat": -6.2765144,
+    "minlon": 106.7406173,
+    "maxlat": -6.2765078,
+    "maxlon": 106.7406870
+  },
+  "geometry": [
+    { "lat": -6.2765144, "lon": 106.7406870 },
+    { "lat": -6.2765078, "lon": 106.7406173 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1273256448,
+  "bounds": {
+    "minlat": -6.2772796,
+    "minlon": 106.7405248,
+    "maxlat": -6.2758666,
+    "maxlon": 106.7407206
+  },
+  "geometry": [
+    { "lat": -6.2758666, "lon": 106.7405248 },
+    { "lat": -6.2759119, "lon": 106.7405757 },
+    { "lat": -6.2759492, "lon": 106.7406227 },
+    { "lat": -6.2759772, "lon": 106.7406723 },
+    { "lat": -6.2760105, "lon": 106.7407098 },
+    { "lat": -6.2760532, "lon": 106.7407206 },
+    { "lat": -6.2761372, "lon": 106.7407152 },
+    { "lat": -6.2762785, "lon": 106.7407058 },
+    { "lat": -6.2764051, "lon": 106.7406951 },
+    { "lat": -6.2764664, "lon": 106.7406911 },
+    { "lat": -6.2765144, "lon": 106.7406870 },
+    { "lat": -6.2766797, "lon": 106.7406750 },
+    { "lat": -6.2768250, "lon": 106.7406602 },
+    { "lat": -6.2769290, "lon": 106.7406535 },
+    { "lat": -6.2769730, "lon": 106.7406495 },
+    { "lat": -6.2770650, "lon": 106.7406495 },
+    { "lat": -6.2771823, "lon": 106.7406522 },
+    { "lat": -6.2772703, "lon": 106.7406629 },
+    { "lat": -6.2772796, "lon": 106.7406133 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1370059819,
+  "bounds": {
+    "minlat": -6.2865530,
+    "minlon": 106.6657267,
+    "maxlat": -6.2865037,
+    "maxlon": 106.6657488
+  },
+  "geometry": [
+    { "lat": -6.2865530, "lon": 106.6657267 },
+    { "lat": -6.2865037, "lon": 106.6657488 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1511794049,
+  "bounds": {
+    "minlat": -6.3050528,
+    "minlon": 106.6915698,
+    "maxlat": -6.3006664,
+    "maxlon": 106.6930492
+  },
+  "geometry": [
+    { "lat": -6.3050528, "lon": 106.6930492 },
+    { "lat": -6.3039832, "lon": 106.6925355 },
+    { "lat": -6.3036083, "lon": 106.6923477 },
+    { "lat": -6.3035297, "lon": 106.6923111 },
+    { "lat": -6.3030686, "lon": 106.6921693 },
+    { "lat": -6.3020770, "lon": 106.6918650 },
+    { "lat": -6.3017069, "lon": 106.6917936 },
+    { "lat": -6.3007945, "lon": 106.6915897 },
+    { "lat": -6.3007507, "lon": 106.6915698 },
+    { "lat": -6.3006664, "lon": 106.6916079 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway",
+    "surface": "concrete"
+  }
+}
+
+  ]
+}

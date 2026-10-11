@@ -1,0 +1,1492 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-08T18:33:36Z",
+    "timestamp_areas_base": "2026-10-07T07:59:59Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 1345742942,
+  "lat": -6.2265246,
+  "lon": 106.8015565,
+  "tags": {
+    "alt_name": "Kentucky Fried Chicken",
+    "amenity": "fast_food",
+    "brand": "KFC",
+    "brand:wikidata": "Q524757",
+    "brand:wikipedia": "en:KFC",
+    "cuisine": "chicken",
+    "internet_access": "wlan",
+    "internet_access:fee": "yes",
+    "name": "KFC",
+    "opening_hours": "24/7",
+    "smoking": "yes",
+    "takeaway": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 2138698494,
+  "lat": -6.1946036,
+  "lon": 106.8198260,
+  "tags": {
+    "barrier": "lift_gate",
+    "entrance": "main",
+    "name": "Grand Indonesia Amarta Lobby",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 3838522760,
+  "lat": -6.1880420,
+  "lon": 106.8234822,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian;javanese",
+    "name": "Dapur Solo",
+    "outdoor_seating": "yes",
+    "takeaway": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4146360260,
+  "lat": -6.1938028,
+  "lon": 106.8224472,
+  "tags": {
+    "addr:city": "Central Jakara",
+    "addr:housenumber": "Kav. 28, No.30",
+    "addr:postcode": "10350",
+    "addr:street": "Jl. M.H. Thamrin",
+    "air_conditioning": "yes",
+    "brand": "Grand Hyatt",
+    "brand:wikidata": "Q1425063",
+    "brand:wikipedia": "en:Hyatt",
+    "check_date": "2026-08-16",
+    "internet_access": "wlan",
+    "name": "Grand Hyatt Jakarta",
+    "tourism": "hotel",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4568283595,
+  "lat": -6.1941270,
+  "lon": 106.8214407,
+  "tags": {
+    "access": "customers",
+    "name": "South Lobby Plaza indonesia",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4621907250,
+  "lat": -6.2021466,
+  "lon": 106.8016477,
+  "tags": {
+    "addr:city": "Petamburan, Tanah Abang, Central Jakarta",
+    "addr:floor": "1",
+    "addr:housenumber": "Kav. 53b",
+    "addr:postcode": "10260",
+    "addr:street": "Jalan Gatot Subroto",
+    "air_conditioning": "yes",
+    "alt_name": "FamilyMart, Apartment Semanggi;FamilyMart - APT Semanggi",
+    "branch": "Apartemen Semanggi",
+    "brand": "FamilyMart",
+    "brand:wikidata": "Q1191685",
+    "brand:wikipedia": "en:FamilyMart",
+    "changing_table": "no",
+    "check_date": "2023-11-07",
+    "delivery:gofood": "yes",
+    "delivery:gofood:ref": "https://gofood.link/u/O3D9M",
+    "delivery:grabfood": "yes",
+    "delivery:grabfood:ref": "https://food.grab.com/id/en/restaurant/familymart-apt-semanggi-delivery/6-CYVHJN2BLP5HNX",
+    "internet_access": "no",
+    "level": "0",
+    "name": "FamilyMart",
+    "opening_hours": "Mo-Su 07:00-22:00",
+    "operator": "PT. Fajar Mitra Indah",
+    "organic": "no",
+    "payment:cash": "yes",
+    "payment:cashbac": "yes",
+    "payment:dana": "yes",
+    "payment:dana:gpn_qris": "yes",
+    "payment:ep_flazz": "yes",
+    "payment:ep_tapcash": "yes",
+    "payment:gopay_id": "yes",
+    "payment:gopay_id:gpn_qris": "yes",
+    "payment:gpn_debit": "yes",
+    "payment:gpn_qris": "yes",
+    "payment:linkaja": "yes",
+    "payment:maestro": "yes",
+    "payment:mastercard": "yes",
+    "payment:ovo": "yes",
+    "payment:visa": "yes",
+    "payment:visa_debit": "yes",
+    "payment:visa_electron": "yes",
+    "phone": "+62 811 8894 873",
+    "ref:vatin": "ID21.036.404.8-011.000",
+    "shop": "convenience",
+    "source": "survey",
+    "takeaway:gofood": "yes",
+    "takeaway:grabfood": "yes",
+    "toilets": "no",
+    "toilets:wheelchair": "no",
+    "website": "https://familymartindonesia.com/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 4683340409,
+  "lat": -6.2017650,
+  "lon": 106.8007614,
+  "tags": {
+    "automatic_door": "yes",
+    "entrance": "main",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5214288935,
+  "lat": -6.2023726,
+  "lon": 106.8014933,
+  "tags": {
+    "addr:city": "Petamburan, Tanah Abang, Central Jakarta",
+    "addr:floor": "1",
+    "addr:housenumber": "Kav. 53b",
+    "addr:postcode": "10260",
+    "addr:street": "Jalan Jenderal Gatot Subroto",
+    "air_conditioning": "yes",
+    "amenity": "restaurant",
+    "branch": "Apartemen Semanggi",
+    "check_date": "2023-11-07",
+    "cuisine": "indonesian;chinese;western",
+    "delivery:gofood": "yes",
+    "delivery:gofood:ref": "https://gofood.link/u/Yl9bO",
+    "delivery:grabfood": "yes",
+    "delivery:grabfood:ref": "https://food.grab.com/id/en/restaurant/merica-asian-western-semanggi-delivery/IDGFSTI0000086z",
+    "level": "0",
+    "name": "Merica Asian & Western Restaurant",
+    "opening_hours": "Mo-Su 10:00-20:00",
+    "opening_hours:kitchen": "Mo-Su 10:00-19:45",
+    "payment:coins": "yes",
+    "payment:dana": "yes",
+    "payment:ep_flazz": "yes",
+    "payment:gpn_debit": "yes",
+    "payment:linkaja": "yes",
+    "payment:maestro": "yes",
+    "payment:mastercard": "yes",
+    "payment:notes": "yes",
+    "payment:ovo": "yes",
+    "payment:visa": "yes",
+    "payment:visa_debit": "yes",
+    "payment:visa_electron": "yes",
+    "phone": "+62 21 5358432",
+    "smoking": "outside",
+    "toilets": "yes",
+    "toilets:access": "customers",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5275452529,
+  "lat": -6.2058491,
+  "lon": 106.8212849,
+  "tags": {
+    "addr:city": "DKI Jakarta",
+    "addr:housenumber": "Wisma Keiai 9th Floor",
+    "addr:postcode": "10220",
+    "addr:street": "Jalan Jendral Sudirman",
+    "addr:unit": "Kav 3",
+    "name": "World Food Programme",
+    "office": "association",
+    "opening_hours": "Mo-Fr 09:00-17:00",
+    "phone": "+62215709004",
+    "website": "http://www.wfp.org/countries/indonesia",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5430903023,
+  "lat": -6.2023205,
+  "lon": 106.8016942,
+  "tags": {
+    "amenity": "atm",
+    "brand": "Bank Mandiri",
+    "brand:wikidata": "Q806639",
+    "cash_in": "no",
+    "currency:IDR": "yes",
+    "drive_through": "no",
+    "level": "0",
+    "opening_hours": "24/7",
+    "operator": "Bank Mandiri",
+    "operator:wikidata": "Q806639",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5806857453,
+  "lat": -6.2016499,
+  "lon": 106.8007132,
+  "tags": {
+    "amenity": "atm",
+    "brand": "Bank Mandiri",
+    "brand:wikidata": "Q806639",
+    "brand:wikipedia": "en:Bank Mandiri",
+    "name": "Bank Mandiri",
+    "opening_hours": "24/7",
+    "operator": "Bank Mandiri",
+    "operator:wikidata": "Q806639",
+    "operator:wikipedia": "en:Bank Mandiri",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5851233287,
+  "lat": -6.2027109,
+  "lon": 106.8010177,
+  "tags": {
+    "amenity": "atm",
+    "brand": "Bank Central Asia",
+    "brand:wikidata": "Q806626",
+    "brand:wikipedia": "id:Bank Central Asia",
+    "cash_in": "no",
+    "drive_through": "no",
+    "name": "BCA",
+    "official_name": "Bank Central Asia",
+    "opening_hours": "24/7",
+    "operator": "Bank Central Asia",
+    "operator:wikidata": "Q806626",
+    "operator:wikipedia": "id:Bank Central Asia",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5861166810,
+  "lat": -6.2027213,
+  "lon": 106.8009902,
+  "tags": {
+    "amenity": "atm",
+    "brand": "Bank Mandiri",
+    "brand:wikidata": "Q806639",
+    "cash_in": "no",
+    "drive_through": "no",
+    "name": "Bank Mandiri",
+    "network": "Link",
+    "operator": "Bank Mandiri",
+    "operator:wikidata": "Q806639",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5865520988,
+  "lat": -6.2248899,
+  "lon": 106.7989928,
+  "tags": {
+    "check_date": "2023-11-20",
+    "name": "FoodHall",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "payment:cash": "yes",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "payment:mastercard": "yes",
+    "payment:visa": "yes",
+    "shop": "supermarket",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5918084487,
+  "lat": -6.2017204,
+  "lon": 106.8010272,
+  "tags": {
+    "addr:street": "Jalan Gatot Subroto",
+    "amenity": "bank",
+    "atm": "yes",
+    "brand": "Bank Mandiri",
+    "brand:wikidata": "Q806639",
+    "brand:wikipedia": "en:Bank Mandiri",
+    "name": "Bank Mandiri",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 5996815586,
+  "lat": -6.1931061,
+  "lon": 106.8079065,
+  "tags": {
+    "amenity": "atm",
+    "opening_hours": "24/7",
+    "operator": "Bank DKI",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6135130601,
+  "lat": -6.2028942,
+  "lon": 106.8011480,
+  "tags": {
+    "amenity": "bank",
+    "atm": "yes",
+    "name": "OCBC NISP",
+    "opening_hours": "Mo-Fr 08:00-16:00",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6135130602,
+  "lat": -6.2027453,
+  "lon": 106.8010767,
+  "tags": {
+    "name": "BPJS Kesehatan / BPJS Ketenagakerjaan",
+    "office": "government",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6135130607,
+  "lat": -6.2029514,
+  "lon": 106.8013867,
+  "tags": {
+    "access": "yes",
+    "amenity": "parking",
+    "fee": "yes",
+    "name": "Parkir Basement DIPO Tower",
+    "payment:ep_flazz": "yes",
+    "payment:ep_mandiri_emoney": "yes",
+    "payment:parkee_app": "yes",
+    "supervised": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6149039412,
+  "lat": -6.1992577,
+  "lon": 106.8236214,
+  "tags": {
+    "air_conditioning": "yes",
+    "brand": "Indomaret",
+    "brand:wikidata": "Q4262825",
+    "brand:wikipedia": "id:Indomaret",
+    "name": "Indomaret",
+    "name:en": "Indomaret",
+    "name:id": "Indomaret",
+    "name:ja": "インドマレット",
+    "operator": "PT. Indomarco Prismatama",
+    "shop": "convenience",
+    "toilets": "yes",
+    "toilets:access": "permissive",
+    "website": "https://www.klikindomaret.com",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6219136086,
+  "lat": -6.1898085,
+  "lon": 106.8384840,
+  "tags": {
+    "addr:city": "Jakarta Pusat",
+    "addr:postcode": "10330",
+    "addr:street": "Jalan Cikini Raya No 73",
+    "amenity": "library",
+    "name": "Perpustakaan Umum Daerah DKI Jakarta",
+    "operator:type": "government",
+    "phone": "+62 21 3154087",
+    "tactile_paving": "yes",
+    "website": "https://perpustakaan.jakarta.go.id/",
+    "wheelchair": "yes",
+    "wikidata": "Q115783291"
+  }
+},
+{
+  "type": "node",
+  "id": 6352360495,
+  "lat": -6.1891173,
+  "lon": 106.8233886,
+  "tags": {
+    "addr:city": "Central Jakarta",
+    "addr:housenumber": "20",
+    "addr:postcode": "10350",
+    "addr:street": "Jalan MH Thamrin",
+    "amenity": "cinema",
+    "email": "audiovisuel@ifi-id.com",
+    "level": "0",
+    "name": "Ciné-Macet",
+    "name:en": "Cine-Macet",
+    "name:fr": "Ciné-Macet",
+    "payment:coins": "yes",
+    "start_date": "2016",
+    "website": "https://www.facebook.com/CineMacet/",
+    "wheelchair": "yes",
+    "wikidata": "Q62103074",
+    "wikimedia_commons": "Category:Ciné-Macet"
+  }
+},
+{
+  "type": "node",
+  "id": 6424566289,
+  "lat": -6.2024822,
+  "lon": 106.8009639,
+  "tags": {
+    "amenity": "food_court",
+    "changing_table": "no",
+    "internet_access": "wlan",
+    "internet_access:fee": "no",
+    "level": "-2",
+    "name": "Kantin DIPO TOWER",
+    "outdoor_seating": "no",
+    "payment:coins": "yes",
+    "payment:notes": "yes",
+    "smoking": "no",
+    "takeaway": "yes",
+    "toilets": "no",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6854603689,
+  "lat": -6.1951254,
+  "lon": 106.8174540,
+  "tags": {
+    "amenity": "restaurant",
+    "cuisine": "indonesian",
+    "delivery": "yes",
+    "delivery:gofood": "yes",
+    "delivery:gofood:ref": "https://gofood.link/u/J73v",
+    "name": "Solaria",
+    "outdoor_seating": "yes",
+    "payment:cashbac": "yes",
+    "payment:dana": "yes",
+    "payment:linkaja": "yes",
+    "payment:ovo": "yes",
+    "smoking": "isolated",
+    "takeaway": "yes",
+    "toilets": "no",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6894784585,
+  "lat": -6.1940073,
+  "lon": 106.8235872,
+  "tags": {
+    "addr:city": "Central Jakara",
+    "amenity": "bank",
+    "atm": "yes",
+    "brand": "BNI",
+    "brand:wikidata": "Q2882611",
+    "brand:wikipedia": "id:Bank Negara Indonesia",
+    "drive_through": "no",
+    "name": "BNI",
+    "name:id": "BNI Wisma Nusantara",
+    "official_name": "Bank Negara Indonesia",
+    "official_name:en": "State Bank of Indonesia",
+    "official_name:id": "Bank Negara Indonesia",
+    "opening_hours": "Mo-Fr 08:00-14:00",
+    "operator": "PT. Bank Negara Indonesia (Persero), Tbk.",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6894784586,
+  "lat": -6.1938532,
+  "lon": 106.8235785,
+  "tags": {
+    "addr:city": "Central Jakara",
+    "air_conditioning": "yes",
+    "brand": "FamilyMart",
+    "brand:wikidata": "Q1191685",
+    "brand:wikipedia": "en:FamilyMart",
+    "name": "FamilyMart",
+    "name:id": "FamilyMart Wisma Nusantara",
+    "opening_hours": "Mo-Sa 08:00-17:00",
+    "operator": "PT. Fajar Mitra Indah",
+    "payment:cash": "yes",
+    "payment:coins": "yes",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "payment:mastercard": "yes",
+    "payment:visa": "yes",
+    "shop": "convenience",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7041219363,
+  "lat": -6.1977689,
+  "lon": 106.8171591,
+  "tags": {
+    "amenity": "place_of_worship",
+    "name": "GBI Glow Fellowship Centre",
+    "religion": "christian",
+    "toilets": "yes",
+    "toilets:wheelchair": "limited",
+    "website": "https://www.glowfc.com/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7057450418,
+  "lat": -6.1972334,
+  "lon": 106.8174151,
+  "tags": {
+    "addr:city": "Jakarta Pusat",
+    "addr:housename": "Thamrin Residences",
+    "addr:street": "Jalan Thamrin Boulevard",
+    "air_conditioning": "yes",
+    "amenity": "restaurant",
+    "branch": "Thamrin",
+    "brand": "Ayam & Bebek Kremes",
+    "cuisine": "indonesian;chicken",
+    "delivery:gofood": "Mo-Su 10:00-20:35",
+    "delivery:gofood:ref": "https://gofood.link/u/Kjvkj",
+    "delivery:grabfood": "Mo-Su 10:00-20:35",
+    "delivery:grabfood:ref": "https://food.grab.com/id/en/restaurant/ayam-bebek-kremes-kriuuuk-thamrin-residence-delivery/IDGFSTI000020pe",
+    "level": "0",
+    "name": "Ayam & Bebek Kremes Kriuuuk",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "opening_hours:kitchen": "Mo-Su 10:00-21:30",
+    "outdoor_seating": "yes",
+    "payment:coins": "yes",
+    "payment:gopay_id": "yes",
+    "payment:grabpay": "yes",
+    "payment:notes": "yes",
+    "payment:ovo": "yes",
+    "phone": "+62 21 29932539",
+    "smoking": "outside",
+    "takeaway": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7057450421,
+  "lat": -6.1971591,
+  "lon": 106.8174173,
+  "tags": {
+    "amenity": "pharmacy",
+    "brand": "century",
+    "healthcare": "pharmacy",
+    "level": "0",
+    "name": "Century - Thamrin Residences",
+    "payment:coins": "yes",
+    "payment:gpn_debit": "yes",
+    "payment:maestro": "yes",
+    "payment:mastercard": "yes",
+    "payment:notes": "yes",
+    "payment:ovo": "yes",
+    "payment:visa": "yes",
+    "payment:visa_debit": "yes",
+    "payment:visa_electron": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7065528785,
+  "lat": -6.2276722,
+  "lon": 106.7976222,
+  "tags": {
+    "amenity": "restaurant",
+    "check_date": "2023-10-18",
+    "cuisine": "sushi",
+    "name": "Sushi Tei",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "payment:gpn_qris": "yes",
+    "website": "https://www.sushitei.co.id/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7834955511,
+  "lat": -6.2122847,
+  "lon": 106.8038939,
+  "tags": {
+    "air_conditioning": "yes",
+    "amenity": "restaurant",
+    "brand": "Gyu-Kaku",
+    "brand:wikidata": "Q11349387",
+    "cuisine": "japanese;barbecue",
+    "delivery": "no",
+    "diet:halal": "yes",
+    "internet_access": "wlan",
+    "internet_access:fee": "customers",
+    "internet_access:ssid": "GYU-KAKU SENAYAN PARK",
+    "name": "Gyu-Kaku",
+    "outdoor_seating": "no",
+    "takeaway": "no",
+    "website": "https://gyu-kaku.id",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9367544001,
+  "lat": -6.2131168,
+  "lon": 106.8192526,
+  "tags": {
+    "access": "yes",
+    "bicycle": "yes",
+    "fee": "no",
+    "highway": "elevator",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 9696703844,
+  "lat": -6.1896110,
+  "lon": 106.8174854,
+  "tags": {
+    "access": "destination",
+    "barrier": "gate",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11076430044,
+  "lat": -6.1806877,
+  "lon": 106.8301447,
+  "tags": {
+    "access": "customers",
+    "entrance": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11161430039,
+  "lat": -6.2022599,
+  "lon": 106.8232633,
+  "tags": {
+    "entrance": "main",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11265681825,
+  "lat": -6.2171334,
+  "lon": 106.8012411,
+  "tags": {
+    "amenity": "toilets",
+    "changing_table": "no",
+    "fee": "no",
+    "portable": "no",
+    "toilets:disposal": "flush",
+    "toilets:handwashing": "yes",
+    "toilets:position": "seated;urinal",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11878621854,
+  "lat": -6.1698396,
+  "lon": 106.8690492,
+  "tags": {
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "internet_access": "wlan",
+    "name": "RS YARSI JAKARTA",
+    "operator": "RS YARSI JAKARTA",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12860563430,
+  "lat": -6.2130399,
+  "lon": 106.8011517,
+  "tags": {
+    "bicycle": "no",
+    "capacity:persons": "13",
+    "fee": "no",
+    "highway": "elevator",
+    "level": "1;2;3;4;5;6;7;8;9;10;11;12",
+    "maxweight": "1000",
+    "surveillance": "no",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12860563431,
+  "lat": -6.2130629,
+  "lon": 106.8011515,
+  "tags": {
+    "bicycle": "no",
+    "capacity:persons": "13",
+    "fee": "no",
+    "highway": "elevator",
+    "level": "1;2;3;4;5;6;7;8;9;10;11;12",
+    "maxweight": "1000",
+    "surveillance": "no",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12860563432,
+  "lat": -6.2130628,
+  "lon": 106.8011323,
+  "tags": {
+    "bicycle": "no",
+    "capacity:persons": "13",
+    "fee": "no",
+    "highway": "elevator",
+    "level": "1;2;3;4;5;6;7;8;9;10;11;12",
+    "maxweight": "1000",
+    "surveillance": "no",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12860563433,
+  "lat": -6.2130398,
+  "lon": 106.8011324,
+  "tags": {
+    "bicycle": "no",
+    "capacity:persons": "13",
+    "fee": "no",
+    "highway": "elevator",
+    "level": "1;2;3;4;5;6;7;8;9;10;11;12",
+    "maxweight": "1000",
+    "surveillance": "no",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12860619761,
+  "lat": -6.2130877,
+  "lon": 106.7999099,
+  "tags": {
+    "bicycle": "no",
+    "capacity:persons": "13",
+    "fee": "no",
+    "highway": "elevator",
+    "level": "1;2;3;4",
+    "maxweight": "900",
+    "surveillance": "no",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12860619762,
+  "lat": -6.2130710,
+  "lon": 106.7999049,
+  "tags": {
+    "bicycle": "no",
+    "capacity:persons": "13",
+    "fee": "no",
+    "highway": "elevator",
+    "level": "1;2;3;4",
+    "maxweight": "900",
+    "surveillance": "no",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12866747892,
+  "lat": -6.2129807,
+  "lon": 106.8006264,
+  "tags": {
+    "bicycle": "no",
+    "capacity:persons": "13",
+    "fee": "no",
+    "highway": "elevator",
+    "level": "1;2;3;4",
+    "maxweight": "900",
+    "surveillance": "no",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13774151725,
+  "lat": -6.1676782,
+  "lon": 106.8307183,
+  "tags": {
+    "check_date:opening_hours": "2026-04-29",
+    "name": "Warung Stasiun Juanda",
+    "opening_hours:signed": "no",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "shop": "kiosk",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13831150100,
+  "lat": -6.1878713,
+  "lon": 106.8232340,
+  "tags": {
+    "access": "yes",
+    "highway": "elevator",
+    "level": "0;1",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 48036305,
+  "center": {
+    "lat": -6.2131070,
+    "lon": 106.8189009
+  },
+  "tags": {
+    "addr:city": "Jakarta",
+    "addr:housenumber": "18-20",
+    "addr:postcode": "10220",
+    "addr:street": "Jalan Jenderal Sudirman",
+    "brand": "Le Méridien",
+    "brand:wikidata": "Q261077",
+    "brand:wikipedia": "en:Le Méridien",
+    "internet_access": "yes",
+    "internet_access:fee": "yes",
+    "name": "Le Méridien Jakarta",
+    "rooms": "318",
+    "smoking": "separated",
+    "stars": "5",
+    "tourism": "hotel",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 97550317,
+  "center": {
+    "lat": -6.1876872,
+    "lon": 106.8237560
+  },
+  "tags": {
+    "addr:housenumber": "11",
+    "addr:postcode": "10310",
+    "addr:street": "Jalan M.H. Thamrin",
+    "building": "commercial",
+    "building:levels": "4",
+    "int_name": "Sarinah Department Store",
+    "name": "Sarinah",
+    "shop": "mall",
+    "start_date": "1967",
+    "toilets:wheelchair": "yes",
+    "wheelchair": "yes",
+    "wikidata": "Q12512232",
+    "wikimedia_commons": "Category:Sarinah",
+    "wikipedia": "id:Sarinah"
+  }
+},
+{
+  "type": "way",
+  "id": 119772918,
+  "center": {
+    "lat": -6.2246092,
+    "lon": 106.8037387
+  },
+  "tags": {
+    "addr:city": "Jakarta Pusat",
+    "addr:housename": "FX Sudirman",
+    "addr:postcode": "10270",
+    "addr:street": "Jalan Jendral Sudirman",
+    "building": "yes",
+    "building:levels": "9",
+    "building:material": "glass",
+    "building:roof": "concrete",
+    "building:structure": "reinforced_masonry",
+    "building:use": "commercial",
+    "building:walls": "brick",
+    "name": "FX Mall",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "operator": "PT. Plaza Lifestyle Prima",
+    "phone": "+62 21 30030888; +62 21 30030800",
+    "shop": "mall",
+    "start_date": "2008",
+    "toilets": "yes",
+    "website": "https://www.fx.co.id/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 120691365,
+  "center": {
+    "lat": -6.1951264,
+    "lon": 106.8196891
+  },
+  "tags": {
+    "addr:city": "Menteng, Kota Jakarta Pusat, Daerah Khusus Ibukota Jakarta, Indonesia",
+    "addr:street": "Jalan Kebon Kacang",
+    "building:levels": "8",
+    "building:part": "office",
+    "building:roof": "concrete",
+    "building:structure": "confined_masonry",
+    "building:use": "commercial",
+    "building:walls": "brick",
+    "name": "Grand Indonesia West Mall",
+    "name:ko": "그랜드 인도네시아 웨스트 몰",
+    "smoking": "separated",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 120827484,
+  "center": {
+    "lat": -6.2089057,
+    "lon": 106.8184387
+  },
+  "tags": {
+    "addr:city": "Central Jakarta",
+    "addr:housenumber": "121",
+    "addr:postcode": "10220",
+    "addr:street": "Jalan KH. Mas Mansyur",
+    "building": "retail",
+    "building:levels": "5",
+    "building:roof": "concrete",
+    "building:structure": "confined_masonry",
+    "building:use": "commercial",
+    "building:walls": "brick",
+    "height": "30.3",
+    "name": "CityWalk Sudirman",
+    "shop": "mall",
+    "toilets:wheelchair": "no",
+    "website": "http://www.citywalksudirman.com/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 120827519,
+  "center": {
+    "lat": -6.2059369,
+    "lon": 106.8214243
+  },
+  "tags": {
+    "addr:city": "DKI Jakarta",
+    "addr:postcode": "10220",
+    "addr:street": "Jalan Jendral Sudirman",
+    "addr:unit": "Kav 3",
+    "building": "office",
+    "building:levels": "2",
+    "building:roof": "concrete",
+    "building:structure": "confined_masonry",
+    "building:use": "commercial",
+    "building:walls": "brick",
+    "height": "120",
+    "name": "Wisma Keiai",
+    "start_date": "1993",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 120908549,
+  "center": {
+    "lat": -6.2016589,
+    "lon": 106.8009851
+  },
+  "tags": {
+    "addr:city": "Jakarta Pusat",
+    "addr:housename": "Jakarta Design Center",
+    "addr:housenumber": "Kav. 53",
+    "addr:postcode": "10260",
+    "addr:street": "Jl. Gatot Subroto, Slipi",
+    "building": "yes",
+    "building:levels": "8",
+    "building:roof": "concrete",
+    "building:structure": "reinforced_masonry",
+    "building:use": "commercial",
+    "building:walls": "brick",
+    "name": "Jakarta Design Center",
+    "name:id": "JDC",
+    "opening_hours": "Mo-Su,PH 10:00-22:00",
+    "operator": "PT. Cipta Paramula Sejati",
+    "phone": "+62 21 5495130; +62 21 5495116",
+    "shop": "mall",
+    "start_date": "1990-04-16",
+    "toilets": "yes",
+    "website": "https://www.j-d-c.com/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 293807197,
+  "center": {
+    "lat": -6.1966309,
+    "lon": 106.8283414
+  },
+  "tags": {
+    "addr:city": "Jakarta Pusat",
+    "addr:country": "ID",
+    "addr:district": "Menteng",
+    "addr:housenumber": "78",
+    "addr:postcode": "10330",
+    "addr:province": "DKI Jakarta",
+    "addr:street": "Jalan HOS Cokroaminoto",
+    "building": "commercial",
+    "changing_table": "no",
+    "name": "Menteng Central",
+    "shop": "mall",
+    "toilets": "yes",
+    "toilets:access": "customers",
+    "toilets:wheelchair": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 481722154,
+  "center": {
+    "lat": -6.1891082,
+    "lon": 106.8234268
+  },
+  "tags": {
+    "addr:city": "DKI Jakarta",
+    "addr:housenumber": "20",
+    "addr:postcode": "10350",
+    "addr:street": "Jalan M.H. Thamrin",
+    "building": "yes",
+    "email": "info@ifi-id.com",
+    "landuse": "commercial",
+    "name": "Institut Français d'Indonésie",
+    "office": "educational_institution",
+    "website": "https://ifi-id.com/",
+    "wheelchair": "yes",
+    "wikidata": "Q28496321",
+    "wikimedia_commons": "Category:Institut français d'Indonésie",
+    "wikipedia": "fr:Institut français d'Indonésie"
+  }
+},
+{
+  "type": "way",
+  "id": 483079612,
+  "center": {
+    "lat": -6.2182995,
+    "lon": 106.8097331
+  },
+  "tags": {
+    "addr:city": "DKI Jakarta",
+    "addr:postcode": "10270",
+    "addr:street": "Jalan Jenderal Gatot Subroto",
+    "brand": "The Sultan",
+    "check_date": "2023-10-08",
+    "landuse": "commercial",
+    "name": "The Sultan Hotel Jakarta",
+    "operator": "Singgasana Hotels & Resort",
+    "payment:cash": "yes",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "phone": "+62 21 570 3600",
+    "rooms": "694",
+    "stars": "5",
+    "start_date": "1976",
+    "tourism": "hotel",
+    "website": "https://www.sultanjakarta.com",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 486501247,
+  "center": {
+    "lat": -6.1899586,
+    "lon": 106.8312312
+  },
+  "tags": {
+    "addr:city": "DKI Jakarta",
+    "addr:postcode": "10350",
+    "addr:street": "Jalan Dokter Sam Ratulangi",
+    "building": "yes",
+    "building:levels": "1",
+    "name": "Perpustakaan Goethe-Institut",
+    "website": "https://www.goethe.de/ins/id/en/sta/jak/bib.html",
+    "wheelchair": "yes",
+    "wikidata": "Q117305917"
+  }
+},
+{
+  "type": "way",
+  "id": 487355452,
+  "center": {
+    "lat": -6.1838602,
+    "lon": 106.8245433
+  },
+  "tags": {
+    "amenity": "bank",
+    "atm": "yes",
+    "brand": "BNI",
+    "brand:wikidata": "Q2882611",
+    "building": "yes",
+    "drive_through": "no",
+    "name": "BNI",
+    "official_name": "Bank Negara Indonesia",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 487355453,
+  "center": {
+    "lat": -6.1837608,
+    "lon": 106.8245342
+  },
+  "tags": {
+    "amenity": "cafe",
+    "branch": "Sabang",
+    "building": "yes",
+    "check_date": "2022-10-27",
+    "cuisine": "coffee_shop",
+    "internet_access": "wlan",
+    "internet_access:fee": "customers",
+    "name": "Kopi Oey",
+    "name:id": "Kopi Oey",
+    "payment:mastercard": "yes",
+    "payment:visa": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 492535915,
+  "center": {
+    "lat": -6.1716313,
+    "lon": 106.8103422
+  },
+  "tags": {
+    "access:roof": "yes",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Kyai Caringin",
+    "addr:housenumber": "7",
+    "addr:street": "Jl. Kyai Caringin No.7. Jakarta Pusat",
+    "amenity": "hospital",
+    "backup_generator": "yes",
+    "building": "hospital",
+    "building:floor": "ceramics",
+    "building:levels": "5",
+    "building:roof": "concrete",
+    "building:structure": "confined_masonry",
+    "building:walls": "glass",
+    "capacity:persons": ">500",
+    "contact:phone": "+62 21 3503 003",
+    "emergency": "yes",
+    "health_amenity:type": "dialysis;emergency_department;imaging_equipment;intensive_care_unit;laboratory;mri;operating_theater;ultrasound;x_ray",
+    "healthcare": "alternative;birthing_centre;blood_donation;clinic;dentist;doctor;hospital;laboratory;optometrist;pharmacy;physiotherapist;rehabilitation",
+    "healthcare:speciality": "acupuncture;allergology;anaesthetics;anatomy;anthroposophical;applied_kinesiology;aromatherapy;ayurveda;biological_haematology;biology;blood_check;cardiac_surgery;surgery;vaccination",
+    "insurance:health": "private;public",
+    "name": "RSUD Tarakan",
+    "opening_hours": "24/7",
+    "operator": "Pemda DKI Jakarta",
+    "operator:type": "government",
+    "source": "HOT_InAWARESurvey_2017",
+    "url": "https://rsudtarakan.jakarta.go.id/dokter/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 492902097,
+  "center": {
+    "lat": -6.1835794,
+    "lon": 106.8245174
+  },
+  "tags": {
+    "addr:housenumber": "16",
+    "addr:street": "Jalan Haji Agus Salim",
+    "amenity": "cafe",
+    "building": "yes",
+    "check_date": "2023-10-11",
+    "contact:instagram": "sabang_16",
+    "cuisine": "coffee_shop",
+    "food": "yes",
+    "internet_access": "wlan",
+    "internet_access:fee": "customers",
+    "internet_access:ssid": "Sabang16wifi",
+    "name": "Sabang 16",
+    "outdoor_seating": "no",
+    "payment:credit_cards": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 496829710,
+  "center": {
+    "lat": -6.1930357,
+    "lon": 106.8079305
+  },
+  "tags": {
+    "access:roof": "no",
+    "addr:city": "DKI Jakarta",
+    "addr:full": "Jalan Petamburan II No. 58",
+    "admin_level": "7",
+    "backup_generator": "no",
+    "building": "village_office",
+    "building:condition": "good",
+    "building:floor": "ceramics",
+    "building:levels": "4",
+    "building:roof": "tile",
+    "building:structure": "confined_masonry",
+    "building:walls": "brick",
+    "capacity:persons": "100-250",
+    "evacuation_center": "no",
+    "name": "Kantor Kelurahan Petamburan",
+    "office": "government",
+    "opening_hours": "Mo-Th 08:30-16:00, Fr 08:30-16:30",
+    "source": "HOT_InAWARESurvey_2017",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 497105904,
+  "center": {
+    "lat": -6.1826864,
+    "lon": 106.8168724
+  },
+  "tags": {
+    "addr:city": "Central Jakarta",
+    "addr:housenumber": "No.3",
+    "addr:postcode": "10250",
+    "addr:street": "Jl. H. Fachrudin",
+    "brand": "Millennium",
+    "brand:wikidata": "Q6858774",
+    "building": "yes",
+    "building:levels": "15",
+    "internet_access": "yes",
+    "internet_access:fee": "yes",
+    "name": "Millennium Hotel Sirih Jakarta",
+    "official_name": "Millennium Hotels & Resorts",
+    "smoking": "yes",
+    "stars": "4",
+    "start_date": "1986",
+    "tourism": "hotel",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 498152408,
+  "center": {
+    "lat": -6.2046787,
+    "lon": 106.8166670
+  },
+  "tags": {
+    "air_conditioning": "yes",
+    "amenity": "restaurant",
+    "building": "yes",
+    "cuisine": "asian;coffee_shop;indonesian",
+    "name": "Cimon Resto & Coffee",
+    "toilets": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 538319726,
+  "center": {
+    "lat": -6.1934514,
+    "lon": 106.8218829
+  },
+  "tags": {
+    "addr:city": "Central Jakarta, Indonesia",
+    "addr:postcode": "10350",
+    "addr:street": "Jalan M. Haji Thamrin",
+    "air_conditioning": "yes",
+    "building": "yes",
+    "building:levels": "6",
+    "layer": "1",
+    "name": "Plaza Indonesia",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "operator": "Sinarmas Land",
+    "shop": "mall",
+    "toilets": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 760257805,
+  "center": {
+    "lat": -6.2132639,
+    "lon": 106.8020992
+  },
+  "tags": {
+    "access": "private",
+    "bicycle": "yes",
+    "foot": "yes",
+    "highway": "service",
+    "motorcar": "no",
+    "motorcycle": "yes",
+    "surface": "asphalt",
+    "vehicle": "no",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 779464592,
+  "center": {
+    "lat": -6.2133657,
+    "lon": 106.8021330
+  },
+  "tags": {
+    "bicycle": "yes",
+    "foot": "yes",
+    "highway": "service",
+    "motorcar": "no",
+    "motorcycle": "yes",
+    "surface": "asphalt",
+    "vehicle": "no",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 974882100,
+  "center": {
+    "lat": -6.1957623,
+    "lon": 106.8208806
+  },
+  "tags": {
+    "alt_name": "GI, Grand Indonesia",
+    "building": "yes",
+    "name": "Grand Indonesia Shopping Town",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "shop": "mall",
+    "wheelchair": "yes",
+    "wikidata": "Q5594677",
+    "wikimedia_commons": "Category:Grand Indonesia",
+    "wikipedia": "en:Grand Indonesia Shopping Town"
+  }
+},
+{
+  "type": "way",
+  "id": 1314070488,
+  "center": {
+    "lat": -6.2169672,
+    "lon": 106.8067573
+  },
+  "tags": {
+    "amenity": "shelter",
+    "bench": "yes",
+    "bin": "yes",
+    "building": "yes",
+    "check_date": "2024-09-08",
+    "lit": "yes",
+    "shelter_type": "public_transport",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1389275311,
+  "center": {
+    "lat": -6.2132660,
+    "lon": 106.8019261
+  },
+  "tags": {
+    "bicycle": "yes",
+    "foot": "yes",
+    "highway": "service",
+    "motorcar": "no",
+    "motorcycle": "yes",
+    "service": "parking_aisle",
+    "surface": "asphalt",
+    "vehicle": "no",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1389275314,
+  "center": {
+    "lat": -6.2132096,
+    "lon": 106.8022431
+  },
+  "tags": {
+    "bicycle": "yes",
+    "foot": "yes",
+    "highway": "service",
+    "motorcar": "no",
+    "motorcycle": "yes",
+    "service": "parking_aisle",
+    "vehicle": "no",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1390073984,
+  "center": {
+    "lat": -6.2132188,
+    "lon": 106.8020889
+  },
+  "tags": {
+    "bicycle": "yes",
+    "foot": "yes",
+    "highway": "service",
+    "motorcar": "no",
+    "motorcycle": "yes",
+    "surface": "asphalt",
+    "vehicle": "no",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1390073985,
+  "center": {
+    "lat": -6.2131885,
+    "lon": 106.8021320
+  },
+  "tags": {
+    "bicycle": "yes",
+    "foot": "yes",
+    "highway": "service",
+    "motorcar": "no",
+    "motorcycle": "yes",
+    "surface": "asphalt",
+    "vehicle": "no",
+    "wheelchair": "yes"
+  }
+}
+
+  ]
+}

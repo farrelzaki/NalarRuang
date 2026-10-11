@@ -1,0 +1,1334 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-08T18:46:40Z",
+    "timestamp_areas_base": "2026-10-07T07:59:59Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "node",
+  "id": 318718577,
+  "lat": -6.2766831,
+  "lon": 106.7446926,
+  "tags": {
+    "alt_name": "Stasiun Pondok Ranji",
+    "ele": "24",
+    "name": "Pondok Ranji",
+    "network": "KAI Commuter",
+    "network:wikidata": "Q12501611",
+    "operator": "PT Kereta Api Indonesia",
+    "public_transport": "station",
+    "railway": "station",
+    "railway:ref": "PDJ",
+    "train": "yes",
+    "wheelchair": "yes",
+    "wikidata": "Q12516320",
+    "wikipedia": "id:Stasiun Pondok Ranji"
+  }
+},
+{
+  "type": "node",
+  "id": 3659598581,
+  "lat": -6.3329511,
+  "lon": 106.7369118,
+  "tags": {
+    "addr:city": "Pamulang",
+    "addr:housenumber": "B nomer 5",
+    "addr:postcode": "15417",
+    "addr:street": "Jl. Pamulang Permai Tim. 3D No.34",
+    "name": "Ngobas",
+    "office": "company",
+    "opening_hours": "09:00-21:00",
+    "phone": "+62 21 74714801",
+    "smoking": "no",
+    "website": "https://ngobas.com/",
+    "wheelchair": "yes",
+    "wikidata": "Q25457535",
+    "wikipedia": "id:Ngobas"
+  }
+},
+{
+  "type": "node",
+  "id": 6416059460,
+  "lat": -6.2726259,
+  "lon": 106.7417023,
+  "tags": {
+    "amenity": "fast_food",
+    "cuisine": "japanese",
+    "delivery": "yes",
+    "name": "HokBen (Hoka-Hoka Bento)",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "takeaway": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6416059482,
+  "lat": -6.2724252,
+  "lon": 106.7416037,
+  "tags": {
+    "name": "MR. DIY",
+    "opening_hours": "10:00-22:00",
+    "shop": "doityourself",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6416059483,
+  "lat": -6.2730005,
+  "lon": 106.7422333,
+  "tags": {
+    "name": "Century",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "shop": "chemist",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6416059484,
+  "lat": -6.2727252,
+  "lon": 106.7418256,
+  "tags": {
+    "amenity": "cafe",
+    "delivery": "yes",
+    "name": "J.CO",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "outdoor_seating": "no",
+    "takeaway": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 6416059485,
+  "lat": -6.2725099,
+  "lon": 106.7415494,
+  "tags": {
+    "name": "Cahaya",
+    "opening_hours": "Mo-Su 10:00-22:00",
+    "operator": "PT. Ramayana Lestari Sentosa",
+    "shop": "department_store",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 7257150741,
+  "lat": -6.2426953,
+  "lon": 106.6518321,
+  "tags": {
+    "air_conditioning": "yes",
+    "amenity": "restaurant",
+    "name": "Betawi Corner",
+    "outdoor_seating": "no",
+    "smoking": "outside",
+    "toilets": "yes",
+    "toilets:wheelchair": "no",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8164895275,
+  "lat": -6.3145381,
+  "lon": 106.7015060,
+  "tags": {
+    "access": "yes",
+    "amenity": "toilets",
+    "fee": "yes",
+    "female": "yes",
+    "male": "yes",
+    "opening_hours": "24/7",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 8678490555,
+  "lat": -6.2583534,
+  "lon": 106.7525718,
+  "tags": {
+    "addr:city": "Tangerang Selatan",
+    "addr:housenumber": "Jl. Pd. Betung No.26, RT.6/RW.3, Pd. Betung",
+    "addr:postcode": "15221",
+    "addr:street": "Pd. Aren",
+    "air_conditioning": "yes",
+    "internet_access": "wlan",
+    "name": "Sekretariat Akses",
+    "office": "educational_institution",
+    "opening_hours": "24/7",
+    "website": "https://bimbelcpns.com/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10092539766,
+  "lat": -6.2624567,
+  "lon": 106.7298085,
+  "tags": {
+    "access": "permissive",
+    "barrier": "swing_gate",
+    "name": "Gerbang Komplek Perumahan Podok Safari Indah",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10164515385,
+  "lat": -6.3531300,
+  "lon": 106.6935457,
+  "tags": {
+    "access": "private",
+    "barrier": "gate",
+    "bicycle": "yes",
+    "foot": "yes",
+    "locked": "no",
+    "motor_vehicle": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10729581936,
+  "lat": -6.3141667,
+  "lon": 106.7342505,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date": "2025-12-18",
+    "check_date:opening_hours": "2025-12-18",
+    "diet:halal": "yes",
+    "diet:kosher": "no",
+    "diet:vegetarian": "no",
+    "indoor_seating": "yes",
+    "name": "INDORAMA",
+    "opening_hours": "24/7",
+    "outdoor_seating": "yes",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10731191100,
+  "lat": -6.3128815,
+  "lon": 106.7290672,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "restaurant",
+    "check_date:opening_hours": "2023-03-13",
+    "diet:halal": "yes",
+    "diet:kosher": "no",
+    "diet:vegetarian": "no",
+    "indoor_seating": "yes",
+    "name": "Warteg Kharisma",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 10846143570,
+  "lat": -6.3076547,
+  "lon": 106.7211179,
+  "tags": {
+    "check_date:opening_hours": "2023-04-27",
+    "name": "Warung Haji Madin",
+    "opening_hours:signed": "no",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "shop": "general",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11030262974,
+  "lat": -6.3165511,
+  "lon": 106.7151134,
+  "tags": {
+    "amenity": "cafe",
+    "check_date:opening_hours": "2023-07-06",
+    "diet:halal": "yes",
+    "diet:kosher": "no",
+    "diet:vegetarian": "no",
+    "indoor_seating": "no",
+    "name": "Warkop D SAS",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11031903572,
+  "lat": -6.3171302,
+  "lon": 106.7212900,
+  "tags": {
+    "amenity": "cafe",
+    "check_date:opening_hours": "2023-07-07",
+    "diet:halal": "yes",
+    "diet:kosher": "no",
+    "diet:vegetarian": "no",
+    "indoor_seating": "no",
+    "name": "Warung Kopi Bukit Serua",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 11293796903,
+  "lat": -6.3230357,
+  "lon": 106.7685090,
+  "tags": {
+    "access": "permissive",
+    "barrier": "gate",
+    "bicycle": "yes",
+    "foot": "yes",
+    "horse": "no",
+    "locked": "no",
+    "motor_vehicle": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 12855310693,
+  "lat": -6.3252059,
+  "lon": 106.7443278,
+  "tags": {
+    "amenity": "toilets",
+    "female": "yes",
+    "male": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13155270115,
+  "lat": -6.3090383,
+  "lon": 106.7185784,
+  "tags": {
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-09-19",
+    "diet:halal": "yes",
+    "indoor_seating": "no",
+    "name": "Warkop  AHMAD",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13156957302,
+  "lat": -6.3091418,
+  "lon": 106.7193302,
+  "tags": {
+    "check_date:opening_hours": "2025-09-20",
+    "name": "Toko BILQIS",
+    "opening_hours:signed": "no",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "shop": "general",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13157915020,
+  "lat": -6.3165814,
+  "lon": 106.7099722,
+  "tags": {
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-09-20",
+    "diet:halal": "yes",
+    "indoor_seating": "no",
+    "name": "Warkop DUA PUTRI",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13159578995,
+  "lat": -6.3165698,
+  "lon": 106.7169282,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "restaurant",
+    "check_date:opening_hours": "2025-09-21",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warteg IIS Bahari",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "no",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13159826329,
+  "lat": -6.3091908,
+  "lon": 106.7170957,
+  "tags": {
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-09-21",
+    "diet:halal": "yes",
+    "indoor_seating": "no",
+    "name": "Cafe Kopi WO",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13172865940,
+  "lat": -6.3168414,
+  "lon": 106.7099339,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-11-02",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warkop PJR",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13176663431,
+  "lat": -6.3165937,
+  "lon": 106.7162453,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-09-28",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Abadi Kuningan",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "no",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13181079606,
+  "lat": -6.3098892,
+  "lon": 106.7083275,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warkop Pancong \"2F\"",
+    "opening_hours": "24/7",
+    "outdoor_seating": "no",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13184303584,
+  "lat": -6.3367753,
+  "lon": 106.7279060,
+  "tags": {
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-09-30",
+    "diet:halal": "yes",
+    "indoor_seating": "no",
+    "name": "WARKOP \"24\"",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13186248370,
+  "lat": -6.3091644,
+  "lon": 106.7172727,
+  "tags": {
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-10-01",
+    "diet:halal": "yes",
+    "indoor_seating": "no",
+    "name": "Pion Sruntul & Warkop",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13188445780,
+  "lat": -6.3236329,
+  "lon": 106.7451845,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "restaurant",
+    "check_date:opening_hours": "2025-10-02",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warung Nasi",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "no",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13196252089,
+  "lat": -6.3471253,
+  "lon": 106.6880650,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warkop Disini",
+    "opening_hours": "24/7",
+    "outdoor_seating": "yes",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13236086721,
+  "lat": -6.3150980,
+  "lon": 106.7009963,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-10-16",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warkop\" 家族\" KAZOKU",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "yes",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13239002935,
+  "lat": -6.3167092,
+  "lon": 106.7140772,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-10-17",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warmindo di.Emih.an",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13271179375,
+  "lat": -6.3484043,
+  "lon": 106.6882965,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "SEGARA Warkop",
+    "opening_hours": "24/7",
+    "outdoor_seating": "yes",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13277417636,
+  "lat": -6.3030202,
+  "lon": 106.7162944,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-11-03",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warkop VJB",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13280076357,
+  "lat": -6.3212348,
+  "lon": 106.7248790,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-11-04",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Seblak Prasmanan & Kopi SUTARA",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13329869914,
+  "lat": -6.3149964,
+  "lon": 106.7077828,
+  "tags": {
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-11-25",
+    "diet:halal": "only",
+    "indoor_seating": "no",
+    "name": "Warkop SIGEKO",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13330106010,
+  "lat": -6.3320909,
+  "lon": 106.7259426,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-11-25",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warkop SEJAGAT",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13395211191,
+  "lat": -6.3345297,
+  "lon": 106.7310180,
+  "tags": {
+    "amenity": "cafe",
+    "check_date:opening_hours": "2025-12-22",
+    "diet:halal": "yes",
+    "indoor_seating": "no",
+    "name": "Warkop RAMBUTAN",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13449860049,
+  "lat": -6.3152490,
+  "lon": 106.7076720,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "restaurant",
+    "check_date:opening_hours": "2026-01-12",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warung APIP",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "no",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13734715611,
+  "lat": -6.3031304,
+  "lon": 106.7217591,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2026-04-16",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Angkringan 5 Watt",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13734731964,
+  "lat": -6.3093706,
+  "lon": 106.7087597,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2026-04-16",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warkop VOKAL",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "no",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13735483179,
+  "lat": -6.3326298,
+  "lon": 106.7097167,
+  "tags": {
+    "addr:block": "B3",
+    "addr:full": "Jalan Benda Raya, Blok B3 No. 18, Pondok Benda, Pamulang",
+    "addr:housenumber": "18",
+    "addr:street": "Jalan Benda Raya",
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "cuisine": "coffee_shop",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warkop \"94\"",
+    "opening_hours": "24/7",
+    "outdoor_seating": "yes",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13803696092,
+  "lat": -6.3469655,
+  "lon": 106.6947709,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "restaurant",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "MULYA BAHARI Warteg",
+    "opening_hours": "24/7",
+    "outdoor_seating": "no",
+    "payment:credit_cards": "no",
+    "payment:debit_cards": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 13815569143,
+  "lat": -6.2700319,
+  "lon": 106.7437851,
+  "tags": {
+    "addr:city": "Kota Tangerang Selatan",
+    "addr:district": "Kec. Pondok Aren",
+    "addr:neighbourhood": "Bintaro Jaya 3",
+    "addr:postcode": "15221",
+    "addr:province": "Banten",
+    "addr:street": "Jl Camar XIII",
+    "addr:subdistrict": "Kel. Pondok Betung",
+    "air_conditioning": "yes",
+    "amenity": "place_of_worship",
+    "name": "Masjid At-Taqwa Bintaro Jaya 3",
+    "religion": "muslim",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 14068558695,
+  "lat": -6.2592420,
+  "lon": 106.7422077,
+  "tags": {
+    "amenity": "cafe",
+    "check_date:opening_hours": "2026-08-02",
+    "diet:halal": "yes",
+    "indoor_seating": "no",
+    "name": "Warkop Teh SOLO",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 14073570858,
+  "lat": -6.3503820,
+  "lon": 106.6896064,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warkop DOA MEMBAWA BERKAH",
+    "opening_hours": "24/7",
+    "outdoor_seating": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 14168230913,
+  "lat": -6.3433624,
+  "lon": 106.7121453,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2026-09-10",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "Warkop KOPI JOS",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "yes",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 14173873772,
+  "lat": -6.3097166,
+  "lon": 106.7092371,
+  "tags": {
+    "air_conditioning": "no",
+    "amenity": "cafe",
+    "check_date:opening_hours": "2026-09-12",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "SERDADU Motor Wash & Warkop",
+    "opening_hours:signed": "no",
+    "outdoor_seating": "no",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "node",
+  "id": 14178183245,
+  "lat": -6.3160041,
+  "lon": 106.7462213,
+  "tags": {
+    "amenity": "cafe",
+    "diet:halal": "yes",
+    "indoor_seating": "no",
+    "name": "Warkop RAHAYU",
+    "opening_hours": "24/7",
+    "outdoor_seating": "yes",
+    "smoking": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 46546065,
+  "center": {
+    "lat": -6.2980505,
+    "lon": 106.6696878
+  },
+  "tags": {
+    "addr:city": "Tangerang Selatan",
+    "addr:full": "Central Business District Lot IX, BSD City",
+    "amenity": "hospital",
+    "healthcare": "hospital",
+    "name": "Eka Hospital BSD",
+    "operator:type": "private",
+    "website": "https://www.ekahospital.com",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 356971490,
+  "center": {
+    "lat": -6.2432960,
+    "lon": 106.6586597
+  },
+  "tags": {
+    "addr:city": "Tangerang Selatan",
+    "addr:district": "Serpong Utara",
+    "addr:housenumber": "1",
+    "addr:neighbourhood": "Alam Sutera",
+    "addr:province": "Banten",
+    "addr:street": "Jalan Sutera Utama",
+    "addr:subdistrict": "Pakulonan",
+    "amenity": "school",
+    "denomination": "catholic",
+    "grades": "0-12",
+    "name": "Sekolah Santa Laurensia Alam Sutera",
+    "operator": "Yayasan Tunas Manunggal",
+    "operator:type": "school",
+    "religion": "christian",
+    "website": "https://www.santa-laurensia.com/",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 361661476,
+  "center": {
+    "lat": -6.2703643,
+    "lon": 106.6891691
+  },
+  "tags": {
+    "addr:city": "Tangerang Selatan",
+    "addr:housenumber": "Kav. GK.4",
+    "addr:postcode": "15228",
+    "addr:street": "Jalan Graha Bintaro Utama",
+    "amenity": "place_of_worship",
+    "building": "mosque",
+    "name": "Masjid Raya Bani Umar",
+    "phone": "+62 21 7326 601",
+    "religion": "muslim",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 396051489,
+  "center": {
+    "lat": -6.2984806,
+    "lon": 106.6698016
+  },
+  "tags": {
+    "addr:city": "Tangerang Selatan",
+    "addr:full": "Central Business District Lot IX, BSD City",
+    "building": "hospital",
+    "building:levels": "2",
+    "height": "7",
+    "operator:type": "private",
+    "roof:shape": "flat",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 564196321,
+  "center": {
+    "lat": -6.3137658,
+    "lon": 106.7001542
+  },
+  "tags": {
+    "air_conditioning": "yes",
+    "backup_generator": "yes",
+    "brand": "Super Indo",
+    "brand:wikidata": "Q12518060",
+    "building": "yes",
+    "check_date:opening_hours": "2025-10-16",
+    "diet:halal": "yes",
+    "name": "Super Indo",
+    "opening_hours": "08:00-21:00",
+    "payment:cash": "yes",
+    "payment:credit_cards": "yes",
+    "payment:debit_cards": "yes",
+    "shop": "supermarket",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 684767704,
+  "center": {
+    "lat": -6.2731331,
+    "lon": 106.7426468
+  },
+  "tags": {
+    "addr:city": "Banten City",
+    "addr:housenumber": "3A",
+    "addr:postcode": "15225",
+    "addr:street": "Jl. Bintaro Utama",
+    "amenity": "restaurant",
+    "building": "yes",
+    "building:levels": "2",
+    "cuisine": "seafood",
+    "delivery": "yes",
+    "name": "D'COST",
+    "takeaway": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 757092682,
+  "center": {
+    "lat": -6.3062054,
+    "lon": 106.7189477
+  },
+  "tags": {
+    "addr:street": "Jalan Aria Putra Raya",
+    "amenity": "fuel",
+    "brand": "Pertamina",
+    "check_date": "2025-09-22",
+    "compressed_air": "yes",
+    "name": "SPBU Sukabakti, Ciputat",
+    "opening_hours": "24/7",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 761657525,
+  "center": {
+    "lat": -6.2955319,
+    "lon": 106.6683520
+  },
+  "tags": {
+    "addr:housenumber": "7B",
+    "addr:postcode": "15311",
+    "addr:street": "Jalan Pahlawan Seribu",
+    "building": "yes",
+    "building:levels": "7",
+    "email": "bsdcity@reservation.santika.com",
+    "height": "21",
+    "internet_access": "wlan",
+    "name": "Hotel Santika",
+    "phone": "+62 21 22235999",
+    "smoking": "yes",
+    "tourism": "hotel",
+    "website": "https://mysantika.com/indonesia/tangerang-selatan/hotel-santika-bsd-city-serpong",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 762285018,
+  "center": {
+    "lat": -6.3148218,
+    "lon": 106.7013869
+  },
+  "tags": {
+    "addr:street": "Jalan Ciater Raya",
+    "amenity": "fuel",
+    "brand": "Pertamina",
+    "brand:wikidata": "Q1641044",
+    "brand:wikipedia": "en:Pertamina",
+    "building": "roof",
+    "compressed_air": "yes",
+    "layer": "1",
+    "name": "Pertamina",
+    "opening_hours": "24/7",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 809061541,
+  "center": {
+    "lat": -6.3103297,
+    "lon": 106.7133642
+  },
+  "tags": {
+    "addr:city": "Tangerang Selatan",
+    "addr:housenumber": "415",
+    "addr:postcode": "15414",
+    "addr:street": "Jalan Petunia",
+    "air_conditioning": "yes",
+    "amenity": "place_of_worship",
+    "building": "yes",
+    "denomination": "protestant",
+    "name": "GPIB Bahtera Iman",
+    "religion": "christian",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 809067497,
+  "center": {
+    "lat": -6.3093303,
+    "lon": 106.7192673
+  },
+  "tags": {
+    "addr:city": "Tangerang Selatan",
+    "addr:housenumber": "1",
+    "addr:postcode": "15414",
+    "addr:street": "Jalan Aria Putra Raya",
+    "amenity": "police",
+    "building": "yes",
+    "check_date": "2025-09-19",
+    "name": "Kepolisian Sub Sektor Serua",
+    "opening_hours": "24/7",
+    "operator": "Kepolisian Republik Indonesia",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 816911324,
+  "center": {
+    "lat": -6.3105332,
+    "lon": 106.7468642
+  },
+  "tags": {
+    "leisure": "stadium",
+    "name": "Gelanggang Olahraga Ciputat",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 816911326,
+  "center": {
+    "lat": -6.3107634,
+    "lon": 106.7470011
+  },
+  "tags": {
+    "amenity": "police",
+    "building": "yes",
+    "name": "Koramil 06 Ciputat",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 877546087,
+  "center": {
+    "lat": -6.3144213,
+    "lon": 106.7004725
+  },
+  "tags": {
+    "air_conditioning": "yes",
+    "amenity": "fast_food",
+    "brand": "McDonald's",
+    "brand:wikidata": "Q38076",
+    "brand:wikipedia": "en:McDonald's",
+    "building": "yes",
+    "cuisine": "burger",
+    "diet:halal": "yes",
+    "indoor_seating": "yes",
+    "name": "McDonald's",
+    "opening_hours": "24/7",
+    "outdoor_seating": "yes",
+    "smoking": "outside",
+    "takeaway": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1124733801,
+  "center": {
+    "lat": -6.3468300,
+    "lon": 106.6748496
+  },
+  "tags": {
+    "bicycle": "yes",
+    "highway": "footway",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1368999005,
+  "center": {
+    "lat": -6.3444444,
+    "lon": 106.7357191
+  },
+  "tags": {
+    "building": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1368999007,
+  "center": {
+    "lat": -6.3443931,
+    "lon": 106.7359013
+  },
+  "tags": {
+    "building": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1388141204,
+  "center": {
+    "lat": -6.3442357,
+    "lon": 106.7343185
+  },
+  "tags": {
+    "air_conditioning": "yes",
+    "amenity": "place_of_worship",
+    "level": "2",
+    "name": "Masjid Agung Al-Mujahidin",
+    "parking": "surface",
+    "religion": "muslim",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1512783506,
+  "center": {
+    "lat": -6.3293020,
+    "lon": 106.6823705
+  },
+  "tags": {
+    "highway": "path",
+    "incline": "up",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1512783507,
+  "center": {
+    "lat": -6.3293734,
+    "lon": 106.6822213
+  },
+  "tags": {
+    "highway": "path",
+    "incline": "up",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1512783508,
+  "center": {
+    "lat": -6.3292592,
+    "lon": 106.6821476
+  },
+  "tags": {
+    "highway": "path",
+    "incline": "up",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1560961323,
+  "center": {
+    "lat": -6.2968150,
+    "lon": 106.7128001
+  },
+  "tags": {
+    "access": "no",
+    "highway": "footway",
+    "stroller": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1560961327,
+  "center": {
+    "lat": -6.2968892,
+    "lon": 106.7128438
+  },
+  "tags": {
+    "access": "no",
+    "covered": "yes",
+    "highway": "footway",
+    "layer": "-1",
+    "stroller": "yes",
+    "wheelchair": "yes"
+  }
+},
+{
+  "type": "way",
+  "id": 1560961328,
+  "center": {
+    "lat": -6.2967327,
+    "lon": 106.7127513
+  },
+  "tags": {
+    "access": "no",
+    "covered": "yes",
+    "highway": "footway",
+    "stroller": "yes",
+    "wheelchair": "yes"
+  }
+}
+
+  ]
+}

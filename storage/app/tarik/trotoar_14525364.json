@@ -1,0 +1,166 @@
+{
+  "version": 0.6,
+  "generator": "Overpass API 0.7.62.11 87bfad18",
+  "osm3s": {
+    "timestamp_osm_base": "2026-07-24T11:04:51Z",
+    "timestamp_areas_base": "2026-07-24T11:04:51Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "elements": [
+
+{
+  "type": "way",
+  "id": 763302145,
+  "bounds": {
+    "minlat": -6.3624249,
+    "minlon": 106.8285416,
+    "maxlat": -6.3612599,
+    "maxlon": 106.8296644
+  },
+  "geometry": [
+    { "lat": -6.3612599, "lon": 106.8296644 },
+    { "lat": -6.3612758, "lon": 106.8296442 },
+    { "lat": -6.3615821, "lon": 106.8292901 },
+    { "lat": -6.3619519, "lon": 106.8288731 },
+    { "lat": -6.3621524, "lon": 106.8286997 },
+    { "lat": -6.3623247, "lon": 106.8286159 },
+    { "lat": -6.3623661, "lon": 106.8285931 },
+    { "lat": -6.3624249, "lon": 106.8285416 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 763302146,
+  "bounds": {
+    "minlat": -6.3643981,
+    "minlon": 106.8289354,
+    "maxlat": -6.3637792,
+    "maxlon": 106.8301254
+  },
+  "geometry": [
+    { "lat": -6.3637792, "lon": 106.8289363 },
+    { "lat": -6.3638261, "lon": 106.8289354 },
+    { "lat": -6.3638261, "lon": 106.8290596 },
+    { "lat": -6.3638308, "lon": 106.8291485 },
+    { "lat": -6.3638468, "lon": 106.8292768 },
+    { "lat": -6.3638520, "lon": 106.8293037 },
+    { "lat": -6.3638573, "lon": 106.8293275 },
+    { "lat": -6.3638984, "lon": 106.8294620 },
+    { "lat": -6.3639469, "lon": 106.8295829 },
+    { "lat": -6.3640458, "lon": 106.8298008 },
+    { "lat": -6.3641871, "lon": 106.8299749 },
+    { "lat": -6.3643525, "lon": 106.8301254 },
+    { "lat": -6.3643981, "lon": 106.8301032 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway",
+    "surface": "paving_stones"
+  }
+},
+{
+  "type": "way",
+  "id": 763302147,
+  "bounds": {
+    "minlat": -6.3622606,
+    "minlon": 106.8296442,
+    "maxlat": -6.3612758,
+    "maxlon": 106.8305869
+  },
+  "geometry": [
+    { "lat": -6.3622606, "lon": 106.8305869 },
+    { "lat": -6.3617636, "lon": 106.8301050 },
+    { "lat": -6.3612758, "lon": 106.8296442 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1456159170,
+  "bounds": {
+    "minlat": -6.3713532,
+    "minlon": 106.8244624,
+    "maxlat": -6.3711766,
+    "maxlon": 106.8244715
+  },
+  "geometry": [
+    { "lat": -6.3711766, "lon": 106.8244624 },
+    { "lat": -6.3712749, "lon": 106.8244669 },
+    { "lat": -6.3713532, "lon": 106.8244715 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1456159173,
+  "bounds": {
+    "minlat": -6.3715255,
+    "minlon": 106.8244789,
+    "maxlat": -6.3714799,
+    "maxlon": 106.8244823
+  },
+  "geometry": [
+    { "lat": -6.3715255, "lon": 106.8244823 },
+    { "lat": -6.3715075, "lon": 106.8244810 },
+    { "lat": -6.3715007, "lon": 106.8244805 },
+    { "lat": -6.3714799, "lon": 106.8244789 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1500946610,
+  "bounds": {
+    "minlat": -6.4253938,
+    "minlon": 106.8590512,
+    "maxlat": -6.4244581,
+    "maxlon": 106.8596729
+  },
+  "geometry": [
+    { "lat": -6.4253938, "lon": 106.8594485 },
+    { "lat": -6.4252919, "lon": 106.8590512 },
+    { "lat": -6.4248540, "lon": 106.8590874 },
+    { "lat": -6.4246921, "lon": 106.8595250 },
+    { "lat": -6.4244581, "lon": 106.8596729 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+},
+{
+  "type": "way",
+  "id": 1500946611,
+  "bounds": {
+    "minlat": -6.4244581,
+    "minlon": 106.8596729,
+    "maxlat": -6.4228129,
+    "maxlon": 106.8601947
+  },
+  "geometry": [
+    { "lat": -6.4244581, "lon": 106.8596729 },
+    { "lat": -6.4239519, "lon": 106.8600057 },
+    { "lat": -6.4232660, "lon": 106.8601947 },
+    { "lat": -6.4228129, "lon": 106.8600550 }
+  ],
+  "tags": {
+    "footway": "sidewalk",
+    "highway": "footway"
+  }
+}
+
+  ]
+}
