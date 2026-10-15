@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Services\Polyline;
 use App\Services\RailGraph;
 use App\Services\RuteTransit;
 use Illuminate\Http\JsonResponse;
@@ -14,12 +15,13 @@ use Throwable;
 
 /**
  * GET /api/commute (FR-10, FR-11). Estimasi tanpa lalu lintas real-time (SRS BR 14).
- * Mobil: OSRM (TBD-ROUTE, sementara memakai server demo publik).
+ * Mobil: Valhalla (server publik FOSSGIS) dengan preferensi jalan tol, cadangan OSRM (TBD-ROUTE).
  * Umum: jalan kaki ke stasiun/halte terdekat, lalu rute dan tarif resmi antarstasiun dari Commute Data API
  * (KRL, MRT, LRT, TransJakarta; ODbL-1.0), digambar mengikuti rel di PostGIS, lalu jalan kaki ke tujuan.
  */
 class CommuteController extends Controller
 {
+    private const VALHALLA = 'https://valhalla1.openstreetmap.de/route';
     private const OSRM_MOBIL = 'https://router.project-osrm.org/route/v1/driving';
     private const OSRM_KAKI = 'https://routing.openstreetmap.de/routed-foot/route/v1/driving';
     private const COMMUTE_API = 'https://api.commute.shiorilabs.id';
@@ -27,6 +29,9 @@ class CommuteController extends Controller
     /** Asumsi estimasi; ubah setelah OQ-03 (sumber biaya) diputuskan. */
     private const FAKTOR_JAM_SIBUK = 1.4;
     private const BIAYA_PER_KM = 850;        // BBM Rp10.000/l, 12 km/l, dibulatkan
+    // Perkiraan tarif tol Golongan I, dikalibrasi ke Jagorawi + Tol Dalam Kota (Bogor-Jakarta +-Rp18.500).
+    private const TOL_PER_KM = 350;
+    private const TOL_MINIMUM = 7000;
     private const KECEPATAN_KAKI = 80;       // m/menit
     private const MAKS_KE_STASIUN = 3000;    // meter, stasiun rel
     private const MAKS_KE_HALTE = 1500;      // meter, halte TransJakarta bila tidak ada stasiun
@@ -76,18 +81,58 @@ class CommuteController extends Controller
 
     private function mobil(array $a, array $b): ?array
     {
-        $r = $this->osrm(self::OSRM_MOBIL, $a, $b);
+        $r = $this->valhalla($a, $b) ?? $this->mobilOsrm($a, $b);
         if (! $r) {
             return null;
         }
-        $km = $r['distance'] / 1000;
+        $km = $r['meter'] / 1000;
+        $tol = $r['meter_tol'] > 0 ? (int) max(self::TOL_MINIMUM, round($r['meter_tol'] / 1000 * self::TOL_PER_KM / 500) * 500) : 0;
 
         return [
             'jarak_km' => round($km, 1),
-            'waktu_menit' => (int) round($r['duration'] / 60 * self::FAKTOR_JAM_SIBUK),
-            'biaya' => (int) (round($km * self::BIAYA_PER_KM / 100) * 100),
-            'geometri' => $r['geometry'],
+            'waktu_menit' => (int) round($r['detik'] / 60 * self::FAKTOR_JAM_SIBUK),
+            'biaya' => (int) (round($km * self::BIAYA_PER_KM / 100) * 100) + $tol,
+            'geometri' => $r['geometri'],
         ];
+    }
+
+    /**
+     * Rute mobil Valhalla: lebih memilih jalan tol seperti pengemudi pada umumnya
+     * (OSRM publik cenderung keluar tol lebih awal karena tidak memperhitungkan kemacetan jalan arteri).
+     */
+    private function valhalla(array $a, array $b): ?array
+    {
+        return Cache::remember('valhalla:'.md5(json_encode([$a, $b])), now()->addDay(), function () use ($a, $b) {
+            try {
+                $r = Http::timeout(12)->withHeaders(['User-Agent' => 'NalarRuang/0.1 (proyek mahasiswa IPB)'])->post(self::VALHALLA, [
+                    'locations' => [['lat' => $a[0], 'lon' => $a[1]], ['lat' => $b[0], 'lon' => $b[1]]],
+                    'costing' => 'auto',
+                    'costing_options' => ['auto' => ['use_highways' => 1.0, 'use_tolls' => 1.0]],
+                    'units' => 'kilometers',
+                ]);
+                $leg = $r->json('trip.legs.0');
+                if (! $r->ok() || ! $leg) {
+                    return null;
+                }
+                $tol = array_sum(array_map(fn ($m) => ! empty($m['toll']) ? $m['length'] : 0, $leg['maneuvers'] ?? []));
+
+                return [
+                    'meter' => $r->json('trip.summary.length') * 1000,
+                    'detik' => $r->json('trip.summary.time'),
+                    'meter_tol' => $tol * 1000,
+                    'geometri' => ['type' => 'LineString', 'coordinates' => Polyline::decode($leg['shape'])],
+                ];
+            } catch (Throwable) {
+                return null;
+            }
+        });
+    }
+
+    private function mobilOsrm(array $a, array $b): ?array
+    {
+        $r = $this->osrm(self::OSRM_MOBIL, $a, $b);
+
+        return $r ? ['meter' => $r['distance'], 'detik' => $r['duration'], 'meter_tol' => 0, 'geometri' => $r['geometry']] : null;
     }
 
     private function transit(array $a, array $b): ?array

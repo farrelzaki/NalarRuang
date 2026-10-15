@@ -122,7 +122,7 @@ Jabodetabek (batas desa BIG, OSM, InaRISK, Commute Data API, GTFS TransJakarta),
 (sumber per layer: `docs/RENCANA.md` bagian 2a). Kualitas udara, status
 legalitas, dan tahun Mesin Waktu masih **nilai contoh**. Ganti dengan hasil QGIS
 sebelum rilis.
-Simulator rute memakai server OSRM demo publik (butuh internet). Pintasan demo:
+Simulator rute memakai server publik Valhalla (mobil, cadangan OSRM) dan OSRM (jalan kaki); butuh internet. Pintasan demo:
 `/peta?persona=commuter,zen` mengisi persona sesi tanpa dialog.
 
 ## Kebiasaan yang diharapkan

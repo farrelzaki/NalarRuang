@@ -110,7 +110,13 @@ export function SimulatorRute({ a, b, menunggu, hasil, memuat, moda, onModa, onP
                 {kotak('transit', 'tram-front', 'Transit')}
             </div>
             {memuat && <Keadaan kind="memuat" title={t('Menghitung rute', 'Calculating route')} />}
-            {lengkap && <p className="nr-route__foot">{rincian}{t('Estimasi tanpa lalu lintas real-time.', 'Estimate without real-time traffic.')}</p>}
+            {lengkap && (
+                <p className="nr-route__foot">
+                    {rincian}
+                    {moda === 'mobil' && t('Biaya mobil = BBM + perkiraan tol. ', 'Car cost = fuel + estimated tolls. ')}
+                    {t('Estimasi tanpa lalu lintas real-time.', 'Estimate without real-time traffic.')}
+                </p>
+            )}
         </section>
     );
 }
