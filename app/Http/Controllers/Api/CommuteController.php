@@ -135,24 +135,42 @@ class CommuteController extends Controller
         return $r ? ['meter' => $r['distance'], 'detik' => $r['duration'], 'meter_tol' => 0, 'geometri' => $r['geometry']] : null;
     }
 
+    /**
+     * Pilih titik naik/turun terbaik: kombinasi stasiun rel dan halte TransJakarta terdekat di kedua ujung,
+     * lalu ambil yang total waktunya (jalan kaki + perjalanan) paling kecil.
+     */
     private function transit(array $a, array $b): ?array
     {
-        $sa = $this->stasiunTerdekat($a);
-        $sb = $this->stasiunTerdekat($b);
-        if (! $sa || ! $sb || $sa->kode === $sb->kode) {
-            return null;
+        $pasangan = [];
+        foreach ($this->kandidat($a) as $sa) {
+            foreach ($this->kandidat($b) as $sb) {
+                if ($sa->kode !== $sb->kode) {
+                    $pasangan[] = [$sa, $sb];
+                }
+            }
         }
+        $semuaTarif = $this->tarifSekaligus(array_map(fn ($x) => [$x[0]->kode, $x[1]->kode], $pasangan));
 
-        $tarif = $this->tarif($sa->kode, $sb->kode);
-        if (! $tarif) {
+        $terbaik = null;
+        foreach ($pasangan as $i => [$sa, $sb]) {
+            if (! ($tarif = $semuaTarif[$i])) {
+                continue;
+            }
+            $rute = (new RuteTransit())->rakit($tarif, $this->koordinatStasiun(), $this->namaLin(), function (string $jenis, array $p, array $q) {
+                return $this->grafRel($jenis)->jalur($p, $q)['koordinat'] ?? null;
+            });
+            if (! $rute) {
+                continue;
+            }
+            $skor = $rute['menit'] + ($sa->meter + $sb->meter) * 1.3 / self::KECEPATAN_KAKI;
+            if (! $terbaik || $skor < $terbaik[0]) {
+                $terbaik = [$skor, $sa, $sb, $rute];
+            }
+        }
+        if (! $terbaik) {
             return null;
         }
-        $rute = (new RuteTransit())->rakit($tarif, $this->koordinatStasiun(), $this->namaLin(), function (string $jenis, array $p, array $q) {
-            return $this->grafRel($jenis)->jalur($p, $q)['koordinat'] ?? null;
-        });
-        if (! $rute) {
-            return null;
-        }
+        [, $sa, $sb, $rute] = $terbaik;
 
         $kaki1 = $this->osrm(self::OSRM_KAKI, $a, [$sa->lat, $sa->lng]);
         $kaki2 = $this->osrm(self::OSRM_KAKI, [$sb->lat, $sb->lng], $b);
@@ -179,18 +197,38 @@ class CommuteController extends Controller
         ];
     }
 
-    /** Rute dan tarif antarstasiun (Commute Data API), di-cache sehari. */
-    private function tarif(string $dari, string $ke): ?array
+    /**
+     * Rute dan tarif antarstasiun (Commute Data API) untuk beberapa pasangan sekaligus.
+     * Yang belum ada di cache diminta paralel; hasil di-cache sehari.
+     *
+     * @param  list<array{0: string, 1: string}>  $pasangan
+     * @return list<?array>
+     */
+    private function tarifSekaligus(array $pasangan): array
     {
-        return Cache::remember("commute:tarif:{$dari}:{$ke}", now()->addDay(), function () use ($dari, $ke) {
+        $kunci = array_map(fn ($p) => "commute:tarif:{$p[0]}:{$p[1]}", $pasangan);
+        $hasil = array_map(fn ($k) => Cache::get($k), $kunci);
+        $kurang = array_keys(array_filter($hasil, fn ($h) => $h === null));
+        if ($kurang) {
             try {
-                $r = Http::timeout(12)->withHeaders(['User-Agent' => 'NalarRuang/0.1 (proyek mahasiswa IPB)'])->get(self::COMMUTE_API."/fares/{$dari}/{$ke}");
-
-                return $r->ok() ? $r->json('data') : null;
+                $jawab = Http::pool(fn ($pool) => array_map(
+                    fn ($i) => $pool->as((string) $i)->timeout(12)->withHeaders(['User-Agent' => 'NalarRuang/0.1 (proyek mahasiswa IPB)'])
+                        ->get(self::COMMUTE_API."/fares/{$pasangan[$i][0]}/{$pasangan[$i][1]}"),
+                    $kurang,
+                ));
+                foreach ($kurang as $i) {
+                    $r = $jawab[(string) $i] ?? null;
+                    if ($r instanceof \Illuminate\Http\Client\Response && $r->ok() && $r->json('data')) {
+                        $hasil[$i] = $r->json('data');
+                        Cache::put($kunci[$i], $hasil[$i], now()->addDay());
+                    }
+                }
             } catch (Throwable) {
-                return null;
+                // Tanpa tarif, pasangan itu dilewati.
             }
-        });
+        }
+
+        return $hasil;
     }
 
     /** Kunci lin "OPERATOR:KODE" -> nama lin, dari /operators. */
@@ -226,14 +264,17 @@ class CommuteController extends Controller
         });
     }
 
-    /** Graf rel per jenis (krl, mrt, lrt) dari PostGIS, disimpan di cache agar tidak dibangun tiap permintaan. */
+    /** Graf jalur per jenis (krl, mrt, lrt, atau koridor TransJakarta "tj:13B") dari PostGIS, disimpan di cache. */
     private function grafRel(string $jenis): RailGraph
     {
         static $graf = [];
         if (! isset($graf[$jenis])) {
-            $garis = Cache::rememberForever("commute:rel:{$jenis}", fn () => array_map(
+            [$sql, $ikat] = str_starts_with($jenis, 'tj:')
+                ? ["layer_id = 'jaringan_tj' AND atribut->>'koridor' = ?", [substr($jenis, 3)]]
+                : ['jenis = ?', [$jenis]];
+            $garis = Cache::remember("commute:rel:{$jenis}", now()->addDay(), fn () => array_map(
                 fn ($b) => json_decode($b->geojson, true)['coordinates'],
-                DB::select("SELECT ST_AsGeoJSON(geom, 6) AS geojson FROM fitur_peta WHERE jenis = ? AND GeometryType(geom) = 'LINESTRING'", [$jenis]),
+                DB::select("SELECT ST_AsGeoJSON(geom, 6) AS geojson FROM fitur_peta WHERE {$sql} AND GeometryType(geom) = 'LINESTRING'", $ikat),
             ));
             $graf[$jenis] = new RailGraph($garis);
         }
@@ -241,13 +282,14 @@ class CommuteController extends Controller
         return $graf[$jenis];
     }
 
-    /** Stasiun rel terdekat (maks. 3 km); bila tidak ada, halte TransJakarta terdekat (maks. 1,5 km). */
-    private function stasiunTerdekat(array $p): ?object
+    /** Calon titik naik/turun: stasiun rel terdekat (maks. 3 km) dan halte TransJakarta terdekat (maks. 1,5 km). */
+    private function kandidat(array $p): array
     {
         $pilihan = [
             ["jenis = 'stasiun'", self::MAKS_KE_STASIUN],
             ["jenis = 'halte' AND atribut->>'moda' = 'transjakarta'", self::MAKS_KE_HALTE],
         ];
+        $hasil = [];
         foreach ($pilihan as [$syarat, $maks]) {
             $s = DB::selectOne(
                 "SELECT atribut->>'kode' AS kode, nama, ST_Y(geom) AS lat, ST_X(geom) AS lng,
@@ -257,10 +299,10 @@ class CommuteController extends Controller
                 [$p[1], $p[0], $p[1], $p[0]],
             );
             if ($s && $s->meter <= $maks) {
-                return $s;
+                $hasil[] = $s;
             }
         }
 
-        return null;
+        return $hasil;
     }
 }

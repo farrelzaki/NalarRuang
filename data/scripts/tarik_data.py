@@ -368,11 +368,33 @@ def halte_biskita(d):
     return hasil
 
 
-def simpan_fitur(nama, daftar):
+def jaringan_tj():
+    """Bentuk rute GTFS TransJakarta per koridor (route_short_name = kode lin Commute Data API, mis. 13B)."""
+    z = zipfile.ZipFile(io.BytesIO(unduh(GTFS_TJ, 'gtfs_tj.zip')))
+    baca = lambda f: csv.DictReader(io.TextIOWrapper(z.open(f), 'utf-8-sig'))
+    rute = {r['route_id']: r for r in baca('routes.txt')}
+    bentuk_rute = {t['shape_id']: rute.get(t['route_id']) for t in baca('trips.txt')}
+    titik = {}
+    for r in baca('shapes.txt'):
+        titik.setdefault(r['shape_id'], []).append((int(r['shape_pt_sequence']), float(r['shape_pt_lon']), float(r['shape_pt_lat'])))
+    hasil = []
+    for sid, pts in titik.items():
+        r = bentuk_rute.get(sid)
+        if not r or len(pts) < 2:
+            continue
+        pts.sort()
+        hasil.append(fitur({'type': 'LineString', 'coordinates': [[round(x, 6), round(y, 6)] for _, x, y in pts]},
+                           layer_id='jaringan_tj', jenis='rute_tj', nama=r['route_long_name'], sumber='GTFS TransJakarta',
+                           atribut={'koridor': r['route_short_name'], 'kategori': r['route_desc'], 'warna': '#' + (r.get('route_color') or '0f1b3d')}))
+    print(f'  jaringan TransJakarta: {len(hasil)} bentuk rute', flush=True)
+    return hasil
+
+
+def simpan_fitur(nama, daftar, sederhana=None):
     """Muat ke staging, buang yang di luar Jabodetabek, lalu ekspor."""
     muat_tabel(f'f_{nama}', daftar)
     ekspor(f"""
-      SELECT json_build_object('type','Feature','properties', f.data->'properties','geometry', ST_AsGeoJSON(g.geom, 6)::json)
+      SELECT json_build_object('type','Feature','properties', f.data->'properties','geometry', ST_AsGeoJSON({f'ST_Simplify(g.geom, {sederhana})' if sederhana else 'g.geom'}, 6)::json)
       FROM tarik.f_{nama} f
       CROSS JOIN LATERAL (SELECT ST_SetSRID(ST_GeomFromGeoJSON(f.data->'geometry'), 4326) AS geom) g
       WHERE ST_IsValid(g.geom) AND ST_Intersects(g.geom, (SELECT geom FROM tarik.jabodetabek));
@@ -421,6 +443,7 @@ def main():
     simpan_fitur('ekosistem', ekosistem)
     simpan_fitur('inklusivitas', inklusivitas)
     simpan_fitur('mobilitas', mobilitas)
+    simpan_fitur('jaringan_tj', jaringan_tj(), sederhana=0.00002)
     ekspor_wilayah()
     psql('DROP SCHEMA tarik CASCADE;')
     print('Selesai. Muat ke basis data: php artisan db:seed --class=DemoPetaSeeder --force')

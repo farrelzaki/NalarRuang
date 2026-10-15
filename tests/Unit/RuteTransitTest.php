@@ -41,9 +41,10 @@ class RuteTransitTest extends TestCase
         });
 
         $this->assertNotNull($rute);
-        $this->assertSame(['krl', 'krl'], $dipanggil, 'Hanya ruas KRL yang mengikuti rel; TransJakarta lurus antarhalte.');
+        $this->assertSame(['krl', 'krl', 'tj:9'], $dipanggil, 'Ruas KRL mengikuti rel; ruas TransJakarta mengikuti jalur koridor 9.');
         $this->assertCount(2, $rute['garis']);
         $this->assertCount(5, $rute['garis'][0]);
+        $this->assertCount(3, $rute['garis'][1]);
         $this->assertCount(1, $rute['transfer']);
         $this->assertSame(8500, $rute['biaya']);
         // 39000/650 + 5 tunggu = 65; transfer 600/70 = 9; 3000/300 + 4 = 14.

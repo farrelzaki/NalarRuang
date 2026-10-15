@@ -18,7 +18,7 @@ class RuteTransit
     public const TUNGGU_TRANSFER = 4;  // menit, tiap ruas naik berikutnya
     public const KAKI = 70;            // meter per menit saat transfer di stasiun
 
-    /** Jenis garis rel di layer mobilitas untuk tiap operator; operator lain digambar lurus antarhalte. */
+    /** Jenis garis rel di layer mobilitas untuk tiap operator. TransJakarta memakai jalur koridor GTFS ("tj:KODE"). */
     public const JENIS_REL = ['KCI' => 'krl', 'MRTJ' => 'mrt', 'LRTJ' => 'lrt', 'LRTJBDB' => 'lrt'];
 
     private const LABEL = ['KCI' => 'KRL', 'MRTJ' => 'MRT', 'LRTJ' => 'LRT Jakarta', 'LRTJBDB' => 'LRT Jabodebek', 'APCGK' => 'Kalayang', 'TJ' => 'TransJakarta'];
@@ -73,7 +73,7 @@ class RuteTransit
                 $henti = [$koordinat[$dari], $koordinat[$ke]];
             }
             if (count($henti) >= 2) {
-                $garis[] = $this->ikutiRel(self::JENIS_REL[$op] ?? null, $henti, $jalurRel);
+                $garis[] = $this->ikutiRel($this->jenisJalur($op, $leg['line'] ?? ''), $henti, $jalurRel);
             }
 
             foreach ([$leg['from'] ?? null, $leg['to'] ?? null] as $s) {
@@ -102,6 +102,18 @@ class RuteTransit
             'biaya' => $biaya === null ? null : (int) $biaya,
             'rincian' => $rincian,
         ];
+    }
+
+    /** Jaringan yang diikuti ruas ini: rel (krl/mrt/lrt) atau koridor TransJakarta "tj:13B"; null = garis lurus. */
+    public function jenisJalur(string $operator, string $lin): ?string
+    {
+        if ($operator === 'TJ') {
+            $kode = explode(':', $lin)[1] ?? '';
+
+            return $kode !== '' ? "tj:{$kode}" : null;
+        }
+
+        return self::JENIS_REL[$operator] ?? null;
     }
 
     /** "KRL Bogor", "MRT", "TransJakarta 9". */
