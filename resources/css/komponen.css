@@ -137,6 +137,113 @@ input { font: inherit; }
 @keyframes nr-spin { to { transform: rotate(360deg); } }
 .nr-legend { display: flex; align-items: flex-start; gap: 8px; font: 400 10px/16.25px var(--font-sans); color: var(--ink-70); }
 .nr-legend svg { margin-top: 0.1px; }
+/* Penyesuaian Panel Layer Spasial untuk Tampilan Mobile */
+@media (max-width: 640px) {
+    /* 1. Header & Search Bar di Peta */
+    .nr-search {
+        width: calc(100vw - 32px) !important;
+        height: 44px;
+        padding: 0 10px;
+    }
+
+    .nr-search__input {
+        font-size: 12px;
+        margin-left: 8px;
+    }
+
+    /* 2. Panel Layer Spasial (Mencegah Ketutupan Header / Logo NalarRuang) */
+    .nr-rpanel {
+        width: calc(100vw - 32px) !important;
+        max-width: 100%;
+        margin-top: 10px;
+        max-height: calc(100vh - 150px) !important; /* Mencegah panel terpotong di layar pendek */
+        overflow-y: auto;
+        border-radius: var(--radius-md);
+        z-index: 10;
+    }
+
+    .nr-layer {
+        padding: 10px;
+    }
+
+    .nr-layer__title {
+        font-size: 13px;
+    }
+
+    .nr-layer__desc {
+        font-size: 9.5px;
+        line-height: 14px;
+    }
+
+    /* 3. Modal Dialog Persona (Ukuran iPhone SE 320px - 375px) */
+    .nr-dialog {
+        width: calc(100vw - 24px) !important;
+        max-width: 100% !important;
+        padding: 20px 16px !important;
+        gap: 16px !important;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    .nr-dialog__title {
+        font-size: 26px !important;
+        line-height: 30px !important;
+    }
+
+    .nr-dialog__lead {
+        margin-top: 8px !important;
+        font-size: 12px !important;
+        line-height: 18px !important;
+    }
+
+    /* Grid Persona Berubah Jadi 1 Kolom Vertikal di Mobile */
+    .nr-dialog__cards {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+    }
+
+    .nr-dcard {
+        min-height: auto !important;
+        padding: 12px 14px !important;
+    }
+
+    .nr-dcard__top {
+        padding-bottom: 8px !important;
+    }
+
+    .nr-dcard__name {
+        font-size: 18px !important;
+        margin: 4px 0 2px !important;
+    }
+
+    .nr-dcard__desc {
+        font-size: 11.5px !important;
+        line-height: 16px !important;
+    }
+
+    /* 4. Tombol Footer & Warning Modal */
+    .nr-dialog__foot {
+        padding-top: 12px !important;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px !important;
+    }
+
+    .nr-dialog__go {
+        justify-content: center;
+        width: 100%;
+        padding: 10px 0;
+        background: var(--navy-900);
+        color: var(--white);
+        border-radius: var(--radius-pill);
+        font-size: 13px;
+    }
+
+    .nr-dialog__go svg {
+        width: 18px;
+        height: 18px;
+    }
+}
 
 /* Toggle 36 × 20 */
 .nr-toggle { position: relative; width: 36px; height: 20px; border-radius: var(--radius-pill); background: var(--slate-200); flex: none; transition: background-color 160ms ease-out; }
@@ -206,26 +313,26 @@ input { font: inherit; }
 .nr-scrim--dialog { background: rgba(15, 27, 61, var(--opacity-scrim-dialog)); -webkit-backdrop-filter: blur(var(--blur-soft)); backdrop-filter: blur(var(--blur-soft)); }
 
 /* Dialog persona */
-.nr-dialog { width: 1200px; max-width: calc(100vw - 48px); padding: 64px 64px 63px; border-radius: var(--radius-lg); background: var(--stone-50); box-shadow: var(--shadow-2xl); display: flex; flex-direction: column; gap: 32px; }
-.nr-dialog__title { margin: 0; font: 400 60px/57.6px var(--font-fraunces); font-variation-settings: "SOFT" 0, "WONK" 1; color: var(--navy-900); }
-.nr-dialog__lead { margin: 16px 0 0; max-width: 597px; font: 400 18px/29.25px var(--font-sans); color: var(--ink-70); }
-.nr-dialog__cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 21.5px; }
-.nr-dcard { position: relative; min-height: 320px; padding: 33.6px; border: 1px solid var(--line); border-radius: var(--radius-lg); text-align: left; display: flex; flex-direction: column; transition: transform 160ms ease-out, background-color 160ms ease-out; }
+.nr-dialog { width: 920px; max-width: calc(100vw - 48px); padding: 36px 40px; border-radius: var(--radius-lg); background: var(--stone-50); box-shadow: var(--shadow-2xl); display: flex; flex-direction: column; gap: 24px; }
+.nr-dialog__title { margin: 0; font: 400 42px/44px var(--font-fraunces); font-variation-settings: "SOFT" 0, "WONK" 1; color: var(--navy-900); }
+.nr-dialog__lead { margin: 12px 0 0; max-width: 560px; font: 400 15px/22px var(--font-sans); color: var(--ink-70); }
+.nr-dialog__cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.nr-dcard { position: relative; min-height: 230px; padding: 20px; border: 1px solid var(--line); border-radius: var(--radius-lg); text-align: left; display: flex; flex-direction: column; transition: transform 160ms ease-out, background-color 160ms ease-out; }
 .nr-dcard:hover { background: var(--white-50); }
 .nr-dcard[aria-checked="true"] { background: var(--white); transform: scale(1.02); box-shadow: var(--shadow-xl); }
-.nr-dcard__top { display: flex; align-items: flex-start; justify-content: space-between; color: var(--ink-40); margin-bottom: auto; padding-bottom: 40px; }
-.nr-dcard__check { width: 28px; height: 28px; border-radius: var(--radius-pill); border: 1px solid var(--line); display: grid; place-items: center; color: var(--white); }
+.nr-dcard__top { display: flex; align-items: flex-start; justify-content: space-between; color: var(--ink-40); margin-bottom: auto; padding-bottom: 20px; }
+.nr-dcard__check { width: 24px; height: 24px; border-radius: var(--radius-pill); border: 1px solid var(--line); display: grid; place-items: center; color: var(--white); }
 .nr-dcard[aria-checked="true"] .nr-dcard__check { background: var(--rose-800); border-color: var(--rose-800); }
-.nr-dcard__meta { display: flex; gap: 8px; align-items: baseline; font: 700 10px/15px var(--font-sans); letter-spacing: 2px; color: var(--ink-40); }
-.nr-dcard__tag { white-space: nowrap; font-size: 9px; line-height: 13.5px; letter-spacing: 1.35px; text-transform: uppercase; }
-.nr-dcard__name { margin: 12px 0 12px; font: 700 36px/40px var(--font-fraunces); color: var(--ink-70); }
-.nr-dcard__desc { margin: 0; font: 400 16px/26px var(--font-sans); color: var(--ink-50); }
+.nr-dcard__meta { display: flex; gap: 6px; align-items: baseline; font: 700 10px/14px var(--font-sans); letter-spacing: 1.5px; color: var(--ink-40); }
+.nr-dcard__tag { white-space: nowrap; font-size: 8.5px; line-height: 12px; letter-spacing: 1px; text-transform: uppercase; }
+.nr-dcard__name { margin: 8px 0 6px; font: 700 22px/26px var(--font-fraunces); color: var(--ink-70); }
+.nr-dcard__desc { margin: 0; font: 400 12.5px/18px var(--font-sans); color: var(--ink-50); }
 .nr-dcard[aria-checked="true"] .nr-dcard__meta, .nr-dcard[aria-checked="true"] .nr-dcard__name { color: var(--navy-900); }
 .nr-dcard[aria-checked="true"] .nr-dcard__tag { color: var(--rose-800); }
 .nr-dcard[aria-checked="true"] .nr-dcard__desc { color: var(--ink-80); }
-.nr-dialog__foot { display: flex; align-items: center; justify-content: flex-end; gap: 24px; padding-top: 48px; }
-.nr-dialog__warn { margin: 0; font: 400 14px/20px var(--font-sans); color: var(--rose-800); }
-.nr-dialog__go { display: inline-flex; align-items: center; gap: 12px; font: 400 16px/24px var(--font-fraunces); color: var(--navy-900); }
+.nr-dialog__foot { display: flex; align-items: center; justify-content: flex-end; gap: 20px; padding-top: 20px; }
+.nr-dialog__warn { margin: 0; font: 400 13px/18px var(--font-sans); color: var(--rose-800); }
+.nr-dialog__go { display: inline-flex; align-items: center; gap: 10px; font: 400 15px/22px var(--font-fraunces); color: var(--navy-900); }
 .nr-dialog__go[aria-disabled="true"] { opacity: var(--opacity-disabled); }
 
 /* Popup dan label peta */

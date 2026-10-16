@@ -65,7 +65,7 @@
   .ed-col__title { font-size: 28px; line-height: 32px; margin-bottom: 12px; }
   .ed-vision, .ed-mission { padding: 56px 20px; gap: 32px; }
   .ed-vision__title, .ed-mission__title { font-size: 32px; line-height: 40px; margin-bottom: 20px; }
-  .ed-vision__text { font-size: 20px; line-height: 30px; text-align: left; }
+  .ed-vision__text { font-size: 16px; line-height: 26px; text-align: left; }
   .ed-mission__col { padding: 28px 8px; }
   .ed-mission__col + .ed-mission__col { border-top: 0.8px dashed var(--maroon-700); }
   .ed-lead-tengah { font-size: 15px; line-height: 24px; }
@@ -87,6 +87,7 @@
   .ed-faq-sec { gap: 24px; }
   .ed-faq__q { padding: 20px 0; font-size: 20px; line-height: 26px; gap: 12px; }
   .ed-faq__a { font-size: 15px; line-height: 24px; }
+  .ed-faq__a { white-space: pre-line; }
   .ed-cta > div[style] { padding-left: 20px !important; padding-right: 20px !important; }
   .ed-cta > div[style]:first-child { padding-top: 80px !important; padding-bottom: 64px !important; }
   .ed-footer, .ed-footer__base { grid-template-columns: 1fr; gap: 24px; }

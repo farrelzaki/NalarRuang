@@ -97,10 +97,10 @@ export default function Landing() {
                         </p>
                     </div>
                     <div className="ed-persona-row">
-                        <KartuFotoPersona nama="Commuter" desc={t(PERSONA.commuter.desc)} src="/images/foto-bundaran-hi.jpg" rotasi={-4} />
-                        <KartuFotoPersona nama="Social & Vibe" desc={t(PERSONA.social_vibe.desc)} src="/images/foto-interior-malam.jpg" rotasi={-1.5} />
-                        <KartuFotoPersona nama="Driver" desc={t(PERSONA.driver.desc)} src="/images/foto-aerial-jakarta.jpg" rotasi={1} />
-                        <KartuFotoPersona nama="Zen" desc={t(PERSONA.zen.desc)} src="/images/foto-aerial-jakarta.jpg" posisi="center 85%" rotasi={4} />
+                        <KartuFotoPersona nama="Commuter" desc={t(PERSONA.commuter.desc)} src="/images/landing-page-card-commuter.jpg" rotasi={-4} />
+                        <KartuFotoPersona nama="Driver" desc={t(PERSONA.driver.desc)} src="/images/landing-page-card-driver.jpeg" rotasi={-1.5} />
+                        <KartuFotoPersona nama="Social & Vibe" desc={t(PERSONA.social_vibe.desc)} src="/images/landing-page-card-sosial.jpeg" rotasi={1} />
+                        <KartuFotoPersona nama="Zen" desc={t(PERSONA.zen.desc)} src="/images/landing-page-card-zen.jpeg" posisi="center 85%" rotasi={4} />
                     </div>
                 </section>
 
@@ -129,16 +129,16 @@ export default function Landing() {
                     </div>
                     <div className="ed-tiles">
                         <div className="ed-tiles__col">
-                            <TileLayer judul={t('Historis & Risiko', 'History & Risk')} src="/images/foto-bundaran-hi.jpg" />
-                            <TileLayer judul={t('Mobilitas & Transit', 'Mobility & Transit')} src="/images/foto-aerial-jakarta.jpg" tinggi={300} />
+                            <TileLayer judul={t('Historis & Risiko', 'History & Risk')} src="/images/foto-historis-dan-risiko.jpeg" />
+                            <TileLayer judul={t('Mobilitas & Transit', 'Mobility & Transit')} src="/images/foto-mobilitas-dan-transit.jpeg" tinggi={300} />
                         </div>
                         <div className="ed-tiles__col" style={{ marginTop: 48 }}>
-                            <TileLayer judul={t('Ekosistem Mikro', 'Micro Ecosystem')} src="/images/foto-aerial-jakarta.jpg" posisi="center 80%" tinggi={276} />
-                            <TileLayer judul={t('Mesin Waktu', 'Time Machine')} src="/images/foto-interior-malam.jpg" />
+                            <TileLayer judul={t('Ekosistem Mikro', 'Micro Ecosystem')} src="/images/foto-ekosistem-mikro.jpeg" posisi="center 80%" tinggi={276} />
+                            <TileLayer judul={t('Mesin Waktu', 'Time Machine')} src="/images/foto-mesin-waktu.jpeg" />
                         </div>
                         <div className="ed-tiles__col">
-                            <TileLayer judul={t('Inklusivitas', 'Inclusivity')} src="/images/foto-bundaran-hi.jpg" posisi="center 90%" tinggi={216} />
-                            <TileLayer judul={t('Legalitas Lahan', 'Land Legality')} src="/images/foto-aerial-jakarta.jpg" posisi="center 20%" tinggi={260} />
+                            <TileLayer judul={t('Inklusivitas', 'Inclusivity')} src="/images/foto-inklusivitas.jpeg" posisi="center 90%" tinggi={216} />
+                            <TileLayer judul={t('Legalitas Lahan', 'Land Legality')} src="/images/foto-legalitas-lahan.png" posisi="center 20%" tinggi={260} />
                         </div>
                     </div>
                 </section>
@@ -169,7 +169,7 @@ export default function Landing() {
                                     no: '04',
                                     judul: t('Tampilkan', 'Present'),
                                     teks: t('Rekomendasi 3 besar, Point Inspector, dan hasil Commute Simulator disajikan.', 'Top 3 recommendations, the Point Inspector, and Commute Simulator results are presented.'),
-                                    foto: '/images/foto-interior-malam.jpg',
+                                    foto: '/images/foto-tahap-tampil.jpeg',
                                 },
                             ]}
                         />
@@ -210,6 +210,68 @@ export default function Landing() {
                                 q: t('Apakah preferensiku disimpan?', 'Are my preferences stored?'),
                                 a: t('Tidak. Pilihan persona hanya hidup selama sesi browser dan tidak dikirim untuk disimpan ke server.', 'No. Your persona choices live only in the browser session and are never sent to the server for storage.'),
                             },
+                            {
+                                q: t(
+                                    'Apa makna dari keempat pilihan persona gaya hidup di NalarRuang?',
+                                    'What is the meaning of the four lifestyle persona choices in NalarRuang?'
+                                ),
+                                a: t(
+                                    `Keempat persona ini adalah algoritma sistem kami untuk mencocokkan kondisi suatu kawasan dengan prioritas harian Anda: \n\n
+
+                            Commuter: Cocok bagi Anda yang mengandalkan transportasi umum. Sistem memprioritaskan kawasan Transit-Oriented Development (TOD) dan lokasi dengan akses jalan kaki terdekat menuju stasiun atau halte.
+
+                            Driver: Didesain khusus bagi pengguna kendaraan pribadi (mobil). Fokus pencarian jarak radius dengan gerbang tol terdekat.
+
+                            Social & Vibe: Ditujukan bagi Anda yang mencari gaya hidup aktif dan dinamis. Sistem akan merekomendasikan lokasi yang dikelilingi oleh pusat hiburan, deretan kafe, dan kawasan komersial.
+
+                            Zen: Diciptakan bagi pencari ketenangan dan privasi. Sistem secara ketat menyaring kawasan yang asri, dekat dengan ruang terbuka hijau (RTH), serta memiliki tingkat polusi udara yang rendah.`,
+
+                                    `These four personas are our system algorithms to match area conditions with your daily priorities:
+
+                            Commuter: Ideal for those who rely on public transportation. The system prioritizes Transit-Oriented Development (TOD) areas and walkability to the nearest stations or bus stops.
+
+                            Driver: Specifically designed for private vehicle (car) users. Focuses on search radius to the nearest toll gates.
+
+                            Social & Vibe: Aimed at those seeking an active and dynamic lifestyle. The system recommends locations surrounded by entertainment hubs, cafes, and commercial areas.
+
+                            Zen: Created for those seeking peace and privacy. The system strictly filters lush areas close to green open spaces (RTH) with low air pollution levels.`
+                                )
+                            },
+                            {
+                                q: t(
+                                    'Apa fungsi dari keenam layer spasial pada peta NalarRuang?',
+                                    'What is the function of the six spatial layers on the NalarRuang map?'
+                                ),
+                                a: t(
+                                    `Peta interaktif kami menggunakan 6 tumpukan data spasial (layer) yang dapat Anda atur secara dinamis untuk mengevaluasi suatu kawasan secara holistik:
+
+                            Historis & Risiko: Memetakan tingkat keamanan lingkungan dari potensi banjir, rekam jejak lahan, tingkat kriminalitas, polusi udara (AQI), hingga kebisingan.
+
+                            Ekosistem Mikro & Gaya Hidup: Menampilkan distribusi fasilitas umum, komersial, dan pusat aktivitas di sekitar kawasan hunian.
+
+                            Inklusivitas: Mengidentifikasi ketersediaan infrastruktur dan fasilitas lingkungan yang ramah bagi penyandang disabilitas.
+
+                            Mobilitas & Transit: Memetakan letak titik transit, rute transportasi umum, dan cakupan area yang dapat dijangkau dalam waktu tertentu (isochrone).
+
+                            Mesin Waktu (Future Planning): Memungkinkan Anda melihat proyeksi pembangunan tata ruang dan infrastruktur masa depan melalui fitur timeline slider.
+
+                            Legalitas Lahan: Menampilkan informasi batas persil tanah publik (dari data ATR/BPN) untuk membantu memvalidasi keabsahan administrasi tanah tersebut.`,
+
+                                    `Our interactive map uses 6 spatial data layers that you can adjust dynamically to evaluate an area holistically:
+
+                            History & Risk: Maps environmental safety from flood risks, land history, crime rates, air pollution (AQI), to noise levels.
+
+                            Micro Ecosystem & Lifestyle: Displays the distribution of public facilities, commercial spots, and activity hubs around residential areas.
+
+                            Inclusivity: Identifies the availability of infrastructure and environmental facilities accessible to people with disabilities.
+
+                            Mobility & Transit: Maps transit points, public transit routes, and reachable area coverage within a certain time (isochrone).
+
+                            Time Machine (Future Planning): Allows you to view spatial development projects and future infrastructure via a timeline slider feature.
+
+                            Land Legality: Displays public land boundary parcel information (from ATR/BPN data) to help validate land administrative authenticity.`
+                                )
+                            }
                         ]}
                     />
                 </section>

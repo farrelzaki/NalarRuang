@@ -6,7 +6,7 @@ export const PERSONA_IDS: Persona[] = ['commuter', 'driver', 'social_vibe', 'zen
 
 export const PERSONA: Record<Persona, { label: string; ikon: string; no: string; tag: Dwi; desc: Dwi }> = {
     commuter: { label: 'Commuter', ikon: 'tram-front', no: '01', tag: ['Akses transit paling utama', 'Transit access comes first'], desc: ['Mengutamakan akses transit, seperti stasiun dan halte.', 'Prioritises transit access, such as stations and bus stops.'] },
-    driver: { label: 'Driver', ikon: 'car', no: '02', tag: ['Jalan lancar, tol dekat', 'Smooth roads, toll nearby'], desc: ['Mengutamakan akses jalan utama dan gerbang tol.', 'Prioritises access to main roads and toll gates.'] },
+    driver: { label: 'Driver', ikon: 'car', no: '02', tag: ['Dekat Gerbang Tol', 'Toll Gate Nearby'], desc: ['Fokus pencarian jarak radius dengan gerbang tol terdekat.', 'Prioritises radius distance to the nearest toll gates.'] },
     social_vibe: { label: 'Social & Vibe', ikon: 'coffee', no: '03', tag: ['Dekat seru-serunya kota', 'Close to the city buzz'], desc: ['Mengutamakan hiburan, kafe, dan restoran.', 'Prioritises entertainment, cafés, and restaurants.'] },
     zen: { label: 'Zen', ikon: 'leaf', no: '04', tag: ['Tenang, hijau, lega', 'Quiet, green, spacious'], desc: ['Mengutamakan keamanan, minim polusi, dan ruang terbuka hijau.', 'Prioritises safety, low pollution, and green open space.'] },
 };
@@ -38,7 +38,7 @@ export const LAYERS: { key: LayerKey; title: Dwi; desc: Dwi; grid?: boolean; leg
 ];
 
 /** Sumber data menurut keputusan kelompok (docs/RENCANA.md bagian 2a). */
-export const SUMBER = ['InaRISK (BNPB)', 'Batas desa BIG', 'Pantau Banjir Jakarta', 'IQAir', 'Overpass API (OSM)', 'Commute Data Platform', 'GTFS TransJakarta', 'Biskita Trans Pakuan', 'BHUMI ATR/BPN'];
+export const SUMBER = ['InaRISK (BNPB)', 'Batas desa BIG', 'Pantau Banjir Jakarta', 'IQAir', 'Overpass API (OSM)', 'Commute Data Platform', 'GTFS TransJakarta', 'BHUMI ATR/BPN'];
 
 export function cx(...kelas: (string | false | null | undefined)[]): string {
     return kelas.filter(Boolean).join(' ');

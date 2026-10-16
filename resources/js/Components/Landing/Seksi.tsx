@@ -16,9 +16,8 @@ export function HeroLanding({ onMenu }: { onMenu: () => void }) {
                     <button type="button" className="ed-hbtn" onClick={onMenu}>
                         MENU<span style={{ color: 'var(--hero-muted)' }}>∷</span>
                     </button>
-                    <span className="ed-brand">
-                        <img src="/images/logo-nalarruang.svg" width={31} height={31} alt="" />
-                        NalarRuang
+                    <span className="nr-wordmark" style={{ color: 'var(--cream-100)', fontSize: 31 }}>
+                        Nalar<i>Ruang</i>
                     </span>
                     <span className="ed-header__kanan">
                         <PilihBahasa gelap />
@@ -41,6 +40,12 @@ export function HeroLanding({ onMenu }: { onMenu: () => void }) {
                         {t('Kota yang terbaca.', 'A city you can read.')}
                     </h1>
                     <p className="ed-hero__sub">{t('Temukan ruang hidup idealmu dengan analisis data spasial perkotaan yang komprehensif.', 'Find your ideal living space with comprehensive urban spatial data analysis.')}</p>
+                    <div style={{ marginTop: 28 }}>
+                        <Link className="ed-btn" href="/peta">
+                            {t('Buka Peta Interaktif', 'Open Interactive Map')}
+                            <Ikon name="arrow-right" size={16} />
+                        </Link>
+                    </div>
                 </div>
             </div>
             <div className="ed-marquee" aria-hidden="true">
@@ -174,10 +179,6 @@ export function KartuFitur({ judul, desc, gambar }: { judul: string; desc: strin
             </div>
             <h3 className="ed-feature__title">{judul}</h3>
             <p className="ed-body">{desc}</p>
-            <Link className="ed-link" href="/peta" style={{ marginTop: 20 }}>
-                {t('Pelajari', 'Learn more')}
-                <Ikon name="arrow-up-right" size={16} />
-            </Link>
         </article>
     );
 }
@@ -241,7 +242,6 @@ export function CobaSekarang() {
                 <div className="ed-try__shot" style={{ backgroundImage: 'url(/images/coba-sekarang.jpg)' }} />
                 <div className="ed-try__veil" />
                 <div className="ed-try__inner">
-                    <span className="ed-try__tag">{t('Interaktif', 'Interactive')}</span>
                     <h2 className="ed-try__title">{t('Coba Sekarang', 'Try It Now')}</h2>
                     <p className="ed-try__text">{t('Gunakan fitur pencarian, filter layer, dan persona untuk mensimulasikan pencarian kawasan idealmu.', 'Use search, layer filters, and personas to simulate finding your ideal area.')}</p>
                     <Link className="ed-try__btn" href="/peta">
@@ -266,7 +266,15 @@ export function AccordionFAQ({ butir }: { butir: { q: string; a: string }[] }) {
                             {it.q}
                             <Ikon name={terbuka ? 'minus' : 'plus'} size={28} strokeWidth={1.5} />
                         </button>
-                        {terbuka && <p className="ed-faq__a">{it.a}</p>}
+                        
+                        {/* Kode Solusi 3 diletakkan di sini untuk menggantikan baris lama */}
+                        {terbuka && (
+                            <div className="ed-faq__a space-y-3">
+                                {it.a.split('\n\n').map((paragraf, idx) => (
+                                    <p key={idx}>{paragraf}</p>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 );
             })}
@@ -288,34 +296,18 @@ export function BandCTA() {
                     {t('Pilih persona, buka peta, dan lihat kotamu dari sudut yang berbeda.', 'Choose a persona, open the map, and see your city from a different angle.')}
                 </p>
                 <Link className="ed-btn" href="/peta">
-                    {t('Mulai Cari Hunian', 'Start Finding a Home')}
+                    {t('Cari Sekarang!', 'Find Now!')}
                 </Link>
             </div>
             <div style={{ padding: '0 73px 38px' }}>
                 <div className="ed-footer">
                     <div>
-                        <div className="ed-footer__label">{t('Hubungi Kami', 'Contact Us')}</div>
-                        Sekolah Vokasi IPB
-                        <br />
-                        Bogor, Jawa Barat, Indonesia
+                        <div className="ed-footer__label">{t('Lokasi & Kontak', 'Location & Contact')}</div>
+                        <p style={{ fontStyle: 'italic', opacity: 0.7 }}>Coming Soon</p>
                     </div>
                     <div>
-                        <div className="ed-footer__label">{t('Kontak', 'Contact')}</div>
-                        {t('Kerja Sama', 'Partnerships')}
-                        <br />
-                        kolaborasi@nalaruang.id
-                        <br />
-                        Media
-                        <br />
-                        media@nalaruang.id
-                    </div>
-                    <div>
-                        <div className="ed-footer__label">{t('Ikuti', 'Follow')}</div>
-                        {['instagram', 'linkedin', 'youtube'].map((s) => (
-                            <span key={s} className="ed-social">
-                                <Ikon name={s} size={18} label={s} />
-                            </span>
-                        ))}
+                        <div className="ed-footer__label">{t('Media Sosial', 'Social Media')}</div>
+                        <p style={{ fontStyle: 'italic', opacity: 0.7 }}>Coming Soon</p>
                     </div>
                 </div>
                 <div className="ed-footer__base">
