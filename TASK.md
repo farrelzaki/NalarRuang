@@ -28,58 +28,35 @@ Gunakan file ini untuk mencatat pekerjaan proyek. Satu task harus memiliki tujua
 
 ## Task Aktif
 
-### [~] Menunggu bobot model dari Fajar
+### [~] Penyelarasan dokumen dan artifact ke desain final + masukan Izdihar (Tahap A–C)
 
-- Status: [~] Model asli terpasang di public/model/sudepi.onnx, siap diuji fisik Farrel di perangkat
-- Fase: Verification
+- Status: [~] Tahap A, B, C selesai, menunggu tinjauan pengguna
+- Fase: Handoff
 - Mode: competition
 - Prioritas: Tinggi
-- Tujuan: Menyambungkan model sungguhan, lalu mengkalibrasi ambang dengan uang asli dan membuktikan seluruh alur berjalan dalam mode pesawat.
-- Konteks dan bukti awal: Seluruh aplikasi selesai dan TERBUKTI berjalan utuh Fase 1 sampai 4 di Galaxy M32 memakai model tiruan. 204 tes lulus. Riwayat tersimpan di IndexedDB perangkat. Rinciannya di PROJECT_STATE.md dan docs/PROGRES.md.
-- Scope termasuk: Memasang `public/model/sudepi.onnx`; menjalankan `model/periksa_onnx.py`; uji tiap pecahan dengan uang sungguhan; kalibrasi ambang pada uang lecek; uji mode pesawat; uji layar tertutup telapak tangan.
-- Non-goals: Menambah fitur baru. Cakupan dibekukan.
-- Dependensi: **`public/model/sudepi.onnx` dari Fajar.**
+- Tujuan: Semua dokumen mengikuti desain Figma final (section "putih kayak bhumi yang udah di revisi") dan masukan Izdihar 29 Sep 2026.
+- Konteks dan bukti awal: Figma section revisi dinyatakan final oleh pengguna; desain yang diikuti bila berbeda dengan dokumen, termasuk SRS/WBS. Masukan Izdihar: peta di Figma hanya ilustrasi (area kotak, pin di Monas, rute lurus tidak ditiru), sembilan sumber data, ambang bintang 1,2/2,5/5 km (15-minute city).
+- Keputusan pengguna: skor titik memakai satu fasilitas utama per persona. Revisi 29 Sep (konfirmasi Izdihar, SRS v1.2): Zen = kualitas udara (sehat 3 … berbahaya 0) dikurangi jarak RTH; wilayah = centang cocok/belum cocok, tanpa bintang (TBD-09 selesai). Warna teks navy 40–55% dipertahankan sesuai Figma dengan catatan kontras.
+- Scope termasuk: `docs/sumber/SRS.md` (v1.1, FR-22 landing), `docs/sumber/WBS.md` (1.4.8 baru), `design-system.md` v2.0 (termasuk Kartografi), `prd.md` v1.1, `docs/SISTEM.md`, `docs/RENCANA.md`, `docs/KOLABORASI.md`, `CLAUDE.md`, `AGENTS.md`, catatan arsip di analisis UI/UX, artifact Audit Sumber Data.
+- Tahap B: artifact Design System dibangun ulang (tokens v3, 39 komponen, peta tiruan `CuplikanPeta`, aset Desain dan Foto baru). Tahap C: kanvas contoh berisi lima layar (Visual Explorer, Top 3, Simulator Rute, dialog persona, drawer).
+- Non-goals: Menulis kode aplikasi.
+- Dependensi: Tidak ada
 
 Kriteria selesai:
 
-- [x] `python model/periksa_onnx.py public/model/sudepi.onnx` lolos (3.1 MB, [1, 3, 320, 320] -> [1, 12, 2100])
-- [x] Ketujuh pecahan dikenali benar satu per satu dengan uang sungguhan (terverifikasi Farrel di M32, 18 Sept 2026)
-- [x] Kalibrasi ambang keyakinan (0.85 -> 0.70) untuk multi-lembar & presensi koin — ADR-0010
-- [ ] Latensi inferensi terukur di bawah 250 ms di Galaxy M32
-- [ ] Satu transaksi utuh berhasil dengan uang sungguhan
-- [ ] Seluruh alur berjalan dalam mode pesawat
-- [ ] Satu transaksi diselesaikan dengan layar tertutup telapak tangan
-- [x] Model tiruan DIHAPUS dari `public/model/` (sudah diganti model asli 3.1 MB)
-- [x] Model tiruan dihapus dari perangkat Samsung Galaxy M32 (deploy ulang sukses)
-
-Risiko dan asumsi:
-
-- Risiko tertinggi: urutan kelas di `data.yaml` tidak cocok dengan `TABEL_DENOMINASI`. Kini bisa dideteksi mesin lewat `model/periksa_kelas.py`, tetapi kecocokan bentuk tidak menjamin kecocokan urutan — hanya uang sungguhan yang bisa membuktikannya.
-- Risiko: model tiruan tertinggal dan terpakai saat demo. Ia selalu menyebut Rp50.000 tanpa melihat apa pun. Penanda `public/model/MODEL_TIRUAN` ada untuk ini.
-- Asumsi: bobot diekspor lewat `model/ekspor.py`, sehingga parameter ADR-0001 dan ADR-0002 otomatis benar.
-
-Rencana verifikasi:
-
-- `model/periksa_onnx.py`, lalu `pnpm cap:run`
-- Skenario `docs/DEMO.md` tiga kali berturut-turut tanpa gagal
-- Mode pesawat menyala sepanjang pengujian
+- [x] Semua nilai visual di `design-system.md` berasal dari frame Figma revisi atau ditandai Improvisasi.
+- [x] SRS/WBS/PRD/SISTEM konsisten: FR-01–22, ambang bintang, ikon toggle mobil, drawer, sumber data.
+- [x] Tidak ada rujukan tersisa ke hamburger, orang berjalan, 5-minute city, atau panel kaca di dokumen aktif.
+- [x] Artifact Design System dan kanvas contoh mengikuti desain final.
+- [x] Peta tiruan diganti peta OSM asli dengan data nyata (kelurahan, rel, stasiun, RTH, POI, rute OSRM, bahaya banjir InaRISK); kanvas enam layar dibandingkan berdampingan dengan Figma.
+- [ ] Ditinjau pengguna.
 
 Checkpoint dan approval:
 
-- Scope: Disetujui
-- Discovery: Selesai
-- Analysis: Selesai
-- Plan: Selesai
-- Approval sebelum implementasi: Disetujui
-- Verification: Berjalan — model asli terpasang, tinggal verifikasi urutan kelas dengan uang fisik
-
-Catatan:
-
-- Dataset hibrida terpadu (Delta 46k + Multi-lembar 4.6k + Koin 8x, total 59.148 citra, 64.624 bbox seimbang) selesai dibuat di `model/dataset_hibrida_sudepi.zip` (1049 MB).
-- Notebook pelatihan `model/latih.ipynb` telah disiapkan untuk A100-80GB Colab Pro (`batch=64`, `mosaic=0.3`, `copy_paste=0.15`, `close_mosaic=15`).
-- Model hibrida emas FP32 presisi tinggi (`sudepi.onnx`, 11.58 MB) RESMI TERPASANG di `public/model/sudepi.onnx`.
-- Lolos `model/periksa_onnx.py` ([1, 3, 320, 320] -> [1, 12, 2100], 8 kelas resmi).
-- Kode Farrel terbaru (pengenal suara luring MFCC+DTW, pemisahan alat baca uang ADR-0014, commit `7516af4`) disinkronkan: 301 tes lulus, tsc bersih, build lolos (2.54s).
+- Scope: Disetujui (29 Sep 2026)
+- Discovery: Selesai (ekstraksi Figma 174:2)
+- Plan: Disetujui ("ikuti desain ini ... ubah SRS dan WBS")
+- Verification: grep istilah lama, `git diff --stat`
 
 <!--
 Simpan hanya satu task yang sedang dikerjakan di bagian ini.
@@ -128,46 +105,75 @@ Catatan:
 
 ## Backlog
 
-### [ ] Selesaikan hutang latensi — WAJIB sebelum penjurian
+### [ ] Tahap 2 dokumentasi setelah UI/UX masuk
+
+- Prioritas: Sedang
+- Pemicu: prototipe Figma (TBD-02) tersedia
+- Tujuan: Melengkapi `docs/SISTEM.md` (arsitektur, kontrak API, antarmuka) sesuai desain.
+
+### [ ] Konfirmasi peran QGIS ke dosen (TBD-QGIS)
 
 - Prioritas: Tinggi
-- Pemicu: **begitu seluruh sistem selesai dan stabil**
-- Tujuan: Menyelesaikan selisih antara latensi terukur (~700 ms) dan angka yang
-  dijanjikan Bab II exsum (di bawah 250 ms).
-- Konteks: Terukur di Galaxy M32 dengan YOLOv8n berbobot acak. Penyebabnya ONNX
-  Runtime berjalan satu utas padahal perangkat punya delapan inti, karena WASM
-  multithread butuh cross-origin isolation yang tidak disediakan server lokal
-  Capacitor.
-- Sudah diuji dan gagal menutup jarak: INT8 (hanya 8% lebih cepat) dan
-  menurunkan `imgsz` (256 → ~480 ms, 192 → ~300 ms).
-- Tiga pilihan lengkap dengan konsekuensinya ada di ADR-0009.
+- Tujuan: Tahu apakah QGIS cukup untuk pengolahan data, atau harus menyajikan layer (QGIS Server WMS/WFS, qgis2web). Menentukan arsitektur penyajian layer.
+- Batas waktu: sebelum layer ketiga dikerjakan di Sprint 1.
 
-Kriteria selesai:
+### [ ] 1.2.2 Desain basis data spasial (bersama Galih)
 
-- [ ] Satu dari tiga pilihan ADR-0009 dipilih Farrel
-- [ ] ADR-0009 diubah dari DITUNDA menjadi Diterima, dengan alasannya
-- [ ] Kalau pilihannya memperbaiki angka: seluruh dokumen yang menyebut 250 ms
-      ikut diperbarui, termasuk `docs/PROGRES.md` dan bahan presentasi
+- Prioritas: Tinggi
+- Tujuan: ERD dan DDL PostGIS untuk enam layer. Menutup TBD-04. Status Sprint 0 belum diketahui.
 
-Catatan: **jangan menyentuh latensi sebelum sistem selesai.** Mengubah `imgsz`
-memaksa Fajar melatih ulang, dan menyentuh kode Java di jalur kritis berisiko
-merusak yang sudah terbukti berjalan.
+### [ ] 1.2.4 Boilerplate Laravel + Inertia + React + PostGIS
+
+- Prioritas: Tinggi
+- Tujuan: Proyek berjalan lokal dan tersambung ke PostGIS. Isi *Perintah* dan *Versi yang dikunci* di `CLAUDE.md`, versi diverifikasi ke Packagist/npm.
+
+### [ ] 1.2.5 Staging gratis
+
+- Prioritas: Tinggi
+- Tujuan: Staging bisa menerima deploy Sprint 1.
+
+### [ ] 1.4.6.1 Migrasi skema PostGIS
+
+- Prioritas: Tinggi · Sprint 1
+- Tujuan: Semua tabel dan indeks GIST terbentuk tanpa error migrasi.
+
+### [ ] 1.4.1 dan 1.4.3 Core Map dan multi-layer (bersama Nur'Afia, Adzkia)
+
+- Prioritas: Tinggi · Sprint 1–3
+
+### [ ] 1.4.6.2 RESTful API dan 1.4.6.3 optimasi query (bersama Adzkia)
+
+- Prioritas: Tinggi · Sprint 2
+- Catatan: pembagian endpoint masih usulan di `docs/RENCANA.md` bagian 4.
+
+### [ ] 1.4.5 Persona Grading dan Commute Simulator (bersama Galih, Nur'Afia)
+
+- Prioritas: Sedang · Sprint 3
+- Dependensi: TBD-05, TBD-09, TBD-ROUTE.
+
+### [ ] 1.5.3–1.5.5 Debugging, deployment produksi, dokumentasi
+
+- Prioritas: Sedang · Release Sprint
 
 <!-- Tambahkan task berikutnya di sini tanpa perlu membuat rencana panjang. Gunakan status [ ]. -->
 
 ## Selesai
 
-- [x] **Bootstrap proyek** — scaffold Vite 7 + React 19 + TS strict, `src/contracts/`, mock. Diverifikasi: `tsc` bersih, 9 tes, build tanpa referensi jaringan. (`0fca155`)
-- [x] **Logika inti transaksi** — reducer FSM, kalkulator kembalian, presensi koin. Diverifikasi: 45 tes termasuk seluruh transisi tidak sah. (`7d358fb`)
-- [x] **Skema 8 kelas** — ADR-0007, kontrak diubah dalam commit tersendiri. (`77c887a`, `820d89c`)
-- [x] **Jalur penglihatan** — decode, NMS class-agnostic, voting temporal, worker ONNX, pemindai kamera. Diverifikasi: 92 tes, bundling worker diuji langsung. (`1722f5e`, `b21a075`)
-- [x] **Rantai build Android** — Capacitor 7.6.9, izin kamera, APK terbentuk. Diverifikasi: BUILD SUCCESSFUL, cache Gradle hangat (14 detik setelah yang pertama). (`45754cf`)
-- [x] **Audio dan platform** — penyusun bilangan Indonesia, pengucap, pembungkus Capacitor. Diverifikasi: 39 tes bilangan termasuk seluruh kaidah "se-". (`522e1e4`)
-- [x] **Antarmuka Fase 1–4** — pola dua tombol, roda taktil, Merchant Display. Diverifikasi: 155 tes termasuk integrasi urutan ucapan. (`75e9857`)
-- [x] **Lima bug antarmuka** — ketukan ditolak setelah nominal diucapkan, tombol bersarang, label menjanjikan yang ditolak, path model salah di worker, label bertabrakan TalkBack. Semuanya gagal dalam diam dan tidak tertangkap tes. (`d9438e3`, `7976c1f`, `ae4267f`)
-- [x] **Lapisan data** — 8 object store Dexie, penyangga pemindaian, riwayat transaksi. Diverifikasi: 28 tes dengan IndexedDB sungguhan, plus `selesai` ×16 tercatat di perangkat.
-- [x] **Audio Indonesia** — 34 potongan WAV dibundel, tiga bug suara diperbaiki lewat uji dengar. (`fa167e9`, `c6b56e1`, `ca94d8f`)
-- [x] **Berkas bantu model** — `data.yaml`, `periksa_kelas.py`, `petakan_dataset.py`, `periksa_onnx.py`, `buat_model_uji.py`, `ekspor.py`. Semuanya diuji menangkap kesalahan yang disengaja.
-- [x] **Validasi pipeline utuh di perangkat** — Fase 1 sampai 4 sampai layar Transaksi Selesai memakai model tiruan, di Galaxy M32.
-
 <!-- Pindahkan task selesai ke sini jika riwayatnya masih berguna. Sertakan hasil dan verifikasi terakhir. -->
+
+### [x] Restrukturisasi dokumentasi NalarRuang (tahap 1)
+
+- Hasil: konteks proyek lama dihapus; `docs/` menjadi RENCANA, SISTEM, KOLABORASI; dokumen resmi di `docs/sumber/`. Sudah di-commit.
+
+### [~] PRD, design system, dan kanvas wireframe NalarRuang
+
+- Status: [~] Selesai dikerjakan, menunggu tinjauan pengguna dan desainer
+- Mode: competition · Scope dan Plan disetujui 27 Sep 2026 (dua tahap)
+- Hasil:
+  - `prd.md` di root: 27 user story, FR-01–21, UC-01–07, BR-1–18, NFR-01–16, OQ-01–10.
+  - `design-system.md` di root (v1.1, nilai dari Figma `ui-nalar-ruang`).
+  - Artifact Design System https://claude.ai/artifact/7R7qPFSeWx7aVjzCt4GxDR: 118 warna, 58 gaya teks, 37 komponen React (`window.NalarRuang`) dengan preview, logo, 12 screenshot.
+  - Kanvas Design https://claude.ai/artifact/LtCEm8pdhnp5MUtQ2bTtJY: 4 layar dirakit dari komponen design system.
+- Sumber: `docs/prompt/*.md`, `docs/sumber/`, `docs/design/`, Figma node 159:4009.
+- Verifikasi: checklist PRD (FR/UC/BR lengkap, istilah terlarang hanya di rekonsiliasi); `node --check` dan render server 37/37 komponen + 37/37 preview tanpa peringatan; tidak ada hex atau `var()` di luar `tokens.json`.
+- Belum diverifikasi: tampilan artifact dan kanvas dilihat langsung di browser; lima nilai hasil sampling (lihat OQ-10 `design-system.md`).
