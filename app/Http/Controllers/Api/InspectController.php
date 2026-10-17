@@ -75,6 +75,11 @@ class InspectController extends Controller
         if ($terdekat['commuter']) {
             $ringkasan[] = ['jenis' => 'stasiun', 'teks' => 'Stasiun '.($terdekat['commuter']->nama ?: '').' '.$this->format($terdekat['commuter']->meter)];
         }
+        if ($terdekat['driver']) {
+            // Nama gerbang di OSM tidak seragam ("Toll Gate X", "Gerbang Tol X", "X"): seragamkan.
+            $nama = trim((string) preg_replace('/^(toll gate|gerbang tol|gt)\s+/i', '', (string) $terdekat['driver']->nama));
+            $ringkasan[] = ['jenis' => 'tol', 'teks' => ($nama !== '' ? "Gerbang Tol {$nama}" : 'Gerbang tol terdekat').' '.$this->format($terdekat['driver']->meter)];
+        }
         if ($terdekat['social_vibe']) {
             $ringkasan[] = ['jenis' => 'hijau', 'teks' => 'Kafe atau restoran terdekat '.$this->format($terdekat['social_vibe']->meter)];
         }

@@ -99,6 +99,8 @@ export function teksServer(s: string, bahasa: Bahasa = aktif): string {
     const aturan: [RegExp, (...m: string[]) => string][] = [
         [/^Stasiun (.*) ([\d.,]+ k?m)$/, (_, n, j) => `${n ? n + ' Station' : 'Station'} ${desimal(j)}`],
         [/^Kafe atau restoran terdekat ([\d.,]+ k?m)$/, (_, j) => `Nearest café or restaurant ${desimal(j)}`],
+        [/^Gerbang Tol (.+) ([\d.,]+ k?m)$/, (_, n, j) => `${n} toll gate ${desimal(j)}`],
+        [/^Gerbang tol terdekat ([\d.,]+ k?m)$/, (_, j) => `Nearest toll gate ${desimal(j)}`],
         [/^Area bahaya banjir kelas (\w+) \(InaRISK\)$/, (_, k) => `Flood hazard area, ${KELAS[k] ?? k} class (InaRISK)`],
         [/^Di luar area bahaya banjir InaRISK$/, () => 'Outside InaRISK flood hazard area'],
         [/^Di luar area data contoh$/, () => 'Outside the sample data area'],

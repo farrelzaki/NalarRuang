@@ -2,7 +2,7 @@
 import type { CommuteResponse } from '@/types';
 import { teksServer, useBahasa } from '@/lib/bahasa';
 import { cx, rupiah } from '@/lib/nalar';
-import { Ikon, Keadaan } from './Dasar';
+import { Ikon, Keadaan, Toggle } from './Dasar';
 
 export type Moda = 'mobil' | 'transit';
 export type TitikRute = { lat: number; lng: number; label: string } | null;
@@ -15,12 +15,14 @@ type Props = {
     memuat: boolean;
     moda: Moda;
     onModa: (m: Moda) => void;
+    lewatTol: boolean;
+    onLewatTol: () => void;
     onPilihDiPeta: (titik: 'a' | 'b') => void;
     onReset: () => void;
     onTutup: () => void;
 };
 
-export function SimulatorRute({ a, b, menunggu, hasil, memuat, moda, onModa, onPilihDiPeta, onReset, onTutup }: Props) {
+export function SimulatorRute({ a, b, menunggu, hasil, memuat, moda, onModa, lewatTol, onLewatTol, onPilihDiPeta, onReset, onTutup }: Props) {
     const { t, bahasa } = useBahasa();
     const lengkap = !!(a && b && hasil);
     const baris = (huruf: 'A' | 'B', titik: TitikRute, kunci: 'a' | 'b') => (
@@ -109,11 +111,21 @@ export function SimulatorRute({ a, b, menunggu, hasil, memuat, moda, onModa, onP
                 {kotak('mobil', 'car', t('Mobil', 'Car'))}
                 {kotak('transit', 'tram-front', 'Transit')}
             </div>
+            {lengkap && moda === 'mobil' && (
+                <div className="nr-route__opsi">
+                    <span>{t('Lewat jalan tol', 'Use toll roads')}</span>
+                    <Toggle checked={lewatTol} label={t('Lewat jalan tol', 'Use toll roads')} onChange={onLewatTol} />
+                </div>
+            )}
             {memuat && <Keadaan kind="memuat" title={t('Menghitung rute', 'Calculating route')} />}
             {lengkap && (
                 <p className="nr-route__foot">
                     {rincian}
-                    {moda === 'mobil' && t('Biaya mobil = BBM + perkiraan tol. ', 'Car cost = fuel + estimated tolls. ')}
+                    {moda === 'mobil' && hasil?.pribadi?.biaya_bbm != null &&
+                        t(
+                            `BBM ${rupiah(hasil.pribadi.biaya_bbm)} + tol ${rupiah(hasil.pribadi.biaya_tol ?? 0)} (perkiraan). `,
+                            `Fuel ${rupiah(hasil.pribadi.biaya_bbm)} + tolls ${rupiah(hasil.pribadi.biaya_tol ?? 0)} (estimate). `,
+                        )}
                     {t('Estimasi tanpa lalu lintas real-time.', 'Estimate without real-time traffic.')}
                 </p>
             )}

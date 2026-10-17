@@ -20,7 +20,7 @@ export const FRASA: Dwi[] = [
 
 export type Simbol =
     | 'banjir' | 'hijau' | 'rth' | 'akses' | 'trotoar' | 'mrt' | 'lrt' | 'krl-bogor' | 'krl-rangkas'
-    | 'krl-cikarang' | 'krl-lain' | 'stasiun' | 'halte' | 'waktu' | 'legal' | 'rute' | 'jalan-kaki' | 'terpilih';
+    | 'krl-cikarang' | 'krl-lain' | 'stasiun' | 'halte' | 'tol' | 'waktu' | 'legal' | 'rute' | 'jalan-kaki' | 'terpilih';
 
 export const LAYERS: { key: LayerKey; title: Dwi; desc: Dwi; grid?: boolean; legend: [Simbol, Dwi][] }[] = [
     { key: 'historis_risiko', title: ['Historis & Risiko', 'History & Risk'], desc: ['Area rawan banjir dan risiko bencana lain.', 'Flood-prone areas and other disaster risks.'],
@@ -38,7 +38,16 @@ export const LAYERS: { key: LayerKey; title: Dwi; desc: Dwi; grid?: boolean; leg
 ];
 
 /** Sumber data menurut keputusan kelompok (docs/RENCANA.md bagian 2a). */
-export const SUMBER = ['InaRISK (BNPB)', 'Batas desa BIG', 'Pantau Banjir Jakarta', 'IQAir', 'Overpass API (OSM)', 'Commute Data Platform', 'GTFS TransJakarta', 'BHUMI ATR/BPN'];
+export const SUMBER: { nama: string; logo?: string }[] = [
+    { nama: 'InaRISK (BNPB)', logo: '/images/logo/bnpb.png' },
+    { nama: 'Batas desa BIG', logo: '/images/logo/big.png' },
+    { nama: 'Pantau Banjir Jakarta', logo: '/images/logo/jakarta.png' },
+    { nama: 'IQAir' },
+    { nama: 'Overpass API (OSM)', logo: '/images/logo/osm.png' },
+    { nama: 'Commute Data Platform', logo: '/images/logo/commute-data.png' },
+    { nama: 'GTFS TransJakarta', logo: '/images/logo/transjakarta.png' },
+    { nama: 'BHUMI ATR/BPN', logo: '/images/logo/atr-bpn.png' },
+];
 
 export function cx(...kelas: (string | false | null | undefined)[]): string {
     return kelas.filter(Boolean).join(' ');

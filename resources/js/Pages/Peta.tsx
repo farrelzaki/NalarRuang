@@ -62,6 +62,7 @@ export default function Peta() {
     const [rute, setRute] = useState<CommuteResponse | null>(null);
     const [memuatRute, setMemuatRute] = useState(false);
     const [moda, setModa] = useState<Moda>('mobil');
+    const [lewatTol, setLewatTol] = useState(true);
 
     const kabar = useCallback((teks: string, nada: NadaToast = 'info') => setToast({ teks, nada, kunci: Date.now() }), []);
     useEffect(() => {
@@ -224,16 +225,16 @@ export default function Peta() {
         const ctrl = new AbortController();
         setMemuatRute(true);
         setRute(null);
-        api.rute(ruteA, ruteB, ctrl.signal)
+        api.rute(ruteA, ruteB, ctrl.signal, lewatTol)
             .then((r) => {
                 setRute(r);
-                setModa(r.pribadi ? 'mobil' : 'transit');
+                setModa((m) => (m === 'transit' && r.publik ? 'transit' : r.pribadi ? 'mobil' : 'transit'));
                 if (!r.pribadi && !r.publik) kabar(t('Estimasi tidak tersedia untuk titik ini. Coba titik yang lebih dekat ke jalan.', 'No estimate for this point. Try a point closer to a road.'), 'warning');
             })
             .catch((e) => e.name !== 'AbortError' && kabar(t('Estimasi tidak tersedia. Coba lagi sebentar.', 'Estimate unavailable. Please try again shortly.'), 'danger'))
             .finally(() => setMemuatRute(false));
         return () => ctrl.abort();
-    }, [ruteA?.lat, ruteA?.lng, ruteB?.lat, ruteB?.lng]);
+    }, [ruteA?.lat, ruteA?.lng, ruteB?.lat, ruteB?.lng, lewatTol]);
 
     const resetRute = () => {
         setRuteA(null);
@@ -347,6 +348,8 @@ export default function Peta() {
                             memuat={memuatRute}
                             moda={moda}
                             onModa={setModa}
+                            lewatTol={lewatTol}
+                            onLewatTol={() => setLewatTol((x) => !x)}
                             onPilihDiPeta={(k) => {
                                 setMenunggu(k);
                                 kabar(t(`Klik peta untuk menaruh titik ${k.toUpperCase()}.`, `Click the map to place point ${k.toUpperCase()}.`));

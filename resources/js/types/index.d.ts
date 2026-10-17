@@ -35,7 +35,7 @@ export type SearchResponse = {
     message?: string;
 };
 
-export type RingkasanLayer = { jenis: 'stasiun' | 'hijau' | 'banjir'; teks: string };
+export type RingkasanLayer = { jenis: 'stasiun' | 'tol' | 'hijau' | 'banjir'; teks: string };
 
 export type InspectTitik = {
     jenis_geometri: 'titik';
@@ -72,7 +72,7 @@ export type RuteModa = {
 };
 
 export type CommuteResponse = {
-    pribadi: (RuteModa & { geometri: LineString }) | null;
+    pribadi: (RuteModa & { geometri: LineString; biaya_bbm?: number; biaya_tol?: number; lewat_tol?: boolean }) | null;
     publik: (RuteModa & {
         rincian: string;
         stasiun: { nama: string; lat: number; lng: number }[];

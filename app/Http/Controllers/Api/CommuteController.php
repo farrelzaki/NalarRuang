@@ -38,7 +38,8 @@ class CommuteController extends Controller
 
     public function __invoke(Request $request): JsonResponse
     {
-        $request->validate(['dari' => 'required|string', 'ke' => 'required|string']);
+        $request->validate(['dari' => 'required|string', 'ke' => 'required|string', 'tol' => 'nullable|in:0,1']);
+        $lewatTol = $request->query('tol', '1') !== '0';
         $a = $this->koordinat($request->query('dari'));
         $b = $this->koordinat($request->query('ke'));
         if (! $a || ! $b) {
@@ -46,7 +47,7 @@ class CommuteController extends Controller
         }
 
         return response()->json([
-            'pribadi' => $this->mobil($a, $b),
+            'pribadi' => $this->mobil($a, $b, $lewatTol),
             'publik' => $this->transit($a, $b),
             'catatan' => 'Estimasi tanpa lalu lintas real-time.',
         ]);
@@ -62,14 +63,14 @@ class CommuteController extends Controller
         return [(float) $p[0], (float) $p[1]];
     }
 
-    private function osrm(string $basis, array $a, array $b): ?array
+    private function osrm(string $basis, array $a, array $b, array $tambahan = []): ?array
     {
-        $kunci = 'osrm:'.md5($basis.json_encode([$a, $b]));
+        $kunci = 'osrm:'.md5($basis.json_encode([$a, $b, $tambahan]));
 
-        return Cache::remember($kunci, now()->addDay(), function () use ($basis, $a, $b) {
+        return Cache::remember($kunci, now()->addDay(), function () use ($basis, $a, $b, $tambahan) {
             try {
                 $r = Http::timeout(12)->withHeaders(['User-Agent' => 'NalarRuang/0.1 (proyek mahasiswa IPB)'])
-                    ->get("{$basis}/{$a[1]},{$a[0]};{$b[1]},{$b[0]}", ['overview' => 'full', 'geometries' => 'geojson']);
+                    ->get("{$basis}/{$a[1]},{$a[0]};{$b[1]},{$b[0]}", ['overview' => 'full', 'geometries' => 'geojson', ...$tambahan]);
                 $rute = $r->json('routes.0');
 
                 return $r->ok() && $rute ? $rute : null;
@@ -79,19 +80,24 @@ class CommuteController extends Controller
         });
     }
 
-    private function mobil(array $a, array $b): ?array
+    private function mobil(array $a, array $b, bool $lewatTol = true): ?array
     {
-        $r = $this->valhalla($a, $b) ?? $this->mobilOsrm($a, $b);
+        $r = $this->valhalla($a, $b, $lewatTol) ?? $this->mobilOsrm($a, $b, $lewatTol);
         if (! $r) {
             return null;
         }
         $km = $r['meter'] / 1000;
         $tol = $r['meter_tol'] > 0 ? (int) max(self::TOL_MINIMUM, round($r['meter_tol'] / 1000 * self::TOL_PER_KM / 500) * 500) : 0;
 
+        $bbm = (int) (round($km * self::BIAYA_PER_KM / 100) * 100);
+
         return [
             'jarak_km' => round($km, 1),
             'waktu_menit' => (int) round($r['detik'] / 60 * self::FAKTOR_JAM_SIBUK),
-            'biaya' => (int) (round($km * self::BIAYA_PER_KM / 100) * 100) + $tol,
+            'biaya' => $bbm + $tol,
+            'biaya_bbm' => $bbm,
+            'biaya_tol' => $tol,
+            'lewat_tol' => $lewatTol,
             'geometri' => $r['geometri'],
         ];
     }
@@ -100,14 +106,14 @@ class CommuteController extends Controller
      * Rute mobil Valhalla: lebih memilih jalan tol seperti pengemudi pada umumnya
      * (OSRM publik cenderung keluar tol lebih awal karena tidak memperhitungkan kemacetan jalan arteri).
      */
-    private function valhalla(array $a, array $b): ?array
+    private function valhalla(array $a, array $b, bool $lewatTol = true): ?array
     {
-        return Cache::remember('valhalla:'.md5(json_encode([$a, $b])), now()->addDay(), function () use ($a, $b) {
+        return Cache::remember('valhalla:'.md5(json_encode([$a, $b, $lewatTol])), now()->addDay(), function () use ($a, $b, $lewatTol) {
             try {
                 $r = Http::timeout(12)->withHeaders(['User-Agent' => 'NalarRuang/0.1 (proyek mahasiswa IPB)'])->post(self::VALHALLA, [
                     'locations' => [['lat' => $a[0], 'lon' => $a[1]], ['lat' => $b[0], 'lon' => $b[1]]],
                     'costing' => 'auto',
-                    'costing_options' => ['auto' => ['use_highways' => 1.0, 'use_tolls' => 1.0]],
+                    'costing_options' => ['auto' => $lewatTol ? ['use_highways' => 1.0, 'use_tolls' => 1.0] : ['use_tolls' => 0.0]],
                     'units' => 'kilometers',
                 ]);
                 $leg = $r->json('trip.legs.0');
@@ -128,9 +134,9 @@ class CommuteController extends Controller
         });
     }
 
-    private function mobilOsrm(array $a, array $b): ?array
+    private function mobilOsrm(array $a, array $b, bool $lewatTol = true): ?array
     {
-        $r = $this->osrm(self::OSRM_MOBIL, $a, $b);
+        $r = $this->osrm(self::OSRM_MOBIL, $a, $b, $lewatTol ? [] : ['exclude' => 'toll']);
 
         return $r ? ['meter' => $r['distance'], 'detik' => $r['duration'], 'meter_tol' => 0, 'geometri' => $r['geometry']] : null;
     }

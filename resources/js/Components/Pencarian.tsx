@@ -46,7 +46,7 @@ export function SearchBar({ nilai, onUbah, onCari, memuat, commute, onToggleComm
                     </button>
                 )}
                 <button type="button" className="nr-search__btn" aria-pressed={commute} aria-label={t('Beralih ke Commute Simulator', 'Switch to Commute Simulator')} title="Commute Simulator" onClick={onToggleCommute}>
-                    <Ikon name="navigation" size={16} />
+                    <Ikon name="send" size={16} />
                 </button>
             </span>
         </form>

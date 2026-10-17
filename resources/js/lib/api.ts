@@ -25,6 +25,6 @@ export const api = {
     cari: (q: { q?: string; kota?: string[]; persona: Persona[] }, signal?: AbortSignal) => ambil<SearchResponse>(`/api/search?${qs(q)}`, signal),
     titik: (lat: number, lng: number, persona: Persona[], signal?: AbortSignal) => ambil<InspectResponse>(`/api/inspect?${qs({ lat, lng, persona })}`, signal),
     wilayah: (id: number, persona: Persona[], signal?: AbortSignal) => ambil<InspectResponse>(`/api/inspect?${qs({ wilayah_id: id, persona })}`, signal),
-    rute: (a: { lat: number; lng: number }, b: { lat: number; lng: number }, signal?: AbortSignal) =>
-        ambil<CommuteResponse>(`/api/commute?${qs({ dari: `${a.lat},${a.lng}`, ke: `${b.lat},${b.lng}` })}`, signal),
+    rute: (a: { lat: number; lng: number }, b: { lat: number; lng: number }, signal?: AbortSignal, lewatTol = true) =>
+        ambil<CommuteResponse>(`/api/commute?${qs({ dari: `${a.lat},${a.lng}`, ke: `${b.lat},${b.lng}`, tol: lewatTol ? undefined : 0 })}`, signal),
 };

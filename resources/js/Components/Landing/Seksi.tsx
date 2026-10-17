@@ -201,9 +201,9 @@ export function StripSumberData() {
             </h2>
             <div className="ed-logos">
                 {SUMBER.map((s) => (
-                    <span key={s}>
-                        <Ikon name="database" size={20} />
-                        {s}
+                    <span key={s.nama}>
+                        {s.logo ? <img className="ed-logos__img" src={s.logo} alt="" /> : <Ikon name="database" size={20} />}
+                        {s.nama}
                     </span>
                 ))}
             </div>

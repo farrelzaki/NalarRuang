@@ -143,7 +143,7 @@ function IsiTentang() {
             <Istilah judul="Point Inspector">{t('Panel evaluasi kawasan (0–3 Bintang) yang muncul saat klik peta.', 'An area evaluation panel (0–3 stars) that appears when you click the map.')}</Istilah>
             <Istilah judul="Commute Simulator">{t('Kalkulator waktu & biaya estimasi kendaraan pribadi vs transportasi umum.', 'Estimated time & cost calculator: private vehicle vs public transport.')}</Istilah>
             <Istilah judul="Persona Grading">{t('3★ Sangat Cocok · 2★ Cukup · 1★ Kurang Cocok.', '3★ Great match · 2★ Fair · 1★ Poor match.')}</Istilah>
-            <Istilah judul={t('Sumber data', 'Data sources')}>{SUMBER.join(' · ') + t('. Peta dasar © OpenStreetMap contributors.', '. Basemap © OpenStreetMap contributors.')}</Istilah>
+            <Istilah judul={t('Sumber data', 'Data sources')}>{SUMBER.map((x) => x.nama).join(' · ') + t('. Peta dasar © OpenStreetMap contributors.', '. Basemap © OpenStreetMap contributors.')}</Istilah>
             <Istilah judul={t('Catatan', 'Note')}>
                 {t(
                     'Skor dan rekomendasi merupakan estimasi dari data sekunder publik, bukan penilaian resmi. Versi demo: sebagian atribut (mis. kualitas udara, status lahan) masih data contoh. Dibuat oleh Kelompok 4 — Developer Rumah, IPB University.',
