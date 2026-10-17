@@ -110,7 +110,7 @@ berbeda, itu bug.
 | Urutan koordinat | GeoJSON `[lng, lat]`, Leaflet `[lat, lng]`. Konversi hanya di `resources/js/Map/`. |
 | Geometri keluar | GeoJSON `FeatureCollection` |
 | Nama kolom dan field JSON | `snake_case` |
-| Teks untuk pengguna | Bahasa Indonesia |
+| Teks untuk pengguna | Bahasa Indonesia (frontend menerjemahkan ke Inggris lewat `teksServer()`) |
 | ID persona | `commuter`, `driver`, `social_vibe`, `zen` |
 | Skor persona | Bilangan bulat 0–3. `null` = data tidak lengkap, **bukan** 0. |
 | Galat | HTTP status yang sesuai + `{ "message": "..." }` |
@@ -126,13 +126,18 @@ Waktu, Legalitas Lahan.
 | --- | --- | --- | --- |
 | `GET /api/layers` | FR-03 | — | Daftar layer: `layer_id`, nama, warna legenda |
 | `GET /api/layers/{layer_id}` | FR-03, FR-04 | `bbox=minLng,minLat,maxLng,maxLat`, `tahun` (khusus `mesin_waktu`) | `FeatureCollection` |
-| `GET /api/search` | FR-05, FR-06, FR-15 | `q` **atau** `kota` + `persona[]` | **Tepat 3** rekomendasi: nama, tipe kawasan, persen kecocokan (`match`, 0–100), titik pusat, geometri wilayah, alasan singkat |
-| `GET /api/inspect` | FR-08, FR-09, FR-17 | `lat`,`lng` **atau** `wilayah_id`; `persona[]` dari sesi | Nama lokasi, wilayah, jenis geometri, skor 4 persona (`stars` titik / `match` wilayah), auto-summary persona terpilih |
-| `GET /api/commute` | FR-10, FR-11 | `dari`, `ke` (koordinat) | Per moda `pribadi` dan `publik`: jarak, waktu, biaya, dan geometri rute (`LineString`/`MultiLineString` searah A→B); masing-masing boleh `null` |
+| `GET /api/search` | FR-05, FR-06, FR-15 | `q` **atau** `kota` + `persona[]` | **Tepat 3** rekomendasi: nama, tipe kawasan, persen kecocokan (`match`, 0–100), titik pusat, geometri wilayah, alasan singkat. Nama kelurahan/kecamatan di `q` (mis. "Kecamatan Cibubur") didahulukan |
+| `GET /api/inspect` | FR-08, FR-09, FR-17 | `lat`,`lng` **atau** `wilayah_id`; `persona[]` dari sesi | Nama lokasi, wilayah, jenis geometri, skor 4 persona (`stars` titik / `match` wilayah), auto-summary persona terpilih. Titik juga mengirim `ringkasan_layer[]` (`jenis`: `stasiun`, `tol`, `hijau`, `banjir`; `teks`) |
+| `GET /api/commute` | FR-10, FR-11 | `dari`, `ke` (koordinat `lat,lng`); opsional `tol=0` (hindari tol), `bbm` (harga BBM Rp/liter, 5.000–30.000, bawaan 10.000) | Per moda `pribadi` dan `publik`: jarak, waktu, biaya, dan geometri rute (`LineString`/`MultiLineString` searah A→B); masing-masing boleh `null`. `pribadi` juga mengirim `biaya_bbm`, `biaya_tol`, `lewat_tol`; `publik` mengirim `rincian` dan `stasiun[]` |
+| `GET /api/lokasi` | FR-10 | `q` (min. 3 huruf) | Saran lokasi untuk kolom titik A/B: `hasil[]` berisi `nama`, `keterangan`, `jenis` (`wilayah`, `stasiun`, `halte`, `poi`), `lat`, `lng`. Dicari dari data sendiri, tanpa geocoding luar |
 
 - `search` mengembalikan tepat tiga hasil (Business Rule 1). Kalau tidak ada
   yang memenuhi, kembalikan daftar kosong dengan `message` (UC-03).
-- `commute` bergantung pada TBD-ROUTE; bentuk keluarannya disepakati lebih dulu.
+- `commute` bergantung pada TBD-ROUTE. Sementara: mobil lewat Valhalla (cadangan OSRM),
+  umum lewat Commute Data API; tarif tol dan waktu tempuh adalah perkiraan.
+- Metrik wilayah untuk `search` (jarak ke stasiun/tol/POI/RTH, jumlah POI, porsi banjir)
+  dihitung sekali oleh `DemoPetaSeeder` dan disimpan di `wilayah.atribut`.
+- Bentuk respons semua endpoint di atas dites di `tests/Feature/ApiTest.php`.
 
 ## 3. Antarmuka
 

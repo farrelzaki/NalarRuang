@@ -1,5 +1,5 @@
 /** Klien endpoint docs/SISTEM.md bagian 2. */
-import type { CommuteResponse, InspectResponse, LayerKey, LayerResponse, Persona, SearchResponse } from '@/types';
+import type { CommuteResponse, InspectResponse, LayerKey, LayerResponse, Persona, SaranLokasi, SearchResponse } from '@/types';
 
 async function ambil<T>(url: string, signal?: AbortSignal): Promise<T> {
     const r = await fetch(url, { headers: { Accept: 'application/json' }, signal });
@@ -21,6 +21,7 @@ const qs = (o: Record<string, string | string[] | number | undefined>) => {
 };
 
 export const api = {
+    lokasi: (q: string, signal?: AbortSignal) => ambil<{ hasil: SaranLokasi[] }>(`/api/lokasi?${qs({ q })}`, signal),
     layer: (k: LayerKey) => ambil<LayerResponse>(`/api/layers/${k}`),
     cari: (q: { q?: string; kota?: string[]; persona: Persona[] }, signal?: AbortSignal) => ambil<SearchResponse>(`/api/search?${qs(q)}`, signal),
     titik: (lat: number, lng: number, persona: Persona[], signal?: AbortSignal) => ambil<InspectResponse>(`/api/inspect?${qs({ lat, lng, persona })}`, signal),

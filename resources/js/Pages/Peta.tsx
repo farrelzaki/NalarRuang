@@ -357,6 +357,12 @@ export default function Peta() {
                                 setMenunggu(k);
                                 kabar(t(`Klik peta untuk menaruh titik ${k.toUpperCase()}.`, `Click the map to place point ${k.toUpperCase()}.`));
                             }}
+                            onIsiTitik={(k, titik) => {
+                                if (k === 'a') setRuteA(titik);
+                                else setRuteB(titik);
+                                setMenunggu(k === 'a' ? (ruteB ? null : 'b') : ruteA ? null : 'a');
+                                if (!(k === 'a' ? ruteB : ruteA)) setTerbangKe({ titik, kunci: Date.now() });
+                            }}
                             onReset={resetRute}
                             onTutup={tutupPanelKiri}
                         />

@@ -99,6 +99,18 @@ function deskripsi(p: Record<string, any>): string {
     }
 }
 
+/** Poligon besar menutupi Jabodetabek dengan lubang di tiap geometri: area di luarnya tampak redup (FR-02). */
+function topengRedup(geometri: Geometry[]): L.Polygon {
+    const luar: L.LatLngExpression[] = [[-7.6, 105.4], [-7.6, 108.2], [-5.4, 108.2], [-5.4, 105.4]];
+    const cincin = (c: number[][]) => c.map(([lng, lat]) => [lat, lng] as L.LatLngTuple);
+    const lubang: L.LatLngTuple[][] = [];
+    for (const g of geometri) {
+        if (g.type === 'Polygon') lubang.push(cincin(g.coordinates[0]));
+        else if (g.type === 'MultiPolygon') g.coordinates.forEach((p) => lubang.push(cincin(p[0])));
+    }
+    return L.polygon([luar, ...lubang], { pane: 'nrSeleksi', interactive: false, stroke: false, fillColor: '#0f1b3d', fillOpacity: 0.18 });
+}
+
 /** Panah arah sepanjang garis, tiap ±600 m (design-system.md 9.3). */
 function panahArah(coords: [number, number][], tiapMeter = 600): L.Marker[] {
     const hasil: L.Marker[] = [];
@@ -232,6 +244,8 @@ export default function PetaExplorer(props: Props) {
         const g = grupSeleksi.current;
         if (!g) return;
         g.clearLayers();
+        // FR-02: redupkan area di luar hasil pencarian (topeng berlubang di tiap wilayah Top 3).
+        if (props.top3?.length) topengRedup(props.top3.map((r) => r.geometri as Geometry)).addTo(g);
         props.top3?.forEach((r, i) => {
             const aktif = props.top3Aktif === i;
             L.geoJSON(r.geometri as Geometry, { pane: 'nrSeleksi', style: { ...gaya.top3, weight: aktif ? 3.5 : 2.5, fillOpacity: aktif ? 0.14 : 0.08 } })
@@ -435,6 +449,14 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
                 onEachFeature: popup,
             }),
             14,
+        ).addTo(g);
+        grupZoom(
+            L.geoJSON({ type: 'FeatureCollection', features: fc.features.filter((f) => f.properties?.jenis === 'tol') } as FeatureCollection, {
+                pane: 'nrTitik',
+                pointToLayer: (_f, ll) => L.marker(ll, { pane: 'nrTitik', icon: L.divIcon({ className: 'nr-tol', iconSize: [10, 10] }) }),
+                onEachFeature: popup,
+            }),
+            12,
         ).addTo(g);
         L.geoJSON({ type: 'FeatureCollection', features: fc.features.filter((f) => f.properties?.jenis === 'stasiun') } as FeatureCollection, {
             pane: 'nrStasiun',

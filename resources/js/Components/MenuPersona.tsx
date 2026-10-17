@@ -85,7 +85,7 @@ function IsiLegenda() {
         [['Historis & Risiko', 'History & Risk'], ['banjir'], ['Area rawan banjir historis (merah).', 'Historical flood-prone area (red).']],
         [['Ekosistem Mikro', 'Micro Ecosystem'], ['hijau'], ['Ruang hijau, taman & fasilitas gaya hidup (hijau).', 'Green space, parks & lifestyle amenities (green).']],
         [['Legalitas Lahan', 'Land Legality'], ['legal'], ['Pemetaan zona bidang tanah legal (ungu).', 'Legal land parcel zones (purple).']],
-        [['Mobilitas & Transit', 'Mobility & Transit'], ['mrt', 'krl-bogor', 'krl-rangkas', 'lrt', 'stasiun', 'waktu'], null],
+        [['Mobilitas & Transit', 'Mobility & Transit'], ['mrt', 'krl-bogor', 'krl-rangkas', 'krl-cikarang', 'lrt', 'stasiun', 'halte', 'tol', 'waktu'], null],
         [['Inklusivitas', 'Inclusivity'], ['trotoar', 'akses'], ['Trotoar layak (biru putus-putus) & titik akses disabilitas (biru).', 'Proper sidewalks (dashed blue) & disability access points (blue).']],
     ];
     return (
@@ -105,7 +105,7 @@ function IsiLegenda() {
                             <span className="nr-lgrow__text">{t(teks)}</span>
                         ) : (
                             <>
-                                <span className="nr-lgrow__text">{t('MRT (oranye solid) · KRL Merah · KRL Hijau · LRT (ungu solid) · Stasiun (titik putih).', 'MRT (solid orange) · KRL Red · KRL Green · LRT (solid purple) · Station (white dot).')}</span>
+                                <span className="nr-lgrow__text">{t('MRT (oranye solid) · KRL Merah · KRL Hijau · KRL Biru · LRT (ungu solid) · Stasiun (titik putih) · Halte TransJakarta/Biskita (titik navy) · Gerbang tol (kotak oranye).', 'MRT (solid orange) · KRL Red · KRL Green · KRL Blue · LRT (solid purple) · Station (white dot) · TransJakarta/Biskita stop (navy dot) · Toll gate (orange square).')}</span>
                                 <span className="nr-lgrow__text" style={{ marginTop: 4 }}>
                                     {t('Garis putus-putus ungu = ', 'Dashed purple line = ')}
                                     <b>{t('Mesin Waktu', 'Time Machine')}</b> {t('(proyek 2026–2030).', '(2026–2030 projects).')}

@@ -65,6 +65,9 @@ export type InspectWilayah = {
 
 export type InspectResponse = InspectTitik | InspectWilayah;
 
+/** Respons GET /api/lokasi (saran kolom titik A/B, FR-10). */
+export type SaranLokasi = { nama: string; keterangan: string; jenis: 'wilayah' | 'stasiun' | 'halte' | 'poi'; lat: number; lng: number };
+
 export type RuteModa = {
     jarak_km: number;
     waktu_menit: number;

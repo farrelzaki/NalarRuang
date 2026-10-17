@@ -22,8 +22,18 @@ class QueryParser
 
     private const KOTA = ['jakarta', 'bogor', 'depok', 'tangerang', 'bekasi'];
 
+    /** Kata umum yang dibuang sebelum mencari nama kelurahan/kecamatan (FR-05). */
+    private const KATA_UMUM = [
+        'di', 'ke', 'dari', 'yang', 'yg', 'dan', 'atau', 'dengan', 'untuk', 'dekat', 'sekitar', 'daerah', 'kawasan', 'area', 'wilayah',
+        'kota', 'kabupaten', 'kab', 'kecamatan', 'kec', 'kelurahan', 'kel', 'desa', 'mudah', 'akses', 'cari', 'rumah', 'hunian',
+        'tinggal', 'saya', 'aku', 'ingin', 'mau', 'banyak', 'punya', 'ada', 'tidak', 'bebas', 'aman', 'jauh', 'anti', 'tanpa', 'banjir',
+        'bagus', 'enak', 'murah', 'strategis', 'nyaman', 'sekali', 'banget', 'pusat', 'utara', 'selatan', 'barat', 'timur',
+        'near', 'in', 'at', 'the', 'a', 'an', 'and', 'or', 'with', 'to', 'of', 'no', 'without', 'avoid', 'away', 'from', 'free',
+        'safe', 'flood', 'flooding', 'home', 'house', 'live', 'living', 'close', 'city', 'district', 'village', 'nice', 'good', 'cheap',
+    ];
+
     /**
-     * @return array{persona: list<string>, kota: list<string>, hindari_banjir: bool}
+     * @return array{persona: list<string>, kota: list<string>, hindari_banjir: bool, nama_wilayah: ?string}
      */
     public function parse(string $q): array
     {
@@ -44,6 +54,26 @@ class QueryParser
         $hindariBanjir = (bool) preg_match('/(tidak|bebas|aman|jauh|anti|tanpa)\s+(dari\s+)?banjir/u', $teks)
             || (bool) preg_match('/\b(no|without|avoid|away from|free from|safe from)\s+(the\s+)?flood|flood[\s-]free/u', $teks);
 
-        return ['persona' => $persona, 'kota' => $kota, 'hindari_banjir' => $hindariBanjir];
+        return ['persona' => $persona, 'kota' => $kota, 'hindari_banjir' => $hindariBanjir, 'nama_wilayah' => $this->sisaNama($teks)];
+    }
+
+    /**
+     * Sisa kata setelah kata kunci persona, kota, dan kata umum dibuang; dianggap calon nama kelurahan/kecamatan.
+     * Contoh: "Kecamatan Cibubur" -> "cibubur"; "dekat stasiun di Bogor" -> null.
+     */
+    private function sisaNama(string $teks): ?string
+    {
+        $kunci = array_merge(...array_values(self::KAMUS));
+        $sisa = preg_replace('/[^\p{L}\p{N}\s]/u', ' ', $teks);
+        foreach ($kunci as $k) {
+            if (str_contains($k, ' ')) {
+                $sisa = str_replace($k, ' ', $sisa);
+            }
+        }
+        $kata = array_filter(preg_split('/\s+/', $sisa), fn ($w) => $w !== ''
+            && ! in_array($w, self::KATA_UMUM, true) && ! in_array($w, self::KOTA, true) && ! in_array($w, $kunci, true));
+        $nama = trim(implode(' ', $kata));
+
+        return mb_strlen($nama) >= 3 ? $nama : null;
     }
 }

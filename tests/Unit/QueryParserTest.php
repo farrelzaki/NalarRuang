@@ -25,6 +25,16 @@ class QueryParserTest extends TestCase
         $this->assertTrue($hasil['hindari_banjir']);
     }
 
+    public function test_nama_kecamatan_dikenali(): void
+    {
+        $p = new QueryParser();
+
+        $this->assertSame('cibubur', $p->parse('Kecamatan Cibubur')['nama_wilayah']);
+        $this->assertSame('pondok labu', $p->parse('dekat stasiun di Pondok Labu, tidak banjir')['nama_wilayah']);
+        $this->assertNull($p->parse('Daerah mudah transum di Bogor Kota')['nama_wilayah']);
+        $this->assertNull($p->parse('near a train station, no flooding, in Depok')['nama_wilayah']);
+    }
+
     public function test_banjir_tanpa_penolakan_tidak_dihindari(): void
     {
         $this->assertFalse((new QueryParser())->parse('flood map of Bekasi')['hindari_banjir']);

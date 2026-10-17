@@ -149,3 +149,12 @@
 .nr-route__opsi { display: flex; align-items: center; justify-content: space-between; gap: 12px; font: 500 12px/18px var(--font-sans); color: var(--ink-70); }
 .nr-route__bbm { width: 88px; height: 28px; padding: 0 8px; border: 1px solid var(--line); border-radius: var(--radius-xs); background: var(--white); font: 600 12px/1 var(--font-sans); color: var(--navy-900); text-align: right; }
 .nr-route__bbm:focus { outline: 2px solid var(--focus-ring); outline-offset: 1px; }
+.nr-tol { background: var(--amber-600); border: 1.5px solid var(--white); border-radius: 2px; box-shadow: var(--shadow-label); }
+
+/* Saran lokasi kolom titik A/B (FR-10). */
+.nr-route__field { position: relative; }
+.nr-route__saran { position: absolute; left: 0; right: 0; top: calc(100% + 4px); z-index: 5; margin: 0; padding: 4px; list-style: none; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); box-shadow: var(--shadow-lg); max-height: 260px; overflow-y: auto; }
+.nr-route__saran button { display: flex; flex-direction: column; align-items: flex-start; width: 100%; padding: 8px 10px; border: 0; border-radius: var(--radius-xs); background: transparent; text-align: left; cursor: pointer; }
+.nr-route__saran button:hover, .nr-route__saran li[aria-selected="true"] button { background: var(--ink-05); }
+.nr-route__saran-nama { font: 600 13px/18px var(--font-sans); color: var(--navy-900); }
+.nr-route__saran-ket { font: 400 11px/16px var(--font-sans); color: var(--ink-60); }
