@@ -63,6 +63,7 @@ export default function Peta() {
     const [memuatRute, setMemuatRute] = useState(false);
     const [moda, setModa] = useState<Moda>('mobil');
     const [lewatTol, setLewatTol] = useState(true);
+    const [hargaBbm, setHargaBbm] = useState(10000);
 
     const kabar = useCallback((teks: string, nada: NadaToast = 'info') => setToast({ teks, nada, kunci: Date.now() }), []);
     useEffect(() => {
@@ -225,7 +226,7 @@ export default function Peta() {
         const ctrl = new AbortController();
         setMemuatRute(true);
         setRute(null);
-        api.rute(ruteA, ruteB, ctrl.signal, lewatTol)
+        api.rute(ruteA, ruteB, ctrl.signal, lewatTol, hargaBbm)
             .then((r) => {
                 setRute(r);
                 setModa((m) => (m === 'transit' && r.publik ? 'transit' : r.pribadi ? 'mobil' : 'transit'));
@@ -234,7 +235,7 @@ export default function Peta() {
             .catch((e) => e.name !== 'AbortError' && kabar(t('Estimasi tidak tersedia. Coba lagi sebentar.', 'Estimate unavailable. Please try again shortly.'), 'danger'))
             .finally(() => setMemuatRute(false));
         return () => ctrl.abort();
-    }, [ruteA?.lat, ruteA?.lng, ruteB?.lat, ruteB?.lng, lewatTol]);
+    }, [ruteA?.lat, ruteA?.lng, ruteB?.lat, ruteB?.lng, lewatTol, hargaBbm]);
 
     const resetRute = () => {
         setRuteA(null);
@@ -350,6 +351,8 @@ export default function Peta() {
                             onModa={setModa}
                             lewatTol={lewatTol}
                             onLewatTol={() => setLewatTol((x) => !x)}
+                            hargaBbm={hargaBbm}
+                            onHargaBbm={setHargaBbm}
                             onPilihDiPeta={(k) => {
                                 setMenunggu(k);
                                 kabar(t(`Klik peta untuk menaruh titik ${k.toUpperCase()}.`, `Click the map to place point ${k.toUpperCase()}.`));

@@ -245,31 +245,31 @@ export default function Landing() {
                                 a: t(
                                     `Peta interaktif kami menggunakan 6 tumpukan data spasial (layer) yang dapat Anda atur secara dinamis untuk mengevaluasi suatu kawasan secara holistik:
 
-                            Historis & Risiko: Memetakan tingkat keamanan lingkungan dari potensi banjir, rekam jejak lahan, tingkat kriminalitas, polusi udara (AQI), hingga kebisingan.
+                            Historis & Risiko: Memetakan tingkat bahaya banjir dari InaRISK (BNPB) dan kualitas udara (AQI) di sekitar kawasan.
 
                             Ekosistem Mikro & Gaya Hidup: Menampilkan distribusi fasilitas umum, komersial, dan pusat aktivitas di sekitar kawasan hunian.
 
-                            Inklusivitas: Mengidentifikasi ketersediaan infrastruktur dan fasilitas lingkungan yang ramah bagi penyandang disabilitas.
+                            Inklusivitas: Mengidentifikasi fasilitas, trotoar, dan halte TransJakarta yang ramah bagi penyandang disabilitas.
 
-                            Mobilitas & Transit: Memetakan letak titik transit, rute transportasi umum, dan cakupan area yang dapat dijangkau dalam waktu tertentu (isochrone).
+                            Mobilitas & Transit: Memetakan stasiun KRL, MRT, dan LRT, halte TransJakarta dan Biskita, jalur rel, serta gerbang tol.
 
                             Mesin Waktu (Future Planning): Memungkinkan Anda melihat proyeksi pembangunan tata ruang dan infrastruktur masa depan melalui fitur timeline slider.
 
-                            Legalitas Lahan: Menampilkan informasi batas persil tanah publik (dari data ATR/BPN) untuk membantu memvalidasi keabsahan administrasi tanah tersebut.`,
+                            Legalitas Lahan: Memberi gambaran status kepemilikan dan peruntukan lahan. Data batas persil ATR/BPN masih dalam proses pengumpulan.`,
 
                                     `Our interactive map uses 6 spatial data layers that you can adjust dynamically to evaluate an area holistically:
 
-                            History & Risk: Maps environmental safety from flood risks, land history, crime rates, air pollution (AQI), to noise levels.
+                            History & Risk: Maps flood hazard from InaRISK (BNPB) and air quality (AQI) around an area.
 
                             Micro Ecosystem & Lifestyle: Displays the distribution of public facilities, commercial spots, and activity hubs around residential areas.
 
-                            Inclusivity: Identifies the availability of infrastructure and environmental facilities accessible to people with disabilities.
+                            Inclusivity: Identifies facilities, sidewalks, and TransJakarta stops that are accessible to people with disabilities.
 
-                            Mobility & Transit: Maps transit points, public transit routes, and reachable area coverage within a certain time (isochrone).
+                            Mobility & Transit: Maps KRL, MRT, and LRT stations, TransJakarta and Biskita stops, rail lines, and toll gates.
 
                             Time Machine (Future Planning): Allows you to view spatial development projects and future infrastructure via a timeline slider feature.
 
-                            Land Legality: Displays public land boundary parcel information (from ATR/BPN data) to help validate land administrative authenticity.`
+                            Land Legality: Gives an overview of land ownership status and land use. ATR/BPN parcel boundary data is still being collected.`
                                 )
                             }
                         ]}

@@ -28,7 +28,8 @@ class CommuteController extends Controller
 
     /** Asumsi estimasi; ubah setelah OQ-03 (sumber biaya) diputuskan. */
     private const FAKTOR_JAM_SIBUK = 1.4;
-    private const BIAYA_PER_KM = 850;        // BBM Rp10.000/l, 12 km/l, dibulatkan
+    private const HARGA_BBM = 10000;         // Rp per liter, bisa diubah pengguna lewat parameter bbm
+    private const KM_PER_LITER = 12;         // konsumsi rata-rata mobil pribadi
     // Perkiraan tarif tol Golongan I, dikalibrasi ke Jagorawi + Tol Dalam Kota (Bogor-Jakarta +-Rp18.500).
     private const TOL_PER_KM = 350;
     private const TOL_MINIMUM = 7000;
@@ -38,8 +39,9 @@ class CommuteController extends Controller
 
     public function __invoke(Request $request): JsonResponse
     {
-        $request->validate(['dari' => 'required|string', 'ke' => 'required|string', 'tol' => 'nullable|in:0,1']);
+        $request->validate(['dari' => 'required|string', 'ke' => 'required|string', 'tol' => 'nullable|in:0,1', 'bbm' => 'nullable|integer|min:5000|max:30000']);
         $lewatTol = $request->query('tol', '1') !== '0';
+        $hargaBbm = (int) $request->query('bbm', self::HARGA_BBM);
         $a = $this->koordinat($request->query('dari'));
         $b = $this->koordinat($request->query('ke'));
         if (! $a || ! $b) {
@@ -47,7 +49,7 @@ class CommuteController extends Controller
         }
 
         return response()->json([
-            'pribadi' => $this->mobil($a, $b, $lewatTol),
+            'pribadi' => $this->mobil($a, $b, $lewatTol, $hargaBbm),
             'publik' => $this->transit($a, $b),
             'catatan' => 'Estimasi tanpa lalu lintas real-time.',
         ]);
@@ -80,7 +82,7 @@ class CommuteController extends Controller
         });
     }
 
-    private function mobil(array $a, array $b, bool $lewatTol = true): ?array
+    private function mobil(array $a, array $b, bool $lewatTol = true, int $hargaBbm = self::HARGA_BBM): ?array
     {
         $r = $this->valhalla($a, $b, $lewatTol) ?? $this->mobilOsrm($a, $b, $lewatTol);
         if (! $r) {
@@ -89,7 +91,7 @@ class CommuteController extends Controller
         $km = $r['meter'] / 1000;
         $tol = $r['meter_tol'] > 0 ? (int) max(self::TOL_MINIMUM, round($r['meter_tol'] / 1000 * self::TOL_PER_KM / 500) * 500) : 0;
 
-        $bbm = (int) (round($km * self::BIAYA_PER_KM / 100) * 100);
+        $bbm = (int) (round($km / self::KM_PER_LITER * $hargaBbm / 100) * 100);
 
         return [
             'jarak_km' => round($km, 1),

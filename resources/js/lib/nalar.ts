@@ -46,6 +46,7 @@ export const SUMBER: { nama: string; logo?: string }[] = [
     { nama: 'Overpass API (OSM)', logo: '/images/logo/osm.png' },
     { nama: 'Commute Data Platform', logo: '/images/logo/commute-data.png' },
     { nama: 'GTFS TransJakarta', logo: '/images/logo/transjakarta.png' },
+    { nama: 'Biskita Trans Pakuan', logo: '/images/logo/trans-pakuan.png' },
     { nama: 'BHUMI ATR/BPN', logo: '/images/logo/atr-bpn.png' },
 ];
 

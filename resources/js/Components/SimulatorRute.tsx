@@ -1,4 +1,5 @@
 /** Simulator Rute (8.8, FR-10, FR-11, FR-16). Titik A/B dipilih di peta. */
+import { useEffect, useState } from 'react';
 import type { CommuteResponse } from '@/types';
 import { teksServer, useBahasa } from '@/lib/bahasa';
 import { cx, rupiah } from '@/lib/nalar';
@@ -17,12 +18,14 @@ type Props = {
     onModa: (m: Moda) => void;
     lewatTol: boolean;
     onLewatTol: () => void;
+    hargaBbm: number;
+    onHargaBbm: (rp: number) => void;
     onPilihDiPeta: (titik: 'a' | 'b') => void;
     onReset: () => void;
     onTutup: () => void;
 };
 
-export function SimulatorRute({ a, b, menunggu, hasil, memuat, moda, onModa, lewatTol, onLewatTol, onPilihDiPeta, onReset, onTutup }: Props) {
+export function SimulatorRute({ a, b, menunggu, hasil, memuat, moda, onModa, lewatTol, onLewatTol, hargaBbm, onHargaBbm, onPilihDiPeta, onReset, onTutup }: Props) {
     const { t, bahasa } = useBahasa();
     const lengkap = !!(a && b && hasil);
     const baris = (huruf: 'A' | 'B', titik: TitikRute, kunci: 'a' | 'b') => (
@@ -71,7 +74,7 @@ export function SimulatorRute({ a, b, menunggu, hasil, memuat, moda, onModa, lew
                 ) : na ? (
                     <>
                         <span className="nr-mode__na">{t('Tidak tersedia', 'Not available')}</span>
-                        <span className="nr-mode__cost">{kunci === 'transit' ? t('Stasiun KRL terlalu jauh dari titik', 'KRL station too far from the point') : t('Coba titik yang lebih dekat ke jalan', 'Try a point closer to a road')}</span>
+                        <span className="nr-mode__cost">{kunci === 'transit' ? t('Tidak ada stasiun atau halte di dekat titik', 'No station or stop near the point') : t('Coba titik yang lebih dekat ke jalan', 'Try a point closer to a road')}</span>
                     </>
                 ) : (
                     <>
@@ -117,6 +120,7 @@ export function SimulatorRute({ a, b, menunggu, hasil, memuat, moda, onModa, lew
                     <Toggle checked={lewatTol} label={t('Lewat jalan tol', 'Use toll roads')} onChange={onLewatTol} />
                 </div>
             )}
+            {lengkap && moda === 'mobil' && <IsianBbm nilai={hargaBbm} onSimpan={onHargaBbm} />}
             {memuat && <Keadaan kind="memuat" title={t('Menghitung rute', 'Calculating route')} />}
             {lengkap && (
                 <p className="nr-route__foot">
@@ -130,5 +134,30 @@ export function SimulatorRute({ a, b, menunggu, hasil, memuat, moda, onModa, lew
                 </p>
             )}
         </section>
+    );
+}
+
+function IsianBbm({ nilai, onSimpan }: { nilai: number; onSimpan: (rp: number) => void }) {
+    const { t } = useBahasa();
+    const [teks, setTeks] = useState(String(nilai));
+    useEffect(() => setTeks(String(nilai)), [nilai]);
+    const simpan = () => {
+        const rp = Math.round(Number(teks.replace(/\D/g, '')));
+        if (rp >= 5000 && rp <= 30000) onSimpan(rp);
+        else setTeks(String(nilai));
+    };
+    return (
+        <label className="nr-route__opsi">
+            <span>{t('Harga BBM per liter (Rp)', 'Fuel price per litre (Rp)')}</span>
+            <input
+                className="nr-route__bbm"
+                inputMode="numeric"
+                value={teks}
+                onChange={(e) => setTeks(e.target.value)}
+                onBlur={simpan}
+                onKeyDown={(e) => e.key === 'Enter' && (e.currentTarget as HTMLInputElement).blur()}
+                aria-label={t('Harga BBM per liter dalam rupiah', 'Fuel price per litre in rupiah')}
+            />
+        </label>
     );
 }
