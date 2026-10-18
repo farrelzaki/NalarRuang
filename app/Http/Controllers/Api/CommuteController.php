@@ -18,10 +18,13 @@ use Throwable;
  * Mobil: Valhalla (server publik FOSSGIS) dengan preferensi jalan tol, cadangan OSRM (TBD-ROUTE).
  * Umum: jalan kaki ke stasiun/halte terdekat, lalu rute dan tarif resmi antarstasiun dari Commute Data API
  * (KRL, MRT, LRT, TransJakarta; ODbL-1.0), digambar mengikuti rel di PostGIS, lalu jalan kaki ke tujuan.
+ * Opsi hindari ganjil-genap (T-024): ruas jalan (edge) rute Valhalla yang berada di poligon ganjil-genap PostGIS
+ * diberi "palang" (exclude_polygons berupa garis pendek melintang), lalu rute dihitung ulang, beberapa putaran.
  */
 class CommuteController extends Controller
 {
     private const VALHALLA = 'https://valhalla1.openstreetmap.de/route';
+    private const VALHALLA_TRACE = 'https://valhalla1.openstreetmap.de/trace_attributes';
     private const OSRM_MOBIL = 'https://router.project-osrm.org/route/v1/driving';
     private const OSRM_KAKI = 'https://routing.openstreetmap.de/routed-foot/route/v1/driving';
     private const COMMUTE_API = 'https://api.commute.shiorilabs.id';
@@ -36,12 +39,20 @@ class CommuteController extends Controller
     private const KECEPATAN_KAKI = 80;       // m/menit
     private const MAKS_KE_STASIUN = 3000;    // meter, stasiun rel
     private const MAKS_KE_HALTE = 1500;      // meter, halte TransJakarta bila tidak ada stasiun
+    // Ganjil-genap. Server Valhalla publik membatasi exclude_polygons: total 100 titik sudut, keliling 10 km.
+    private const GG_PUTARAN = 5;
+    private const GG_MAKS_PALANG = 33;       // x 3 titik sudut per palang
+    private const GG_SETENGAH_PALANG = 0.00004; // derajat (+-4,4 m), cukup pendek agar jalan tol di median tidak ikut tertutup
+    private const GG_JARAK_PALANG = 500;     // meter antarpalang di sepanjang ruas yang dilewati
+    private const GG_MIN_LEWAT = 120;        // meter; lebih pendek dari ini dianggap hanya menyeberang persimpangan/simpang susun
+    private const GG_BEBAS_UJUNG = 250;      // meter dari titik A/B tanpa palang (titik di ruas ganjil-genap tetap terjangkau)
 
     public function __invoke(Request $request): JsonResponse
     {
-        $request->validate(['dari' => 'required|string', 'ke' => 'required|string', 'tol' => 'nullable|in:0,1', 'bbm' => 'nullable|integer|min:5000|max:30000']);
+        $request->validate(['dari' => 'required|string', 'ke' => 'required|string', 'tol' => 'nullable|in:0,1', 'gg' => 'nullable|in:0,1', 'bbm' => 'nullable|integer|min:5000|max:30000']);
         $lewatTol = $request->query('tol', '1') !== '0';
         $hargaBbm = (int) $request->query('bbm', self::HARGA_BBM);
+        $hindariGg = $request->query('gg', '0') === '1';
         $a = $this->koordinat($request->query('dari'));
         $b = $this->koordinat($request->query('ke'));
         if (! $a || ! $b) {
@@ -49,7 +60,7 @@ class CommuteController extends Controller
         }
 
         return response()->json([
-            'pribadi' => $this->mobil($a, $b, $lewatTol, $hargaBbm),
+            'pribadi' => $this->mobil($a, $b, $lewatTol, $hargaBbm, $hindariGg),
             'publik' => $this->transit($a, $b),
             'catatan' => 'Estimasi tanpa lalu lintas real-time.',
         ]);
@@ -82,11 +93,30 @@ class CommuteController extends Controller
         });
     }
 
-    private function mobil(array $a, array $b, bool $lewatTol = true, int $hargaBbm = self::HARGA_BBM): ?array
+    private function mobil(array $a, array $b, bool $lewatTol = true, int $hargaBbm = self::HARGA_BBM, bool $hindariGg = false): ?array
     {
         $r = $this->valhalla($a, $b, $lewatTol) ?? $this->mobilOsrm($a, $b, $lewatTol);
         if (! $r) {
             return null;
+        }
+        $ruasGg = isset($r['bukan_tol']) ? $this->ruasGanjilGenap($r['bukan_tol']) : [];
+        // Simpan rute terbaik: paling pendek menyusuri ruas ganjil-genap, lalu paling cepat.
+        $sekarang = $r;
+        $palang = [];
+        for ($i = 0; $hindariGg && $ruasGg && $i < self::GG_PUTARAN && count($palang) < self::GG_MAKS_PALANG; $i++) {
+            $baru = $this->palangGanjilGenap($sekarang['bentuk'], $a, $b);
+            if (! $baru) {
+                break;
+            }
+            $palang = array_slice(array_merge($palang, $baru), 0, self::GG_MAKS_PALANG);
+            $sekarang = $this->valhalla($a, $b, $lewatTol, $palang);
+            if (! $sekarang) {
+                break;
+            }
+            $ruas = $this->ruasGanjilGenap($sekarang['bukan_tol']);
+            if ([array_sum($ruas), $sekarang['detik']] < [array_sum($ruasGg), $r['detik']]) {
+                [$r, $ruasGg] = [$sekarang, $ruas];
+            }
         }
         $km = $r['meter'] / 1000;
         $tol = $r['meter_tol'] > 0 ? (int) max(self::TOL_MINIMUM, round($r['meter_tol'] / 1000 * self::TOL_PER_KM / 500) * 500) : 0;
@@ -100,6 +130,8 @@ class CommuteController extends Controller
             'biaya_bbm' => $bbm,
             'biaya_tol' => $tol,
             'lewat_tol' => $lewatTol,
+            // ruas: ruas ganjil-genap yang masih dilewati rute (kosong bila berhasil dihindari atau memang tidak lewat).
+            'ganjil_genap' => ['hindari' => $hindariGg, 'ruas' => array_keys($ruasGg)],
             'geometri' => $r['geometri'],
         ];
     }
@@ -108,32 +140,157 @@ class CommuteController extends Controller
      * Rute mobil Valhalla: lebih memilih jalan tol seperti pengemudi pada umumnya
      * (OSRM publik cenderung keluar tol lebih awal karena tidak memperhitungkan kemacetan jalan arteri).
      */
-    private function valhalla(array $a, array $b, bool $lewatTol = true): ?array
+    private function valhalla(array $a, array $b, bool $lewatTol = true, array $palang = []): ?array
     {
-        return Cache::remember('valhalla:'.md5(json_encode([$a, $b, $lewatTol])), now()->addDay(), function () use ($a, $b, $lewatTol) {
+        return Cache::remember('valhalla:'.md5(json_encode([$a, $b, $lewatTol, $palang])), now()->addDay(), function () use ($a, $b, $lewatTol, $palang) {
             try {
-                $r = Http::timeout(12)->withHeaders(['User-Agent' => 'NalarRuang/0.1 (proyek mahasiswa IPB)'])->post(self::VALHALLA, [
+                $r = Http::timeout(12)->withHeaders(['User-Agent' => 'NalarRuang/0.1 (proyek mahasiswa IPB)'])->post(self::VALHALLA, array_filter([
                     'locations' => [['lat' => $a[0], 'lon' => $a[1]], ['lat' => $b[0], 'lon' => $b[1]]],
                     'costing' => 'auto',
                     'costing_options' => ['auto' => $lewatTol ? ['use_highways' => 1.0, 'use_tolls' => 1.0] : ['use_tolls' => 0.0]],
+                    'exclude_polygons' => $palang,
                     'units' => 'kilometers',
-                ]);
+                ]));
                 $leg = $r->json('trip.legs.0');
                 if (! $r->ok() || ! $leg) {
                     return null;
                 }
                 $tol = array_sum(array_map(fn ($m) => ! empty($m['toll']) ? $m['length'] : 0, $leg['maneuvers'] ?? []));
+                $titik = Polyline::decode($leg['shape']);
+                // Potongan rute di luar jalan tol (jalan tol tidak terkena ganjil-genap).
+                $bukanTol = [];
+                foreach ($leg['maneuvers'] ?? [] as $m) {
+                    $awal = $m['begin_shape_index'] ?? 0;
+                    $potong = array_slice($titik, $awal, ($m['end_shape_index'] ?? $awal) - $awal + 1);
+                    if (empty($m['toll']) && count($potong) > 1) {
+                        $bukanTol[] = $potong;
+                    }
+                }
 
                 return [
                     'meter' => $r->json('trip.summary.length') * 1000,
                     'detik' => $r->json('trip.summary.time'),
                     'meter_tol' => $tol * 1000,
-                    'geometri' => ['type' => 'LineString', 'coordinates' => Polyline::decode($leg['shape'])],
+                    'bukan_tol' => $bukanTol,
+                    'bentuk' => $leg['shape'],
+                    'geometri' => ['type' => 'LineString', 'coordinates' => $titik],
                 ];
             } catch (Throwable) {
                 return null;
             }
         });
+    }
+
+    /**
+     * Palang untuk bagian rute yang menyusuri ruas ganjil-genap (>= GG_MIN_LEWAT m berturut-turut, di luar jalan tol,
+     * tidak dalam GG_BEBAS_UJUNG m dari A/B): satu palang tiap GG_JARAK_PALANG m, di tengah edge dan tidak di awal
+     * bagian itu, sehingga menyeberangi ruas ganjil-genap di persimpangan tetap boleh.
+     * Edge diambil dari trace_attributes Valhalla (edge_walk).
+     *
+     * @return list<list<array{0: float, 1: float}>> cincin exclude_polygons [lng, lat]
+     */
+    private function palangGanjilGenap(string $bentuk, array $a, array $b): array
+    {
+        $edge = Cache::remember('valhalla-edge:'.md5($bentuk), now()->addDay(), function () use ($bentuk) {
+            try {
+                $r = Http::timeout(12)->withHeaders(['User-Agent' => 'NalarRuang/0.1 (proyek mahasiswa IPB)'])->post(self::VALHALLA_TRACE, [
+                    'encoded_polyline' => $bentuk,
+                    'shape_match' => 'edge_walk',
+                    'costing' => 'auto',
+                    'filters' => ['attributes' => ['edge.begin_shape_index', 'edge.end_shape_index', 'edge.toll', 'edge.length'], 'action' => 'include'],
+                ]);
+
+                return $r->ok() ? $r->json('edges') : null;
+            } catch (Throwable) {
+                return null;
+            }
+        });
+        if (! $edge) {
+            return [];
+        }
+
+        $titik = Polyline::decode($bentuk);
+        $calon = [];
+        foreach ($edge as $e) {
+            $i = $e['begin_shape_index'] ?? 0;
+            $j = max($i + 1, $e['end_shape_index'] ?? $i);
+            if (! isset($titik[$j])) {
+                break;
+            }
+            $k = $i + intdiv($j - $i - 1, 2);
+            [$p, $q] = [$titik[$k], $titik[$k + 1]];
+            $calon[] = ['m' => ($e['length'] ?? 0) * 1000, 'tol' => ! empty($e['toll']),
+                'tengah' => [($p[0] + $q[0]) / 2, ($p[1] + $q[1]) / 2], 'arah' => [$q[0] - $p[0], $q[1] - $p[1]]];
+        }
+        if (! $calon) {
+            return [];
+        }
+
+        $daftar = fn (int $sb) => '{'.implode(',', array_map(fn ($c) => $c['tengah'][$sb], $calon)).'}';
+        $kena = array_flip(array_column(DB::select(
+            "SELECT t.i FROM unnest(?::float8[], ?::float8[]) WITH ORDINALITY AS t(x, y, i)
+             WHERE EXISTS (SELECT 1 FROM fitur_peta f WHERE f.layer_id = 'mobilitas' AND f.jenis = 'ganjil_genap'
+                             AND ST_Intersects(f.geom, ST_SetSRID(ST_MakePoint(t.x, t.y), 4326)))
+               AND NOT ST_DWithin(ST_SetSRID(ST_MakePoint(t.x, t.y), 4326)::geography,
+                                  ST_Collect(ST_SetSRID(ST_MakePoint(?, ?), 4326), ST_SetSRID(ST_MakePoint(?, ?), 4326))::geography, ?)",
+            [$daftar(0), $daftar(1), $a[1], $a[0], $b[1], $b[0], self::GG_BEBAS_UJUNG],
+        ), 'i'));
+
+        // Kelompokkan edge berturut-turut di ruas ganjil-genap, lalu palang hanya kelompok yang cukup panjang.
+        $palang = [];
+        $kelompok = [];
+        $tutup = function () use (&$kelompok, &$palang) {
+            if (array_sum(array_column($kelompok, 'm')) >= self::GG_MIN_LEWAT) {
+                $jarak = 0.0;
+                $terakhir = -INF;
+                foreach ($kelompok as $c) {
+                    $jarak += $c['m'];
+                    if ($jarak - $c['m'] / 2 < self::GG_MIN_LEWAT / 2 || $c['m'] < 15 || $jarak - $terakhir < self::GG_JARAK_PALANG) {
+                        continue;
+                    }
+                    $terakhir = $jarak;
+                    $n = hypot(...$c['arah']) ?: 1;
+                    $d = [-$c['arah'][1] / $n * self::GG_SETENGAH_PALANG, $c['arah'][0] / $n * self::GG_SETENGAH_PALANG];
+                    [$x, $y] = $c['tengah'];
+                    $ujung = [round($x - $d[0], 6), round($y - $d[1], 6)];
+                    $palang[] = [$ujung, [round($x + $d[0], 6), round($y + $d[1], 6)], $ujung];
+                }
+            }
+            $kelompok = [];
+        };
+        foreach ($calon as $i => $c) {
+            if (! $c['tol'] && isset($kena[$i + 1])) {
+                $kelompok[] = $c;
+            } else {
+                $tutup();
+            }
+        }
+        $tutup();
+
+        return $palang;
+    }
+
+    /**
+     * Ruas ganjil-genap yang disusuri rute >= GG_MIN_LEWAT m (menyeberang persimpangan tidak dihitung).
+     *
+     * @param  list<list<array{0: float, 1: float}>>  $garis  potongan rute di luar jalan tol [lng, lat]
+     * @return array<string, float> nama ruas => meter yang dilalui
+     */
+    private function ruasGanjilGenap(array $garis): array
+    {
+        if (! $garis) {
+            return [];
+        }
+
+        return array_column(DB::select(
+            "WITH r AS (SELECT ST_LineMerge(ST_SetSRID(ST_GeomFromGeoJSON(?), 4326)) AS g)
+             SELECT f.nama, sum(ST_Length(d.geom::geography)) AS m FROM r
+             JOIN fitur_peta f ON f.layer_id = 'mobilitas' AND f.jenis = 'ganjil_genap' AND ST_Intersects(f.geom, r.g)
+             CROSS JOIN LATERAL ST_Dump(ST_Intersection(r.g, f.geom)) d
+             WHERE GeometryType(d.geom) = 'LINESTRING' AND ST_Length(d.geom::geography) >= ?
+             GROUP BY f.nama ORDER BY f.nama",
+            [json_encode(['type' => 'MultiLineString', 'coordinates' => $garis]), self::GG_MIN_LEWAT],
+        ), 'm', 'nama');
     }
 
     private function mobilOsrm(array $a, array $b, bool $lewatTol = true): ?array

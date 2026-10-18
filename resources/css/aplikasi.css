@@ -158,3 +158,8 @@
 .nr-route__saran button:hover, .nr-route__saran li[aria-selected="true"] button { background: var(--ink-05); }
 .nr-route__saran-nama { font: 600 13px/18px var(--font-sans); color: var(--navy-900); }
 .nr-route__saran-ket { font: 400 11px/16px var(--font-sans); color: var(--ink-60); }
+
+/* Keterangan ganjil-genap di Simulator Rute (T-024). */
+.nr-route__gg { display: flex; gap: 6px; align-items: flex-start; margin: 0; padding: 8px 10px; border-radius: var(--radius-xs); background: var(--red-50); color: var(--rose-800); font: 500 11px/16px var(--font-sans); }
+.nr-route__gg svg { flex: none; margin-top: 2px; }
+.nr-route__gg--aman { background: var(--ink-05); color: var(--ink-70); }

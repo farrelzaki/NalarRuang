@@ -75,7 +75,7 @@ export type RuteModa = {
 };
 
 export type CommuteResponse = {
-    pribadi: (RuteModa & { geometri: LineString; biaya_bbm?: number; biaya_tol?: number; lewat_tol?: boolean }) | null;
+    pribadi: (RuteModa & { geometri: LineString; biaya_bbm?: number; biaya_tol?: number; lewat_tol?: boolean; ganjil_genap?: { hindari: boolean; ruas: string[] } }) | null;
     publik: (RuteModa & {
         rincian: string;
         stasiun: { nama: string; lat: number; lng: number }[];

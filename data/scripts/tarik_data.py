@@ -7,11 +7,14 @@ Sumber yang ditarik otomatis (keputusan kelompok, docs/RENCANA.md bagian 2a):
   - Stasiun KRL/MRT/LRT dan halte TransJakarta untuk routing: Commute Data API (api.commute.shiorilabs.id, ODbL-1.0)
   - Semua halte TransJakarta dan halte ramah kursi roda: GTFS resmi TransJakarta (gtfs.transjakarta.co.id)
   - Halte Biskita Trans Pakuan: opentransum (JSON terbuka)
+  - Ruas ganjil-genap DKI: webmap publik ArcGIS "Ruas Ganjil Genap DKI Jakarta" (poligon badan jalan),
+    disaring ke 25 ruas Pergub DKI 88/2019 yang masih berlaku
 Layer yang menurut keputusan kelompok diolah manual (Mesin Waktu, Legalitas) tidak disentuh.
 Kualitas udara per kelurahan masih NILAI CONTOH sampai IQAir API (butuh kunci) dipasang.
 
 Butuh: Python 3 (pustaka standar), psql PostgreSQL 17 + PostGIS di database `nalarruang`.
 Jalankan dari akar repo:  python data/scripts/tarik_data.py
+Hanya ruas ganjil-genap:  python data/scripts/tarik_data.py ganjil_genap
 Hasil unduhan disimpan di storage/app/tarik/ sehingga jalan ulang tidak mengunduh lagi.
 """
 import csv
@@ -34,6 +37,7 @@ OVERPASS = ['https://overpass-api.de/api/interpreter', 'https://overpass.private
 COMMUTE = 'https://api.commute.shiorilabs.id'
 BISKITA = 'https://cdn.opentransum.randspace0.com/transport-data/transpakuan.json'
 GTFS_TJ = 'https://gtfs.transjakarta.co.id/files/file_gtfs.zip'
+GANJIL_GENAP = 'https://www.arcgis.com/sharing/rest/content/items/8f3c0bd235e04479a829a76a9bfab548/data?f=json'
 BIG_DESA = 'https://geoservices.big.go.id/rbi/rest/services/BATASWILAYAH/BATAS_DESAKEL_AR/MapServer/0/query'
 
 # Nama kabupaten/kota di data BIG (WADMKK) -> nama kota yang dipakai aplikasi.
@@ -390,6 +394,40 @@ def jaringan_tj():
     return hasil
 
 
+# Nama ruas di webmap (tak seragam) -> nama baku. Ruas yang tidak ada di sini (mis. Matraman Raya) tidak lagi berlaku.
+RUAS_GG = {
+    'FATMAWATI': 'Jl. RS Fatmawati', 'GAJAH MADA': 'Jl. Gajah Mada', 'GATOT SUB': 'Jl. Jend. Gatot Subroto',
+    'GUNUNG SAHARI': 'Jl. Gunung Sahari', 'RASUNA SAID': 'Jl. HR Rasuna Said', 'HAYAM WURUK': 'Jl. Hayam Wuruk',
+    'AHMAD YANI': 'Jl. Jend. Ahmad Yani', 'PANJAITAN': 'Jl. DI Panjaitan', 'PANDJAITAN': 'Jl. DI Panjaitan',
+    'SUDIRMAN': 'Jl. Jend. Sudirman', 'KRAMAT RAYA': 'Jl. Kramat Raya', 'KYAI CARINGIN': 'Jl. Kyai Caringin',
+    'PARMAN': 'Jl. Letjen S. Parman', 'HARYONO': 'Jl. MT Haryono', 'MAJAPAHIT': 'Jl. Majapahit',
+    'MEDAN MERDEKA BARAT': 'Jl. Medan Merdeka Barat', 'THAMRIN': 'Jl. MH Thamrin', 'PANGLIMA POLIM': 'Jl. Panglima Polim',
+    'SENEN': 'Jl. Senen Raya', 'PRAMUKA': 'Jl. Pramuka', 'SALEMBA': 'Jl. Salemba Raya',
+    'SISINGAMANGARAJA': 'Jl. Sisingamangaraja', 'SURYO PRANOTO': 'Jl. Suryopranoto', 'TOMANG RAYA': 'Jl. Tomang Raya',
+}
+
+
+def ganjil_genap():
+    """Poligon badan jalan ganjil-genap (Web Mercator di webmap) -> satu MultiPolygon per ruas, layer mobilitas."""
+    import math
+    d = json.loads(unduh(GANJIL_GENAP, 'ganjil_genap.json'))
+    lapis = d['operationalLayers'][0]['featureCollection']['layers'][0]
+    r = 6378137
+    ll = lambda x, y: [round(x / r * 180 / math.pi, 7), round((2 * math.atan(math.exp(y / r)) - math.pi / 2) * 180 / math.pi, 7)]
+    baris = []
+    for f in lapis['featureSet']['features']:
+        nama = next((v for k, v in RUAS_GG.items() if k in (f['attributes'].get('NAMA') or '').upper()), None)
+        if nama:
+            baris.append({'nama': nama, 'geometry': {'type': 'Polygon', 'coordinates': [[ll(*p) for p in c] for c in f['geometry']['rings']]}})
+    muat_tabel('gg', baris)
+    ekspor("""
+      SELECT json_build_object('type','Feature','properties', json_build_object('layer_id','mobilitas','jenis','ganjil_genap','nama', nama,
+               'sumber','Dishub DKI (webmap ArcGIS Ruas Ganjil Genap)','atribut', json_build_object('aturan','Pergub DKI 88/2019')),
+             'geometry', ST_AsGeoJSON(ST_Multi(ST_Simplify(ST_Union(ST_MakeValid(ST_SetSRID(ST_GeomFromGeoJSON(data->'geometry'), 4326))), 0.00001)), 6)::json)
+      FROM (SELECT data->>'nama' AS nama, data FROM tarik.gg) x GROUP BY nama ORDER BY nama;
+    """, f'{KELUAR}/fitur/ganjil_genap.geojson')
+
+
 def simpan_fitur(nama, daftar, sederhana=None):
     """Muat ke staging, buang yang di luar Jabodetabek, lalu ekspor."""
     muat_tabel(f'f_{nama}', daftar)
@@ -444,10 +482,16 @@ def main():
     simpan_fitur('inklusivitas', inklusivitas)
     simpan_fitur('mobilitas', mobilitas)
     simpan_fitur('jaringan_tj', jaringan_tj(), sederhana=0.00002)
+    ganjil_genap()
     ekspor_wilayah()
     psql('DROP SCHEMA tarik CASCADE;')
     print('Selesai. Muat ke basis data: php artisan db:seed --class=DemoPetaSeeder --force')
 
 
 if __name__ == '__main__':
+    if sys.argv[1:] == ['ganjil_genap']:
+        os.makedirs(CACHE, exist_ok=True)
+        psql('CREATE SCHEMA IF NOT EXISTS tarik;')
+        ganjil_genap()
+        sys.exit(0)
     sys.exit(main())

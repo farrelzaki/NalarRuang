@@ -69,6 +69,7 @@ export function SimbolPeta({ kind, size = 16 }: { kind: Simbol; size?: number })
         akses: <circle cx={8} cy={8} r={6} style={{ fill: 'var(--map-akses)', stroke: 'var(--white)', strokeWidth: 2 }} />,
         halte: <circle cx={8} cy={8} r={3.5} style={{ fill: 'var(--navy-900)', stroke: 'var(--white)', strokeWidth: 1.5 }} />,
         tol: <rect x={3} y={3} width={10} height={10} rx={2} style={{ fill: 'var(--amber-600)', stroke: 'var(--white)', strokeWidth: 1.5 }} />,
+        gg: batang('var(--rose-800)'),
         trotoar: garis('var(--map-akses)', '3 2.5'),
         mrt: batang('var(--map-mrt)'),
         lrt: batang('var(--map-lrt)'),

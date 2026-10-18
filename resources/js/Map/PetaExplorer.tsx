@@ -70,6 +70,7 @@ const JENIS_LABEL: Record<string, [string, string]> = {
     banjir: ['Bahaya banjir', 'Flood hazard'], rth: ['Ruang terbuka hijau', 'Green open space'], poi: ['Kafe & restoran', 'Cafés & restaurants'],
     akses: ['Akses disabilitas', 'Disability access'], trotoar: ['Trotoar', 'Sidewalk'], krl: ['Jalur KRL', 'KRL line'], mrt: ['Jalur MRT', 'MRT line'],
     lrt: ['Jalur LRT', 'LRT line'], stasiun: ['Stasiun', 'Station'], halte: ['Halte', 'Bus stop'], tol: ['Gerbang tol', 'Toll gate'],
+    ganjil_genap: ['Ruas ganjil-genap', 'Odd-even road'],
     proyek: ['Proyek infrastruktur', 'Infrastructure project'], legal: ['Bidang lahan', 'Land parcel'],
 };
 
@@ -94,6 +95,7 @@ function deskripsi(p: Record<string, any>): string {
         case 'krl': case 'mrt': case 'lrt': return p.nama ?? tr('Jalur kereta.', 'Railway line.');
         case 'proyek': return `${p.status ? istilah(p.status) : tr('Proyek', 'Project')}${p.tahun ? `, target ${p.tahun}` : ''}.`;
         case 'legal': return tr(`Status contoh: ${p.status ?? '—'}. Peruntukan: ${p.peruntukan ?? 'permukiman'}.`, `Sample status: ${istilah(p.status ?? '—')}. Land use: ${istilah(p.peruntukan ?? 'permukiman')}.`);
+        case 'ganjil_genap': return tr('Ganjil-genap (Pergub DKI 88/2019): Senin–Jumat 06.00–10.00 & 16.00–21.00 WIB.', 'Odd-even plates (Jakarta Gov. Reg. 88/2019): Mon–Fri 06:00–10:00 & 16:00–21:00.');
         case 'akses': return tr('Fasilitas ditandai ramah kursi roda.', 'Facility marked as wheelchair-friendly.');
         default: return p.nama ?? '';
     }
@@ -430,6 +432,15 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
             13,
         ).addTo(g);
     } else if (k === 'mobilitas') {
+        grupZoom(
+            L.geoJSON({ type: 'FeatureCollection', features: fc.features.filter((f) => f.properties?.jenis === 'ganjil_genap') } as FeatureCollection, {
+                pane: 'nrPoligon',
+                ...diKanvas,
+                style: { color: '#9f1239', weight: 1, opacity: 0.7, fillColor: '#9f1239', fillOpacity: 0.45 },
+                onEachFeature: popup,
+            }),
+            13,
+        ).addTo(g);
         const garis = fc.features.filter((f) => ['krl', 'mrt', 'lrt'].includes(f.properties?.jenis));
         L.geoJSON({ type: 'FeatureCollection', features: garis } as FeatureCollection, { pane: 'nrGaris', style: gaya.casing, interactive: false }).addTo(g);
         L.geoJSON({ type: 'FeatureCollection', features: garis } as FeatureCollection, {

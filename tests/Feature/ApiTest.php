@@ -110,7 +110,7 @@ class ApiTest extends TestCase
 
         $r = $this->getJson('/api/commute?dari=-6.2049,106.8049&ke=-6.2049,106.8349')->assertOk();
         $r->assertJsonStructure([
-            'pribadi' => ['jarak_km', 'waktu_menit', 'biaya', 'biaya_bbm', 'biaya_tol', 'lewat_tol', 'geometri'],
+            'pribadi' => ['jarak_km', 'waktu_menit', 'biaya', 'biaya_bbm', 'biaya_tol', 'lewat_tol', 'ganjil_genap' => ['hindari', 'ruas'], 'geometri'],
             'publik' => ['jarak_km', 'waktu_menit', 'biaya', 'rincian', 'stasiun', 'geometri' => ['jalan_kaki', 'rel']],
             'catatan',
         ]);
@@ -124,13 +124,40 @@ class ApiTest extends TestCase
         $this->getJson('/api/commute?dari=-6.2,106.8&ke=-6.2,106.83&bbm=100')->assertStatus(422);
     }
 
+    public function test_commute_hindari_ganjil_genap(): void
+    {
+        $this->palsukanLayananLuar();
+        DB::insert("INSERT INTO fitur_peta (layer_id, jenis, nama, atribut, sumber, geom, created_at, updated_at)
+            VALUES ('mobilitas', 'ganjil_genap', 'Jl. Uji', '{}'::jsonb, 'uji', ST_Multi(ST_MakeEnvelope(106.822, -6.206, 106.830, -6.204, 4326)), now(), now())");
+
+        $this->getJson('/api/commute?dari=-6.2049,106.8049&ke=-6.2049,106.8349')
+            ->assertOk()
+            ->assertJsonPath('pribadi.ganjil_genap', ['hindari' => false, 'ruas' => ['Jl. Uji']]);
+        Http::assertNotSent(fn (PermintaanHttp $q) => isset($q['exclude_polygons']));
+
+        // Server palsu selalu memberi rute yang sama, jadi ruas tetap dilaporkan tidak bisa dihindari.
+        $this->getJson('/api/commute?dari=-6.2049,106.8049&ke=-6.2049,106.8349&gg=1')
+            ->assertOk()
+            ->assertJsonPath('pribadi.ganjil_genap', ['hindari' => true, 'ruas' => ['Jl. Uji']]);
+        Http::assertSent(fn (PermintaanHttp $q) => str_ends_with($q->url(), '/route') && count($q['exclude_polygons'] ?? []) === 1
+            && count($q['exclude_polygons'][0]) === 3);
+    }
+
     private function palsukanLayananLuar(): void
     {
         $garis = ['type' => 'LineString', 'coordinates' => [[106.8049, -6.2049], [106.8349, -6.2049]]];
         Http::fake([
+            // Garis lurus 106.8049 -> 106.8349 di lintang -6.2049; separuh pertama jalan tol.
+            'valhalla1.openstreetmap.de/trace_attributes' => Http::response(['edges' => [
+                ['begin_shape_index' => 0, 'end_shape_index' => 1, 'toll' => true, 'length' => 1.65],
+                ['begin_shape_index' => 1, 'end_shape_index' => 2, 'length' => 1.65],
+            ]]),
             'valhalla1.openstreetmap.de/*' => Http::response(['trip' => [
-                'summary' => ['length' => 3.4, 'time' => 600],
-                'legs' => [['shape' => '_p~iF~ps|U_ulLnnqC', 'maneuvers' => [['length' => 2.0, 'toll' => true], ['length' => 1.4]]]],
+                'summary' => ['length' => 3.3, 'time' => 600],
+                'legs' => [['shape' => 'f}uyJgizujE?oh\\?oh\\', 'maneuvers' => [
+                    ['length' => 1.65, 'toll' => true, 'begin_shape_index' => 0, 'end_shape_index' => 1],
+                    ['length' => 1.65, 'begin_shape_index' => 1, 'end_shape_index' => 2],
+                ]]],
             ]]),
             'router.project-osrm.org/*' => Http::response(['routes' => [['distance' => 3400, 'duration' => 600, 'geometry' => $garis]]]),
             'routing.openstreetmap.de/*' => Http::response(['routes' => [['distance' => 100, 'duration' => 80, 'geometry' => $garis]]]),

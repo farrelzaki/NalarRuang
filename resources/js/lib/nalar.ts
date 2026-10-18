@@ -20,7 +20,7 @@ export const FRASA: Dwi[] = [
 
 export type Simbol =
     | 'banjir' | 'hijau' | 'rth' | 'akses' | 'trotoar' | 'mrt' | 'lrt' | 'krl-bogor' | 'krl-rangkas'
-    | 'krl-cikarang' | 'krl-lain' | 'stasiun' | 'halte' | 'tol' | 'waktu' | 'legal' | 'rute' | 'jalan-kaki' | 'terpilih';
+    | 'krl-cikarang' | 'krl-lain' | 'stasiun' | 'halte' | 'tol' | 'gg' | 'waktu' | 'legal' | 'rute' | 'jalan-kaki' | 'terpilih';
 
 export const LAYERS: { key: LayerKey; title: Dwi; desc: Dwi; grid?: boolean; legend: [Simbol, Dwi][] }[] = [
     { key: 'historis_risiko', title: ['Historis & Risiko', 'History & Risk'], desc: ['Area rawan banjir dan risiko bencana lain.', 'Flood-prone areas and other disaster risks.'],
@@ -30,7 +30,7 @@ export const LAYERS: { key: LayerKey; title: Dwi; desc: Dwi; grid?: boolean; leg
     { key: 'inklusivitas', title: ['Inklusivitas', 'Inclusivity'], desc: ['Aksesibilitas pedestrian dan fasilitas umum.', 'Pedestrian accessibility and public facilities.'],
       legend: [['trotoar', ['Trotoar dan akses pedestrian layak.', 'Proper sidewalks and pedestrian access.']], ['akses', ['Titik akses dan halte ramah kursi roda.', 'Wheelchair-friendly access points and stops.']]] },
     { key: 'mobilitas', title: ['Mobilitas & Transit', 'Mobility & Transit'], desc: ['Halte, stasiun KRL/MRT, dan jalur arteri.', 'Bus stops, KRL/MRT stations, and arterial roads.'], grid: true,
-      legend: [['mrt', ['Jalur MRT (oranye).', 'MRT line (orange).']], ['krl-bogor', ['KRL Merah (Bogor).', 'KRL Red (Bogor).']], ['krl-rangkas', ['KRL Hijau (Rangkas).', 'KRL Green (Rangkas).']], ['krl-cikarang', ['KRL Biru (Cikarang).', 'KRL Blue (Cikarang).']], ['lrt', ['Jalur LRT (ungu).', 'LRT line (purple).']], ['stasiun', ['Stasiun transit.', 'Transit station.']], ['halte', ['Halte TransJakarta & Biskita (perbesar peta).', 'TransJakarta & Biskita stop (zoom in).']], ['tol', ['Gerbang tol.', 'Toll gate.']]] },
+      legend: [['mrt', ['Jalur MRT (oranye).', 'MRT line (orange).']], ['krl-bogor', ['KRL Merah (Bogor).', 'KRL Red (Bogor).']], ['krl-rangkas', ['KRL Hijau (Rangkas).', 'KRL Green (Rangkas).']], ['krl-cikarang', ['KRL Biru (Cikarang).', 'KRL Blue (Cikarang).']], ['lrt', ['Jalur LRT (ungu).', 'LRT line (purple).']], ['stasiun', ['Stasiun transit.', 'Transit station.']], ['halte', ['Halte TransJakarta & Biskita (perbesar peta).', 'TransJakarta & Biskita stop (zoom in).']], ['tol', ['Gerbang tol.', 'Toll gate.']], ['gg', ['Ruas ganjil-genap DKI (perbesar peta).', 'Jakarta odd-even roads (zoom in).']]] },
     { key: 'mesin_waktu', title: ['Mesin Waktu', 'Time Machine'], desc: ['Proyek infrastruktur dan tata ruang masa depan.', 'Future infrastructure and spatial planning projects.'],
       legend: [['waktu', ['Proyek transportasi/LRT masa depan yang sedang dibangun.', 'Future transport/LRT projects under construction.']]] },
     { key: 'legalitas', title: ['Legalitas Lahan', 'Land Legality'], desc: ['Gambaran status kepemilikan dan peruntukan.', 'Overview of ownership status and land use.'],

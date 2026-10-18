@@ -19,6 +19,8 @@ type Props = {
     onModa: (m: Moda) => void;
     lewatTol: boolean;
     onLewatTol: () => void;
+    hindariGg: boolean;
+    onHindariGg: () => void;
     hargaBbm: number;
     onHargaBbm: (rp: number) => void;
     onPilihDiPeta: (titik: 'a' | 'b') => void;
@@ -27,7 +29,7 @@ type Props = {
     onTutup: () => void;
 };
 
-export function SimulatorRute({ a, b, menunggu, hasil, memuat, moda, onModa, lewatTol, onLewatTol, hargaBbm, onHargaBbm, onPilihDiPeta, onIsiTitik, onReset, onTutup }: Props) {
+export function SimulatorRute({ a, b, menunggu, hasil, memuat, moda, onModa, lewatTol, onLewatTol, hindariGg, onHindariGg, hargaBbm, onHargaBbm, onPilihDiPeta, onIsiTitik, onReset, onTutup }: Props) {
     const { t, bahasa } = useBahasa();
     const lengkap = !!(a && b && hasil);
     const baris = (huruf: 'A' | 'B', titik: TitikRute, kunci: 'a' | 'b') => (
@@ -104,6 +106,13 @@ export function SimulatorRute({ a, b, menunggu, hasil, memuat, moda, onModa, lew
                     <Toggle checked={lewatTol} label={t('Lewat jalan tol', 'Use toll roads')} onChange={onLewatTol} />
                 </div>
             )}
+            {lengkap && moda === 'mobil' && (
+                <div className="nr-route__opsi">
+                    <span>{t('Hindari ruas ganjil-genap', 'Avoid odd-even roads')}</span>
+                    <Toggle checked={hindariGg} label={t('Hindari ruas ganjil-genap', 'Avoid odd-even roads')} onChange={onHindariGg} />
+                </div>
+            )}
+            {lengkap && moda === 'mobil' && <InfoGanjilGenap gg={hasil?.pribadi?.ganjil_genap} />}
             {lengkap && moda === 'mobil' && <IsianBbm nilai={hargaBbm} onSimpan={onHargaBbm} />}
             {memuat && <Keadaan kind="memuat" title={t('Menghitung rute', 'Calculating route')} />}
             {lengkap && (
@@ -118,6 +127,29 @@ export function SimulatorRute({ a, b, menunggu, hasil, memuat, moda, onModa, lew
                 </p>
             )}
         </section>
+    );
+}
+
+/** Keterangan ganjil-genap DKI (Pergub 88/2019) untuk rute mobil (T-024). */
+function InfoGanjilGenap({ gg }: { gg?: { hindari: boolean; ruas: string[] } }) {
+    const { t } = useBahasa();
+    if (!gg) return null;
+    const ruas = gg.ruas.join(', ');
+    const jam = t('Berlaku Senin–Jumat 06.00–10.00 & 16.00–21.00 WIB, kecuali libur nasional.', 'Applies Mon–Fri 06:00–10:00 & 16:00–21:00, except public holidays.');
+    let teks: string;
+    if (gg.hindari) {
+        teks = ruas
+            ? t(`Ruas ganjil-genap yang tidak bisa dihindari: ${ruas}.`, `Odd-even roads that could not be avoided: ${ruas}.`)
+            : t('Rute tidak menyusuri ruas ganjil-genap.', 'The route avoids odd-even roads.');
+    } else {
+        if (!ruas) return null;
+        teks = t(`Rute melewati ruas ganjil-genap: ${ruas}. ${jam}`, `The route uses odd-even roads: ${ruas}. ${jam}`);
+    }
+    return (
+        <p className={cx('nr-route__gg', gg.hindari && !ruas && 'nr-route__gg--aman')} role="status">
+            <Ikon name={gg.hindari && !ruas ? 'check' : 'info'} size={12} />
+            <span>{teks}</span>
+        </p>
     );
 }
 

@@ -85,7 +85,7 @@ function IsiLegenda() {
         [['Historis & Risiko', 'History & Risk'], ['banjir'], ['Area rawan banjir historis (merah).', 'Historical flood-prone area (red).']],
         [['Ekosistem Mikro', 'Micro Ecosystem'], ['hijau'], ['Ruang hijau, taman & fasilitas gaya hidup (hijau).', 'Green space, parks & lifestyle amenities (green).']],
         [['Legalitas Lahan', 'Land Legality'], ['legal'], ['Pemetaan zona bidang tanah legal (ungu).', 'Legal land parcel zones (purple).']],
-        [['Mobilitas & Transit', 'Mobility & Transit'], ['mrt', 'krl-bogor', 'krl-rangkas', 'krl-cikarang', 'lrt', 'stasiun', 'halte', 'tol', 'waktu'], null],
+        [['Mobilitas & Transit', 'Mobility & Transit'], ['mrt', 'krl-bogor', 'krl-rangkas', 'krl-cikarang', 'lrt', 'stasiun', 'halte', 'tol', 'gg', 'waktu'], null],
         [['Inklusivitas', 'Inclusivity'], ['trotoar', 'akses'], ['Trotoar layak (biru putus-putus) & titik akses disabilitas (biru).', 'Proper sidewalks (dashed blue) & disability access points (blue).']],
     ];
     return (
