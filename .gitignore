@@ -25,3 +25,7 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Tim memakai npm (package-lock.json); lockfile lain membuat build Heroku gagal.
+pnpm-lock.yaml
+yarn.lock
