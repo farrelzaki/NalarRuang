@@ -74,7 +74,7 @@ export default function Peta() {
         const saring = subMati.map((s) => SUBFITUR[s]).filter((f): f is NonNullable<typeof f> => !!f);
         // Saat rute umum tampil, jaringan transit lain disembunyikan: peta hanya menunjukkan lin yang dilalui (T-042).
         if (panelKiri === 'rute' && moda === 'transit' && rute?.publik) {
-            saring.push((p) => ['krl', 'mrt', 'lrt', 'stasiun', 'halte', 'tol', 'ganjil_genap'].includes(String(p.jenis)));
+            saring.push((p) => ['krl', 'mrt', 'lrt', 'brt', 'stasiun', 'halte', 'tol', 'ganjil_genap'].includes(String(p.jenis)));
         }
         if (!saring.length) return layerData;
         const hasil: typeof layerData = {};

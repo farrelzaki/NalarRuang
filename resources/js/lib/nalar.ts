@@ -20,7 +20,7 @@ export const FRASA: Dwi[] = [
 
 export type Simbol =
     | 'banjir' | 'hijau' | 'rth' | 'akses' | 'trotoar' | 'mrt' | 'lrt' | 'krl-bogor' | 'krl-rangkas'
-    | 'krl-cikarang' | 'krl-lain' | 'stasiun' | 'halte' | 'halte-brt' | 'tol' | 'gg' | 'waktu' | 'waktu-tol' | 'legal' | 'rute' | 'jalan-kaki' | 'terpilih';
+    | 'krl-cikarang' | 'krl-lain' | 'krl-tangerang' | 'krl-priok' | 'krl-bandara' | 'lrt-jabodebek' | 'brt' | 'stasiun' | 'halte' | 'halte-brt' | 'tol' | 'gg' | 'waktu' | 'waktu-tol' | 'legal' | 'rute' | 'jalan-kaki' | 'terpilih';
 
 export const LAYERS: { key: LayerKey; title: Dwi; desc: Dwi; grid?: boolean; legend: [Simbol, Dwi][] }[] = [
     { key: 'historis_risiko', title: ['Historis & Risiko', 'History & Risk'], desc: ['Area rawan banjir dan risiko bencana lain.', 'Flood-prone areas and other disaster risks.'],
@@ -30,7 +30,7 @@ export const LAYERS: { key: LayerKey; title: Dwi; desc: Dwi; grid?: boolean; leg
     { key: 'inklusivitas', title: ['Inklusivitas', 'Inclusivity'], desc: ['Aksesibilitas pedestrian dan fasilitas umum.', 'Pedestrian accessibility and public facilities.'],
       legend: [['trotoar', ['Trotoar dan akses pedestrian layak.', 'Proper sidewalks and pedestrian access.']], ['akses', ['Titik akses dan halte ramah kursi roda.', 'Wheelchair-friendly access points and stops.']]] },
     { key: 'mobilitas', title: ['Mobilitas & Transit', 'Mobility & Transit'], desc: ['Halte, stasiun KRL/MRT, dan jalur arteri.', 'Bus stops, KRL/MRT stations, and arterial roads.'], grid: true,
-      legend: [['mrt', ['Jalur MRT (oranye).', 'MRT line (orange).']], ['krl-bogor', ['KRL Merah (Bogor).', 'KRL Red (Bogor).']], ['krl-rangkas', ['KRL Hijau (Rangkas).', 'KRL Green (Rangkas).']], ['krl-cikarang', ['KRL Biru (Cikarang).', 'KRL Blue (Cikarang).']], ['krl-lain', ['KRL lin lain (Tangerang, Tanjung Priok, Bandara).', 'Other KRL lines (Tangerang, Tanjung Priok, Airport).']], ['lrt', ['Jalur LRT (ungu).', 'LRT line (purple).']], ['stasiun', ['Stasiun transit.', 'Transit station.']], ['halte-brt', ['Halte BRT TransJakarta (perbesar peta).', 'TransJakarta BRT stop (zoom in).']], ['halte', ['Halte bus lain, termasuk Biskita (perbesar peta).', 'Other bus stops, incl. Biskita (zoom in).']], ['tol', ['Gerbang tol.', 'Toll gate.']], ['gg', ['Ruas ganjil-genap DKI (perbesar peta).', 'Jakarta odd-even roads (zoom in).']]] },
+      legend: [['mrt', ['MRT Lin Utara-Selatan (merah).', 'MRT North-South Line (red).']], ['krl-bogor', ['KRL Lin Bogor (merah).', 'KRL Bogor Line (red).']], ['krl-rangkas', ['KRL Lin Rangkasbitung (hijau).', 'KRL Rangkasbitung Line (green).']], ['krl-cikarang', ['KRL Lin Cikarang (biru muda).', 'KRL Cikarang Line (light blue).']], ['krl-tangerang', ['KRL Lin Tangerang (cokelat).', 'KRL Tangerang Line (brown).']], ['krl-priok', ['KRL Lin Tanjung Priok (merah muda).', 'KRL Tanjung Priok Line (pink).']], ['krl-bandara', ['KA Bandara Soekarno-Hatta (biru tua).', 'Soekarno-Hatta Airport Rail (navy).']], ['lrt', ['LRT Jakarta (oranye).', 'LRT Jakarta (orange).']], ['lrt-jabodebek', ['LRT Jabodebek Bekasi (hijau tua) & Cibubur (biru tua).', 'LRT Jabodebek Bekasi (dark green) & Cibubur (dark blue).']], ['brt', ['Rute BRT TransJakarta (warna koridor).', 'TransJakarta BRT routes (corridor colours).']], ['stasiun', ['Stasiun transit.', 'Transit station.']], ['halte-brt', ['Halte BRT TransJakarta (perbesar peta).', 'TransJakarta BRT stop (zoom in).']], ['halte', ['Halte bus lain, termasuk Biskita (perbesar peta).', 'Other bus stops, incl. Biskita (zoom in).']], ['tol', ['Gerbang tol.', 'Toll gate.']], ['gg', ['Ruas ganjil-genap DKI (perbesar peta).', 'Jakarta odd-even roads (zoom in).']]] },
     { key: 'mesin_waktu', title: ['Mesin Waktu', 'Time Machine'], desc: ['Proyek infrastruktur dan tata ruang masa depan.', 'Future infrastructure and spatial planning projects.'],
       legend: [['waktu', ['MRT Fase 2A Bundaran HI–Kota (dibangun).', 'MRT Phase 2A Bundaran HI–Kota (under construction).']], ['waktu-tol', ['Tol Jakarta–Cikampek II Selatan (dibangun).', 'Jakarta–Cikampek II South toll road (under construction).']]] },
     { key: 'legalitas', title: ['Legalitas Lahan', 'Land Legality'], desc: ['Gambaran status kepemilikan dan peruntukan.', 'Overview of ownership status and land use.'],
@@ -42,14 +42,21 @@ export const WARNA_LIN: Record<string, string> = {
     bogor: 'var(--map-krl-bogor)',
     rangkas: 'var(--map-krl-rangkas)',
     cikarang: 'var(--map-krl-cikarang)',
+    tangerang: 'var(--map-krl-tangerang)',
+    priok: 'var(--map-krl-priok)',
+    bandara: 'var(--map-krl-bandara)',
     lain: 'var(--map-krl-lain)',
     mrt: 'var(--map-mrt)',
     lrt: 'var(--map-lrt)',
+    'lrt-jakarta': 'var(--map-lrt)',
+    'lrt-bekasi': 'var(--map-lrt-bekasi)',
+    'lrt-cibubur': 'var(--map-lrt-cibubur)',
+    kalayang: 'var(--map-kalayang)',
     tj: 'var(--navy-900)',
 };
 
 type Prop = Record<string, unknown>;
-const KRL_UTAMA = ['bogor', 'rangkas', 'cikarang'];
+const KRL_UTAMA = ['bogor', 'rangkas', 'cikarang', 'tangerang', 'priok', 'bandara'];
 /**
  * Sub-fitur tiap baris legenda: fitur mana yang disembunyikan bila baris itu dimatikan (T-034).
  * Properti fitur dari /api/layers sudah diratakan (jenis, lin, brt, moda, ...).
@@ -61,7 +68,12 @@ export const SUBFITUR: Partial<Record<Simbol, (p: Prop) => boolean>> = {
     trotoar: (p) => p.jenis === 'trotoar',
     akses: (p) => p.jenis === 'akses',
     mrt: (p) => p.jenis === 'mrt',
-    lrt: (p) => p.jenis === 'lrt',
+    lrt: (p) => p.jenis === 'lrt' && !['lrt-bekasi', 'lrt-cibubur'].includes(String(p.lin)),
+    'lrt-jabodebek': (p) => p.jenis === 'lrt' && ['lrt-bekasi', 'lrt-cibubur'].includes(String(p.lin)),
+    'krl-tangerang': (p) => p.jenis === 'krl' && p.lin === 'tangerang',
+    'krl-priok': (p) => p.jenis === 'krl' && p.lin === 'priok',
+    'krl-bandara': (p) => p.jenis === 'krl' && p.lin === 'bandara',
+    brt: (p) => p.jenis === 'brt',
     'krl-bogor': (p) => p.jenis === 'krl' && p.lin === 'bogor',
     'krl-rangkas': (p) => p.jenis === 'krl' && p.lin === 'rangkas',
     'krl-cikarang': (p) => p.jenis === 'krl' && p.lin === 'cikarang',

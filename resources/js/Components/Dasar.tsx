@@ -78,6 +78,21 @@ export function SimbolPeta({ kind, size = 16 }: { kind: Simbol; size?: number })
         'krl-rangkas': garis('var(--map-krl-rangkas)'),
         'krl-cikarang': garis('var(--map-krl-cikarang)'),
         'krl-lain': garis('var(--map-krl-lain)'),
+        'krl-tangerang': garis('var(--map-krl-tangerang)'),
+        'krl-priok': garis('var(--map-krl-priok)'),
+        'krl-bandara': garis('var(--map-krl-bandara)'),
+        'lrt-jabodebek': (
+            <>
+                <rect x={0} y={3} width={16} height={4} rx={2} style={{ fill: 'var(--map-lrt-bekasi)' }} />
+                <rect x={0} y={9} width={16} height={4} rx={2} style={{ fill: 'var(--map-lrt-cibubur)' }} />
+            </>
+        ),
+        brt: (
+            <>
+                <line x1={1} x2={15} y1={5} y2={5} style={{ stroke: '#d62126', strokeWidth: 2.5 }} />
+                <line x1={1} x2={15} y1={11} y2={11} style={{ stroke: '#2f489c', strokeWidth: 2.5 }} />
+            </>
+        ),
         waktu: garis('var(--map-mrt)', '4 3'),
         'waktu-tol': garis('#e892a2', '4 3'),
         stasiun: <circle cx={8} cy={8} r={5} style={{ fill: 'var(--map-stasiun)', stroke: 'var(--navy-900)', strokeWidth: 2 }} />,

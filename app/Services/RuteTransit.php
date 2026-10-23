@@ -125,7 +125,8 @@ class RuteTransit
     {
         if ($operator === 'KCI') {
             $nama = strtolower($namaLin[$lin] ?? $lin);
-            foreach (['rangkas' => 'rangkas', 'bogor' => 'bogor', 'nambo' => 'bogor', 'cikarang' => 'cikarang', 'bekasi' => 'cikarang'] as $kunci => $warna) {
+            foreach (['rangkas' => 'rangkas', 'bogor' => 'bogor', 'nambo' => 'bogor', 'cikarang' => 'cikarang', 'bekasi' => 'cikarang',
+                'tangerang' => 'tangerang', 'priok' => 'priok', 'soekarno' => 'bandara', 'bandara' => 'bandara'] as $kunci => $warna) {
                 if (str_contains($nama, $kunci)) {
                     return $warna;
                 }
@@ -136,7 +137,9 @@ class RuteTransit
 
         return match ($operator) {
             'MRTJ' => 'mrt',
-            'LRTJ', 'LRTJBDB' => 'lrt',
+            'LRTJ' => 'lrt',
+            'LRTJBDB' => str_contains(strtolower($namaLin[$lin] ?? $lin), 'cibubur') ? 'lrt-cibubur' : 'lrt-bekasi',
+            'APCGK' => 'kalayang',
             'TJ' => 'tj',
             default => 'lain',
         };

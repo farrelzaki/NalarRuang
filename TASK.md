@@ -80,7 +80,7 @@ Checkpoint dan approval:
 | T-027 | Landing | Hapus IQAir | [x] 23 Okt (logo & FAQ; skor Zen masih pakai kualitas udara contoh) |
 | T-028 | Peta | Ikon gerbang tol = rambu jalan tol (gambar komentar) | [x] 23 Okt |
 | T-029 | Peta | Ikon halte = rambu bus STOP; halte BRT = ikon "BRT" | [x] 23 Okt (BRT = halte koridor TransJakarta; tampil mulai zoom 15) |
-| T-030 | Peta | Warna lin MRT, LRTJ, LRT Jabodebek, KRL, kereta bandara, BRT sesuai PDF Drive; tampilkan rute BRT | [ ] Butuh PDF (akses Drive) |
+| T-030 | Peta | Warna lin MRT, LRTJ, LRT Jabodebek, KRL, kereta bandara, BRT sesuai PDF Drive; tampilkan rute BRT | [x] 23 Okt (warna dari PDF Peta Integrasi JakLingko; 31 koridor BRT GTFS dengan warna resmi) |
 | T-031 | Peta | Batas peta Jabodetabek + toast "Anda sudah mencapai batas maksimum peta"; batas zoom out | [x] 23 Okt (zoom out min. 10, HP 9) |
 | T-032 | Peta | Lin KRL Cikarang (biru) melewati Cikarang | [x] 23 Okt (relasi KA lokal Walahar dibuang) |
 | T-033 | Peta | Kesimpulan inspector lebih informatif (sebut nama & jarak fasilitas) | [x] 23 Okt (titik: nama & jarak fasilitas, jumlah kafe 1 km, udara & banjir untuk Zen; wilayah: jumlah fasilitas) |

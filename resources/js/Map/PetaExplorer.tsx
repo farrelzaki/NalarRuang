@@ -97,6 +97,7 @@ function deskripsi(p: Record<string, any>): string {
         case 'poi': return p.kategori ? `${istilah(p.kategori)}.` : tr('Tempat makan dan nongkrong.', 'A place to eat and hang out.');
         case 'stasiun': return `${p.moda ? String(p.moda).toUpperCase() : tr('Stasiun', 'Station')}${p.lin ? ` · ${tr('Lin', 'Line')} ${p.lin}` : ''}.`;
         case 'krl': case 'mrt': case 'lrt': return p.nama ?? tr('Jalur kereta.', 'Railway line.');
+        case 'brt': return `${tr('Koridor', 'Corridor')} ${p.koridor ?? ''}${p.nama ? ` · ${p.nama}` : ''}.`;
         case 'proyek': return `${p.status ? istilah(p.status) : tr('Proyek', 'Project')}${p.tahun ? `, target ${p.tahun}` : ''}.`;
         case 'legal': return tr(`Status contoh: ${p.status ?? '—'}. Peruntukan: ${p.peruntukan ?? 'permukiman'}.`, `Sample status: ${istilah(p.status ?? '—')}. Land use: ${istilah(p.peruntukan ?? 'permukiman')}.`);
         case 'ganjil_genap': return tr('Ganjil-genap (Pergub DKI 88/2019): Senin–Jumat 06.00–10.00 & 16.00–21.00 WIB.', 'Odd-even plates (Jakarta Gov. Reg. 88/2019): Mon–Fri 06:00–10:00 & 16:00–21:00.');
@@ -515,6 +516,13 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
             }),
             13,
         ).addTo(g);
+        // Rute BRT TransJakarta di bawah rel, warna koridor resmi (T-030).
+        L.geoJSON({ type: 'FeatureCollection', features: fc.features.filter((f) => f.properties?.jenis === 'brt') } as FeatureCollection, {
+            pane: 'nrGaris',
+            ...diKanvas,
+            style: (f) => ({ color: f?.properties?.warna ?? '#0f1b3d', weight: 3, opacity: 0.85 }),
+            onEachFeature: popup,
+        } as L.GeoJSONOptions).addTo(g);
         const garis = fc.features.filter((f) => ['krl', 'mrt', 'lrt'].includes(f.properties?.jenis));
         L.geoJSON({ type: 'FeatureCollection', features: garis } as FeatureCollection, { pane: 'nrGaris', style: gaya.casing, interactive: false }).addTo(g);
         L.geoJSON({ type: 'FeatureCollection', features: garis } as FeatureCollection, {
@@ -522,7 +530,7 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
             style: (f) => {
                 const j = f?.properties?.jenis;
                 if (j === 'mrt') return { color: gaya.warna.mrt(), weight: 5, opacity: 1 };
-                if (j === 'lrt') return { color: gaya.warna.lrt(), weight: 5, opacity: 1 };
+                if (j === 'lrt') return { color: gaya.warna.lrtLin(f?.properties?.lin ?? ''), weight: 5, opacity: 1 };
                 return { color: gaya.warna.krl(f?.properties?.lin ?? 'lain'), weight: 4, opacity: 1, dashArray: '10 6' };
             },
             onEachFeature: popup,
@@ -540,7 +548,7 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
                 pointToLayer: (_f, ll) => L.marker(ll, { pane: 'nrTitik', icon: IKON_TOL }),
                 onEachFeature: popup,
             }),
-            12,
+            13,
         ).addTo(g);
         L.geoJSON({ type: 'FeatureCollection', features: fc.features.filter((f) => f.properties?.jenis === 'stasiun') } as FeatureCollection, {
             pane: 'nrStasiun',

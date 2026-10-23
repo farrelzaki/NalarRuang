@@ -274,7 +274,7 @@ def tarik_inklusivitas():
 def lin_krl(nama):
     n = nama.lower()
     for kunci, lin in [('rangkas', 'rangkas'), ('bogor', 'bogor'), ('nambo', 'bogor'), ('cikarang', 'cikarang'), ('bekasi', 'cikarang'),
-                       ('tangerang', 'tangerang'), ('priok', 'priok'), ('soekarno', 'bandara'), ('bandara', 'bandara')]:
+                       ('tangerang', 'tangerang'), ('priok', 'priok'), ('priuk', 'priok'), ('soekarno', 'bandara'), ('bandara', 'bandara')]:
         if kunci in n:
             return lin
     return 'lain'
@@ -283,6 +283,36 @@ def lin_krl(nama):
 # Lin KRL Rangkasbitung melewati batas Jabodetabek (Maja-Citeras-Rangkasbitung di Kab. Lebak): diambil utuh.
 KOTAK_RANGKAS = '-6.45,106.20,-6.25,106.43'
 UJUNG_MRT_LAT = -6.2900  # selatan stasiun Lebak Bulus = rel depo, tidak digambar
+
+
+def lin_lrt(nama):
+    """LRT Jakarta, LRT Jabodebek (Bekasi/Cibubur), Kalayang: warna berbeda di peta (T-030)."""
+    n = nama.lower()
+    if 'kalayang' in n or 'skytrain' in n:
+        return 'kalayang'
+    if 'bekasi' in n or 'jatimulya' in n:
+        return 'lrt-bekasi'
+    if 'cibubur' in n or 'harjamukti' in n:
+        return 'lrt-cibubur'
+    return 'lrt-jakarta'
+
+
+def rute_brt():
+    """Satu bentuk rute (terpanjang) per koridor BRT TransJakarta dari GTFS, dengan warna resmi koridor (T-030)."""
+    terpanjang = {}
+    for f in jaringan_tj():
+        a = f['properties']['atribut']
+        if a.get('kategori') != 'BRT':
+            continue
+        n = len(f['geometry']['coordinates'])
+        if n > terpanjang.get(a['koridor'], (0, None))[0]:
+            terpanjang[a['koridor']] = (n, f)
+    hasil = []
+    for koridor, (_, f) in sorted(terpanjang.items()):
+        hasil.append(fitur(f['geometry'], layer_id='mobilitas', jenis='brt', nama=f['properties']['nama'], sumber='GTFS TransJakarta',
+                           atribut={'koridor': koridor, 'warna': f['properties']['atribut']['warna'].lower()}))
+    print(f'  rute BRT TransJakarta: {len(hasil)} koridor', flush=True)
+    return hasil
 
 
 def tarik_mobilitas():
@@ -301,7 +331,7 @@ def tarik_mobilitas():
         if t.get('route') == 'subway' or 'mrt' in teks:
             jenis, lin = 'mrt', 'mrt'
         elif t.get('route') in ('light_rail', 'monorail') or 'lrt' in teks:
-            jenis, lin = 'lrt', 'lrt'
+            jenis, lin = 'lrt', lin_lrt(t.get('name', '') + ' ' + t.get('network', ''))
         elif any(k in teks for k in ('commuter', 'krl', 'kci', 'commuterline')):
             jenis, lin = 'krl', lin_krl(t.get('name', ''))
         else:
@@ -364,6 +394,7 @@ def tarik_mobilitas():
 
     for e in tol:
         hasil.append(fitur({'type': 'Point', 'coordinates': titik(e)}, layer_id='mobilitas', jenis='tol', nama=e.get('tags', {}).get('name'), sumber='OSM', atribut={}))
+    hasil += rute_brt()
     return hasil
 
 

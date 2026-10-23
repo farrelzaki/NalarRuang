@@ -91,7 +91,7 @@ function IsiLegenda() {
         [['Historis & Risiko', 'History & Risk'], ['banjir'], ['Area rawan banjir historis (merah).', 'Historical flood-prone area (red).']],
         [['Ekosistem Mikro', 'Micro Ecosystem'], ['hijau'], ['Ruang hijau, taman & fasilitas gaya hidup (hijau).', 'Green space, parks & lifestyle amenities (green).']],
         [['Legalitas Lahan', 'Land Legality'], ['legal'], ['Pemetaan zona bidang tanah legal (ungu).', 'Legal land parcel zones (purple).']],
-        [['Mobilitas & Transit', 'Mobility & Transit'], ['mrt', 'krl-bogor', 'krl-rangkas', 'krl-cikarang', 'lrt', 'stasiun', 'halte-brt', 'halte', 'tol', 'gg'], null],
+        [['Mobilitas & Transit', 'Mobility & Transit'], ['mrt', 'krl-bogor', 'krl-rangkas', 'krl-cikarang', 'krl-tangerang', 'krl-priok', 'krl-bandara', 'lrt', 'lrt-jabodebek', 'brt', 'stasiun', 'halte-brt', 'halte', 'tol', 'gg'], null],
         [['Mesin Waktu', 'Time Machine'], ['waktu', 'waktu-tol'], ['Infrastruktur masa depan, garis putus-putus: MRT (oranye) & tol (merah).', 'Future infrastructure, dashed: MRT (orange) & toll road (red).']],
         [['Inklusivitas', 'Inclusivity'], ['trotoar', 'akses'], ['Trotoar layak (biru putus-putus) & titik akses disabilitas (biru).', 'Proper sidewalks (dashed blue) & disability access points (blue).']],
     ];
