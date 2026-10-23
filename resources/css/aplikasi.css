@@ -149,7 +149,9 @@
 .nr-route__opsi { display: flex; align-items: center; justify-content: space-between; gap: 12px; font: 500 12px/18px var(--font-sans); color: var(--ink-70); }
 .nr-route__bbm { width: 88px; height: 28px; padding: 0 8px; border: 1px solid var(--line); border-radius: var(--radius-xs); background: var(--white); font: 600 12px/1 var(--font-sans); color: var(--navy-900); text-align: right; }
 .nr-route__bbm:focus { outline: 2px solid var(--focus-ring); outline-offset: 1px; }
-.nr-tol { background: var(--amber-600); border: 1.5px solid var(--white); border-radius: 2px; box-shadow: var(--shadow-label); }
+.nr-rambu { filter: drop-shadow(0 1px 1.5px rgba(0, 0, 0, 0.4)); }
+/* Penanda gambar di pane khusus tidak tercakup aturan Leaflet; jangan ikut max-width preflight Tailwind. */
+.leaflet-container img.leaflet-marker-icon { max-width: none !important; max-height: none !important; }
 
 /* Saran lokasi kolom titik A/B (FR-10). */
 .nr-route__field { position: relative; }
@@ -163,3 +165,25 @@
 .nr-route__gg { display: flex; gap: 6px; align-items: flex-start; margin: 0; padding: 8px 10px; border-radius: var(--radius-xs); background: var(--red-50); color: var(--rose-800); font: 500 11px/16px var(--font-sans); }
 .nr-route__gg svg { flex: none; margin-top: 2px; }
 .nr-route__gg--aman { background: var(--ink-05); color: var(--ink-70); }
+
+/* Onboarding (tur panduan) Visual Explorer. */
+.nr-tur { position: fixed; inset: 0; z-index: var(--z-dialog); }
+.nr-tur__redup { position: absolute; inset: 0; background: rgba(15, 27, 61, 0.55); }
+.nr-tur__sorot { position: absolute; border-radius: 16px; box-shadow: 0 0 0 9999px rgba(15, 27, 61, 0.55), 0 0 0 3px var(--white); transition: all 0.25s ease; pointer-events: none; }
+.nr-tur__kartu { position: absolute; width: min(340px, calc(100vw - 32px)); padding: 18px 18px 16px; background: var(--white); border-radius: var(--radius-lg); box-shadow: var(--shadow-2xl); color: var(--navy-900); font-family: var(--font-sans); }
+.nr-tur__kepala { display: flex; align-items: center; gap: 10px; }
+.nr-tur__ikon { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 10px; background: var(--ink-05); }
+.nr-tur__langkah { font: 600 11px/16px var(--font-sans); letter-spacing: 0.08em; color: var(--ink-50); }
+.nr-tur__lewati { margin-left: auto; border: 0; background: none; padding: 4px 2px; font: 600 12px/16px var(--font-sans); color: var(--ink-60); cursor: pointer; }
+.nr-tur__lewati:hover { color: var(--navy-900); text-decoration: underline; }
+.nr-tur__judul { margin: 14px 0 6px; font: 700 17px/24px var(--font-sans); }
+.nr-tur__isi { margin: 0; font: 400 13.5px/21px var(--font-sans); color: var(--ink-80); }
+.nr-tur__titik { display: flex; gap: 5px; margin-top: 16px; }
+.nr-tur__titik span { width: 6px; height: 6px; border-radius: 3px; background: var(--ink-20); transition: width 0.2s ease; }
+.nr-tur__titik span.is-aktif { width: 18px; background: var(--navy-900); }
+.nr-tur__aksi { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
+.nr-tur__kembali, .nr-tur__lanjut { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 16px; border-radius: var(--radius-pill); font: 600 13px/1 var(--font-sans); cursor: pointer; }
+.nr-tur__kembali { border: 1px solid var(--line); background: var(--white); color: var(--navy-900); }
+.nr-tur__lanjut { border: 0; background: var(--navy-900); color: var(--white); }
+.nr-tur__lanjut:focus-visible, .nr-tur__kembali:focus-visible, .nr-tur__lewati:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .nr-tur__sorot, .nr-tur__titik span { transition: none; } }

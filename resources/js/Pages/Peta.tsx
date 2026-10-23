@@ -16,6 +16,7 @@ import { DetailLokasi } from '@/Components/DetailLokasi';
 import { SimulatorRute, type Moda, type TitikRute } from '@/Components/SimulatorRute';
 import { PanelLayer, PanelProfilPersona, SliderTahun, TombolLayerPersona, TombolMerek, type PanelKananKey, type StatusLayer } from '@/Components/PanelKananPeta';
 import { DialogPersona, DrawerMenu, type TabMenu } from '@/Components/MenuPersona';
+import { Panduan, sudahLihatPanduan } from '@/Components/Panduan';
 
 type PanelKiri = 'top3' | 'filter' | 'detail' | 'rute' | null;
 
@@ -26,6 +27,8 @@ export default function Peta() {
     const [persona, setPersona] = useState<Persona[]>([]);
     const [dialogPersona, setDialogPersona] = useState(false);
     const [siap, setSiap] = useState(false);
+    const [panduan, setPanduan] = useState(false);
+    const panduanDicek = useRef(false);
 
     const [panelKiri, setPanelKiri] = useState<PanelKiri>(null);
     const [panelKanan, setPanelKanan] = useState<PanelKananKey>(null);
@@ -65,6 +68,13 @@ export default function Peta() {
     const [lewatTol, setLewatTol] = useState(true);
     const [hargaBbm, setHargaBbm] = useState(10000);
     const [hindariGg, setHindariGg] = useState(false);
+
+    // Onboarding: sekali per peramban, setelah dialog persona ditutup; ?panduan=1 memaksa tampil.
+    useEffect(() => {
+        if (!siap || dialogPersona || panduanDicek.current) return;
+        panduanDicek.current = true;
+        if (new URLSearchParams(window.location.search).has('panduan') || !sudahLihatPanduan()) setPanduan(true);
+    }, [siap, dialogPersona]);
 
     const kabar = useCallback((teks: string, nada: NadaToast = 'info') => setToast({ teks, nada, kunci: Date.now() }), []);
     useEffect(() => {
@@ -317,6 +327,7 @@ export default function Peta() {
                     onKlikPeta={klikPeta}
                     onLihatDetail={(t) => muatTitik(t, true)}
                     onPilihTop3={pilihTop3}
+                    onBatasPeta={() => kabar(t('Anda sudah mencapai batas maksimum peta.', 'You have reached the edge of the map.'), 'warning')}
                 />
 
                 <div className="nr-app__kiri">
@@ -417,7 +428,19 @@ export default function Peta() {
                 {drawer && (
                     <div className="nr-app__lapisan">
                         <div className="nr-scrim" onClick={() => setDrawer(null)} />
-                        <DrawerMenu tab={drawer} onTab={setDrawer} terpilih={persona} onUbahPersona={balikPersona} onTutup={() => setDrawer(null)} />
+                        <DrawerMenu
+                            tab={drawer}
+                            onTab={setDrawer}
+                            terpilih={persona}
+                            onUbahPersona={balikPersona}
+                            onTutup={() => setDrawer(null)}
+                            onPanduan={() => {
+                                setDrawer(null);
+                                setPanelKiri(null);
+                                setPanelKanan(null);
+                                setPanduan(true);
+                            }}
+                        />
                     </div>
                 )}
 
@@ -434,6 +457,8 @@ export default function Peta() {
                         />
                     </div>
                 )}
+
+                {panduan && <Panduan onSelesai={() => setPanduan(false)} />}
             </main>
         </>
     );

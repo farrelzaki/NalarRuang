@@ -18,21 +18,18 @@ type SearchBarProps = {
 
 export function SearchBar({ nilai, onUbah, onCari, memuat, commute, onToggleCommute, filterTerbuka, onToggleFilter }: SearchBarProps) {
     const { t } = useBahasa();
-    const [fokus, setFokus] = useState(false);
     const kirim = (e: FormEvent) => {
         e.preventDefault();
         if (nilai.trim()) onCari(nilai.trim());
     };
     return (
-        <form className="nr-search nr-float" role="search" onSubmit={kirim}>
+        <form className="nr-search nr-float" role="search" onSubmit={kirim} data-tur="cari">
             <Ikon name={memuat ? 'loader-circle' : 'search'} size={16} className={memuat ? 'nr-spin' : undefined} />
             <input
                 className="nr-search__input"
                 placeholder={t('Telusuri kawasan atau alamat...', 'Search an area or address...')}
                 value={nilai}
                 onChange={(e) => onUbah(e.target.value)}
-                onFocus={() => setFokus(true)}
-                onBlur={() => setTimeout(() => setFokus(false), 150)}
                 aria-label={t('Cari kawasan hunian', 'Search residential areas')}
                 role="combobox"
                 aria-expanded={false}
@@ -40,12 +37,12 @@ export function SearchBar({ nilai, onUbah, onCari, memuat, commute, onToggleComm
                 disabled={commute}
             />
             <span className="nr-search__tools">
-                {(fokus || filterTerbuka) && !commute && (
-                    <button type="button" className="nr-search__btn" aria-pressed={filterTerbuka} aria-label={t('Pilih kota dan persona', 'Choose city and persona')} title={t('Pilih kota dan persona', 'Choose city and persona')} onClick={onToggleFilter}>
+                {!commute && (
+                    <button type="button" data-tur="filter" className="nr-search__btn" aria-pressed={filterTerbuka} aria-label={t('Pilih kota dan persona', 'Choose city and persona')} title={t('Pilih kota dan persona', 'Choose city and persona')} onClick={onToggleFilter}>
                         <Ikon name="sliders-horizontal" size={16} />
                     </button>
                 )}
-                <button type="button" className="nr-search__btn" aria-pressed={commute} aria-label={t('Beralih ke Commute Simulator', 'Switch to Commute Simulator')} title="Commute Simulator" onClick={onToggleCommute}>
+                <button type="button" data-tur="rute" className="nr-search__btn" aria-pressed={commute} aria-label={t('Beralih ke Commute Simulator', 'Switch to Commute Simulator')} title="Commute Simulator" onClick={onToggleCommute}>
                     <Ikon name="send" size={16} />
                 </button>
             </span>

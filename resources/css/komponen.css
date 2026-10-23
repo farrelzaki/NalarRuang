@@ -377,7 +377,7 @@ input { font: inherit; }
 .ed-kicker { display: flex; justify-content: center; align-items: flex-end; gap: 9px; font: italic 600 24px/1.2 var(--font-fraunces); }
 .ed-kicker__x { font: 400 18.8px/1 var(--font-sans); color: var(--hero-muted); }
 .ed-hero__title { margin: 16px 0 0; font: 400 108px/108px var(--font-fraunces); letter-spacing: -4.5px; }
-.ed-hero__sub { margin: 6px auto 0; max-width: 520px; font: 400 18px/27px var(--font-sans); color: var(--hero-sub); }
+.ed-hero__sub { margin: 24px auto 0; max-width: 520px; font: 400 18px/27px var(--font-sans); color: var(--hero-sub); }
 .ed-hero.ed-photo::before, .ed-cta.ed-photo::before { content: ""; position: absolute; inset: 0; background: rgba(23, 35, 56, 0.55); }
 .ed-cta.ed-photo::before { background: rgba(15, 27, 61, 0.72); }
 .ed-hero > *, .ed-cta > * { position: relative; }

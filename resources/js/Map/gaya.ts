@@ -30,6 +30,7 @@ export const terpilih: PathOptions = { color: '#0f1b3d', weight: 2.5, opacity: 1
 export const top3: PathOptions = { color: '#0f1b3d', weight: 2.5, opacity: 1, fillColor: '#0f1b3d', fillOpacity: 0.08 };
 export const casing: PathOptions = { color: '#ffffff', weight: 6, opacity: 1 };
 export const trotoar: PathOptions = { color: '#0ea5e9', weight: 2, opacity: 0.9, dashArray: '4 4' };
-export const mesinWaktu: PathOptions = { color: '#a855f7', weight: 4, opacity: 0.95, dashArray: '8 8' };
+/** Infrastruktur masa depan: putus-putus; MRT warna lin MRT, tol merah jalan tol peta dasar OSM (T-040). */
+export const mesinWaktu = (moda?: string): PathOptions => ({ color: moda === 'tol' ? '#e892a2' : '#f97316', weight: 5, opacity: 1, dashArray: '10 8' });
 export const ruteMobil = { casing: { color: '#ffffff', weight: 8, opacity: 1 } as PathOptions, garis: { color: '#0f1b3d', weight: 5, opacity: 1 } as PathOptions };
 export const ruteJalanKaki: PathOptions = { color: '#0f1b3d', weight: 3, opacity: 1, dashArray: '0.1 7', lineCap: 'round' };

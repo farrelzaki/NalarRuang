@@ -35,9 +35,9 @@ export function HeroLanding({ onMenu }: { onMenu: () => void }) {
                         <span>{t('Rekomendasi', 'Recommendation')}</span>
                     </div>
                     <h1 className="ed-hero__title">
-                        {t('Hunian yang cocok.', 'A home that fits.')}
+                        {t('Hunian yang cocok', 'A home that fits')}
                         <br />
-                        {t('Kota yang terbaca.', 'A city you can read.')}
+                        {t('Kota yang terbaca', 'A city you can read')}
                     </h1>
                     <p className="ed-hero__sub">{t('Temukan ruang hidup idealmu dengan analisis data spasial perkotaan yang komprehensif.', 'Find your ideal living space with comprehensive urban spatial data analysis.')}</p>
                     <div style={{ marginTop: 28 }}>

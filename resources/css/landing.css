@@ -55,7 +55,7 @@
   .ed-hero > div[style] { padding-top: 96px !important; }
   .ed-kicker { flex-wrap: wrap; font-size: 16px; padding: 0 16px; }
   .ed-hero__title { font-size: 48px; line-height: 50px; letter-spacing: -1.5px; padding: 0 16px; }
-  .ed-hero__sub { font-size: 15px; line-height: 23px; padding: 0 24px; }
+  .ed-hero__sub { margin-top: 16px; font-size: 15px; line-height: 23px; padding: 0 24px; }
   .ed-marquee { height: 48px; padding: 12px 20px; font-size: 14px; }
   .ed-title { font-size: 38px !important; line-height: 40px !important; }
   .ed-intro { font-size: 18px; }

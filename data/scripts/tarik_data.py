@@ -223,7 +223,7 @@ def gtfs_tj():
         geom = {'type': 'Point', 'coordinates': [lon, lat]}
         if s_.get('location_type') == '1' or (s_.get('location_type') in ('0', '') and not s_.get('parent_station')):
             halte.append(fitur(geom, layer_id='mobilitas', jenis='halte', nama=s_['stop_name'], sumber='GTFS TransJakarta',
-                               atribut={'moda': 'transjakarta', 'gtfs': s_['stop_id']}))
+                               atribut={'moda': 'transjakarta', 'gtfs': s_['stop_id'], 'brt': s_.get('location_type') == '1'}))
         if s_.get('wheelchair_boarding') == '1' and s_.get('location_type') != '1':
             akses.append(fitur(geom, layer_id='inklusivitas', jenis='akses', nama=f"Halte {s_['stop_name']}", sumber='GTFS TransJakarta',
                                atribut={'kategori': 'Halte ramah kursi roda'}))
@@ -279,6 +279,11 @@ def lin_krl(nama):
     return 'lain'
 
 
+# Lin KRL Rangkasbitung melewati batas Jabodetabek (Maja-Citeras-Rangkasbitung di Kab. Lebak): diambil utuh.
+KOTAK_RANGKAS = '-6.45,106.20,-6.25,106.43'
+UJUNG_MRT_LAT = -6.2900  # selatan stasiun Lebak Bulus = rel depo, tidak digambar
+
+
 def tarik_mobilitas():
     print('Mobilitas (OSM + Commute Data API + Biskita)...')
     rute = per_wilayah('rel(area.j)["route"~"^(train|subway|light_rail|monorail)$"];out body;', 'rel_rute')
@@ -290,6 +295,8 @@ def tarik_mobilitas():
     for r in rute:
         t = r.get('tags', {})
         teks = ' '.join(str(t.get(k, '')) for k in ('name', 'network', 'operator', 'ref')).lower()
+        if any(k in teks for k in ('walahar', 'jatiluhur', 'purwakarta')):
+            continue  # kereta lokal Cikarang-Purwakarta, bukan KRL Jabodetabek
         if t.get('route') == 'subway' or 'mrt' in teks:
             jenis, lin = 'mrt', 'mrt'
         elif t.get('route') in ('light_rail', 'monorail') or 'lrt' in teks:
@@ -310,8 +317,20 @@ def tarik_mobilitas():
             continue
         jenis, lin, nama = info[e['id']]
         g = garis_way(e)
+        if jenis == 'mrt':
+            g = [c for c in g if c[1] >= UJUNG_MRT_LAT]
         if len(g) >= 2:
-            hasil.append(fitur({'type': 'LineString', 'coordinates': g}, layer_id='mobilitas', jenis=jenis, nama=nama, sumber='OSM', atribut={'lin': lin}))
+            hasil.append(fitur({'type': 'LineString', 'coordinates': g}, layer_id='mobilitas', jenis=jenis, nama=nama, sumber='OSM',
+                               **({'luar_jabodetabek': True} if lin == 'rangkas' else {}), atribut={'lin': lin}))
+    sudah = {e['id'] for e in rel_ways}
+    rangkas = overpass(f'rel["route"="train"]["name"~"Rangkasbitung"]["name"~"Tanah Abang"]({KOTAK_RANGKAS});way(r)({KOTAK_RANGKAS});out geom tags;', 'rel_rangkas2.json')
+    for e in rangkas:
+        if e['id'] in sudah or e.get('tags', {}).get('railway') != 'rail':
+            continue
+        g = garis_way(e)
+        if len(g) >= 2:
+            hasil.append(fitur({'type': 'LineString', 'coordinates': g}, layer_id='mobilitas', jenis='krl', nama='Lin Rangkasbitung',
+                               sumber='OSM', luar_jabodetabek=True, atribut={'lin': 'rangkas'}))
 
     # Stasiun dan halte resmi dari Commute Data API.
     lin_nama = {}
@@ -324,10 +343,11 @@ def tarik_mobilitas():
             continue
         geom = {'type': 'Point', 'coordinates': [s['longitude'], s['latitude']]}
         atr = {'kode': s['id'], 'operator': s['operator'], 'lin': [lin_nama.get(x, x) for x in s.get('lines', [])]}
+        luar = s['operator'] == 'KCI' and s['name'] in ('Cikoya', 'Maja', 'Citeras', 'Rangkasbitung')
         if s['operator'] in moda:
-            hasil.append(fitur(geom, layer_id='mobilitas', jenis='stasiun', nama=s['name'], sumber='Commute Data Platform (ODbL)', atribut={**atr, 'moda': moda[s['operator']]}))
+            hasil.append(fitur(geom, layer_id='mobilitas', jenis='stasiun', **({'luar_jabodetabek': True} if luar else {}), nama=s['name'], sumber='Commute Data Platform (ODbL)', atribut={**atr, 'moda': moda[s['operator']]}))
         elif s['operator'] == 'TJ':
-            hasil.append(fitur(geom, layer_id='mobilitas', jenis='halte', nama=s['name'], sumber='Commute Data Platform (ODbL)', atribut={**atr, 'moda': 'transjakarta'}))
+            hasil.append(fitur(geom, layer_id='mobilitas', jenis='halte', nama=s['name'], sumber='Commute Data Platform (ODbL)', atribut={**atr, 'moda': 'transjakarta', 'brt': True}))
 
     # Halte TransJakarta lain dari GTFS; lewati yang < 80 m dari halte Commute Data API agar tidak dobel.
     resmi = [f['geometry']['coordinates'] for f in hasil if f['properties']['jenis'] == 'halte']
@@ -435,7 +455,8 @@ def simpan_fitur(nama, daftar, sederhana=None):
       SELECT json_build_object('type','Feature','properties', f.data->'properties','geometry', ST_AsGeoJSON({f'ST_Simplify(g.geom, {sederhana})' if sederhana else 'g.geom'}, 6)::json)
       FROM tarik.f_{nama} f
       CROSS JOIN LATERAL (SELECT ST_SetSRID(ST_GeomFromGeoJSON(f.data->'geometry'), 4326) AS geom) g
-      WHERE ST_IsValid(g.geom) AND ST_Intersects(g.geom, (SELECT geom FROM tarik.jabodetabek));
+      WHERE ST_IsValid(g.geom) AND (ST_Intersects(g.geom, (SELECT geom FROM tarik.jabodetabek))
+                                    OR (f.data->'properties'->>'luar_jabodetabek')::boolean IS TRUE);
     """, f'{KELUAR}/fitur/{nama}.geojson')
 
 

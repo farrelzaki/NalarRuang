@@ -67,8 +67,9 @@ export function SimbolPeta({ kind, size = 16 }: { kind: Simbol; size?: number })
         rth: kotak('var(--map-hijau)', 0.25),
         hijau: <circle cx={8} cy={8} r={6} style={{ fill: 'var(--map-hijau)', fillOpacity: 0.8, stroke: 'var(--white)', strokeWidth: 2 }} />,
         akses: <circle cx={8} cy={8} r={6} style={{ fill: 'var(--map-akses)', stroke: 'var(--white)', strokeWidth: 2 }} />,
-        halte: <circle cx={8} cy={8} r={3.5} style={{ fill: 'var(--navy-900)', stroke: 'var(--white)', strokeWidth: 1.5 }} />,
-        tol: <rect x={3} y={3} width={10} height={10} rx={2} style={{ fill: 'var(--amber-600)', stroke: 'var(--white)', strokeWidth: 1.5 }} />,
+        halte: <image href="/images/peta/halte.png" x={2.5} y={0.5} width={11} height={15} />,
+        'halte-brt': <image href="/images/peta/halte-brt.png" x={2} y={0} width={12} height={16} />,
+        tol: <image href="/images/peta/tol.png" x={2} y={0} width={12} height={16} />,
         gg: batang('var(--rose-800)'),
         trotoar: garis('var(--map-akses)', '3 2.5'),
         mrt: batang('var(--map-mrt)'),
@@ -77,7 +78,8 @@ export function SimbolPeta({ kind, size = 16 }: { kind: Simbol; size?: number })
         'krl-rangkas': garis('var(--map-krl-rangkas)'),
         'krl-cikarang': garis('var(--map-krl-cikarang)'),
         'krl-lain': garis('var(--map-krl-lain)'),
-        waktu: garis('var(--map-waktu)', '4 3'),
+        waktu: garis('var(--map-mrt)', '4 3'),
+        'waktu-tol': garis('#e892a2', '4 3'),
         stasiun: <circle cx={8} cy={8} r={5} style={{ fill: 'var(--map-stasiun)', stroke: 'var(--navy-900)', strokeWidth: 2 }} />,
         rute: (
             <g>

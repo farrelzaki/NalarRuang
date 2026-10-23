@@ -77,7 +77,7 @@ export function PanelProfilPersona({ terpilih, onUbah, onTutup }: { terpilih: Pe
 export function TombolMerek({ terbuka, onKlik }: { terbuka: boolean; onKlik: () => void }) {
     const { t } = useBahasa();
     return (
-        <button type="button" className="nr-brandbtn" aria-label={t('Buka menu NalarRuang', 'Open NalarRuang menu')} aria-expanded={terbuka} onClick={onKlik}>
+        <button type="button" data-tur="menu" className="nr-brandbtn" aria-label={t('Buka menu NalarRuang', 'Open NalarRuang menu')} aria-expanded={terbuka} onClick={onKlik}>
             <Wordmark />
             <Ikon name="menu" size={16} color="var(--ink-40)" />
         </button>
@@ -88,7 +88,7 @@ export type PanelKananKey = 'layer' | 'persona' | null;
 
 export function TombolLayerPersona({ terbuka, onKlik }: { terbuka: PanelKananKey; onKlik: (k: 'layer' | 'persona') => void }) {
     const tombol = (k: 'layer' | 'persona', ikon: string, label: string) => (
-        <button type="button" className="nr-capsbtn" aria-expanded={terbuka === k} onClick={() => onKlik(k)}>
+        <button type="button" data-tur={k} className="nr-capsbtn" aria-expanded={terbuka === k} onClick={() => onKlik(k)}>
             <Ikon name={ikon} size={16} />
             {label}
         </button>

@@ -4,7 +4,7 @@
  */
 import { useEffect, useRef } from 'react';
 import L from 'leaflet';
-import type { Feature, FeatureCollection, Geometry, LineString } from 'geojson';
+import type { Feature, FeatureCollection, Geometry, LineString, Point } from 'geojson';
 import type { CommuteResponse, HasilSearch, LayerKey } from '@/types';
 import { bahasaAktif, pilihTeks, type Bahasa } from '@/lib/bahasa';
 import * as gaya from './gaya';
@@ -28,6 +28,8 @@ type Props = {
     onKlikPeta: (t: TitikPeta) => void;
     onLihatDetail: (t: TitikPeta) => void;
     onPilihTop3: (i: number) => void;
+    /** Pengguna menggeser peta sampai batas Jabodetabek (T-031). */
+    onBatasPeta?: () => void;
     className?: string;
 };
 
@@ -36,6 +38,8 @@ let modeRuteAktif = false;
 
 const PUSAT: L.LatLngExpression = [-6.43, 106.81];
 const BATAS_DATA = L.latLngBounds([-6.56, 106.7], [-6.28, 106.92]);
+/** Batas geser peta: Jabodetabek + lin KRL sampai Rangkasbitung, dengan sedikit kelonggaran (T-031). */
+const BATAS_PETA = L.latLngBounds([-6.85, 106.15], [-5.85, 107.35]);
 /** Padding agar konten tidak tertutup kolom kiri (392 px) dan panel kanan (design-system.md bagian 5). */
 const PADDING_KIRI = L.point(392, 80);
 const PADDING_KANAN = L.point(80, 90);
@@ -165,7 +169,25 @@ export default function PetaExplorer(props: Props) {
     // Inisialisasi peta sekali.
     useEffect(() => {
         if (!wadah.current) return;
-        const m = L.map(wadah.current, { zoomControl: false, minZoom: 9, maxZoom: 19, preferCanvas: false }).setView(PUSAT, 13);
+        const m = L.map(wadah.current, {
+            zoomControl: false,
+            minZoom: ponsel() ? 9 : 10,
+            maxZoom: 19,
+            maxBounds: BATAS_PETA,
+            maxBoundsViscosity: 1,
+            preferCanvas: false,
+        }).setView(PUSAT, 13);
+        let terakhirBatas = 0;
+        m.on('drag', () => {
+            const v = m.getBounds();
+            const e = 0.002;
+            const mentok = v.getWest() <= BATAS_PETA.getWest() + e || v.getEast() >= BATAS_PETA.getEast() - e
+                || v.getSouth() <= BATAS_PETA.getSouth() + e || v.getNorth() >= BATAS_PETA.getNorth() - e;
+            if (mentok && Date.now() - terakhirBatas > 5000) {
+                terakhirBatas = Date.now();
+                panggil.current.onBatasPeta?.();
+            }
+        });
         L.control.zoom({ position: 'bottomright', zoomInTitle: tr('Perbesar peta', 'Zoom in'), zoomOutTitle: tr('Perkecil peta', 'Zoom out') }).addTo(m);
         m.attributionControl.setPrefix('<a href="https://leafletjs.com">Leaflet</a>');
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -349,6 +371,44 @@ export default function PetaExplorer(props: Props) {
 }
 
 /** Grup yang isinya baru tampil mulai zoom tertentu, untuk titik yang padat (ribuan POI se-Jabodetabek). */
+const IKON_TOL = L.icon({ iconUrl: '/images/peta/tol.png', iconSize: [15, 19], className: 'nr-rambu' });
+const IKON_HALTE = L.icon({ iconUrl: '/images/peta/halte.png', iconSize: [14, 18], className: 'nr-rambu' });
+const IKON_BRT = L.icon({ iconUrl: '/images/peta/halte-brt.png', iconSize: [16, 20], className: 'nr-rambu' });
+
+/**
+ * Penanda bergambar untuk ribuan titik: hanya yang ada di layar (plus margin) yang dibuat,
+ * dan hanya mulai zoom minZoom, agar peta tetap ringan.
+ */
+function grupDiLayar(fitur: Feature[], minZoom: number, buat: (f: Feature, ll: L.LatLng) => L.Marker, popup: (f: Feature, l: L.Layer) => void): L.LayerGroup {
+    const g = L.layerGroup();
+    const titik = fitur
+        .filter((f) => f.geometry?.type === 'Point')
+        .map((f) => ({ f, ll: L.latLng((f.geometry as Point).coordinates[1], (f.geometry as Point).coordinates[0]) }));
+    let peta: L.Map | null = null;
+    const atur = () => {
+        if (!peta) return;
+        g.clearLayers();
+        if (peta.getZoom() < minZoom) return;
+        const b = peta.getBounds().pad(0.3);
+        for (const { f, ll } of titik) {
+            if (!b.contains(ll)) continue;
+            const m = buat(f, ll);
+            popup(f, m);
+            g.addLayer(m);
+        }
+    };
+    g.on('add', (e) => {
+        peta = (e.target as unknown as { _map: L.Map })._map;
+        peta.on('moveend', atur);
+        atur();
+    });
+    g.on('remove', () => {
+        peta?.off('moveend', atur);
+        peta = null;
+    });
+    return g;
+}
+
 function grupZoom(isi: L.Layer, minZoom: number): L.LayerGroup {
     const g = L.layerGroup();
     let peta: L.Map | null = null;
@@ -453,18 +513,17 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
             },
             onEachFeature: popup,
         }).addTo(g);
-        grupZoom(
-            L.geoJSON({ type: 'FeatureCollection', features: fc.features.filter((f) => f.properties?.jenis === 'halte') } as FeatureCollection, {
-                pane: 'nrTitik',
-                pointToLayer: (_f, ll) => L.circleMarker(ll, { pane: 'nrTitik', renderer: kanvas, radius: 3.5, color: '#fff', weight: 1.2, fillColor: '#0f1b3d', fillOpacity: 1 }),
-                onEachFeature: popup,
-            }),
-            14,
+        // Rambu halte (BRT = halte TransJakarta koridor) dan rambu jalan tol (T-028, T-029).
+        grupDiLayar(
+            fc.features.filter((f) => f.properties?.jenis === 'halte'),
+            15,
+            (f, ll) => L.marker(ll, { pane: 'nrTitik', icon: f.properties?.brt ? IKON_BRT : IKON_HALTE }),
+            popup,
         ).addTo(g);
         grupZoom(
             L.geoJSON({ type: 'FeatureCollection', features: fc.features.filter((f) => f.properties?.jenis === 'tol') } as FeatureCollection, {
                 pane: 'nrTitik',
-                pointToLayer: (_f, ll) => L.marker(ll, { pane: 'nrTitik', icon: L.divIcon({ className: 'nr-tol', iconSize: [10, 10] }) }),
+                pointToLayer: (_f, ll) => L.marker(ll, { pane: 'nrTitik', icon: IKON_TOL }),
                 onEachFeature: popup,
             }),
             12,
@@ -484,7 +543,7 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
         L.geoJSON(fc, {
             pane: 'nrGaris',
             filter: (f) => !f.properties?.tahun || f.properties.tahun <= tahun,
-            style: gaya.mesinWaktu,
+            style: (f) => gaya.mesinWaktu(f?.properties?.moda),
             onEachFeature: popup,
         }).addTo(g);
     } else if (k === 'legalitas') {

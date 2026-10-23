@@ -42,7 +42,7 @@ export default function Landing() {
 
     return (
         <>
-            <Head title={t('Hunian yang cocok. Kota yang terbaca.', 'A home that fits. A city you can read.')} />
+            <Head title={t('Hunian yang cocok, kota yang terbaca', 'A home that fits, a city you can read')} />
             <div className="ed-page">
                 <HeroLanding onMenu={() => setMenu(true)} />
 
@@ -195,8 +195,8 @@ export default function Landing() {
                             {
                                 q: t('Datanya dari mana?', 'Where does the data come from?'),
                                 a: t(
-                                    'Dari data terbuka: bahaya banjir InaRISK (BNPB) dan Pantau Banjir Jakarta, kualitas udara IQAir, OpenStreetMap lewat Overpass API, jaringan KRL/MRT/LRT/TransJakarta dari Commute Data Platform dan GTFS TransJakarta, Biskita Trans Pakuan, serta BHUMI ATR/BPN.',
-                                    'From open data: InaRISK (BNPB) and Pantau Banjir Jakarta flood hazard, IQAir air quality, OpenStreetMap via the Overpass API, the KRL/MRT/LRT/TransJakarta network from Commute Data Platform and GTFS TransJakarta, Biskita Trans Pakuan, and BHUMI ATR/BPN.',
+                                    'Dari data terbuka: bahaya banjir InaRISK (BNPB) dan Pantau Banjir Jakarta, OpenStreetMap lewat Overpass API, jaringan KRL/MRT/LRT/TransJakarta dari Commute Data Platform dan GTFS TransJakarta, Biskita Trans Pakuan, serta BHUMI ATR/BPN.',
+                                    'From open data: InaRISK (BNPB) and Pantau Banjir Jakarta flood hazard, OpenStreetMap via the Overpass API, the KRL/MRT/LRT/TransJakarta network from Commute Data Platform and GTFS TransJakarta, Biskita Trans Pakuan, and BHUMI ATR/BPN.',
                                 ),
                             },
                             {
