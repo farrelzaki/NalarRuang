@@ -69,14 +69,21 @@ class PersonaScoring
         return max(0, $dasar - $kurang);
     }
 
-    /** Wilayah: cocok bila ada minimal satu fasilitas utama di dalamnya. */
-    public function cocokWilayah(string $persona, int $jumlahFasilitas, ?string $kualitasUdara = null): bool
+    /** Jarak maksimal fasilitas utama dari batas wilayah agar dianggap cocok (keputusan tim 23 Okt 2026, TBD-09). */
+    public const BATAS_WILAYAH = 2500;
+
+    /**
+     * Wilayah: cocok bila fasilitas utama ada di dalamnya atau paling jauh BATAS_WILAYAH m dari batasnya
+     * ($meterDariBatas = 0 bila di dalam, null bila tidak ada data). Zen juga mensyaratkan udara sehat/kurang sehat.
+     */
+    public function cocokWilayah(string $persona, ?float $meterDariBatas, ?string $kualitasUdara = null): bool
     {
+        $dekat = $meterDariBatas !== null && $meterDariBatas <= self::BATAS_WILAYAH;
         if ($persona === 'zen') {
-            return $jumlahFasilitas > 0 && in_array($kualitasUdara, ['sehat', 'kurang_sehat'], true);
+            return $dekat && in_array($kualitasUdara, ['sehat', 'kurang_sehat'], true);
         }
 
-        return $jumlahFasilitas > 0;
+        return $dekat;
     }
 
     private const INTI = [

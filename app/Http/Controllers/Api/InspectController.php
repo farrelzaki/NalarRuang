@@ -144,13 +144,7 @@ class InspectController extends Controller
             )->n;
         }
 
-        $cocok = [];
-        foreach (PersonaScoring::PERSONA as $p) {
-            $cocok[$p] = $this->skor->cocokWilayah($p, $jumlah[$p], $w->kualitas_udara);
-        }
-
-        // Fasilitas utama terdekat dari batas kawasan (0 m bila di dalamnya): kecocokan tetap mengikuti TBD-09
-        // (ada fasilitas di dalam kawasan), tetapi panel bisa menyebut fasilitas tepat di luar batas.
+        // Fasilitas utama terdekat dari batas kawasan (0 m bila di dalamnya). Cocok bila <= 2,5 km (TBD-09, 23 Okt 2026).
         $terdekat = [];
         foreach (self::FASILITAS as $p => $jenis) {
             $tanda = implode(',', array_fill(0, count($jenis), '?'));
@@ -162,6 +156,11 @@ class InspectController extends Controller
                 [$id, ...$jenis],
             );
             $terdekat[$p] = $b ? ['nama' => $this->namaFasilitas($p, $b->nama), 'meter' => (int) round($b->meter)] : null;
+        }
+
+        $cocok = [];
+        foreach (PersonaScoring::PERSONA as $p) {
+            $cocok[$p] = $this->skor->cocokWilayah($p, isset($terdekat[$p]) ? (float) $terdekat[$p]['meter'] : null, $w->kualitas_udara);
         }
 
         return response()->json([

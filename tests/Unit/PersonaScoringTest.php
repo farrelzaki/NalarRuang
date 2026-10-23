@@ -35,10 +35,12 @@ class PersonaScoringTest extends TestCase
 
     public function test_wilayah_cocok_bila_ada_fasilitas_utama(): void
     {
-        $this->assertTrue($this->skor->cocokWilayah('commuter', 1));
-        $this->assertFalse($this->skor->cocokWilayah('driver', 0));
-        $this->assertTrue($this->skor->cocokWilayah('zen', 2, 'kurang_sehat'));
-        $this->assertFalse($this->skor->cocokWilayah('zen', 2, 'tidak_sehat'));
+        $this->assertTrue($this->skor->cocokWilayah('commuter', 0), 'Fasilitas di dalam wilayah.');
+        $this->assertTrue($this->skor->cocokWilayah('driver', 2500), 'Tepat 2,5 km dari batas masih cocok.');
+        $this->assertFalse($this->skor->cocokWilayah('driver', 2501));
+        $this->assertFalse($this->skor->cocokWilayah('social_vibe', null));
+        $this->assertTrue($this->skor->cocokWilayah('zen', 800, 'kurang_sehat'));
+        $this->assertFalse($this->skor->cocokWilayah('zen', 0, 'tidak_sehat'));
     }
 
     public function test_kalimat_kesimpulan(): void

@@ -147,13 +147,21 @@ function kalimatWilayah(p: Persona, cocok: boolean, n: number, bahasa: Bahasa, d
         zen: ['ruang hijau', 'green space', 'green spaces'],
     };
     const [id, satu, banyak] = benda[p];
-    // Belum ada di dalam kawasan: sebutkan yang terdekat di luar batas.
+    // Tidak ada di dalam kawasan: sebutkan yang terdekat di luar batas (cocok bila <= 2,5 km, TBD-09).
     const luar = n === 0 && dekat && dekat.meter > 0 ? jarakLuar(p, dekat, bahasa) : '';
     if (en) {
-        const isi = n > 0 ? `${n} ${n === 1 ? satu : banyak} in this area` : `no ${satu} in this area yet${luar}`;
+        const isi = n > 0
+            ? `${n} ${n === 1 ? satu : banyak} in this area`
+            : cocok && dekat
+              ? `a ${satu} within 2.5 km${luar.replace('; the nearest', ', the nearest')}`
+              : `no ${satu} in this area yet${luar}`;
         return cocok ? `A match for the ${label} lifestyle: ${isi}.` : `Not yet a match for the ${label} lifestyle: ${isi}${p === 'zen' && n > 0 ? ', but the air quality is poor' : ''}.`;
     }
-    const isi = n > 0 ? `ada ${n} ${id} di kawasan ini` : `belum ada ${id} di kawasan ini${luar}`;
+    const isi = n > 0
+        ? `ada ${n} ${id} di kawasan ini`
+        : cocok && dekat
+          ? `ada ${id} dalam radius 2,5 km${luar.replace('; terdekat', ', terdekat')}`
+          : `belum ada ${id} dalam radius 2,5 km${luar}`;
     return cocok ? `Cocok untuk gaya hidup ${label}: ${isi}.` : `Belum cocok untuk gaya hidup ${label}: ${isi}${p === 'zen' && n > 0 ? ', tetapi kualitas udaranya kurang baik' : ''}.`;
 }
 

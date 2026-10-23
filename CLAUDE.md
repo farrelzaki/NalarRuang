@@ -30,7 +30,7 @@ Lunak, IPB University) untuk mata kuliah **Sistem Informasi Geografis** dan
 **Manajemen Proyek Teknologi Informasi**. Sprint 0 mulai 7 September 2026,
 serah terima final **27 November 2026**.
 
-Sumber kebutuhan: `docs/sumber/SRS.md` (SRS v1.2) dan `docs/sumber/WBS.md`.
+Sumber kebutuhan: `docs/sumber/SRS.md` (SRS v1.3) dan `docs/sumber/WBS.md`.
 Acuan UI: desain final Figma `ui-nalar-ruang`, section "putih kayak bhumi yang
 udah di revisi". Bila desain berbeda dengan dokumen, **desain yang diikuti** dan
 SRS/WBS ikut disesuaikan (keputusan tim 29 Sep 2026); di luar itu SRS/WBS tidak
