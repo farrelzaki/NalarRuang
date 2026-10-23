@@ -40,7 +40,8 @@ class SearchController extends Controller
         // FR-05: nama kelurahan/kecamatan di kalimat -> kandidat dibatasi ke wilayah itu dan sekitarnya (2 km).
         $cocokNama = $this->wilayahBernama($hasil['nama_wilayah'] ?? null);
         if ($cocokNama) {
-            $syarat[] = 'ST_DWithin(geom::geography, (SELECT ST_Union(geom) FROM wilayah WHERE id IN ('.implode(',', $cocokNama).'))::geography, 2000)';
+            // Geometri berderajat (0,018 derajat = +-2 km di Jabodetabek) agar indeks GIST terpakai; geography per baris lambat (6-10 dtk).
+            $syarat[] = 'ST_DWithin(geom, (SELECT ST_Collect(geom) FROM wilayah WHERE id IN ('.implode(',', $cocokNama).')), 0.018)';
         }
         $syaratKota = $syarat ? 'WHERE '.implode(' AND ', $syarat) : '';
 

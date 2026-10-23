@@ -63,6 +63,8 @@ export type InspectWilayah = {
     geometri: Geometry;
     match: Record<Persona, boolean>;
     jumlah_fasilitas: Record<Persona, number>;
+    /** Fasilitas utama terdekat dari batas kawasan; meter = 0 bila di dalam kawasan. */
+    terdekat?: Record<Persona, { nama: string; meter: number } | null>;
     kesimpulan: string[];
     data_tidak_lengkap: boolean;
 };

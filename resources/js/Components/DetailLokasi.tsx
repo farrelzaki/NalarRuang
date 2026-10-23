@@ -137,7 +137,7 @@ function kalimatTitik(p: Persona, s: number, f: FaktaFasilitas, bahasa: Bahasa):
 }
 
 /** Kesimpulan wilayah dengan jumlah fasilitas utama di dalamnya. */
-function kalimatWilayah(p: Persona, cocok: boolean, n: number, bahasa: Bahasa): string {
+function kalimatWilayah(p: Persona, cocok: boolean, n: number, bahasa: Bahasa, dekat: { nama: string; meter: number } | null = null): string {
     const en = bahasa === 'en';
     const label = PERSONA[p].label;
     const benda: Record<Persona, [string, string, string]> = {
@@ -147,12 +147,61 @@ function kalimatWilayah(p: Persona, cocok: boolean, n: number, bahasa: Bahasa): 
         zen: ['ruang hijau', 'green space', 'green spaces'],
     };
     const [id, satu, banyak] = benda[p];
+    // Belum ada di dalam kawasan: sebutkan yang terdekat di luar batas.
+    const luar = n === 0 && dekat && dekat.meter > 0 ? jarakLuar(p, dekat, bahasa) : '';
     if (en) {
-        const isi = n > 0 ? `${n} ${n === 1 ? satu : banyak} in this area` : `no ${satu} in this area yet`;
+        const isi = n > 0 ? `${n} ${n === 1 ? satu : banyak} in this area` : `no ${satu} in this area yet${luar}`;
         return cocok ? `A match for the ${label} lifestyle: ${isi}.` : `Not yet a match for the ${label} lifestyle: ${isi}${p === 'zen' && n > 0 ? ', but the air quality is poor' : ''}.`;
     }
-    const isi = n > 0 ? `ada ${n} ${id} di kawasan ini` : `belum ada ${id} di kawasan ini`;
+    const isi = n > 0 ? `ada ${n} ${id} di kawasan ini` : `belum ada ${id} di kawasan ini${luar}`;
     return cocok ? `Cocok untuk gaya hidup ${label}: ${isi}.` : `Belum cocok untuk gaya hidup ${label}: ${isi}${p === 'zen' && n > 0 ? ', tetapi kualitas udaranya kurang baik' : ''}.`;
+}
+
+/** "; terdekat Gerbang Tol Ciawi Selatan, 1,0 km dari batas kawasan". */
+function jarakLuar(p: Persona, d: { nama: string; meter: number }, bahasa: Bahasa): string {
+    const en = bahasa === 'en';
+    const awalan: Record<Persona, [string, string]> = {
+        commuter: ['Stasiun ', ' Station'],
+        driver: ['Gerbang Tol ', ' toll gate'],
+        social_vibe: ['', ''],
+        zen: ['', ''],
+    };
+    const nama = d.nama ? (en ? `${d.nama}${awalan[p][1]}` : `${awalan[p][0]}${d.nama}`) : '';
+    const j = jarak(d.meter, bahasa);
+    return en ? `; the nearest${nama ? `, ${nama},` : ''} is ${j} from the area boundary` : `; terdekat${nama ? ` ${nama},` : ''} ${j} dari batas kawasan`;
+}
+
+/** Ringkasan fasilitas terdekat untuk panel area (sama gaya dengan ringkasan titik). */
+function RingkasanWilayah({ data }: { data: Extract<InspectResponse, { jenis_geometri: 'wilayah' }> }) {
+    const { t, bahasa } = useBahasa();
+    if (!data.terdekat) return null;
+    const baris: [Simbol, string][] = [];
+    const tulis = (p: Persona, simbol: Simbol, label: [string, string]) => {
+        const d = data.terdekat?.[p];
+        if (!d) return;
+        const n = data.jumlah_fasilitas[p];
+        baris.push([
+            simbol,
+            n > 0
+                ? t(`${n} ${label[0]} di kawasan ini`, `${n} ${label[1]} in this area`)
+                : t(`${label[0][0].toUpperCase() + label[0].slice(1)} terdekat${d.nama ? ` ${d.nama}` : ''}, ${jarak(d.meter, bahasa)} dari batas`,
+                    `Nearest ${label[1]}${d.nama ? ` ${d.nama}` : ''}, ${jarak(d.meter, bahasa)} from the boundary`),
+        ]);
+    };
+    tulis('commuter', 'stasiun', ['stasiun', 'station(s)']);
+    tulis('driver', 'tol', ['gerbang tol', 'toll gate(s)']);
+    tulis('social_vibe', 'hijau', ['tempat aktivitas', 'activity spot(s)']);
+    tulis('zen', 'rth', ['ruang hijau', 'green space(s)']);
+    return (
+        <div className="nr-layer-summary" aria-label={t('Fasilitas di sekitar kawasan', 'Facilities around this area')}>
+            {baris.map(([s, teks]) => (
+                <span key={s} className="nr-legend">
+                    <SimbolPeta kind={s} />
+                    {teks}
+                </span>
+            ))}
+        </div>
+    );
 }
 
 function IsiDetail({ data, sesi }: { data: InspectResponse; sesi: Persona[] }) {
@@ -166,7 +215,7 @@ function IsiDetail({ data, sesi }: { data: InspectResponse; sesi: Persona[] }) {
             const f = data.fakta?.[p];
             return f ? kalimatTitik(p, s, f, bahasa) : t(`Buat gaya hidup ${label}: ${FRASA[s][0]}`, `For the ${label} lifestyle: ${FRASA[s][1]}`);
         }
-        return kalimatWilayah(p, data.match[p], data.jumlah_fasilitas?.[p] ?? 0, bahasa);
+        return kalimatWilayah(p, data.match[p], data.jumlah_fasilitas?.[p] ?? 0, bahasa, data.terdekat?.[p] ?? null);
     }).filter((k): k is string => k !== null);
 
     return (
@@ -203,6 +252,7 @@ function IsiDetail({ data, sesi }: { data: InspectResponse; sesi: Persona[] }) {
                     ))}
                 </div>
             )}
+            {data.jenis_geometri === 'wilayah' && <RingkasanWilayah data={data} />}
             {kesimpulan.length > 0 && <KartuKesimpulan kalimat={kesimpulan} tidakLengkap={data.data_tidak_lengkap} />}
         </>
     );

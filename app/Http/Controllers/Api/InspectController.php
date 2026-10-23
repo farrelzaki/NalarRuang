@@ -149,6 +149,21 @@ class InspectController extends Controller
             $cocok[$p] = $this->skor->cocokWilayah($p, $jumlah[$p], $w->kualitas_udara);
         }
 
+        // Fasilitas utama terdekat dari batas kawasan (0 m bila di dalamnya): kecocokan tetap mengikuti TBD-09
+        // (ada fasilitas di dalam kawasan), tetapi panel bisa menyebut fasilitas tepat di luar batas.
+        $terdekat = [];
+        foreach (self::FASILITAS as $p => $jenis) {
+            $tanda = implode(',', array_fill(0, count($jenis), '?'));
+            $b = DB::selectOne(
+                "SELECT f.nama, ST_Distance(f.geom::geography, w.geom::geography) AS meter
+                 FROM fitur_peta f JOIN wilayah w ON w.id = ?
+                 WHERE f.jenis IN ({$tanda}) ".str_replace('atribut', 'f.atribut', self::SYARAT[$p] ?? '').'
+                 ORDER BY f.geom <-> w.geom LIMIT 1',
+                [$id, ...$jenis],
+            );
+            $terdekat[$p] = $b ? ['nama' => $this->namaFasilitas($p, $b->nama), 'meter' => (int) round($b->meter)] : null;
+        }
+
         return response()->json([
             'jenis_geometri' => 'wilayah',
             'nama' => $w->nama,
@@ -157,6 +172,7 @@ class InspectController extends Controller
             'geometri' => json_decode($w->geojson),
             'match' => $cocok,
             'jumlah_fasilitas' => $jumlah,
+            'terdekat' => $terdekat,
             'kesimpulan' => array_map(fn ($p) => $this->skor->kesimpulanWilayah($p, $cocok[$p]), $persona),
             'data_tidak_lengkap' => $w->kualitas_udara === null,
         ]);
