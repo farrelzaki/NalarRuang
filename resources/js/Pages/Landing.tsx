@@ -1,6 +1,6 @@
 /** Landing page (FR-22, UI06). Urutan seksi design-system.md bagian 10. */
 import { Head } from '@inertiajs/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import {
     AccordionFAQ,
     BandCTA,
@@ -18,6 +18,7 @@ import {
 } from '@/Components/Landing/Seksi';
 import { Ikon } from '@/Components/Dasar';
 import { useBahasa } from '@/lib/bahasa';
+import { useScrollReveal } from '@/lib/gerak';
 import { PERSONA } from '@/lib/nalar';
 
 const MENU: [string, string, string][] = [
@@ -32,6 +33,8 @@ const MENU: [string, string, string][] = [
 export default function Landing() {
     const { t } = useBahasa();
     const [menu, setMenu] = useState(false);
+    const halaman = useRef<HTMLDivElement>(null);
+    useScrollReveal(halaman);
 
     useEffect(() => {
         document.documentElement.dataset.theme = 'editorial';
@@ -43,7 +46,7 @@ export default function Landing() {
     return (
         <>
             <Head title={t('Hunian yang cocok, kota yang terbaca', 'A home that fits, a city you can read')} />
-            <div className="ed-page">
+            <div className="ed-page" ref={halaman}>
                 <HeroLanding onMenu={() => setMenu(true)} />
 
                 <section className="ed-sec" id="visi">

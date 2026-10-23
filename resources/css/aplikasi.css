@@ -18,16 +18,16 @@
 .nr-app__kanan { position: absolute; right: 58px; bottom: 84.6px; top: 76px; z-index: var(--z-panel); display: flex; align-items: flex-end; pointer-events: none; }
 .nr-app__kanan > * { pointer-events: auto; max-height: 100%; overflow-y: auto; }
 .nr-app__slider { position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: var(--z-controls); }
-.nr-app__toast { position: absolute; left: 50%; bottom: 100px; transform: translateX(-50%); z-index: var(--z-toast); animation: nr-masuk 200ms ease-out; }
+.nr-app__toast { position: absolute; left: 50%; bottom: 100px; transform: translateX(-50%); z-index: var(--z-toast); animation: nr-masuk 200ms var(--ease-out); }
 .nr-app__lapisan { position: absolute; inset: 0; z-index: var(--z-drawer); display: flex; }
-.nr-app__lapisan > .nr-drawer { position: relative; animation: nr-geser 240ms ease-out; }
+.nr-app__lapisan > .nr-drawer { position: relative; animation: nr-geser 260ms var(--ease-drawer); }
 .nr-app__lapisan--tengah { z-index: var(--z-dialog); align-items: center; justify-content: center; padding: 24px; overflow-y: auto; }
-.nr-app__lapisan--tengah > .nr-dialog { position: relative; animation: nr-skala 200ms ease-out; }
+.nr-app__lapisan--tengah > .nr-dialog { position: relative; animation: nr-skala 220ms var(--ease-out); }
 .nr-app[data-mode="rute"] .nr-app__peta { cursor: crosshair; }
 
-@keyframes nr-masuk { from { opacity: 0; transform: translate(-50%, 8px); } }
-@keyframes nr-geser { from { transform: translateX(-24px); opacity: 0; } }
-@keyframes nr-skala { from { transform: scale(0.98); opacity: 0; } }
+@keyframes nr-masuk { from { opacity: 0; transform: translate(-50%, calc(8px * var(--nr-gerak, 1))); } }
+@keyframes nr-geser { from { transform: translateX(calc(-24px * var(--nr-gerak, 1))); opacity: 0; } }
+@keyframes nr-skala { from { transform: scale(calc(1 - 0.03 * var(--nr-gerak, 1))); opacity: 0; } }
 
 @media (max-width: 1279px) {
   .nr-app__kiri { width: 320px; }
@@ -169,7 +169,7 @@
 /* Onboarding (tur panduan) Visual Explorer. */
 .nr-tur { position: fixed; inset: 0; z-index: var(--z-dialog); }
 .nr-tur__redup { position: absolute; inset: 0; background: rgba(15, 27, 61, 0.55); }
-.nr-tur__sorot { position: absolute; border-radius: 16px; box-shadow: 0 0 0 9999px rgba(15, 27, 61, 0.55), 0 0 0 3px var(--white); transition: all 0.25s ease; pointer-events: none; }
+.nr-tur__sorot { position: absolute; border-radius: 16px; box-shadow: 0 0 0 9999px rgba(15, 27, 61, 0.55), 0 0 0 3px var(--white); transition: top 250ms var(--ease-out), left 250ms var(--ease-out), width 250ms var(--ease-out), height 250ms var(--ease-out); pointer-events: none; }
 .nr-tur__kartu { position: absolute; width: min(340px, calc(100vw - 32px)); padding: 18px 18px 16px; background: var(--white); border-radius: var(--radius-lg); box-shadow: var(--shadow-2xl); color: var(--navy-900); font-family: var(--font-sans); }
 .nr-tur__kepala { display: flex; align-items: center; gap: 10px; }
 .nr-tur__ikon { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 10px; background: var(--ink-05); }
@@ -179,7 +179,7 @@
 .nr-tur__judul { margin: 14px 0 6px; font: 700 17px/24px var(--font-sans); }
 .nr-tur__isi { margin: 0; font: 400 13.5px/21px var(--font-sans); color: var(--ink-80); }
 .nr-tur__titik { display: flex; gap: 5px; margin-top: 16px; }
-.nr-tur__titik span { width: 6px; height: 6px; border-radius: 3px; background: var(--ink-20); transition: width 0.2s ease; }
+.nr-tur__titik span { width: 6px; height: 6px; border-radius: 3px; background: var(--ink-20); transition: width 200ms var(--ease-out), background-color 200ms ease; }
 .nr-tur__titik span.is-aktif { width: 18px; background: var(--navy-900); }
 .nr-tur__aksi { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
 .nr-tur__kembali, .nr-tur__lanjut { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 16px; border-radius: var(--radius-pill); font: 600 13px/1 var(--font-sans); cursor: pointer; }

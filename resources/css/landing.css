@@ -26,7 +26,7 @@
 
 .ed-faq-sec { display: grid; grid-template-columns: 420px 1fr; gap: 64px; align-items: start; }
 
-.ed-menu { position: fixed; inset: 0; z-index: 2000; background: rgba(15, 27, 61, 0.96); display: grid; place-items: center; animation: nr-skala 200ms ease-out; }
+.ed-menu { position: fixed; inset: 0; z-index: 2000; background: rgba(15, 27, 61, 0.96); display: grid; place-items: center; animation: nr-skala 220ms var(--ease-out); }
 .ed-menu nav { display: flex; flex-direction: column; align-items: center; gap: 20px; }
 .ed-menu a { font: 400 44px/1.1 var(--font-fraunces); font-variation-settings: "SOFT" 0, "WONK" 1; color: var(--stone-50); text-decoration: none; }
 .ed-menu a:hover { color: var(--cream-100); text-decoration: underline; text-underline-offset: 6px; }
