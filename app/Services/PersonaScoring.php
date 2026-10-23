@@ -79,9 +79,57 @@ class PersonaScoring
         return $jumlahFasilitas > 0;
     }
 
-    public function kesimpulanTitik(string $persona, int $bintang): string
+    private const INTI = [
+        3 => 'Sangat mendukung aktivitasmu',
+        2 => 'Cukup mendukung aktivitasmu',
+        1 => 'Mungkin kurang optimal',
+        0 => 'Belum mendukung aktivitasmu',
+    ];
+
+    /**
+     * Kalimat kesimpulan titik. Dengan $fakta (nama dan jarak fasilitas utama terdekat) kalimatnya menyebut alasannya,
+     * mis. "Buat gaya hidup Commuter: Cukup mendukung aktivitasmu karena terdapat Stasiun Tanjung Barat
+     * yang berjarak 2 km dari lokasi."
+     *
+     * @param  array{nama?: string, meter?: int, jumlah_1km?: int, kualitas_udara?: ?string, banjir?: ?string}|null  $fakta
+     */
+    public function kesimpulanTitik(string $persona, int $bintang, ?array $fakta = null): string
     {
-        return 'Buat gaya hidup '.self::LABEL[$persona].': '.self::FRASA[max(0, min(3, $bintang))];
+        $bintang = max(0, min(3, $bintang));
+        $awal = 'Buat gaya hidup '.self::LABEL[$persona].': ';
+        if (! $fakta || ! isset($fakta['meter'])) {
+            return $awal.self::FRASA[$bintang];
+        }
+
+        $baik = $bintang >= 2;
+        $jarak = self::jarakTeks($fakta['meter']);
+        $nama = trim($fakta['nama'] ?? '');
+        $alasan = match ($persona) {
+            'commuter' => $baik
+                ? 'terdapat Stasiun '.($nama ?: 'kereta')." yang berjarak {$jarak} dari lokasi"
+                : 'stasiun terdekat'.($nama ? " ({$nama})" : '')." berjarak {$jarak} dari lokasi",
+            'driver' => $baik
+                ? 'terdapat Gerbang Tol '.($nama ?: 'terdekat')." yang berjarak {$jarak} dari lokasi"
+                : 'gerbang tol terdekat'.($nama ? " ({$nama})" : '')." berjarak {$jarak} dari lokasi",
+            'social_vibe' => ($fakta['jumlah_1km'] ?? 0) > 0
+                ? "terdapat {$fakta['jumlah_1km']} kafe, restoran, dan tempat aktivitas dalam radius 1 km, yang terdekat ".($nama ?: 'berjarak')." {$jarak}"
+                : 'tempat nongkrong terdekat'.($nama ? " ({$nama})" : '')." berjarak {$jarak} dari lokasi",
+            'zen' => 'kualitas udara '.str_replace('_', ' ', (string) ($fakta['kualitas_udara'] ?? 'belum diketahui'))
+                .' dan ruang hijau terdekat'.($nama ? " ({$nama})" : '')." berjarak {$jarak}",
+            default => '',
+        };
+        $kalimat = $awal.self::INTI[$bintang].' karena '.$alasan.'.';
+        if ($persona === 'zen' && in_array($fakta['banjir'] ?? null, ['sedang', 'tinggi'], true)) {
+            $kalimat .= " Perhatikan: lokasi ini berada di area bahaya banjir kelas {$fakta['banjir']}.";
+        }
+
+        return $bintang <= 1 ? $kalimat.' Pertimbangkan lokasi lain.' : $kalimat;
+    }
+
+    /** "450 m" atau "2,1 km". */
+    public static function jarakTeks(int|float $meter): string
+    {
+        return $meter < 1000 ? (int) (round($meter / 10) * 10).' m' : number_format($meter / 1000, 1, ',', '.').' km';
     }
 
     public function kesimpulanWilayah(string $persona, bool $cocok): string

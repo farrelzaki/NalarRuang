@@ -52,7 +52,7 @@ class DemoPetaSeeder extends Seeder
                 'd_driver', (SELECT ST_Distance(f.geom::geography, m.c::geography) FROM fitur_peta f WHERE f.jenis = 'tol' ORDER BY f.geom <-> m.c LIMIT 1),
                 'd_social', (SELECT ST_Distance(f.geom::geography, m.c::geography) FROM fitur_peta f WHERE f.jenis = 'poi' ORDER BY f.geom <-> m.c LIMIT 1),
                 'n_poi', (SELECT count(*) FROM fitur_peta f WHERE f.jenis = 'poi' AND ST_Intersects(f.geom, w.geom)),
-                'd_rth', (SELECT ST_Distance(f.geom::geography, m.c::geography) FROM fitur_peta f WHERE f.jenis = 'rth' ORDER BY f.geom <-> m.c LIMIT 1),
+                'd_rth', (SELECT ST_Distance(f.geom::geography, m.c::geography) FROM fitur_peta f WHERE f.jenis = 'rth' AND coalesce(f.atribut->>'kategori', '') NOT IN ('cemetery', 'golf_course') ORDER BY f.geom <-> m.c LIMIT 1),
                 'porsi_banjir', coalesce((SELECT sum(ST_Area(ST_Intersection(f.geom, w.geom)::geography)) FROM fitur_peta f
                     WHERE f.layer_id = 'historis_risiko' AND f.atribut->>'kelas' IN ('sedang', 'tinggi') AND ST_Intersects(f.geom, w.geom)), 0)
                     / nullif(ST_Area(w.geom::geography), 0)

@@ -1,7 +1,7 @@
 /** Panel Layer Spasial (8.9), Profil Persona (8.10), tombol merek (8.11), tombol LAYER/PERSONA (8.12), slider tahun (8.13). */
 import type { LayerKey, Persona } from '@/types';
 import { useBahasa } from '@/lib/bahasa';
-import { cx, LAYERS, PERSONA, PERSONA_IDS } from '@/lib/nalar';
+import { cx, LAYERS, PERSONA, PERSONA_IDS, SUBFITUR, type Simbol } from '@/lib/nalar';
 import { Ikon, PanelKanan, SimbolPeta, Toggle, Wordmark } from './Dasar';
 
 export type StatusLayer = 'loading' | 'error' | undefined;
@@ -11,10 +11,13 @@ type PanelLayerProps = {
     status: Partial<Record<LayerKey, StatusLayer>>;
     onToggle: (k: LayerKey) => void;
     onCobaLagi: (k: LayerKey) => void;
+    /** Baris legenda yang dimatikan (T-034). */
+    subMati: Simbol[];
+    onSubToggle: (s: Simbol) => void;
     onTutup: () => void;
 };
 
-export function PanelLayer({ aktif, status, onToggle, onCobaLagi, onTutup }: PanelLayerProps) {
+export function PanelLayer({ aktif, status, onToggle, onCobaLagi, subMati, onSubToggle, onTutup }: PanelLayerProps) {
     const { t } = useBahasa();
     return (
         <PanelKanan title={t('Layer Spasial', 'Spatial Layers')} onClose={onTutup}>
@@ -40,12 +43,30 @@ export function PanelLayer({ aktif, status, onToggle, onCobaLagi, onTutup }: Pan
                             </span>
                         ) : nyala ? (
                             <div className={cx('nr-layer__legend', l.grid && 'nr-layer__legend--grid')}>
-                                {l.legend.map(([simbol, teks]) => (
-                                    <span key={simbol} className="nr-legend">
-                                        <SimbolPeta kind={simbol} />
-                                        {t(teks)}
-                                    </span>
-                                ))}
+                                {l.legend.map(([simbol, teks]) =>
+                                    l.legend.length > 1 && SUBFITUR[simbol] ? (
+                                        <button
+                                            key={simbol}
+                                            type="button"
+                                            role="checkbox"
+                                            aria-checked={!subMati.includes(simbol)}
+                                            className="nr-legend nr-legend--pilih"
+                                            title={subMati.includes(simbol) ? t('Tampilkan', 'Show') : t('Sembunyikan', 'Hide')}
+                                            onClick={() => onSubToggle(simbol)}
+                                        >
+                                            <span className="nr-legend__cek" aria-hidden="true">
+                                                {!subMati.includes(simbol) && <Ikon name="check" size={9} strokeWidth={3.5} />}
+                                            </span>
+                                            <SimbolPeta kind={simbol} />
+                                            {t(teks)}
+                                        </button>
+                                    ) : (
+                                        <span key={simbol} className="nr-legend">
+                                            <SimbolPeta kind={simbol} />
+                                            {t(teks)}
+                                        </span>
+                                    ),
+                                )}
                             </div>
                         ) : (
                             <span className="nr-layer__desc">{t(l.desc)}</span>

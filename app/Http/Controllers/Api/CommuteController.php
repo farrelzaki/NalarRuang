@@ -37,8 +37,14 @@ class CommuteController extends Controller
     private const TOL_PER_KM = 350;
     private const TOL_MINIMUM = 7000;
     private const KECEPATAN_KAKI = 80;       // m/menit
-    private const MAKS_KE_STASIUN = 3000;    // meter, stasiun rel
-    private const MAKS_KE_HALTE = 1500;      // meter, halte TransJakarta bila tidak ada stasiun
+    private const MAKS_KE_STASIUN = 12000;   // meter, stasiun rel (lebih dari batas jalan kaki: naik ojol)
+    private const MAKS_KE_HALTE = 4000;      // meter, halte TransJakarta
+    // First/last mile (T-042): jalan kaki bila dekat; bila jauh, ojek online dengan tarif rata-rata dari tim.
+    private const MAKS_JALAN_KAKI = 1000;    // meter garis lurus; rute jalan kaki > 1,5 km juga dialihkan ke ojol
+    private const MAKS_RUTE_JALAN = 1500;    // meter menurut rute pejalan kaki
+    private const TARIF_OJOL = 15000;        // Rp per perjalanan
+    private const KECEPATAN_OJOL = 350;      // m/menit (+-21 km/jam di jalan kota)
+    private const TUNGGU_OJOL = 4;           // menit menunggu pengemudi
     // Ganjil-genap. Server Valhalla publik membatasi exclude_polygons: total 100 titik sudut, keliling 10 km.
     private const GG_PUTARAN = 5;
     private const GG_MAKS_PALANG = 33;       // x 3 titik sudut per palang
@@ -327,7 +333,8 @@ class CommuteController extends Controller
             if (! $rute) {
                 continue;
             }
-            $skor = $rute['menit'] + ($sa->meter + $sb->meter) * 1.3 / self::KECEPATAN_KAKI;
+            // Skor = menit total; ojol diberi tambahan 5 menit per ruas agar jalan kaki/transum tetap diutamakan.
+            $skor = $rute['menit'] + $this->menitAkses($sa->meter) + $this->menitAkses($sb->meter);
             if (! $terbaik || $skor < $terbaik[0]) {
                 $terbaik = [$skor, $sa, $sb, $rute];
             }
@@ -337,26 +344,36 @@ class CommuteController extends Controller
         }
         [, $sa, $sb, $rute] = $terbaik;
 
-        $kaki1 = $this->osrm(self::OSRM_KAKI, $a, [$sa->lat, $sa->lng]);
-        $kaki2 = $this->osrm(self::OSRM_KAKI, [$sb->lat, $sb->lng], $b);
-        $m1 = $kaki1['distance'] ?? $sa->meter * 1.3;
-        $m2 = $kaki2['distance'] ?? $sb->meter * 1.3;
-        $t1 = (int) round($m1 / self::KECEPATAN_KAKI);
-        $t2 = (int) round($m2 / self::KECEPATAN_KAKI);
+        $awal = $this->akses($a, [$sa->lat, $sa->lng], $sa->meter, $sa->nama);
+        $akhir = $this->akses([$sb->lat, $sb->lng], $b, $sb->meter, 'tujuan');
 
-        $jalanKaki = array_values(array_filter([$kaki1['geometry'] ?? null, $kaki2['geometry'] ?? null]));
+        $jalanKaki = array_values(array_filter([
+            $awal['tipe'] === 'jalan' ? $awal['geometri'] : null,
+            $akhir['tipe'] === 'jalan' ? $akhir['geometri'] : null,
+        ]));
         foreach ($rute['transfer'] as $t) {
             $jalanKaki[] = ['type' => 'LineString', 'coordinates' => $t];
         }
+        $ojol = array_values(array_filter([
+            $awal['tipe'] === 'ojol' ? $awal['geometri'] : null,
+            $akhir['tipe'] === 'ojol' ? $akhir['geometri'] : null,
+        ]));
+        $biayaOjol = ($awal['biaya'] ?? 0) + ($akhir['biaya'] ?? 0);
+        $sebut = fn ($x) => ($x['tipe'] === 'ojol' ? 'Ojol ' : 'Jalan ').$x['menit'].' mnt';
+        $langkah = array_map(fn ($x) => array_diff_key($x, ['geometri' => 1]), [$awal, ...$rute['langkah'], $akhir]);
 
         return [
-            'jarak_km' => round(($m1 + $rute['meter'] + $m2) / 1000, 1),
-            'waktu_menit' => $t1 + $rute['menit'] + $t2,
-            'biaya' => $rute['biaya'] ?? 0,
-            'rincian' => implode(' · ', ["Jalan {$t1} mnt", ...$rute['rincian'], "Jalan {$t2} mnt"]),
+            'jarak_km' => round(($awal['meter'] + $rute['meter'] + $akhir['meter']) / 1000, 1),
+            'waktu_menit' => $awal['menit'] + $rute['menit'] + $akhir['menit'],
+            'biaya' => ($rute['biaya'] ?? 0) + $biayaOjol,
+            'biaya_transum' => $rute['biaya'] ?? 0,
+            'biaya_ojol' => $biayaOjol,
+            'rincian' => implode(' · ', [$sebut($awal), ...$rute['rincian'], $sebut($akhir)]),
+            'langkah' => $langkah,
             'stasiun' => array_map(fn ($s) => ['nama' => $s['nama'], 'lat' => $s['lat'], 'lng' => $s['lng']], $rute['stasiun']),
             'geometri' => [
                 'jalan_kaki' => $jalanKaki,
+                'ojol' => $ojol,
                 'rel' => ['type' => 'MultiLineString', 'coordinates' => $rute['garis']],
             ],
         ];
@@ -399,20 +416,25 @@ class CommuteController extends Controller
     /** Kunci lin "OPERATOR:KODE" -> nama lin, dari /operators. */
     private function namaLin(): array
     {
-        return Cache::remember('commute:nama-lin', now()->addDay(), function () {
-            try {
-                $hasil = [];
-                foreach (Http::timeout(12)->get(self::COMMUTE_API.'/operators')->json('data') ?? [] as $op) {
-                    foreach ($op['lines'] ?? [] as $l) {
-                        $hasil["{$op['code']}:{$l['lineCode']}"] = $l['name'];
-                    }
+        if ($ada = Cache::get('commute:nama-lin')) {
+            return $ada;
+        }
+        try {
+            $hasil = [];
+            foreach (Http::timeout(12)->get(self::COMMUTE_API.'/operators')->json('data') ?? [] as $op) {
+                foreach ($op['lines'] ?? [] as $l) {
+                    $hasil["{$op['code']}:{$l['lineCode']}"] = $l['name'];
                 }
-
-                return $hasil;
-            } catch (Throwable) {
-                return [];
             }
-        });
+        } catch (Throwable) {
+            $hasil = [];
+        }
+        // Hasil kosong (API sedang gagal) tidak di-cache, agar label "KRL Bogor" tidak tertahan jadi "KRL B" seharian.
+        if ($hasil) {
+            Cache::put('commute:nama-lin', $hasil, now()->addDay());
+        }
+
+        return $hasil;
     }
 
     /** id stasiun/halte Commute Data API -> [lng, lat], dari layer mobilitas. */
@@ -448,6 +470,40 @@ class CommuteController extends Controller
     }
 
     /** Calon titik naik/turun: stasiun rel terdekat (maks. 3 km) dan halte TransJakarta terdekat (maks. 1,5 km). */
+    /** Perkiraan menit ke/dari stasiun dari jarak garis lurus, untuk memilih pasangan stasiun terbaik. */
+    private function menitAkses(float $meter): float
+    {
+        return $meter <= self::MAKS_JALAN_KAKI
+            ? $meter * 1.3 / self::KECEPATAN_KAKI
+            : self::TUNGGU_OJOL + $meter * 1.3 / self::KECEPATAN_OJOL + 5;
+    }
+
+    /**
+     * Ruas first/last mile: jalan kaki (rute OSRM pejalan kaki) bila stasiun <= MAKS_JALAN_KAKI m,
+     * selain itu ojol (rute OSRM mobil, tarif TARIF_OJOL).
+     *
+     * @return array{tipe: string, ke: string, menit: int, meter: int, biaya?: int, geometri: ?array}
+     */
+    private function akses(array $dari, array $ke, float $lurus, string $tujuan): array
+    {
+        $kaki = $lurus <= self::MAKS_JALAN_KAKI * 2 ? $this->osrm(self::OSRM_KAKI, $dari, $ke) : null;
+        $mKaki = $kaki['distance'] ?? $lurus * 1.3;
+        $jalan = ['tipe' => 'jalan', 'ke' => $tujuan, 'menit' => (int) max(1, round($mKaki / self::KECEPATAN_KAKI)), 'meter' => (int) round($mKaki), 'geometri' => $kaki['geometry'] ?? null];
+        if ($lurus <= self::MAKS_JALAN_KAKI && $mKaki <= self::MAKS_RUTE_JALAN) {
+            return $jalan;
+        }
+        $r = $this->osrm(self::OSRM_MOBIL, $dari, $ke);
+        $m = $r['distance'] ?? $lurus * 1.3;
+        $ojol = [
+            'tipe' => 'ojol', 'ke' => $tujuan, 'menit' => (int) round(self::TUNGGU_OJOL + $m / self::KECEPATAN_OJOL), 'meter' => (int) round($m),
+            'biaya' => self::TARIF_OJOL, 'geometri' => $r['geometry'] ?? ['type' => 'LineString', 'coordinates' => [[$dari[1], $dari[0]], [$ke[1], $ke[0]]]],
+        ];
+
+        // Jalan kaki agak jauh (<= 2x batas) tetap dipilih bila ojol tidak lebih cepat (mis. jalan memutar karena satu arah).
+        return $kaki && $mKaki <= self::MAKS_RUTE_JALAN * 2 && $jalan['menit'] <= $ojol['menit'] ? $jalan : $ojol;
+    }
+
+
     private function kandidat(array $p): array
     {
         $pilihan = [

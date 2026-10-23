@@ -3,12 +3,12 @@
  * tombol merek kanan atas, LAYER/PERSONA + panel kanan di kanan bawah, slider tahun tengah bawah.
  */
 import { Head } from '@inertiajs/react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Geometry } from 'geojson';
 import type { CommuteResponse, HasilSearch, InspectResponse, LayerKey, LayerResponse, Persona } from '@/types';
 import { api } from '@/lib/api';
 import { useBahasa } from '@/lib/bahasa';
-import { bacaPersonaSesi, PERSONA, simpanPersonaSesi } from '@/lib/nalar';
+import { bacaPersonaSesi, PERSONA, simpanPersonaSesi, SUBFITUR, type Simbol } from '@/lib/nalar';
 import PetaExplorer, { type TitikPeta } from '@/Map/PetaExplorer';
 import { Toast, type NadaToast } from '@/Components/Dasar';
 import { PanelFilter, PanelTop3, SearchBar } from '@/Components/Pencarian';
@@ -68,6 +68,23 @@ export default function Peta() {
     const [lewatTol, setLewatTol] = useState(true);
     const [hargaBbm, setHargaBbm] = useState(10000);
     const [hindariGg, setHindariGg] = useState(false);
+    // Sub-fitur yang disembunyikan (T-034), mis. hanya tampilkan ruas ganjil-genap di Mobilitas.
+    const [subMati, setSubMati] = useState<Simbol[]>([]);
+    const layerTampil = useMemo(() => {
+        const saring = subMati.map((s) => SUBFITUR[s]).filter((f): f is NonNullable<typeof f> => !!f);
+        // Saat rute umum tampil, jaringan transit lain disembunyikan: peta hanya menunjukkan lin yang dilalui (T-042).
+        if (panelKiri === 'rute' && moda === 'transit' && rute?.publik) {
+            saring.push((p) => ['krl', 'mrt', 'lrt', 'stasiun', 'halte', 'tol', 'ganjil_genap'].includes(String(p.jenis)));
+        }
+        if (!saring.length) return layerData;
+        const hasil: typeof layerData = {};
+        for (const [k, fc] of Object.entries(layerData) as [LayerKey, LayerResponse][]) {
+            const sisa = fc.features.filter((f) => !saring.some((cek) => cek((f.properties ?? {}) as Record<string, unknown>)));
+            // Layer yang tidak berubah tetap objek yang sama agar peta tidak menggambar ulang.
+            hasil[k] = sisa.length === fc.features.length ? fc : { ...fc, features: sisa };
+        }
+        return hasil;
+    }, [layerData, subMati, panelKiri, moda, rute]);
 
     // Onboarding: sekali per peramban, setelah dialog persona ditutup; ?panduan=1 memaksa tampil.
     useEffect(() => {
@@ -311,7 +328,7 @@ export default function Peta() {
             <main className="nr-app" data-mode={panelKiri === 'rute' ? 'rute' : undefined}>
                 <PetaExplorer
                     className="nr-app__peta"
-                    layer={layerData}
+                    layer={layerTampil}
                     tahun={tahun}
                     top3={panelKiri === 'top3' || panelKiri === 'detail' ? hasil : null}
                     top3Aktif={top3Aktif}
@@ -390,7 +407,15 @@ export default function Peta() {
                 {panelKanan && (
                     <div className="nr-app__kanan">
                         {panelKanan === 'layer' ? (
-                            <PanelLayer aktif={layerAktif} status={layerStatus} onToggle={toggleLayer} onCobaLagi={(k) => nyalakanLayer(k)} onTutup={() => setPanelKanan(null)} />
+                            <PanelLayer
+                                aktif={layerAktif}
+                                status={layerStatus}
+                                onToggle={toggleLayer}
+                                onCobaLagi={(k) => nyalakanLayer(k)}
+                                subMati={subMati}
+                                onSubToggle={(s) => setSubMati((m) => (m.includes(s) ? m.filter((x) => x !== s) : [...m, s]))}
+                                onTutup={() => setPanelKanan(null)}
+                            />
                         ) : (
                             <PanelProfilPersona terpilih={persona} onUbah={balikPersona} onTutup={() => setPanelKanan(null)} />
                         )}

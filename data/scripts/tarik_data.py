@@ -234,8 +234,9 @@ def gtfs_tj():
 def tarik_ekosistem():
     print('Ekosistem (OSM)...')
     poi = per_wilayah('(nwr(area.j)["amenity"~"^(cafe|restaurant|fast_food)$"];nwr(area.j)["shop"="mall"];);out center tags;', 'poi')
+    poi += per_wilayah('nwr(area.j)["amenity"="library"];out center tags;', 'perpustakaan')
     rth = per_wilayah('(way(area.j)["leisure"~"^(park|garden|golf_course|recreation_ground)$"];way(area.j)["landuse"~"^(forest|cemetery|recreation_ground|village_green)$"];);out geom tags;', 'rth')
-    kat = {'cafe': 'Kafe', 'restaurant': 'Restoran', 'fast_food': 'Makanan cepat saji'}
+    kat = {'cafe': 'Kafe', 'restaurant': 'Restoran', 'fast_food': 'Makanan cepat saji', 'library': 'Perpustakaan'}
     hasil = []
     for e in poi:
         p = titik(e)

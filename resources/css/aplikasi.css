@@ -187,3 +187,25 @@
 .nr-tur__lanjut { border: 0; background: var(--navy-900); color: var(--white); }
 .nr-tur__lanjut:focus-visible, .nr-tur__kembali:focus-visible, .nr-tur__lewati:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
 @media (prefers-reduced-motion: reduce) { .nr-tur__sorot, .nr-tur__titik span { transition: none; } }
+
+/* Baris legenda yang bisa dimatikan (T-034). */
+.nr-legend--pilih { width: 100%; padding: 2px 4px 2px 2px; margin: 0 -4px 0 -2px; border: 0; border-radius: var(--radius-xs); background: none; text-align: left; cursor: pointer; }
+.nr-legend--pilih:hover { background: var(--ink-05); }
+.nr-legend--pilih[aria-checked="false"] { color: var(--ink-40); }
+.nr-legend--pilih[aria-checked="false"] svg:not(.nr-svg) { opacity: 0.35; }
+.nr-legend--pilih:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 1px; }
+.nr-legend__cek { display: grid; place-items: center; flex: none; width: 12px; height: 12px; margin-top: 2px; border: 1.5px solid var(--navy-900); border-radius: 3px; background: var(--white); color: var(--white); }
+.nr-legend--pilih[aria-checked="true"] .nr-legend__cek { background: var(--navy-900); }
+.nr-legend--pilih[aria-checked="false"] .nr-legend__cek { border-color: var(--ink-40); }
+
+/* Langkah perjalanan transportasi umum (T-042). */
+.nr-langkah { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-direction: column; max-height: 320px; overflow-y: auto; }
+.nr-langkah__baris { position: relative; display: flex; gap: 10px; padding: 6px 0 8px; }
+.nr-langkah__baris:not(:last-of-type)::before { content: ""; position: absolute; left: 11px; top: 30px; bottom: -4px; border-left: 2px dotted var(--ink-20); }
+.nr-langkah__baris--naik:not(:last-of-type)::before { border-left: 3px solid var(--warna); left: 10.5px; }
+.nr-langkah__ikon { display: grid; place-items: center; flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--white); border: 2px solid var(--warna); color: var(--navy-900); z-index: 1; }
+.nr-langkah__baris--naik .nr-langkah__ikon { background: var(--warna); color: var(--white); }
+.nr-langkah__teks { display: flex; flex-direction: column; min-width: 0; }
+.nr-langkah__judul { font: 600 12px/17px var(--font-sans); color: var(--navy-900); }
+.nr-langkah__ket { font: 400 11px/16px var(--font-sans); color: var(--ink-60); }
+.nr-langkah__biaya { margin-top: 2px; padding: 6px 10px; border-radius: var(--radius-xs); background: var(--ink-05); font: 500 11px/16px var(--font-sans); color: var(--ink-70); }

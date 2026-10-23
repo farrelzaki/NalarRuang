@@ -97,9 +97,9 @@ export function teksServer(s: string, bahasa: Bahasa = aktif): string {
     if (bahasa === 'id' || !s) return s;
     if (TIPE_KAWASAN[s]) return TIPE_KAWASAN[s];
     const aturan: [RegExp, (...m: string[]) => string][] = [
-        [/^Stasiun (.*) ([\d.,]+ k?m)$/, (_, n, j) => `${n ? n + ' Station' : 'Station'} ${desimal(j)}`],
+        [/^Stasiun (.*), ([\d.,]+ k?m)$/, (_, n, j) => `${n ? n + ' Station' : 'Station'}, ${desimal(j)}`],
         [/^Kafe atau restoran terdekat ([\d.,]+ k?m)$/, (_, j) => `Nearest café or restaurant ${desimal(j)}`],
-        [/^Gerbang Tol (.+) ([\d.,]+ k?m)$/, (_, n, j) => `${n} toll gate ${desimal(j)}`],
+        [/^Gerbang Tol (.+), ([\d.,]+ k?m)$/, (_, n, j) => `${n} toll gate, ${desimal(j)}`],
         [/^Gerbang tol terdekat ([\d.,]+ k?m)$/, (_, j) => `Nearest toll gate ${desimal(j)}`],
         [/^Area bahaya banjir kelas (\w+) \(InaRISK\)$/, (_, k) => `Flood hazard area, ${KELAS[k] ?? k} class (InaRISK)`],
         [/^Di luar area bahaya banjir InaRISK$/, () => 'Outside InaRISK flood hazard area'],
@@ -110,10 +110,10 @@ export function teksServer(s: string, bahasa: Bahasa = aktif): string {
         [/^Permukiman di area data contoh\.$/, () => 'Residential area in the sample data.'],
     ];
     // Rincian rute umum: "Jalan 9 mnt · KRL Bogor 65 mnt · Pindah 600 m · TransJakarta 9 14 mnt · Jalan 7 mnt".
-    if (/^Jalan \d+ mnt · /.test(s)) {
+    if (/^(Jalan|Ojol) \d+ mnt · /.test(s)) {
         return s
             .split(' · ')
-            .map((b) => b.replace(/^Jalan (\d+) mnt$/, 'Walk $1 min').replace(/^Pindah (\d+) m$/, 'Transfer, walk $1 m').replace(/ (\d+) mnt$/, ' $1 min'))
+            .map((b) => b.replace(/^Jalan (\d+) mnt$/, 'Walk $1 min').replace(/^Ojol (\d+) mnt$/, 'Ride-hailing $1 min').replace(/^Pindah (\d+) m$/, 'Transfer, walk $1 m').replace(/ (\d+) mnt$/, ' $1 min'))
             .join(' · ');
     }
     for (const [pola, ganti] of aturan) {

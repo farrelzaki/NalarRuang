@@ -47,9 +47,13 @@ export type InspectTitik = {
     stars: Record<Persona, number | null>;
     jarak_meter: Record<Persona, number | null>;
     ringkasan_layer: RingkasanLayer[];
+    /** Fasilitas utama terdekat per persona, untuk kalimat kesimpulan (T-033). */
+    fakta?: Record<Persona, FaktaFasilitas | null>;
     kesimpulan: string[];
     data_tidak_lengkap: boolean;
 };
+
+export type FaktaFasilitas = { nama: string; meter: number; jumlah_1km?: number; kualitas_udara?: string | null; banjir?: string | null };
 
 export type InspectWilayah = {
     jenis_geometri: 'wilayah';
@@ -74,12 +78,21 @@ export type RuteModa = {
     biaya: number;
 };
 
+/** Langkah perjalanan transportasi umum (T-042). `garis` = indeks bagian geometri.rel untuk ruas naik. */
+export type LangkahRute =
+    | { tipe: 'jalan' | 'ojol'; ke: string; menit: number; meter: number; biaya?: number }
+    | { tipe: 'naik'; moda: string; jenis: string; lin: string; dari: string; ke: string; henti: number; menit: number; meter: number; garis?: number | null }
+    | { tipe: 'pindah'; di: string; ke: string; menit: number; meter: number };
+
 export type CommuteResponse = {
     pribadi: (RuteModa & { geometri: LineString; biaya_bbm?: number; biaya_tol?: number; lewat_tol?: boolean; ganjil_genap?: { hindari: boolean; ruas: string[] } }) | null;
     publik: (RuteModa & {
         rincian: string;
+        biaya_transum?: number;
+        biaya_ojol?: number;
+        langkah?: LangkahRute[];
         stasiun: { nama: string; lat: number; lng: number }[];
-        geometri: { jalan_kaki: LineString[]; rel: LineString | MultiLineString };
+        geometri: { jalan_kaki: LineString[]; ojol?: LineString[]; rel: LineString | MultiLineString };
     }) | null;
     catatan: string;
 };

@@ -83,16 +83,16 @@ Checkpoint dan approval:
 | T-030 | Peta | Warna lin MRT, LRTJ, LRT Jabodebek, KRL, kereta bandara, BRT sesuai PDF Drive; tampilkan rute BRT | [ ] Butuh PDF (akses Drive) |
 | T-031 | Peta | Batas peta Jabodetabek + toast "Anda sudah mencapai batas maksimum peta"; batas zoom out | [x] 23 Okt (zoom out min. 10, HP 9) |
 | T-032 | Peta | Lin KRL Cikarang (biru) melewati Cikarang | [x] 23 Okt (relasi KA lokal Walahar dibuang) |
-| T-033 | Peta | Kesimpulan inspector lebih informatif (sebut nama & jarak fasilitas) | [ ] |
-| T-034 | Peta | Toggle per sub-fitur di layer Mobilitas (mis. hanya ruas ganjil-genap) | [ ] |
+| T-033 | Peta | Kesimpulan inspector lebih informatif (sebut nama & jarak fasilitas) | [x] 23 Okt (titik: nama & jarak fasilitas, jumlah kafe 1 km, udara & banjir untuk Zen; wilayah: jumlah fasilitas) |
+| T-034 | Peta | Toggle per sub-fitur di layer Mobilitas (mis. hanya ruas ganjil-genap) | [x] 23 Okt (centang per baris legenda di semua layer berlegenda >1) |
 | T-035 | Peta | Lin KRL Rangkasbitung berhenti di Maja, harus sampai Rangkasbitung | [x] 23 Okt (+ stasiun Citeras, Rangkasbitung) |
 | T-036 | Peta | Lin MRT melewati Lebak Bulus | [x] 23 Okt (rel depo dipotong) |
 | T-037 | Peta | Historis & Risiko data asli; banjir masuk kriteria Zen | [ ] Banjir sudah InaRISK asli; kriteria Zen butuh keputusan (SRS) |
-| T-038 | Peta | Ekosistem: tambah RTH/taman (Zen), mal, perpustakaan | [ ] |
+| T-038 | Peta | Ekosistem: tambah RTH/taman (Zen), mal, perpustakaan | [x] 23 Okt (perpustakaan OSM; mal sudah ada; Zen tidak menghitung makam & lapangan golf) |
 | T-039 | Peta | Mesin Waktu: bercak ungu acak | [x] 23 Okt |
 | T-040 | Peta | Mesin Waktu 2030 hanya MRT & Tol Cikampek Selatan, garis putus-putus, tol merah | [x] 23 Okt (MRT 2029, tol 2030; warna MRT menunggu T-030) |
 | T-041 | Peta | Legalitas lahan dari ATR/BPN | [ ] Butuh (situs ATR/BPN diblokir WAF; tidak di-scrape paksa) |
-| T-042 | Peta | Simulator rute gaya Google Maps: langkah perjalanan, peta lin yang dilalui saja, ojol Rp15.000 bila first/last mile tanpa transum | [ ] |
+| T-042 | Peta | Simulator rute gaya Google Maps: langkah perjalanan, peta lin yang dilalui saja, ojol Rp15.000 bila first/last mile tanpa transum | [x] 23 Okt (ojol bila jalan kaki > 1 km/1,5 km rute; stasiun sampai 12 km) |
 | T-043 | Peta | Ikon pengaturan di kolom cari harus selalu tampil | [x] 23 Okt |
 | T-044 | Peta | Penjelasan cara kerja kolom cari (dijawab di komentar) | [x] 23 Okt (jawaban dikirim ke pengguna) |
 | — | Peta | Onboarding singkat saat pertama membuka peta (permintaan Izdihar 23 Okt) | [x] 23 Okt (8 langkah; buka lagi lewat Menu → Panduan atau `?panduan=1`) |

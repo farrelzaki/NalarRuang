@@ -71,7 +71,7 @@ function popupHtml(jenis: string, judul: string, isi: string, sumber: string): s
 }
 
 const JENIS_LABEL: Record<string, [string, string]> = {
-    banjir: ['Bahaya banjir', 'Flood hazard'], rth: ['Ruang terbuka hijau', 'Green open space'], poi: ['Kafe & restoran', 'Cafés & restaurants'],
+    banjir: ['Bahaya banjir', 'Flood hazard'], rth: ['Ruang terbuka hijau', 'Green open space'], poi: ['Tempat aktivitas', 'Activity spot'],
     akses: ['Akses disabilitas', 'Disability access'], trotoar: ['Trotoar', 'Sidewalk'], krl: ['Jalur KRL', 'KRL line'], mrt: ['Jalur MRT', 'MRT line'],
     lrt: ['Jalur LRT', 'LRT line'], stasiun: ['Stasiun', 'Station'], halte: ['Halte', 'Bus stop'], tol: ['Gerbang tol', 'Toll gate'],
     ganjil_genap: ['Ruas ganjil-genap', 'Odd-even road'],
@@ -80,7 +80,7 @@ const JENIS_LABEL: Record<string, [string, string]> = {
 
 /** Kosakata atribut data contoh (data/geojson/demo) yang tampil di popup. */
 const ISTILAH_EN: Record<string, string> = {
-    Kafe: 'Café', Restoran: 'Restaurant', 'Makanan cepat saji': 'Fast food', Mal: 'Mall', rendah: 'low', sedang: 'medium', tinggi: 'high',
+    Kafe: 'Café', Restoran: 'Restaurant', 'Makanan cepat saji': 'Fast food', Mal: 'Mall', Perpustakaan: 'Library', rendah: 'low', sedang: 'medium', tinggi: 'high',
     'Dalam pembangunan': 'Under construction', 'SHGB dalam proses': 'SHGB in process', Permukiman: 'Residential', permukiman: 'residential',
 };
 const istilah = (v: unknown) => (bahasaAktif() === 'en' ? (ISTILAH_EN[String(v)] ?? String(v)) : String(v));
@@ -162,6 +162,7 @@ export default function PetaExplorer(props: Props) {
     const grupLayer = useRef<Partial<Record<LayerKey, L.LayerGroup>>>({});
     const grupSeleksi = useRef<L.LayerGroup | null>(null);
     const grupRute = useRef<L.LayerGroup | null>(null);
+    const tergambar = useRef<Partial<Record<LayerKey, FeatureCollection>>>({});
     const panggil = useRef(props);
     panggil.current = props;
     modeRuteAktif = props.modeRute;
@@ -243,7 +244,8 @@ export default function PetaExplorer(props: Props) {
         const m = peta.current;
         if (!m) return;
         for (const [k, grup] of Object.entries(grupLayer.current)) {
-            if (!props.layer[k as LayerKey]) {
+            // Hapus layer yang dimatikan, atau yang datanya berganti (sub-fitur disaring, T-034).
+            if (props.layer[k as LayerKey] !== tergambar.current[k as LayerKey]) {
                 grup?.remove();
                 delete grupLayer.current[k as LayerKey];
             }
@@ -251,6 +253,7 @@ export default function PetaExplorer(props: Props) {
         for (const [k, fc] of Object.entries(props.layer) as [LayerKey, FeatureCollection][]) {
             if (!fc || grupLayer.current[k]) continue;
             grupLayer.current[k] = gambarLayer(k, fc, props.tahun).addTo(m);
+            tergambar.current[k] = fc;
         }
     }, [props.layer]);
 
@@ -313,7 +316,18 @@ export default function PetaExplorer(props: Props) {
             const tebal = kuat ? 5 : 3.5;
             const grup = L.layerGroup().addTo(g);
             L.geoJSON(r.publik.geometri.rel, { pane: 'nrRute', interactive: false, style: { color: '#fff', weight: tebal + 3, opacity: kuat ? 1 : 0.4 } }).addTo(grup);
-            L.geoJSON(r.publik.geometri.rel, { pane: 'nrRute', interactive: false, style: { color: gaya.warna.krl('bogor'), weight: tebal, opacity: kuat ? 1 : 0.4 } }).addTo(grup);
+            // Tiap ruas naik diwarnai sesuai lin-nya (T-042).
+            const rel = r.publik.geometri.rel;
+            const bagianRel = rel.type === 'MultiLineString' ? rel.coordinates : [rel.coordinates];
+            const linRuas = new Map<number, string>();
+            r.publik.langkah?.forEach((l) => l.tipe === 'naik' && l.garis != null && linRuas.set(l.garis, l.lin));
+            bagianRel.forEach((c, i) =>
+                L.polyline(
+                    c.map(([x, y]) => [y, x] as L.LatLngTuple),
+                    { pane: 'nrRute', interactive: false, color: gaya.warna.lin(linRuas.get(i) ?? 'bogor'), weight: tebal, opacity: kuat ? 1 : 0.4 },
+                ).addTo(grup),
+            );
+            r.publik.geometri.ojol?.forEach((w) => L.geoJSON(w, { pane: 'nrRute', interactive: false, style: { ...gaya.ruteOjol, opacity: kuat ? 1 : 0.4 } }).addTo(grup));
             r.publik.geometri.jalan_kaki.forEach((w) => L.geoJSON(w, { pane: 'nrRute', interactive: false, style: { ...gaya.ruteJalanKaki, opacity: kuat ? 1 : 0.4 } }).addTo(grup));
             r.publik.stasiun.forEach((s) =>
                 L.circleMarker([s.lat, s.lng], { pane: 'nrRute', radius: 6, color: '#0f1b3d', weight: 2.5, fillColor: '#fbf9f6', fillOpacity: 1, opacity: kuat ? 1 : 0.5 })

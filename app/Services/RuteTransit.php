@@ -28,7 +28,7 @@ class RuteTransit
      * @param  array<string, array{0: float, 1: float}>  $koordinat  id stasiun -> [lng, lat]
      * @param  array<string, string>  $namaLin  kunci lin "OPERATOR:KODE" -> nama lin
      * @param  callable(string, array, array): ?array  $jalurRel  (jenis, [lng,lat], [lng,lat]) -> koordinat sepanjang rel atau null
-     * @return array{garis: list<list<array{0: float, 1: float}>>, transfer: list<list<array{0: float, 1: float}>>, stasiun: list<array>, menit: int, meter: float, biaya: ?int, rincian: list<string>}|null
+     * @return array{garis: list<list<array{0: float, 1: float}>>, transfer: list<list<array{0: float, 1: float}>>, stasiun: list<array>, menit: int, meter: float, biaya: ?int, rincian: list<string>, langkah: list<array>}|null
      */
     public function rakit(array $tarif, array $koordinat, array $namaLin, callable $jalurRel): ?array
     {
@@ -41,6 +41,7 @@ class RuteTransit
         $transfer = [];
         $stasiun = [];
         $rincian = [];
+        $langkah = [];
         $menit = 0;
         $meter = 0.0;
         $naik = 0;
@@ -55,6 +56,7 @@ class RuteTransit
                 $m = (int) max(1, round($jarak / self::KAKI));
                 $menit += $m;
                 $rincian[] = 'Pindah '.round($jarak).' m';
+                $langkah[] = ['tipe' => 'pindah', 'di' => $leg['from']['name'] ?? '', 'ke' => $leg['to']['name'] ?? '', 'menit' => $m, 'meter' => (int) round($jarak)];
                 if (isset($koordinat[$dari], $koordinat[$ke])) {
                     $transfer[] = [$koordinat[$dari], $koordinat[$ke]];
                 }
@@ -67,14 +69,27 @@ class RuteTransit
             $menit += $m;
             $naik++;
             $rincian[] = trim($this->label($op, $leg['line'] ?? '', $namaLin)).' '.$m.' mnt';
+            $jenis = $this->jenisJalur($op, $leg['line'] ?? '');
+            $langkah[] = [
+                'tipe' => 'naik',
+                'moda' => trim($this->label($op, $leg['line'] ?? '', $namaLin)),
+                'jenis' => $jenis === null ? 'lain' : explode(':', $jenis)[0],
+                'lin' => $this->warnaLin($op, $leg['line'] ?? '', $namaLin),
+                'dari' => $leg['from']['name'] ?? '',
+                'ke' => $leg['to']['name'] ?? '',
+                'henti' => max(1, count($leg['stops'] ?? []) - 1),
+                'menit' => $m,
+                'meter' => (int) round($jarak),
+            ];
 
             $henti = array_values(array_filter(array_map(fn ($s) => $koordinat[$s['id']] ?? null, $leg['stops'] ?? [])));
             if (count($henti) < 2 && isset($koordinat[$dari], $koordinat[$ke])) {
                 $henti = [$koordinat[$dari], $koordinat[$ke]];
             }
             if (count($henti) >= 2) {
-                $garis[] = $this->ikutiRel($this->jenisJalur($op, $leg['line'] ?? ''), $henti, $jalurRel);
+                $garis[] = $this->ikutiRel($jenis, $henti, $jalurRel);
             }
+            $langkah[count($langkah) - 1]['garis'] = count($henti) >= 2 ? count($garis) - 1 : null;
 
             foreach ([$leg['from'] ?? null, $leg['to'] ?? null] as $s) {
                 if ($s && isset($koordinat[$s['id']]) && ! in_array($s['id'], array_column($stasiun, 'id'), true)) {
@@ -101,7 +116,30 @@ class RuteTransit
             'meter' => $meter,
             'biaya' => $biaya === null ? null : (int) $biaya,
             'rincian' => $rincian,
+            'langkah' => $langkah,
         ];
+    }
+
+    /** Kunci warna lin untuk peta dan daftar langkah: "bogor", "rangkas", "cikarang", "lain" (KRL), "mrt", "lrt", "tj". */
+    public function warnaLin(string $operator, string $lin, array $namaLin): string
+    {
+        if ($operator === 'KCI') {
+            $nama = strtolower($namaLin[$lin] ?? $lin);
+            foreach (['rangkas' => 'rangkas', 'bogor' => 'bogor', 'nambo' => 'bogor', 'cikarang' => 'cikarang', 'bekasi' => 'cikarang'] as $kunci => $warna) {
+                if (str_contains($nama, $kunci)) {
+                    return $warna;
+                }
+            }
+
+            return 'lain';
+        }
+
+        return match ($operator) {
+            'MRTJ' => 'mrt',
+            'LRTJ', 'LRTJBDB' => 'lrt',
+            'TJ' => 'tj',
+            default => 'lain',
+        };
     }
 
     /** Jaringan yang diikuti ruas ini: rel (krl/mrt/lrt) atau koridor TransJakarta "tj:13B"; null = garis lurus. */

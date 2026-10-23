@@ -1,9 +1,9 @@
 /** Simulator Rute (8.8, FR-10, FR-11, FR-16). Titik A/B dipilih di peta atau diketik (saran dari /api/lokasi). */
 import { useEffect, useState } from 'react';
-import type { CommuteResponse, SaranLokasi } from '@/types';
+import type { CommuteResponse, LangkahRute, SaranLokasi } from '@/types';
 import { api } from '@/lib/api';
 import { teksServer, useBahasa } from '@/lib/bahasa';
-import { cx, rupiah } from '@/lib/nalar';
+import { cx, rupiah, WARNA_LIN } from '@/lib/nalar';
 import { Ikon, Keadaan, Toggle } from './Dasar';
 
 export type Moda = 'mobil' | 'transit';
@@ -76,7 +76,8 @@ export function SimulatorRute({ a, b, menunggu, hasil, memuat, moda, onModa, lew
     };
 
     const jarak = hasil?.pribadi?.jarak_km ?? hasil?.publik?.jarak_km;
-    const rincian = lengkap && moda === 'transit' && hasil?.publik ? `${teksServer(hasil.publik.rincian)}. ` : '';
+    const langkah = lengkap && moda === 'transit' ? hasil?.publik?.langkah : undefined;
+    const rincian = lengkap && moda === 'transit' && hasil?.publik && !langkah ? `${teksServer(hasil.publik.rincian)}. ` : '';
 
     return (
         <section className="nr-route nr-float" aria-label={t('Simulator Rute', 'Route Simulator')}>
@@ -114,6 +115,7 @@ export function SimulatorRute({ a, b, menunggu, hasil, memuat, moda, onModa, lew
             )}
             {lengkap && moda === 'mobil' && <InfoGanjilGenap gg={hasil?.pribadi?.ganjil_genap} />}
             {lengkap && moda === 'mobil' && <IsianBbm nilai={hargaBbm} onSimpan={onHargaBbm} />}
+            {langkah && <DaftarLangkah langkah={langkah} biayaOjol={hasil?.publik?.biaya_ojol ?? 0} biayaTransum={hasil?.publik?.biaya_transum} />}
             {memuat && <Keadaan kind="memuat" title={t('Menghitung rute', 'Calculating route')} />}
             {lengkap && (
                 <p className="nr-route__foot">
@@ -150,6 +152,60 @@ function InfoGanjilGenap({ gg }: { gg?: { hindari: boolean; ruas: string[] } }) 
             <Ikon name={gg.hindari && !ruas ? 'check' : 'info'} size={12} />
             <span>{teks}</span>
         </p>
+    );
+}
+
+/** Langkah perjalanan transportasi umum ala aplikasi navigasi (T-042). */
+function DaftarLangkah({ langkah, biayaOjol, biayaTransum }: { langkah: LangkahRute[]; biayaOjol: number; biayaTransum?: number }) {
+    const { t, bahasa } = useBahasa();
+    const jarak = (m: number) =>
+        m < 1000 ? `${Math.round(m / 10) * 10} m` : `${(m / 1000).toLocaleString(bahasa === 'en' ? 'en-US' : 'id-ID', { maximumFractionDigits: 1 })} km`;
+    const tempat = (s: string) => (s === 'tujuan' ? t('tujuan', 'your destination') : s);
+    return (
+        <ol className="nr-langkah" aria-label={t('Langkah perjalanan', 'Journey steps')}>
+            {langkah.map((l, i) => {
+                let ikon = 'footprints';
+                let warna = 'var(--ink-40)';
+                let judul: string;
+                let ket: string;
+                if (l.tipe === 'jalan') {
+                    judul = t(`Jalan kaki ke ${tempat(l.ke)}`, `Walk to ${tempat(l.ke)}`);
+                    ket = `${l.menit} ${t('mnt', 'min')} · ${jarak(l.meter)}`;
+                } else if (l.tipe === 'ojol') {
+                    ikon = 'bike';
+                    warna = 'var(--green-500)';
+                    judul = t(`Naik ojek online ke ${tempat(l.ke)}`, `Take a ride-hailing motorbike to ${tempat(l.ke)}`);
+                    ket = `${l.menit} ${t('mnt', 'min')} · ${jarak(l.meter)} · ±${rupiah(l.biaya ?? 0)}`;
+                } else if (l.tipe === 'pindah') {
+                    judul = t(`Pindah di ${l.di}`, `Transfer at ${l.di}`) + (l.ke && l.ke !== l.di ? ` → ${l.ke}` : '');
+                    ket = `${t('Jalan', 'Walk')} ${jarak(l.meter)} · ${l.menit} ${t('mnt', 'min')}`;
+                } else {
+                    const n = l as Extract<LangkahRute, { tipe: 'naik' }>;
+                    ikon = n.jenis === 'tj' ? 'bus-front' : 'tram-front';
+                    warna = WARNA_LIN[n.lin] ?? 'var(--navy-900)';
+                    judul = t(`${n.moda}: ${n.dari} → ${n.ke}`, `${n.moda}: ${n.dari} → ${n.ke}`);
+                    ket = `${n.henti} ${n.jenis === 'tj' ? t('halte', n.henti > 1 ? 'stops' : 'stop') : t('stasiun', n.henti > 1 ? 'stations' : 'station')} · ${n.menit} ${t('mnt', 'min')}`;
+                }
+                return (
+                    <li key={i} className={cx('nr-langkah__baris', l.tipe === 'naik' && 'nr-langkah__baris--naik')} style={{ ['--warna' as string]: warna }}>
+                        <span className="nr-langkah__ikon" aria-hidden="true">
+                            <Ikon name={ikon} size={13} />
+                        </span>
+                        <span className="nr-langkah__teks">
+                            <span className="nr-langkah__judul">{judul}</span>
+                            <span className="nr-langkah__ket">{ket}</span>
+                        </span>
+                    </li>
+                );
+            })}
+            {(biayaOjol > 0 || biayaTransum != null) && (
+                <li className="nr-langkah__biaya">
+                    {biayaOjol > 0
+                        ? t(`Tarif transum ${rupiah(biayaTransum ?? 0)} + ojol ±${rupiah(biayaOjol)}`, `Transit fare ${rupiah(biayaTransum ?? 0)} + ride-hailing ±${rupiah(biayaOjol)}`)
+                        : t(`Tarif resmi ${rupiah(biayaTransum ?? 0)}`, `Official fare ${rupiah(biayaTransum ?? 0)}`)}
+                </li>
+            )}
+        </ol>
     );
 }
 

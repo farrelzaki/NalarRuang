@@ -111,12 +111,19 @@ class ApiTest extends TestCase
         $r = $this->getJson('/api/commute?dari=-6.2049,106.8049&ke=-6.2049,106.8349')->assertOk();
         $r->assertJsonStructure([
             'pribadi' => ['jarak_km', 'waktu_menit', 'biaya', 'biaya_bbm', 'biaya_tol', 'lewat_tol', 'ganjil_genap' => ['hindari', 'ruas'], 'geometri'],
-            'publik' => ['jarak_km', 'waktu_menit', 'biaya', 'rincian', 'stasiun', 'geometri' => ['jalan_kaki', 'rel']],
+            'publik' => ['jarak_km', 'waktu_menit', 'biaya', 'biaya_transum', 'biaya_ojol', 'rincian', 'langkah', 'stasiun', 'geometri' => ['jalan_kaki', 'ojol', 'rel']],
             'catatan',
         ]);
         $this->assertSame($r->json('pribadi.biaya_bbm') + $r->json('pribadi.biaya_tol'), $r->json('pribadi.biaya'));
         $this->assertGreaterThan(0, $r->json('pribadi.biaya_tol'));
         $this->assertSame(3000, $r->json('publik.biaya'));
+        $this->assertSame(['jalan', 'naik', 'jalan'], array_column($r->json('publik.langkah'), 'tipe'));
+
+        // Titik 2,5 km dari stasiun: ke stasiun naik ojol (T-042), biaya ojol ikut dijumlah.
+        $jauh = $this->getJson('/api/commute?dari=-6.2275,106.8049&ke=-6.2049,106.8349')->assertOk();
+        $this->assertSame('ojol', $jauh->json('publik.langkah.0.tipe'));
+        $this->assertSame(15000, $jauh->json('publik.biaya_ojol'));
+        $this->assertSame(18000, $jauh->json('publik.biaya'));
 
         $this->getJson('/api/commute?dari=-6.2049,106.8049&ke=-6.2049,106.8349&tol=0&bbm=12000')->assertOk();
         Http::assertSent(fn (PermintaanHttp $q) => str_contains($q->url(), 'valhalla') && ($q['costing_options']['auto']['use_tolls'] ?? null) === 0.0);

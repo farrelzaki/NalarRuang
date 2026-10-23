@@ -21,6 +21,11 @@ class InspectController extends Controller
         'zen' => ['rth'],
     ];
 
+    /** Ruang hijau untuk Zen: taman, hutan kota, lapangan; makam dan lapangan golf tidak dihitung (T-038). */
+    private const SYARAT = [
+        'zen' => "AND coalesce(atribut->>'kategori', '') NOT IN ('cemetery', 'golf_course')",
+    ];
+
     public function __construct(private PersonaScoring $skor)
     {
     }
@@ -46,7 +51,7 @@ class InspectController extends Controller
         $jarak = [];
         $terdekat = [];
         foreach (self::FASILITAS as $p => $jenis) {
-            $baris = $this->terdekat($jenis, $lat, $lng);
+            $baris = $this->terdekat($jenis, $lat, $lng, self::SYARAT[$p] ?? '');
             $jarak[$p] = $baris?->meter;
             $terdekat[$p] = $baris;
         }
@@ -71,14 +76,31 @@ class InspectController extends Controller
             [$lng, $lat, $lng, $lat],
         );
 
+        $poiSekitar = (int) DB::selectOne(
+            "SELECT count(*) AS n FROM fitur_peta WHERE jenis = 'poi' AND ST_DWithin(geom::geography, {$titik}::geography, 1000)",
+            [$lng, $lat],
+        )->n;
+        // Fakta untuk kalimat kesimpulan yang lebih rinci (T-033); disusun ulang di klien saat persona berganti.
+        $fakta = [];
+        foreach ($terdekat as $p => $baris) {
+            $fakta[$p] = $baris ? ['nama' => $this->namaFasilitas($p, $baris->nama), 'meter' => (int) round($baris->meter)] : null;
+        }
+        if ($fakta['social_vibe']) {
+            $fakta['social_vibe']['jumlah_1km'] = $poiSekitar;
+        }
+        if ($fakta['zen']) {
+            $fakta['zen']['kualitas_udara'] = $wilayah?->kualitas_udara;
+            $fakta['zen']['banjir'] = $banjir?->kelas;
+        }
+
         $ringkasan = [];
         if ($terdekat['commuter']) {
-            $ringkasan[] = ['jenis' => 'stasiun', 'teks' => 'Stasiun '.($terdekat['commuter']->nama ?: '').' '.$this->format($terdekat['commuter']->meter)];
+            $ringkasan[] = ['jenis' => 'stasiun', 'teks' => 'Stasiun '.($terdekat['commuter']->nama ?: '').', '.$this->format($terdekat['commuter']->meter)];
         }
         if ($terdekat['driver']) {
             // Nama gerbang di OSM tidak seragam ("Toll Gate X", "Gerbang Tol X", "X"): seragamkan.
-            $nama = trim((string) preg_replace('/^(toll gate|gerbang tol|gt)\s+/i', '', (string) $terdekat['driver']->nama));
-            $ringkasan[] = ['jenis' => 'tol', 'teks' => ($nama !== '' ? "Gerbang Tol {$nama}" : 'Gerbang tol terdekat').' '.$this->format($terdekat['driver']->meter)];
+            $nama = $fakta['driver']['nama'] ?? '';
+            $ringkasan[] = ['jenis' => 'tol', 'teks' => ($nama !== '' ? "Gerbang Tol {$nama}, " : 'Gerbang tol terdekat ').$this->format($terdekat['driver']->meter)];
         }
         if ($terdekat['social_vibe']) {
             $ringkasan[] = ['jenis' => 'hijau', 'teks' => 'Kafe atau restoran terdekat '.$this->format($terdekat['social_vibe']->meter)];
@@ -97,8 +119,9 @@ class InspectController extends Controller
             'stars' => $skor,
             'jarak_meter' => array_map(fn ($m) => $m === null ? null : (int) round($m), $jarak),
             'ringkasan_layer' => $ringkasan,
+            'fakta' => $fakta,
             'kesimpulan' => array_values(array_filter(array_map(
-                fn ($p) => $skor[$p] === null ? null : $this->skor->kesimpulanTitik($p, $skor[$p]),
+                fn ($p) => $skor[$p] === null ? null : $this->skor->kesimpulanTitik($p, $skor[$p], $fakta[$p]),
                 $persona,
             ))),
             'data_tidak_lengkap' => in_array(null, $skor, true),
@@ -116,7 +139,7 @@ class InspectController extends Controller
         foreach (self::FASILITAS as $p => $jenis) {
             $tanda = implode(',', array_fill(0, count($jenis), '?'));
             $jumlah[$p] = (int) DB::selectOne(
-                "SELECT count(*) AS n FROM fitur_peta f JOIN wilayah w ON w.id = ? WHERE f.jenis IN ({$tanda}) AND ST_Intersects(f.geom, w.geom)",
+                "SELECT count(*) AS n FROM fitur_peta f JOIN wilayah w ON w.id = ? WHERE f.jenis IN ({$tanda}) ".str_replace('atribut', 'f.atribut', self::SYARAT[$p] ?? '').' AND ST_Intersects(f.geom, w.geom)',
                 [$id, ...$jenis],
             )->n;
         }
@@ -139,16 +162,28 @@ class InspectController extends Controller
         ]);
     }
 
-    private function terdekat(array $jenis, float $lat, float $lng): ?object
+    private function terdekat(array $jenis, float $lat, float $lng, string $syarat = ''): ?object
     {
         $tanda = implode(',', array_fill(0, count($jenis), '?'));
 
         return DB::selectOne(
             "SELECT nama, ST_Distance(geom::geography, ST_SetSRID(ST_MakePoint(?, ?), 4326)::geography) AS meter
-             FROM fitur_peta WHERE jenis IN ({$tanda})
+             FROM fitur_peta WHERE jenis IN ({$tanda}) {$syarat}
              ORDER BY geom <-> ST_SetSRID(ST_MakePoint(?, ?), 4326) LIMIT 1",
             [$lng, $lat, ...$jenis, $lng, $lat],
         );
+    }
+
+    /** Nama fasilitas tanpa awalan jenis (nama gerbang tol di OSM tidak seragam: "Toll Gate X", "Gerbang Tol X", "GT X"). */
+    private function namaFasilitas(string $persona, ?string $nama): string
+    {
+        $nama = trim((string) $nama);
+
+        return match ($persona) {
+            'driver' => trim((string) preg_replace('/^(toll gate|gerbang tol|gt)\s+/i', '', $nama)),
+            'commuter' => trim((string) preg_replace('/^stasiun\s+/i', '', $nama)),
+            default => $nama,
+        };
     }
 
     private function format(float $meter): string

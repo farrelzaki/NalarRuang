@@ -14,6 +14,8 @@ export const warna = {
     legal: () => css('--map-legal'),
     stasiun: () => css('--map-stasiun'),
     krl: (lin: string) => css(`--map-krl-${['bogor', 'rangkas', 'cikarang'].includes(lin) ? lin : 'lain'}`),
+    /** Warna ruas rute umum: "bogor"/"rangkas"/"cikarang"/"lain" (KRL), "mrt", "lrt", "tj". */
+    lin: (lin: string) => (lin === 'mrt' ? css('--map-mrt') : lin === 'lrt' ? css('--map-lrt') : lin === 'tj' ? css('--navy-900') : warna.krl(lin)),
 };
 
 export const banjir = (kelas: string): PathOptions => ({
@@ -33,4 +35,5 @@ export const trotoar: PathOptions = { color: '#0ea5e9', weight: 2, opacity: 0.9,
 /** Infrastruktur masa depan: putus-putus; MRT warna lin MRT, tol merah jalan tol peta dasar OSM (T-040). */
 export const mesinWaktu = (moda?: string): PathOptions => ({ color: moda === 'tol' ? '#e892a2' : '#f97316', weight: 5, opacity: 1, dashArray: '10 8' });
 export const ruteMobil = { casing: { color: '#ffffff', weight: 8, opacity: 1 } as PathOptions, garis: { color: '#0f1b3d', weight: 5, opacity: 1 } as PathOptions };
+export const ruteOjol: PathOptions = { color: '#16a34a', weight: 4, opacity: 1, dashArray: '1 8', lineCap: 'round' };
 export const ruteJalanKaki: PathOptions = { color: '#0f1b3d', weight: 3, opacity: 1, dashArray: '0.1 7', lineCap: 'round' };
