@@ -7,6 +7,7 @@ import { cx, rupiah, WARNA_LIN } from '@/lib/nalar';
 import { Ikon, Keadaan, Toggle } from './Dasar';
 
 export type Moda = 'mobil' | 'transit';
+export type JenisKendaraan = 'mobil' | 'motor';
 export type TitikRute = { lat: number; lng: number; label: string } | null;
 
 type Props = {
@@ -17,6 +18,13 @@ type Props = {
     memuat: boolean;
     moda: Moda;
     onModa: (m: Moda) => void;
+
+    // Props Opsi Kendaraan & Konsumsi BBM
+    jenisKendaraan?: JenisKendaraan;
+    onUbahJenisKendaraan?: (jenis: JenisKendaraan) => void;
+    konsumsiBbm?: number;
+    onUbahKonsumsiBbm?: (kmLiter: number) => void;
+
     lewatTol: boolean;
     onLewatTol: () => void;
     hindariGg: boolean;
@@ -29,9 +37,36 @@ type Props = {
     onTutup: () => void;
 };
 
-export function SimulatorRute({ a, b, menunggu, hasil, memuat, moda, onModa, lewatTol, onLewatTol, hindariGg, onHindariGg, hargaBbm, onHargaBbm, onPilihDiPeta, onIsiTitik, onReset, onTutup }: Props) {
+export function SimulatorRute({
+    a,
+    b,
+    menunggu,
+    hasil,
+    memuat,
+    moda,
+    onModa,
+    jenisKendaraan = 'mobil',
+    onUbahJenisKendaraan,
+    konsumsiBbm = 12,
+    onUbahKonsumsiBbm,
+    lewatTol,
+    onLewatTol,
+    hindariGg,
+    onHindariGg,
+    hargaBbm,
+    onHargaBbm,
+    onPilihDiPeta,
+    onIsiTitik,
+    onReset,
+    onTutup,
+}: Props) {
     const { t, bahasa } = useBahasa();
     const lengkap = !!(a && b && hasil);
+
+    const isMotor = jenisKendaraan === 'motor';
+    const ikonPribadi = isMotor ? 'bike' : 'car';
+    const labelPribadi = isMotor ? t('Motor', 'Motorcycle') : t('Mobil', 'Car');
+
     const baris = (huruf: 'A' | 'B', titik: TitikRute, kunci: 'a' | 'b') => (
         <KolomTitik huruf={huruf} titik={titik} menunggu={menunggu === kunci} onPilihDiPeta={() => onPilihDiPeta(kunci)} onIsi={(x) => onIsiTitik(kunci, x)} />
     );
@@ -50,7 +85,7 @@ export function SimulatorRute({ a, b, menunggu, hasil, memuat, moda, onModa, lew
                 aria-label={label + (kosong ? '' : na ? t(', tidak tersedia', ', not available') : `, ${m!.waktu_menit} ${t('menit', 'minutes')}, ${rupiah(m!.biaya)}`)}
             >
                 <span className="nr-mode__label">
-                    <Ikon name={ikon} size={12} />
+                    <Ikon name={ikon} size={14} />
                     {label}
                 </span>
                 {kosong ? (
@@ -75,9 +110,10 @@ export function SimulatorRute({ a, b, menunggu, hasil, memuat, moda, onModa, lew
         );
     };
 
-    const jarak = hasil?.pribadi?.jarak_km ?? hasil?.publik?.jarak_km;
+    const jarak = hasil?.pribadi?.jarak_km ?? hasil?.publik?.jarak_km ?? 0;
     const langkah = lengkap && moda === 'transit' ? hasil?.publik?.langkah : undefined;
     const rincian = lengkap && moda === 'transit' && hasil?.publik && !langkah ? `${teksServer(hasil.publik.rincian)}. ` : '';
+    const literDibutuhkan = jarak > 0 && konsumsiBbm > 0 ? (jarak / konsumsiBbm).toFixed(1) : '0';
 
     return (
         <section className="nr-route nr-float" aria-label={t('Simulator Rute', 'Route Simulator')}>
@@ -93,38 +129,105 @@ export function SimulatorRute({ a, b, menunggu, hasil, memuat, moda, onModa, lew
                     <Ikon name="x" size={14} />
                 </button>
             </div>
+
             <div className="nr-route__points">
                 {baris('A', a, 'a')}
                 {baris('B', b, 'b')}
             </div>
+
+            {/* TOGGLE MOBIL / MOTOR */}
+            <div style={{ display: 'flex', gap: '6px', margin: '8px 0 12px' }}>
+                <button
+                    type="button"
+                    style={{
+                        flex: 1,
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '6px',
+                        padding: '6px 12px',
+                        fontSize: '12px',
+                        fontWeight: 600,
+                        borderRadius: 'var(--radius-md)',
+                        border: '1px solid var(--line)',
+                        background: !isMotor ? 'var(--navy-900)' : 'var(--white)',
+                        color: !isMotor ? '#ffffff' : 'var(--navy-900)',
+                        cursor: 'pointer'
+                    }}
+                    onClick={() => onUbahJenisKendaraan?.('mobil')}
+                >
+                    <Ikon name="car" size={14} />
+                    <span>Mobil</span>
+                </button>
+                <button
+                    type="button"
+                    style={{
+                        flex: 1,
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '6px',
+                        padding: '6px 12px',
+                        fontSize: '12px',
+                        fontWeight: 600,
+                        borderRadius: 'var(--radius-md)',
+                        border: '1px solid var(--line)',
+                        background: isMotor ? 'var(--navy-900)' : 'var(--white)',
+                        color: isMotor ? '#ffffff' : 'var(--navy-900)',
+                        cursor: 'pointer'
+                    }}
+                    onClick={() => onUbahJenisKendaraan?.('motor')}
+                >
+                    <Ikon name="bike" size={14} />
+                    <span>Motor</span>
+                </button>
+            </div>
+
+            {/* KOTAK MODA (BERUBAH DINAMIS KETIKA PILIH MOTOR / MOBIL) */}
             <div className="nr-route__modes" role="group" aria-label={t('Moda', 'Mode')}>
-                {kotak('mobil', 'car', t('Mobil', 'Car'))}
+                {kotak('mobil', ikonPribadi, labelPribadi)}
                 {kotak('transit', 'tram-front', 'Transit')}
             </div>
-            {lengkap && moda === 'mobil' && (
+
+            {/* OPSI JALAN TOL (HANYA MUNCUL PADA MOBIL) */}
+            {lengkap && moda === 'mobil' && !isMotor && (
                 <div className="nr-route__opsi">
                     <span>{t('Lewat jalan tol', 'Use toll roads')}</span>
                     <Toggle checked={lewatTol} label={t('Lewat jalan tol', 'Use toll roads')} onChange={onLewatTol} />
                 </div>
             )}
+
+            {/* OPSI GANJIL-GENAP */}
             {lengkap && moda === 'mobil' && (
                 <div className="nr-route__opsi">
                     <span>{t('Hindari ruas ganjil-genap', 'Avoid odd-even roads')}</span>
                     <Toggle checked={hindariGg} label={t('Hindari ruas ganjil-genap', 'Avoid odd-even roads')} onChange={onHindariGg} />
                 </div>
             )}
+
             {lengkap && moda === 'mobil' && <InfoGanjilGenap gg={hasil?.pribadi?.ganjil_genap} />}
             {lengkap && moda === 'mobil' && <IsianBbm nilai={hargaBbm} onSimpan={onHargaBbm} />}
+            {lengkap && moda === 'mobil' && <IsianKonsumsiBbm nilai={konsumsiBbm} onSimpan={(val) => onUbahKonsumsiBbm?.(val)} />}
+                
             {langkah && <DaftarLangkah langkah={langkah} biayaOjol={hasil?.publik?.biaya_ojol ?? 0} biayaTransum={hasil?.publik?.biaya_transum} />}
             {memuat && <Keadaan kind="memuat" title={t('Menghitung rute', 'Calculating route')} />}
+
             {lengkap && (
                 <p className="nr-route__foot">
                     {rincian}
                     {moda === 'mobil' && hasil?.pribadi?.biaya_bbm != null &&
                         t(
-                            `BBM ${rupiah(hasil.pribadi.biaya_bbm)} + tol ${rupiah(hasil.pribadi.biaya_tol ?? 0)} (perkiraan). `,
-                            `Fuel ${rupiah(hasil.pribadi.biaya_bbm)} + tolls ${rupiah(hasil.pribadi.biaya_tol ?? 0)} (estimate). `,
+                            `BBM ${rupiah(hasil.pribadi.biaya_bbm)}${!isMotor && hasil.pribadi.biaya_tol ? ` + tol ${rupiah(hasil.pribadi.biaya_tol)}` : ''} (perkiraan). `,
+                            `Fuel ${rupiah(hasil.pribadi.biaya_bbm)}${!isMotor && hasil.pribadi.biaya_tol ? ` + tolls ${rupiah(hasil.pribadi.biaya_tol)}` : ''} (estimate). `,
                         )}
+                    {moda === 'mobil' && (
+                        <span>
+                            {t(
+                                `Est. konsumsi ${isMotor ? 'Motor' : 'Mobil'}: ±${literDibutuhkan} Liter (${konsumsiBbm} km/L). `,
+                                `Est. ${isMotor ? 'Motorcycle' : 'Car'} fuel: ±${literDibutuhkan} Litres (${konsumsiBbm} km/L). `,
+                            )}
+                        </span>
+                    )}
                     {t('Estimasi tanpa lalu lintas real-time.', 'Estimate without real-time traffic.')}
                 </p>
             )}
@@ -132,7 +235,7 @@ export function SimulatorRute({ a, b, menunggu, hasil, memuat, moda, onModa, lew
     );
 }
 
-/** Keterangan ganjil-genap DKI (Pergub 88/2019) untuk rute mobil (T-024). */
+/** Keterangan ganjil-genap DKI (Pergub 88/2019) untuk rute kendaraan pribadi (T-024). */
 function InfoGanjilGenap({ gg }: { gg?: { hindari: boolean; ruas: string[] } }) {
     const { t } = useBahasa();
     if (!gg) return null;
@@ -229,6 +332,32 @@ function IsianBbm({ nilai, onSimpan }: { nilai: number; onSimpan: (rp: number) =
                 onBlur={simpan}
                 onKeyDown={(e) => e.key === 'Enter' && (e.currentTarget as HTMLInputElement).blur()}
                 aria-label={t('Harga BBM per liter dalam rupiah', 'Fuel price per litre in rupiah')}
+            />
+        </label>
+    );
+
+}
+
+function IsianKonsumsiBbm({ nilai, onSimpan }: { nilai: number; onSimpan: (kmLiter: number) => void }) {
+    const { t } = useBahasa();
+    const [teks, setTeks] = useState(String(nilai));
+    useEffect(() => setTeks(String(nilai)), [nilai]);
+    const simpan = () => {
+        const val = Number(teks.replace(/\D/g, ''));
+        if (val > 0 && val <= 100) onSimpan(val);
+        else setTeks(String(nilai));
+    };
+    return (
+        <label className="nr-route__opsi">
+            <span>{t('Konsumsi BBM (km/liter)', 'Fuel consumption (km/L)')}</span>
+            <input
+                className="nr-route__bbm"
+                inputMode="numeric"
+                value={teks}
+                onChange={(e) => setTeks(e.target.value)}
+                onBlur={simpan}
+                onKeyDown={(e) => e.key === 'Enter' && (e.currentTarget as HTMLInputElement).blur()}
+                aria-label={t('Konsumsi BBM dalam kilometer per liter', 'Fuel consumption in km per liter')}
             />
         </label>
     );

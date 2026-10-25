@@ -18,20 +18,10 @@ import { PanelLayer, PanelProfilPersona, SliderTahun, TombolLayerPersona, Tombol
 import { DialogPersona, DrawerMenu, type TabMenu } from '@/Components/MenuPersona';
 import { Panduan, sudahLihatPanduan } from '@/Components/Panduan';
 import { Link } from '@inertiajs/react';
-import { Ikon } from '@/Components/Dasar'; // Sesuaikan path komponen Ikon/Dasar di proyek Anda
 
 type PanelKiri = 'top3' | 'filter' | 'detail' | 'rute' | null;
 
 const LAYER_AWAL: LayerKey[] = ['mobilitas'];
-
-const [jenisKendaraan, setJenisKendaraan] = useState<'mobil' | 'motor'>('mobil');
-const [konsumsiBbm, setKonsumsiBbm] = useState(12); // Default mobil: 12 km/L, jika motor misal: 40 km/L
-
-// Otomatis sesuaikan konsumsi BBM saat berganti jenis kendaraan
-const handleUbahJenisKendaraan = (jenis: 'mobil' | 'motor') => {
-    setJenisKendaraan(jenis);
-    setKonsumsiBbm(jenis === 'motor' ? 40 : 12);
-};
 
 export default function Peta() {
     const { t, bahasa } = useBahasa();
@@ -79,11 +69,23 @@ export default function Peta() {
     const [lewatTol, setLewatTol] = useState(true);
     const [hargaBbm, setHargaBbm] = useState(10000);
     const [hindariGg, setHindariGg] = useState(false);
-    // Sub-fitur yang disembunyikan (T-034), mis. hanya tampilkan ruas ganjil-genap di Mobilitas.
+    const [jenisKendaraan, setJenisKendaraan] = useState<'mobil' | 'motor'>('mobil');
+    const [konsumsiBbm, setKonsumsiBbm] = useState(12);
+
+    const handleUbahJenisKendaraan = (jenis: 'mobil' | 'motor') => {
+        setJenisKendaraan(jenis);
+        setKonsumsiBbm(jenis === 'motor' ? 40 : 12);
+        
+        // Motor wajib NON-TOL
+        if (jenis === 'motor') {
+            setLewatTol(false);
+        }
+    };
+
+    // Sub-fitur yang disembunyikan
     const [subMati, setSubMati] = useState<Simbol[]>([]);
     const layerTampil = useMemo(() => {
         const saring = subMati.map((s) => SUBFITUR[s]).filter((f): f is NonNullable<typeof f> => !!f);
-        // Saat rute umum tampil, jaringan transit lain disembunyikan: peta hanya menunjukkan lin yang dilalui (T-042).
         if (panelKiri === 'rute' && moda === 'transit' && rute?.publik) {
             saring.push((p) => ['krl', 'mrt', 'lrt', 'brt', 'stasiun', 'halte', 'tol', 'ganjil_genap'].includes(String(p.jenis)));
         }
@@ -91,13 +93,12 @@ export default function Peta() {
         const hasil: typeof layerData = {};
         for (const [k, fc] of Object.entries(layerData) as [LayerKey, LayerResponse][]) {
             const sisa = fc.features.filter((f) => !saring.some((cek) => cek((f.properties ?? {}) as Record<string, unknown>)));
-            // Layer yang tidak berubah tetap objek yang sama agar peta tidak menggambar ulang.
             hasil[k] = sisa.length === fc.features.length ? fc : { ...fc, features: sisa };
         }
         return hasil;
     }, [layerData, subMati, panelKiri, moda, rute]);
 
-    // Onboarding: sekali per peramban, setelah dialog persona ditutup; ?panduan=1 memaksa tampil.
+    // Onboarding
     useEffect(() => {
         if (!siap || dialogPersona || panduanDicek.current) return;
         panduanDicek.current = true;
@@ -111,9 +112,8 @@ export default function Peta() {
         return () => clearTimeout(t);
     }, [toast]);
 
-    // Persona sesi: dialog di kunjungan pertama sesi (FR-13, FR-14).
+    // Persona sesi
     useEffect(() => {
-        // ?persona=commuter,zen mengisi persona sesi langsung (tautan demo); tetap hanya disimpan di sessionStorage.
         const dariUrl = new URLSearchParams(window.location.search).get('persona')?.split(',').filter((x): x is Persona => x in PERSONA);
         if (dariUrl?.length) simpanPersonaSesi(dariUrl);
         const p = dariUrl?.length ? dariUrl : bacaPersonaSesi();
@@ -138,14 +138,13 @@ export default function Peta() {
         kabar(t('Preferensi persona tersimpan untuk sesi ini.', 'Persona preferences saved for this session.'), 'success');
     };
 
-    // Perbarui kesimpulan detail saat persona berubah (FR-19, tanpa muat ulang).
     useEffect(() => {
         if (!detail) return;
         if (detail.jenis_geometri === 'titik') muatTitik({ lat: detail.lat, lng: detail.lng }, false);
         else muatWilayah(detail.wilayah_id, false);
     }, [persona]);
 
-    // ---------- Layer ----------
+    // Layer
     async function nyalakanLayer(k: LayerKey) {
         setLayerAktif((a) => ({ ...a, [k]: true }));
         if (cacheLayer.current[k]) {
@@ -176,9 +175,8 @@ export default function Peta() {
         }
     };
 
-    // ---------- Pencarian ----------
+    // Pencarian
     const jalankanCari = async (q: { q?: string; kota?: string[]; persona: Persona[] }) => {
-        // Gugurkan Point Inspector / Detail Lokasi
         setDetail(null);
         setPin(null);
         setWilayahTerpilih(null);
@@ -211,13 +209,12 @@ export default function Peta() {
         muatWilayah(r.wilayah_id);
     };
 
-    // ---------- Detail lokasi ----------
+    // Detail lokasi
     async function muatTitik(lokasi: TitikPeta, terbang = false) {
         batalDetail.current?.abort();
         const ctrl = new AbortController();
         batalDetail.current = ctrl;
 
-        // Gugurkan Requirement Search saat klik titik peta
         setHasil(null);
         setKueri('');
         setPesanCari(undefined);
@@ -245,7 +242,6 @@ export default function Peta() {
         batalDetail.current = ctrl;
 
         if (tampilkanPanel) {
-            // Gugurkan Requirement Search jika menampilkan panel detail
             setHasil(null);
             setKueri('');
             setPesanCari(undefined);
@@ -266,7 +262,7 @@ export default function Peta() {
         }
     }
 
-    // ---------- Rute ----------
+    // Rute
     const labelTitik = (t: TitikPeta) => `${t.lat.toFixed(4)}, ${t.lng.toFixed(4)}`;
 
     const setelTitikRute = async (t: TitikPeta, kunci: 'a' | 'b') => {
@@ -283,7 +279,11 @@ export default function Peta() {
         const ctrl = new AbortController();
         setMemuatRute(true);
         setRute(null);
-        api.rute(ruteA, ruteB, ctrl.signal, lewatTol, hargaBbm, hindariGg)
+
+        // Jika jenis kendaraan adalah motor, paksa lewatTol menjadi false
+        const tolAktif = jenisKendaraan === 'motor' ? false : lewatTol;
+
+        api.rute(ruteA, ruteB, ctrl.signal, tolAktif, hargaBbm, hindariGg)
             .then((r) => {
                 setRute(r);
                 setModa((m) => (m === 'transit' && r.publik ? 'transit' : r.pribadi ? 'mobil' : 'transit'));
@@ -291,8 +291,10 @@ export default function Peta() {
             })
             .catch((e) => e.name !== 'AbortError' && kabar(t('Estimasi tidak tersedia. Coba lagi sebentar.', 'Estimate unavailable. Please try again shortly.'), 'danger'))
             .finally(() => setMemuatRute(false));
+
         return () => ctrl.abort();
-    }, [ruteA?.lat, ruteA?.lng, ruteB?.lat, ruteB?.lng, lewatTol, hargaBbm, hindariGg]);
+    // TAMBAHKAN jenisKendaraan di dalam dependency array di bawah ini:
+    }, [ruteA?.lat, ruteA?.lng, ruteB?.lat, ruteB?.lng, lewatTol, hargaBbm, hindariGg, jenisKendaraan]);
 
     const resetRute = () => {
         setRuteA(null);
@@ -317,7 +319,7 @@ export default function Peta() {
         }
     };
 
-    // ---------- Klik peta ----------
+    // Klik peta
     const klikPeta = (t: TitikPeta) => {
         if (panelKiri === 'rute') {
             if (menunggu === 'a' || (!ruteA && menunggu !== 'b')) {
@@ -359,7 +361,7 @@ export default function Peta() {
                     className="nr-app__peta"
                     layer={layerTampil}
                     tahun={tahun}
-                    top3={panelKiri === 'top3' ? hasil : null} /* Hanya tampilkan hasil pencarian saat panel top3 aktif */
+                    top3={panelKiri === 'top3' ? hasil : null}
                     top3Aktif={top3Aktif}
                     wilayahTerpilih={wilayahTerpilih}
                     pin={panelKiri === 'detail' ? pin : null}
@@ -377,7 +379,6 @@ export default function Peta() {
                 />
 
                 <div className="nr-app__kiri">
-                    {/* Pembungkus Sejajar Horizontal (Flex Row) */}
                     <div style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%' }}>
                         <Link
                             href="/"
@@ -396,7 +397,6 @@ export default function Peta() {
                             title="Kembali ke Beranda"
                             aria-label="Kembali ke Beranda"
                         >
-                            {/* SVG Ikon Panah Kiri '<' Inline (Pasti Muncul) */}
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="m15 18-6-6 6-6" />
                             </svg>
@@ -434,21 +434,20 @@ export default function Peta() {
                             memuat={memuatRute}
                             moda={moda}
                             onModa={setModa}
+                            jenisKendaraan={jenisKendaraan}
+                            onUbahJenisKendaraan={handleUbahJenisKendaraan}
+                            konsumsiBbm={konsumsiBbm}
+                            onUbahKonsumsiBbm={setKonsumsiBbm}
                             lewatTol={lewatTol}
                             onLewatTol={() => setLewatTol((x) => !x)}
                             hindariGg={hindariGg}
                             onHindariGg={() => setHindariGg((x) => !x)}
                             hargaBbm={hargaBbm}
                             onHargaBbm={setHargaBbm}
-                            onPilihDiPeta={(k) => {
-                                setMenunggu(k);
-                                kabar(t(`Klik peta untuk menaruh titik ${k.toUpperCase()}.`, `Click the map to place point ${k.toUpperCase()}.`));
-                            }}
+                            onPilihDiPeta={(k) => setMenunggu(k)}
                             onIsiTitik={(k, titik) => {
                                 if (k === 'a') setRuteA(titik);
                                 else setRuteB(titik);
-                                setMenunggu(k === 'a' ? (ruteB ? null : 'b') : ruteA ? null : 'a');
-                                if (!(k === 'a' ? ruteB : ruteA)) setTerbangKe({ titik, kunci: Date.now() });
                             }}
                             onReset={resetRute}
                             onTutup={tutupPanelKiri}
