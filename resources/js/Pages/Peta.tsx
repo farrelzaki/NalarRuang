@@ -17,10 +17,21 @@ import { SimulatorRute, type Moda, type TitikRute } from '@/Components/Simulator
 import { PanelLayer, PanelProfilPersona, SliderTahun, TombolLayerPersona, TombolMerek, type PanelKananKey, type StatusLayer } from '@/Components/PanelKananPeta';
 import { DialogPersona, DrawerMenu, type TabMenu } from '@/Components/MenuPersona';
 import { Panduan, sudahLihatPanduan } from '@/Components/Panduan';
+import { Link } from '@inertiajs/react';
+import { Ikon } from '@/Components/Dasar'; // Sesuaikan path komponen Ikon/Dasar di proyek Anda
 
 type PanelKiri = 'top3' | 'filter' | 'detail' | 'rute' | null;
 
 const LAYER_AWAL: LayerKey[] = ['mobilitas'];
+
+const [jenisKendaraan, setJenisKendaraan] = useState<'mobil' | 'motor'>('mobil');
+const [konsumsiBbm, setKonsumsiBbm] = useState(12); // Default mobil: 12 km/L, jika motor misal: 40 km/L
+
+// Otomatis sesuaikan konsumsi BBM saat berganti jenis kendaraan
+const handleUbahJenisKendaraan = (jenis: 'mobil' | 'motor') => {
+    setJenisKendaraan(jenis);
+    setKonsumsiBbm(jenis === 'motor' ? 40 : 12);
+};
 
 export default function Peta() {
     const { t, bahasa } = useBahasa();
@@ -167,12 +178,15 @@ export default function Peta() {
 
     // ---------- Pencarian ----------
     const jalankanCari = async (q: { q?: string; kota?: string[]; persona: Persona[] }) => {
+        // Gugurkan Point Inspector / Detail Lokasi
+        setDetail(null);
+        setPin(null);
+        setWilayahTerpilih(null);
+
         setPanelKiri('top3');
         setMencari(true);
         setHasil(null);
         setTop3Aktif(null);
-        setWilayahTerpilih(null);
-        setPin(null);
         try {
             const r = await api.cari(q);
             setHasil(r.hasil);
@@ -202,6 +216,13 @@ export default function Peta() {
         batalDetail.current?.abort();
         const ctrl = new AbortController();
         batalDetail.current = ctrl;
+
+        // Gugurkan Requirement Search saat klik titik peta
+        setHasil(null);
+        setKueri('');
+        setPesanCari(undefined);
+        setTop3Aktif(null);
+
         setPanelKiri('detail');
         setPin(lokasi);
         setWilayahTerpilih(null);
@@ -222,7 +243,15 @@ export default function Peta() {
         batalDetail.current?.abort();
         const ctrl = new AbortController();
         batalDetail.current = ctrl;
-        if (tampilkanPanel) setPanelKiri('detail');
+
+        if (tampilkanPanel) {
+            // Gugurkan Requirement Search jika menampilkan panel detail
+            setHasil(null);
+            setKueri('');
+            setPesanCari(undefined);
+            setTop3Aktif(null);
+            setPanelKiri('detail');
+        }
         setPin(null);
         setMemuatDetail(true);
         setGalatDetail(null);
@@ -330,7 +359,7 @@ export default function Peta() {
                     className="nr-app__peta"
                     layer={layerTampil}
                     tahun={tahun}
-                    top3={panelKiri === 'top3' || panelKiri === 'detail' ? hasil : null}
+                    top3={panelKiri === 'top3' ? hasil : null} /* Hanya tampilkan hasil pencarian saat panel top3 aktif */
                     top3Aktif={top3Aktif}
                     wilayahTerpilih={wilayahTerpilih}
                     pin={panelKiri === 'detail' ? pin : null}
@@ -348,16 +377,43 @@ export default function Peta() {
                 />
 
                 <div className="nr-app__kiri">
-                    <SearchBar
-                        nilai={kueri}
-                        onUbah={setKueri}
-                        onCari={(q) => jalankanCari({ q, persona })}
-                        memuat={mencari}
-                        commute={panelKiri === 'rute'}
-                        onToggleCommute={toggleCommute}
-                        filterTerbuka={panelKiri === 'filter'}
-                        onToggleFilter={() => setPanelKiri(panelKiri === 'filter' ? null : 'filter')}
-                    />
+                    {/* Pembungkus Sejajar Horizontal (Flex Row) */}
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%' }}>
+                        <Link
+                            href="/"
+                            style={{
+                                width: '48px',
+                                height: '48px',
+                                display: 'grid',
+                                placeItems: 'center',
+                                background: 'var(--white)',
+                                borderRadius: 'var(--radius-md)',
+                                boxShadow: 'var(--shadow-lg)',
+                                border: '1px solid var(--line)',
+                                color: 'var(--navy-900)',
+                                flexShrink: 0
+                            }}
+                            title="Kembali ke Beranda"
+                            aria-label="Kembali ke Beranda"
+                        >
+                            {/* SVG Ikon Panah Kiri '<' Inline (Pasti Muncul) */}
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="m15 18-6-6 6-6" />
+                            </svg>
+                        </Link>
+
+                        <SearchBar
+                            nilai={kueri}
+                            onUbah={setKueri}
+                            onCari={(q) => jalankanCari({ q, persona })}
+                            memuat={mencari}
+                            commute={panelKiri === 'rute'}
+                            onToggleCommute={toggleCommute}
+                            filterTerbuka={panelKiri === 'filter'}
+                            onToggleFilter={() => setPanelKiri(panelKiri === 'filter' ? null : 'filter')}
+                        />
+                    </div>
+
                     {panelKiri === 'top3' && <PanelTop3 personaLabel={labelPersona} hasil={hasil} memuat={mencari} pesan={pesanCari} aktif={top3Aktif} onPilih={pilihTop3} />}
                     {panelKiri === 'filter' && (
                         <PanelFilter
