@@ -8,7 +8,7 @@ export const PERSONA: Record<Persona, { label: string; ikon: string; no: string;
     commuter: { label: 'Commuter', ikon: 'tram-front', no: '01', tag: ['Akses transit paling utama', 'Transit access comes first'], desc: ['Mengutamakan akses transit, seperti stasiun dan halte.', 'Prioritises transit access, such as stations and bus stops.'] },
     driver: { label: 'Driver', ikon: 'car', no: '02', tag: ['Dekat Gerbang Tol', 'Toll Gate Nearby'], desc: ['Fokus pencarian jarak radius dengan gerbang tol terdekat.', 'Prioritises radius distance to the nearest toll gates.'] },
     social_vibe: { label: 'Social & Vibe', ikon: 'coffee', no: '03', tag: ['Dekat seru-serunya kota', 'Close to the city buzz'], desc: ['Mengutamakan hiburan, kafe, dan restoran.', 'Prioritises entertainment, cafés, and restaurants.'] },
-    zen: { label: 'Zen', ikon: 'leaf', no: '04', tag: ['Tenang, hijau, lega', 'Quiet, green, spacious'], desc: ['Mengutamakan akses ruang terbuka hijau, taman, perpustakaan, serta lokasi bebas dari risiko banjir.'] },
+    zen: { label: 'Zen', ikon: 'leaf', no: '04', tag: ['Tenang, hijau, lega', 'Quiet, green, spacious'], desc: ['Mengutamakan akses ruang terbuka hijau, taman, perpustakaan, serta lokasi bebas dari risiko banjir.', 'Prioritises access to green open spaces, parks, libraries, and flood-free locations.'] },
 };
 
 export const FRASA: Dwi[] = [
