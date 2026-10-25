@@ -134,7 +134,7 @@ def main():
             json.dump({'type': 'FeatureCollection', 'features': daftar}, g, ensure_ascii=False, separators=(',', ':'))
 
     with open(f'{KELUAR}/kegiatan_subzona.csv', 'w', newline='', encoding='utf-8') as f:
-        w = csv.DictWriter(f, fieldnames=list(kegiatan[0]))
+        w = csv.DictWriter(f, fieldnames=list(kegiatan[0]), lineterminator='\n')
         w.writeheader()
         w.writerows(kegiatan)
 

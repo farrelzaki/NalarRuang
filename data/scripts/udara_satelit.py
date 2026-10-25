@@ -90,7 +90,7 @@ def main():
     os.makedirs(KELUAR, exist_ok=True)
     keluar = f'{KELUAR}/pm25_satelit_{tahun}_kelurahan.csv'
     with open(keluar, 'w', newline='', encoding='utf-8') as f:
-        w = csv.DictWriter(f, fieldnames=list(baris[0]))
+        w = csv.DictWriter(f, fieldnames=list(baris[0]), lineterminator='\n')
         w.writeheader()
         w.writerows(baris)
     a = np.array([b[f'pm25_{tahun}_ugm3'] for b in baris])

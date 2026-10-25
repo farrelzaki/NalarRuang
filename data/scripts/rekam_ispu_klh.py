@@ -93,7 +93,7 @@ def simpan(baris):
             continue
         tulis_judul = not os.path.exists(berkas)
         with open(berkas, 'a', newline='', encoding='utf-8') as f:
-            w = csv.DictWriter(f, fieldnames=KOLOM)
+            w = csv.DictWriter(f, fieldnames=KOLOM, lineterminator='\n')
             if tulis_judul:
                 w.writeheader()
             w.writerows(sorted(tambah, key=lambda b: (b['waktu'], b['id_stasiun'])))
