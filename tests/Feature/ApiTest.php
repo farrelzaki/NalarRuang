@@ -44,7 +44,7 @@ class ApiTest extends TestCase
         $titik('halte', 'mobilitas', 106.825, -6.205, 'Halte Uji', ['moda' => 'transjakarta', 'kode' => 'TJ-H1']);
 
         DB::insert("INSERT INTO fitur_peta (layer_id, jenis, nama, atribut, sumber, geom, created_at, updated_at) VALUES
-            ('ekosistem', 'rth', 'Taman', '{}'::jsonb, 'uji', ST_MakeEnvelope(106.821, -6.209, 106.824, -6.206, 4326), now(), now()),
+            ('ekosistem', 'rth', 'Taman', '{\"luas_m2\": 100000}'::jsonb, 'uji', ST_MakeEnvelope(106.821, -6.209, 106.824, -6.206, 4326), now(), now()),
             ('historis_risiko', 'banjir', 'Bahaya banjir tinggi', '{\"kelas\": \"tinggi\"}'::jsonb, 'uji', ST_MakeEnvelope(106.831, -6.209, 106.839, -6.201, 4326), now(), now()),
             ('mobilitas', 'krl', 'KRL', '{\"lin\": \"bogor\"}'::jsonb, 'uji', ST_GeomFromText('LINESTRING(106.80 -6.205, 106.84 -6.205)', 4326), now(), now())");
 
@@ -102,6 +102,56 @@ class ApiTest extends TestCase
         $this->getJson('/api/lokasi?q=kebon')->assertOk()->assertJsonPath('hasil.0.nama', 'Kebon Uji');
         $this->getJson('/api/lokasi?q=stasiun%20a')->assertOk()->assertJsonPath('hasil.0.jenis', 'stasiun');
         $this->getJson('/api/lokasi?q=ab')->assertStatus(422);
+    }
+
+    public function test_search_luar_cakupan_dan_tidak_dipahami(): void
+    {
+        $this->getJson('/api/search?q=Surabaya%20dekat%20stasiun')
+            ->assertOk()->assertJsonCount(0, 'hasil')->assertJsonPath('message', 'NalarRuang hanya mencakup Jabodetabek.');
+        $this->getJson('/api/search?q=asdfghjkl&persona[]=commuter')
+            ->assertOk()->assertJsonCount(0, 'hasil');
+        $this->assertStringStartsWith('Kami belum memahami', $this->getJson('/api/search?q=asdfghjkl')->json('message'));
+    }
+
+    public function test_search_jauh_dari_tol(): void
+    {
+        $r = $this->getJson('/api/search?q=tidak%20mau%20dekat%20tol')->assertOk()->assertJsonCount(3, 'hasil');
+        $this->assertNotSame('Kebon Uji', $r->json('hasil.0.nama'), 'Kelurahan paling dekat gerbang tol tidak boleh teratas.');
+        $this->assertStringContainsString('jauh dari tol', $r->json('hasil.0.alasan'));
+    }
+
+    public function test_inspect_luar_cakupan_tanpa_skor(): void
+    {
+        $this->getJson('/api/inspect?lat=-7.25&lng=112.75&persona[]=commuter')
+            ->assertOk()
+            ->assertJsonPath('stars.commuter', null)
+            ->assertJsonPath('wilayah', 'Di luar cakupan NalarRuang (Jabodetabek)')
+            ->assertJsonPath('kesimpulan', []);
+    }
+
+    public function test_inspect_zonasi_dan_bukan_hunian(): void
+    {
+        DB::insert("INSERT INTO fitur_peta (layer_id, jenis, nama, atribut, sumber, geom, created_at, updated_at) VALUES
+            ('zonasi', 'zonasi', 'Perumahan', '{\"zona\": \"Zona Perumahan\", \"kode_subzona\": \"R-2\", \"kdb\": 60, \"klb\": 1.2}'::jsonb, 'uji', ST_MakeEnvelope(106.80, -6.21, 106.81, -6.20, 4326), now(), now()),
+            ('non_hunian', 'non_hunian', 'Makam Uji', '{\"kategori\": \"makam\"}'::jsonb, 'uji', ST_MakeEnvelope(106.811, -6.209, 106.819, -6.201, 4326), now(), now())");
+
+        $r = $this->getJson('/api/inspect?lat=-6.2049&lng=106.8049')->assertOk();
+        $r->assertJsonPath('zonasi.zona', 'Zona Perumahan')->assertJsonPath('catatan', null);
+        $this->assertContains('Zona Perumahan (R-2), KDB 60%, KLB 1,2 (RDTR DKI 2022)', array_column($r->json('ringkasan_layer'), 'teks'));
+
+        $this->getJson('/api/inspect?lat=-6.205&lng=106.815')
+            ->assertOk()->assertJsonPath('catatan', 'Titik ini berada di makam (Makam Uji), bukan kawasan hunian.');
+    }
+
+    public function test_tahun_mesin_waktu_divalidasi(): void
+    {
+        $this->getJson('/api/layers/mesin_waktu?tahun=2030')->assertOk();
+        $this->getJson('/api/layers/mesin_waktu?tahun=99999')->assertStatus(422);
+    }
+
+    public function test_saran_lokasi_tanpa_kata_umum(): void
+    {
+        $this->getJson('/api/lokasi?q=jalan%20kebon')->assertOk()->assertJsonPath('hasil.0.nama', 'Kebon Uji');
     }
 
     public function test_commute_mobil_dan_umum(): void

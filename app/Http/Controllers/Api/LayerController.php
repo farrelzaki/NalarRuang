@@ -45,6 +45,8 @@ class LayerController extends Controller
         }
 
         if ($layerId === 'mesin_waktu' && $request->filled('tahun')) {
+            // Tahun di luar rentang dulu menghasilkan 500 dari PostgreSQL (integer overflow); sekarang 422.
+            $request->validate(['tahun' => 'integer|between:2000,2100']);
             $kondisi[] = '(tahun IS NULL OR tahun <= ?)';
             $nilai[] = (int) $request->query('tahun');
         }

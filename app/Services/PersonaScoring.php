@@ -98,7 +98,7 @@ class PersonaScoring
      * mis. "Buat gaya hidup Commuter: Cukup mendukung aktivitasmu karena terdapat Stasiun Tanjung Barat
      * yang berjarak 2 km dari lokasi."
      *
-     * @param  array{nama?: string, meter?: int, jumlah_1km?: int, kualitas_udara?: ?string, banjir?: ?string}|null  $fakta
+     * @param  array{nama?: string, meter?: int, jumlah_1km?: int, kualitas_udara?: ?string, pm25?: ?float, banjir?: ?string, genangan_2020?: bool}|null  $fakta
      */
     public function kesimpulanTitik(string $persona, int $bintang, ?array $fakta = null): string
     {
@@ -122,12 +122,16 @@ class PersonaScoring
                 ? "terdapat {$fakta['jumlah_1km']} kafe, restoran, dan tempat aktivitas dalam radius 1 km, yang terdekat ".($nama ?: 'berjarak')." {$jarak}"
                 : 'tempat nongkrong terdekat'.($nama ? " ({$nama})" : '')." berjarak {$jarak} dari lokasi",
             'zen' => 'kualitas udara '.str_replace('_', ' ', (string) ($fakta['kualitas_udara'] ?? 'belum diketahui'))
-                .' dan ruang hijau terdekat'.($nama ? " ({$nama})" : '')." berjarak {$jarak}",
+                .(isset($fakta['pm25']) ? ' (PM2.5 '.round((float) $fakta['pm25']).' µg/m³)' : '')
+                .' dan taman terdekat'.($nama ? " ({$nama})" : '')." berjarak {$jarak}",
             default => '',
         };
         $kalimat = $awal.self::INTI[$bintang].' karena '.$alasan.'.';
         if ($persona === 'zen' && in_array($fakta['banjir'] ?? null, ['sedang', 'tinggi'], true)) {
             $kalimat .= " Perhatikan: lokasi ini berada di area bahaya banjir kelas {$fakta['banjir']}.";
+        }
+        if ($persona === 'zen' && ! empty($fakta['genangan_2020'])) {
+            $kalimat .= ' Lokasi ini tergenang saat banjir 1 Januari 2020.';
         }
 
         return $bintang <= 1 ? $kalimat.' Pertimbangkan lokasi lain.' : $kalimat;

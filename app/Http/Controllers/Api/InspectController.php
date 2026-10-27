@@ -21,10 +21,26 @@ class InspectController extends Controller
         'zen' => ['rth'],
     ];
 
-    /** Ruang hijau untuk Zen: taman, hutan kota, lapangan; makam dan lapangan golf tidak dihitung (T-038). */
+    /**
+     * Ruang hijau untuk Zen: taman, hutan kota, lapangan seluas minimal 1.000 m² (luas_m2 dihitung DataNyataSeeder);
+     * makam dan lapangan golf tidak dihitung (T-038).
+     */
     private const SYARAT = [
-        'zen' => "AND coalesce(atribut->>'kategori', '') NOT IN ('cemetery', 'golf_course')",
+        'zen' => "AND coalesce(atribut->>'kategori', '') NOT IN ('cemetery', 'golf_course') AND coalesce((atribut->>'luas_m2')::float, 0) >= 1000",
     ];
+
+    /** Kategori area bukan hunian (OSM) dan zona RDTR yang bukan tempat tinggal. */
+    private const BUKAN_HUNIAN = [
+        'bandara' => 'bandara', 'jalan_tol' => 'badan jalan tol', 'makam' => 'makam', 'militer' => 'kawasan militer', 'perairan' => 'perairan',
+    ];
+
+    private const ZONA_BUKAN_HUNIAN = [
+        'Zona Badan Air', 'Zona Pertahanan dan Keamanan', 'Zona Transportasi', 'Zona Hutan Lindung', 'Zona Ekosistem Mangrove',
+        'Zona Pembangkit Tenaga Listrik', 'Zona Perlindungan Setempat', 'Zona Konservasi',
+    ];
+
+    /** Pesan untuk titik di luar batas kelurahan Jabodetabek. */
+    public const LUAR_CAKUPAN = 'Di luar cakupan NalarRuang (Jabodetabek)';
 
     public function __construct(private PersonaScoring $skor)
     {
@@ -46,7 +62,10 @@ class InspectController extends Controller
     private function titik(float $lat, float $lng, array $persona): JsonResponse
     {
         $titik = 'ST_SetSRID(ST_MakePoint(?, ?), 4326)';
-        $wilayah = DB::selectOne("SELECT id, nama, kecamatan, kota, kualitas_udara FROM wilayah WHERE ST_Contains(geom, {$titik}) LIMIT 1", [$lng, $lat]);
+        $wilayah = DB::selectOne("SELECT id, nama, kecamatan, kota, kualitas_udara, (atribut->>'pm25')::float AS pm25 FROM wilayah WHERE ST_Contains(geom, {$titik}) LIMIT 1", [$lng, $lat]);
+        if (! $wilayah) {
+            return $this->luarCakupan($lat, $lng);
+        }
 
         $jarak = [];
         $terdekat = [];
@@ -64,8 +83,25 @@ class InspectController extends Controller
         ];
 
         $banjir = DB::selectOne(
-            "SELECT atribut->>'kelas' AS kelas FROM fitur_peta WHERE layer_id = 'historis_risiko' AND ST_Contains(geom, {$titik})
+            "SELECT atribut->>'kelas' AS kelas FROM fitur_peta WHERE jenis = 'banjir' AND ST_Contains(geom, {$titik})
              ORDER BY CASE atribut->>'kelas' WHEN 'tinggi' THEN 0 WHEN 'sedang' THEN 1 ELSE 2 END LIMIT 1",
+            [$lng, $lat],
+        );
+
+        $genangan = (bool) DB::selectOne(
+            "SELECT 1 AS ada FROM fitur_peta WHERE jenis = 'genangan' AND ST_DWithin(geom::geography, {$titik}::geography, 100) LIMIT 1",
+            [$lng, $lat],
+        );
+
+        $zonasi = DB::selectOne(
+            "SELECT atribut->>'zona' AS zona, atribut->>'kode_subzona' AS subzona, nama, (atribut->>'kdb')::float AS kdb, (atribut->>'klb')::float AS klb
+             FROM fitur_peta WHERE layer_id = 'zonasi' AND ST_Intersects(geom, {$titik}) LIMIT 1",
+            [$lng, $lat],
+        );
+
+        $bukanHunian = DB::selectOne(
+            "SELECT atribut->>'kategori' AS kategori, nama FROM fitur_peta WHERE layer_id = 'non_hunian' AND ST_Intersects(geom, {$titik})
+             ORDER BY ST_Area(geom) LIMIT 1",
             [$lng, $lat],
         );
 
@@ -89,8 +125,10 @@ class InspectController extends Controller
             $fakta['social_vibe']['jumlah_1km'] = $poiSekitar;
         }
         if ($fakta['zen']) {
-            $fakta['zen']['kualitas_udara'] = $wilayah?->kualitas_udara;
+            $fakta['zen']['kualitas_udara'] = $wilayah->kualitas_udara;
+            $fakta['zen']['pm25'] = $wilayah->pm25 === null ? null : (float) $wilayah->pm25;
             $fakta['zen']['banjir'] = $banjir?->kelas;
+            $fakta['zen']['genangan_2020'] = $genangan;
         }
 
         $ringkasan = [];
@@ -108,12 +146,25 @@ class InspectController extends Controller
         $ringkasan[] = $banjir
             ? ['jenis' => 'banjir', 'teks' => 'Area bahaya banjir kelas '.$banjir->kelas.' (InaRISK)']
             : ['jenis' => 'banjir', 'teks' => 'Di luar area bahaya banjir InaRISK'];
+        if ($genangan) {
+            $ringkasan[] = ['jenis' => 'genangan', 'teks' => 'Tergenang saat banjir 1 Januari 2020 (BNPB)'];
+        }
+        if ($zonasi?->zona) {
+            $ringkasan[] = ['jenis' => 'legal', 'teks' => $this->teksZonasi($zonasi)];
+        }
+
+        $catatan = null;
+        if ($bukanHunian) {
+            $catatan = 'Titik ini berada di '.self::BUKAN_HUNIAN[$bukanHunian->kategori].($bukanHunian->nama ? " ({$bukanHunian->nama})" : '').', bukan kawasan hunian.';
+        } elseif ($zonasi && in_array($zonasi->zona, self::ZONA_BUKAN_HUNIAN, true)) {
+            $catatan = "Titik ini berada di {$zonasi->zona} menurut RDTR DKI 2022, bukan kawasan hunian.";
+        }
 
         return response()->json([
             'jenis_geometri' => 'titik',
-            'nama' => $permukiman->nama ?? ($wilayah ? 'Kel. '.$wilayah->nama : 'Titik terpilih'),
-            'wilayah' => $wilayah ? trim(implode(', ', array_filter([$wilayah->kecamatan ? 'Kec. '.$wilayah->kecamatan : null, $wilayah->kota]))) : 'Di luar area data contoh',
-            'wilayah_id' => $wilayah?->id,
+            'nama' => $permukiman->nama ?? 'Kel. '.$wilayah->nama,
+            'wilayah' => trim(implode(', ', array_filter([$wilayah->kecamatan ? 'Kec. '.$wilayah->kecamatan : null, $wilayah->kota]))),
+            'wilayah_id' => $wilayah->id,
             'lat' => $lat,
             'lng' => $lng,
             'stars' => $skor,
@@ -125,12 +176,48 @@ class InspectController extends Controller
                 $persona,
             ))),
             'data_tidak_lengkap' => in_array(null, $skor, true),
+            'zonasi' => $zonasi?->zona ? ['zona' => $zonasi->zona, 'subzona' => $zonasi->subzona, 'kdb' => $zonasi->kdb === null ? null : (float) $zonasi->kdb, 'klb' => $zonasi->klb === null ? null : (float) $zonasi->klb, 'sumber' => 'RDTR DKI 2022'] : null,
+            'catatan' => $catatan,
         ]);
+    }
+
+    /** Titik di luar batas kelurahan Jabodetabek: tanpa skor, alih-alih skor 0 yang menyesatkan. */
+    private function luarCakupan(float $lat, float $lng): JsonResponse
+    {
+        $kosong = array_fill_keys(PersonaScoring::PERSONA, null);
+
+        return response()->json([
+            'jenis_geometri' => 'titik',
+            'nama' => 'Titik terpilih',
+            'wilayah' => self::LUAR_CAKUPAN,
+            'wilayah_id' => null,
+            'lat' => $lat,
+            'lng' => $lng,
+            'stars' => $kosong,
+            'jarak_meter' => $kosong,
+            'ringkasan_layer' => [],
+            'fakta' => $kosong,
+            'kesimpulan' => [],
+            'data_tidak_lengkap' => true,
+            'zonasi' => null,
+            'catatan' => 'Lokasi ini di luar Jabodetabek, jadi belum bisa dinilai.',
+        ]);
+    }
+
+    /** "Zona Perumahan (R-2), KDB 60%, KLB 1,2 (RDTR DKI 2022)". */
+    private function teksZonasi(object $z): string
+    {
+        $rinci = array_filter([
+            $z->kdb !== null ? 'KDB '.rtrim(rtrim(number_format($z->kdb, 1, ',', ''), '0'), ',').'%' : null,
+            $z->klb !== null ? 'KLB '.rtrim(rtrim(number_format($z->klb, 1, ',', ''), '0'), ',') : null,
+        ]);
+
+        return $z->zona.($z->subzona ? " ({$z->subzona})" : '').($rinci ? ', '.implode(', ', $rinci) : '').' (RDTR DKI 2022)';
     }
 
     private function wilayah(int $id, array $persona): JsonResponse
     {
-        $w = DB::selectOne('SELECT id, nama, kecamatan, kota, tipe_kawasan, kualitas_udara, ST_AsGeoJSON(geom, 6) AS geojson FROM wilayah WHERE id = ?', [$id]);
+        $w = DB::selectOne("SELECT id, nama, kecamatan, kota, tipe_kawasan, kualitas_udara, (atribut->>'pm25')::float AS pm25, (atribut->>'penduduk')::int AS penduduk, (atribut->>'kepadatan')::int AS kepadatan, ST_AsGeoJSON(geom, 6) AS geojson FROM wilayah WHERE id = ?", [$id]);
         if (! $w) {
             return response()->json(['message' => 'Wilayah tidak ditemukan.'], 404);
         }
@@ -174,6 +261,8 @@ class InspectController extends Controller
             'terdekat' => $terdekat,
             'kesimpulan' => array_map(fn ($p) => $this->skor->kesimpulanWilayah($p, $cocok[$p]), $persona),
             'data_tidak_lengkap' => $w->kualitas_udara === null,
+            'udara' => ['kategori' => $w->kualitas_udara, 'pm25' => $w->pm25 === null ? null : (float) $w->pm25, 'sumber' => 'SatPM 2024 (ACAG)'],
+            'penduduk' => $w->penduduk ? ['jumlah' => (int) $w->penduduk, 'kepadatan_per_km2' => (int) $w->kepadatan, 'sumber' => 'Estimasi WorldPop 2025'] : null,
         ]);
     }
 
