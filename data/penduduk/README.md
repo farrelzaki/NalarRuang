@@ -1,7 +1,7 @@
 # Estimasi penduduk per kelurahan (B-09)
 
 Untuk menormalkan jumlah POI OSM per penduduk (bias pemetaan, temuan I-04). Disetujui kelompok 27 Oktober 2026.
-Dibuat dengan `python data/scripts/penduduk_kelurahan.py`. Belum dimuat ke seeder.
+Dibuat dengan `python data/scripts/penduduk_kelurahan.py`. Dimuat oleh `database/seeders/DataNyataSeeder.php`.
 
 | Berkas | Isi |
 | --- | --- |

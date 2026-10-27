@@ -1,7 +1,7 @@
 # Bus kota Bodetabek (di luar TransJakarta)
 
 Dari Opentransum (CC BY-NC; atribusi "Data transit: Opentransum"), dibuat dengan
-`python data/scripts/tarik_bus_bodetabek.py`. Belum dimuat ke seeder.
+`python data/scripts/tarik_bus_bodetabek.py`. Dimuat oleh `database/seeders/DataNyataSeeder.php`.
 
 | Operator | Kota | Rute | Halte |
 | --- | --- | --- | --- |

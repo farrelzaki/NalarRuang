@@ -1,7 +1,7 @@
 # Data kualitas udara
 
-Pengganti nilai udara contoh di tabel `wilayah` (temuan I-01, I-02 di evaluasi uji pengguna). Belum dimuat ke
-seeder; pemuatan dan cara skor Zen memakainya diputuskan terpisah.
+Pengganti nilai udara contoh di tabel `wilayah` (temuan I-01, I-02 di evaluasi uji pengguna). Dimuat oleh
+`DataNyataSeeder`: PM2.5 menjadi kategori `kualitas_udara` (<= 25 sehat, <= 35 kurang sehat, <= 55 tidak sehat, di atasnya berbahaya).
 
 | Berkas | Isi | Sumber | Dibuat oleh |
 | --- | --- | --- | --- |

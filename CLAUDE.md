@@ -119,9 +119,10 @@ Membuat database lokal (sekali): `createdb nalarruang` dan
 **Data demo (sementara).** `data/geojson/demo/` berisi data nyata seluruh
 Jabodetabek (batas desa BIG, OSM, InaRISK, Commute Data API, GTFS TransJakarta), ditarik ulang dengan
 `python data/scripts/tarik_data.py` dan `python data/scripts/banjir_inarisk.py`
-(sumber per layer: `docs/RENCANA.md` bagian 2a). Kualitas udara, status
-legalitas, dan tahun Mesin Waktu masih **nilai contoh**. Ganti dengan hasil QGIS
-sebelum rilis.
+(sumber per layer: `docs/RENCANA.md` bagian 2a). Nilai contoh di sana (kualitas udara, status
+legalitas, tahun Mesin Waktu) ditimpa data nyata oleh `DataNyataSeeder` (dipanggil otomatis):
+PM2.5 satelit, zona RDTR DKI 2022, genangan BNPB 2020, proyek dari berita resmi. Sumber di README
+tiap folder `data/`.
 Simulator rute memakai server publik Valhalla (mobil, cadangan OSRM) dan OSRM (jalan kaki); butuh internet. Pintasan demo:
 `/peta?persona=commuter,zen` mengisi persona sesi tanpa dialog.
 

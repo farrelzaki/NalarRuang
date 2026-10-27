@@ -1,6 +1,6 @@
 # Zonasi RDTR DKI Jakarta 2022
 
-Pengganti status lahan contoh di layer Legalitas (temuan L-01). Belum dimuat ke seeder.
+Pengganti status lahan contoh di layer Legalitas (temuan L-01). Dimuat oleh `database/seeders/DataNyataSeeder.php`.
 
 Sumber: layanan peta publik Dinas Citata DKI, tanpa token,
 `tataruang.jakarta.go.id/.../RDTR_2022/Rencana_Pola_Ruang_RDTR_2022/FeatureServer/0`

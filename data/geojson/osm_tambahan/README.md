@@ -2,7 +2,7 @@
 
 Snapshot OpenStreetMap 27 Oktober 2026 (ekstrak provinsi DKI Jakarta, Jawa Barat, Banten dari
 download.openstreetmap.fr), dipotong ke kotak Jabodetabek. Lisensi ODbL: wajib atribusi
-"(c) OpenStreetMap contributors". Dibuat dengan `python data/scripts/tarik_osm_tambahan.py`. Belum dimuat ke seeder.
+"(c) OpenStreetMap contributors". Dibuat dengan `python data/scripts/tarik_osm_tambahan.py`. Dimuat oleh `database/seeders/DataNyataSeeder.php`.
 
 | Berkas | Isi | Untuk |
 | --- | --- | --- |
