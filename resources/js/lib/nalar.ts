@@ -8,7 +8,7 @@ export const PERSONA: Record<Persona, { label: string; ikon: string; no: string;
     commuter: { label: 'Commuter', ikon: 'tram-front', no: '01', tag: ['Akses transit paling utama', 'Transit access comes first'], desc: ['Mengutamakan akses transit, seperti stasiun dan halte.', 'Prioritises transit access, such as stations and bus stops.'] },
     driver: { label: 'Driver', ikon: 'car', no: '02', tag: ['Dekat Gerbang Tol', 'Toll Gate Nearby'], desc: ['Fokus pencarian jarak radius dengan gerbang tol terdekat.', 'Prioritises radius distance to the nearest toll gates.'] },
     social_vibe: { label: 'Social & Vibe', ikon: 'coffee', no: '03', tag: ['Dekat seru-serunya kota', 'Close to the city buzz'], desc: ['Mengutamakan hiburan, kafe, dan restoran.', 'Prioritises entertainment, cafés, and restaurants.'] },
-    zen: { label: 'Zen', ikon: 'leaf', no: '04', tag: ['Tenang, hijau, lega', 'Quiet, green, spacious'], desc: ['Mengutamakan akses ruang terbuka hijau, taman, perpustakaan, serta lokasi bebas dari risiko banjir.', 'Prioritises access to green open spaces, parks, libraries, and flood-free locations.'] },
+    zen: { label: 'Zen', ikon: 'leaf', no: '04', tag: ['Tenang, hijau, lega', 'Quiet, green, spacious'], desc: ['Mengutamakan udara yang lebih bersih dan taman atau ruang terbuka hijau di dekat rumah.', 'Prioritises cleaner air and parks or green open space close to home.'] },
 };
 
 export const FRASA: Dwi[] = [
@@ -19,12 +19,12 @@ export const FRASA: Dwi[] = [
 ];
 
 export type Simbol =
-    | 'banjir' | 'hijau' | 'rth' | 'akses' | 'trotoar' | 'mrt' | 'lrt' | 'krl-bogor' | 'krl-rangkas'
+    | 'banjir' | 'genangan' | 'hijau' | 'rth' | 'akses' | 'trotoar' | 'mrt' | 'lrt' | 'krl-bogor' | 'krl-rangkas'
     | 'krl-cikarang' | 'krl-lain' | 'krl-tangerang' | 'krl-priok' | 'krl-bandara' | 'lrt-jabodebek' | 'brt' | 'stasiun' | 'halte' | 'halte-brt' | 'tol' | 'gg' | 'waktu' | 'waktu-tol' | 'legal' | 'rute' | 'jalan-kaki' | 'terpilih';
 
 export const LAYERS: { key: LayerKey; title: Dwi; desc: Dwi; grid?: boolean; legend: [Simbol, Dwi][] }[] = [
     { key: 'historis_risiko', title: ['Historis & Risiko', 'History & Risk'], desc: ['Area rawan banjir dan risiko bencana lain.', 'Flood-prone areas and other disaster risks.'],
-      legend: [['banjir', ['Area rawan banjir (merah). Mengindikasikan area historis genangan air.', 'Flood-prone area (red). Indicates historical waterlogging.']]] },
+      legend: [['banjir', ['Indeks bahaya banjir InaRISK (merah): makin pekat makin tinggi.', 'InaRISK flood hazard index (red): darker means higher.']], ['genangan', ['Genangan nyata banjir 1 Januari 2020 (biru, BNPB).', 'Actual flooding on 1 January 2020 (blue, BNPB).']]] },
     { key: 'ekosistem', title: ['Ekosistem Mikro', 'Micro Ecosystem'], desc: ['Kafe, restoran, mal, perpustakaan, dan ruang hijau.', 'Cafés, restaurants, malls, libraries, and green space.'],
       legend: [['rth', ['Ruang terbuka hijau dan taman.', 'Green open space and parks.']], ['hijau', ['Kafe, restoran, mal, dan perpustakaan.', 'Cafés, restaurants, malls, and libraries.']]] },
     { key: 'inklusivitas', title: ['Inklusivitas', 'Inclusivity'], desc: ['Aksesibilitas pedestrian dan fasilitas umum.', 'Pedestrian accessibility and public facilities.'],
@@ -32,9 +32,9 @@ export const LAYERS: { key: LayerKey; title: Dwi; desc: Dwi; grid?: boolean; leg
     { key: 'mobilitas', title: ['Mobilitas & Transit', 'Mobility & Transit'], desc: ['Halte, stasiun KRL/MRT, dan jalur arteri.', 'Bus stops, KRL/MRT stations, and arterial roads.'], grid: true,
       legend: [['mrt', ['MRT Lin Utara-Selatan (merah).', 'MRT North-South Line (red).']], ['krl-bogor', ['KRL Lin Bogor (merah).', 'KRL Bogor Line (red).']], ['krl-rangkas', ['KRL Lin Rangkasbitung (hijau).', 'KRL Rangkasbitung Line (green).']], ['krl-cikarang', ['KRL Lin Cikarang (biru muda).', 'KRL Cikarang Line (light blue).']], ['krl-tangerang', ['KRL Lin Tangerang (cokelat).', 'KRL Tangerang Line (brown).']], ['krl-priok', ['KRL Lin Tanjung Priok (merah muda).', 'KRL Tanjung Priok Line (pink).']], ['krl-bandara', ['KA Bandara Soekarno-Hatta (biru tua).', 'Soekarno-Hatta Airport Rail (navy).']], ['lrt', ['LRT Jakarta (oranye).', 'LRT Jakarta (orange).']], ['lrt-jabodebek', ['LRT Jabodebek Bekasi (hijau tua) & Cibubur (biru tua).', 'LRT Jabodebek Bekasi (dark green) & Cibubur (dark blue).']], ['brt', ['Rute BRT TransJakarta (warna koridor).', 'TransJakarta BRT routes (corridor colours).']], ['stasiun', ['Stasiun transit.', 'Transit station.']], ['halte-brt', ['Halte BRT TransJakarta (perbesar peta).', 'TransJakarta BRT stop (zoom in).']], ['halte', ['Halte bus lain, termasuk Biskita (perbesar peta).', 'Other bus stops, incl. Biskita (zoom in).']], ['tol', ['Gerbang tol.', 'Toll gate.']], ['gg', ['Ruas ganjil-genap DKI (perbesar peta).', 'Jakarta odd-even roads (zoom in).']]] },
     { key: 'mesin_waktu', title: ['Mesin Waktu', 'Time Machine'], desc: ['Proyek infrastruktur dan tata ruang masa depan.', 'Future infrastructure and spatial planning projects.'],
-      legend: [['waktu', ['MRT Fase 2A Bundaran HI–Kota (dibangun).', 'MRT Phase 2A Bundaran HI–Kota (under construction).']], ['waktu-tol', ['Tol Jakarta–Cikampek II Selatan (dibangun).', 'Jakarta–Cikampek II South toll road (under construction).']]] },
-    { key: 'legalitas', title: ['Legalitas Lahan', 'Land Legality'], desc: ['Gambaran status kepemilikan dan peruntukan.', 'Overview of ownership status and land use.'],
-      legend: [['legal', ['Pemetaan bidang tanah dan zona legal (ungu muda).', 'Land parcels and legal zones (light purple).']]] },
+      legend: [['waktu', ['Proyek MRT dan LRT, tampil mulai tahun targetnya.', 'MRT and LRT projects, shown from their target year.']], ['waktu-tol', ['Proyek jalan tol, tampil mulai tahun targetnya.', 'Toll road projects, shown from their target year.']]] },
+    { key: 'legalitas', title: ['Legalitas Lahan', 'Land Legality'], desc: ['Peruntukan lahan menurut rencana tata ruang (RDTR).', 'Planned land use according to the zoning plan (RDTR).'],
+      legend: [['legal', ['Kawasan permukiman; zona RDTR tersedia untuk DKI Jakarta (ungu muda).', 'Residential areas; RDTR zoning available for Jakarta (light purple).']]] },
 ];
 
 /** Warna lin untuk langkah rute (sama dengan token peta di tokens.css). */
@@ -63,6 +63,7 @@ const KRL_UTAMA = ['bogor', 'rangkas', 'cikarang', 'tangerang', 'priok', 'bandar
  */
 export const SUBFITUR: Partial<Record<Simbol, (p: Prop) => boolean>> = {
     banjir: (p) => p.jenis === 'banjir',
+    genangan: (p) => p.jenis === 'genangan',
     rth: (p) => p.jenis === 'rth',
     hijau: (p) => p.jenis === 'poi',
     trotoar: (p) => p.jenis === 'trotoar',
@@ -97,7 +98,10 @@ export const SUMBER: { nama: string; logo?: string }[] = [
     { nama: 'Commute Data Platform', logo: '/images/logo/commute-data.png' },
     { nama: 'GTFS TransJakarta', logo: '/images/logo/transjakarta.png' },
     { nama: 'Biskita Trans Pakuan', logo: '/images/logo/trans-pakuan.png' },
-    { nama: 'BHUMI ATR/BPN', logo: '/images/logo/atr-bpn.png' },
+    { nama: 'RDTR DKI Jakarta 2022', logo: '/images/logo/jakarta.png' },
+    { nama: 'BNPB genangan banjir 2020', logo: '/images/logo/bnpb.png' },
+    { nama: 'SatPM PM2.5 (ACAG, CC BY 4.0)' },
+    { nama: 'Opentransum' },
 ];
 
 export function cx(...kelas: (string | false | null | undefined)[]): string {

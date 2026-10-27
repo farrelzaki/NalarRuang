@@ -71,17 +71,20 @@ function popupHtml(jenis: string, judul: string, isi: string, sumber: string): s
 }
 
 const JENIS_LABEL: Record<string, [string, string]> = {
-    banjir: ['Bahaya banjir', 'Flood hazard'], rth: ['Ruang terbuka hijau', 'Green open space'], poi: ['Tempat aktivitas', 'Activity spot'],
+    banjir: ['Bahaya banjir', 'Flood hazard'], genangan: ['Genangan banjir 2020', '2020 flooding'], rth: ['Ruang terbuka hijau', 'Green open space'], poi: ['Tempat aktivitas', 'Activity spot'],
     akses: ['Akses disabilitas', 'Disability access'], trotoar: ['Trotoar', 'Sidewalk'], krl: ['Jalur KRL', 'KRL line'], mrt: ['Jalur MRT', 'MRT line'],
     lrt: ['Jalur LRT', 'LRT line'], stasiun: ['Stasiun', 'Station'], halte: ['Halte', 'Bus stop'], tol: ['Gerbang tol', 'Toll gate'],
     ganjil_genap: ['Ruas ganjil-genap', 'Odd-even road'],
-    proyek: ['Proyek infrastruktur', 'Infrastructure project'], legal: ['Bidang lahan', 'Land parcel'],
+    proyek: ['Proyek infrastruktur', 'Infrastructure project'], legal: ['Kawasan permukiman', 'Residential area'],
 };
 
-/** Kosakata atribut data contoh (data/geojson/demo) yang tampil di popup. */
+/** Kosakata atribut yang tampil di popup (terjemahan Inggris). */
 const ISTILAH_EN: Record<string, string> = {
     Kafe: 'Café', Restoran: 'Restaurant', 'Makanan cepat saji': 'Fast food', Mal: 'Mall', Perpustakaan: 'Library', rendah: 'low', sedang: 'medium', tinggi: 'high',
-    'Dalam pembangunan': 'Under construction', 'SHGB dalam proses': 'SHGB in process', Permukiman: 'Residential', permukiman: 'residential',
+    'Dalam pembangunan': 'Under construction', 'dalam pembangunan': 'under construction', rencana: 'planned', Permukiman: 'Residential', permukiman: 'residential',
+    'Zona Perumahan': 'Residential zone', 'Zona Perdagangan dan Jasa': 'Commercial and services zone', 'Zona Ruang Terbuka Hijau': 'Green open space zone',
+    'Zona Pelayanan Umum': 'Public services zone', 'Zona Badan Air': 'Water body zone', 'Zona Perkantoran': 'Office zone',
+    'Zona Kawasan Peruntukan Industri': 'Industrial zone', 'Zona Pertahanan dan Keamanan': 'Defence and security zone',
 };
 const istilah = (v: unknown) => (bahasaAktif() === 'en' ? (ISTILAH_EN[String(v)] ?? String(v)) : String(v));
 
@@ -98,8 +101,14 @@ function deskripsi(p: Record<string, any>): string {
         case 'stasiun': return `${p.moda ? String(p.moda).toUpperCase() : tr('Stasiun', 'Station')}${p.lin ? ` · ${tr('Lin', 'Line')} ${p.lin}` : ''}.`;
         case 'krl': case 'mrt': case 'lrt': return p.nama ?? tr('Jalur kereta.', 'Railway line.');
         case 'brt': return `${tr('Koridor', 'Corridor')} ${p.koridor ?? ''}${p.nama ? ` · ${p.nama}` : ''}.`;
-        case 'proyek': return `${p.status ? istilah(p.status) : tr('Proyek', 'Project')}${p.tahun ? `, target ${p.tahun}` : ''}.`;
-        case 'legal': return tr(`Status contoh: ${p.status ?? '—'}. Peruntukan: ${p.peruntukan ?? 'permukiman'}.`, `Sample status: ${istilah(p.status ?? '—')}. Land use: ${istilah(p.peruntukan ?? 'permukiman')}.`);
+        case 'proyek': return `${p.status ? istilah(p.status) : tr('Proyek', 'Project')}${p.tahun ? `, target ${p.tahun}` : tr(', belum ada target tahun', ', no target year yet')}.`;
+        case 'genangan': return tr('Tergenang saat banjir 1 Januari 2020, menurut peta BNPB.', 'Flooded on 1 January 2020, per the BNPB map.');
+        case 'legal': {
+            if (!p.peruntukan) return tr('Kawasan permukiman (OSM). Zona RDTR baru tersedia untuk DKI Jakarta.', 'Residential area (OSM). RDTR zoning is only available for Jakarta so far.');
+            const rinci = [p.kode_subzona, p.kdb != null ? `KDB ${p.kdb}%` : null, p.klb != null ? `KLB ${String(p.klb).replace('.', ',')}` : null].filter(Boolean).join(', ');
+            return tr(`Peruntukan RDTR DKI 2022: ${p.peruntukan}${rinci ? ` (${rinci})` : ''}. Status kepemilikan tidak ditampilkan.`,
+                `Jakarta RDTR 2022 land use: ${istilah(p.peruntukan)}${rinci ? ` (${rinci})` : ''}. Ownership status is not shown.`);
+        }
         case 'ganjil_genap': return tr('Ganjil-genap (Pergub DKI 88/2019): Senin–Jumat 06.00–10.00 & 16.00–21.00 WIB.', 'Odd-even plates (Jakarta Gov. Reg. 88/2019): Mon–Fri 06:00–10:00 & 16:00–21:00.');
         case 'akses': return tr('Fasilitas ditandai ramah kursi roda.', 'Facility marked as wheelchair-friendly.');
         default: return p.nama ?? '';
@@ -195,7 +204,7 @@ export default function PetaExplorer(props: Props) {
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution:
-                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors · Transit: <a href="https://data.commute.shiorilabs.id/">Commute Data Platform</a> (ODbL) · Banjir: InaRISK BNPB',
+                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors · Transit: <a href="https://data.commute.shiorilabs.id/">Commute Data Platform</a> (ODbL) · Banjir: InaRISK & BNPB · Zona: RDTR DKI 2022 · PM2.5: SatPM ACAG (CC BY 4.0) · Bus Bodetabek: Opentransum',
         }).addTo(m);
         m.createPane('nrPoligon').style.zIndex = '410';
         m.createPane('nrGaris').style.zIndex = '420';
@@ -472,7 +481,12 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
     };
 
     if (k === 'historis_risiko') {
-        L.geoJSON(fc, { pane: 'nrPoligon', ...diKanvas, style: (f) => gaya.banjir(f?.properties?.kelas), onEachFeature: popup }).addTo(g);
+        L.geoJSON(fc, {
+            pane: 'nrPoligon',
+            ...diKanvas,
+            style: (f) => (f?.properties?.jenis === 'genangan' ? gaya.genangan : gaya.banjir(f?.properties?.kelas)),
+            onEachFeature: popup,
+        }).addTo(g);
     } else if (k === 'ekosistem') {
         L.geoJSON(fc, {
             pane: 'nrPoligon',

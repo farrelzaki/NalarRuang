@@ -126,12 +126,16 @@ function kalimatTitik(p: Persona, s: number, f: FaktaFasilitas, bahasa: Bahasa):
             : en ? `the nearest hangout spot${dalam} is ${j} away` : `tempat nongkrong terdekat${dalam} berjarak ${j} dari lokasi`;
     } else {
         const u = UDARA[f.kualitas_udara ?? ''] ?? ['belum diketahui', 'unknown'];
-        alasan = en ? `air quality is ${u[1]} and the nearest green space${dalam} is ${j} away` : `kualitas udara ${u[0]} dan ruang hijau terdekat${dalam} berjarak ${j}`;
+        const pm = f.pm25 != null ? ` (PM2.5 ${String(Math.round(f.pm25))} µg/m³)` : '';
+        alasan = en ? `air quality is ${u[1]}${pm} and the nearest park${dalam} is ${j} away` : `kualitas udara ${u[0]}${pm} dan taman terdekat${dalam} berjarak ${j}`;
     }
     const inti = INTI[Math.max(0, Math.min(3, s))][en ? 1 : 0];
     let k = en ? `For the ${label} lifestyle: ${inti} because ${alasan}.` : `Buat gaya hidup ${label}: ${inti} karena ${alasan}.`;
     if (p === 'zen' && (f.banjir === 'sedang' || f.banjir === 'tinggi')) {
         k += en ? ` Note: this spot is in a ${f.banjir === 'tinggi' ? 'high' : 'medium'} flood hazard area.` : ` Perhatikan: lokasi ini berada di area bahaya banjir kelas ${f.banjir}.`;
+    }
+    if (p === 'zen' && f.genangan_2020) {
+        k += en ? ' This spot was flooded on 1 January 2020.' : ' Lokasi ini tergenang saat banjir 1 Januari 2020.';
     }
     return s <= 1 ? k + (en ? ' Consider other locations.' : ' Pertimbangkan lokasi lain.') : k;
 }
@@ -200,10 +204,19 @@ function RingkasanWilayah({ data }: { data: Extract<InspectResponse, { jenis_geo
     tulis('driver', 'tol', ['gerbang tol', 'toll gate(s)']);
     tulis('social_vibe', 'hijau', ['tempat aktivitas', 'activity spot(s)']);
     tulis('zen', 'rth', ['ruang hijau', 'green space(s)']);
+    if (data.udara?.pm25 != null) {
+        const u = UDARA[data.udara.kategori ?? ''] ?? ['belum diketahui', 'unknown'];
+        const pm = String(Math.round(data.udara.pm25));
+        baris.push(['rth', t(`Udara ${u[0]}: PM2.5 rata-rata 2024 ${pm} µg/m³ (satelit)`, `Air ${u[1]}: 2024 average PM2.5 ${pm} µg/m³ (satellite)`)]);
+    }
+    if (data.penduduk) {
+        const n = data.penduduk.kepadatan_per_km2.toLocaleString(bahasa === 'en' ? 'en-US' : 'id-ID');
+        baris.push(['terpilih', t(`Kepadatan ±${n} jiwa/km² (estimasi WorldPop 2025)`, `Density ±${n} people/km² (WorldPop 2025 estimate)`)]);
+    }
     return (
         <div className="nr-layer-summary" aria-label={t('Fasilitas di sekitar kawasan', 'Facilities around this area')}>
             {baris.map(([s, teks]) => (
-                <span key={s} className="nr-legend">
+                <span key={teks} className="nr-legend">
                     <SimbolPeta kind={s} />
                     {teks}
                 </span>
@@ -261,6 +274,11 @@ function IsiDetail({ data, sesi }: { data: InspectResponse; sesi: Persona[] }) {
                 </div>
             )}
             {data.jenis_geometri === 'wilayah' && <RingkasanWilayah data={data} />}
+            {titik && data.catatan && (
+                <p className="nr-summary__note" role="note">
+                    {teksServer(data.catatan)}
+                </p>
+            )}
             {kesimpulan.length > 0 && <KartuKesimpulan kalimat={kesimpulan} tidakLengkap={data.data_tidak_lengkap} />}
         </>
     );

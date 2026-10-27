@@ -153,8 +153,8 @@ function IsiTentang() {
             <Istilah judul={t('Sumber data', 'Data sources')}>{SUMBER.map((x) => x.nama).join(' · ') + t('. Peta dasar © OpenStreetMap contributors.', '. Basemap © OpenStreetMap contributors.')}</Istilah>
             <Istilah judul={t('Catatan', 'Note')}>
                 {t(
-                    'Skor dan rekomendasi merupakan estimasi dari data sekunder publik, bukan penilaian resmi. Versi demo: sebagian atribut (mis. kualitas udara, status lahan) masih data contoh. Dibuat oleh Kelompok 4 — Developer Rumah, IPB University.',
-                    'Scores and recommendations are estimates from public secondary data, not official assessments. Demo version: some attributes (e.g. air quality, land status) are still sample data. Built by Group 4 — Developer Rumah, IPB University.',
+                    'Skor dan rekomendasi merupakan estimasi dari data sekunder publik, bukan penilaian resmi. Kualitas udara memakai rata-rata PM2.5 tahun 2024 dari satelit, dan zona lahan RDTR baru tersedia untuk DKI Jakarta. Dibuat oleh Kelompok 4 — Developer Rumah, IPB University.',
+                    'Scores and recommendations are estimates from public secondary data, not official assessments. Air quality uses satellite-based 2024 average PM2.5, and RDTR zoning is only available for Jakarta so far. Built by Group 4 — Developer Rumah, IPB University.',
                 )}
             </Istilah>
         </>

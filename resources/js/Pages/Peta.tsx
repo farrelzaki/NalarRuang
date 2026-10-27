@@ -491,10 +491,10 @@ export default function Peta() {
                     <span className="nr-app__catatan-dot" aria-hidden="true" />
                     <span>
                         <b>{t('Versi demo', 'Demo version')}</b>
-                        <span className="nr-app__catatan-pendek">{t(' · sebagian data contoh', ' · partly sample data')}</span>
+                        <span className="nr-app__catatan-pendek">{t(' · data sekunder publik', ' · public secondary data')}</span>
                         <span className="nr-app__catatan-panjang">{t(
-                            ' · Peta, batas wilayah, jalur KRL, dan area banjir dari data asli (OSM, InaRISK). Kualitas udara, status lahan, dan tahun proyek masih data contoh.',
-                            ' · Map, boundaries, KRL lines, and flood areas are real data (OSM, InaRISK). Air quality, land status, and project years are sample data.',
+                            ' · Semua layer dari data publik (OSM, InaRISK, BNPB, RDTR DKI, satelit PM2.5). Udara adalah rata-rata tahunan satelit; zona lahan baru untuk DKI; status kepemilikan tidak ditampilkan.',
+                            ' · All layers come from public data (OSM, InaRISK, BNPB, Jakarta RDTR, satellite PM2.5). Air is a satellite annual average; zoning covers Jakarta only; ownership status is not shown.',
                         )}</span>
                     </span>
                 </aside>

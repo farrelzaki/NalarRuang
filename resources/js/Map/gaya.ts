@@ -30,6 +30,8 @@ export const banjir = (kelas: string): PathOptions => ({
     fillOpacity: ({ rendah: 0.15, sedang: 0.3, tinggi: 0.45 } as Record<string, number>)[kelas] ?? 0.3,
 });
 
+/** Genangan nyata banjir Januari 2020 (BNPB): biru, agar beda dari indeks bahaya InaRISK yang merah. */
+export const genangan: PathOptions = { color: '#1d4ed8', weight: 1, opacity: 0.7, fillColor: '#1d4ed8', fillOpacity: 0.35 };
 export const rth: PathOptions = { color: '#22c55e', weight: 1, opacity: 0.9, fillColor: '#22c55e', fillOpacity: 0.25 };
 export const legal: PathOptions = { color: '#8b5cf6', weight: 1.5, opacity: 0.8, fillColor: '#8b5cf6', fillOpacity: 0.2 };
 export const terpilih: PathOptions = { color: '#0f1b3d', weight: 2.5, opacity: 1, fillColor: '#0f1b3d', fillOpacity: 0.08 };

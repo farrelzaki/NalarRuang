@@ -35,7 +35,7 @@ export type SearchResponse = {
     message?: string;
 };
 
-export type RingkasanLayer = { jenis: 'stasiun' | 'tol' | 'hijau' | 'banjir'; teks: string };
+export type RingkasanLayer = { jenis: 'stasiun' | 'tol' | 'hijau' | 'banjir' | 'genangan' | 'legal'; teks: string };
 
 export type InspectTitik = {
     jenis_geometri: 'titik';
@@ -51,9 +51,21 @@ export type InspectTitik = {
     fakta?: Record<Persona, FaktaFasilitas | null>;
     kesimpulan: string[];
     data_tidak_lengkap: boolean;
+    /** Zona RDTR di titik (hanya DKI Jakarta). */
+    zonasi?: { zona: string; subzona: string | null; kdb: number | null; klb: number | null; sumber: string } | null;
+    /** Peringatan, mis. titik di makam, perairan, atau di luar Jabodetabek. */
+    catatan?: string | null;
 };
 
-export type FaktaFasilitas = { nama: string; meter: number; jumlah_1km?: number; kualitas_udara?: string | null; banjir?: string | null };
+export type FaktaFasilitas = {
+    nama: string;
+    meter: number;
+    jumlah_1km?: number;
+    kualitas_udara?: string | null;
+    pm25?: number | null;
+    banjir?: string | null;
+    genangan_2020?: boolean;
+};
 
 export type InspectWilayah = {
     jenis_geometri: 'wilayah';
@@ -67,6 +79,8 @@ export type InspectWilayah = {
     terdekat?: Record<Persona, { nama: string; meter: number } | null>;
     kesimpulan: string[];
     data_tidak_lengkap: boolean;
+    udara?: { kategori: string | null; pm25: number | null; sumber: string };
+    penduduk?: { jumlah: number; kepadatan_per_km2: number; sumber: string } | null;
 };
 
 export type InspectResponse = InspectTitik | InspectWilayah;
