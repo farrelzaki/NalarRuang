@@ -26,6 +26,14 @@ class PersonaScoring
         'berbahaya' => 0,
     ];
 
+    /** Label kelas udara di kalimat. Kelasnya relatif antarkelurahan Jabodetabek (DataNyataSeeder::PORSI_KELAS). */
+    public const LABEL_UDARA = [
+        'sehat' => 'relatif bersih',
+        'kurang_sehat' => 'sedang',
+        'tidak_sehat' => 'relatif tercemar',
+        'berbahaya' => 'berbahaya',
+    ];
+
     private const FRASA = [
         3 => 'Sangat mendukung aktivitasmu!',
         2 => 'Cukup mendukung aktivitasmu.',
@@ -74,7 +82,7 @@ class PersonaScoring
 
     /**
      * Wilayah: cocok bila fasilitas utama ada di dalamnya atau paling jauh BATAS_WILAYAH m dari batasnya
-     * ($meterDariBatas = 0 bila di dalam, null bila tidak ada data). Zen juga mensyaratkan udara sehat/kurang sehat.
+     * ($meterDariBatas = 0 bila di dalam, null bila tidak ada data). Zen juga mensyaratkan udara relatif bersih atau sedang.
      */
     public function cocokWilayah(string $persona, ?float $meterDariBatas, ?string $kualitasUdara = null): bool
     {
@@ -121,7 +129,7 @@ class PersonaScoring
             'social_vibe' => ($fakta['jumlah_1km'] ?? 0) > 0
                 ? "terdapat {$fakta['jumlah_1km']} kafe, restoran, dan tempat aktivitas dalam radius 1 km, yang terdekat ".($nama ?: 'berjarak')." {$jarak}"
                 : 'tempat nongkrong terdekat'.($nama ? " ({$nama})" : '')." berjarak {$jarak} dari lokasi",
-            'zen' => 'kualitas udara '.str_replace('_', ' ', (string) ($fakta['kualitas_udara'] ?? 'belum diketahui'))
+            'zen' => 'kualitas udara '.(self::LABEL_UDARA[$fakta['kualitas_udara'] ?? ''] ?? 'belum diketahui')
                 .(isset($fakta['pm25']) ? ' (PM2.5 '.round((float) $fakta['pm25']).' µg/m³)' : '')
                 .' dan taman terdekat'.($nama ? " ({$nama})" : '')." berjarak {$jarak}",
             default => '',

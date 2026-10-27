@@ -16,11 +16,15 @@ use RuntimeException;
 class DataNyataSeeder extends Seeder
 {
     /**
-     * Ambang PM2.5 rata-rata tahunan (µg/m³) ke kategori kualitas_udara, mengikuti target antara WHO 2021
-     * (IT-2 = 25, IT-1 = 35) dan dua kali IT-1 untuk "berbahaya". Baku mutu nasional 15 µg/m³ (PP 22/2021)
-     * tidak dipakai sebagai batas "sehat" karena seluruh Jabodetabek di atasnya.
+     * Kelas udara RELATIF antarkelurahan (keputusan tim 27 Okt 2026): seluruh Jabodetabek di atas baku mutu
+     * 15 µg/m³ (PP 22/2021), jadi ambang mutlak membuat hampir semua kawasan "tidak sehat" dan skor Zen tidak
+     * membedakan apa pun. Kelurahan diurutkan dari PM2.5 terendah: 40% terbersih = sehat ("relatif bersih"),
+     * 40% berikutnya = kurang_sehat ("sedang"), 20% tercemar = tidak_sehat ("relatif tercemar").
+     * "berbahaya" tetap mutlak: rata-rata tahunan di atas 55 µg/m³ (dua kali target antara WHO IT-1).
      */
-    public const AMBANG_PM25 = ['sehat' => 25.0, 'kurang_sehat' => 35.0, 'tidak_sehat' => 55.0];
+    public const PORSI_KELAS = ['sehat' => 0.4, 'kurang_sehat' => 0.8];
+
+    public const BATAS_BERBAHAYA = 55.0;
 
     /** Kegiatan hiburan OSM yang dihitung sebagai tempat aktivitas Social & Vibe (kolam renang pribadi tidak). */
     private const HIBURAN = [
@@ -57,19 +61,44 @@ class DataNyataSeeder extends Seeder
         DemoPetaSeeder::hitungMetrikWilayah();
     }
 
-    /** Kategori kualitas_udara dari PM2.5 tahunan. Logika murni, dites di DataNyataTest. */
-    public static function kategoriUdara(?float $pm25): ?string
+    /**
+     * Batas PM2.5 tiap kelas relatif dari sebaran nilai seluruh kelurahan. Logika murni, dites di DataNyataTest.
+     *
+     * @param  list<float>  $semua
+     * @return array<string, float> kelas => PM2.5 tertinggi yang masih masuk kelas itu
+     */
+    public static function batasKelas(array $semua): array
+    {
+        sort($semua);
+        $n = count($semua);
+        $batas = [];
+        foreach (self::PORSI_KELAS as $kelas => $porsi) {
+            $batas[$kelas] = $semua[max(0, (int) ceil($n * $porsi) - 1)];
+        }
+
+        return $batas;
+    }
+
+    /**
+     * Kategori kualitas_udara dari PM2.5 tahunan dan batas kelas relatif.
+     *
+     * @param  array<string, float>  $batas  hasil batasKelas()
+     */
+    public static function kategoriUdara(?float $pm25, array $batas): ?string
     {
         if ($pm25 === null) {
             return null;
         }
-        foreach (self::AMBANG_PM25 as $kategori => $batas) {
-            if ($pm25 <= $batas) {
-                return $kategori;
+        if ($pm25 > self::BATAS_BERBAHAYA) {
+            return 'berbahaya';
+        }
+        foreach ($batas as $kelas => $atas) {
+            if ($pm25 <= $atas) {
+                return $kelas;
             }
         }
 
-        return 'berbahaya';
+        return 'tidak_sehat';
     }
 
     private function udaraDanPenduduk(): void
@@ -83,6 +112,7 @@ class DataNyataSeeder extends Seeder
         // Udara contoh dihapus dulu: wilayah tanpa data satelit menjadi "belum diketahui", bukan nilai karangan.
         DB::statement("UPDATE wilayah SET kualitas_udara = NULL, atribut = atribut - 'kualitas_udara'");
 
+        $batas = self::batasKelas(array_map(fn ($r) => (float) $r['pm25_2024_ugm3'], $udara));
         foreach (array_chunk($udara, 300) as $potongan) {
             $baris = [];
             $nilai = [];
@@ -91,7 +121,7 @@ class DataNyataSeeder extends Seeder
                 $pm = (float) $r['pm25_2024_ugm3'];
                 $p = $penduduk[$kode] ?? null;
                 $baris[] = '(?, ?, ?::jsonb)';
-                array_push($nilai, $kode, self::kategoriUdara($pm), json_encode(array_filter([
+                array_push($nilai, $kode, self::kategoriUdara($pm, $batas), json_encode(array_filter([
                     'pm25' => $pm,
                     'sumber_udara' => 'SatPM V6.GL.03 2024, ACAG Washington University (CC BY 4.0)',
                     'penduduk' => $p ? (int) $p['penduduk_2025_est'] : null,

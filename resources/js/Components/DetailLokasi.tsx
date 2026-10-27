@@ -96,9 +96,10 @@ const INTI: [string, string][] = [
     ['Sangat mendukung aktivitasmu', 'Strongly supports your routine'],
 ];
 const UDARA: Record<string, [string, string]> = {
-    sehat: ['sehat', 'healthy'],
-    kurang_sehat: ['kurang sehat', 'moderate'],
-    tidak_sehat: ['tidak sehat', 'unhealthy'],
+    // Kelas relatif antarkelurahan Jabodetabek, bukan ambang kesehatan mutlak (semua di atas baku mutu).
+    sehat: ['relatif bersih', 'relatively clean'],
+    kurang_sehat: ['sedang', 'moderate'],
+    tidak_sehat: ['relatif tercemar', 'relatively polluted'],
     berbahaya: ['berbahaya', 'hazardous'],
 };
 

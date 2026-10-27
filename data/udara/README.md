@@ -1,7 +1,7 @@
 # Data kualitas udara
 
 Pengganti nilai udara contoh di tabel `wilayah` (temuan I-01, I-02 di evaluasi uji pengguna). Dimuat oleh
-`DataNyataSeeder`: PM2.5 menjadi kategori `kualitas_udara` (<= 25 sehat, <= 35 kurang sehat, <= 55 tidak sehat, di atasnya berbahaya).
+`DataNyataSeeder`: kelas RELATIF antarkelurahan (keputusan tim 27 Okt 2026). 40% PM2.5 terendah = `sehat` (tampil "relatif bersih", 2024: <= 33,8 µg/m³), 40% berikutnya = `kurang_sehat` ("sedang", <= 39,6), 20% tertinggi = `tidak_sehat` ("relatif tercemar"); `berbahaya` hanya bila di atas 55 µg/m³. Semua kelas tetap di atas baku mutu nasional.
 
 | Berkas | Isi | Sumber | Dibuat oleh |
 | --- | --- | --- | --- |
