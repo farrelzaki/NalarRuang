@@ -1,6 +1,6 @@
 {
-  "versi": "draf-2026-10-27",
-  "catatan": "Draf kamus untuk QueryParser (kebutuhan A-05). Disusun dari kamus yang sudah ada di app/Services/QueryParser.php, contoh di SRS, dan kueri yang gagal di uji pengguna 25 Oktober 2026 (P-01 sampai P-08, N-03, N-04). Belum dipakai kode; perlu ditinjau Farrel dan Adzkia sebelum dipasang.",
+  "versi": "2026-10-27",
+  "catatan": "Draf kamus untuk QueryParser (kebutuhan A-05). Disusun dari kamus yang sudah ada di app/Services/QueryParser.php, contoh di SRS, dan kueri yang gagal di uji pengguna 25 Oktober 2026 (P-01 sampai P-08, N-03, N-04). Dipakai app/Services/QueryParser.php (dibaca saat jalan); setelah mengubah kamus, jalankan tests/Unit/QueryParserTest.php.",
 
   "persona": {
     "commuter": ["stasiun", "krl", "kereta", "commuter line", "transit", "transum", "mrt", "lrt", "halte", "busway", "transjakarta", "tije", "angkutan umum", "transportasi umum", "naik umum", "jaklingko", "biskita",
