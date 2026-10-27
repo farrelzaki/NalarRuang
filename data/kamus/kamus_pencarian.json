@@ -1,0 +1,111 @@
+{
+  "versi": "draf-2026-10-27",
+  "catatan": "Draf kamus untuk QueryParser (kebutuhan A-05). Disusun dari kamus yang sudah ada di app/Services/QueryParser.php, contoh di SRS, dan kueri yang gagal di uji pengguna 25 Oktober 2026 (P-01 sampai P-08, N-03, N-04). Belum dipakai kode; perlu ditinjau Farrel dan Adzkia sebelum dipasang.",
+
+  "persona": {
+    "commuter": ["stasiun", "krl", "kereta", "commuter line", "transit", "transum", "mrt", "lrt", "halte", "busway", "transjakarta", "tije", "angkutan umum", "transportasi umum", "naik umum", "jaklingko", "biskita",
+      "station", "train", "bus stop", "public transport", "commute", "subway", "metro"],
+    "driver": ["tol", "gerbang tol", "mobil", "bawa mobil", "jalan raya", "jalan besar", "arteri", "berkendara", "nyetir", "akses tol",
+      "toll", "toll gate", "car", "highway", "driving", "main road", "drive"],
+    "social_vibe": ["kafe", "cafe", "café", "kopi", "ngopi", "nongkrong", "hangout", "restoran", "resto", "kuliner", "jajan", "mall", "mal", "ramai", "rame", "hiburan", "bioskop", "gym", "pusat kota", "kehidupan malam",
+      "coffee", "restaurant", "nightlife", "entertainment", "lively", "food", "cinema", "vibrant"],
+    "zen": ["hijau", "taman", "tenang", "asri", "sejuk", "adem", "sepi", "alam", "pepohonan", "udara bersih", "udara segar", "tidak bising", "jauh dari keramaian", "jauh dari kebisingan", "damai",
+      "green", "park", "quiet", "calm", "peaceful", "nature", "clean air", "fresh air", "away from crowds"]
+  },
+
+  "pembalik": {
+    "kata": ["tidak mau", "tidak ingin", "nggak mau", "gak mau", "ga mau", "tidak", "tak", "bukan", "jangan", "jauh dari", "hindari", "menghindari", "anti", "tanpa", "bebas",
+      "don't want", "do not want", "not", "no", "away from", "avoid", "without", "far from", "free of"],
+    "jangkauan_kata": 3,
+    "aturan": "Kata kunci persona yang didahului kata pembalik dalam jarak paling jauh 3 kata TIDAK menambah persona itu. Bila yang dibalik adalah kata social_vibe (ramai, keramaian, mall, hiburan), tambahkan zen. Bila yang dibalik adalah kata driver (tol, jalan raya), jangan pakai driver; urutkan wilayah dari yang paling jauh dari tol."
+  },
+
+  "frasa_khusus": {
+    "jauh dari keramaian": {"tambah": ["zen"], "buang": ["social_vibe"]},
+    "jauh dari kebisingan": {"tambah": ["zen"], "buang": ["social_vibe", "driver"]},
+    "tidak mau dekat tol": {"buang": ["driver"], "urutkan": "jauh_dari_tol"},
+    "jauh dari tol": {"buang": ["driver"], "urutkan": "jauh_dari_tol"},
+    "away from crowds": {"tambah": ["zen"], "buang": ["social_vibe"]},
+    "far from toll": {"buang": ["driver"], "urutkan": "jauh_dari_tol"}
+  },
+
+  "penanda_banjir": ["bebas banjir", "tidak banjir", "nggak banjir", "gak banjir", "anti banjir", "hindari banjir", "menghindari banjir", "jauh dari banjir", "aman banjir", "aman dari banjir", "minim banjir", "jarang banjir", "tanpa banjir", "bukan daerah banjir",
+    "flood free", "flood-free", "no flood", "no flooding", "avoid flood", "avoid flooding", "away from flood", "safe from flood"],
+
+  "kota": {
+    "jakarta pusat": ["jakarta pusat", "jakpus", "central jakarta"],
+    "jakarta utara": ["jakarta utara", "jakut", "north jakarta"],
+    "jakarta barat": ["jakarta barat", "jakbar", "west jakarta"],
+    "jakarta selatan": ["jakarta selatan", "jaksel", "south jakarta"],
+    "jakarta timur": ["jakarta timur", "jaktim", "east jakarta"],
+    "kota bogor": ["kota bogor", "bogor kota", "bogor city"],
+    "kabupaten bogor": ["kabupaten bogor", "kab bogor", "kab. bogor", "bogor regency"],
+    "kota depok": ["depok"],
+    "kota tangerang": ["kota tangerang", "tangerang kota", "tangerang city"],
+    "kabupaten tangerang": ["kabupaten tangerang", "kab tangerang", "kab. tangerang", "tangerang regency"],
+    "kota tangerang selatan": ["tangerang selatan", "tangsel", "south tangerang"],
+    "kota bekasi": ["kota bekasi", "bekasi kota", "bekasi city"],
+    "kabupaten bekasi": ["kabupaten bekasi", "kab bekasi", "kab. bekasi", "bekasi regency"],
+    "_aturan": "Cocokkan nama terpanjang dulu (jakarta selatan sebelum jakarta). 'jakarta', 'bogor', 'tangerang', 'bekasi' tanpa penanda berarti semua kota/kabupaten dengan nama itu."
+  },
+
+  "luar_cakupan": ["kepulauan seribu", "pulau seribu", "bandung", "cimahi", "sukabumi", "cianjur", "karawang", "purwakarta", "serang", "cilegon", "lebak", "rangkasbitung", "surabaya", "semarang", "yogyakarta", "jogja", "solo", "malang", "bali", "denpasar", "medan", "makassar", "palembang", "lampung"],
+
+  "kata_umum_lokasi": ["stasiun", "st", "halte", "jalan", "jl", "jln", "gang", "gg", "komplek", "kompleks", "perumahan", "perum", "cluster", "apartemen", "kampus", "universitas", "mall", "mal", "rumah sakit", "rs"],
+  "kata_umum_lokasi_catatan": "Untuk /api/lokasi: bila kueri lengkap tidak ketemu, ulangi tanpa kata-kata ini (\"stasiun manggarai\" -> \"manggarai\", \"jalan sudirman\" -> \"sudirman\"). Jangan dibuang di langkah pertama karena bisa bagian dari nama (\"Mall Taman Anggrek\").",
+
+  "alias_tempat": {
+    "monas": "Monumen Nasional",
+    "gbk": "Gelora Bung Karno",
+    "senayan": "Gelora Bung Karno",
+    "tmii": "Taman Mini Indonesia Indah",
+    "taman mini": "Taman Mini Indonesia Indah",
+    "ragunan": "Taman Margasatwa Ragunan",
+    "kota tua": "Kota Tua Jakarta",
+    "ancol": "Taman Impian Jaya Ancol",
+    "ui": "Universitas Indonesia",
+    "ui depok": "Universitas Indonesia",
+    "ipb": "IPB University Dramaga",
+    "itb": "luar_cakupan",
+    "unj": "Universitas Negeri Jakarta",
+    "trisakti": "Universitas Trisakti",
+    "binus": "Universitas Bina Nusantara",
+    "krb": "Kebun Raya Bogor",
+    "kebun raya": "Kebun Raya Bogor",
+    "pim": "Pondok Indah Mall",
+    "gi": "Grand Indonesia",
+    "pi": "Plaza Indonesia",
+    "scbd": "Sudirman Central Business District",
+    "bsd": "BSD City",
+    "soetta": "Bandara Soekarno-Hatta",
+    "cgk": "Bandara Soekarno-Hatta",
+    "halim": "Bandara Halim Perdanakusuma",
+    "sudirman": "Jalan Jenderal Sudirman",
+    "thamrin": "Jalan M.H. Thamrin",
+    "kuningan": "Kuningan",
+    "kemang": "Kemang",
+    "cibubur": "Cibubur",
+    "dukuh atas": "Dukuh Atas"
+  },
+
+  "pesan": {
+    "tidak_dipahami": ["Kami belum memahami pencarianmu. Coba sebut kebutuhan seperti \"dekat stasiun\" atau nama kawasan.", "We could not understand your search. Try a need such as \"near a station\" or an area name."],
+    "luar_cakupan": ["NalarRuang hanya mencakup Jabodetabek.", "NalarRuang only covers Greater Jakarta (Jabodetabek)."],
+    "saran_ejaan": ["Maksudmu {nama}?", "Did you mean {nama}?"]
+  },
+
+  "contoh_uji": [
+    {"kueri": "tidak mau dekat tol", "harap": {"persona_bukan": ["driver"], "urutkan": "jauh_dari_tol"}, "temuan": "P-01"},
+    {"kueri": "jauh dari keramaian", "harap": {"persona": ["zen"], "persona_bukan": ["social_vibe"]}, "temuan": "P-02"},
+    {"kueri": "hindari banjir", "harap": {"hindari_banjir": true}, "temuan": "P-03"},
+    {"kueri": "dekat stasiun di Jakarta Selatan", "harap": {"persona": ["commuter"], "kota": ["jakarta selatan"]}, "temuan": "P-04"},
+    {"kueri": "rumah di jaksel yang tenang", "harap": {"persona": ["zen"], "kota": ["jakarta selatan"]}, "temuan": "P-04"},
+    {"kueri": "Menteng", "harap": {"nama_wilayah": "menteng", "urutan_pertama_nama_persis": true}, "temuan": "P-05"},
+    {"kueri": "Kemang", "harap": {"nama_wilayah": "kemang", "bukan": "kemanggisan"}, "temuan": "P-06"},
+    {"kueri": "asdfghjkl", "harap": {"pesan": "tidak_dipahami"}, "temuan": "P-07"},
+    {"kueri": "dekat stasiun di Kepulauan Seribu", "harap": {"pesan": "luar_cakupan"}, "temuan": "P-08"},
+    {"kueri": "Surabaya dekat stasiun", "harap": {"pesan": "luar_cakupan"}, "temuan": "P-08"},
+    {"kueri": "stasiun manggarai", "harap": {"lokasi_ditemukan": "Manggarai"}, "temuan": "N-03"},
+    {"kueri": "monas", "harap": {"lokasi_pertama": "Monumen Nasional"}, "temuan": "N-04"}
+  ]
+}
