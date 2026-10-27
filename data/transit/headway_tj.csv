@@ -1,0 +1,754 @@
+kode_rute,nama_rute,jenis_layanan,trip_id,arah,mulai,selesai,headway_menit,tunggu_rata2_menit
+1,Blok M - Kota,BRT,1-P23,Tosari dan Blok M,00:00,23:59,15.0,7.5
+1,Blok M - Kota,BRT,1-P28,Monas dan Blok M,00:00,23:59,15.0,7.5
+1,Blok M - Kota,BRT,1-P33,Taman Sari dan Blok M,00:00,23:59,56.7,28.3
+1,Blok M - Kota,BRT,1-P34,Bundaran Senayan dan Kali Besar Barat,00:00,23:59,16.7,8.3
+1,Blok M - Kota,BRT,1-P36,Bundaran HI dan Kali Besar Barat,00:00,23:59,20.0,10.0
+1,Blok M - Kota,BRT,1-P37,Monas dan Kali Besar Barat,00:00,23:59,30.0,15.0
+1,Blok M - Kota,BRT,1-P38,Kali Besar Barat via Kebon Sirih,00:00,23:59,20.0,10.0
+1,Blok M - Kota,BRT,1-P39,Blok M via Cideng,00:00,23:59,20.0,10.0
+1,Blok M - Kota,BRT,1-P94,Monumen Nasional,00:00,23:59,20.0,10.0
+1,Blok M - Kota,BRT,1-P95,Kota,00:00,23:59,20.0,10.0
+1,Blok M - Kota,BRT,1-P96,Monumen Nasional,00:00,23:59,20.0,10.0
+1,Blok M - Kota,BRT,1-P97,Blok M,00:00,23:59,20.0,10.0
+1,Blok M - Kota,BRT,1-R07,Kali Besar Barat,00:00,23:59,6.0,3.0
+1,Blok M - Kota,BRT,1-R08,Blok M,00:00,23:59,6.0,3.0
+1,Blok M - Kota,BRT,1-R09,Kota,05:00,10:00,20.0,10.0
+1,Blok M - Kota,BRT,1-R10,Blok M,05:00,10:00,20.0,10.0
+1,Blok M - Kota,BRT,1-R11,Kota via Gerbang Pemuda,05:00,10:00,20.0,10.0
+1,Blok M - Kota,BRT,1-R12,Blok M via Gerbang Pemuda,05:00,10:00,20.0,10.0
+10,Tanjung Priok - PGC,BRT,10-P21,Halim dan Tanjung Priok,00:00,23:59,60.0,30.0
+10,Tanjung Priok - PGC,BRT,10-P22,Sunter Kelapa Gading dan PGC,00:00,23:59,12.0,6.0
+10,Tanjung Priok - PGC,BRT,10-P23,Walikota Jakarta Utara dan PGC,00:00,23:59,20.0,10.0
+10,Tanjung Priok - PGC,BRT,10-R01,PGC,00:00,23:59,3.0,1.5
+10,Tanjung Priok - PGC,BRT,10-R02,Tanjung Priok,00:00,23:59,3.1,1.6
+10A,Rusun Marunda - Tanjung Priok,Rusun,10A-L02,Tanjung Priok dan Rusun Marunda,05:00,22:00,36.3,18.2
+10A,Rusun Marunda - Tanjung Priok,Rusun,10A-R01,Tanjung Priok,05:00,22:00,20.0,10.0
+10B,Rusun Cipinang Besar Selatan - Halim,Rusun,10B-L01,Halim dan Rusun Cipinang Besar Selatan,05:00,22:00,10.0,5.0
+10B,Rusun Cipinang Besar Selatan - Halim,Rusun,10B-R01,Halim,05:00,22:00,20.0,10.0
+10B,Rusun Cipinang Besar Selatan - Halim,Rusun,10B-R02,Rusun Cipinang Besar Selatan,05:00,22:00,20.0,10.0
+10H,Tanjung Priok - Bundaran Senayan,BRT,10H-L04,Bundaran Senayan dan Tanjung Priok,05:00,22:00,23.3,11.7
+10H,Tanjung Priok - Bundaran Senayan,BRT,10H-L05,Petamburan dan Tanjung Priok,05:00,22:00,20.0,10.0
+10H,Tanjung Priok - Bundaran Senayan,BRT,10H-R07,Bundaran Senayan,05:00,22:00,6.0,3.0
+10H,Tanjung Priok - Bundaran Senayan,BRT,10H-R09,Tanjung Priok,05:00,07:00,60.0,30.0
+11,Pulo Gebang - Kampung Melayu,BRT,11-R02,Pulo Gebang,00:00,23:59,5.0,2.5
+11,Pulo Gebang - Kampung Melayu,BRT,11-R03,Kampung Melayu,00:00,23:59,7.5,3.8
+11B,Rusun Rawa Bebek - Penggilingan,Rusun,11B-R01,Penggilingan,05:00,22:00,20.0,10.0
+11B,Rusun Rawa Bebek - Penggilingan,Rusun,11B-R02,Rusun Rawa Bebek,05:00,22:00,20.0,10.0
+11C,Rusun Pulo Gebang - Penggilingan,Rusun,11C-L03,Penggilingan dan Rusun Pulo Gebang,05:00,22:00,23.0,11.5
+11D,Pulo Gebang - Pulo Gadung via PIK,Angkutan Umum Integrasi,11D-R04,Pulo Gebang,05:00,22:00,20.0,10.0
+11D,Pulo Gebang - Pulo Gadung via PIK,Angkutan Umum Integrasi,11D-R05,Pulo Gadung via PIK,05:00,22:00,20.0,10.0
+11M,Rusun Rawa Bebek - Bukit Duri,Rusun,11M-L03,Bukit Duri dan Rusun Rawa Bebek,05:00,22:00,6.0,3.0
+11P,Rusun Pondok Bambu - Walikota Jakarta Timur,Rusun,11P-R01,Walikota Jakarta Timur,05:00,22:00,20.0,10.0
+11P,Rusun Pondok Bambu - Walikota Jakarta Timur,Rusun,11P-R02,Rusun Pondok Bambu,05:00,22:00,20.0,10.0
+11Q,Kampung Melayu - Pulo Gebang via BKT,Angkutan Umum Integrasi,11Q-L04,Kampung Melayu dan Pulo Gebang,05:00,22:00,18.3,9.2
+11Q,Kampung Melayu - Pulo Gebang via BKT,Angkutan Umum Integrasi,11Q-R05,Kampung Melayu,05:00,22:00,60.0,30.0
+11Q,Kampung Melayu - Pulo Gebang via BKT,Angkutan Umum Integrasi,11Q-R06,Pulo Gebang via BKT,05:00,22:00,12.0,6.0
+11R,Rusun Cakung KM 2 - Penggilingan via Rusun PIK,Rusun,11R-L01,Penggilingan dan Rusun Cakung KM 2,05:00,22:00,60.0,30.0
+11W,St. Klender - Pulo Gadung via JIEP,Angkutan Umum Integrasi,11W-L02,Pulo Gadung via St. Klender dan JIEP,05:00,22:00,12.0,6.0
+11W,St. Klender - Pulo Gadung via JIEP,Angkutan Umum Integrasi,11W-L03,Pulogadung dan JIEP,05:00,22:00,20.0,10.0
+12,Tanjung Priok - Pluit,BRT,12-L01,Kota dan Sunter Boulevard Barat,00:00,23:59,60.0,30.0
+12,Tanjung Priok - Pluit,BRT,12-P03,Pluit,00:00,23:59,60.0,30.0
+12,Tanjung Priok - Pluit,BRT,12-R01,Sunter Boulevard Barat,00:00,23:59,15.0,7.5
+12,Tanjung Priok - Pluit,BRT,12-R02,Penjaringan,00:00,23:59,16.7,8.3
+12,Tanjung Priok - Pluit,BRT,12-R03,Pluit,00:00,23:59,60.0,30.0
+12,Tanjung Priok - Pluit,BRT,12-R04,Tanjung Priok,00:00,23:59,38.3,19.2
+12A,Pelabuhan Kaliadem - Kota,Angkutan Umum Integrasi,12A-L02,Kota dan Kali Adem,05:00,22:00,60.0,30.0
+12A,Pelabuhan Kaliadem - Kota,Angkutan Umum Integrasi,12A-R03,Kota,05:00,22:00,60.0,30.0
+12B,Pluit - Senen,Angkutan Umum Integrasi,12B-R03,Senen,05:00,22:00,10.0,5.0
+12B,Pluit - Senen,Angkutan Umum Integrasi,12B-R04,Pluit,05:00,22:00,10.0,5.0
+12C,Rusun Waduk Pluit - Penjaringan,Rusun,12C-L01,Penjaringan dan Rusun Waduk Pluit,05:00,22:00,7.0,3.5
+12C,Rusun Waduk Pluit - Penjaringan,Rusun,12C-R01,Penjaringan,05:00,22:00,31.0,15.5
+12C,Rusun Waduk Pluit - Penjaringan,Rusun,12C-R02,Rusun Waduk Pluit,05:00,22:00,31.0,15.5
+12F,Rusun Marunda - Rusun Waduk Pluit,Rusun,12F-L02,Rusun Waduk Pluit dan Rusun Marunda,05:00,22:00,60.0,30.0
+12H,Rusun Penjaringan - Penjaringan,Rusun,12H-L02,Penjaringan dan Rusun Penjaringan,05:00,22:00,60.0,30.0
+12P,St. LRT Pegangsaan Dua - JIS,Angkutan Umum Integrasi,12P-L01,St. LRT Pegangsaan Dua dan JIS,05:00,22:00,23.0,11.5
+12P,St. LRT Pegangsaan Dua - JIS,Angkutan Umum Integrasi,12P-R01,JIS,05:00,22:00,25.0,12.5
+12P,St. LRT Pegangsaan Dua - JIS,Angkutan Umum Integrasi,12P-R02,St. LRT Pegangsaan Dua,05:00,22:00,12.0,6.0
+13,Ciledug - Tegal Mampang,BRT,13-L01,Tegal Mampang dan Ciledug,00:00,23:59,13.3,6.7
+13,Ciledug - Tegal Mampang,BRT,13-L02,Tegal Mampang dan Puri Beta,00:00,23:59,13.3,6.7
+13,Ciledug - Tegal Mampang,BRT,13-L03,Rawa Barat dan Puri Beta,00:00,23:59,60.0,30.0
+13,Ciledug - Tegal Mampang,BRT,13-L05,JORR dan Tendean,00:00,23:59,60.0,30.0
+13,Ciledug - Tegal Mampang,BRT,13-L10,CSW dan CBD Ciledug,00:00,23:59,45.0,22.5
+13,Ciledug - Tegal Mampang,BRT,13-P01,Tegal Mampang,00:00,23:59,20.0,10.0
+13,Ciledug - Tegal Mampang,BRT,13-P02,Puri Beta,16:00,17:00,4.3,2.1
+13,Ciledug - Tegal Mampang,BRT,13-P05,Rawa Barat,08:00,11:00,30.0,15.0
+13,Ciledug - Tegal Mampang,BRT,13-R01,Tegal Mampang,07:00,09:00,20.0,10.0
+13,Ciledug - Tegal Mampang,BRT,13-R02,Ciledug,00:00,23:59,13.3,6.7
+13B,Puri Beta - Pancoran,BRT,13B-L01,Pancoran dan Puri Beta,05:00,22:00,5.0,2.5
+13B,Puri Beta - Pancoran,BRT,13B-R02,Puri Beta,05:00,22:00,20.0,10.0
+13E,Puri Beta - Flyover Kuningan,BRT,13E-L01,Flyover Kuningan dan Puri Beta,05:00,22:00,20.0,10.0
+13E,Puri Beta - Flyover Kuningan,BRT,13E-R03,Flyover Kuningan,05:00,22:00,20.0,10.0
+13E,Puri Beta - Flyover Kuningan,BRT,13E-R04,Puri Beta,05:00,22:00,20.0,10.0
+14,Jakarta International Stadium - Senen,BRT,14-L04,Senen dan JIS,00:00,23:59,7.5,3.8
+14,Jakarta International Stadium - Senen,BRT,14-R05,Senen,00:00,23:59,20.0,10.0
+14,Jakarta International Stadium - Senen,BRT,14-R07,Jakarta International Stadium,00:00,23:59,20.0,10.0
+14A,Monumen Nasional - Jakarta International Stadium,Angkutan Umum Integrasi,14A-L01,Juanda dan Jakarta International Stadium,05:00,22:00,20.0,10.0
+14A,Monumen Nasional - Jakarta International Stadium,Angkutan Umum Integrasi,14A-L02,Monumen Nasional dan JIS,05:00,22:00,13.3,6.7
+14B,Tanjung Priok - Senen via JIS,Angkutan Umum Integrasi,14B-L02,Tanjung Priok dan Senen,05:00,22:00,20.0,10.0
+14B,Tanjung Priok - Senen via JIS,Angkutan Umum Integrasi,14B-R01,Senen via JIS,05:00,22:00,25.0,12.5
+14B,Tanjung Priok - Senen via JIS,Angkutan Umum Integrasi,14B-R02,Tanjung Priok via JIS,05:00,22:00,20.0,10.0
+1A,Pantai Maju - Balai Kota,Angkutan Umum Integrasi,1A-L03,Penjaringan dan Pantai Maju,05:00,22:00,60.0,30.0
+1A,Pantai Maju - Balai Kota,Angkutan Umum Integrasi,1A-L04,Juanda dan Pantai Maju,05:00,22:00,20.0,10.0
+1A,Pantai Maju - Balai Kota,Angkutan Umum Integrasi,1A-L06,Kali Besar Barat dan Pantai Maju,05:00,22:00,20.0,10.0
+1A,Pantai Maju - Balai Kota,Angkutan Umum Integrasi,1A-L08,Kali Besar dan Pantai Maju via Tol,05:00,22:00,20.0,10.0
+1A,Pantai Maju - Balai Kota,Angkutan Umum Integrasi,1A-L12,Monumen Nasional dan Pantai Maju,05:00,22:00,20.0,10.0
+1A,Pantai Maju - Balai Kota,Angkutan Umum Integrasi,1A-P04,Pantai Maju,06:00,07:00,20.0,10.0
+1A,Pantai Maju - Balai Kota,Angkutan Umum Integrasi,1A-R06,Balai Kota via Tol Ir. Sedyatmo,05:00,22:00,15.0,7.5
+1A,Pantai Maju - Balai Kota,Angkutan Umum Integrasi,1A-R09,Balai Kota,05:00,22:00,16.7,8.3
+1A,Pantai Maju - Balai Kota,Angkutan Umum Integrasi,1A-R11,Pantai Maju,05:00,22:00,13.6,6.8
+1B,Stasiun Palmerah - Transport Hub Dukuh Atas,Angkutan Umum Integrasi,1B-L02,Transport Hub Dukuh Atas dan St. Palmerah,05:00,22:00,20.0,10.0
+1B,Stasiun Palmerah - Transport Hub Dukuh Atas,Angkutan Umum Integrasi,1B-L03,Gerbang Pemuda dan St. Palmerah,05:00,22:00,20.0,10.0
+1C,Pesanggrahan - Blok M,Angkutan Umum Integrasi,1C-R01,Blok M,05:00,22:00,10.0,5.0
+1C,Pesanggrahan - Blok M,Angkutan Umum Integrasi,1C-R02,Pesanggrahan,05:00,22:00,10.0,5.0
+1E,Pondok Labu - Blok M,Angkutan Umum Integrasi,1E-R01,Blok M,05:00,22:00,12.0,6.0
+1E,Pondok Labu - Blok M,Angkutan Umum Integrasi,1E-R02,Pondok Labu,05:00,22:00,20.0,10.0
+1F,Stasiun Palmerah - Bundaran Senayan,Angkutan Umum Integrasi,1F-L01,Bundaran Senayan dan Stasiun Palmerah,05:00,22:00,10.0,5.0
+1F,Stasiun Palmerah - Bundaran Senayan,Angkutan Umum Integrasi,1F-L02,Gerbang Pemuda dan St. Palmerah,05:00,22:00,20.0,10.0
+1H,Tanah Abang - Stasiun Gondangdia,Angkutan Umum Integrasi,1H-L01,Stasiun Gondangdia dan Tanah Abang,05:00,22:00,11.7,5.8
+1H,Tanah Abang - Stasiun Gondangdia,Angkutan Umum Integrasi,1H-L02,Stasiun Gondangdia dan Tanah Abang,05:00,22:00,60.0,30.0
+1H,Tanah Abang - Stasiun Gondangdia,Angkutan Umum Integrasi,1H-R01,Tanah Abang,05:00,22:00,30.0,15.0
+1H,Tanah Abang - Stasiun Gondangdia,Angkutan Umum Integrasi,1H-R02,Gondangdia,05:00,22:00,60.0,30.0
+1K,Cibubur Junction - Blok M,Royaltrans,1K-R01,Blok M,05:45,06:15,10.0,5.0
+1K,Cibubur Junction - Blok M,Royaltrans,1K-R01,Blok M,06:15,06:50,5.0,2.5
+1K,Cibubur Junction - Blok M,Royaltrans,1K-R01,Blok M,06:50,07:40,10.0,5.0
+1K,Cibubur Junction - Blok M,Royaltrans,1K-R01,Blok M,07:40,08:05,25.0,12.5
+1K,Cibubur Junction - Blok M,Royaltrans,1K-R01,Blok M,08:05,08:15,10.0,5.0
+1K,Cibubur Junction - Blok M,Royaltrans,1K-R01,Blok M,08:15,08:20,5.0,2.5
+1K,Cibubur Junction - Blok M,Royaltrans,1K-R01,Blok M,08:20,09:20,10.0,5.0
+1K,Cibubur Junction - Blok M,Royaltrans,1K-R02,Cibubur,16:15,17:00,15.0,7.5
+1K,Cibubur Junction - Blok M,Royaltrans,1K-R02,Cibubur,17:00,18:00,10.0,5.0
+1K,Cibubur Junction - Blok M,Royaltrans,1K-R02,Cibubur,18:00,18:15,15.0,7.5
+1K,Cibubur Junction - Blok M,Royaltrans,1K-R02,Cibubur,18:15,18:20,5.0,2.5
+1K,Cibubur Junction - Blok M,Royaltrans,1K-R02,Cibubur,18:20,18:30,10.0,5.0
+1K,Cibubur Junction - Blok M,Royaltrans,1K-R02,Cibubur,18:30,19:45,15.0,7.5
+1K,Cibubur Junction - Blok M,Royaltrans,1K-R02,Cibubur,19:45,20:15,10.0,5.0
+1M,Meruya - Blok M,Angkutan Umum Integrasi,1M-R02,Meruya,05:00,22:00,10.0,5.0
+1M,Meruya - Blok M,Angkutan Umum Integrasi,1M-R03,Blok M,05:00,22:00,10.0,5.0
+1P,Senen - Blok M,Angkutan Umum Integrasi,1P-R03,Blok M,05:00,22:00,16.7,8.3
+1P,Senen - Blok M,Angkutan Umum Integrasi,1P-R04,Senen,05:00,22:00,60.0,30.0
+1P,Senen - Blok M,Angkutan Umum Integrasi,1P-R05,Blok M,05:00,22:00,20.0,10.0
+1P,Senen - Blok M,Angkutan Umum Integrasi,1P-R06,Senen,05:00,22:00,20.0,10.0
+1P,Senen - Blok M,Angkutan Umum Integrasi,1P-R07,Senen,05:00,22:00,20.0,10.0
+1Q,Rempoa - Blok M,Angkutan Umum Integrasi,1Q-R01,Blok M,05:00,22:00,10.0,5.0
+1Q,Rempoa - Blok M,Angkutan Umum Integrasi,1Q-R02,Rempoa,05:00,22:00,10.0,5.0
+1Q,Rempoa - Blok M,Angkutan Umum Integrasi,1Q-R04,Rempoa,05:00,22:00,20.0,10.0
+1R,Senen - Tanah Abang,Angkutan Umum Integrasi,1R-L04,Tanah Abang dan Senen,05:00,22:00,15.0,7.5
+1R,Senen - Tanah Abang,Angkutan Umum Integrasi,1R-L05,Tanah Abang dan Senen via Wahid Hasyim,05:00,22:00,20.0,10.0
+1T,Cibubur - Balai Kota,Royaltrans,1T-R03,Balai Kota,05:40,06:10,10.0,5.0
+1T,Cibubur - Balai Kota,Royaltrans,1T-R03,Balai Kota,06:10,07:00,5.0,2.5
+1T,Cibubur - Balai Kota,Royaltrans,1T-R03,Balai Kota,07:00,07:35,35.0,17.5
+1T,Cibubur - Balai Kota,Royaltrans,1T-R03,Balai Kota,07:35,08:05,10.0,5.0
+1T,Cibubur - Balai Kota,Royaltrans,1T-R03,Balai Kota,08:05,08:10,5.0,2.5
+1T,Cibubur - Balai Kota,Royaltrans,1T-R03,Balai Kota,08:10,09:10,10.0,5.0
+1T,Cibubur - Balai Kota,Royaltrans,1T-R04,Cibubur,16:15,17:45,10.0,5.0
+1T,Cibubur - Balai Kota,Royaltrans,1T-R04,Cibubur,17:45,19:30,15.0,7.5
+1T,Cibubur - Balai Kota,Royaltrans,1T-R04,Cibubur,19:30,20:20,10.0,5.0
+1W,Blok M - Ancol,Angkutan Umum Integrasi,1W-L01,Semanggi dan Ancol,05:00,22:00,15.0,7.5
+1W,Blok M - Ancol,Angkutan Umum Integrasi,1W-R01,Blok M,05:00,22:00,20.0,10.0
+1W,Blok M - Ancol,Angkutan Umum Integrasi,1W-R02,Ancol,05:00,22:00,20.0,10.0
+2,Pulo Gadung - Monumen Nasional,BRT,2-L02,Monas dan Pulo Gadung,00:00,23:59,6.7,3.3
+2,Pulo Gadung - Monumen Nasional,BRT,2-L04,Monas dan Pulo Gadung,00:00,23:59,20.0,10.0
+2,Pulo Gadung - Monumen Nasional,BRT,2-L05,Pecenongan dan Pulo Gadung,00:00,23:59,20.0,10.0
+2,Pulo Gadung - Monumen Nasional,BRT,2-R04,Pulo Gadung,05:00,06:00,3.3,1.7
+2,Pulo Gadung - Monumen Nasional,BRT,2-R05,Monas via Veteran,00:00,23:59,4.3,2.1
+2A,Pulo Gadung - Rawa Buaya via Balai Kota,BRT,2A-L02,Rawa Buaya dan Pulo Gadung,05:00,22:00,9.0,4.5
+2A,Pulo Gadung - Rawa Buaya via Balai Kota,BRT,2A-L03,Rawa Buaya dan Pulo Gadung via Juanda,05:00,22:00,20.0,10.0
+2A,Pulo Gadung - Rawa Buaya via Balai Kota,BRT,2A-L04,Rawa Buaya dan Pulo Gadung,05:00,22:00,20.0,10.0
+2A,Pulo Gadung - Rawa Buaya via Balai Kota,BRT,2A-R04,Pulo Gadung,05:00,06:30,10.0,5.0
+2B,Harapan Indah - Pulo Gadung,Angkutan Umum Integrasi,2B-L03,Pulo Gadung dan Harapan Indah,05:00,22:00,18.3,9.2
+2B,Harapan Indah - Pulo Gadung,Angkutan Umum Integrasi,2B-R05,Pulo Gadung,05:00,22:00,60.0,30.0
+2B,Harapan Indah - Pulo Gadung,Angkutan Umum Integrasi,2B-R06,Transera Harapan Indah,05:30,06:00,30.0,15.0
+2F,Rusun Cakung Barat - Pulo Gadung,Rusun,2F-L04,Pulo Gadung dan Rusun Cakung Barat,05:00,22:00,6.0,3.0
+2H,Rusun Jati Rawasari - Senen,Rusun,2H-L03,Senen dan Rusun Jati Rawasari,05:00,22:00,20.0,10.0
+2P,Stasiun Gondangdia - Pasar Senen,Angkutan Umum Integrasi,2P-L04,Stasiun Gondangdia dan Pasar Senen,05:00,22:00,30.0,15.0
+2Q,Gondangdia - Balai Kota,Angkutan Umum Integrasi,2Q-L01,Balai Kota dan Gondangdia,05:00,22:00,18.3,9.2
+2Q,Gondangdia - Balai Kota,Angkutan Umum Integrasi,2Q-R01,Balai Kota,05:00,22:00,60.0,30.0
+2Q,Gondangdia - Balai Kota,Angkutan Umum Integrasi,2Q-R02,Gondangdia,05:00,22:00,60.0,30.0
+3,Kalideres - Monumen Nasional via Veteran,BRT,3-L02,Petojo dan Kalideres via Setneg,00:00,23:59,60.0,30.0
+3,Kalideres - Monumen Nasional via Veteran,BRT,3-L04,Monas dan Kalideres,00:00,23:59,8.3,4.2
+3,Kalideres - Monumen Nasional via Veteran,BRT,3-L05,Roxy dan Kalideres,00:00,23:59,20.0,10.0
+3,Kalideres - Monumen Nasional via Veteran,BRT,3-L06,Juanda dan Kalideres,00:00,23:59,20.0,10.0
+3,Kalideres - Monumen Nasional via Veteran,BRT,3-L07,Rawa Buaya dan Monas,00:00,23:59,11.7,5.8
+3,Kalideres - Monumen Nasional via Veteran,BRT,3-L08,Damai dan Monas,05:00,22:00,20.0,10.0
+3,Kalideres - Monumen Nasional via Veteran,BRT,3-P06,Kalideres,00:00,23:59,20.0,10.0
+3,Kalideres - Monumen Nasional via Veteran,BRT,3-R05,Monas via Veteran,00:00,23:59,3.3,1.7
+3,Kalideres - Monumen Nasional via Veteran,BRT,3-R06,Kalideres via Veteran,05:00,06:00,5.5,2.7
+3A,Rusun Pesakih - Kalideres,Rusun,3A-L01,Kalideres dan Rusun Pesakih,05:00,22:00,20.0,10.0
+3A,Rusun Pesakih - Kalideres,Rusun,3A-L03,Kalideres dan Rusun Pesakih,05:00,22:00,10.0,5.0
+3B,Rusun Flamboyan - Cengkareng,Rusun,3B-L02,Cengkareng dan Rusun Flamboyan,05:00,22:00,20.0,10.0
+3B,Rusun Flamboyan - Cengkareng,Rusun,3B-L03,Cengkareng dan Rusun Flamboyan,05:00,22:00,20.0,10.0
+3B,Rusun Flamboyan - Cengkareng,Rusun,3B-R04,Rusun Flamboyan,05:00,22:00,20.0,10.0
+3B,Rusun Flamboyan - Cengkareng,Rusun,3B-R05,Cengkareng,05:00,22:00,20.0,10.0
+3C,Rusun Kapuk Muara - Penjaringan,Rusun,3C-L02,Penjaringan dan Rusun Kapuk Muara,05:00,22:00,60.0,30.0
+3D,Taman Kota - Penjaringan via Tubagus Angke,Angkutan Umum Integrasi,3D-L04,Taman Kota via Tubagus Angke dan Penjaringan,05:00,22:00,25.0,12.5
+3D,Taman Kota - Penjaringan via Tubagus Angke,Angkutan Umum Integrasi,3D-R03,Penjaringan via Tubagus Angke,05:00,06:00,60.0,30.0
+3D,Taman Kota - Penjaringan via Tubagus Angke,Angkutan Umum Integrasi,3D-R08,Taman Kota via Tubagus Angke,05:00,22:00,60.0,30.0
+3E,Puri Kembangan - Sentraland Cengkareng,Angkutan Umum Integrasi,3E-R06,Sentraland Cengkareng,05:00,22:00,23.0,11.5
+3E,Puri Kembangan - Sentraland Cengkareng,Angkutan Umum Integrasi,3E-R07,Puri Kembangan,05:00,22:00,23.0,11.5
+3F,Kalideres - Senayan Bank Jakarta,BRT,3F-L01,Senayan Bank Jakarta dan Kalideres,05:00,22:00,5.5,2.8
+3F,Kalideres - Senayan Bank Jakarta,BRT,3F-L03,Petamburan dan Kalideres,05:00,22:00,20.0,10.0
+3F,Kalideres - Senayan Bank Jakarta,BRT,3F-R08,Kalideres,05:00,22:00,6.0,3.0
+3H,Damai - Kota,BRT,3H-L04,Kota dan Damai,05:00,22:00,16.7,8.3
+3H,Damai - Kota,BRT,3H-R06,Kota,05:00,22:00,30.0,15.0
+3H,Damai - Kota,BRT,3H-R07,Damai,05:00,06:00,20.0,10.0
+3H,Damai - Kota,BRT,3H-R08,Kota,05:00,22:00,20.0,10.0
+3H,Damai - Kota,BRT,3H-R09,Damai,05:00,22:00,20.0,10.0
+4,Pulo Gadung - Galunggung,BRT,4-P22,Flyover Pramuka dan Pulo Gadung,00:00,23:59,60.0,30.0
+4,Pulo Gadung - Galunggung,BRT,4-P27,Manggarai dan Galunggung,00:00,23:59,60.0,30.0
+4,Pulo Gadung - Galunggung,BRT,4-R20,Pulo Gadung,00:00,23:59,20.0,10.0
+4,Pulo Gadung - Galunggung,BRT,4-R24,Galunggung via Bermis,00:00,23:59,20.0,10.0
+4,Pulo Gadung - Galunggung,BRT,4-R25,Pulo Gadung via Bermis,00:00,23:59,20.0,10.0
+4,Pulo Gadung - Galunggung,BRT,4-R26,Galunggung via Saharjo,00:00,23:59,8.3,4.2
+4,Pulo Gadung - Galunggung,BRT,4-R27,Pulo Gadung,00:00,23:59,7.5,3.8
+4,Pulo Gadung - Galunggung,BRT,4-R28,Galunggung,00:00,23:59,20.0,10.0
+4,Pulo Gadung - Galunggung,BRT,4-R30,Galunggung via Kayu Putih,00:00,23:59,20.0,10.0
+4B,Stasiun Manggarai - UI,Angkutan Umum Integrasi,4B-L02,Poltangan dan Stasiun Manggarai,05:00,22:00,20.0,10.0
+4B,Stasiun Manggarai - UI,Angkutan Umum Integrasi,4B-R01,Universitas Indonesia,05:00,22:00,6.7,3.3
+4B,Stasiun Manggarai - UI,Angkutan Umum Integrasi,4B-R06,Stasiun Manggarai,05:00,22:00,23.3,11.7
+4C,JIEP - Bundaran Senayan,Angkutan Umum Integrasi,4C-L05,Bundaran Senayan dan JIEP,05:00,22:00,13.3,6.7
+4C,JIEP - Bundaran Senayan,Angkutan Umum Integrasi,4C-R10,JIEP,05:00,06:00,6.0,3.0
+4D,Pulo Gadung - Kuningan,BRT,4D-L08,Kuningan dan Pulo Gadung,05:00,22:00,15.0,7.5
+4E,Rusun Jatinegara Kaum - Pulo Gadung,Rusun,4E-L02,Pulo Gadung dan Rusun Jatinegara Kaum,05:00,22:00,20.0,10.0
+4F,Pinang Ranti - Pulo Gadung,Angkutan Umum Integrasi,4F-R03,Pulo Gadung,05:00,22:00,16.0,8.0
+4F,Pinang Ranti - Pulo Gadung,Angkutan Umum Integrasi,4F-R04,Pinang Ranti,05:00,22:00,16.0,8.0
+4K,Pulo Gadung - Kejaksaan Agung,Angkutan Umum Integrasi,4K-L03,Kejaksaan Agung dan Pulo Gadung,05:00,22:00,20.0,10.0
+4K,Pulo Gadung - Kejaksaan Agung,Angkutan Umum Integrasi,4K-R06,Kejaksaan Agung,05:00,06:00,21.7,10.8
+4K,Pulo Gadung - Kejaksaan Agung,Angkutan Umum Integrasi,4K-R07,Pulo Gadung,05:00,22:00,20.0,10.0
+5,Kampung Melayu - Ancol,BRT,5-P21,Senen dan Kampung Melayu,00:00,23:59,30.0,15.0
+5,Kampung Melayu - Ancol,BRT,5-R01,Ancol,00:00,23:59,5.5,2.7
+5,Kampung Melayu - Ancol,BRT,5-R02,Kampung Melayu,00:00,23:59,6.0,3.0
+5B,Stasiun Tebet - Bidara Cina,Angkutan Umum Integrasi,5B-L03,Bidara Cina dan Stasiun Tebet,05:00,22:00,17.0,8.5
+5C,Cililitan - Juanda,BRT,5C-L06,Pecenongan dan Cililitan,05:00,22:00,20.0,10.0
+5C,Cililitan - Juanda,BRT,5C-L07,Juanda dan Cililitan,05:00,22:00,8.3,4.2
+5C,Cililitan - Juanda,BRT,5C-L08,Monas dan Cililitan,05:00,22:00,20.0,10.0
+5C,Cililitan - Juanda,BRT,5C-L09,Juanda dan Kampung Melayu,05:00,22:00,20.0,10.0
+5C,Cililitan - Juanda,BRT,5C-P09,Kampung Melayu,05:00,22:00,20.0,10.0
+5C,Cililitan - Juanda,BRT,5C-P10,Juanda,05:00,22:00,20.0,10.0
+5C,Cililitan - Juanda,BRT,5C-R09,Juanda,05:00,22:00,4.0,2.0
+5C,Cililitan - Juanda,BRT,5C-R10,PGC,05:00,06:00,4.0,2.0
+5F,Kampung Melayu - Tanah Abang,Angkutan Umum Integrasi,5F-L02,Tanah Abang Blok A dan Kampung Melayu,05:00,22:00,13.0,6.5
+5M,Kampung Melayu - Tanah Abang via Cikini,Angkutan Umum Integrasi,5M-L03,Explorer Tanah Abang dan Kampung Melayu,05:00,22:00,60.0,30.0
+5M,Kampung Melayu - Tanah Abang via Cikini,Angkutan Umum Integrasi,5M-L04,Tanah Abang dan Kampung Melayu via Cikini,05:00,22:00,10.0,5.0
+5M,Kampung Melayu - Tanah Abang via Cikini,Angkutan Umum Integrasi,5M-L05,Tugu Tani via Pejambon dan Kampung Melayu,05:00,22:00,60.0,30.0
+5M,Kampung Melayu - Tanah Abang via Cikini,Angkutan Umum Integrasi,5M-L06,Tanah Abang dan Kampung Melayu,05:00,22:00,60.0,30.0
+5M,Kampung Melayu - Tanah Abang via Cikini,Angkutan Umum Integrasi,5M-L07,Tanah Abang dan Kampung Melayu via Abdul Muis,05:00,22:00,60.0,30.0
+5M,Kampung Melayu - Tanah Abang via Cikini,Angkutan Umum Integrasi,5M-P21,Jati Baru dan Kampung Melayu,05:00,22:00,60.0,30.0
+5M,Kampung Melayu - Tanah Abang via Cikini,Angkutan Umum Integrasi,5M-R02,Kampung Melayu via Cikini,05:00,22:00,30.0,15.0
+5N,Kampung Melayu - Ragunan,Angkutan Umum Integrasi,5N-R01,Ragunan,05:00,22:00,15.0,7.5
+5N,Kampung Melayu - Ragunan,Angkutan Umum Integrasi,5N-R02,Kampung Melayu,05:00,22:00,10.0,5.0
+5N,Kampung Melayu - Ragunan,Angkutan Umum Integrasi,5N-R04,Terminal Kampung Melayu via Imigrasi,05:00,22:00,20.0,10.0
+6,Ragunan - Galunggung,BRT,6-L05,Flyover Kuningan dan Ragunan,00:00,23:59,20.0,10.0
+6,Ragunan - Galunggung,BRT,6-R04,Ragunan,00:00,23:59,3.0,1.5
+6,Ragunan - Galunggung,BRT,6-R05,Galunggung,05:00,22:00,6.0,3.0
+6A,Ragunan - Balai Kota via Kuningan,BRT,6A-L02,Kebon Sirih - Ragunan,05:00,22:00,60.0,30.0
+6A,Ragunan - Balai Kota via Kuningan,BRT,6A-L03,Tosari dan Ragunan via Semanggi,05:00,22:00,20.0,10.0
+6A,Ragunan - Balai Kota via Kuningan,BRT,6A-L04,Balai Kota dan Ragunan via Kuningan,05:00,22:00,60.0,30.0
+6A,Ragunan - Balai Kota via Kuningan,BRT,6A-R07,Ragunan via Kuningan,05:00,22:00,13.3,6.7
+6A,Ragunan - Balai Kota via Kuningan,BRT,6A-R08,Balai Kota via Kuningan,05:00,22:00,13.3,6.7
+6B,Ragunan - Balai Kota via Semanggi,BRT,6B-L02,Kebon Sirih dan Ragunan,05:00,22:00,20.0,10.0
+6B,Ragunan - Balai Kota via Semanggi,BRT,6B-L03,Tosari dan Ragunan via Kuningan,05:00,22:00,20.0,10.0
+6B,Ragunan - Balai Kota via Semanggi,BRT,6B-L04,Balai Kota dan Ragunan via Semanggi,05:00,22:00,60.0,30.0
+6B,Ragunan - Balai Kota via Semanggi,BRT,6B-R07,Ragunan via Semanggi,05:00,22:00,13.3,6.7
+6B,Ragunan - Balai Kota via Semanggi,BRT,6B-R08,Balai Kota via Semanggi,05:00,22:00,13.3,6.7
+6C,Stasiun Tebet - Kuningan,Angkutan Umum Integrasi,6C-L04,Kuningan dan Stasiun Tebet,05:00,22:00,8.6,4.3
+6D,Stasiun Tebet - Bundaran Senayan,Angkutan Umum Integrasi,6D-L02,Bundaran Senayan dan Stasiun Tebet,05:00,22:00,15.0,7.5
+6D,Stasiun Tebet - Bundaran Senayan,Angkutan Umum Integrasi,6D-L04,Karet via Underpass dan Stasiun Tebet,05:00,22:00,20.0,10.0
+6D,Stasiun Tebet - Bundaran Senayan,Angkutan Umum Integrasi,6D-R04,Stasiun Tebet,05:00,22:00,60.0,30.0
+6H,Senen - Lebak Bulus,Angkutan Umum Integrasi,6H-L04,Lebak Bulus dan Senen,05:00,22:00,11.7,5.8
+6H,Senen - Lebak Bulus,Angkutan Umum Integrasi,6H-R04,Senen,05:00,22:00,11.8,5.9
+6H,Senen - Lebak Bulus,Angkutan Umum Integrasi,6H-R05,Lebak Bulus,05:00,22:00,6.7,3.3
+6K,Kuningan - Karet,Angkutan Umum Integrasi,6K-L05,Kuningan dan Karet,05:00,22:00,11.7,5.8
+6M,Stasiun Manggarai - Blok M,Angkutan Umum Integrasi,6M-L03,Patra Kuningan dan Stasiun Manggarai,05:00,22:00,20.0,10.0
+6M,Stasiun Manggarai - Blok M,Angkutan Umum Integrasi,6M-R07,Blok M,05:00,22:00,18.0,9.0
+6M,Stasiun Manggarai - Blok M,Angkutan Umum Integrasi,6M-R08,Stasiun Manggarai,05:00,22:00,7.5,3.8
+6N,Ragunan - Blok M via Kemang,Angkutan Umum Integrasi,6N-R05,Blok M via Kemang,05:00,22:00,14.0,7.0
+6N,Ragunan - Blok M via Kemang,Angkutan Umum Integrasi,6N-R06,Term. Ragunan via Kemang,05:00,22:00,14.0,7.0
+6N,Ragunan - Blok M via Kemang,Angkutan Umum Integrasi,6N-R07,Blok M via Prapanca Raya,05:00,10:00,14.0,7.0
+6P,Cibubur - Kuningan,Royaltrans,6P-R01,Kuningan,06:00,07:00,30.0,15.0
+6P,Cibubur - Kuningan,Royaltrans,6P-R01,Kuningan,07:00,08:20,40.0,20.0
+6P,Cibubur - Kuningan,Royaltrans,6P-R01,Kuningan,08:20,09:00,30.0,15.0
+6P,Cibubur - Kuningan,Royaltrans,6P-R02,Cibubur,16:40,17:20,20.0,10.0
+6P,Cibubur - Kuningan,Royaltrans,6P-R02,Cibubur,17:20,19:40,140.0,70.0
+6P,Cibubur - Kuningan,Royaltrans,6P-R02,Cibubur,19:40,20:30,20.0,10.0
+6Q,Galunggung - Casablanca via Epicentrum Raya,Angkutan Umum Integrasi,6Q-L05,Casablanca dan Galunggung via Epicentrum Raya,05:00,22:00,11.0,5.5
+6T,Pasar Minggu - Velbak,Angkutan Umum Integrasi,6T-L02,Velbak dan Pasar Minggu via Jeruk Purut,05:00,22:00,17.0,8.5
+6T,Pasar Minggu - Velbak,Angkutan Umum Integrasi,6T-R03,Velbak via Jeruk Purut,05:00,22:00,6.0,3.0
+6T,Pasar Minggu - Velbak,Angkutan Umum Integrasi,6T-R04,Pasar Minggu via Jeruk Purut,05:00,05:30,6.0,3.0
+6U,Blok M - Pasar Minggu,Angkutan Umum Integrasi,6U-L01,Pasar Minggu dan Blok M,05:00,22:00,10.0,5.0
+6U,Blok M - Pasar Minggu,Angkutan Umum Integrasi,6U-R03,Pasar Minggu,05:00,22:00,10.0,5.0
+6U,Blok M - Pasar Minggu,Angkutan Umum Integrasi,6U-R04,Blok M,05:00,22:00,10.0,5.0
+6V,Ragunan - Senayan Bank Jakarta,BRT,6V-L01,Senayan BANK Jakarta dan Ragunan,05:00,22:00,11.0,5.5
+6V,Ragunan - Senayan Bank Jakarta,BRT,6V-L03,Kejaksaan Agung dan Ragunan,05:00,22:00,11.0,5.5
+6V,Ragunan - Senayan Bank Jakarta,BRT,6V-L04,Tegal Mampang dan Ragunan,05:00,22:00,11.0,5.5
+6V,Ragunan - Senayan Bank Jakarta,BRT,6V-R04,Ragunan,05:00,22:00,6.0,3.0
+6W,Duren Tiga - Blok M via Bangka Raya,Angkutan Umum Integrasi,6W-L02,Duren Tiga dan Blok M via Bangka Raya,05:00,22:00,20.0,10.0
+7,Kampung Rambutan - Kampung Melayu,BRT,7-P01,Kampung Melayu via Tol Hek,00:00,23:59,12.0,6.0
+7,Kampung Rambutan - Kampung Melayu,BRT,7-P02,Kampung Rambutan via Tol Hek,00:00,23:59,8.6,4.3
+7,Kampung Rambutan - Kampung Melayu,BRT,7-P05,Kampung Melayu via Tol TMII,00:00,23:59,20.0,10.0
+7,Kampung Rambutan - Kampung Melayu,BRT,7-R01,Kampung Melayu,00:00,23:59,6.7,3.3
+7,Kampung Rambutan - Kampung Melayu,BRT,7-R02,Kampung Rambutan,00:00,23:59,6.7,3.3
+7A,Kampung Rambutan - Lebak Bulus,Angkutan Umum Integrasi,7A-L01,Lebak Bulus dan Kampung Rambutan,05:00,22:00,13.3,6.7
+7A,Kampung Rambutan - Lebak Bulus,Angkutan Umum Integrasi,7A-R01,Lebak Bulus,05:00,22:00,8.6,4.3
+7A,Kampung Rambutan - Lebak Bulus,Angkutan Umum Integrasi,7A-R02,Kampung Rambutan,05:00,06:00,8.6,4.3
+7B,Kampung Rambutan - Blok M,Angkutan Umum Integrasi,7B-L06,Tendean dan Kampung Rambutan,05:00,22:00,60.0,30.0
+7B,Kampung Rambutan - Blok M,Angkutan Umum Integrasi,7B-P07,Blok M,05:00,06:00,6.0,3.0
+7B,Kampung Rambutan - Blok M,Angkutan Umum Integrasi,7B-R03,Blok M via Koridor 13,05:00,22:00,12.0,6.0
+7B,Kampung Rambutan - Blok M,Angkutan Umum Integrasi,7B-R04,Kampung Rambutan via Koridor 13,05:00,22:00,15.0,7.5
+7C,Cibubur - Cawang Cililitan,Angkutan Umum Integrasi,7C-L01,Cawang Cililitan dan Cibubur,05:00,22:00,10.0,5.0
+7D,TMII - Pancoran,Angkutan Umum Integrasi,7D-L02,Pancoran dan Kampung Rambutan,05:00,22:00,7.5,3.8
+7E,Kampung Rambutan - Ragunan,Angkutan Umum Integrasi,7E-R01,Ragunan,05:00,22:00,24.8,12.4
+7E,Kampung Rambutan - Ragunan,Angkutan Umum Integrasi,7E-R05,Kampung Rambutan,05:00,22:00,24.8,12.4
+7F,Kampung Rambutan - Juanda via Cempaka Putih,BRT,7F-L02,Juanda dan Kampung Rambutan,05:00,09:30,28.3,14.2
+7F,Kampung Rambutan - Juanda via Cempaka Putih,BRT,7F-L03,Pecenongan dan Kampung Rambutan,14:00,20:30,20.0,10.0
+7F,Kampung Rambutan - Juanda via Cempaka Putih,BRT,7F-L04,Juanda dan Kampung Rambutan,14:00,20:30,20.0,10.0
+7F,Kampung Rambutan - Juanda via Cempaka Putih,BRT,7F-R05,Juanda,07:00,08:30,10.0,5.0
+7F,Kampung Rambutan - Juanda via Cempaka Putih,BRT,7F-R06,Kampung Rambutan,05:00,06:00,10.0,5.0
+7P,Pondok Kelapa - Cawang Cililitan,Angkutan Umum Integrasi,7P-L03,Cawang Cililitan dan Pondok Kelapa,05:00,22:00,11.0,5.5
+7P,Pondok Kelapa - Cawang Cililitan,Angkutan Umum Integrasi,7P-R01,Cawang Cililitan,05:00,22:00,20.0,10.0
+7P,Pondok Kelapa - Cawang Cililitan,Angkutan Umum Integrasi,7P-R06,Pondok Kelapa,05:00,06:00,20.0,10.0
+7Q,Blok M - Cawang Cililitan,Angkutan Umum Integrasi,7Q-L01,Kalibata dan Blok M,05:00,22:00,60.0,30.0
+7Q,Blok M - Cawang Cililitan,Angkutan Umum Integrasi,7Q-L02,Cawang Cililitan dan Blok M,05:00,22:00,26.7,13.3
+7Q,Blok M - Cawang Cililitan,Angkutan Umum Integrasi,7Q-P01,Blok M,05:00,06:00,21.7,10.8
+7Q,Blok M - Cawang Cililitan,Angkutan Umum Integrasi,7Q-R03,Cawang Cililitan,05:00,22:00,20.0,10.0
+7R,Cibubur - Pluit,Angkutan Umum Integrasi,7R-R01,Pluit,05:00,06:00,30.0,15.0
+7T,Cibubur - Tanjung Priok,Angkutan Umum Integrasi,7T-R01,Tanjung Priok,05:00,06:00,30.0,15.0
+7U,Cibubur - Ancol,Angkutan Umum Integrasi,7U-R01,Ancol,05:00,06:00,60.0,30.0
+7V,Cibubur - Kampung Rambutan,Angkutan Umum Integrasi,7V-L01,Kampung Rambutan dan Cibubur,05:00,22:00,15.0,7.5
+7W,Cawang - St. Kereta Cepat Halim,Angkutan Umum Integrasi,7W-L03,Cawang dan St. Kereta Cepat Halim,05:00,22:00,25.0,12.5
+8,Lebak Bulus - Pasar Baru,BRT,8-L05,Tanjung Duren dan Lebak Bulus,00:00,23:59,60.0,30.0
+8,Lebak Bulus - Pasar Baru,BRT,8-L07,Kebayoran dan Pasar Baru,00:00,23:59,60.0,30.0
+8,Lebak Bulus - Pasar Baru,BRT,8-L08,Pondok Indah dan Pasar Baru,00:00,23:59,60.0,30.0
+8,Lebak Bulus - Pasar Baru,BRT,8-L09,Tomang dan Lebak Bulus,00:00,23:59,20.0,10.0
+8,Lebak Bulus - Pasar Baru,BRT,8-P03,Pasar Baru via Cideng,00:00,23:59,8.6,4.3
+8,Lebak Bulus - Pasar Baru,BRT,8-P04,Lebak Bulus via Cideng,00:00,23:59,10.0,5.0
+8,Lebak Bulus - Pasar Baru,BRT,8-P24,Damai,00:00,23:59,15.0,7.5
+8,Lebak Bulus - Pasar Baru,BRT,8-P25,Damai,00:00,23:59,15.0,7.5
+8,Lebak Bulus - Pasar Baru,BRT,8-P26,Pasar Baru,00:00,23:59,15.0,7.5
+8,Lebak Bulus - Pasar Baru,BRT,8-P27,Lebak Bulus,00:00,23:59,15.0,7.5
+8,Lebak Bulus - Pasar Baru,BRT,8-R03,Pasar Baru,00:00,23:59,3.8,1.9
+8,Lebak Bulus - Pasar Baru,BRT,8-R04,Lebak Bulus,00:00,23:59,6.0,3.0
+8,Lebak Bulus - Pasar Baru,BRT,8-R09,Lebak Bulus,00:00,23:59,20.0,10.0
+8,Lebak Bulus - Pasar Baru,BRT,8-R10,Tanjung Duren,00:00,23:59,20.0,10.0
+8A,Jelambar - Juanda,BRT,8A-L05,Jelambar dan Pasar Baru,05:00,22:00,40.0,20.0
+8A,Jelambar - Juanda,BRT,8A-R03,Juanda,05:00,22:00,20.0,10.0
+8A,Jelambar - Juanda,BRT,8A-R07,Pasar Baru,05:00,22:00,60.0,30.0
+8C,Kebayoran - Tanah Abang,Angkutan Umum Integrasi,8C-L03,Tanah Abang dan Kebayoran,05:00,22:00,19.0,9.5
+8C,Kebayoran - Tanah Abang,Angkutan Umum Integrasi,8C-P21,Blok A dan Kebayoran Lama,05:00,22:00,6.0,3.0
+8C,Kebayoran - Tanah Abang,Angkutan Umum Integrasi,8C-R05,Tanah Abang,05:00,22:00,20.0,10.0
+8D,Joglo - Blok M via Meruya Selatan,Angkutan Umum Integrasi,8D-R02,Blok M,05:00,22:00,10.0,5.0
+8D,Joglo - Blok M via Meruya Selatan,Angkutan Umum Integrasi,8D-R05,Joglo via Meruya Selatan,05:00,22:00,8.6,4.3
+8E,Bintaro - Blok M,Angkutan Umum Integrasi,8E-R01,Blok M,05:00,22:00,12.0,6.0
+8E,Bintaro - Blok M,Angkutan Umum Integrasi,8E-R03,Bintaro,05:00,22:00,23.3,11.7
+8E,Bintaro - Blok M,Angkutan Umum Integrasi,8E-R05,Bintaro,05:00,22:00,20.0,10.0
+8K,Batusari - Grogol,Angkutan Umum Integrasi,8K-L02,Grogol dan Batusari,05:00,22:00,16.0,8.0
+8M,Tanjung Duren - Tanah Abang,Angkutan Umum Integrasi,8M-L02,Tanjung Duren dan Tanah Abang,05:00,22:00,18.0,9.0
+8N,Kebayoran - Petamburan via Asia Afrika,Angkutan Umum Integrasi,8N-L02,Petamburan dan Kebayoran via Asia Afrika,05:00,22:00,13.0,6.5
+8N,Kebayoran - Petamburan via Asia Afrika,Angkutan Umum Integrasi,8N-R01,Petamburan via Asia Afrika,05:00,22:00,6.0,3.0
+9,Pinang Ranti - Pluit,BRT,9-P06,Pluit,05:00,22:00,20.0,10.0
+9,Pinang Ranti - Pluit,BRT,9-P23,Simpang Kuningan dan Pinang Ranti,00:00,23:59,60.0,30.0
+9,Pinang Ranti - Pluit,BRT,9-P24,Cawang Sentral dan Pluit,00:00,23:59,60.0,30.0
+9,Pinang Ranti - Pluit,BRT,9-P26,Semanggi dan Pinang Ranti,00:00,23:59,10.0,5.0
+9,Pinang Ranti - Pluit,BRT,9-P29,Pluit,00:00,23:59,6.0,3.0
+9,Pinang Ranti - Pluit,BRT,9-R01,Pluit,00:00,23:59,3.8,1.9
+9,Pinang Ranti - Pluit,BRT,9-R02,Pinang Ranti,00:00,23:59,6.7,3.3
+9,Pinang Ranti - Pluit,BRT,9-R03,Pluit via Tol Kemanggisan,00:00,23:59,20.0,10.0
+9,Pinang Ranti - Pluit,BRT,9-R05,Pinang Ranti via Tol Jembatan Tiga,05:00,22:00,6.0,3.0
+9,Pinang Ranti - Pluit,BRT,9-R06,Pluit via Tol Petamburan,05:00,22:00,6.0,3.0
+9A,Cililitan - Grogol,BRT,9A-L08,Kota Bambu dan Cililitan,05:00,22:00,20.0,10.0
+9A,Cililitan - Grogol,BRT,9A-R07,Cililitan,05:00,22:00,4.6,2.3
+9A,Cililitan - Grogol,BRT,9A-R08,Grogol,05:00,22:00,5.0,2.5
+9C,Pinang Ranti - Bundaran Senayan,BRT,9C-L01,Bundaran Senayan dan Pinang Ranti,05:00,22:00,10.0,5.0
+9C,Pinang Ranti - Bundaran Senayan,BRT,9C-R02,Pinang Ranti,05:00,22:00,60.0,30.0
+9C,Pinang Ranti - Bundaran Senayan,BRT,9C-R06,Pinang Ranti,05:00,22:00,6.0,3.0
+9D,Pasar Minggu - Tanah Abang,Angkutan Umum Integrasi,9D-P23,Tosari dan Pasar Minggu,05:00,22:00,60.0,30.0
+9D,Pasar Minggu - Tanah Abang,Angkutan Umum Integrasi,9D-P24,Semanggi dan Pasar Minggu,05:00,22:00,30.0,15.0
+9D,Pasar Minggu - Tanah Abang,Angkutan Umum Integrasi,9D-R04,Tanah Abang,05:00,22:00,6.7,3.3
+9D,Pasar Minggu - Tanah Abang,Angkutan Umum Integrasi,9D-R05,Pasar Minggu,05:00,22:00,8.6,4.3
+9D,Pasar Minggu - Tanah Abang,Angkutan Umum Integrasi,9D-R09,Tanah Abang via Slipi,05:00,22:00,20.0,10.0
+9D,Pasar Minggu - Tanah Abang,Angkutan Umum Integrasi,9D-R10,Pasar Minggu via Slipi,05:00,22:00,20.0,10.0
+9E,Kebayoran Lama - Jelambar,Angkutan Umum Integrasi,9E-L01,Jelambar dan Kebayoran Lama,05:00,22:00,18.3,9.2
+9E,Kebayoran Lama - Jelambar,Angkutan Umum Integrasi,9E-P21,Kota Bambu dan Kebayoran Lama,05:00,22:00,60.0,30.0
+9E,Kebayoran Lama - Jelambar,Angkutan Umum Integrasi,9E-R01,Jelambar,05:00,22:00,20.0,10.0
+9E,Kebayoran Lama - Jelambar,Angkutan Umum Integrasi,9E-R02,Kebayoran Lama,05:00,06:00,20.0,10.0
+9F,Rusun Tambora - Pluit,Rusun,9F-L01,Pluit dan Rusun Tambora,05:00,22:00,60.0,30.0
+9F,Rusun Tambora - Pluit,Rusun,9F-R01,Pluit,05:00,22:00,60.0,30.0
+9F,Rusun Tambora - Pluit,Rusun,9F-R02,Rusun Tambora,05:00,22:00,60.0,30.0
+9H,Cipedak - Pasar Minggu,Angkutan Umum Integrasi,9H-L11,Pasar Minggu dan Tanah Baru,05:00,22:00,15.0,7.5
+9H,Cipedak - Pasar Minggu,Angkutan Umum Integrasi,9H-R15,Pasar Minggu,05:00,22:00,20.0,10.0
+9H,Cipedak - Pasar Minggu,Angkutan Umum Integrasi,9H-R16,Tanah Baru,05:00,22:00,20.0,10.0
+9N,Pinang Ranti - Simpang Cawang,BRT,9N-L02,Simpang Cawang dan Pinang Ranti,05:00,22:00,17.0,8.5
+B11,Bekasi Barat - Cawang,Transjabodetabek,B11-L07,Cawang dan Summarecon Bekasi,05:00,22:00,60.0,30.0
+B11,Bekasi Barat - Cawang,Transjabodetabek,B11-L08,Cawang dan Bekasi Barat,05:00,22:00,20.0,10.0
+B11,Bekasi Barat - Cawang,Transjabodetabek,B11-L09,Cawang dan Summarecon Bekasi,05:00,22:00,20.0,10.0
+B11,Bekasi Barat - Cawang,Transjabodetabek,B11-R09,Cawang,05:00,22:00,21.3,10.7
+B11,Bekasi Barat - Cawang,Transjabodetabek,B11-R10,Summarecon Bekasi,05:00,05:30,20.0,10.0
+B13,Summarecon Bekasi - Blok M,Royaltrans,B13-R01,Blok M,06:00,07:00,15.0,7.5
+B13,Summarecon Bekasi - Blok M,Royaltrans,B13-R01,Blok M,07:00,07:50,50.0,25.0
+B13,Summarecon Bekasi - Blok M,Royaltrans,B13-R01,Blok M,07:50,08:20,30.0,15.0
+B13,Summarecon Bekasi - Blok M,Royaltrans,B13-R01,Blok M,08:20,09:15,15.0,7.5
+B13,Summarecon Bekasi - Blok M,Royaltrans,B13-R02,Bekasi Barat,16:00,17:00,15.0,7.5
+B13,Summarecon Bekasi - Blok M,Royaltrans,B13-R02,Bekasi Barat,17:00,18:55,115.0,57.5
+B13,Summarecon Bekasi - Blok M,Royaltrans,B13-R02,Bekasi Barat,18:55,20:05,15.0,7.5
+B14,Bekasi Barat - Kuningan,Royaltrans,B14-R01,Kuningan,06:00,07:00,15.0,7.5
+B14,Bekasi Barat - Kuningan,Royaltrans,B14-R01,Kuningan,07:00,08:05,65.0,32.5
+B14,Bekasi Barat - Kuningan,Royaltrans,B14-R01,Kuningan,08:05,09:15,15.0,7.5
+B14,Bekasi Barat - Kuningan,Royaltrans,B14-R02,Bekasi Barat,16:00,17:00,20.0,10.0
+B14,Bekasi Barat - Kuningan,Royaltrans,B14-R02,Bekasi Barat,17:00,17:15,15.0,7.5
+B14,Bekasi Barat - Kuningan,Royaltrans,B14-R02,Bekasi Barat,17:15,18:40,85.0,42.5
+B14,Bekasi Barat - Kuningan,Royaltrans,B14-R02,Bekasi Barat,18:40,20:10,20.0,10.0
+B21,Bekasi Timur - Cawang,Transjabodetabek,B21-L06,Cawang dan Bekasi Timur,05:00,22:00,11.3,5.7
+B21,Bekasi Timur - Cawang,Transjabodetabek,B21-R09,Cawang,05:00,22:00,11.3,5.7
+B21,Bekasi Timur - Cawang,Transjabodetabek,B21-R10,Bekasi Timur,05:00,22:00,11.3,5.7
+B25,Bekasi - Dukuh Atas,Transjabodetabek,B25-L04,Kampung Melayu dan Bekasi,05:00,22:00,20.0,10.0
+B25,Bekasi - Dukuh Atas,Transjabodetabek,B25-L05,Galunggung dan Bekasi,05:00,22:00,20.0,10.0
+B25,Bekasi - Dukuh Atas,Transjabodetabek,B25-P02,Kampung Melayu,05:00,22:00,6.0,3.0
+B25,Bekasi - Dukuh Atas,Transjabodetabek,B25-R05,Galunggung,05:00,22:00,20.0,10.0
+B25,Bekasi - Dukuh Atas,Transjabodetabek,B25-R06,Bekasi,05:00,22:00,20.0,10.0
+B41,Vida Bekasi - Cawang Sentral via Jatiasih,Transjabodetabek,B41-L02,Komsen dan Cawang Sentral,05:00,07:00,20.0,10.0
+B41,Vida Bekasi - Cawang Sentral via Jatiasih,Transjabodetabek,B41-L03,Cawang Sentral via Jatiasih dan Vida Bekasi,05:00,22:00,20.0,10.0
+B41,Vida Bekasi - Cawang Sentral via Jatiasih,Transjabodetabek,B41-L04,Cawang Sentral dan Komsen,05:00,22:00,20.0,10.0
+B41,Vida Bekasi - Cawang Sentral via Jatiasih,Transjabodetabek,B41-R01,Cawang Sentral,05:00,22:00,20.0,10.0
+B41,Vida Bekasi - Cawang Sentral via Jatiasih,Transjabodetabek,B41-R04,Vida Bekasi,05:00,22:00,20.0,10.0
+B41,Vida Bekasi - Cawang Sentral via Jatiasih,Transjabodetabek,B41-R05,Cawang Sentral,05:00,22:00,20.0,10.0
+B51,Cikarang - Cawang,Transjabodetabek,B51-L01,Cawang dan Cikarang,05:00,22:00,6.0,3.0
+B51,Cikarang - Cawang,Transjabodetabek,B51-P01,Cawang Sentral 1 dan Cikarang,05:00,22:00,6.0,3.0
+B51,Cikarang - Cawang,Transjabodetabek,B51-P02,Cafe Walk dan Cawang Sentral 1,05:00,22:00,6.0,3.0
+B51,Cikarang - Cawang,Transjabodetabek,B51-P03,Cawang Sentral 1 dan Cafe Walk,05:00,22:00,6.0,3.0
+B51,Cikarang - Cawang,Transjabodetabek,B51-R01,Cawang,05:00,22:00,6.0,3.0
+B51,Cikarang - Cawang,Transjabodetabek,B51-R02,Cikarang,05:00,22:00,6.0,3.0
+BW1,Sejarah Jakarta,Bus Wisata,BW1-L02,Sejarah Jakarta,10:00,17:00,878.3,439.2
+BW1,Sejarah Jakarta,Bus Wisata,BW1-R01,Kali Besar,05:00,22:00,20.0,10.0
+BW1,Sejarah Jakarta,Bus Wisata,BW1-R02,Juanda,05:00,22:00,20.0,10.0
+BW2,Monas Explorer,Bus Wisata,BW2-L02,Monas Explorer,10:00,17:00,878.3,439.2
+BW4,Pencakar Langit,Bus Wisata,BW4-L01,Pencakar Langit,10:00,17:00,878.3,439.2
+D11,Depok - Cawang Sentral via Cibubur,Transjabodetabek,D11-L07,Cawang Sental dan Depok,05:00,22:00,20.0,10.0
+D11,Depok - Cawang Sentral via Cibubur,Transjabodetabek,D11-L08,Cawang Sentral Polypaint 1 dan Stiami,05:00,22:00,20.0,10.0
+D11,Depok - Cawang Sentral via Cibubur,Transjabodetabek,D11-L09,Cawang Sentral 1 Polypaint dan Term. Depok,05:00,22:00,6.0,3.0
+D11,Depok - Cawang Sentral via Cibubur,Transjabodetabek,D11-R10,Depok,05:00,22:00,13.3,6.7
+D11,Depok - Cawang Sentral via Cibubur,Transjabodetabek,D11-R12,Cawang Sentral,05:00,22:00,46.0,23.0
+D21,Universitas Indonesia - Lebak Bulus,Transjabodetabek,D21-L01,Lebak Bulus dan Universitas Indonesia,05:00,22:00,11.7,5.8
+D21,Universitas Indonesia - Lebak Bulus,Transjabodetabek,D21-R01,Lebak Bulus,05:00,22:00,6.7,3.3
+D21,Universitas Indonesia - Lebak Bulus,Transjabodetabek,D21-R02,Universitas Indonesia,05:00,06:00,10.0,5.0
+D31,Cinere - Kuningan,Royaltrans,D31-R02,Cinere,16:25,16:45,20.0,10.0
+D31,Cinere - Kuningan,Royaltrans,D31-R02,Cinere,16:45,18:35,25.0,12.5
+D31,Cinere - Kuningan,Royaltrans,D31-R03,Kuningan,05:55,07:10,15.0,7.5
+D31,Cinere - Kuningan,Royaltrans,D31-R03,Kuningan,07:10,08:25,75.0,37.5
+D31,Cinere - Kuningan,Royaltrans,D31-R03,Kuningan,08:25,08:50,25.0,12.5
+D31,Cinere - Kuningan,Royaltrans,D31-R03,Kuningan,08:50,09:10,10.0,5.0
+D32,Cinere - Bundaran Senayan,Royaltrans,D32-R01,Bundaran Senayan,06:15,07:00,35.0,17.5
+D32,Cinere - Bundaran Senayan,Royaltrans,D32-R02,Cinere,17:15,18:10,45.0,22.5
+D41,Sawangan - Lebak Bulus via Tol Desari,Transjabodetabek,D41-L01,Lebak Bulus dan Sawangan,05:00,22:00,20.0,10.0
+D41,Sawangan - Lebak Bulus via Tol Desari,Transjabodetabek,D41-L02,Exit Tol Desari dan Lebak Bulus,15:00,19:00,20.0,10.0
+D41,Sawangan - Lebak Bulus via Tol Desari,Transjabodetabek,D41-R01,Lebak Bulus,05:00,22:00,20.0,10.0
+D41,Sawangan - Lebak Bulus via Tol Desari,Transjabodetabek,D41-R02,Sawangan,05:00,22:00,20.0,10.0
+JAK.01,Tanjung Priok - Plumpang,Mikrotrans,JAK.01-L01,Plumpang dan Tanjung Priok,05:00,22:00,6.0,3.0
+JAK.01,Tanjung Priok - Plumpang,Mikrotrans,JAK.01-R02,Tanjung Priok,05:00,22:00,6.0,3.0
+JAK.02,Kampung Melayu - Duren Sawit,Mikrotrans,JAK.02-L01,Duren Sawit dan Kampung Melayu,05:00,22:00,6.0,3.0
+JAK.02,Kampung Melayu - Duren Sawit,Mikrotrans,JAK.02-R02,Kampung Melayu,05:00,22:00,6.0,3.0
+JAK.03,Lebak Bulus - Andara,Mikrotrans,JAK.03-L01,Lebak Bulus dan Andara,05:00,22:00,6.0,3.0
+JAK.03,Lebak Bulus - Andara,Mikrotrans,JAK.03-R01,Andara,05:00,22:00,6.0,3.0
+JAK.04,Grogol - Tubagus Angke,Mikrotrans,JAK.04-L05,Tubagus Angke dan Grogol,05:00,22:00,6.0,3.0
+JAK.04,Grogol - Tubagus Angke,Mikrotrans,JAK.04-R04,Tubagus Angke dan Grogol,05:00,22:00,6.0,3.0
+JAK.05,Semper - Rorotan,Mikrotrans,JAK.05-L01,Semper dan Rorotan,05:00,22:00,6.0,3.0
+JAK.05,Semper - Rorotan,Mikrotrans,JAK.05-R01,Rorotan,05:00,22:00,6.0,3.0
+JAK.05,Semper - Rorotan,Mikrotrans,JAK.05-R02,Semper,05:00,22:00,20.0,10.0
+JAK.06,Kampung Rambutan - Pondok Gede,Mikrotrans,JAK.06-R03,Kampung Rambutan,05:00,22:00,6.0,3.0
+JAK.06,Kampung Rambutan - Pondok Gede,Mikrotrans,JAK.06-R04,Pondok Gede,05:00,22:00,6.0,3.0
+JAK.07,Tanah Abang - Grogol via Tawakal,Mikrotrans,JAK.07-L03,Tanah Abang dan Grogol,05:00,22:00,6.0,3.0
+JAK.07,Tanah Abang - Grogol via Tawakal,Mikrotrans,JAK.07-R05,Grogol via Tawakal,05:00,22:00,6.0,3.0
+JAK.07,Tanah Abang - Grogol via Tawakal,Mikrotrans,JAK.07-R06,Tanah Abang via Tawakal,05:00,22:00,6.0,3.0
+JAK.08,Tanah Abang - Benhil via Roxy,Mikrotrans,JAK.08-L04,Roxy dan Benhil,05:00,22:00,20.0,10.0
+JAK.08,Tanah Abang - Benhil via Roxy,Mikrotrans,JAK.08-R03,Tanah Abang via Benhil,05:00,22:00,6.0,3.0
+JAK.09,Tanah Abang - Karet via Roxy,Mikrotrans,JAK.09-L03,Roxy dan Tanah Abang,05:00,22:00,20.0,10.0
+JAK.09,Tanah Abang - Karet via Roxy,Mikrotrans,JAK.09-L04,Karet dan Tanah Abang,05:00,22:00,6.0,3.0
+JAK.09,Tanah Abang - Karet via Roxy,Mikrotrans,JAK.09-R03,Karet,05:00,22:00,6.0,3.0
+JAK.10,Tanah Abang - Kota,Mikrotrans,JAK.10-L01,Kota dan Tanah Abang,05:00,22:00,6.0,3.0
+JAK.10,Tanah Abang - Kota,Mikrotrans,JAK.10-L02,Juanda dan Tanah Abang,05:00,22:00,6.0,3.0
+JAK.10,Tanah Abang - Kota,Mikrotrans,JAK.10-R01,Kota,05:00,22:00,6.0,3.0
+JAK.10,Tanah Abang - Kota,Mikrotrans,JAK.10-R02,Tanah Abang,05:00,22:00,6.0,3.0
+JAK.100,Term. Pulo Gebang - Rusun Pinus Elok,Mikrotrans,JAK.100-L03,Rusun Pinus Elok dan Term. Pulo Gebang,05:00,22:00,6.0,3.0
+JAK.100,Term. Pulo Gebang - Rusun Pinus Elok,Mikrotrans,JAK.100-R05,Term. Pulogebang,05:00,22:00,6.0,3.0
+JAK.102,Blok M - Lebak Bulus,Mikrotrans,JAK.102-L02,Lebak Bulus dan Blok M,05:00,22:00,6.0,3.0
+JAK.102,Blok M - Lebak Bulus,Mikrotrans,JAK.102-R04,Blok M,05:00,22:00,6.0,3.0
+JAK.105,Stasiun Tebet - Cipinang Muara,Mikrotrans,JAK.105-L02,Stasiun Tebet dan Cipinang Muara,05:00,22:00,6.0,3.0
+JAK.105,Stasiun Tebet - Cipinang Muara,Mikrotrans,JAK.105-R05,Cipinang Muara,05:00,22:00,6.0,3.0
+JAK.105,Stasiun Tebet - Cipinang Muara,Mikrotrans,JAK.105-R06,Stasiun Tebet,05:00,22:00,6.0,3.0
+JAK.106,Term. Kampung Melayu - Term. Klender,Mikrotrans,JAK.106-L03,Term. Kampung Melayu dan Term. Klender,05:00,22:00,6.0,3.0
+JAK.106,Term. Kampung Melayu - Term. Klender,Mikrotrans,JAK.106-R04,Term. Kampung Melayu,05:00,22:00,6.0,3.0
+JAK.106,Term. Kampung Melayu - Term. Klender,Mikrotrans,JAK.106-R05,Term. Klender,05:00,22:00,6.0,3.0
+JAK.107,Jembatan Garden - Puri Beta,Mikrotrans,JAK.107-R01,Puri Beta,05:00,22:00,6.0,3.0
+JAK.107,Jembatan Garden - Puri Beta,Mikrotrans,JAK.107-R02,Jembatan Garden,05:00,22:00,6.0,3.0
+JAK.108,Kramat Jati - Bambu Apus,Mikrotrans,JAK.108-L01,Kramat Jati dan Bambu Apus,05:00,22:00,20.0,10.0
+JAK.108,Kramat Jati - Bambu Apus,Mikrotrans,JAK.108-L02,Kramat Jati dan Bambu Apus,05:00,22:00,6.0,3.0
+JAK.108,Kramat Jati - Bambu Apus,Mikrotrans,JAK.108-R01,Bambu Apus,05:00,22:00,6.0,3.0
+JAK.10A,Gondangdia - Cikini via Salemba Raya,Mikrotrans,JAK.10A-L01,Cikini dan Gondangdia via Salemba Raya,05:00,22:00,6.0,3.0
+JAK.10A,Gondangdia - Cikini via Salemba Raya,Mikrotrans,JAK.10A-R02,Gondangdia via Salemba,05:00,22:00,6.0,3.0
+JAK.10B,Gondangdia - Cikini via Kramat Raya,Mikrotrans,JAK.10B-L01,Cikini via Kramat dan Gondangdia,05:00,22:00,6.0,3.0
+JAK.11,Tanah Abang - Kebayoran Lama,Mikrotrans,JAK.11-L01,Kebayoran Lama dan Tanah Abang,05:00,22:00,6.0,3.0
+JAK.11,Tanah Abang - Kebayoran Lama,Mikrotrans,JAK.11-L02,Rawa Belong dan Tanah Abang,05:00,22:00,6.0,3.0
+JAK.11,Tanah Abang - Kebayoran Lama,Mikrotrans,JAK.11-L03,Palmerah dan Kebayoran Lama,05:00,22:00,6.0,3.0
+JAK.11,Tanah Abang - Kebayoran Lama,Mikrotrans,JAK.11-R01,Kebayoran Lama,05:00,22:00,6.0,3.0
+JAK.11,Tanah Abang - Kebayoran Lama,Mikrotrans,JAK.11-R02,Tanah Abang,05:00,22:00,6.0,3.0
+JAK.110A,Rusun Marunda - Terminal Terpadu Pulo Gebang,Mikrotrans,JAK.110A-L01,Term. Pulo Gebang dan Rusun Marunda,05:00,22:00,6.0,3.0
+JAK.110A,Rusun Marunda - Terminal Terpadu Pulo Gebang,Mikrotrans,JAK.110A-R01,Terminal Pulo Gebang,05:00,22:00,20.0,10.0
+JAK.110A,Rusun Marunda - Terminal Terpadu Pulo Gebang,Mikrotrans,JAK.110A-R02,Rusun Marunda,05:00,22:00,6.0,3.0
+JAK.112,Terminal Tanah Merah - Pulo Gadung,Mikrotrans,JAK.112-L02,Tanah Merah dan Pulo Gadung,05:00,22:00,6.0,3.0
+JAK.112,Terminal Tanah Merah - Pulo Gadung,Mikrotrans,JAK.112-R01,Pulo Gadung,05:00,22:00,6.0,3.0
+JAK.112,Terminal Tanah Merah - Pulo Gadung,Mikrotrans,JAK.112-R02,Tanah Merah,05:00,22:00,20.0,10.0
+JAK.113,Tanah Merdeka - Kampung Sawah,Mikrotrans,JAK.113-L02,Kampung Sawah dan Tanah Merdeka via Permai Koja,05:00,22:00,6.0,3.0
+JAK.113,Tanah Merdeka - Kampung Sawah,Mikrotrans,JAK.113-R04,Tanah Merdeka via Permai Koja,05:00,22:00,6.0,3.0
+JAK.115,Term. Tj. Priok - Pegangsaan II IGI,Mikrotrans,JAK.115-L01,Terminal Tj. Priok dan Pegangsaan II IGI,05:00,22:00,6.0,3.0
+JAK.115,Term. Tj. Priok - Pegangsaan II IGI,Mikrotrans,JAK.115-R01,Pegangsaan II IGI,05:00,22:00,6.0,3.0
+JAK.115,Term. Tj. Priok - Pegangsaan II IGI,Mikrotrans,JAK.115-R02,Term. Tj. Priok,05:00,22:00,6.0,3.0
+JAK.117,Tanjung Priok - Tanah Merdeka,Mikrotrans,JAK.117-R05,Tanah Merdeka,05:00,22:00,6.0,3.0
+JAK.117,Tanjung Priok - Tanah Merdeka,Mikrotrans,JAK.117-R08,Tanjung Priok,05:00,22:00,6.0,3.0
+JAK.118,Waduk Papanggo - Kota Tua,Mikrotrans,JAK.118-L04,Kota Tua dan Waduk Papanggo,05:00,22:00,6.0,3.0
+JAK.118,Waduk Papanggo - Kota Tua,Mikrotrans,JAK.118-R06,Waduk Papanggo,05:00,22:00,20.0,10.0
+JAK.118,Waduk Papanggo - Kota Tua,Mikrotrans,JAK.118-R07,Kota Tua,05:00,22:00,20.0,10.0
+JAK.12,Tanah Abang - Kebayoran Lama via Pos Pengumben,Mikrotrans,JAK.12-L01,Tanah Abang dan Kebayoran Lama,05:00,22:00,6.0,3.0
+JAK.12,Tanah Abang - Kebayoran Lama via Pos Pengumben,Mikrotrans,JAK.12-L02,Simprug dan Tanah Abang,05:00,22:00,6.0,3.0
+JAK.12,Tanah Abang - Kebayoran Lama via Pos Pengumben,Mikrotrans,JAK.12-L03,Petamburan dan Kebayoran Lama,05:00,22:00,6.0,3.0
+JAK.12,Tanah Abang - Kebayoran Lama via Pos Pengumben,Mikrotrans,JAK.12-R01,Kebayoran Lama via Pos Pengumben,05:00,22:00,6.0,3.0
+JAK.12,Tanah Abang - Kebayoran Lama via Pos Pengumben,Mikrotrans,JAK.12-R02,Tanah Abang Via Pos Pengumben,05:00,22:00,6.0,3.0
+JAK.120,JIS - Term. Muara Angke,Mikrotrans,JAK.120-L03,Term. Muara Angke dan JIS,05:00,22:00,6.0,3.0
+JAK.13,Tanah Abang - Jembatan Lima,Mikrotrans,JAK.13-L01,Tanah Abang dan Kota Intan,05:00,22:00,6.0,3.0
+JAK.13,Tanah Abang - Jembatan Lima,Mikrotrans,JAK.13-L02,Grogol dan Tanah Abang,05:00,22:00,6.0,3.0
+JAK.13,Tanah Abang - Jembatan Lima,Mikrotrans,JAK.13-R01,Kota Intan,05:00,22:00,6.0,3.0
+JAK.13,Tanah Abang - Jembatan Lima,Mikrotrans,JAK.13-R02,Tanah Abang,05:00,22:00,6.0,3.0
+JAK.14,Tanah Abang - Meruya,Mikrotrans,JAK.14-L01,Tanah Abang dan Meruya,05:00,22:00,6.0,3.0
+JAK.14,Tanah Abang - Meruya,Mikrotrans,JAK.14-L02,Kebon Jeruk dan Tanah Abang,05:00,22:00,6.0,3.0
+JAK.14,Tanah Abang - Meruya,Mikrotrans,JAK.14-L03,Palmerah dan Meruya,05:00,22:00,6.0,3.0
+JAK.14,Tanah Abang - Meruya,Mikrotrans,JAK.14-R01,Meruya,05:00,22:00,6.0,3.0
+JAK.14,Tanah Abang - Meruya,Mikrotrans,JAK.14-R02,Tanah Abang,05:00,22:00,6.0,3.0
+JAK.15,Terminal Tanjung Priok - Rusun Marunda,Mikrotrans,JAK.15-R04,Rusun Marunda,05:00,22:00,6.0,3.0
+JAK.15,Terminal Tanjung Priok - Rusun Marunda,Mikrotrans,JAK.15-R05,Tanjung Priok,05:00,22:00,6.0,3.0
+JAK.16,Cililitan - Condet,Mikrotrans,JAK.16-L01,Cililitan dan Condet,05:00,22:00,6.0,3.0
+JAK.16,Cililitan - Condet,Mikrotrans,JAK.16-R01,Condet,05:00,22:00,6.0,3.0
+JAK.16,Cililitan - Condet,Mikrotrans,JAK.16-R02,Cililitan,05:00,22:00,6.0,3.0
+JAK.17,Senen - Pulo Gadung,Mikrotrans,JAK.17-L01,Senen dan Pulo Gadung,05:00,22:00,6.0,3.0
+JAK.17,Senen - Pulo Gadung,Mikrotrans,JAK.17-R01,Senen,05:00,22:00,6.0,3.0
+JAK.17,Senen - Pulo Gadung,Mikrotrans,JAK.17-R02,Pulo Gadung,05:00,22:00,6.0,3.0
+JAK.18,Kalibata - Kuningan,Mikrotrans,JAK.18-L01,Kuningan dan Kalibata,05:00,22:00,6.0,3.0
+JAK.19,Pinang Ranti - Kampung Rambutan,Mikrotrans,JAK.19-R01,Kampung Rambutan,05:00,22:00,6.0,3.0
+JAK.19,Pinang Ranti - Kampung Rambutan,Mikrotrans,JAK.19-R02,Pinang Ranti,05:00,22:00,6.0,3.0
+JAK.20,Cawang Sentral - Lubang Buaya,Mikrotrans,JAK.20-L01,Cawang Sentral dan Lubang Buaya,05:00,22:00,6.0,3.0
+JAK.20,Cawang Sentral - Lubang Buaya,Mikrotrans,JAK.20-P01,BKKBN dan Cawang Sentral 1 Polypaint,05:00,22:00,20.0,10.0
+JAK.20,Cawang Sentral - Lubang Buaya,Mikrotrans,JAK.20-R01,Lubang Buaya,05:00,22:00,6.0,3.0
+JAK.20,Cawang Sentral - Lubang Buaya,Mikrotrans,JAK.20-R02,Cawang Sentral,05:00,22:00,6.0,3.0
+JAK.21,Cililitan - Dwikora,Mikrotrans,JAK.21-R01,Dwikora,05:00,22:00,6.0,3.0
+JAK.21,Cililitan - Dwikora,Mikrotrans,JAK.21-R02,Cililitan,05:00,22:00,6.0,3.0
+JAK.22,Dwikora - Halim,Mikrotrans,JAK.22-L02,Halim dan Dwikora,05:00,22:00,6.0,3.0
+JAK.22,Dwikora - Halim,Mikrotrans,JAK.22-L03,Dwikora dan Halim,05:00,22:00,6.0,3.0
+JAK.23,Senen - Pisangan Baru,Mikrotrans,JAK.23-L01,Pisangan Baru dan Senen,05:00,22:00,6.0,3.0
+JAK.23,Senen - Pisangan Baru,Mikrotrans,JAK.23-L02,Pisangan Baru dan Senen via TL Pramuka,05:00,22:00,20.0,10.0
+JAK.23,Senen - Pisangan Baru,Mikrotrans,JAK.23-R02,Senen,05:00,22:00,6.0,3.0
+JAK.24,Senen - Pulo Gadung via Kelapa Gading,Mikrotrans,JAK.24-R01,Senen Via Kelapa Gading,05:00,22:00,6.0,3.0
+JAK.24,Senen - Pulo Gadung via Kelapa Gading,Mikrotrans,JAK.24-R02,Pulo Gadung Via Kelapa Gading,05:00,22:00,6.0,3.0
+JAK.25,Pasar Rebo - Kalisari,Mikrotrans,JAK.25-L03,Pasar Rebo dan Kalisari,05:00,22:00,6.0,3.0
+JAK.25,Pasar Rebo - Kalisari,Mikrotrans,JAK.25-R04,Kalisari,05:00,22:00,6.0,3.0
+JAK.25,Pasar Rebo - Kalisari,Mikrotrans,JAK.25-R05,Pasar Rebo,05:00,22:00,6.0,3.0
+JAK.26,Rawamangun - Duren Sawit,Mikrotrans,JAK.26-L01,Duren Sawit dan Rawamangun,05:00,22:00,6.0,3.0
+JAK.26,Rawamangun - Duren Sawit,Mikrotrans,JAK.26-R01,Rawamangun,05:00,22:00,6.0,3.0
+JAK.27,Pulo Gebang - Rorotan,Mikrotrans,JAK.27-L01,Rorotan dan Pulogebang,05:00,22:00,6.0,3.0
+JAK.27,Pulo Gebang - Rorotan,Mikrotrans,JAK.27-R01,Rorotan,05:00,22:00,6.0,3.0
+JAK.27,Pulo Gebang - Rorotan,Mikrotrans,JAK.27-R02,Pulo Gebang,05:00,22:00,6.0,3.0
+JAK.28,Pasar Rebo - St. LRT Harjamukti via Bulak Sereh,Mikrotrans,JAK.28-L02,Pasar Rebo dan St. LRT Harjamukti,05:00,22:00,6.0,3.0
+JAK.28,Pasar Rebo - St. LRT Harjamukti via Bulak Sereh,Mikrotrans,JAK.28-R05,St. LRT Harjamukti,05:00,22:00,6.0,3.0
+JAK.28,Pasar Rebo - St. LRT Harjamukti via Bulak Sereh,Mikrotrans,JAK.28-R06,Pasar Rebo,05:00,22:00,6.0,3.0
+JAK.29,Tanjung Priok - Sukapura,Mikrotrans,JAK.29-R04,Tanjung Priok,05:00,22:00,6.0,3.0
+JAK.29,Tanjung Priok - Sukapura,Mikrotrans,JAK.29-R05,Sukapura,05:00,22:00,6.0,3.0
+JAK.30,Grogol - Meruya via Roxy,Mikrotrans,JAK.30-R01,Meruya via Roxy,05:00,22:00,6.0,3.0
+JAK.30,Grogol - Meruya via Roxy,Mikrotrans,JAK.30-R02,Grogol via Roxy,05:00,22:00,6.0,3.0
+JAK.31,Blok M - Andara,Mikrotrans,JAK.31-R01,Andara,05:00,22:00,6.0,3.0
+JAK.31,Blok M - Andara,Mikrotrans,JAK.31-R02,Blok M,05:00,22:00,6.0,3.0
+JAK.32,Joglo - Lebak Bulus,Mikrotrans,JAK.32-L02,Lebak Bulus dan Joglo,05:00,22:00,6.0,3.0
+JAK.32,Joglo - Lebak Bulus,Mikrotrans,JAK.32-R03,Joglo,05:00,22:00,6.0,3.0
+JAK.32,Joglo - Lebak Bulus,Mikrotrans,JAK.32-R04,Lebak Bulus,05:00,22:00,6.0,3.0
+JAK.33,Pulo Gadung - Kota,Mikrotrans,JAK.33-L01,Kota dan Pulo Gadung,05:00,22:00,20.0,10.0
+JAK.33,Pulo Gadung - Kota,Mikrotrans,JAK.33-R03,Pulo Gadung,05:00,22:00,20.0,10.0
+JAK.33,Pulo Gadung - Kota,Mikrotrans,JAK.33-R04,Kota,05:00,22:00,20.0,10.0
+JAK.34,Rawamangun - Klender,Mikrotrans,JAK.34-L02,Rawamangun dan Klender,05:00,22:00,6.0,3.0
+JAK.34,Rawamangun - Klender,Mikrotrans,JAK.34-R03,Rawamangun,05:00,22:00,20.0,10.0
+JAK.34,Rawamangun - Klender,Mikrotrans,JAK.34-R04,Klender,05:00,22:00,20.0,10.0
+JAK.35,Pangkalan Jati - Rawamangun,Mikrotrans,JAK.35-L02,Rawamangun dan Pangkalan Jati,05:00,22:00,6.0,3.0
+JAK.35,Pangkalan Jati - Rawamangun,Mikrotrans,JAK.35-R03,Pangkalan Jati,05:00,22:00,6.0,3.0
+JAK.35,Pangkalan Jati - Rawamangun,Mikrotrans,JAK.35-R05,Rawamangun,05:00,22:00,6.0,3.0
+JAK.36,Cilangkap - Cililitan,Mikrotrans,JAK.36-L03,Cililitan dan Cilangkap,05:00,22:00,6.0,3.0
+JAK.36,Cilangkap - Cililitan,Mikrotrans,JAK.36-R05,Cililitan,05:00,22:00,20.0,10.0
+JAK.36,Cilangkap - Cililitan,Mikrotrans,JAK.36-R06,Cilangkap,05:00,22:00,6.0,3.0
+JAK.37,Cililitan - Condet via Kayu Manis,Mikrotrans,JAK.37-L01,Cililitan dan Condet,05:00,22:00,6.0,3.0
+JAK.37,Cililitan - Condet via Kayu Manis,Mikrotrans,JAK.37-R01,Condet via Kayu Manis,05:00,22:00,6.0,3.0
+JAK.37,Cililitan - Condet via Kayu Manis,Mikrotrans,JAK.37-R03,Cililitan via Kayu Manis,05:00,22:00,6.0,3.0
+JAK.38,Bulak Ringin - Kampung Rambutan,Mikrotrans,JAK.38-R01,Kampung Rambutan,05:00,22:00,6.0,3.0
+JAK.38,Bulak Ringin - Kampung Rambutan,Mikrotrans,JAK.38-R02,Bulak Ringin,05:00,22:00,6.0,3.0
+JAK.39,Kalimalang - Duren Sawit,Mikrotrans,JAK.39-L01,Duren Sawit dan Kalimalang,05:00,22:00,20.0,10.0
+JAK.39,Kalimalang - Duren Sawit,Mikrotrans,JAK.39-L02,Duren Sawit dan Kalimalang,05:00,22:00,6.0,3.0
+JAK.40,Harapan Baru - Pulo Gebang via Rawa Kuning,Mikrotrans,JAK.40-L05,Harapan Baru dan Pulo Gebang,05:00,22:00,20.0,10.0
+JAK.40,Harapan Baru - Pulo Gebang via Rawa Kuning,Mikrotrans,JAK.40-R03,Pulo Gebang via Rawa Kuning,05:00,22:00,6.0,3.0
+JAK.41,Kampung Melayu - Pulo Gadung,Mikrotrans,JAK.41-R03,Pulo Gadung,05:00,22:00,6.0,3.0
+JAK.41,Kampung Melayu - Pulo Gadung,Mikrotrans,JAK.41-R04,Kp. Melayu,05:00,22:00,6.0,3.0
+JAK.42,Kampung Melayu - Pondok Kelapa,Mikrotrans,JAK.42-L02,Kampung Melayu dan Pondok Kelapa,05:00,22:00,6.0,3.0
+JAK.42,Kampung Melayu - Pondok Kelapa,Mikrotrans,JAK.42-R03,Pondok Melayu,05:00,22:00,6.0,3.0
+JAK.42,Kampung Melayu - Pondok Kelapa,Mikrotrans,JAK.42-R04,Kampung Melayu,05:00,22:00,6.0,3.0
+JAK.43B,Tongtek - Tebet Eco Park (TEP) - Cililitan,Mikrotrans,JAK.43B-L01,Cililitan dan Tongtek,05:00,22:00,6.0,3.0
+JAK.43B,Tongtek - Tebet Eco Park (TEP) - Cililitan,Mikrotrans,JAK.43B-L02,Cililitan dan Tongtek via Cawang Kompor,06:00,10:00,6.0,3.0
+JAK.43B,Tongtek - Tebet Eco Park (TEP) - Cililitan,Mikrotrans,JAK.43B-R02,Tongtek,05:00,22:00,6.0,3.0
+JAK.43C,Sarana Jaya - Tebet Eco Park (TEP) - Stasiun Cawang,Mikrotrans,JAK.43C-L01,St. Cawang dan Sarana Jaya via TEP,05:00,22:00,6.0,3.0
+JAK.44,Andara - Stasiun Universitas Pancasila,Mikrotrans,JAK.44-L01,Stasiun Universitas Pancasila dan Andara,05:00,22:00,6.0,3.0
+JAK.45,Lebak Bulus - Ragunan,Mikrotrans,JAK.45-L02,Lebak Bulus dan Ragunan,05:00,22:00,6.0,3.0
+JAK.45,Lebak Bulus - Ragunan,Mikrotrans,JAK.45-R02,Lebak Bulus,05:00,22:00,6.0,3.0
+JAK.45,Lebak Bulus - Ragunan,Mikrotrans,JAK.45-R03,Ragunan,05:00,22:00,6.0,3.0
+JAK.46,Pasar Minggu - Jagakarsa,Mikrotrans,JAK.46-R07,Jagakarsa,05:00,22:00,6.0,3.0
+JAK.46,Pasar Minggu - Jagakarsa,Mikrotrans,JAK.46-R08,Pasar Minggu,05:00,22:00,6.0,3.0
+JAK.47,Pasar Minggu - Ciganjur via KB Ragunan,Mikrotrans,JAK.47-R05,Ciganjur,05:00,22:00,6.0,3.0
+JAK.47,Pasar Minggu - Ciganjur via KB Ragunan,Mikrotrans,JAK.47-R06,Term. Pasar Minggu,05:00,22:00,6.0,3.0
+JAK.48A,Stasiun Tebet - Karet,Mikrotrans,JAK.48A-L01,Rusun Karet Tengsin dan St. Tebet,05:00,22:00,6.0,3.0
+JAK.48A,Stasiun Tebet - Karet,Mikrotrans,JAK.48A-L02,TPU Karet Bivak dan St. Tebet,05:00,22:00,6.0,3.0
+JAK.48A,Stasiun Tebet - Karet,Mikrotrans,JAK.48A-R01,Rusun Karet Tengsin,05:00,22:00,6.0,3.0
+JAK.48A,Stasiun Tebet - Karet,Mikrotrans,JAK.48A-R02,Stasiun Tebet,05:00,22:00,6.0,3.0
+JAK.49,Lebak Bulus - Cipulir,Mikrotrans,JAK.49-L03,Cipulir dan Lebak Bulus,05:00,22:00,6.0,3.0
+JAK.49,Lebak Bulus - Cipulir,Mikrotrans,JAK.49-R06,Lebak Bulus,05:00,22:00,20.0,10.0
+JAK.49,Lebak Bulus - Cipulir,Mikrotrans,JAK.49-R07,Cipulir,05:00,22:00,20.0,10.0
+JAK.50,Kalideres - Puri Kembangan,Mikrotrans,JAK.50-L02,Puri Kembangan dan Kalideres,05:00,22:00,6.0,3.0
+JAK.50,Kalideres - Puri Kembangan,Mikrotrans,JAK.50-R02,Kalideres,05:00,22:00,20.0,10.0
+JAK.50,Kalideres - Puri Kembangan,Mikrotrans,JAK.50-R05,Kalideres,05:00,22:00,6.0,3.0
+JAK.51,Taman Kota - Budi Luhur,Mikrotrans,JAK.51-L01,Taman Kota dan Budi Luhur,05:00,22:00,20.0,10.0
+JAK.51,Taman Kota - Budi Luhur,Mikrotrans,JAK.51-L02,Budi Luhur dan Jabon,05:00,22:00,6.0,3.0
+JAK.51,Taman Kota - Budi Luhur,Mikrotrans,JAK.51-R03,Taman Kota,05:00,22:00,6.0,3.0
+JAK.52,Kalideres - Muara Angke,Mikrotrans,JAK.52-L02,Muara Angke dan Kalideres,22:00,23:59,20.0,10.0
+JAK.52,Kalideres - Muara Angke,Mikrotrans,JAK.52-R06,Terminal Muara Angke,05:00,22:00,6.0,3.0
+JAK.52,Kalideres - Muara Angke,Mikrotrans,JAK.52-R10,Muara Angke,22:00,23:59,20.0,10.0
+JAK.52,Kalideres - Muara Angke,Mikrotrans,JAK.52-R11,Kalideres,05:00,22:00,6.0,3.0
+JAK.52,Kalideres - Muara Angke,Mikrotrans,JAK.52-R13,Kalideres,22:00,23:59,20.0,10.0
+JAK.53,Grogol - Pos Pengumben via Slipi,Mikrotrans,JAK.53-L03,Pos Pengumben dan Grogol,05:00,22:00,6.0,3.0
+JAK.54,Grogol - Benhil,Mikrotrans,JAK.54-L01,Bendungan Hilir dan Grogol,05:00,22:00,6.0,3.0
+JAK.54,Grogol - Benhil,Mikrotrans,JAK.54-R01,Grogol,05:00,22:00,6.0,3.0
+JAK.56,Pesing - Srengseng,Mikrotrans,JAK.56-R05,Grogol,05:00,22:00,6.0,3.0
+JAK.56,Pesing - Srengseng,Mikrotrans,JAK.56-R06,Srengseng,05:00,22:00,6.0,3.0
+JAK.58,Cilincing - Rusun Padat Karya,Mikrotrans,JAK.58-L04,Cilincing dan Rusun Padat Karya,05:00,22:00,6.0,3.0
+JAK.58,Cilincing - Rusun Padat Karya,Mikrotrans,JAK.58-R05,Rusun Padat Karya,05:00,22:00,20.0,10.0
+JAK.58,Cilincing - Rusun Padat Karya,Mikrotrans,JAK.58-R06,Cilincing,05:00,22:00,20.0,10.0
+JAK.59,Rawamangun - Rawa Sengon,Mikrotrans,JAK.59-R03,Rawamangun,05:00,22:00,20.0,10.0
+JAK.59,Rawamangun - Rawa Sengon,Mikrotrans,JAK.59-R04,Rawa Sengon,05:00,22:00,20.0,10.0
+JAK.60,Kelapa Gading - Rusun Kemayoran,Mikrotrans,JAK.60-L02,Rusun Kemayoran dan Kelapa Gading,05:00,22:00,6.0,3.0
+JAK.61,Cempaka Putih - Pulo Gadung via Kelapa Gading,Mikrotrans,JAK.61-L03,Cempaka Putih dan Pulo Gadung,05:00,22:00,20.0,10.0
+JAK.64,Lenteng Agung - Aseli,Mikrotrans,JAK.64-L01,Lenteng Agung dan Aseli,05:00,22:00,6.0,3.0
+JAK.71,Kampung Rambutan - Pinang Ranti,Mikrotrans,JAK.71-R01,Pinang Ranti,05:00,22:00,6.0,3.0
+JAK.71,Kampung Rambutan - Pinang Ranti,Mikrotrans,JAK.71-R02,Kampung Rambutan,05:00,22:00,6.0,3.0
+JAK.72,Kampung Rambutan - Pasar Rebo via Poncol,Mikrotrans,JAK.72-R01,Pasar Rebo Via Poncol,05:00,22:00,6.0,3.0
+JAK.72,Kampung Rambutan - Pasar Rebo via Poncol,Mikrotrans,JAK.72-R02,Kampung Rambutan Via Poncol,05:00,22:00,6.0,3.0
+JAK.73,Pasar Rebo - St. LRT Harjamukti via Jln. Kiwi,Mikrotrans,JAK.73-L03,Pasar Rebo dan Jambore,05:00,22:00,6.0,3.0
+JAK.73,Pasar Rebo - St. LRT Harjamukti via Jln. Kiwi,Mikrotrans,JAK.73-R05,Pasar Rebo,05:00,22:00,6.0,3.0
+JAK.73,Pasar Rebo - St. LRT Harjamukti via Jln. Kiwi,Mikrotrans,JAK.73-R06,Jambore,05:00,22:00,6.0,3.0
+JAK.74,Terminal Rawamangun - Cipinang Muara,Mikrotrans,JAK.74-L01,Rawamangun dan Cipinang Muara,05:00,22:00,6.0,3.0
+JAK.74,Terminal Rawamangun - Cipinang Muara,Mikrotrans,JAK.74-R01,Rawamangun,05:00,22:00,6.0,3.0
+JAK.74,Terminal Rawamangun - Cipinang Muara,Mikrotrans,JAK.74-R02,Cipinang Muara,05:00,22:00,6.0,3.0
+JAK.75,Cililitan - Kampung Pulo,Mikrotrans,JAK.75-R01,Kampung Pulo,05:00,22:00,6.0,3.0
+JAK.75,Cililitan - Kampung Pulo,Mikrotrans,JAK.75-R03,Cililitan,05:00,22:00,6.0,3.0
+JAK.76,Jln. Industri Raya - Perintis Kemerdekaan,Mikrotrans,JAK.76-L01,Jln. Industri Raya dan ASMI,05:00,22:00,6.0,3.0
+JAK.76,Jln. Industri Raya - Perintis Kemerdekaan,Mikrotrans,JAK.76-R01,ASMI,05:00,22:00,20.0,10.0
+JAK.76,Jln. Industri Raya - Perintis Kemerdekaan,Mikrotrans,JAK.76-R02,Jln. Industri Raya,05:00,22:00,20.0,10.0
+JAK.77,Tanjung Priok - Jembatan Item,Mikrotrans,JAK.77-R01,Tanjung Priok,05:00,22:00,6.0,3.0
+JAK.77,Tanjung Priok - Jembatan Item,Mikrotrans,JAK.77-R02,Jembatan Item,05:00,22:00,6.0,3.0
+JAK.78A,Benda - Cengkareng Timur,Mikrotrans,JAK.78A-L01,Cengkareng Timur dan Benda,05:00,22:00,6.0,3.0
+JAK.78B,Jembatan Tiga - Teluk Gong,Mikrotrans,JAK.78B-L03,Teluk Gong dan Jembatan Tiga,05:00,22:00,6.0,3.0
+JAK.79,Cengkareng - Tubagus Angke,Mikrotrans,JAK.79-L01,Tubagus Angke dan Cengkareng,05:00,22:00,6.0,3.0
+JAK.79,Cengkareng - Tubagus Angke,Mikrotrans,JAK.79-R02,Cengkareng,05:00,22:00,6.0,3.0
+JAK.80,Rawa Buaya - Rawa Kompeni,Mikrotrans,JAK.80-R09,Rawa Kompeni,05:00,22:00,6.0,3.0
+JAK.80,Rawa Buaya - Rawa Kompeni,Mikrotrans,JAK.80-R10,Rawa Buaya,05:00,22:00,6.0,3.0
+JAK.84,Terminal Kampung Melayu - Kapin Raya,Mikrotrans,JAK.84-L03,Kapin dan Kampung Melayu,05:00,22:00,6.0,3.0
+JAK.84,Terminal Kampung Melayu - Kapin Raya,Mikrotrans,JAK.84-R05,Kapin,05:00,22:00,6.0,3.0
+JAK.84,Terminal Kampung Melayu - Kapin Raya,Mikrotrans,JAK.84-R06,Kampung Melayu,05:00,22:00,6.0,3.0
+JAK.85,Bintara - Cipinang Indah,Mikrotrans,JAK.85-L01,Cipinang Indah dan Bintara,05:00,22:00,20.0,10.0
+JAK.85,Bintara - Cipinang Indah,Mikrotrans,JAK.85-L02,Cipinang Muara dan Bintara,05:00,22:00,6.0,3.0
+JAK.85,Bintara - Cipinang Indah,Mikrotrans,JAK.85-R02,Bintara,05:00,22:00,20.0,10.0
+JAK.86,Term. Rawamangun - Term. Manggarai,Mikrotrans,JAK.86-L03,Term. Manggarai dan Term. Rawamangun,05:00,22:00,6.0,3.0
+JAK.86,Term. Rawamangun - Term. Manggarai,Mikrotrans,JAK.86-R04,Term. Rawamangun,05:00,22:00,6.0,3.0
+JAK.86,Term. Rawamangun - Term. Manggarai,Mikrotrans,JAK.86-R05,Term. Manggarai,05:00,22:00,6.0,3.0
+JAK.87,Terminal Tanjung Priok - Terminal Rawamangun,Mikrotrans,JAK.87-L01,Term. Tanjung Priok dan Term. Rawamangun,05:00,22:00,6.0,3.0
+JAK.87,Terminal Tanjung Priok - Terminal Rawamangun,Mikrotrans,JAK.87-R01,Term. Rawamangun,05:00,22:00,6.0,3.0
+JAK.87,Terminal Tanjung Priok - Terminal Rawamangun,Mikrotrans,JAK.87-R02,Term. Tanjung Priok,05:00,22:00,20.0,10.0
+JAK.88,Terminal Tanjung Priok - Ancol Barat,Mikrotrans,JAK.88-L04,Ancol Barat dan Tanjung Priok,05:00,22:00,6.0,3.0
+JAK.88,Terminal Tanjung Priok - Ancol Barat,Mikrotrans,JAK.88-R06,Terminal Tanjung Priok,05:00,22:00,6.0,3.0
+JAK.89,Terminal Tanjung Priok - Taman Kota Intan,Mikrotrans,JAK.89-L01,Taman Kota Intan dan Terminal Tanjung Priok,05:00,22:00,6.0,3.0
+JAK.89,Terminal Tanjung Priok - Taman Kota Intan,Mikrotrans,JAK.89-R02,Terminal Tanjung Priok,05:00,22:00,6.0,3.0
+JAK.90,Terminal Tanjung Priok - Rusun Kemayoran,Mikrotrans,JAK.90-L02,Rusun Kemayoran dan Term. Tanjung Priok,05:00,22:00,6.0,3.0
+JAK.90,Terminal Tanjung Priok - Rusun Kemayoran,Mikrotrans,JAK.90-R01,Rusun Kemayoran,05:00,22:00,20.0,10.0
+JAK.93,Jeruk Purut - Kebayoran Lama,Mikrotrans,JAK.93-L02,Kebayoran Lama dan Jeruk Purut,05:00,22:00,6.0,3.0
+JAK.93,Jeruk Purut - Kebayoran Lama,Mikrotrans,JAK.93-L03,Kebayoran Lama dan Jeruk Purut,05:00,22:00,20.0,10.0
+JAK.93,Jeruk Purut - Kebayoran Lama,Mikrotrans,JAK.93-R04,Jeruk Purut,05:00,22:00,6.0,3.0
+JAK.93,Jeruk Purut - Kebayoran Lama,Mikrotrans,JAK.93-R06,Jeruk Purut,05:00,22:00,20.0,10.0
+JAK.95,Term. Lebak Bulus - Term. Pasar Minggu,Mikrotrans,JAK.95-L02,Term. Lebak Bulus dan Term. Pasar Minggu,05:00,22:00,6.0,3.0
+JAK.95,Term. Lebak Bulus - Term. Pasar Minggu,Mikrotrans,JAK.95-L03,Term. Lebak Bulus dan Term. Pasar Minggu,05:00,22:00,6.0,3.0
+JAK.95,Term. Lebak Bulus - Term. Pasar Minggu,Mikrotrans,JAK.95-R01,Term. Pasar Minggu,05:00,22:00,6.0,3.0
+JAK.95,Term. Lebak Bulus - Term. Pasar Minggu,Mikrotrans,JAK.95-R03,Term. Lebak Bulus via Jln. Pejaten Raya,05:00,22:00,20.0,10.0
+JAK.98,Pasar Rebo - Munjul,Mikrotrans,JAK.98-L02,Tanah Merdeka dan Munjul,05:00,22:00,6.0,3.0
+JAK.98,Pasar Rebo - Munjul,Mikrotrans,JAK.98-R03,Munjul,05:00,22:00,6.0,3.0
+JAK.98,Pasar Rebo - Munjul,Mikrotrans,JAK.98-R04,Tanah Merdeka,05:00,22:00,6.0,3.0
+JAK.99,Term. Pulo Gadung - Lampiri,Mikrotrans,JAK.99-L01,Lampiri dan Term. Pulo Gadung,05:00,22:00,6.0,3.0
+JAK.99,Term. Pulo Gadung - Lampiri,Mikrotrans,JAK.99-R01,Lampiri,05:00,22:00,20.0,10.0
+JAK.99,Term. Pulo Gadung - Lampiri,Mikrotrans,JAK.99-R02,Term. Pulo Gadung,05:00,22:00,6.0,3.0
+L13E,Puri Beta - Flyover Kuningan (Express),BRT,L13E-L07,Flyover Kuningan dan Puri Beta (Express),05:00,22:00,11.7,5.8
+L13E,Puri Beta - Flyover Kuningan (Express),BRT,L13E-L08,CSW dan Puri Beta,05:00,22:00,11.7,5.8
+L13E,Puri Beta - Flyover Kuningan (Express),BRT,L13E-L09,Petukangan D'MASIV dan CSW,05:00,22:00,6.0,3.0
+L13E,Puri Beta - Flyover Kuningan (Express),BRT,L13E-R03,Flyover Kuningan (Express),05:00,22:00,3.8,1.9
+L13E,Puri Beta - Flyover Kuningan (Express),BRT,L13E-R11,Puri Beta (Express),05:00,22:00,4.6,2.3
+P11,Bogor - Blok M,Transjabodetabek,P11-R01,Blok M,05:00,22:00,20.0,10.0
+P11,Bogor - Blok M,Transjabodetabek,P11-R02,Bogor,05:00,22:00,20.0,10.0
+P11,Bogor - Blok M,Transjabodetabek,P11-R09,Blok M,05:00,22:00,20.0,10.0
+S11,BSD - Jelambar,Transjabodetabek,S11-L05,Jelambar 2 dan BSD,05:00,22:00,16.7,8.3
+S11,BSD - Jelambar,Transjabodetabek,S11-R05,Jelambar,05:00,22:00,60.0,30.0
+S11,BSD - Jelambar,Transjabodetabek,S11-R07,BSD,05:00,06:00,60.0,30.0
+S12,Term. BSD - Fatmawati,Royaltrans,S12-R05,Fatmawati,06:20,06:55,15.0,7.5
+S12,Term. BSD - Fatmawati,Royaltrans,S12-R05,Fatmawati,17:00,17:30,15.0,7.5
+S12,Term. BSD - Fatmawati,Royaltrans,S12-R05,Fatmawati,17:30,19:10,100.0,50.0
+S12,Term. BSD - Fatmawati,Royaltrans,S12-R05,Fatmawati,19:10,19:50,15.0,7.5
+S12,Term. BSD - Fatmawati,Royaltrans,S12-R06,Terminal BSD,05:30,06:00,15.0,7.5
+S12,Term. BSD - Fatmawati,Royaltrans,S12-R06,Terminal BSD,06:00,07:10,70.0,35.0
+S12,Term. BSD - Fatmawati,Royaltrans,S12-R06,Terminal BSD,07:10,07:50,15.0,7.5
+S12,Term. BSD - Fatmawati,Royaltrans,S12-R06,Terminal BSD,18:05,18:40,15.0,7.5
+S14,Summarecon Serpong - Lebak Bulus,Royaltrans,S14-R01,Lebak Bulus,06:00,06:30,30.0,15.0
+S14,Summarecon Serpong - Lebak Bulus,Royaltrans,S14-R01,Lebak Bulus,08:15,09:00,45.0,22.5
+S14,Summarecon Serpong - Lebak Bulus,Royaltrans,S14-R01,Lebak Bulus,19:05,19:35,30.0,15.0
+S14,Summarecon Serpong - Lebak Bulus,Royaltrans,S14-R02,Summarecon Serpong,07:25,07:55,30.0,15.0
+S14,Summarecon Serpong - Lebak Bulus,Royaltrans,S14-R02,Summarecon Serpong,17:30,18:00,30.0,15.0
+S14,Summarecon Serpong - Lebak Bulus,Royaltrans,S14-R02,Summarecon Serpong,20:00,20:30,30.0,15.0
+S21,Ciputat - CSW,Transjabodetabek,S21-L05,CSW dan Ciputat,05:00,22:00,20.0,10.0
+S21,Ciputat - CSW,Transjabodetabek,S21-R05,Kejaksaan Agung,05:00,22:00,8.6,4.3
+S21,Ciputat - CSW,Transjabodetabek,S21-R06,Ciputat,05:00,06:00,10.0,5.0
+S22,Ciputat - Kampung Rambutan,Transjabodetabek,S22-L03,Kampung Rambutan dan Ciputat,05:00,22:00,20.0,10.0
+S22,Ciputat - Kampung Rambutan,Transjabodetabek,S22-L04,Lebak Bulus dan Ciputat,05:00,22:00,20.0,10.0
+S22,Ciputat - Kampung Rambutan,Transjabodetabek,S22-P01,Lebak Bulus,05:00,22:00,20.0,10.0
+S22,Ciputat - Kampung Rambutan,Transjabodetabek,S22-R05,Kampung Rambutan,05:00,22:00,60.0,30.0
+S22,Ciputat - Kampung Rambutan,Transjabodetabek,S22-R06,Ciputat,05:00,22:00,20.0,10.0
+S22,Ciputat - Kampung Rambutan,Transjabodetabek,S22-T01,Kampung Rambutan,05:00,22:00,60.0,30.0
+S31,Bintaro - Fatmawati,Royaltrans,S31-R01,Fatmawati,06:50,07:10,15.0,7.5
+S31,Bintaro - Fatmawati,Royaltrans,S31-R01,Fatmawati,17:05,17:20,15.0,7.5
+S31,Bintaro - Fatmawati,Royaltrans,S31-R01,Fatmawati,17:20,18:45,85.0,42.5
+S31,Bintaro - Fatmawati,Royaltrans,S31-R01,Fatmawati,18:45,19:05,15.0,7.5
+S31,Bintaro - Fatmawati,Royaltrans,S31-R02,Bintaro,06:00,06:15,15.0,7.5
+S31,Bintaro - Fatmawati,Royaltrans,S31-R02,Bintaro,06:15,07:40,85.0,42.5
+S31,Bintaro - Fatmawati,Royaltrans,S31-R02,Bintaro,07:40,08:00,15.0,7.5
+S31,Bintaro - Fatmawati,Royaltrans,S31-R02,Bintaro,17:55,18:55,15.0,7.5
+S61,Alam Sutera - Blok M,Transjabodetabek,S61-L01,Blok M dan Alam Sutera,05:00,22:00,15.0,7.5
+S61,Alam Sutera - Blok M,Transjabodetabek,S61-L02,Semanggi dan Alam Sutera,05:00,22:00,6.0,3.0
+S61,Alam Sutera - Blok M,Transjabodetabek,S61-R01,Blok M,05:00,22:00,20.0,10.0
+S61,Alam Sutera - Blok M,Transjabodetabek,S61-R02,Alam Sutera,05:00,22:00,20.0,10.0
+SH1,Kalideres - Perkantoran Soekarno-Hatta,Transjabodetabek,SH1-L02,Perkantoran Soetta dan Kalideres,05:00,22:00,20.0,10.0
+SH1,Kalideres - Perkantoran Soekarno-Hatta,Transjabodetabek,SH1-R04,Kalideres,05:00,22:00,20.0,10.0
+SH2,Blok M - Bandara Soekarno-Hatta,Transjabodetabek,SH2-L01,Bandara Soekarno-Hatta dan Blok M,05:00,22:00,20.0,10.0
+SH2,Blok M - Bandara Soekarno-Hatta,Transjabodetabek,SH2-R01,Bandara Soekarno-Hatta,05:00,22:00,20.0,10.0
+SH2,Blok M - Bandara Soekarno-Hatta,Transjabodetabek,SH2-R02,Blok M,05:00,22:00,20.0,10.0
+T11,Poris Plawad - Petamburan,Transjabodetabek,T11-L11,Petamburan dan Poris Plawad,05:00,22:00,15.0,7.5
+T11,Poris Plawad - Petamburan,Transjabodetabek,T11-L12,Petamburan dan Palem Semi,05:00,09:00,21.7,10.8
+T11,Poris Plawad - Petamburan,Transjabodetabek,T11-L13,Palem Semi dan Petamburan,05:00,22:00,15.0,7.5
+T11,Poris Plawad - Petamburan,Transjabodetabek,T11-P05,Petamburan,05:00,22:00,46.7,23.3
+T11,Poris Plawad - Petamburan,Transjabodetabek,T11-R10,Petamburan,05:00,22:00,60.0,30.0
+T11,Poris Plawad - Petamburan,Transjabodetabek,T11-R11,Poris Plawad,05:00,06:00,55.0,27.5
+T12,Poris Plawad - Juanda,Transjabodetabek,T12-L03,Juanda dan Poris Plawad,05:00,22:00,15.0,7.5
+T12,Poris Plawad - Juanda,Transjabodetabek,T12-R04,Poris Plawad,05:00,22:00,34.3,17.1
+T12,Poris Plawad - Juanda,Transjabodetabek,T12-R05,Juanda,05:00,22:00,18.3,9.2
+T31,PIK 2 - Blok M,Transjabodetabek,T31-L01,Semanggi dan PIK 2,05:00,22:00,20.0,10.0
+T31,PIK 2 - Blok M,Transjabodetabek,T31-R03,Blok M,05:00,22:00,20.0,10.0
+T31,PIK 2 - Blok M,Transjabodetabek,T31-R04,PIK 2,05:00,22:00,20.0,10.0

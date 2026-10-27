@@ -1,0 +1,18 @@
+{
+ "sumber": "Opentransum, CC BY-NC",
+ "Biskita Trans Pakuan": {
+  "rute": 8,
+  "halte": 158,
+  "data_diambil_opentransum": "2026-07-31T06:55:20.804Z"
+ },
+ "Bus Bekasi Keren": {
+  "rute": 1,
+  "halte": 33,
+  "data_diambil_opentransum": "2026-08-20T00:09:38.142Z"
+ },
+ "Trans Tangerang Tayo": {
+  "rute": 15,
+  "halte": 230,
+  "data_diambil_opentransum": "2026-07-31T06:55:05.644Z"
+ }
+}
