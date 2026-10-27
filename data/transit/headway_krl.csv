@@ -1,0 +1,25 @@
+lintas,stasiun_acuan,rentang,kereta_per_arah,headway_menit,jadwal_diperbarui
+Bogor,Manggarai,pagi sibuk 06.00-09.00,57.5,3.1,2025-03-30
+Bogor,Manggarai,siang 09.00-16.00,115.0,3.7,2025-03-30
+Bogor,Manggarai,sore sibuk 16.00-19.00,57.5,3.1,2025-03-30
+Bogor,Manggarai,malam 19.00-22.00,47.0,3.8,2025-03-30
+Cikarang,Tanah Abang,pagi sibuk 06.00-09.00,33.5,5.4,2025-03-30
+Cikarang,Tanah Abang,siang 09.00-16.00,67.5,6.2,2025-03-30
+Cikarang,Tanah Abang,sore sibuk 16.00-19.00,34.0,5.3,2025-03-30
+Cikarang,Tanah Abang,malam 19.00-22.00,31.5,5.7,2025-03-30
+Rangkasbitung,Tanah Abang,pagi sibuk 06.00-09.00,10.5,17.1,2025-03-30
+Rangkasbitung,Tanah Abang,siang 09.00-16.00,19.0,22.1,2025-03-30
+Rangkasbitung,Tanah Abang,sore sibuk 16.00-19.00,9.0,20.0,2025-03-30
+Rangkasbitung,Tanah Abang,malam 19.00-22.00,9.5,18.9,2025-03-30
+Tangerang,Duri,pagi sibuk 06.00-09.00,18,10.0,2025-03-30
+Tangerang,Duri,siang 09.00-16.00,22,19.1,2025-03-30
+Tangerang,Duri,sore sibuk 16.00-19.00,18,10.0,2025-03-30
+Tangerang,Duri,malam 19.00-22.00,8.0,22.5,2025-03-30
+Tanjung Priok,Jakarta Kota,pagi sibuk 06.00-09.00,15,12.0,2025-03-30
+Tanjung Priok,Jakarta Kota,siang 09.00-16.00,33,12.7,2025-03-30
+Tanjung Priok,Jakarta Kota,sore sibuk 16.00-19.00,15,12.0,2025-03-30
+Tanjung Priok,Jakarta Kota,malam 19.00-22.00,10,18.0,2025-03-30
+Bandara (BST),Duri,pagi sibuk 06.00-09.00,11.0,16.4,2025-03-30
+Bandara (BST),Duri,siang 09.00-16.00,24.0,17.5,2025-03-30
+Bandara (BST),Duri,sore sibuk 16.00-19.00,12.0,15.0,2025-03-30
+Bandara (BST),Duri,malam 19.00-22.00,11.0,16.4,2025-03-30

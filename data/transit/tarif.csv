@@ -1,0 +1,26 @@
+moda,komponen,nilai_rp,satuan,berlaku_sejak,sumber,diakses
+TransJakarta,tarif reguler,3500,per perjalanan (transit gratis 3 jam),,https://ekonomi.bisnis.com/read/20260106/98/1942136/lengkap-tarif-transjakarta-krl-mrt-hingga-lrt-awal-2026,2026-10-27
+TransJakarta,tarif pagi 05.00-07.00,2000,per perjalanan,,https://ekonomi.bisnis.com/read/20260106/98/1942136/lengkap-tarif-transjakarta-krl-mrt-hingga-lrt-awal-2026,2026-10-27
+TransJakarta,Mikrotrans (JakLingko),0,per perjalanan,,https://ekonomi.bisnis.com/read/20260106/98/1942136/lengkap-tarif-transjakarta-krl-mrt-hingga-lrt-awal-2026,2026-10-27
+TransJakarta,Royaltrans,20000,per perjalanan (S13 S14 T21: 35000),,https://ekonomi.bisnis.com/read/20260106/98/1942136/lengkap-tarif-transjakarta-krl-mrt-hingga-lrt-awal-2026,2026-10-27
+KRL,25 km pertama,3000,per perjalanan,,https://ekonomi.bisnis.com/read/20260106/98/1942136/lengkap-tarif-transjakarta-krl-mrt-hingga-lrt-awal-2026,2026-10-27
+KRL,tiap 10 km berikutnya,1000,per 10 km,,https://ekonomi.bisnis.com/read/20260106/98/1942136/lengkap-tarif-transjakarta-krl-mrt-hingga-lrt-awal-2026,2026-10-27
+MRT Jakarta,minimum,4000,per perjalanan,,https://ekonomi.bisnis.com/read/20260106/98/1942136/lengkap-tarif-transjakarta-krl-mrt-hingga-lrt-awal-2026,2026-10-27
+MRT Jakarta,maksimum,14000,per perjalanan (rumus per stasiun belum didapat),,https://ekonomi.bisnis.com/read/20260106/98/1942136/lengkap-tarif-transjakarta-krl-mrt-hingga-lrt-awal-2026,2026-10-27
+LRT Jakarta,tarif datar,5000,per perjalanan,,https://ekonomi.bisnis.com/read/20260106/98/1942136/lengkap-tarif-transjakarta-krl-mrt-hingga-lrt-awal-2026,2026-10-27
+LRT Jabodebek,tarif dasar,5000,per perjalanan,,https://ekonomi.bisnis.com/read/20260106/98/1942136/lengkap-tarif-transjakarta-krl-mrt-hingga-lrt-awal-2026,2026-10-27
+LRT Jabodebek,per km,700,per km,,https://ekonomi.bisnis.com/read/20260106/98/1942136/lengkap-tarif-transjakarta-krl-mrt-hingga-lrt-awal-2026,2026-10-27
+LRT Jabodebek,maksimum jam sibuk 06.00-08.59 dan 16.00-19.59,20000,per perjalanan,,https://ekonomi.bisnis.com/read/20260106/98/1942136/lengkap-tarif-transjakarta-krl-mrt-hingga-lrt-awal-2026,2026-10-27
+LRT Jabodebek,maksimum di luar jam sibuk,10000,per perjalanan,,https://ekonomi.bisnis.com/read/20260106/98/1942136/lengkap-tarif-transjakarta-krl-mrt-hingga-lrt-awal-2026,2026-10-27
+Ojol (Zona II Jabodetabek),per km batas bawah,2550,per km,2022-09-10,https://www.suarasurabaya.net/?p=581598,2026-10-27
+Ojol (Zona II Jabodetabek),per km batas atas,2800,per km,2022-09-10,https://www.suarasurabaya.net/?p=581598,2026-10-27
+Ojol (Zona II Jabodetabek),minimum batas bawah,10200,per perjalanan,2022-09-10,https://www.suarasurabaya.net/?p=581598,2026-10-27
+Ojol (Zona II Jabodetabek),minimum batas atas,11200,per perjalanan,2022-09-10,https://www.suarasurabaya.net/?p=581598,2026-10-27
+Tol,Dalam Kota Jakarta golongan I,11000,per masuk (sistem terbuka),2024-09-22,https://oto.detik.com/berita/d-7767267/daftar-tarif-tol-dalam-kota-jakarta-terbaru-ada-kenaikan,2026-10-27
+Tol,Jagorawi golongan I,7500,per masuk (sistem terbuka),2023-08-20,https://ekonomi.bisnis.com/read/20230822/45/1687174/kenaikan-tarif-tol-jagorawi-berimbas-ke-jorr-s-segini-besarannya,2026-10-27
+Tol,JORR S golongan I,16000,per masuk,2023-08-20,https://ekonomi.bisnis.com/read/20230822/45/1687174/kenaikan-tarif-tol-jagorawi-berimbas-ke-jorr-s-segini-besarannya,2026-10-27
+BBM,Pertalite,10000,per liter,,https://ekonomi.bisnis.com/read/20261015/44/2012744/daftar-lengkap-harga-bbm-terbaru-15-oktober-2026-mana-yang-termurah,2026-10-27
+BBM,Pertamax (RON 92),15950,per liter,,https://ekonomi.bisnis.com/read/20261015/44/2012744/daftar-lengkap-harga-bbm-terbaru-15-oktober-2026-mana-yang-termurah,2026-10-27
+BBM,Pertamax Turbo (RON 98),19600,per liter,,https://ekonomi.bisnis.com/read/20261015/44/2012744/daftar-lengkap-harga-bbm-terbaru-15-oktober-2026-mana-yang-termurah,2026-10-27
+BBM,Biosolar,6800,per liter,,https://ekonomi.bisnis.com/read/20261015/44/2012744/daftar-lengkap-harga-bbm-terbaru-15-oktober-2026-mana-yang-termurah,2026-10-27
+BBM,Dexlite,23700,per liter,,https://ekonomi.bisnis.com/read/20261015/44/2012744/daftar-lengkap-harga-bbm-terbaru-15-oktober-2026-mana-yang-termurah,2026-10-27

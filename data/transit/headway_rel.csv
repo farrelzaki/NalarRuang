@@ -1,0 +1,8 @@
+moda,lintas,waktu,headway_menit,catatan,sumber,tanggal_sumber
+MRT Jakarta,Lebak Bulus - Bundaran HI - Kota,hari kerja 07.00-09.00 dan 17.00-19.00,5,jadwal 2023 dari situs MRT; perlu dicek ulang,https://ekonomi.bisnis.com/read/20230509/98/1654194/jadwal-terbaru-mrt-jakarta-lewat-tiap-5-menit-saat-jam-sibuk,2023-05-09
+MRT Jakarta,Lebak Bulus - Bundaran HI - Kota,hari kerja di luar jam sibuk dan akhir pekan,10,jadwal 2023 dari situs MRT; perlu dicek ulang,https://ekonomi.bisnis.com/read/20230509/98/1654194/jadwal-terbaru-mrt-jakarta-lewat-tiap-5-menit-saat-jam-sibuk,2023-05-09
+LRT Jabodebek,Jatimulya - Dukuh Atas,jam sibuk pagi sampai 09.00,8.5,disebut 8-9 menit,https://www.cnbcindonesia.com/news/20260521123028-4-736658/terungkap-ini-jam-neraka-naik-lrt-jabodebek,2026-05-21
+LRT Jabodebek,Harjamukti - Dukuh Atas,jam sibuk pagi sampai 09.00,8.5,disebut 8-9 menit,https://www.cnbcindonesia.com/news/20260521123028-4-736658/terungkap-ini-jam-neraka-naik-lrt-jabodebek,2026-05-21
+KRL,Tanah Abang - Rangkasbitung,umum,10,sinyal blok tertutup,https://katadata.co.id/amp/berita/industri/6a3ea84e885bb/pemerintah-benahi-jalur-krl-rangkasbitung-kereta-bisa-lebih-sering-melintas,2026-06-27
+KRL,Bogor; Cikarang; Tangerang; Tanjung Priok; Bandara,per rentang jam,,lihat headway_krl.csv (jadwal Maret 2025),https://api.comuline.com,2025-03-30
+LRT Jakarta,Pegangsaan Dua - Velodrome,umum,,belum ada sumber resmi,,

@@ -1,0 +1,1504 @@
+kode_kemendagri,nama,kecamatan,kota,penduduk_2025_est,luas_km2,kepadatan_per_km2
+31.73.01.1001,Cengkareng Barat,Cengkareng,Jakarta Barat,87543,3.94,22211
+31.73.01.1006,Cengkareng Timur,Cengkareng,Jakarta Barat,86488,4.6,18802
+31.73.01.1002,Duri Kosambi,Cengkareng,Jakarta Barat,104243,5.35,19484
+31.73.01.1005,Kapuk,Cengkareng,Jakarta Barat,89416,5.12,17450
+31.73.01.1004,Kedaung Kali Angke,Cengkareng,Jakarta Barat,37126,2.98,12458
+31.73.01.1003,Rawa Buaya,Cengkareng,Jakarta Barat,75271,3.72,20257
+31.73.02.1001,Grogol,Grogol Petamburan,Jakarta Barat,18199,1.01,18065
+31.73.02.1004,Jelambar,Grogol Petamburan,Jakarta Barat,34920,1.54,22713
+31.73.02.1006,Jelambar Baru,Grogol Petamburan,Jakarta Barat,30600,1.5,20400
+31.73.02.1005,Tanjung Duren Selatan,Grogol Petamburan,Jakarta Barat,26226,1.36,19316
+31.73.02.1002,Tanjung Duren Utara,Grogol Petamburan,Jakarta Barat,25915,1.33,19528
+31.73.02.1003,Tomang,Grogol Petamburan,Jakarta Barat,41057,1.79,22923
+31.73.02.1007,Wijaya Kusuma,Grogol Petamburan,Jakarta Barat,44218,2.31,19170
+31.73.06.1001,Kalideres,Kalideres,Jakarta Barat,101505,5.64,17994
+31.73.06.1004,Kamal,Kalideres,Jakarta Barat,63275,4.87,13004
+31.73.06.1005,Pegadungan,Kalideres,Jakarta Barat,135503,7.52,18016
+31.73.06.1002,Semanan,Kalideres,Jakarta Barat,83103,5.36,15516
+31.73.06.1003,Tegal Alur,Kalideres,Jakarta Barat,85238,5.59,15259
+31.73.05.1005,Duri Kepa,Kebon Jeruk,Jakarta Barat,93174,3.66,25442
+31.73.05.1001,Kebon Jeruk,Kebon Jeruk,Jakarta Barat,93330,3.69,25326
+31.73.05.1007,Kedoya Selatan,Kebon Jeruk,Jakarta Barat,54715,2.44,22459
+31.73.05.1006,Kedoya Utara,Kebon Jeruk,Jakarta Barat,73585,3.19,23046
+31.73.05.1004,Kelapa Dua,Kebon Jeruk,Jakarta Barat,34065,1.43,23880
+31.73.05.1003,Sukabumi Selatan,Kebon Jeruk,Jakarta Barat,41990,1.67,25080
+31.73.05.1002,Sukabumi Utara,Kebon Jeruk,Jakarta Barat,42356,1.57,26903
+31.73.08.1005,Joglo,Kembangan,Jakarta Barat,85746,4.38,19585
+31.73.08.1006,Kembangan Selatan,Kembangan,Jakarta Barat,82595,4.51,18318
+31.73.08.1001,Kembangan Utara,Kembangan,Jakarta Barat,91051,4.18,21760
+31.73.08.1003,Meruya Selatan,Kembangan,Jakarta Barat,67983,3.22,21118
+31.73.08.1002,Meruya Utara,Kembangan,Jakarta Barat,101909,4.07,25054
+31.73.08.1004,Srengseng,Kembangan,Jakarta Barat,96522,4.56,21166
+31.73.07.1004,Jatipulo,Pal Merah,Jakarta Barat,22679,0.84,27107
+31.73.07.1005,Kemanggisan,Pal Merah,Jakarta Barat,52035,2.1,24769
+31.73.07.1006,Kota Bambu Selatan,Pal Merah,Jakarta Barat,14074,0.58,24089
+31.73.07.1003,Kota Bambu Utara,Pal Merah,Jakarta Barat,19105,0.67,28631
+31.73.07.1001,Palmerah,Pal Merah,Jakarta Barat,59195,2.2,26849
+31.73.07.1002,Slipi,Pal Merah,Jakarta Barat,23331,0.98,23925
+31.73.03.1007,Glodok,Taman Sari,Jakarta Barat,9288,0.37,25206
+31.73.03.1006,Keagungan,Taman Sari,Jakarta Barat,8860,0.35,25092
+31.73.03.1002,Krukut,Taman Sari,Jakarta Barat,14040,0.55,25449
+31.73.03.1005,Mangga Besar,Taman Sari,Jakarta Barat,10805,0.55,19677
+31.73.03.1003,Maphar,Taman Sari,Jakarta Barat,14467,0.63,22979
+31.73.03.1008,Pinangsia,Taman Sari,Jakarta Barat,15250,0.98,15570
+31.73.03.1001,Taman Sari,Taman Sari,Jakarta Barat,16453,0.68,24200
+31.73.03.1004,Tangki,Taman Sari,Jakarta Barat,8054,0.38,21071
+31.73.04.1007,Angke,Tambora,Jakarta Barat,18149,0.8,22824
+31.73.04.1011,Duri Selatan,Tambora,Jakarta Barat,9811,0.38,25599
+31.73.04.1003,Duri Utara,Tambora,Jakarta Barat,8801,0.37,23866
+31.73.04.1006,Jembatan Besi,Tambora,Jakarta Barat,11742,0.52,22519
+31.73.04.1008,Jembatan Lima,Tambora,Jakarta Barat,12266,0.47,25951
+31.73.04.1002,Kali Anyar,Tambora,Jakarta Barat,6685,0.31,21346
+31.73.04.1005,Krendang,Tambora,Jakarta Barat,9765,0.33,29178
+31.73.04.1009,Pekojan,Tambora,Jakarta Barat,17909,0.78,23035
+31.73.04.1010,Roa Malaka,Tambora,Jakarta Barat,10739,0.53,20312
+31.73.04.1001,Tambora,Tambora,Jakarta Barat,7877,0.29,27331
+31.73.04.1004,Tanah Sereal,Tambora,Jakarta Barat,16491,0.63,26270
+31.71.05.1002,Cempaka Putih Barat,Cempaka Putih,Jakarta Pusat,38487,1.25,30735
+31.71.05.1001,Cempaka Putih Timur,Cempaka Putih,Jakarta Pusat,54155,2.18,24889
+31.71.05.1003,Rawasari,Cempaka Putih,Jakarta Pusat,29659,1.24,23989
+31.71.01.1002,Cideng,Gambir,Jakarta Pusat,30590,1.25,24408
+31.71.01.1006,Duri Pulo,Gambir,Jakarta Pusat,13516,0.68,19834
+31.71.01.1001,Gambir,Gambir,Jakarta Pusat,22152,2.52,8794
+31.71.01.1005,Kebon Kelapa,Gambir,Jakarta Pusat,22947,0.79,29200
+31.71.01.1004,Petojo Selatan,Gambir,Jakarta Pusat,27750,1.14,24407
+31.71.01.1003,Petojo Utara,Gambir,Jakarta Pusat,27180,1.13,24072
+31.71.08.1003,Galur,Johar Baru,Jakarta Pusat,6718,0.27,25141
+31.71.08.1001,Johar Baru,Johar Baru,Jakarta Pusat,34930,1.17,29883
+31.71.08.1002,Kampung Rawa,Johar Baru,Jakarta Pusat,7757,0.3,25583
+31.71.08.1004,Tanah Tinggi,Johar Baru,Jakarta Pusat,19125,0.63,30478
+31.71.03.1006,Cempaka Baru,Kemayoran,Jakarta Pusat,28653,0.96,29716
+31.71.03.1005,Gunung Sahari Selatan,Kemayoran,Jakarta Pusat,29405,1.63,18073
+31.71.03.1003,Harapan Mulia,Kemayoran,Jakarta Pusat,9262,0.53,17576
+31.71.03.1002,Kebon Kosong,Kemayoran,Jakarta Pusat,24656,0.96,25688
+31.71.03.1001,Kemayoran,Kemayoran,Jakarta Pusat,18689,0.59,31625
+31.71.03.1004,Serdang,Kemayoran,Jakarta Pusat,24299,0.81,29818
+31.71.03.1007,Sumur Batu,Kemayoran,Jakarta Pusat,29110,1.14,25542
+31.71.03.1008,Utan Panjang,Kemayoran,Jakarta Pusat,16855,0.54,31187
+31.71.06.1003,Cikini,Menteng,Jakarta Pusat,20019,0.8,25165
+31.71.06.1004,Gondangdia,Menteng,Jakarta Pusat,36540,1.46,24946
+31.71.06.1005,Kebon Sirih,Menteng,Jakarta Pusat,15550,0.82,18902
+31.71.06.1001,Menteng,Menteng,Jakarta Pusat,65008,2.42,26881
+31.71.06.1002,Pegangsaan,Menteng,Jakarta Pusat,27144,0.97,28007
+31.71.02.1004,Gunung Sahari Utara,Sawah Besar,Jakarta Pusat,30732,1.26,24397
+31.71.02.1002,Karang Anyar,Sawah Besar,Jakarta Pusat,13266,0.5,26673
+31.71.02.1003,Kartini,Sawah Besar,Jakarta Pusat,16608,0.52,31999
+31.71.02.1005,Mangga Dua Selatan,Sawah Besar,Jakarta Pusat,24490,1.3,18809
+31.71.02.1001,Pasar Baru,Sawah Besar,Jakarta Pusat,38870,1.78,21846
+31.71.04.1006,Bungur,Senen,Jakarta Pusat,19478,0.63,30844
+31.71.04.1002,Kenari,Senen,Jakarta Pusat,21177,0.9,23616
+31.71.04.1004,Kramat,Senen,Jakarta Pusat,21424,0.72,29657
+31.71.04.1005,Kwitang,Senen,Jakarta Pusat,14322,0.44,32235
+31.71.04.1003,Paseban,Senen,Jakarta Pusat,24486,0.82,29838
+31.71.04.1001,Senen,Senen,Jakarta Pusat,13821,0.84,16518
+31.71.07.1002,Bendungan Hilir,Tanah Abang,Jakarta Pusat,40083,1.58,25330
+31.71.07.1001,Gelora,Tanah Abang,Jakarta Pusat,27155,3.34,8126
+31.71.07.1007,Kampung Bali,Tanah Abang,Jakarta Pusat,17828,0.73,24583
+31.71.07.1003,Karet Tengsin,Tanah Abang,Jakarta Pusat,24024,1.53,15740
+31.71.07.1006,Kebon Kacang,Tanah Abang,Jakarta Pusat,19709,0.72,27226
+31.71.07.1005,Kebon Melati,Tanah Abang,Jakarta Pusat,28521,1.26,22578
+31.71.07.1004,Petamburan,Tanah Abang,Jakarta Pusat,22512,0.88,25611
+31.74.06.1001,Cilandak Barat,Cilandak,Jakarta Selatan,85889,5.9,14566
+31.74.06.1005,Cipete Selatan,Cilandak,Jakarta Selatan,43957,2.39,18412
+31.74.06.1004,Gandaria Selatan,Cilandak,Jakarta Selatan,23473,1.6,14694
+31.74.06.1002,Lebak Bulus,Cilandak,Jakarta Selatan,62104,4.37,14210
+31.74.06.1003,Pondok Labu,Cilandak,Jakarta Selatan,54181,3.49,15516
+31.74.09.1003,Ciganjur,Jagakarsa,Jakarta Selatan,56910,3.64,15633
+31.74.09.1006,Cipedak,Jagakarsa,Jakarta Selatan,46692,4.04,11555
+31.74.09.1001,Jagakarsa,Jagakarsa,Jakarta Selatan,83404,5.08,16426
+31.74.09.1004,Lenteng Agung,Jagakarsa,Jakarta Selatan,50156,3.15,15906
+31.74.09.1002,Srengseng Sawah,Jagakarsa,Jakarta Selatan,62523,5.57,11225
+31.74.09.1005,Tanjung Barat,Jagakarsa,Jakarta Selatan,58547,3.58,16372
+31.74.07.1010,Cipete Utara,Kebayoran Baru,Jakarta Selatan,31799,1.7,18724
+31.74.07.1009,Gandaria Utara,Kebayoran Baru,Jakarta Selatan,29710,1.57,18908
+31.74.07.1002,Gunung,Kebayoran Baru,Jakarta Selatan,23184,1.42,16324
+31.74.07.1003,Kramat Pela,Kebayoran Baru,Jakarta Selatan,20095,1.25,16064
+31.74.07.1001,Melawai,Kebayoran Baru,Jakarta Selatan,16424,1.28,12828
+31.74.07.1008,Petogogan,Kebayoran Baru,Jakarta Selatan,15543,0.85,18228
+31.74.07.1007,Pulo,Kebayoran Baru,Jakarta Selatan,16478,1.1,14939
+31.74.07.1005,Rawa Barat,Kebayoran Baru,Jakarta Selatan,11852,0.65,18200
+31.74.07.1004,Selong,Kebayoran Baru,Jakarta Selatan,20863,1.43,14565
+31.74.07.1006,Senayan,Kebayoran Baru,Jakarta Selatan,12476,1.43,8737
+31.74.05.1003,Cipulir,Kebayoran Lama,Jakarta Selatan,31887,1.68,18957
+31.74.05.1005,Grogol Selatan,Kebayoran Lama,Jakarta Selatan,53272,2.88,18482
+31.74.05.1004,Grogol Utara,Kebayoran Lama,Jakarta Selatan,65824,3.3,19933
+31.74.05.1006,Kebayoran Lama Selatan,Kebayoran Lama,Jakarta Selatan,34862,2.08,16741
+31.74.05.1001,Kebayoran Lama Utara,Kebayoran Lama,Jakarta Selatan,38397,2.32,16576
+31.74.05.1002,Pondok Pinang,Kebayoran Lama,Jakarta Selatan,105737,6.79,15579
+31.74.03.1002,Bangka,Mampang Prapatan,Jakarta Selatan,55921,3.18,17600
+31.74.03.1005,Kuningan Barat,Mampang Prapatan,Jakarta Selatan,10391,0.98,10611
+31.74.03.1001,Mampang Prapatan,Mampang Prapatan,Jakarta Selatan,13119,0.8,16387
+31.74.03.1003,Pela Mampang,Mampang Prapatan,Jakarta Selatan,36420,1.94,18794
+31.74.03.1004,Tegal Parang,Mampang Prapatan,Jakarta Selatan,20954,1.05,19984
+31.74.08.1006,Cikoko,Pancoran,Jakarta Selatan,10197,0.67,15289
+31.74.08.1004,Duren Tiga,Pancoran,Jakarta Selatan,37801,2.0,18907
+31.74.08.1002,Kalibata,Pancoran,Jakarta Selatan,41952,2.35,17823
+31.74.08.1001,Pancoran,Pancoran,Jakarta Selatan,21816,1.4,15580
+31.74.08.1005,Pengadegan,Pancoran,Jakarta Selatan,19164,0.97,19723
+31.74.08.1003,Rawajati,Pancoran,Jakarta Selatan,23861,1.48,16161
+31.74.04.1003,Cilandak Timur,Pasar Minggu,Jakarta Selatan,50927,3.83,13286
+31.74.04.1002,Jati Padang,Pasar Minggu,Jakarta Selatan,44284,2.4,18485
+31.74.04.1007,Kebagusan,Pasar Minggu,Jakarta Selatan,43512,2.78,15644
+31.74.04.1001,Pasar Minggu,Pasar Minggu,Jakarta Selatan,32635,1.94,16842
+31.74.04.1006,Pejaten Barat,Pasar Minggu,Jakarta Selatan,54603,2.96,18476
+31.74.04.1005,Pejaten Timur,Pasar Minggu,Jakarta Selatan,51932,2.93,17696
+31.74.04.1004,Ragunan,Pasar Minggu,Jakarta Selatan,54086,4.77,11341
+31.74.10.1002,Bintaro,Pesanggrahan,Jakarta Selatan,74166,4.57,16224
+31.74.10.1001,Pesanggrahan,Pesanggrahan,Jakarta Selatan,30247,1.93,15637
+31.74.10.1004,Petukangan Selatan,Pesanggrahan,Jakarta Selatan,38911,2.13,18237
+31.74.10.1003,Petukangan Utara,Pesanggrahan,Jakarta Selatan,58357,2.81,20798
+31.74.10.1005,Ulujami,Pesanggrahan,Jakarta Selatan,39675,2.04,19415
+31.74.02.1007,Guntur,Setiabudi,Jakarta Selatan,8060,0.66,12277
+31.74.02.1004,Karet,Setiabudi,Jakarta Selatan,12295,0.99,12396
+31.74.02.1003,Karet Kuningan,Setiabudi,Jakarta Selatan,26316,1.7,15465
+31.74.02.1002,Karet Semanggi,Setiabudi,Jakarta Selatan,7653,0.91,8439
+31.74.02.1008,Kuningan Timur,Setiabudi,Jakarta Selatan,23560,2.17,10854
+31.74.02.1005,Menteng Atas,Setiabudi,Jakarta Selatan,17265,1.04,16533
+31.74.02.1006,Pasar Manggis,Setiabudi,Jakarta Selatan,16676,0.78,21406
+31.74.02.1001,Setia Budi,Setiabudi,Jakarta Selatan,7589,0.67,11312
+31.74.01.1005,Bukit Duri,Tebet,Jakarta Selatan,23210,1.07,21655
+31.74.01.1004,Kebon Baru,Tebet,Jakarta Selatan,26844,1.27,21171
+31.74.01.1007,Manggarai,Tebet,Jakarta Selatan,18229,1.06,17133
+31.74.01.1006,Manggarai Selatan,Tebet,Jakarta Selatan,11477,0.56,20569
+31.74.01.1003,Menteng Dalam,Tebet,Jakarta Selatan,40333,2.42,16652
+31.74.01.1002,Tebet Barat,Tebet,Jakarta Selatan,32042,1.64,19534
+31.74.01.1001,Tebet Timur,Tebet,Jakarta Selatan,26353,1.32,19970
+31.75.06.1007,Cakung Barat,Cakung,Jakarta Timur,66034,6.14,10760
+31.75.06.1004,Cakung Timur,Cakung,Jakarta Timur,79599,9.07,8778
+31.75.06.1001,Jatinegara,Cakung,Jakarta Timur,84762,6.51,13011
+31.75.06.1003,Penggilingan,Cakung,Jakarta Timur,94709,4.41,21454
+31.75.06.1005,Pulo Gebang,Cakung,Jakarta Timur,133204,6.62,20106
+31.75.06.1002,Rawa Terate,Cakung,Jakarta Timur,33735,4.12,8195
+31.75.06.1006,Ujung Menteng,Cakung,Jakarta Timur,51426,4.38,11748
+31.75.10.1006,Bambu Apus,Cipayung,Jakarta Timur,50900,3.53,14425
+31.75.10.1008,Ceger,Cipayung,Jakarta Timur,40177,2.92,13751
+31.75.10.1002,Cilangkap,Cipayung,Jakarta Timur,54381,5.58,9745
+31.75.10.1001,Cipayung,Cipayung,Jakarta Timur,41900,2.47,16956
+31.75.10.1007,Lubang Buaya,Cipayung,Jakarta Timur,62391,3.61,17303
+31.75.10.1004,Munjul,Cipayung,Jakarta Timur,33298,2.05,16272
+31.75.10.1003,Pondok Ranggon,Cipayung,Jakarta Timur,44991,4.72,9533
+31.75.10.1005,Setu,Cipayung,Jakarta Timur,39935,2.84,14067
+31.75.09.1002,Cibubur,Ciracas,Jakarta Timur,84723,4.94,17147
+31.75.09.1001,Ciracas,Ciracas,Jakarta Timur,70679,4.04,17486
+31.75.09.1003,Kelapa Dua Wetan,Ciracas,Jakarta Timur,62321,3.36,18523
+31.75.09.1005,Rambutan,Ciracas,Jakarta Timur,44611,2.32,19265
+31.75.09.1004,Susukan,Ciracas,Jakarta Timur,41310,2.18,18962
+31.75.07.1001,Duren Sawit,Duren Sawit,Jakarta Timur,107123,4.65,23053
+31.75.07.1003,Klender,Duren Sawit,Jakarta Timur,76275,3.01,25327
+31.75.07.1006,Malaka Jaya,Duren Sawit,Jakarta Timur,25422,1.05,24191
+31.75.07.1005,Malaka Sari,Duren Sawit,Jakarta Timur,32153,1.32,24385
+31.75.07.1002,Pondok Bambu,Duren Sawit,Jakarta Timur,93782,4.06,23078
+31.75.07.1004,Pondok Kelapa,Duren Sawit,Jakarta Timur,125431,5.72,21937
+31.75.07.1007,Pondok Kopi,Duren Sawit,Jakarta Timur,45511,2.26,20141
+31.75.03.1003,Bali Mester,Jatinegara,Jakarta Timur,17503,0.67,26099
+31.75.03.1002,Bidara Cina,Jatinegara,Jakarta Timur,30610,1.24,24603
+31.75.03.1007,Cipinang Besar Selatan,Jatinegara,Jakarta Timur,35286,1.7,20751
+31.75.03.1008,Cipinang Besar Utara,Jatinegara,Jakarta Timur,28938,1.13,25620
+31.75.03.1005,Cipinang Cempedak,Jatinegara,Jakarta Timur,40047,1.6,24999
+31.75.03.1006,Cipinang Muara,Jatinegara,Jakarta Timur,69402,2.67,26006
+31.75.03.1001,Kampung Melayu,Jatinegara,Jakarta Timur,11968,0.48,24853
+31.75.03.1004,Rawa Bunga,Jatinegara,Jakarta Timur,19824,0.85,23400
+31.75.04.1005,Balekambang,Kramatjati,Jakarta Timur,38362,1.69,22719
+31.75.04.1004,Batu Ampar,Kramatjati,Jakarta Timur,60069,2.54,23676
+31.75.04.1007,Cawang,Kramatjati,Jakarta Timur,34817,1.89,18465
+31.75.04.1006,Cililitan,Kramatjati,Jakarta Timur,36137,1.77,20414
+31.75.04.1003,Dukuh,Kramatjati,Jakarta Timur,31631,1.72,18362
+31.75.04.1001,Kramatjati,Kramatjati,Jakarta Timur,29592,1.52,19525
+31.75.04.1002,Tengah,Kramatjati,Jakarta Timur,40880,1.95,20980
+31.75.08.1005,Cipinang Melayu,Makasar,Jakarta Timur,50446,2.54,19874
+31.75.08.1004,Halim Perdana Kusuma,Makasar,Jakarta Timur,85199,12.94,6584
+31.75.08.1003,Kebon Pala,Makasar,Jakarta Timur,37435,2.29,16357
+31.75.08.1001,Makasar,Makasar,Jakarta Timur,26616,1.46,18234
+31.75.08.1002,Pinangranti,Makasar,Jakarta Timur,30823,2.29,13445
+31.75.01.1003,Kayu Manis,Matraman,Jakarta Timur,17189,0.55,31450
+31.75.01.1005,Kebon Manggis,Matraman,Jakarta Timur,19990,0.78,25619
+31.75.01.1004,Palmeriam,Matraman,Jakarta Timur,18413,0.65,28370
+31.75.01.1001,Pisangan Baru,Matraman,Jakarta Timur,19957,0.72,27662
+31.75.01.1006,Utan Kayu Selatan,Matraman,Jakarta Timur,32262,1.17,27684
+31.75.01.1002,Utan Kayu Utara,Matraman,Jakarta Timur,27681,0.99,27846
+31.75.05.1002,Baru,Pasar Rebo,Jakarta Timur,36617,2.08,17605
+31.75.05.1003,Cijantung,Pasar Rebo,Jakarta Timur,46658,2.41,19351
+31.75.05.1001,Gedong,Pasar Rebo,Jakarta Timur,45821,2.45,18701
+31.75.05.1004,Kalisari,Pasar Rebo,Jakarta Timur,49941,2.56,19491
+31.75.05.1005,Pekayon,Pasar Rebo,Jakarta Timur,46058,2.97,15531
+31.75.02.1003,Cipinang,Pulogadung,Jakarta Timur,39690,1.5,26474
+31.75.02.1007,Jati,Pulogadung,Jakarta Timur,52761,2.07,25461
+31.75.02.1004,Jatinegara Kaum,Pulogadung,Jakarta Timur,25494,1.3,19665
+31.75.02.1006,Kayu Putih,Pulogadung,Jakarta Timur,72331,3.84,18848
+31.75.02.1002,Pisangan Timur,Pulogadung,Jakarta Timur,42308,1.81,23439
+31.75.02.1001,Pulo Gadung,Pulogadung,Jakarta Timur,45284,1.76,25672
+31.75.02.1005,Rawamangun,Pulogadung,Jakarta Timur,51077,2.63,19432
+31.72.04.1001,Cilincing,Cilincing,Jakarta Utara,47855,7.43,6444
+31.72.04.1004,Kalibaru,Cilincing,Jakarta Utara,32162,4.95,6504
+31.72.04.1003,Marunda,Cilincing,Jakarta Utara,22800,8.09,2819
+31.72.04.1006,Rorotan,Cilincing,Jakarta Utara,55189,9.82,5622
+31.72.04.1007,Semper Barat,Cilincing,Jakarta Utara,65707,3.22,20416
+31.72.04.1005,Semper Timur,Cilincing,Jakarta Utara,48100,4.45,10821
+31.72.04.1002,Sukapura,Cilincing,Jakarta Utara,74123,5.75,12883
+31.72.06.1003,Kelapa Gading Barat,Kelapa Gading,Jakarta Utara,137259,7.23,18989
+31.72.06.1001,Kelapa Gading Timur,Kelapa Gading,Jakarta Utara,81296,3.13,25965
+31.72.06.1002,Pegangsaan Dua,Kelapa Gading,Jakarta Utara,97344,5.54,17569
+31.72.03.1001,Koja,Koja,Jakarta Utara,25622,2.57,9969
+31.72.03.1003,Lagoa,Koja,Jakarta Utara,36854,1.57,23437
+31.72.03.1006,Rawa Badak Selatan,Koja,Jakarta Utara,35116,2.01,17451
+31.72.03.1004,Rawa Badak Utara,Koja,Jakarta Utara,25754,1.26,20451
+31.72.03.1005,Tugu Selatan,Koja,Jakarta Utara,44417,1.86,23918
+31.72.03.1002,Tugu Utara,Koja,Jakarta Utara,61867,2.39,25932
+31.72.05.1003,Ancol,Pademangan,Jakarta Utara,76393,8.3,9202
+31.72.05.1002,Pademangan Barat,Pademangan,Jakarta Utara,36747,1.52,24240
+31.72.05.1001,Pademangan Timur,Pademangan,Jakarta Utara,44575,3.5,12742
+,Area Tidak Terdefinisi,Penjaringan,Jakarta Utara,0,0.01,0
+31.72.01.1002,Kamal Muara,Penjaringan,Jakarta Utara,70243,15.86,4430
+31.72.01.1003,Kapuk Muara,Penjaringan,Jakarta Utara,104815,9.09,11528
+31.72.01.1004,Pejagalan,Penjaringan,Jakarta Utara,67605,3.68,18374
+31.72.01.1001,Penjaringan,Penjaringan,Jakarta Utara,52076,4.5,11581
+31.72.01.1005,Pluit,Penjaringan,Jakarta Utara,102074,7.32,13945
+31.72.02.1005,Kebon Bawang,Tanjung Priok,Jakarta Utara,42971,1.71,25058
+31.72.02.1003,Papanggo,Tanjung Priok,Jakarta Utara,42466,3.07,13816
+31.72.02.1004,Sungai Bambu,Tanjung Priok,Jakarta Utara,34774,2.38,14610
+31.72.02.1006,Sunter Agung,Tanjung Priok,Jakarta Utara,118775,5.26,22600
+31.72.02.1002,Sunter Jaya,Tanjung Priok,Jakarta Utara,99216,5.14,19318
+31.72.02.1001,Tanjung Priok,Tanjung Priok,Jakarta Utara,38931,3.87,10051
+31.72.02.1007,Warakas,Tanjung Priok,Jakarta Utara,26981,1.08,24889
+32.16.02.2008,Babelankota,Babelan,Kabupaten Bekasi,42289,7.03,6016
+32.16.02.1006,Bahagia,Babelan,Kabupaten Bekasi,86494,6.94,12469
+32.16.02.2001,Bunibakti,Babelan,Kabupaten Bekasi,10513,7.43,1414
+32.16.02.2004,Hurip Jaya,Babelan,Kabupaten Bekasi,3967,11.53,344
+32.16.02.1007,Kebalen,Babelan,Kabupaten Bekasi,54344,5.1,10648
+32.16.02.2003,Kedung Pengawas,Babelan,Kabupaten Bekasi,13690,6.45,2123
+32.16.02.2009,Kedungjaya,Babelan,Kabupaten Bekasi,11092,7.01,1582
+32.16.02.2002,Muarabakti,Babelan,Kabupaten Bekasi,14099,7.8,1808
+32.16.02.2005,Pantaihurip,Babelan,Kabupaten Bekasi,5191,5.35,970
+32.16.23.2003,Bojongmangu,Bojongmangu,Kabupaten Bekasi,8571,13.38,641
+32.16.23.2002,Karangindah,Bojongmangu,Kabupaten Bekasi,3875,8.9,435
+32.16.23.2001,Karangmulya,Bojongmangu,Kabupaten Bekasi,6933,11.01,630
+32.16.23.2006,Medalkrisna,Bojongmangu,Kabupaten Bekasi,4157,5.68,732
+32.16.23.2004,Sukabungah,Bojongmangu,Kabupaten Bekasi,9607,7.0,1372
+32.16.23.2005,Sukamukti,Bojongmangu,Kabupaten Bekasi,7175,8.71,824
+32.16.16.2001,Jayabakti,Cabangbungin,Kabupaten Bekasi,7996,7.78,1027
+32.16.16.2002,Jayalaksana,Cabangbungin,Kabupaten Bekasi,7450,6.73,1107
+32.16.16.2007,Lenggahjaya,Cabangbungin,Kabupaten Bekasi,4516,5.21,867
+32.16.16.2008,Lenggahsari,Cabangbungin,Kabupaten Bekasi,8371,9.52,879
+32.16.16.2006,Setiajaya,Cabangbungin,Kabupaten Bekasi,4011,6.7,598
+32.16.16.2005,Setialaksana,Cabangbungin,Kabupaten Bekasi,5390,3.99,1352
+32.16.16.2004,Sindangjaya,Cabangbungin,Kabupaten Bekasi,3863,5.42,712
+32.16.16.2003,Sindangsari,Cabangbungin,Kabupaten Bekasi,4391,4.48,981
+32.16.22.2006,Cibarusah Jaya,Cibarusah,Kabupaten Bekasi,12745,3.1,4117
+32.16.22.2005,Cibarusah Kota,Cibarusah,Kabupaten Bekasi,15875,2.84,5590
+32.16.22.2002,Ridogalih,Cibarusah,Kabupaten Bekasi,6717,11.35,592
+32.16.22.2003,Ridomanah,Cibarusah,Kabupaten Bekasi,2759,6.01,459
+32.16.22.2007,Sindangmulya,Cibarusah,Kabupaten Bekasi,30300,6.24,4852
+32.16.22.2001,Sirnajati,Cibarusah,Kabupaten Bekasi,9269,6.86,1351
+32.16.22.2004,Wibawamulya,Cibarusah,Kabupaten Bekasi,16017,5.76,2783
+32.16.07.2007,Cibuntu,Cibitung,Kabupaten Bekasi,41320,6.51,6347
+32.16.07.2003,Kertamukti,Cibitung,Kabupaten Bekasi,10683,6.2,1723
+32.16.07.2004,Muktiwari,Cibitung,Kabupaten Bekasi,10663,6.74,1583
+32.16.07.2005,Sarimukti,Cibitung,Kabupaten Bekasi,3615,6.05,598
+32.16.07.2006,Sukajaya,Cibitung,Kabupaten Bekasi,19136,6.34,3019
+32.16.07.2002,Wanajaya,Cibitung,Kabupaten Bekasi,41172,6.49,6347
+32.16.07.1001,Wanasari,Cibitung,Kabupaten Bekasi,87425,6.96,12566
+32.16.08.2011,Cikedokan,Cikarang Barat,Kabupaten Bekasi,18320,5.54,3308
+32.16.08.2004,Danau Indah,Cikarang Barat,Kabupaten Bekasi,15249,3.36,4535
+32.16.08.2005,Gandamekar,Cikarang Barat,Kabupaten Bekasi,22662,5.65,4013
+32.16.08.2006,Gandasari,Cikarang Barat,Kabupaten Bekasi,20529,3.84,5350
+32.16.08.2003,Jatiwangi,Cikarang Barat,Kabupaten Bekasi,30304,5.94,5099
+32.16.08.2009,Kalijaya,Cikarang Barat,Kabupaten Bekasi,26255,4.43,5930
+32.16.08.2002,Mekarwangi,Cikarang Barat,Kabupaten Bekasi,29291,5.2,5633
+32.16.08.2007,Sukadanau,Cikarang Barat,Kabupaten Bekasi,37643,6.71,5608
+32.16.08.1008,Telaga Asih,Cikarang Barat,Kabupaten Bekasi,29706,3.35,8856
+32.16.08.2001,Telagamurni,Cikarang Barat,Kabupaten Bekasi,32967,5.26,6267
+32.16.08.2010,Telajung,Cikarang Barat,Kabupaten Bekasi,35785,5.67,6313
+32.16.20.2001,Cicau,Cikarang Pusat,Kabupaten Bekasi,19284,10.58,1822
+32.16.20.2004,Hegarmukti,Cikarang Pusat,Kabupaten Bekasi,22750,7.08,3211
+32.16.20.2005,Jayamukti,Cikarang Pusat,Kabupaten Bekasi,28004,6.06,4624
+32.16.20.2003,Pasiranji,Cikarang Pusat,Kabupaten Bekasi,10459,12.02,870
+32.16.20.2006,Pasirtanjung,Cikarang Pusat,Kabupaten Bekasi,14338,6.56,2185
+32.16.20.2002,Sukamahi,Cikarang Pusat,Kabupaten Bekasi,23636,11.0,2149
+32.16.19.2003,Ciantra,Cikarang Selatan,Kabupaten Bekasi,37126,5.49,6761
+32.16.19.2001,Cibatu,Cikarang Selatan,Kabupaten Bekasi,57981,14.38,4031
+32.16.19.2007,Pasirsari,Cikarang Selatan,Kabupaten Bekasi,46098,7.11,6485
+32.16.19.2006,Serang,Cikarang Selatan,Kabupaten Bekasi,28449,5.19,5479
+32.16.19.2004,Sukadami,Cikarang Selatan,Kabupaten Bekasi,43447,6.19,7024
+32.16.19.2005,Sukaresmi,Cikarang Selatan,Kabupaten Bekasi,39380,9.41,4185
+32.16.19.2002,Sukasejati,Cikarang Selatan,Kabupaten Bekasi,14514,5.17,2810
+32.16.11.2002,Cipayung,Cikarang Timur,Kabupaten Bekasi,18536,7.83,2367
+32.16.11.2003,Hegarmanah,Cikarang Timur,Kabupaten Bekasi,10992,6.47,1700
+32.16.11.2005,Jatibaru,Cikarang Timur,Kabupaten Bekasi,8291,4.1,2023
+32.16.11.2004,Jatireja,Cikarang Timur,Kabupaten Bekasi,22382,6.4,3494
+32.16.11.2008,Karangsari,Cikarang Timur,Kabupaten Bekasi,13371,8.67,1541
+32.16.11.2006,Labansari,Cikarang Timur,Kabupaten Bekasi,6151,4.5,1366
+32.16.11.1007,Sertajaya,Cikarang Timur,Kabupaten Bekasi,23198,7.11,3264
+32.16.11.2001,Tanjungbaru,Cikarang Timur,Kabupaten Bekasi,16983,6.94,2447
+32.16.09.2001,Cikarangkota,Cikarang Utara,Kabupaten Bekasi,16787,1.82,9228
+32.16.09.2009,Harjamekar,Cikarang Utara,Kabupaten Bekasi,19726,4.75,4157
+32.16.09.2003,Karangasih,Cikarang Utara,Kabupaten Bekasi,33780,2.77,12179
+32.16.09.2002,Karangbaru,Cikarang Utara,Kabupaten Bekasi,10157,1.14,8929
+32.16.09.2005,Karangraharja,Cikarang Utara,Kabupaten Bekasi,24444,4.31,5669
+32.16.09.2010,Mekarmukti,Cikarang Utara,Kabupaten Bekasi,30600,4.24,7217
+32.16.09.2006,Pasirgombong,Cikarang Utara,Kabupaten Bekasi,32873,5.07,6489
+32.16.09.2007,Simpangan,Cikarang Utara,Kabupaten Bekasi,26733,3.96,6746
+32.16.09.2008,Tanjungsari,Cikarang Utara,Kabupaten Bekasi,11247,2.78,4041
+32.16.09.2004,Waluya,Cikarang Utara,Kabupaten Bekasi,16904,3.35,5047
+32.16.09.2011,Wangunharja,Cikarang Utara,Kabupaten Bekasi,22338,6.09,3669
+32.16.10.2004,Karanganyar,Karang Bahagia,Kabupaten Bekasi,10389,4.75,2189
+32.16.10.2005,Karangbahagia,Karang Bahagia,Kabupaten Bekasi,5334,4.56,1171
+32.16.10.2008,Karangmukti,Karang Bahagia,Kabupaten Bekasi,10110,7.46,1355
+32.16.10.2002,Karangrahayu,Karang Bahagia,Kabupaten Bekasi,9385,5.39,1741
+32.16.10.2007,Karangsatu,Karang Bahagia,Kabupaten Bekasi,8805,8.59,1024
+32.16.10.2006,Karangsentosa,Karang Bahagia,Kabupaten Bekasi,11905,4.05,2940
+32.16.10.2003,Karangsetia,Karang Bahagia,Kabupaten Bekasi,7460,4.93,1514
+32.16.10.2001,Sukaraya,Karang Bahagia,Kabupaten Bekasi,37030,6.75,5483
+32.16.12.2006,Bojongsari,Kedung Waringin,Kabupaten Bekasi,6447,3.57,1808
+32.16.12.2005,Karangharum,Kedung Waringin,Kabupaten Bekasi,4313,2.77,1556
+32.16.12.2003,Karangmekar,Kedung Waringin,Kabupaten Bekasi,6774,5.49,1235
+32.16.12.2001,Karangsambung,Kedung Waringin,Kabupaten Bekasi,11184,4.48,2496
+32.16.12.2007,Kedungwaringin,Kedung Waringin,Kabupaten Bekasi,11728,3.97,2956
+32.16.12.2004,Mekarjaya,Kedung Waringin,Kabupaten Bekasi,5826,5.75,1014
+32.16.12.2002,Waringinjaya,Kedung Waringin,Kabupaten Bekasi,13126,4.9,2680
+32.16.17.2006,Jayasakti,Muaragembong,Kabupaten Bekasi,6680,18.44,362
+32.16.17.2002,Pantai Bahagia,Muaragembong,Kabupaten Bekasi,1911,23.07,83
+32.16.17.2003,Pantai Bakti,Muaragembong,Kabupaten Bekasi,4566,22.75,201
+32.16.17.2004,Pantai Harapanjaya,Muaragembong,Kabupaten Bekasi,6598,36.06,183
+32.16.17.2001,Pantai Mekar,Muaragembong,Kabupaten Bekasi,5040,22.19,227
+32.16.17.2005,Pantai Sederhana,Muaragembong,Kabupaten Bekasi,1918,10.48,183
+32.16.13.2013,Bantarjaya,Pebayuran,Kabupaten Bekasi,11785,6.8,1733
+32.16.13.2012,Bantarsari,Pebayuran,Kabupaten Bekasi,3294,5.84,564
+32.16.13.2001,Karangharja,Pebayuran,Kabupaten Bekasi,6939,11.58,599
+32.16.13.2009,Karanghaur,Pebayuran,Kabupaten Bekasi,3741,3.52,1063
+32.16.13.2006,Karangjaya,Pebayuran,Kabupaten Bekasi,4959,5.49,903
+32.16.13.2008,Karangpatri,Pebayuran,Kabupaten Bekasi,7325,11.97,612
+32.16.13.2005,Karangreja,Pebayuran,Kabupaten Bekasi,5996,7.35,815
+32.16.13.2002,Karangsegar,Pebayuran,Kabupaten Bekasi,4876,14.11,346
+32.16.13.2010,Kertajaya,Pebayuran,Kabupaten Bekasi,8545,5.09,1677
+32.16.13.1011,Kertasari,Pebayuran,Kabupaten Bekasi,7909,4.9,1614
+32.16.13.2004,Sumbereja,Pebayuran,Kabupaten Bekasi,5260,7.52,699
+32.16.13.2007,Sumbersari,Pebayuran,Kabupaten Bekasi,6583,6.47,1017
+32.16.13.2003,Sumberurip,Pebayuran,Kabupaten Bekasi,4102,4.02,1020
+32.16.21.2007,Cilangkara,Serang Baru,Kabupaten Bekasi,15724,5.74,2739
+32.16.21.2004,Jayamulya,Serang Baru,Kabupaten Bekasi,13410,7.05,1903
+32.16.21.2008,Jayasampurna,Serang Baru,Kabupaten Bekasi,19057,9.56,1994
+32.16.21.2005,Nagacipta,Serang Baru,Kabupaten Bekasi,7252,5.55,1306
+32.16.21.2006,Nagasari,Serang Baru,Kabupaten Bekasi,12180,9.24,1319
+32.16.21.2002,Sirnajaya,Serang Baru,Kabupaten Bekasi,22012,6.37,3457
+32.16.21.2001,Sukaragam,Serang Baru,Kabupaten Bekasi,38570,5.9,6533
+32.16.21.2003,Sukasari,Serang Baru,Kabupaten Bekasi,37012,7.64,4844
+32.16.18.2003,Burangkeng,Setu,Kabupaten Bekasi,33441,6.26,5343
+32.16.18.2005,Cibening,Setu,Kabupaten Bekasi,17034,6.05,2816
+32.16.18.2001,Cijengkol,Setu,Kabupaten Bekasi,20425,3.84,5321
+32.16.18.2008,Cikarageman,Setu,Kabupaten Bekasi,16545,6.46,2561
+32.16.18.2004,Ciledug,Setu,Kabupaten Bekasi,22080,4.87,4534
+32.16.18.2011,Kertarahayu,Setu,Kabupaten Bekasi,9207,7.88,1168
+32.16.18.2002,Lubangbuaya,Setu,Kabupaten Bekasi,25773,3.06,8435
+32.16.18.2010,Muktijaya,Setu,Kabupaten Bekasi,8357,5.21,1604
+32.16.18.2009,Ragemanunggal,Setu,Kabupaten Bekasi,9210,5.4,1704
+32.16.18.2007,Taman Rahayu,Setu,Kabupaten Bekasi,17822,3.87,4609
+32.16.18.2006,Taman Sari,Setu,Kabupaten Bekasi,13967,6.19,2255
+32.16.14.2002,Sukaindah,Sukakarya,Kabupaten Bekasi,6474,7.58,854
+32.16.14.2005,Sukajadi,Sukakarya,Kabupaten Bekasi,7583,8.09,937
+32.16.14.2006,Sukakarsa,Sukakarya,Kabupaten Bekasi,1875,5.72,328
+32.16.14.2003,Sukakarya,Sukakarya,Kabupaten Bekasi,4932,6.55,753
+32.16.14.2004,Sukalaksana,Sukakarya,Kabupaten Bekasi,5943,7.52,791
+32.16.14.2007,Sukamakmur,Sukakarya,Kabupaten Bekasi,7601,5.54,1371
+32.16.14.2001,Sukamurni,Sukakarya,Kabupaten Bekasi,7068,6.84,1034
+32.16.15.2006,Banjarsari,Sukatani,Kabupaten Bekasi,6731,7.27,926
+32.16.15.2004,Sukaasih,Sukatani,Kabupaten Bekasi,5755,6.16,935
+32.16.15.2007,Sukadarma,Sukatani,Kabupaten Bekasi,7245,2.66,2720
+32.16.15.2003,Sukahurip,Sukatani,Kabupaten Bekasi,5933,9.03,657
+32.16.15.2002,Sukamanah,Sukatani,Kabupaten Bekasi,11500,6.13,1875
+32.16.15.2001,Sukamulya,Sukatani,Kabupaten Bekasi,11836,4.52,2620
+32.16.15.2005,Sukarukun,Sukatani,Kabupaten Bekasi,15131,2.42,6257
+32.16.03.2002,Sukabudi,Sukawangi,Kabupaten Bekasi,4851,5.38,901
+32.16.03.2003,Sukadaya,Sukawangi,Kabupaten Bekasi,6202,9.7,639
+32.16.03.2005,Sukakerta,Sukawangi,Kabupaten Bekasi,6806,13.65,499
+32.16.03.2007,Sukamekar,Sukawangi,Kabupaten Bekasi,10054,13.18,763
+32.16.03.2001,Sukaringin,Sukawangi,Kabupaten Bekasi,5283,11.49,460
+32.16.03.2006,Sukatenang,Sukawangi,Kabupaten Bekasi,12700,12.81,991
+32.16.03.2004,Sukawangi,Sukawangi,Kabupaten Bekasi,2461,3.03,811
+32.16.04.2007,Sukabakti,Tambelang,Kabupaten Bekasi,4469,6.63,674
+32.16.04.2002,Sukamaju,Tambelang,Kabupaten Bekasi,4573,7.64,598
+32.16.04.2006,Sukamantri,Tambelang,Kabupaten Bekasi,4084,5.17,789
+32.16.04.2005,Sukarahayu,Tambelang,Kabupaten Bekasi,5087,4.19,1213
+32.16.04.2003,Sukaraja,Tambelang,Kabupaten Bekasi,4029,3.06,1317
+32.16.04.2004,Sukarapih,Tambelang,Kabupaten Bekasi,7608,4.21,1806
+32.16.04.2001,Sukawijaya,Tambelang,Kabupaten Bekasi,3389,5.03,674
+32.16.06.1001,Jatimulya,Tambun Selatan,Kabupaten Bekasi,83288,6.9,12071
+32.16.06.2003,Lambangjaya,Tambun Selatan,Kabupaten Bekasi,20296,4.83,4204
+32.16.06.2002,Lambangsari,Tambun Selatan,Kabupaten Bekasi,31502,4.37,7216
+32.16.06.2009,Mangunjaya,Tambun Selatan,Kabupaten Bekasi,64992,4.65,13970
+32.16.06.2007,Mekarsari,Tambun Selatan,Kabupaten Bekasi,31097,2.16,14370
+32.16.06.2005,Setiadarma,Tambun Selatan,Kabupaten Bekasi,19876,1.74,11394
+32.16.06.2006,Setiamekar,Tambun Selatan,Kabupaten Bekasi,52952,3.99,13259
+32.16.06.2010,Sumberjaya,Tambun Selatan,Kabupaten Bekasi,77897,7.77,10023
+32.16.06.2004,Tambun,Tambun Selatan,Kabupaten Bekasi,33496,2.9,11553
+32.16.06.2008,Tridaya Sakti,Tambun Selatan,Kabupaten Bekasi,34435,2.26,15242
+32.16.05.2002,Jejalenjaya,Tambun Utara,Kabupaten Bekasi,21634,3.2,6768
+32.16.05.2008,Karangsatria,Tambun Utara,Kabupaten Bekasi,67942,5.28,12874
+32.16.05.2001,Satriajaya,Tambun Utara,Kabupaten Bekasi,20559,3.69,5578
+32.16.05.2003,Satriamekar,Tambun Utara,Kabupaten Bekasi,13450,3.38,3978
+32.16.05.2004,Sriamur,Tambun Utara,Kabupaten Bekasi,26142,5.05,5181
+32.16.05.2006,Srijaya,Tambun Utara,Kabupaten Bekasi,7797,5.46,1428
+32.16.05.2007,Srimahi,Tambun Utara,Kabupaten Bekasi,10634,6.19,1719
+32.16.05.2005,Srimukti,Tambun Utara,Kabupaten Bekasi,8075,3.21,2515
+32.16.01.2004,Pahlawan Setia,Tarumajaya,Kabupaten Bekasi,12486,4.71,2650
+32.16.01.2008,Pantai Makmur,Tarumajaya,Kabupaten Bekasi,10251,5.59,1835
+32.16.01.2003,Pusaka Rakyat,Tarumajaya,Kabupaten Bekasi,27503,7.59,3622
+32.16.01.2001,Sagara Makmur,Tarumajaya,Kabupaten Bekasi,16513,9.22,1791
+32.16.01.2006,Samudra Jaya,Tarumajaya,Kabupaten Bekasi,6569,7.08,928
+32.16.01.2002,Segarajaya,Tarumajaya,Kabupaten Bekasi,18774,11.29,1663
+32.16.01.1007,Setia Asih,Tarumajaya,Kabupaten Bekasi,30078,6.67,4506
+32.16.01.2005,Setia Mulya,Tarumajaya,Kabupaten Bekasi,15470,5.27,2937
+32.01.05.2008,Babakan Madang,Babakan Madang,Kabupaten Bogor,13204,2.7,4882
+32.01.05.2009,Bojong Koneng,Babakan Madang,Kabupaten Bogor,17009,21.25,801
+32.01.05.2001,Cijayanti,Babakan Madang,Kabupaten Bogor,28086,14.01,2005
+32.01.05.2005,Cipambuan,Babakan Madang,Kabupaten Bogor,7638,2.1,3635
+32.01.05.2007,Citaringgul,Babakan Madang,Kabupaten Bogor,18491,3.55,5206
+32.01.05.2006,Kadumanggu,Babakan Madang,Kabupaten Bogor,19316,4.52,4275
+32.01.05.2004,Karang Tengah,Babakan Madang,Kabupaten Bogor,15646,30.86,507
+32.01.05.2003,Sentul,Babakan Madang,Kabupaten Bogor,20130,4.26,4720
+32.01.05.2002,Sumur Batu,Babakan Madang,Kabupaten Bogor,14872,4.26,3493
+32.01.13.2001,Bojongbaru,Bojonggede,Kabupaten Bogor,33959,2.52,13452
+32.01.13.2009,Bojonggede,Bojonggede,Kabupaten Bogor,47407,3.07,15432
+32.01.13.2002,Cimanggis,Bojonggede,Kabupaten Bogor,31469,5.83,5401
+32.01.13.2005,Kedung Waringin,Bojonggede,Kabupaten Bogor,25989,1.94,13430
+32.01.13.1007,Pabuaran,Bojonggede,Kabupaten Bogor,39719,2.55,15601
+32.01.13.2004,Ragajaya,Bojonggede,Kabupaten Bogor,37886,4.33,8756
+32.01.13.2008,Rawapanjang,Bojonggede,Kabupaten Bogor,31856,3.11,10231
+32.01.13.2003,Susukan,Bojonggede,Kabupaten Bogor,37987,3.89,9760
+32.01.13.2006,Waringin Jaya,Bojonggede,Kabupaten Bogor,18809,1.91,9868
+32.01.27.2004,Caringin,Caringin,Kabupaten Bogor,11076,1.79,6185
+32.01.27.2003,Ciderum,Caringin,Kabupaten Bogor,12326,3.29,3741
+32.01.27.2005,Ciherang Pondok,Caringin,Kabupaten Bogor,14298,4.51,3171
+32.01.27.2007,Cimande,Caringin,Kabupaten Bogor,5167,12.8,404
+32.01.27.2002,Cimande Hilir,Caringin,Kabupaten Bogor,8245,2.12,3883
+32.01.27.2006,Cinagara,Caringin,Kabupaten Bogor,8336,7.3,1141
+32.01.27.2011,Lemah Duhur,Caringin,Kabupaten Bogor,10459,4.59,2281
+32.01.27.2009,Muarajaya,Caringin,Kabupaten Bogor,6230,1.36,4582
+32.01.27.2008,Pancawati,Caringin,Kabupaten Bogor,12683,12.49,1015
+32.01.27.2010,Pasirbuncir,Caringin,Kabupaten Bogor,5432,9.81,553
+32.01.27.2001,Pasirmuncang,Caringin,Kabupaten Bogor,6979,2.01,3473
+32.01.27.2012,Tangkil,Caringin,Kabupaten Bogor,7267,15.78,460
+32.01.08.2002,Babakanraden,Cariu,Kabupaten Bogor,8141,7.49,1086
+32.01.08.2007,Bantarkuning,Cariu,Kabupaten Bogor,5035,7.74,651
+32.01.08.2005,Cariu,Cariu,Kabupaten Bogor,13207,7.51,1760
+32.01.08.2010,Cibatutiga,Cariu,Kabupaten Bogor,4188,11.09,377
+32.01.08.2003,Cikutamahi,Cariu,Kabupaten Bogor,4509,13.17,342
+32.01.08.2001,Karyamekar,Cariu,Kabupaten Bogor,4165,11.34,367
+32.01.08.2004,Kutamekar,Cariu,Kabupaten Bogor,3365,7.69,438
+32.01.08.2006,Mekarwangi,Cariu,Kabupaten Bogor,5019,8.48,592
+32.01.08.2008,Sukajadi,Cariu,Kabupaten Bogor,4213,4.65,906
+32.01.08.2009,Tegalpanjang,Cariu,Kabupaten Bogor,7747,5.64,1374
+32.01.15.2012,Benteng,Ciampea,Kabupaten Bogor,9987,2.84,3520
+32.01.15.2004,Bojongjengkol,Ciampea,Kabupaten Bogor,8568,2.25,3800
+32.01.15.2009,Bojongrangkas,Ciampea,Kabupaten Bogor,11160,1.29,8678
+32.01.15.2001,Ciampea,Ciampea,Kabupaten Bogor,9812,2.93,3345
+32.01.15.2013,Ciampea Udik,Ciampea,Kabupaten Bogor,6685,2.59,2581
+32.01.15.2008,Cibadak,Ciampea,Kabupaten Bogor,10916,2.1,5195
+32.01.15.2011,Cibanteng,Ciampea,Kabupaten Bogor,14621,1.76,8287
+32.01.15.2006,Cibuntu,Ciampea,Kabupaten Bogor,5716,2.73,2095
+32.01.15.2007,Cicadas,Ciampea,Kabupaten Bogor,7732,3.03,2552
+32.01.15.2010,Cihideung Ilir,Ciampea,Kabupaten Bogor,10143,2.01,5037
+32.01.15.2003,Cihideung Udik,Ciampea,Kabupaten Bogor,13571,3.05,4447
+32.01.15.2002,Cinangka,Ciampea,Kabupaten Bogor,11357,3.95,2874
+32.01.15.2005,Tegalwaru,Ciampea,Kabupaten Bogor,11843,3.56,3323
+32.01.24.2005,Banjarsari,Ciawi,Kabupaten Bogor,8997,1.81,4975
+32.01.24.2011,Banjarwangi,Ciawi,Kabupaten Bogor,8644,1.28,6746
+32.01.24.2007,Banjarwaru,Ciawi,Kabupaten Bogor,10526,1.76,5993
+32.01.24.2008,Bendungan,Ciawi,Kabupaten Bogor,12837,1.53,8373
+32.01.24.2013,Bitungsari,Ciawi,Kabupaten Bogor,9973,1.59,6272
+32.01.24.2010,Bojongmurni,Ciawi,Kabupaten Bogor,4382,5.4,811
+32.01.24.2012,Ciawi,Ciawi,Kabupaten Bogor,10159,1.13,9018
+32.01.24.2003,Cibedug,Ciawi,Kabupaten Bogor,6333,5.42,1169
+32.01.24.2001,Cileungsi,Ciawi,Kabupaten Bogor,6591,8.45,780
+32.01.24.2002,Citapen,Ciawi,Kabupaten Bogor,6103,2.93,2083
+32.01.24.2004,Jambuluwuk,Ciawi,Kabupaten Bogor,6024,0.99,6063
+32.01.24.2009,Pandansari,Ciawi,Kabupaten Bogor,13659,2.28,5982
+32.01.24.2006,Telukpinang,Ciawi,Kabupaten Bogor,10586,1.51,6990
+32.01.01.1006,Cibinong,Cibinong,Kabupaten Bogor,32989,4.93,6696
+32.01.01.1011,Cirimekar,Cibinong,Kabupaten Bogor,21081,1.79,11752
+32.01.01.1010,Ciriung,Cibinong,Kabupaten Bogor,36222,3.97,9128
+32.01.01.1003,Harapanjaya,Cibinong,Kabupaten Bogor,43530,3.5,12454
+32.01.01.1002,Karadenan,Cibinong,Kabupaten Bogor,47569,4.37,10879
+32.01.01.1004,Nanggewer,Cibinong,Kabupaten Bogor,44209,4.2,10521
+32.01.01.1005,Nanggewer Mekar,Cibinong,Kabupaten Bogor,20836,2.93,7105
+32.01.01.1012,Pabuaran,Cibinong,Kabupaten Bogor,48969,3.09,15826
+32.01.01.1013,Pabuaran Mekar,Cibinong,Kabupaten Bogor,30358,1.93,15737
+32.01.01.1007,Pakansari,Cibinong,Kabupaten Bogor,44512,5.6,7944
+32.01.01.1001,Pondok Rajeg,Cibinong,Kabupaten Bogor,21499,2.58,8342
+32.01.01.1009,Sukahati,Cibinong,Kabupaten Bogor,49601,4.93,10056
+32.01.01.1008,Tengah,Cibinong,Kabupaten Bogor,29914,3.16,9474
+32.01.16.2003,Cemplang,Cibungbulang,Kabupaten Bogor,9585,2.41,3971
+32.01.16.2011,Ciaruteun Ilir,Cibungbulang,Kabupaten Bogor,7347,5.3,1385
+32.01.16.2005,Ciaruteun Udik,Cibungbulang,Kabupaten Bogor,4417,2.14,2061
+32.01.16.2004,Cibatok I,Cibungbulang,Kabupaten Bogor,6078,1.86,3276
+32.01.16.2012,Cibatok II,Cibungbulang,Kabupaten Bogor,5034,1.95,2585
+32.01.16.2010,Cijujung,Cibungbulang,Kabupaten Bogor,5194,3.25,1597
+32.01.16.2007,Cimanggu I,Cibungbulang,Kabupaten Bogor,6786,1.99,3407
+32.01.16.2008,Cimanggu II,Cibungbulang,Kabupaten Bogor,5930,1.32,4498
+32.01.16.2009,Dukuh,Cibungbulang,Kabupaten Bogor,4589,1.77,2585
+32.01.16.2014,Galuga,Cibungbulang,Kabupaten Bogor,5265,2.49,2118
+32.01.16.2015,Girimulya,Cibungbulang,Kabupaten Bogor,7226,1.4,5143
+32.01.16.2006,Leuweungkolot,Cibungbulang,Kabupaten Bogor,6336,2.06,3075
+32.01.16.2002,Situ Ilir,Cibungbulang,Kabupaten Bogor,6379,3.23,1978
+32.01.16.2001,Situ Udik,Cibungbulang,Kabupaten Bogor,9723,4.05,2403
+32.01.16.2013,Sukamaju,Cibungbulang,Kabupaten Bogor,6133,2.1,2920
+32.01.38.2009,Ciadeg,Cigombong,Kabupaten Bogor,10098,3.43,2948
+32.01.38.2008,Ciburayut,Cigombong,Kabupaten Bogor,10368,3.51,2953
+32.01.38.2003,Ciburuy,Cigombong,Kabupaten Bogor,11546,2.11,5462
+32.01.38.2001,Cigombong,Cigombong,Kabupaten Bogor,9917,1.32,7500
+32.01.38.2005,Cisalada,Cigombong,Kabupaten Bogor,5201,2.11,2463
+32.01.38.2007,Pasirjaya,Cigombong,Kabupaten Bogor,6643,6.62,1004
+32.01.38.2004,Srogol,Cigombong,Kabupaten Bogor,6728,1.18,5689
+32.01.38.2006,Tugujaya,Cigombong,Kabupaten Bogor,13320,8.01,1663
+32.01.38.2002,Wates Jaya,Cigombong,Kabupaten Bogor,10485,18.9,555
+32.01.22.2006,Argapura,Cigudeg,Kabupaten Bogor,7480,20.49,365
+32.01.22.2007,Bangunjaya,Cigudeg,Kabupaten Bogor,6739,15.36,439
+32.01.22.2013,Banyuasih,Cigudeg,Kabupaten Bogor,1745,15.85,110
+32.01.22.2004,Banyuresmi,Cigudeg,Kabupaten Bogor,3917,13.22,296
+32.01.22.2012,Banyuwangi,Cigudeg,Kabupaten Bogor,3431,13.94,246
+32.01.22.2009,Batujajar,Cigudeg,Kabupaten Bogor,5811,8.81,659
+32.01.22.2003,Bunar,Cigudeg,Kabupaten Bogor,4970,5.95,835
+32.01.22.2002,Cigudeg,Cigudeg,Kabupaten Bogor,9778,11.03,886
+32.01.22.2005,Cintamanik,Cigudeg,Kabupaten Bogor,4275,18.68,229
+32.01.22.2014,Mekarjaya,Cigudeg,Kabupaten Bogor,5265,7.16,735
+32.01.22.2008,Rengasjajar,Cigudeg,Kabupaten Bogor,9680,16.93,572
+32.01.22.2001,Sukamaju,Cigudeg,Kabupaten Bogor,4197,8.24,509
+32.01.22.2011,Sukaraksa,Cigudeg,Kabupaten Bogor,5378,6.92,777
+32.01.22.2015,Tegallega,Cigudeg,Kabupaten Bogor,5377,8.94,602
+32.01.22.2010,Wargajaya,Cigudeg,Kabupaten Bogor,3022,8.16,370
+32.01.28.2006,Cibalung,Cijeruk,Kabupaten Bogor,6904,3.7,1864
+32.01.28.2001,Cijeruk,Cijeruk,Kabupaten Bogor,7835,7.61,1030
+32.01.28.2002,Cipelang,Cijeruk,Kabupaten Bogor,9500,8.69,1094
+32.01.28.2005,Cipicung,Cijeruk,Kabupaten Bogor,8328,4.88,1707
+32.01.28.2008,Palasari,Cijeruk,Kabupaten Bogor,10644,4.47,2382
+32.01.28.2007,Sukaharja,Cijeruk,Kabupaten Bogor,9802,7.81,1255
+32.01.28.2004,Tajurhalang,Cijeruk,Kabupaten Bogor,4611,4.78,964
+32.01.28.2009,Tanjungsari,Cijeruk,Kabupaten Bogor,3703,2.73,1357
+32.01.28.2003,Warungmenteng,Cijeruk,Kabupaten Bogor,8596,2.63,3265
+32.01.07.2012,Cileungsi,Cileungsi,Kabupaten Bogor,30378,2.64,11523
+32.01.07.2007,Cileungsi Kidul,Cileungsi,Kabupaten Bogor,42211,5.88,7183
+32.01.07.2010,Cipenjo,Cileungsi,Kabupaten Bogor,41006,4.85,8457
+32.01.07.2008,Cipeucang,Cileungsi,Kabupaten Bogor,22542,5.04,4473
+32.01.07.2004,Dayeuh,Cileungsi,Kabupaten Bogor,46818,8.44,5547
+32.01.07.2005,Gandoang,Cileungsi,Kabupaten Bogor,31634,5.73,5524
+32.01.07.2006,Jatisari,Cileungsi,Kabupaten Bogor,10702,5.17,2068
+32.01.07.2011,Limusnunggal,Cileungsi,Kabupaten Bogor,61611,7.1,8677
+32.01.07.2003,Mampir,Cileungsi,Kabupaten Bogor,27018,6.38,4233
+32.01.07.2002,Mekarsari,Cileungsi,Kabupaten Bogor,18884,6.09,3101
+32.01.07.2001,Pasirangin,Cileungsi,Kabupaten Bogor,57746,6.3,9170
+32.01.07.2009,Situsari,Cileungsi,Kabupaten Bogor,30614,6.46,4738
+32.01.29.2008,Ciapus,Ciomas,Kabupaten Bogor,10893,1.64,6653
+32.01.29.2005,Ciomas,Ciomas,Kabupaten Bogor,10028,1.07,9361
+32.01.29.2011,Ciomas Rahayu,Ciomas,Kabupaten Bogor,10778,0.83,13024
+32.01.29.2009,Kotabatu,Ciomas,Kabupaten Bogor,24674,2.67,9232
+32.01.29.2010,Laladon,Ciomas,Kabupaten Bogor,14272,1.38,10347
+32.01.29.2001,Mekarjaya,Ciomas,Kabupaten Bogor,7856,0.9,8733
+32.01.29.1003,Padasuka,Ciomas,Kabupaten Bogor,19215,1.42,13572
+32.01.29.2006,Pagelaran,Ciomas,Kabupaten Bogor,20427,2.04,9999
+32.01.29.2004,Parakan,Ciomas,Kabupaten Bogor,7875,1.33,5908
+32.01.29.2002,Sukaharja,Ciomas,Kabupaten Bogor,4216,1.74,2425
+32.01.29.2007,Sukamakmur,Ciomas,Kabupaten Bogor,9339,1.98,4716
+32.01.25.2001,Batulayang,Cisarua,Kabupaten Bogor,14606,3.38,4316
+32.01.25.2003,Cibeureum,Cisarua,Kabupaten Bogor,23195,13.66,1697
+32.01.25.2004,Cilember,Cisarua,Kabupaten Bogor,9387,2.12,4422
+32.01.25.1010,Cisarua,Cisarua,Kabupaten Bogor,14168,1.69,8370
+32.01.25.2005,Citeko,Cisarua,Kabupaten Bogor,13009,4.53,2873
+32.01.25.2002,Jogjogan,Cisarua,Kabupaten Bogor,10188,2.95,3458
+32.01.25.2008,Kopo,Cisarua,Kabupaten Bogor,24973,6.77,3690
+32.01.25.2007,Leuwimalang,Cisarua,Kabupaten Bogor,10329,1.64,6307
+32.01.25.2006,Tugu Selatan,Cisarua,Kabupaten Bogor,26613,22.68,1174
+32.01.25.2009,Tugu Utara,Cisarua,Kabupaten Bogor,17194,18.07,951
+32.01.33.2007,Babakan,Ciseeng,Kabupaten Bogor,22812,4.83,4722
+32.01.33.2004,Cibentang,Ciseeng,Kabupaten Bogor,11660,3.06,3814
+32.01.33.2009,Cibeuteung Muara,Ciseeng,Kabupaten Bogor,9428,5.63,1676
+32.01.33.2005,Cibeuteung Udik,Ciseeng,Kabupaten Bogor,9999,3.96,2527
+32.01.33.2008,Cihowe,Ciseeng,Kabupaten Bogor,6638,2.44,2722
+32.01.33.2002,Ciseeng,Ciseeng,Kabupaten Bogor,9627,2.06,4678
+32.01.33.2006,Karihkil,Ciseeng,Kabupaten Bogor,7640,4.87,1569
+32.01.33.2010,Kuripan,Ciseeng,Kabupaten Bogor,7528,5.79,1301
+32.01.33.2003,Parigi Mekar,Ciseeng,Kabupaten Bogor,10663,1.92,5557
+32.01.33.2001,Putat Nutug,Ciseeng,Kabupaten Bogor,15209,4.99,3045
+32.01.03.2002,Citeureup,Citeureup,Kabupaten Bogor,27900,3.75,7442
+32.01.03.2010,Gunungsari,Citeureup,Kabupaten Bogor,16529,2.81,5886
+32.01.03.2013,Hambalang,Citeureup,Kabupaten Bogor,10527,22.06,477
+32.01.03.1007,Karang Asem Barat,Citeureup,Kabupaten Bogor,24093,2.96,8129
+32.01.03.2008,Karang Asem Timur,Citeureup,Kabupaten Bogor,12090,1.25,9662
+32.01.03.2003,Leuwinutug,Citeureup,Kabupaten Bogor,17269,3.03,5694
+32.01.03.2014,Pasir Mukti,Citeureup,Kabupaten Bogor,10516,1.87,5634
+32.01.03.1006,Puspanegara,Citeureup,Kabupaten Bogor,19325,1.43,13514
+32.01.03.2001,Puspasari,Citeureup,Kabupaten Bogor,18370,1.5,12282
+32.01.03.2005,Sanja,Citeureup,Kabupaten Bogor,14322,2.29,6241
+32.01.03.2012,Sukahati,Citeureup,Kabupaten Bogor,12746,4.85,2626
+32.01.03.2004,Tajur,Citeureup,Kabupaten Bogor,11305,15.91,711
+32.01.03.2011,Tangkil,Citeureup,Kabupaten Bogor,4722,6.74,701
+32.01.03.2009,Tarikolot,Citeureup,Kabupaten Bogor,23895,2.81,8512
+32.01.30.2008,Babakan,Dramaga,Kabupaten Bogor,17390,3.47,5008
+32.01.30.2002,Ciherang,Dramaga,Kabupaten Bogor,19648,2.67,7367
+32.01.30.2007,Cikarawang,Dramaga,Kabupaten Bogor,7804,2.54,3072
+32.01.30.2009,Dramaga,Dramaga,Kabupaten Bogor,12595,1.43,8807
+32.01.30.2010,Neglasari,Dramaga,Kabupaten Bogor,7251,1.56,4634
+32.01.30.2005,Petir,Dramaga,Kabupaten Bogor,10314,4.65,2217
+32.01.30.2006,Purwasari,Dramaga,Kabupaten Bogor,5242,2.26,2324
+32.01.30.2003,Sinarsari,Dramaga,Kabupaten Bogor,8816,1.74,5065
+32.01.30.2001,Sukadamai,Dramaga,Kabupaten Bogor,6185,2.54,2436
+32.01.30.2004,Sukawening,Dramaga,Kabupaten Bogor,6897,2.68,2569
+32.01.02.2002,Bojongkulur,Gunungputri,Kabupaten Bogor,77259,5.25,14706
+32.01.02.2005,Bojongnangka,Gunungputri,Kabupaten Bogor,39404,7.51,5244
+32.01.02.2003,Ciangsana,Gunungputri,Kabupaten Bogor,77643,9.47,8195
+32.01.02.2007,Cicadas,Gunungputri,Kabupaten Bogor,58538,6.16,9500
+32.01.02.2008,Cikeas Udik,Gunungputri,Kabupaten Bogor,46900,6.82,6874
+32.01.02.2004,Gunungputri,Gunungputri,Kabupaten Bogor,24203,2.98,8126
+32.01.02.2010,Karanggan,Gunungputri,Kabupaten Bogor,26553,3.67,7227
+32.01.02.2009,Nagrak,Gunungputri,Kabupaten Bogor,55068,6.35,8673
+32.01.02.2006,Tlajung Udik,Gunungputri,Kabupaten Bogor,50496,5.54,9112
+32.01.02.2001,Wanaherang,Gunungputri,Kabupaten Bogor,60609,7.19,8435
+32.01.11.2007,Cibadung,Gunungsindur,Kabupaten Bogor,10602,5.03,2108
+32.01.11.2008,Cibinong,Gunungsindur,Kabupaten Bogor,21655,4.63,4677
+32.01.11.2001,Cidokom,Gunungsindur,Kabupaten Bogor,12011,2.58,4660
+32.01.11.2004,Curug,Gunungsindur,Kabupaten Bogor,34723,6.34,5481
+32.01.11.2005,Gunungsindur,Gunungsindur,Kabupaten Bogor,23695,5.41,4381
+32.01.11.2006,Jampang,Gunungsindur,Kabupaten Bogor,3999,6.34,631
+32.01.11.2010,Pabuaran,Gunungsindur,Kabupaten Bogor,20827,5.72,3644
+32.01.11.2002,Padurenan,Gunungsindur,Kabupaten Bogor,13693,2.62,5229
+32.01.11.2003,Pengasinan,Gunungsindur,Kabupaten Bogor,25049,5.29,4733
+32.01.11.2009,Rawakalong,Gunungsindur,Kabupaten Bogor,37045,4.98,7445
+32.01.19.2010,Bagoang,Jasinga,Kabupaten Bogor,4368,4.31,1015
+32.01.19.2009,Barengkok,Jasinga,Kabupaten Bogor,5999,14.69,408
+32.01.19.2007,Cikopomayak,Jasinga,Kabupaten Bogor,4084,5.66,722
+32.01.19.2001,Curug,Jasinga,Kabupaten Bogor,3422,14.07,243
+32.01.19.2005,Jasinga,Jasinga,Kabupaten Bogor,3759,8.12,463
+32.01.19.2013,Jugalajaya,Jasinga,Kabupaten Bogor,2706,20.61,131
+32.01.19.2003,Kalongsawah,Jasinga,Kabupaten Bogor,6112,4.47,1367
+32.01.19.2006,Koleang,Jasinga,Kabupaten Bogor,3841,6.8,565
+32.01.19.2015,Neglasari,Jasinga,Kabupaten Bogor,1827,3.51,520
+32.01.19.2012,Pamagersari,Jasinga,Kabupaten Bogor,4942,4.13,1197
+32.01.19.2011,Pangaur,Jasinga,Kabupaten Bogor,3439,14.15,243
+32.01.19.2002,Pangradin,Jasinga,Kabupaten Bogor,2937,10.06,292
+32.01.19.2008,Setu,Jasinga,Kabupaten Bogor,3995,3.13,1277
+32.01.19.2004,Sipak,Jasinga,Kabupaten Bogor,6294,6.54,962
+32.01.19.2014,Tegalwangi,Jasinga,Kabupaten Bogor,3885,7.91,491
+32.01.19.2016,Wirajaya,Jasinga,Kabupaten Bogor,2127,11.47,186
+32.01.06.2012,Balekambang,Jonggol,Kabupaten Bogor,7557,10.82,699
+32.01.06.2010,Bendungan,Jonggol,Kabupaten Bogor,6208,6.84,907
+32.01.06.2008,Cibodas,Jonggol,Kabupaten Bogor,3182,14.12,225
+32.01.06.2009,Jonggol,Jonggol,Kabupaten Bogor,18270,5.42,3371
+32.01.06.2003,Singajaya,Jonggol,Kabupaten Bogor,30309,11.97,2532
+32.01.06.2011,Singasari,Jonggol,Kabupaten Bogor,13891,18.43,754
+32.01.06.2002,Sirnagalih,Jonggol,Kabupaten Bogor,6564,4.25,1546
+32.01.06.2014,Sukagalih,Jonggol,Kabupaten Bogor,4724,5.74,824
+32.01.06.2013,Sukajaya,Jonggol,Kabupaten Bogor,4194,16.11,260
+32.01.06.2001,Sukamaju,Jonggol,Kabupaten Bogor,37101,7.05,5261
+32.01.06.2006,Sukamanah,Jonggol,Kabupaten Bogor,15088,4.86,3102
+32.01.06.2005,Sukanegara,Jonggol,Kabupaten Bogor,4189,8.94,469
+32.01.06.2004,Sukasirna,Jonggol,Kabupaten Bogor,15464,10.99,1407
+32.01.06.2007,Weninggalih,Jonggol,Kabupaten Bogor,5474,5.66,967
+32.01.12.1006,Atang Senjaya,Kemang,Kabupaten Bogor,8010,1.94,4130
+32.01.12.2001,Bojong,Kemang,Kabupaten Bogor,12627,3.07,4116
+32.01.12.2007,Jampang,Kemang,Kabupaten Bogor,17598,3.35,5251
+32.01.12.2003,Kemang,Kemang,Kabupaten Bogor,17398,6.21,2804
+32.01.12.2004,Pabuaran,Kemang,Kabupaten Bogor,13212,5.81,2275
+32.01.12.2002,Parakanjaya,Kemang,Kabupaten Bogor,14323,1.65,8659
+32.01.12.2008,Pondok Udik,Kemang,Kabupaten Bogor,11969,3.09,3878
+32.01.12.2005,Semplak Barat,Kemang,Kabupaten Bogor,5193,1.13,4598
+32.01.12.2009,Tegal,Kemang,Kabupaten Bogor,26586,7.32,3633
+32.01.32.2007,Bantarjati,Klapanunggal,Kabupaten Bogor,15744,3.62,4347
+32.01.32.2002,Bojong,Klapanunggal,Kabupaten Bogor,16320,8.53,1912
+32.01.32.2005,Cikahuripan,Klapanunggal,Kabupaten Bogor,23424,6.02,3892
+32.01.32.2006,Kembangkuning,Klapanunggal,Kabupaten Bogor,28430,5.95,4781
+32.01.32.2001,Klapanunggal,Klapanunggal,Kabupaten Bogor,33188,7.21,4601
+32.01.32.2008,Leuwikaret,Klapanunggal,Kabupaten Bogor,5402,17.87,302
+32.01.32.2009,Ligarmukti,Klapanunggal,Kabupaten Bogor,3085,12.07,256
+32.01.32.2004,Lulut,Klapanunggal,Kabupaten Bogor,18664,16.3,1145
+32.01.32.2003,Nambo,Klapanunggal,Kabupaten Bogor,15206,18.46,824
+32.01.14.2006,Barengkok,Leuwiliang,Kabupaten Bogor,8955,4.72,1898
+32.01.14.2009,Cibeber I,Leuwiliang,Kabupaten Bogor,9881,4.61,2144
+32.01.14.2010,Cibeber II,Leuwiliang,Kabupaten Bogor,5015,6.11,820
+32.01.14.2005,Karacak,Leuwiliang,Kabupaten Bogor,7027,7.75,907
+32.01.14.2011,Karehkel,Leuwiliang,Kabupaten Bogor,7512,4.83,1556
+32.01.14.2003,Karyasari,Leuwiliang,Kabupaten Bogor,4957,6.83,726
+32.01.14.2001,Leuwiliang,Leuwiliang,Kabupaten Bogor,14092,2.75,5121
+32.01.14.2007,Leuwimekar,Leuwiliang,Kabupaten Bogor,10456,2.61,4013
+32.01.14.2004,Pabangbon,Leuwiliang,Kabupaten Bogor,2977,13.13,227
+32.01.14.2002,Purasari,Leuwiliang,Kabupaten Bogor,7684,25.69,299
+32.01.14.2008,Puraseda,Leuwiliang,Kabupaten Bogor,4425,13.24,334
+32.01.39.2002,Babakan Sadeng,Leuwisadeng,Kabupaten Bogor,4399,2.52,1743
+32.01.39.2005,Kalong I,Leuwisadeng,Kabupaten Bogor,3983,4.06,982
+32.01.39.2006,Kalong II,Leuwisadeng,Kabupaten Bogor,2915,2.3,1269
+32.01.39.2001,Leuwisadeng,Leuwisadeng,Kabupaten Bogor,8058,8.92,904
+32.01.39.2007,Sadeng,Leuwisadeng,Kabupaten Bogor,7066,5.17,1366
+32.01.39.2003,Sadengkolot,Leuwisadeng,Kabupaten Bogor,7043,5.54,1271
+32.01.39.2008,Sibanteng,Leuwisadeng,Kabupaten Bogor,5942,5.69,1045
+32.01.39.2004,Wangunjaya,Leuwisadeng,Kabupaten Bogor,3950,3.18,1242
+32.01.26.2006,Cipayung,Megamendung,Kabupaten Bogor,18493,4.02,4603
+32.01.26.2009,Cipayung Girang,Megamendung,Kabupaten Bogor,11300,2.41,4687
+32.01.26.2003,Gadog,Megamendung,Kabupaten Bogor,8846,2.04,4331
+32.01.26.2002,Kuta,Megamendung,Kabupaten Bogor,7427,9.33,796
+32.01.26.2005,Megamendung,Megamendung,Kabupaten Bogor,9557,21.54,444
+32.01.26.2012,Pasir Angin,Megamendung,Kabupaten Bogor,12101,4.91,2464
+32.01.26.2008,Sukagalih,Megamendung,Kabupaten Bogor,8316,7.02,1184
+32.01.26.2004,Sukakarya,Megamendung,Kabupaten Bogor,6148,4.03,1525
+32.01.26.2010,Sukamahi,Megamendung,Kabupaten Bogor,13965,3.12,4478
+32.01.26.2001,Sukamaju,Megamendung,Kabupaten Bogor,5284,2.05,2574
+32.01.26.2007,Sukamanah,Megamendung,Kabupaten Bogor,7398,1.77,4178
+32.01.26.2011,Sukaresmi,Megamendung,Kabupaten Bogor,4048,5.64,718
+32.01.21.2004,Bantarkaret,Nanggung,Kabupaten Bogor,9318,37.59,248
+32.01.21.2011,Batu Tulis,Nanggung,Kabupaten Bogor,4418,2.75,1607
+32.01.21.2003,Cisarua,Nanggung,Kabupaten Bogor,8510,12.09,704
+32.01.21.2002,Curugbitung,Nanggung,Kabupaten Bogor,6850,10.66,643
+32.01.21.2005,Hambaro,Nanggung,Kabupaten Bogor,3344,3.09,1082
+32.01.21.2006,Kalongliud,Nanggung,Kabupaten Bogor,6089,4.41,1379
+32.01.21.2001,Malasari,Nanggung,Kabupaten Bogor,6055,68.04,89
+32.01.21.2007,Nanggung,Nanggung,Kabupaten Bogor,5194,7.44,698
+32.01.21.2009,Pangkaljaya,Nanggung,Kabupaten Bogor,4653,3.43,1355
+32.01.21.2008,Parakanmuncang,Nanggung,Kabupaten Bogor,4082,3.37,1212
+32.01.21.2010,Sukaluyu,Nanggung,Kabupaten Bogor,2887,4.42,653
+32.01.17.2013,Ciasihan,Pamijahan,Kabupaten Bogor,8219,12.07,681
+32.01.17.2015,Ciasmara,Pamijahan,Kabupaten Bogor,5397,10.23,528
+32.01.17.2009,Cibening,Pamijahan,Kabupaten Bogor,9817,3.66,2681
+32.01.17.2011,Cibitung Kulon,Pamijahan,Kabupaten Bogor,3695,2.52,1468
+32.01.17.2003,Cibitung Wetan,Pamijahan,Kabupaten Bogor,4230,2.95,1435
+32.01.17.2002,Cibunian,Pamijahan,Kabupaten Bogor,6636,14.63,454
+32.01.17.2007,Cimayang,Pamijahan,Kabupaten Bogor,4011,1.81,2217
+32.01.17.2010,Gunung Bunder I,Pamijahan,Kabupaten Bogor,6622,3.47,1907
+32.01.17.2005,Gunung Bunder II,Pamijahan,Kabupaten Bogor,7805,9.24,844
+32.01.17.2004,Gunung Menyan,Pamijahan,Kabupaten Bogor,4889,2.58,1898
+32.01.17.2012,Gunung Picung,Pamijahan,Kabupaten Bogor,10342,9.19,1125
+32.01.17.2014,Gunung Sari,Pamijahan,Kabupaten Bogor,11596,16.47,704
+32.01.17.2008,Pamijahan,Pamijahan,Kabupaten Bogor,8199,4.35,1886
+32.01.17.2006,Pasarean,Pamijahan,Kabupaten Bogor,7369,3.06,2408
+32.01.17.2001,Purwabakti,Pamijahan,Kabupaten Bogor,4735,29.11,163
+32.01.10.2008,Bojong Indah,Parung,Kabupaten Bogor,9763,1.58,6174
+32.01.10.2003,Bojong Sempu,Parung,Kabupaten Bogor,9441,1.77,5345
+32.01.10.2005,Cogreg,Parung,Kabupaten Bogor,19262,5.48,3516
+32.01.10.2002,Iwul,Parung,Kabupaten Bogor,8691,4.46,1948
+32.01.10.2009,Jabon Mekar,Parung,Kabupaten Bogor,14614,2.46,5937
+32.01.10.2006,Pamegarsari,Parung,Kabupaten Bogor,24587,3.41,7203
+32.01.10.2001,Parung,Parung,Kabupaten Bogor,21157,1.84,11495
+32.01.10.2004,Waru,Parung,Kabupaten Bogor,25597,4.05,6313
+32.01.10.2007,Waru Jaya,Parung,Kabupaten Bogor,16133,2.69,5995
+32.01.20.2008,Cibunar,Parungpanjang,Kabupaten Bogor,15741,3.99,3942
+32.01.20.2005,Cikuda,Parungpanjang,Kabupaten Bogor,7541,5.35,1409
+32.01.20.2003,Dago,Parungpanjang,Kabupaten Bogor,5474,6.48,845
+32.01.20.2010,Gintungcilejet,Parungpanjang,Kabupaten Bogor,7849,7.66,1025
+32.01.20.2002,Gorowong,Parungpanjang,Kabupaten Bogor,14997,10.92,1373
+32.01.20.2001,Jagabaya,Parungpanjang,Kabupaten Bogor,10091,10.28,981
+32.01.20.2009,Jagabita,Parungpanjang,Kabupaten Bogor,5055,3.66,1382
+32.01.20.2011,Kabasiran,Parungpanjang,Kabupaten Bogor,17324,3.85,4499
+32.01.20.2007,Lumpang,Parungpanjang,Kabupaten Bogor,26502,7.91,3349
+32.01.20.2006,Parungpanjang,Parungpanjang,Kabupaten Bogor,25375,2.68,9461
+32.01.20.2004,Pingku,Parungpanjang,Kabupaten Bogor,10472,8.1,1293
+32.01.34.2001,Bantarjaya,Rancabungur,Kabupaten Bogor,8630,2.68,3224
+32.01.34.2002,Bantarsari,Rancabungur,Kabupaten Bogor,6027,3.06,1968
+32.01.34.2006,Candali,Rancabungur,Kabupaten Bogor,5261,4.71,1118
+32.01.34.2007,Cimulang,Rancabungur,Kabupaten Bogor,4380,4.02,1088
+32.01.34.2005,Mekarsari,Rancabungur,Kabupaten Bogor,4832,2.31,2089
+32.01.34.2003,Pasirgaok,Rancabungur,Kabupaten Bogor,6768,2.45,2757
+32.01.34.2004,Rancabungur,Rancabungur,Kabupaten Bogor,8399,3.39,2476
+32.01.18.2005,Cibodas,Rumpin,Kabupaten Bogor,6998,10.46,669
+32.01.18.2003,Cidokom,Rumpin,Kabupaten Bogor,4374,5.82,751
+32.01.18.2008,Cipinang,Rumpin,Kabupaten Bogor,11766,12.06,976
+32.01.18.2004,Gobang,Rumpin,Kabupaten Bogor,5120,7.44,688
+32.01.18.2007,Kampung Sawah,Rumpin,Kabupaten Bogor,8668,8.14,1065
+32.01.18.2011,Kertajaya,Rumpin,Kabupaten Bogor,6981,6.02,1159
+32.01.18.2002,Leuwibatu,Rumpin,Kabupaten Bogor,5393,19.41,278
+32.01.18.2014,Mekarjaya,Rumpin,Kabupaten Bogor,2508,4.53,553
+32.01.18.2013,Mekarsari,Rumpin,Kabupaten Bogor,7376,6.22,1186
+32.01.18.2006,Rabak,Rumpin,Kabupaten Bogor,8988,19.87,452
+32.01.18.2001,Rumpin,Rumpin,Kabupaten Bogor,5197,5.95,873
+32.01.18.2012,Sukamulya,Rumpin,Kabupaten Bogor,24423,11.07,2207
+32.01.18.2009,Sukasari,Rumpin,Kabupaten Bogor,11333,12.06,939
+32.01.18.2010,Tamansari,Rumpin,Kabupaten Bogor,11402,9.77,1167
+32.01.35.2005,Cileuksa,Sukajaya,Kabupaten Bogor,4888,31.61,155
+32.01.35.2001,Cisarua,Sukajaya,Kabupaten Bogor,2457,46.15,53
+32.01.35.2007,Harkatjaya,Sukajaya,Kabupaten Bogor,4379,4.31,1016
+32.01.35.2011,Jayaraharja,Sukajaya,Kabupaten Bogor,1941,2.8,694
+32.01.35.2006,Kiarapandak,Sukajaya,Kabupaten Bogor,3331,5.72,583
+32.01.35.2002,Kiarasari,Sukajaya,Kabupaten Bogor,5096,32.37,157
+32.01.35.2009,Pasir Madang,Sukajaya,Kabupaten Bogor,2264,16.33,139
+32.01.35.2004,Sipayung,Sukajaya,Kabupaten Bogor,3591,6.56,547
+32.01.35.2003,Sukajaya,Sukajaya,Kabupaten Bogor,2677,2.14,1251
+32.01.35.2008,Sukamulih,Sukajaya,Kabupaten Bogor,3042,13.42,227
+32.01.35.2010,Urug,Sukajaya,Kabupaten Bogor,2630,3.69,712
+32.01.09.2005,Cibadak,Sukamakmur,Kabupaten Bogor,5554,12.19,455
+32.01.09.2002,Pabuaran,Sukamakmur,Kabupaten Bogor,7928,19.81,400
+32.01.09.2009,Sirnajaya,Sukamakmur,Kabupaten Bogor,5265,16.09,327
+32.01.09.2003,Sukadamai,Sukamakmur,Kabupaten Bogor,5636,18.56,304
+32.01.09.2008,Sukaharja,Sukamakmur,Kabupaten Bogor,6881,31.33,220
+32.01.09.2010,Sukamakmur,Sukamakmur,Kabupaten Bogor,4671,13.62,343
+32.01.09.2007,Sukamulya,Sukamakmur,Kabupaten Bogor,4764,16.47,289
+32.01.09.2006,Sukaresmi,Sukamakmur,Kabupaten Bogor,5977,13.56,441
+32.01.09.2004,Sukawangi,Sukamakmur,Kabupaten Bogor,6649,31.97,208
+32.01.09.2001,Wargajaya,Sukamakmur,Kabupaten Bogor,6501,12.18,534
+32.01.04.2012,Cadasngampar,Sukaraja,Kabupaten Bogor,9680,2.08,4652
+32.01.04.2004,Cibanon,Sukaraja,Kabupaten Bogor,4671,2.88,1622
+32.01.04.2011,Cijujung,Sukaraja,Kabupaten Bogor,28829,4.03,7148
+32.01.04.2008,Cikeas,Sukaraja,Kabupaten Bogor,10682,3.51,3041
+32.01.04.2003,Cilebut Barat,Sukaraja,Kabupaten Bogor,37610,3.49,10775
+32.01.04.2002,Cilebut Timur,Sukaraja,Kabupaten Bogor,18461,1.53,12098
+32.01.04.2010,Cimandala,Sukaraja,Kabupaten Bogor,31489,3.3,9541
+32.01.04.2001,Gunung Geulis,Sukaraja,Kabupaten Bogor,7666,5.67,1351
+32.01.04.2005,Nagrak,Sukaraja,Kabupaten Bogor,9237,6.96,1327
+32.01.04.2009,Pasirjambu,Sukaraja,Kabupaten Bogor,23005,2.23,10312
+32.01.04.2013,Pasirlaja,Sukaraja,Kabupaten Bogor,11482,3.79,3033
+32.01.04.2007,Sukaraja,Sukaraja,Kabupaten Bogor,10722,2.56,4184
+32.01.04.2006,Sukatani,Sukaraja,Kabupaten Bogor,3316,1.54,2150
+32.01.37.2002,Citayam,Tajurhalang,Kabupaten Bogor,23886,3.6,6631
+32.01.37.2007,Kalisuren,Tajurhalang,Kabupaten Bogor,33821,4.94,6849
+32.01.37.2004,Nanggerang,Tajurhalang,Kabupaten Bogor,16899,2.6,6492
+32.01.37.2003,Sasak Panjang,Tajurhalang,Kabupaten Bogor,36870,6.0,6142
+32.01.37.2005,Sukmajaya,Tajurhalang,Kabupaten Bogor,13616,2.92,4668
+32.01.37.2001,Tajurhalang,Tajurhalang,Kabupaten Bogor,30308,6.52,4648
+32.01.37.2006,Tonjong,Tajurhalang,Kabupaten Bogor,18770,3.77,4974
+32.01.31.2003,Pasir Eurih,Tamansari,Kabupaten Bogor,12881,2.99,4303
+32.01.31.2002,Sirnagalih,Tamansari,Kabupaten Bogor,17323,1.85,9351
+32.01.31.2008,Sukajadi,Tamansari,Kabupaten Bogor,7748,4.61,1680
+32.01.31.2007,Sukajaya,Tamansari,Kabupaten Bogor,8117,4.4,1845
+32.01.31.2005,Sukaluyu,Tamansari,Kabupaten Bogor,7471,3.74,1997
+32.01.31.2001,Sukamantri,Tamansari,Kabupaten Bogor,23811,6.39,3724
+32.01.31.2006,Sukaresmi,Tamansari,Kabupaten Bogor,11468,3.64,3147
+32.01.31.2004,Tamansari,Tamansari,Kabupaten Bogor,13266,11.09,1197
+32.01.36.2004,Antajaya,Tanjungsari,Kabupaten Bogor,4021,14.05,286
+32.01.36.2009,Buanajaya,Tanjungsari,Kabupaten Bogor,4511,32.77,138
+32.01.36.2006,Cibadak,Tanjungsari,Kabupaten Bogor,4516,24.12,187
+32.01.36.2005,Pasirtanjung,Tanjungsari,Kabupaten Bogor,3179,3.09,1029
+32.01.36.2002,Selawangi,Tanjungsari,Kabupaten Bogor,7378,13.31,554
+32.01.36.2010,Sirnarasa,Tanjungsari,Kabupaten Bogor,5042,19.07,264
+32.01.36.2008,Sirnasari,Tanjungsari,Kabupaten Bogor,3206,6.58,487
+32.01.36.2007,Sukarasa,Tanjungsari,Kabupaten Bogor,5342,18.28,292
+32.01.36.2003,Tanjungrasa,Tanjungsari,Kabupaten Bogor,5434,7.44,731
+32.01.36.2001,Tanjungsari,Tanjungsari,Kabupaten Bogor,6250,8.52,734
+32.01.23.2004,Babakan,Tenjo,Kabupaten Bogor,8147,15.07,541
+32.01.23.2003,Batok,Tenjo,Kabupaten Bogor,9271,9.66,960
+32.01.23.2009,Bojong,Tenjo,Kabupaten Bogor,6550,9.46,692
+32.01.23.2006,Cilaku,Tenjo,Kabupaten Bogor,8027,6.38,1258
+32.01.23.2002,Ciomas,Tenjo,Kabupaten Bogor,4119,10.44,394
+32.01.23.2008,Singabangsa,Tenjo,Kabupaten Bogor,4986,3.19,1563
+32.01.23.2007,Singabraja,Tenjo,Kabupaten Bogor,3802,6.0,634
+32.01.23.2001,Tapos,Tenjo,Kabupaten Bogor,5173,13.89,372
+32.01.23.2005,Tenjo,Tenjo,Kabupaten Bogor,10999,7.1,1548
+32.01.40.2003,Cibitung Tengah,Tenjolaya,Kabupaten Bogor,7636,3.22,2370
+32.01.40.2005,Cinangneng,Tenjolaya,Kabupaten Bogor,7058,2.71,2609
+32.01.40.2006,Gunung Malang,Tenjolaya,Kabupaten Bogor,6330,11.48,551
+32.01.40.2007,Gunung Mulya,Tenjolaya,Kabupaten Bogor,5130,3.38,1517
+32.01.40.2004,Situdaun,Tenjolaya,Kabupaten Bogor,6664,3.57,1865
+32.01.40.2001,Tapos I,Tenjolaya,Kabupaten Bogor,7039,10.94,643
+32.01.40.2002,Tapos II,Tenjolaya,Kabupaten Bogor,5277,2.42,2179
+36.03.01.1001,Balaraja,Balaraja,Kabupaten Tangerang,14536,1.92,7587
+36.03.01.2003,Cangkudu,Balaraja,Kabupaten Tangerang,18511,4.91,3769
+36.03.01.2011,Gembong,Balaraja,Kabupaten Tangerang,14060,4.53,3101
+36.03.01.2014,Saga,Balaraja,Kabupaten Tangerang,24874,4.24,5872
+36.03.01.2010,Sentul,Balaraja,Kabupaten Tangerang,16829,3.69,4562
+36.03.01.2016,Sentul Jaya,Balaraja,Kabupaten Tangerang,11280,2.48,4546
+36.03.01.2013,Sukamurni,Balaraja,Kabupaten Tangerang,7538,3.45,2188
+36.03.01.2005,Talagasari,Balaraja,Kabupaten Tangerang,13392,2.44,5481
+36.03.01.2009,Tobat,Balaraja,Kabupaten Tangerang,22833,5.13,4453
+36.03.18.2009,Bitung Jaya,Cikupa,Kabupaten Tangerang,18702,2.31,8100
+36.03.18.2014,Bojong,Cikupa,Kabupaten Tangerang,21718,3.44,6317
+36.03.18.2013,Budi Mulya,Cikupa,Kabupaten Tangerang,8964,3.78,2370
+36.03.18.1003,Bunder,Cikupa,Kabupaten Tangerang,21845,5.5,3970
+36.03.18.2002,Cibadak,Cikupa,Kabupaten Tangerang,14176,2.81,5042
+36.03.18.2007,Cikupa,Cikupa,Kabupaten Tangerang,27090,2.03,13319
+36.03.18.2006,Dukuh,Cikupa,Kabupaten Tangerang,29848,3.67,8142
+36.03.18.2010,Pasir Gadung,Cikupa,Kabupaten Tangerang,19902,2.08,9589
+36.03.18.2012,Pasir Jaya,Cikupa,Kabupaten Tangerang,20576,2.47,8341
+36.03.18.2011,Sukadamai,Cikupa,Kabupaten Tangerang,24970,4.09,6106
+36.03.18.1001,Sukamulya,Cikupa,Kabupaten Tangerang,33729,3.58,9412
+36.03.18.2008,Sukanagara,Cikupa,Kabupaten Tangerang,12932,1.85,6994
+36.03.18.2004,Talaga,Cikupa,Kabupaten Tangerang,28229,5.48,5149
+36.03.18.2005,Talagasari,Cikupa,Kabupaten Tangerang,21708,2.9,7481
+36.03.23.2011,Cibogo,Cisauk,Kabupaten Tangerang,23268,3.48,6678
+36.03.23.1001,Cisauk,Cisauk,Kabupaten Tangerang,18976,5.1,3717
+36.03.23.2009,Dangdang,Cisauk,Kabupaten Tangerang,7025,5.21,1349
+36.03.23.2003,Mekar Wangi,Cisauk,Kabupaten Tangerang,6029,4.51,1337
+36.03.23.2006,Sampora,Cisauk,Kabupaten Tangerang,26695,4.73,5638
+36.03.23.2005,Suradita,Cisauk,Kabupaten Tangerang,32048,7.0,4576
+36.03.05.2006,Bojong Loa,Cisoka,Kabupaten Tangerang,5626,3.19,1765
+36.03.05.2009,Carenang,Cisoka,Kabupaten Tangerang,5543,5.73,968
+36.03.05.2002,Caringin,Cisoka,Kabupaten Tangerang,8406,2.78,3025
+36.03.05.2008,Cempaka,Cisoka,Kabupaten Tangerang,9736,2.97,3280
+36.03.05.2007,Cibugel,Cisoka,Kabupaten Tangerang,7920,2.42,3266
+36.03.05.2001,Cisoka,Cisoka,Kabupaten Tangerang,11117,3.72,2989
+36.03.05.2017,Jeungjing,Cisoka,Kabupaten Tangerang,9175,3.77,2436
+36.03.05.2014,Karang Harja,Cisoka,Kabupaten Tangerang,4994,2.45,2039
+36.03.05.2003,Selapajang,Cisoka,Kabupaten Tangerang,9169,2.19,4183
+36.03.05.2004,Sukatani,Cisoka,Kabupaten Tangerang,11129,2.38,4675
+36.03.17.1006,Binong,Curug,Kabupaten Tangerang,72346,5.37,13472
+36.03.17.2010,Cukanggalih,Curug,Kabupaten Tangerang,31485,4.66,6750
+36.03.17.1001,Curug Kulon,Curug,Kabupaten Tangerang,29725,2.74,10866
+36.03.17.2002,Curug Wetan,Curug,Kabupaten Tangerang,21729,4.26,5104
+36.03.17.2003,Kadu,Curug,Kabupaten Tangerang,45446,7.24,6281
+36.03.17.2004,Kadu Jaya,Curug,Kabupaten Tangerang,30157,4.37,6900
+36.03.17.1005,Sukabakti,Curug,Kabupaten Tangerang,26620,2.25,11811
+36.03.32.2009,Cibetok,Gunung Kaler,Kabupaten Tangerang,2933,3.61,813
+36.03.32.2005,Cipaeh,Gunung Kaler,Kabupaten Tangerang,3207,3.74,857
+36.03.32.2001,Gunung Kaler,Gunung Kaler,Kabupaten Tangerang,3691,3.62,1019
+36.03.32.2008,Kandawati,Gunung Kaler,Kabupaten Tangerang,3528,3.96,892
+36.03.32.2004,Kedung,Gunung Kaler,Kabupaten Tangerang,3052,3.21,951
+36.03.32.2006,Onyam,Gunung Kaler,Kabupaten Tangerang,4220,3.3,1277
+36.03.32.2003,Rancagede,Gunung Kaler,Kabupaten Tangerang,4524,2.72,1662
+36.03.32.2002,Sidoko,Gunung Kaler,Kabupaten Tangerang,4187,3.53,1184
+36.03.32.2007,Tamiang,Gunung Kaler,Kabupaten Tangerang,6515,5.29,1231
+36.03.04.2009,Ancol Pasir,Jambe,Kabupaten Tangerang,1976,1.75,1130
+36.03.04.2005,Daru,Jambe,Kabupaten Tangerang,6961,2.57,2705
+36.03.04.2002,Jambe,Jambe,Kabupaten Tangerang,6691,3.0,2227
+36.03.04.2006,Kutruk,Jambe,Kabupaten Tangerang,5762,2.17,2660
+36.03.04.2008,Mekarsari,Jambe,Kabupaten Tangerang,2454,2.81,873
+36.03.04.2010,Pasir Barat,Jambe,Kabupaten Tangerang,3874,2.09,1852
+36.03.04.2007,Ranca Buaya,Jambe,Kabupaten Tangerang,3573,2.27,1574
+36.03.04.2001,Sukamanah,Jambe,Kabupaten Tangerang,3858,4.22,915
+36.03.04.2004,Taban,Jambe,Kabupaten Tangerang,5623,5.04,1115
+36.03.04.2003,Tipar Raya,Jambe,Kabupaten Tangerang,4454,2.19,2038
+36.03.02.2008,Cikande,Jayanti,Kabupaten Tangerang,10985,3.37,3264
+36.03.02.2007,Dangdeur,Jayanti,Kabupaten Tangerang,6315,3.56,1772
+36.03.02.2006,Jayanti,Jayanti,Kabupaten Tangerang,10315,2.9,3555
+36.03.02.2002,Pabuaran,Jayanti,Kabupaten Tangerang,5165,3.2,1612
+36.03.02.2001,Pangkat,Jayanti,Kabupaten Tangerang,5369,2.3,2333
+36.03.02.2009,Pasir Gintung,Jayanti,Kabupaten Tangerang,5123,2.08,2465
+36.03.02.2004,Pasir Muncang,Jayanti,Kabupaten Tangerang,8797,3.5,2512
+36.03.02.2005,Sumur Bandung,Jayanti,Kabupaten Tangerang,9961,3.29,3027
+36.03.28.1002,Bencongan,Kelapa Dua,Kabupaten Tangerang,42539,2.28,18643
+36.03.28.1003,Bencongan Indah,Kelapa Dua,Kabupaten Tangerang,35542,4.51,7874
+36.03.28.1005,Bojong Nangka,Kelapa Dua,Kabupaten Tangerang,50744,6.48,7829
+36.03.28.2006,Curug Sangereng,Kelapa Dua,Kabupaten Tangerang,47219,4.27,11064
+36.03.28.1001,Kelapa Dua,Kelapa Dua,Kabupaten Tangerang,51189,4.93,10377
+36.03.28.1004,Pakulonan Barat,Kelapa Dua,Kabupaten Tangerang,40575,3.43,11817
+36.03.09.2002,Karang Anyar,Kemiri,Kabupaten Tangerang,2927,4.36,671
+36.03.09.2004,Kemiri,Kemiri,Kabupaten Tangerang,8564,4.56,1878
+36.03.09.2006,Klebet,Kemiri,Kabupaten Tangerang,7951,6.13,1297
+36.03.09.2007,Legok Suka Maju,Kemiri,Kabupaten Tangerang,2996,2.86,1048
+36.03.09.2003,Lontar,Kemiri,Kabupaten Tangerang,4413,7.77,568
+36.03.09.2001,Patramanggala,Kemiri,Kabupaten Tangerang,3095,5.64,549
+36.03.09.2005,Ranca Labuh,Kemiri,Kabupaten Tangerang,4438,2.27,1952
+36.03.14.2008,Belimbing,Kosambi,Kabupaten Tangerang,13155,2.59,5076
+36.03.14.2007,Cengklong,Kosambi,Kabupaten Tangerang,12265,1.92,6373
+36.03.14.1010,Dadap,Kosambi,Kabupaten Tangerang,33722,4.66,7238
+36.03.14.2009,Jati Mulya,Kosambi,Kabupaten Tangerang,12955,1.81,7159
+36.03.14.1001,Kosambi Barat,Kosambi,Kabupaten Tangerang,4354,3.21,1356
+36.03.14.2002,Kosambi Timur,Kosambi,Kabupaten Tangerang,13816,3.17,4353
+36.03.14.2006,Rawa Burung,Kosambi,Kabupaten Tangerang,8048,2.05,3923
+36.03.14.2005,Rawa Rengas,Kosambi,Kabupaten Tangerang,9780,3.99,2449
+36.03.14.2004,Salembaran Jati,Kosambi,Kabupaten Tangerang,4288,4.3,998
+36.03.14.1003,Salembaran Jaya,Kosambi,Kabupaten Tangerang,16201,8.37,1935
+36.03.06.2014,Jengkol,Kresek,Kabupaten Tangerang,5092,4.1,1243
+36.03.06.2007,Kemuning,Kresek,Kabupaten Tangerang,7991,5.11,1565
+36.03.06.2013,Koper,Kresek,Kabupaten Tangerang,3228,3.43,940
+36.03.06.2018,Kresek,Kresek,Kabupaten Tangerang,6864,3.76,1824
+36.03.06.2001,Pasir Ampo,Kresek,Kabupaten Tangerang,4136,2.87,1443
+36.03.06.2015,Patrasana,Kresek,Kabupaten Tangerang,6849,2.77,2470
+36.03.06.2003,Rancailat,Kresek,Kabupaten Tangerang,5833,2.78,2100
+36.03.06.2009,Renged,Kresek,Kabupaten Tangerang,5832,2.5,2336
+36.03.06.2011,Talok,Kresek,Kabupaten Tangerang,4239,2.5,1698
+36.03.07.2013,Bakung,Kronjo,Kabupaten Tangerang,6217,3.45,1801
+36.03.07.2015,Blukbuk,Kronjo,Kabupaten Tangerang,3843,3.06,1257
+36.03.07.2017,Cirumpak,Kronjo,Kabupaten Tangerang,2749,2.94,937
+36.03.07.2001,Kronjo,Kronjo,Kabupaten Tangerang,5822,7.01,830
+36.03.07.2007,Muncung,Kronjo,Kabupaten Tangerang,3936,8.68,454
+36.03.07.2008,Pagedangan Ilir,Kronjo,Kabupaten Tangerang,4388,8.0,548
+36.03.07.2009,Pagedangan Udik,Kronjo,Kabupaten Tangerang,4256,3.69,1154
+36.03.07.2002,Pagenjahan,Kronjo,Kabupaten Tangerang,4206,2.13,1979
+36.03.07.2010,Pasilian,Kronjo,Kabupaten Tangerang,6299,4.32,1457
+36.03.07.2006,Pasir,Kronjo,Kabupaten Tangerang,3388,2.71,1251
+36.03.20.1011,Babakan,Legok,Kabupaten Tangerang,17475,1.97,8885
+36.03.20.2004,Babat,Legok,Kabupaten Tangerang,12458,3.95,3151
+36.03.20.2008,Bojongkamal,Legok,Kabupaten Tangerang,10247,3.41,3007
+36.03.20.2002,Caringin,Legok,Kabupaten Tangerang,16048,2.26,7086
+36.03.20.2005,Ciangir,Legok,Kabupaten Tangerang,5749,3.57,1612
+36.03.20.2012,Cirarab,Legok,Kabupaten Tangerang,13833,3.47,3986
+36.03.20.2010,Kemuning,Legok,Kabupaten Tangerang,9555,2.45,3896
+36.03.20.2006,Legok,Legok,Kabupaten Tangerang,19517,2.41,8086
+36.03.20.2007,Palasari,Legok,Kabupaten Tangerang,10359,4.76,2175
+36.03.20.2009,Rancagong,Legok,Kabupaten Tangerang,16362,5.35,3057
+36.03.20.2003,Serdang Wetan,Legok,Kabupaten Tangerang,19993,3.46,5780
+36.03.08.2011,Banyu Asih,Mauk,Kabupaten Tangerang,2383,1.1,2164
+36.03.08.2006,Gunung Sari,Mauk,Kabupaten Tangerang,2345,3.36,698
+36.03.08.2010,Jatiwaringin,Mauk,Kabupaten Tangerang,6049,2.4,2525
+36.03.08.2007,Kedung Dalem,Mauk,Kabupaten Tangerang,5383,3.35,1607
+36.03.08.2012,Ketapang,Mauk,Kabupaten Tangerang,3161,3.82,828
+36.03.08.2008,Marga Mulya,Mauk,Kabupaten Tangerang,4129,5.7,724
+36.03.08.2001,Mauk Barat,Mauk,Kabupaten Tangerang,3127,6.41,488
+36.03.08.1002,Mauk Timur,Mauk,Kabupaten Tangerang,5419,1.85,2934
+36.03.08.2005,Sasak,Mauk,Kabupaten Tangerang,4036,3.29,1227
+36.03.08.2009,Tanjung Anom,Mauk,Kabupaten Tangerang,5858,3.75,1564
+36.03.08.2003,Tegal Kunir Kidul,Mauk,Kabupaten Tangerang,4715,3.82,1234
+36.03.08.2004,Tegal Kunir Lor,Mauk,Kabupaten Tangerang,2580,3.86,669
+36.03.33.2003,Cijeruk,Mekar Baru,Kabupaten Tangerang,4349,4.37,996
+36.03.33.2008,Gandaria,Mekar Baru,Kabupaten Tangerang,4043,2.05,1974
+36.03.33.2006,Jenggot,Mekar Baru,Kabupaten Tangerang,4702,5.72,823
+36.03.33.2002,Kedaung,Mekar Baru,Kabupaten Tangerang,4228,3.47,1220
+36.03.33.2005,Klutuk,Mekar Baru,Kabupaten Tangerang,1792,1.78,1008
+36.03.33.2007,Kosambi Dalam,Mekar Baru,Kabupaten Tangerang,5713,3.53,1620
+36.03.33.2001,Mekar Baru,Mekar Baru,Kabupaten Tangerang,2847,2.36,1207
+36.03.33.2004,Waliwis,Mekar Baru,Kabupaten Tangerang,3067,2.58,1190
+36.03.22.2002,Cicalengka,Pagedangan,Kabupaten Tangerang,8744,2.75,3183
+36.03.22.2009,Cihuni,Pagedangan,Kabupaten Tangerang,16010,4.92,3257
+36.03.22.2005,Cijantra,Pagedangan,Kabupaten Tangerang,11071,5.51,2010
+36.03.22.2008,Jatake,Pagedangan,Kabupaten Tangerang,9820,4.57,2150
+36.03.22.2010,Kadu Sirung,Pagedangan,Kabupaten Tangerang,8867,5.39,1645
+36.03.22.2012,Karang Tengah,Pagedangan,Kabupaten Tangerang,5086,1.52,3344
+36.03.22.2006,Lengkong Kulon,Pagedangan,Kabupaten Tangerang,22201,6.25,3551
+36.03.22.2011,Malang Nengah,Pagedangan,Kabupaten Tangerang,10827,2.66,4069
+36.03.22.1004,Medang,Pagedangan,Kabupaten Tangerang,40389,5.06,7984
+36.03.22.2003,Pagedangan,Pagedangan,Kabupaten Tangerang,30690,4.8,6394
+36.03.22.2007,Situ Gadung,Pagedangan,Kabupaten Tangerang,10920,7.64,1430
+36.03.15.2003,Bonisari,Pakuhaji,Kabupaten Tangerang,5486,1.37,3993
+36.03.15.2006,Buaran Bambu,Pakuhaji,Kabupaten Tangerang,5157,2.73,1887
+36.03.15.2005,Buaran Mangga,Pakuhaji,Kabupaten Tangerang,2917,3.31,882
+36.03.15.2014,Gaga,Pakuhaji,Kabupaten Tangerang,10230,3.94,2598
+36.03.15.2007,Kalibaru,Pakuhaji,Kabupaten Tangerang,8108,5.01,1619
+36.03.15.2012,Kiara Payung,Pakuhaji,Kabupaten Tangerang,12896,3.24,3980
+36.03.15.2008,Kohod,Pakuhaji,Kabupaten Tangerang,4886,8.15,599
+36.03.15.2009,Kramat,Pakuhaji,Kabupaten Tangerang,6399,7.25,883
+36.03.15.2013,Laksana,Pakuhaji,Kabupaten Tangerang,5863,4.06,1442
+36.03.15.2002,Paku Alam,Pakuhaji,Kabupaten Tangerang,5525,2.33,2369
+36.03.15.1001,Pakuhaji,Pakuhaji,Kabupaten Tangerang,8207,2.61,3142
+36.03.15.2004,Rawa Boni,Pakuhaji,Kabupaten Tangerang,5956,2.18,2736
+36.03.15.2010,Sukawali,Pakuhaji,Kabupaten Tangerang,5298,3.65,1452
+36.03.15.2011,Surya Bahari,Pakuhaji,Kabupaten Tangerang,5364,2.97,1809
+36.03.19.2007,Ciakar,Panongan,Kabupaten Tangerang,51200,7.69,6657
+36.03.19.1002,Mekar Bakti,Panongan,Kabupaten Tangerang,31969,3.21,9946
+36.03.19.2006,Mekar Jaya,Panongan,Kabupaten Tangerang,10859,3.45,3150
+36.03.19.2008,Panongan,Panongan,Kabupaten Tangerang,20845,4.52,4608
+36.03.19.2003,Peusar,Panongan,Kabupaten Tangerang,16828,3.77,4458
+36.03.19.2001,Ranca Iyuh,Panongan,Kabupaten Tangerang,18970,6.01,3157
+36.03.19.2004,Ranca Kalapa,Panongan,Kabupaten Tangerang,10402,4.66,2233
+36.03.19.2005,Serdang Kulon,Panongan,Kabupaten Tangerang,13094,2.96,4422
+36.03.12.2013,Gelam Jaya,Pasar Kemis,Kabupaten Tangerang,44736,2.96,15109
+36.03.12.1014,Kuta Baru,Pasar Kemis,Kabupaten Tangerang,20182,1.23,16437
+36.03.12.1012,Kuta Jaya,Pasar Kemis,Kabupaten Tangerang,31970,3.82,8376
+36.03.12.1010,Kutabumi,Pasar Kemis,Kabupaten Tangerang,32761,3.31,9901
+36.03.12.2011,Pangadegan,Pasar Kemis,Kabupaten Tangerang,14544,5.13,2834
+36.03.12.2001,Pasar Kemis,Pasar Kemis,Kabupaten Tangerang,16785,1.69,9931
+36.03.12.1005,Sindangsari,Pasar Kemis,Kabupaten Tangerang,32646,4.86,6711
+36.03.12.2015,Suka Asih,Pasar Kemis,Kabupaten Tangerang,16023,2.38,6729
+36.03.12.2008,Sukamantri,Pasar Kemis,Kabupaten Tangerang,32755,5.55,5902
+36.03.11.2013,Daon,Rajeg,Kabupaten Tangerang,9401,4.77,1970
+36.03.11.2005,Jambu Karya,Rajeg,Kabupaten Tangerang,4887,4.78,1023
+36.03.11.2006,Lembangsari,Rajeg,Kabupaten Tangerang,7109,1.96,3621
+36.03.11.2014,Mekarsari,Rajeg,Kabupaten Tangerang,29661,4.59,6456
+36.03.11.2003,Pangarengan,Rajeg,Kabupaten Tangerang,7938,6.02,1318
+36.03.11.2001,Rajeg,Rajeg,Kabupaten Tangerang,9639,3.25,2964
+36.03.11.2002,Rajeg Mulya,Rajeg,Kabupaten Tangerang,11758,3.36,3499
+36.03.11.2012,Ranca Bango,Rajeg,Kabupaten Tangerang,4288,3.06,1402
+36.03.11.2007,Sukamanah,Rajeg,Kabupaten Tangerang,17964,6.47,2775
+36.03.11.2011,Sukasari,Rajeg,Kabupaten Tangerang,8863,3.53,2510
+36.03.11.1010,Sukatani,Rajeg,Kabupaten Tangerang,19685,5.89,3342
+36.03.11.2008,Tanjakan,Rajeg,Kabupaten Tangerang,7252,2.6,2788
+36.03.11.2009,Tanjakan Mekar,Rajeg,Kabupaten Tangerang,5432,2.52,2152
+36.03.16.2002,Karet,Sepatan,Kabupaten Tangerang,23231,2.85,8161
+36.03.16.2003,Kayu Agung,Sepatan,Kabupaten Tangerang,10023,2.21,4534
+36.03.16.2004,Kayu Bongkok,Sepatan,Kabupaten Tangerang,5315,2.64,2011
+36.03.16.2012,Mekar Jaya,Sepatan,Kabupaten Tangerang,10914,2.79,3910
+36.03.16.2011,Pisangan Jaya,Sepatan,Kabupaten Tangerang,16900,2.64,6390
+36.03.16.2008,Pondok Jaya,Sepatan,Kabupaten Tangerang,13743,1.49,9212
+36.03.16.2015,Sarakan,Sepatan,Kabupaten Tangerang,8817,1.86,4743
+36.03.16.1001,Sepatan,Sepatan,Kabupaten Tangerang,14868,2.62,5682
+36.03.30.2005,Gempol Sari,Sepatan Timur,Kabupaten Tangerang,10638,3.07,3463
+36.03.30.2003,Jati Mulya,Sepatan Timur,Kabupaten Tangerang,7729,1.45,5333
+36.03.30.2006,Kampung Kelor,Sepatan Timur,Kabupaten Tangerang,9331,2.37,3934
+36.03.30.2001,Kedaung Barat,Sepatan Timur,Kabupaten Tangerang,13342,2.5,5344
+36.03.30.2002,Lebak Wangi,Sepatan Timur,Kabupaten Tangerang,29611,5.22,5671
+36.03.30.2007,Pondok Kelor,Sepatan Timur,Kabupaten Tangerang,6787,1.32,5125
+36.03.30.2004,Sangiang,Sepatan Timur,Kabupaten Tangerang,6799,2.33,2921
+36.03.30.2008,Tanah Merah,Sepatan Timur,Kabupaten Tangerang,8799,1.39,6319
+36.03.29.2007,Badak Anom,Sindang Jaya,Kabupaten Tangerang,5257,3.37,1562
+36.03.29.2001,Sindang Jaya,Sindang Jaya,Kabupaten Tangerang,10968,5.3,2070
+36.03.29.2004,Sindangasih,Sindang Jaya,Kabupaten Tangerang,9186,5.37,1711
+36.03.29.2005,Sindangpanon,Sindang Jaya,Kabupaten Tangerang,15360,5.17,2971
+36.03.29.2006,Sindangsono,Sindang Jaya,Kabupaten Tangerang,10790,8.07,1337
+36.03.29.2003,Sukaharja,Sindang Jaya,Kabupaten Tangerang,17610,5.83,3022
+36.03.29.2002,Wanakerta,Sindang Jaya,Kabupaten Tangerang,27631,8.25,3348
+36.03.31.2005,Cikareo,Solear,Kabupaten Tangerang,4985,3.03,1647
+36.03.31.2003,Cikasungka,Solear,Kabupaten Tangerang,21494,7.43,2894
+36.03.31.2002,Cikuya,Solear,Kabupaten Tangerang,12681,7.72,1643
+36.03.31.2004,Cireundeu,Solear,Kabupaten Tangerang,4472,1.84,2434
+36.03.31.2007,Munjul,Solear,Kabupaten Tangerang,10460,4.24,2467
+36.03.31.2006,Pasanggrahan,Solear,Kabupaten Tangerang,15943,4.2,3800
+36.03.31.2001,Solear,Solear,Kabupaten Tangerang,9106,5.45,1670
+36.03.10.2002,Buaran Jati,Sukadiri,Kabupaten Tangerang,6652,2.16,3086
+36.03.10.2008,Gintung,Sukadiri,Kabupaten Tangerang,7308,4.1,1783
+36.03.10.2005,Karang Serang,Sukadiri,Kabupaten Tangerang,4901,2.91,1683
+36.03.10.2006,Kosambi,Sukadiri,Kabupaten Tangerang,7281,1.88,3866
+36.03.10.2007,Mekar Kondang,Sukadiri,Kabupaten Tangerang,4465,2.99,1495
+36.03.10.2004,Pekayon,Sukadiri,Kabupaten Tangerang,6486,4.88,1329
+36.03.10.2003,Rawa Kidang,Sukadiri,Kabupaten Tangerang,3629,2.86,1270
+36.03.10.2001,Sukadiri,Sukadiri,Kabupaten Tangerang,4179,3.29,1269
+36.03.27.2001,Benda,Sukamulya,Kabupaten Tangerang,5273,2.97,1776
+36.03.27.2007,Bunar,Sukamulya,Kabupaten Tangerang,6062,3.83,1582
+36.03.27.2004,Buniayu,Sukamulya,Kabupaten Tangerang,4423,3.49,1266
+36.03.27.2003,Kaliasin,Sukamulya,Kabupaten Tangerang,7696,2.58,2977
+36.03.27.2008,Kubang,Sukamulya,Kabupaten Tangerang,4138,3.19,1299
+36.03.27.2006,Merak,Sukamulya,Kabupaten Tangerang,9122,2.39,3815
+36.03.27.2005,Parahu,Sukamulya,Kabupaten Tangerang,13405,3.7,3623
+36.03.27.2002,Sukamulya,Sukamulya,Kabupaten Tangerang,7372,3.21,2294
+36.03.13.2003,Babakan Asem,Teluknaga,Kabupaten Tangerang,13696,2.22,6156
+36.03.13.2002,Bojong Renged,Teluknaga,Kabupaten Tangerang,12204,2.05,5950
+36.03.13.2013,Kampung Besar,Teluknaga,Kabupaten Tangerang,10225,4.67,2188
+36.03.13.2004,Keboncau,Teluknaga,Kabupaten Tangerang,14375,2.43,5922
+36.03.13.2007,Kmp Melayu Brt,Teluknaga,Kabupaten Tangerang,9207,1.25,7377
+36.03.13.2006,Kmp Melayu Tim,Teluknaga,Kabupaten Tangerang,16179,2.0,8070
+36.03.13.2009,Lemo,Teluknaga,Kabupaten Tangerang,4493,4.87,922
+36.03.13.2008,Muara,Teluknaga,Kabupaten Tangerang,2301,4.05,568
+36.03.13.2005,Pangkalan,Teluknaga,Kabupaten Tangerang,13267,4.91,2704
+36.03.13.2012,Tanjung Burung,Teluknaga,Kabupaten Tangerang,6575,9.79,672
+36.03.13.2010,Tanjung Pasir,Teluknaga,Kabupaten Tangerang,4205,7.33,574
+36.03.13.2011,Tegal Angus,Teluknaga,Kabupaten Tangerang,9013,3.61,2495
+36.03.13.2001,Teluknaga,Teluknaga,Kabupaten Tangerang,14068,3.17,4439
+36.03.03.2014,Bantar Panjang,Tigaraksa,Kabupaten Tangerang,7888,5.27,1497
+36.03.03.2011,Cileles,Tigaraksa,Kabupaten Tangerang,8739,6.12,1429
+36.03.03.2009,Cisereh,Tigaraksa,Kabupaten Tangerang,9682,3.78,2564
+36.03.03.1007,Kadu Agung,Tigaraksa,Kabupaten Tangerang,13562,4.42,3067
+36.03.03.2010,Margasari,Tigaraksa,Kabupaten Tangerang,11892,3.97,2994
+36.03.03.2003,Matagara,Tigaraksa,Kabupaten Tangerang,10552,4.04,2612
+36.03.03.2002,Pasir Bolang,Tigaraksa,Kabupaten Tangerang,11866,2.54,4672
+36.03.03.2004,Pasir Nangka,Tigaraksa,Kabupaten Tangerang,22883,4.09,5594
+36.03.03.2008,Pematang,Tigaraksa,Kabupaten Tangerang,9006,3.86,2332
+36.03.03.2005,Pete,Tigaraksa,Kabupaten Tangerang,10902,2.72,4012
+36.03.03.2012,Sodong,Tigaraksa,Kabupaten Tangerang,12504,4.31,2904
+36.03.03.2013,Tapos,Tigaraksa,Kabupaten Tangerang,8785,4.42,1989
+36.03.03.2006,Tegalsari,Tigaraksa,Kabupaten Tangerang,3953,3.14,1257
+36.03.03.1001,Tigaraksa,Tigaraksa,Kabupaten Tangerang,19164,2.84,6753
+32.75.07.1003,Bantargebang,Bantargebang,Kota Bekasi,40373,4.39,9203
+32.75.07.1007,Ciketingudik,Bantargebang,Kota Bekasi,32940,4.36,7559
+32.75.07.1004,Cikiwul,Bantargebang,Kota Bekasi,39171,5.46,7174
+32.75.07.1008,Sumurbatu,Bantargebang,Kota Bekasi,29956,5.03,5958
+32.75.02.1001,Bintara,Bekasi Barat,Kota Bekasi,61516,3.4,18118
+32.75.02.1004,Bintarajaya,Bekasi Barat,Kota Bekasi,45858,2.69,17078
+32.75.02.1005,Jakasampurna,Bekasi Barat,Kota Bekasi,78944,5.0,15778
+32.75.02.1003,Kotabaru,Bekasi Barat,Kota Bekasi,32109,2.01,15948
+32.75.02.1002,Kranji,Bekasi Barat,Kota Bekasi,32895,1.8,18314
+32.75.04.1003,Jakamulya,Bekasi Selatan,Kota Bekasi,41936,3.08,13630
+32.75.04.1004,Jakasetia,Bekasi Selatan,Kota Bekasi,58463,3.85,15169
+32.75.04.1005,Kayuringinjaya,Bekasi Selatan,Kota Bekasi,49114,2.86,17197
+32.75.04.1002,Margajaya,Bekasi Selatan,Kota Bekasi,19997,1.67,11984
+32.75.04.1001,Pekayonjaya,Bekasi Selatan,Kota Bekasi,63893,4.34,14721
+32.75.01.1004,Arenjaya,Bekasi Timur,Kota Bekasi,46330,2.85,16230
+32.75.01.1001,Bekasijaya,Bekasi Timur,Kota Bekasi,55670,3.48,15993
+32.75.01.1003,Durenjaya,Bekasi Timur,Kota Bekasi,62509,3.64,17189
+32.75.01.1002,Margahayu,Bekasi Timur,Kota Bekasi,69836,4.66,15001
+32.75.03.1003,Harapanbaru,Bekasi Utara,Kota Bekasi,29437,2.53,11620
+32.75.03.1006,Harapanjaya,Bekasi Utara,Kota Bekasi,61375,4.89,12551
+32.75.03.1001,Kaliabang Tengah,Bekasi Utara,Kota Bekasi,71437,4.66,15335
+32.75.03.1005,Margamulya,Bekasi Utara,Kota Bekasi,27995,2.89,9703
+32.75.03.1002,Perwira,Bekasi Utara,Kota Bekasi,33212,2.29,14508
+32.75.03.1004,Teluk Pucung,Bekasi Utara,Kota Bekasi,50770,3.54,14356
+32.75.09.1002,Jatiasih,Jatiasih,Kota Bekasi,42100,3.63,11608
+32.75.09.1003,Jatikramat,Jatiasih,Kota Bekasi,50341,3.54,14215
+32.75.09.1005,Jatiluhur,Jatiasih,Kota Bekasi,46911,4.13,11367
+32.75.09.1001,Jatimekar,Jatiasih,Kota Bekasi,41741,4.53,9218
+32.75.09.1004,Jatirasa,Jatiasih,Kota Bekasi,41004,2.97,13807
+32.75.09.1006,Jatisari,Jatiasih,Kota Bekasi,51843,5.45,9506
+32.75.10.1002,Jatikarya,Jatisampurna,Kota Bekasi,40333,5.15,7830
+32.75.10.1005,Jatiraden,Jatisampurna,Kota Bekasi,37234,3.08,12105
+32.75.10.1004,Jatirangga,Jatisampurna,Kota Bekasi,31719,4.54,6982
+32.75.10.1003,Jatiranggon,Jatisampurna,Kota Bekasi,41840,3.22,12979
+32.75.10.1001,Jatisampurna,Jatisampurna,Kota Bekasi,37086,4.19,8849
+32.75.06.1002,Harapanmulya,Medansatria,Kota Bekasi,25403,2.06,12360
+32.75.06.1004,Kalibaru,Medansatria,Kota Bekasi,21389,1.41,15194
+32.75.06.1001,Medansatria,Medansatria,Kota Bekasi,27789,3.85,7218
+32.75.06.1003,Pejuang,Medansatria,Kota Bekasi,83656,5.89,14202
+32.75.11.1002,Cimuning,Mustikajaya,Kota Bekasi,48886,5.48,8921
+32.75.11.1003,Mustikajaya,Mustikajaya,Kota Bekasi,83298,6.8,12253
+32.75.11.1004,Mustikasari,Mustikajaya,Kota Bekasi,48149,4.84,9950
+32.75.11.1001,Padurenan,Mustikajaya,Kota Bekasi,73516,7.62,9643
+32.75.08.1002,Jatibening,Pondokgede,Kota Bekasi,50000,3.18,15741
+32.75.08.1006,Jatibening Baru,Pondokgede,Kota Bekasi,55842,3.4,16404
+32.75.08.1007,Jaticempaka,Pondokgede,Kota Bekasi,56574,3.62,15637
+32.75.08.1003,Jatimakmur,Pondokgede,Kota Bekasi,62571,4.32,14490
+32.75.08.1001,Jatiwaringin,Pondokgede,Kota Bekasi,42052,2.9,14479
+32.75.12.1003,Jatimelati,Pondokmelati,Kota Bekasi,35264,2.76,12769
+32.75.12.1004,Jatimurni,Pondokmelati,Kota Bekasi,32465,2.83,11467
+32.75.12.1001,Jatirahayu,Pondokmelati,Kota Bekasi,52442,3.6,14574
+32.75.12.1002,Jatiwarna,Pondokmelati,Kota Bekasi,26505,1.82,14561
+32.75.05.1001,Bojong Rawalumbu,Rawalumbu,Kota Bekasi,87634,6.38,13732
+32.75.05.1004,Bojongmenteng,Rawalumbu,Kota Bekasi,41202,3.95,10428
+32.75.05.1002,Pengasinan,Rawalumbu,Kota Bekasi,59874,3.49,17150
+32.75.05.1003,Sepanjangjaya,Rawalumbu,Kota Bekasi,45828,3.02,15182
+32.71.04.1005,Balumbang Jaya,Bogor Barat,Kota Bogor,11284,1.24,9069
+32.71.04.1003,Bubulak,Bogor Barat,Kota Bogor,17838,1.96,9112
+32.71.04.1008,Cilendek Barat,Bogor Barat,Kota Bogor,20420,1.62,12577
+32.71.04.1009,Cilendek Timur,Bogor Barat,Kota Bogor,20526,1.22,16821
+32.71.04.1011,Curug,Bogor Barat,Kota Bogor,15775,1.39,11345
+32.71.04.1010,Curug Mekar,Bogor Barat,Kota Bogor,19266,1.29,14950
+32.71.04.1015,Gunung Batu,Bogor Barat,Kota Bogor,14308,1.07,13408
+32.71.04.1016,Loji,Bogor Barat,Kota Bogor,16755,1.36,12331
+32.71.04.1004,Marga jaya,Bogor Barat,Kota Bogor,11560,1.16,9938
+32.71.04.1001,Menteng,Bogor Barat,Kota Bogor,19045,2.23,8550
+32.71.04.1012,Pasir Jaya,Bogor Barat,Kota Bogor,16018,1.43,11189
+32.71.04.1013,Pasir Kuda,Bogor Barat,Kota Bogor,14646,1.3,11260
+32.71.04.1014,Pasir Mulya,Bogor Barat,Kota Bogor,8921,0.77,11515
+32.71.04.1007,Semplak,Bogor Barat,Kota Bogor,12227,1.13,10779
+32.71.04.1002,Sindang Barang,Bogor Barat,Kota Bogor,19893,1.76,11327
+32.71.04.1006,Situ Gede,Bogor Barat,Kota Bogor,9605,2.37,4051
+32.71.01.1001,Batu Tulis,Bogor Selatan,Kota Bogor,8642,0.68,12775
+32.71.01.1009,Bojong Kerta,Bogor Selatan,Kota Bogor,13572,2.41,5636
+32.71.01.1002,Bondongan,Bogor Selatan,Kota Bogor,9161,0.58,15836
+32.71.01.1008,Cikaret,Bogor Selatan,Kota Bogor,13308,1.38,9633
+32.71.01.1016,Cipaku,Bogor Selatan,Kota Bogor,15832,1.51,10497
+32.71.01.1003,Empang,Bogor Selatan,Kota Bogor,13072,0.93,14115
+32.71.01.1014,Genteng,Bogor Selatan,Kota Bogor,12694,2.0,6359
+32.71.01.1012,Harjasari,Bogor Selatan,Kota Bogor,13501,1.47,9188
+32.71.01.1011,Kertamaya,Bogor Selatan,Kota Bogor,13509,4.42,3054
+32.71.01.1004,Lawanggintung,Bogor Selatan,Kota Bogor,8635,0.66,13142
+32.71.01.1013,Muara Sari,Bogor Selatan,Kota Bogor,9575,1.79,5364
+32.71.01.1007,Mulya Harja,Bogor Selatan,Kota Bogor,29125,5.32,5474
+32.71.01.1015,Pakuan,Bogor Selatan,Kota Bogor,11350,1.14,9940
+32.71.01.1005,Pamoyanan,Bogor Selatan,Kota Bogor,17900,2.62,6827
+32.71.01.1010,Rancamaya,Bogor Selatan,Kota Bogor,6570,1.93,3399
+32.71.01.1006,Rangga Mekar,Bogor Selatan,Kota Bogor,16021,1.66,9635
+32.71.03.1005,Babakan,Bogor Tengah,Kota Bogor,17291,1.47,11724
+32.71.03.1008,Babakan Pasar,Bogor Tengah,Kota Bogor,4066,0.36,11302
+32.71.03.1004,Cibogor,Bogor Tengah,Kota Bogor,5266,0.47,11313
+32.71.03.1010,Ciwaringin,Bogor Tengah,Kota Bogor,10717,0.79,13507
+32.71.03.1001,Gudang,Bogor Tengah,Kota Bogor,4103,0.33,12611
+32.71.03.1011,Kebon Kalapa,Bogor Tengah,Kota Bogor,6297,0.52,12147
+32.71.03.1003,Pabaton,Bogor Tengah,Kota Bogor,7136,0.63,11268
+32.71.03.1002,Paledang,Bogor Tengah,Kota Bogor,9759,1.76,5536
+32.71.03.1009,Panaragan,Bogor Tengah,Kota Bogor,4213,0.28,14941
+32.71.03.1006,Sempur,Bogor Tengah,Kota Bogor,8550,0.59,14391
+32.71.03.1007,Tegallega,Bogor Tengah,Kota Bogor,16002,1.16,13832
+32.71.02.1002,Baranangsiang,Bogor Timur,Kota Bogor,32444,2.52,12891
+32.71.02.1003,Katulampa,Bogor Timur,Kota Bogor,32610,4.63,7049
+32.71.02.1005,Sindangrasa,Bogor Timur,Kota Bogor,12480,1.25,9995
+32.71.02.1004,Sindangsari,Bogor Timur,Kota Bogor,11171,0.97,11562
+32.71.02.1001,Sukasari,Bogor Timur,Kota Bogor,7935,0.59,13436
+32.71.02.1006,Tajur,Bogor Timur,Kota Bogor,6343,0.51,12387
+32.71.05.1001,Bantarjati,Bogor Utara,Kota Bogor,23691,1.55,15252
+32.71.05.1005,Cibuluh,Bogor Utara,Kota Bogor,19378,1.75,11086
+32.71.05.1006,Ciluar,Bogor Utara,Kota Bogor,13837,2.15,6429
+32.71.05.1008,Cimahpar,Bogor Utara,Kota Bogor,25563,3.78,6759
+32.71.05.1004,Ciparigi,Bogor Utara,Kota Bogor,29565,1.78,16592
+32.71.05.1003,Kedung Halang,Bogor Utara,Kota Bogor,25559,1.95,13102
+32.71.05.1007,Tanah Baru,Bogor Utara,Kota Bogor,32301,3.26,9901
+32.71.05.1002,Tegal Gundil,Bogor Utara,Kota Bogor,29120,1.9,15334
+32.71.06.1011,Cibadak,Tanah Sareal,Kota Bogor,39432,3.1,12717
+32.71.06.1010,Kayu Manis,Tanah Sareal,Kota Bogor,20792,2.58,8055
+32.71.06.1002,Kebon Pedes,Tanah Sareal,Kota Bogor,15643,1.08,14418
+32.71.06.1003,Kedung Badak,Tanah Sareal,Kota Bogor,31977,2.4,13315
+32.71.06.1006,Kedung Jaya,Tanah Sareal,Kota Bogor,13446,0.92,14593
+32.71.06.1005,Kedung Waringin,Tanah Sareal,Kota Bogor,23484,1.42,16527
+32.71.06.1009,Kencana,Tanah Sareal,Kota Bogor,23505,2.59,9069
+32.71.06.1008,Mekar Wangi,Tanah Sareal,Kota Bogor,23042,2.41,9546
+32.71.06.1007,Sukadamai,Tanah Sareal,Kota Bogor,16297,1.57,10386
+32.71.06.1004,Sukaresmi,Tanah Sareal,Kota Bogor,11702,1.36,8578
+32.71.06.1001,Tanah Sareal,Tanah Sareal,Kota Bogor,16687,1.14,14612
+32.76.06.1001,Beji,Beji,Kota Depok,35175,2.23,15768
+32.76.06.1006,Beji Timur,Beji,Kota Depok,14623,0.95,15351
+32.76.06.1004,Kemiri Muka,Beji,Kota Depok,28097,2.16,13020
+32.76.06.1002,Kukusan,Beji,Kota Depok,31996,3.13,10231
+32.76.06.1005,Pondok Cina,Beji,Kota Depok,22436,2.79,8039
+32.76.06.1003,Tanah Baru,Beji,Kota Depok,49063,3.43,14309
+32.76.11.1001,Bojongsari,Bojongsari,Kota Depok,15982,2.21,7218
+32.76.11.1002,Bojongsari Baru,Bojongsari,Kota Depok,13652,1.75,7782
+32.76.11.1005,Curug,Bojongsari,Kota Depok,29769,4.18,7125
+32.76.11.1006,Duren Mekar,Bojongsari,Kota Depok,19184,2.19,8751
+32.76.11.1007,Duren Seribu,Bojongsari,Kota Depok,20211,2.85,7094
+32.76.11.1004,Pondok Petir,Bojongsari,Kota Depok,32365,3.08,10516
+32.76.11.1003,Serua,Bojongsari,Kota Depok,30931,3.33,9287
+32.76.08.1002,Cilodong,Cilodong,Kota Depok,20215,2.19,9237
+32.76.08.1005,Jatimulya,Cilodong,Kota Depok,28915,2.52,11490
+32.76.08.1003,Kalibaru,Cilodong,Kota Depok,39678,3.25,12212
+32.76.08.1004,Kalimulya,Cilodong,Kota Depok,35077,3.06,11458
+32.76.08.1001,Sukamaju,Cilodong,Kota Depok,55242,4.36,12680
+32.76.02.1012,Cisalak Pasar,Cimanggis,Kota Depok,25297,1.81,13943
+32.76.02.1008,Curug,Cimanggis,Kota Depok,18672,1.88,9953
+32.76.02.1007,Harjamukti,Cimanggis,Kota Depok,55037,5.98,9208
+32.76.02.1010,Mekarsari,Cimanggis,Kota Depok,57655,3.88,14842
+32.76.02.1011,Pasir Gunung Selatan,Cimanggis,Kota Depok,37456,2.73,13696
+32.76.02.1009,Tugu,Cimanggis,Kota Depok,78741,5.51,14303
+32.76.09.1001,Cinere,Cinere,Kota Depok,53880,3.59,15027
+32.76.09.1002,Gandul,Cinere,Kota Depok,37308,2.74,13591
+32.76.09.1003,Pangkalan Jati,Cinere,Kota Depok,32453,2.35,13800
+32.76.09.1004,Pangkalan Jati Baru,Cinere,Kota Depok,22449,1.59,14096
+32.76.07.1004,Bojong Pondok Terong,Cipayung,Kota Depok,30005,2.19,13691
+32.76.07.1001,Cipayung,Cipayung,Kota Depok,33899,2.71,12502
+32.76.07.1002,Cipayung Jaya,Cipayung,Kota Depok,18546,2.13,8692
+32.76.07.1005,Pondok Jaya,Cipayung,Kota Depok,22003,1.75,12597
+32.76.07.1003,Ratu Jaya,Cipayung,Kota Depok,35668,2.58,13826
+32.76.04.1002,Grogol,Limo,Kota Depok,36645,3.16,11580
+32.76.04.1003,Krukut,Limo,Kota Depok,22706,2.12,10703
+32.76.04.1004,Limo,Limo,Kota Depok,50426,4.36,11569
+32.76.04.1001,Meruyung,Limo,Kota Depok,27863,2.67,10419
+32.76.01.1006,Depok,Pancoran Mas,Kota Depok,47363,3.73,12691
+32.76.01.1007,Depok Jaya,Pancoran Mas,Kota Depok,18435,1.13,16331
+32.76.01.1009,Mampang,Pancoran Mas,Kota Depok,28172,1.88,14983
+32.76.01.1008,Pancoran Mas,Pancoran Mas,Kota Depok,51646,3.49,14810
+32.76.01.1011,Rangkapan Jaya,Pancoran Mas,Kota Depok,44328,3.67,12063
+32.76.01.1010,Rangkapan Jaya Baru,Pancoran Mas,Kota Depok,43553,3.93,11075
+32.76.03.1002,Bedahan,Sawangan,Kota Depok,50974,5.86,8699
+32.76.03.1009,Cinangka,Sawangan,Kota Depok,33826,3.4,9954
+32.76.03.1012,Kedaung,Sawangan,Kota Depok,17781,2.02,8820
+32.76.03.1001,Pasir Putih,Sawangan,Kota Depok,41474,4.63,8952
+32.76.03.1003,Pengasinan,Sawangan,Kota Depok,30640,3.74,8182
+32.76.03.1010,Sawangan,Sawangan,Kota Depok,25567,4.06,6291
+32.76.03.1011,Sawangan Baru,Sawangan,Kota Depok,22908,2.16,10602
+32.76.05.1003,Abadijaya,Sukmajaya,Kota Depok,38559,2.54,15175
+32.76.05.1005,Baktijaya,Sukmajaya,Kota Depok,37881,2.67,14211
+32.76.05.1008,Cisalak,Sukmajaya,Kota Depok,16028,2.67,5999
+32.76.05.1004,Mekarjaya,Sukmajaya,Kota Depok,49015,3.24,15116
+32.76.05.1001,Sukmajaya,Sukmajaya,Kota Depok,41584,3.37,12350
+32.76.05.1010,Tirtajaya,Sukmajaya,Kota Depok,32753,2.86,11464
+32.76.10.1006,Cilangkap,Tapos,Kota Depok,56291,6.55,8593
+32.76.10.1007,Cimpaeun,Tapos,Kota Depok,27613,4.93,5595
+32.76.10.1005,Jatijajar,Tapos,Kota Depok,32626,3.28,9943
+32.76.10.1002,Leuwinanggung,Tapos,Kota Depok,22727,4.3,5283
+32.76.10.1004,Sukamaju Baru,Tapos,Kota Depok,39909,3.21,12425
+32.76.10.1003,Sukatani,Tapos,Kota Depok,63214,4.75,13298
+32.76.10.1001,Tapos,Tapos,Kota Depok,19997,6.37,3139
+36.71.03.1002,Batu Jaya,Batuceper,Kota Tangerang,10740,1.21,8858
+36.71.03.1006,Batu Sari,Batuceper,Kota Tangerang,10094,1.54,6556
+36.71.03.1001,Batuceper,Batuceper,Kota Tangerang,15039,1.41,10669
+36.71.03.1005,Kebon Besar,Batuceper,Kota Tangerang,10566,1.22,8688
+36.71.03.1003,Poris Gaga,Batuceper,Kota Tangerang,19050,1.37,13912
+36.71.03.1004,Poris Gaga Baru,Batuceper,Kota Tangerang,10348,0.95,10917
+36.71.03.1007,Poris Jaya,Batuceper,Kota Tangerang,11976,0.83,14403
+36.71.04.1001,Belendung,Benda,Kota Tangerang,22141,2.93,7560
+36.71.04.1003,Benda,Benda,Kota Tangerang,19467,3.19,6111
+36.71.04.1002,Jurumudi,Benda,Kota Tangerang,21226,2.28,9325
+36.71.04.1005,Jurumudi Baru,Benda,Kota Tangerang,23522,1.89,12454
+36.71.04.1004,Pajang,Benda,Kota Tangerang,26495,14.76,1795
+36.71.09.1001,Cibodas,Cibodas,Kota Tangerang,21343,1.35,15862
+36.71.09.1003,Cibodas Baru,Cibodas,Kota Tangerang,15821,0.78,20360
+36.71.09.1002,Cibodas Sari,Cibodas,Kota Tangerang,19268,0.98,19702
+36.71.09.1006,Jatiuwung,Cibodas,Kota Tangerang,11597,1.37,8466
+36.71.09.1004,Panunggangan Barat,Cibodas,Kota Tangerang,31135,2.86,10890
+36.71.09.1005,Uwung Jaya,Cibodas,Kota Tangerang,21458,1.65,13030
+36.71.06.1001,Paninggilan,Ciledug,Kota Tangerang,20054,1.14,17662
+36.71.06.1008,Paninggilan Utara,Ciledug,Kota Tangerang,20531,1.04,19832
+36.71.06.1005,Parung Serab,Ciledug,Kota Tangerang,22127,1.3,16963
+36.71.06.1002,Sudimara Barat,Ciledug,Kota Tangerang,19276,1.0,19362
+36.71.06.1006,Sudimara Jaya,Ciledug,Kota Tangerang,15398,0.83,18510
+36.71.06.1007,Sudimara Selatan,Ciledug,Kota Tangerang,15443,1.1,14092
+36.71.06.1003,Sudimara Timur,Ciledug,Kota Tangerang,17422,0.86,20197
+36.71.06.1004,Tajur,Ciledug,Kota Tangerang,20284,1.36,14918
+36.71.05.1001,Cipondoh,Cipondoh,Kota Tangerang,25471,1.98,12833
+36.71.05.1003,Cipondoh Indah,Cipondoh,Kota Tangerang,27932,1.34,20911
+36.71.05.1002,Cipondoh Makmur,Cipondoh,Kota Tangerang,27086,1.44,18793
+36.71.05.1004,Gondrong,Cipondoh,Kota Tangerang,29502,1.69,17506
+36.71.05.1005,Kenanga,Cipondoh,Kota Tangerang,25895,1.64,15755
+36.71.05.1007,Ketapang,Cipondoh,Kota Tangerang,28822,1.66,17343
+36.71.05.1006,Petir,Cipondoh,Kota Tangerang,37815,2.48,15266
+36.71.05.1008,Poris Plawad,Cipondoh,Kota Tangerang,18946,1.75,10838
+36.71.05.1010,Poris Plawad Indah,Cipondoh,Kota Tangerang,34099,2.29,14876
+36.71.05.1009,Poris Plawad Utara,Cipondoh,Kota Tangerang,25764,1.42,18187
+36.71.02.1006,Alam Jaya,Jatiuwung,Kota Tangerang,11834,1.38,8570
+36.71.02.1004,Gandasari,Jatiuwung,Kota Tangerang,24124,3.75,6435
+36.71.02.1002,Jatake,Jatiuwung,Kota Tangerang,11840,1.09,10854
+36.71.02.1001,Keroncong,Jatiuwung,Kota Tangerang,15887,1.71,9266
+36.71.02.1005,Manis Jaya,Jatiuwung,Kota Tangerang,12716,1.62,7840
+36.71.02.1003,Pasir Jaya,Jatiuwung,Kota Tangerang,22805,4.96,4595
+36.71.12.1002,Karang Mulya,Karang Tengah,Kota Tangerang,43472,2.32,18726
+36.71.12.1001,Karang Tengah,Karang Tengah,Kota Tangerang,37638,1.94,19358
+36.71.12.1005,Karang Timur,Karang Tengah,Kota Tangerang,25849,1.43,18126
+36.71.12.1006,Padurenan,Karang Tengah,Kota Tangerang,17807,0.96,18488
+36.71.12.1007,Parung Jaya,Karang Tengah,Kota Tangerang,14828,1.22,12129
+36.71.12.1003,Pondok Bahar,Karang Tengah,Kota Tangerang,15648,1.5,10465
+36.71.12.1004,Pondok Pucung,Karang Tengah,Kota Tangerang,15718,0.78,20213
+36.71.07.1002,Bojong Jaya,Karawaci,Kota Tangerang,8457,1.04,8169
+36.71.07.1009,Bugel,Karawaci,Kota Tangerang,12435,0.91,13607
+36.71.07.1005,Cimone,Karawaci,Kota Tangerang,13041,0.84,15512
+36.71.07.1006,Cimone Jaya,Karawaci,Kota Tangerang,12582,0.8,15668
+36.71.07.1013,Gerendeng,Karawaci,Kota Tangerang,11083,0.77,14426
+36.71.07.1001,Karawaci,Karawaci,Kota Tangerang,8624,1.27,6802
+36.71.07.1003,Karawaci Baru,Karawaci,Kota Tangerang,9689,0.55,17727
+36.71.07.1016,Koang Jaya,Karawaci,Kota Tangerang,6386,1.04,6144
+36.71.07.1010,Marga Sari,Karawaci,Kota Tangerang,15146,1.04,14524
+36.71.07.1012,Nambo Jaya,Karawaci,Kota Tangerang,6470,0.66,9749
+36.71.07.1004,Nusa Jaya,Karawaci,Kota Tangerang,12148,0.72,16928
+36.71.07.1007,Pabuaran,Karawaci,Kota Tangerang,12280,0.7,17562
+36.71.07.1011,Pabuaran Tumpeng,Karawaci,Kota Tangerang,8371,0.69,12100
+36.71.07.1015,Pasar Baru,Karawaci,Kota Tangerang,6590,1.13,5856
+36.71.07.1014,Sukajadi,Karawaci,Kota Tangerang,10925,0.72,15192
+36.71.07.1008,Sumur Pacing,Karawaci,Kota Tangerang,4112,0.3,13786
+36.71.13.1003,Cipadu,Larangan,Kota Tangerang,16388,0.81,20128
+36.71.13.1007,Cipadu Jaya,Larangan,Kota Tangerang,27780,1.5,18551
+36.71.13.1006,Gaga,Larangan,Kota Tangerang,19775,1.03,19286
+36.71.13.1004,Kreo,Larangan,Kota Tangerang,21208,1.02,20889
+36.71.13.1008,Kreo Selatan,Larangan,Kota Tangerang,17588,0.9,19477
+36.71.13.1005,Larangan Indah,Larangan,Kota Tangerang,15948,0.78,20360
+36.71.13.1002,Larangan Selatan,Larangan,Kota Tangerang,21930,1.17,18708
+36.71.13.1001,Larangan Utara,Larangan,Kota Tangerang,25542,1.29,19821
+36.71.10.1006,Karang Anyar,Neglasari,Kota Tangerang,11974,1.85,6477
+36.71.10.1002,Karang Sari,Neglasari,Kota Tangerang,20193,2.39,8461
+36.71.10.1007,Kedaung Baru,Neglasari,Kota Tangerang,7764,1.22,6388
+36.71.10.1004,Kedaung Wetan,Neglasari,Kota Tangerang,13981,2.08,6710
+36.71.10.1005,Mekar Sari,Neglasari,Kota Tangerang,10854,2.16,5017
+36.71.10.1001,Neglasari,Neglasari,Kota Tangerang,11492,2.28,5032
+36.71.10.1003,Selapajang Jaya,Neglasari,Kota Tangerang,12328,2.19,5617
+36.71.08.1003,Gebang Raya,Periuk,Kota Tangerang,34212,2.48,13802
+36.71.08.1002,Gembor,Periuk,Kota Tangerang,23196,2.07,11181
+36.71.08.1001,Periuk,Periuk,Kota Tangerang,24387,2.69,9050
+36.71.08.1005,Periuk Jaya,Periuk,Kota Tangerang,13086,2.85,4594
+36.71.08.1004,Sangiang Jaya,Periuk,Kota Tangerang,21788,1.36,15965
+36.71.11.1007,Cipete,Pinang,Kota Tangerang,25204,2.76,9145
+36.71.11.1004,Kunciran,Pinang,Kota Tangerang,20142,2.21,9095
+36.71.11.1005,Kunciran Indah,Pinang,Kota Tangerang,30267,1.77,17125
+36.71.11.1006,Kunciran Jaya,Pinang,Kota Tangerang,12019,3.17,3788
+36.71.11.1003,Neroktog,Pinang,Kota Tangerang,26261,2.28,11524
+36.71.11.1008,Pakojan,Pinang,Kota Tangerang,10973,1.42,7732
+36.71.11.1009,Panunggangan,Pinang,Kota Tangerang,14837,1.75,8478
+36.71.11.1011,Panunggangan Timur,Pinang,Kota Tangerang,6872,1.89,3642
+36.71.11.1010,Panunggangan Utara,Pinang,Kota Tangerang,23084,1.9,12151
+36.71.11.1001,Pinang,Pinang,Kota Tangerang,27817,1.8,15477
+36.71.11.1002,Sudimara Pinang,Pinang,Kota Tangerang,21481,1.32,16217
+36.71.01.1008,Babakan,Tangerang,Kota Tangerang,25286,1.98,12786
+36.71.01.1004,Buaran Indah,Tangerang,Kota Tangerang,26249,1.87,14049
+36.71.01.1005,Cikokol,Tangerang,Kota Tangerang,35654,2.96,12065
+36.71.01.1006,Kelapa Indah,Tangerang,Kota Tangerang,26141,2.78,9408
+36.71.01.1002,Sukaasih,Tangerang,Kota Tangerang,10112,0.81,12408
+36.71.01.1001,Sukarasa,Tangerang,Kota Tangerang,11025,0.75,14725
+36.71.01.1007,Sukasari,Tangerang,Kota Tangerang,25213,1.32,19098
+36.71.01.1003,Tanah Tinggi,Tangerang,Kota Tangerang,38173,2.76,13829
+36.74.04.1007,Cipayung,Ciputat,Kota Tangerang Selatan,21605,2.53,8531
+36.74.04.1003,Ciputat,Ciputat,Kota Tangerang Selatan,18364,2.14,8601
+36.74.04.1006,Jombang,Ciputat,Kota Tangerang Selatan,36128,3.87,9346
+36.74.04.1004,Sawah,Ciputat,Kota Tangerang Selatan,28347,2.91,9751
+36.74.04.1001,Sawah Baru,Ciputat,Kota Tangerang Selatan,29129,3.19,9121
+36.74.04.1002,Serua,Ciputat,Kota Tangerang Selatan,38330,3.8,10090
+36.74.04.1005,Serua Indah,Ciputat,Kota Tangerang Selatan,22121,2.21,9996
+36.74.05.1001,Cempaka Putih,Ciputat Timur,Kota Tangerang Selatan,22674,2.27,9998
+36.74.05.1004,Cireundeu,Ciputat Timur,Kota Tangerang Selatan,28647,3.31,8649
+36.74.05.1003,Pisangan,Ciputat Timur,Kota Tangerang Selatan,44754,4.1,10905
+36.74.05.1002,Pondok Ranji,Ciputat Timur,Kota Tangerang Selatan,31655,3.43,9239
+36.74.05.1005,Rempoa,Ciputat Timur,Kota Tangerang Selatan,26858,2.37,11353
+36.74.05.1006,Rengas,Ciputat Timur,Kota Tangerang Selatan,23281,1.91,12189
+36.74.06.1007,Bambu Apus,Pamulang,Kota Tangerang Selatan,28421,2.74,10359
+36.74.06.1002,Benda Baru,Pamulang,Kota Tangerang Selatan,31405,3.07,10230
+36.74.06.1006,Kedaung,Pamulang,Kota Tangerang Selatan,29349,2.51,11708
+36.74.06.1001,Pamulang Barat,Pamulang,Kota Tangerang Selatan,44693,4.63,9661
+36.74.06.1008,Pamulang Timur,Pamulang,Kota Tangerang Selatan,26996,2.68,10061
+36.74.06.1003,Pondok Benda,Pamulang,Kota Tangerang Selatan,41912,4.59,9130
+36.74.06.1005,Pondok Cabe Ilir,Pamulang,Kota Tangerang Selatan,30552,3.63,8420
+36.74.06.1004,Pondok Cabe Udik,Pamulang,Kota Tangerang Selatan,27044,5.41,4999
+36.74.03.1010,Jurangmangu Barat,Pondok Aren,Kota Tangerang Selatan,38896,2.73,14269
+36.74.03.1011,Jurangmangu Timur,Pondok Aren,Kota Tangerang Selatan,30307,2.26,13427
+36.74.03.1008,Parigi,Pondok Aren,Kota Tangerang Selatan,32147,4.16,7733
+36.74.03.1009,Parigi Baru,Pondok Aren,Kota Tangerang Selatan,16476,3.31,4972
+36.74.03.1005,Pondok Aren,Pondok Aren,Kota Tangerang Selatan,32230,2.46,13093
+36.74.03.1001,Pondok Betung,Pondok Aren,Kota Tangerang Selatan,29405,2.12,13891
+36.74.03.1004,Pondok Jaya,Pondok Aren,Kota Tangerang Selatan,16122,2.42,6661
+36.74.03.1006,Pondok Kacang Barat,Pondok Aren,Kota Tangerang Selatan,24066,2.54,9458
+36.74.03.1007,Pondok Kacang Timur,Pondok Aren,Kota Tangerang Selatan,34377,2.61,13185
+36.74.03.1003,Pondok Karya,Pondok Aren,Kota Tangerang Selatan,29053,2.38,12201
+36.74.03.1002,Pondok Pucung,Pondok Aren,Kota Tangerang Selatan,35383,3.1,11400
+36.74.01.1006,Buaran,Serpong,Kota Tangerang Selatan,22792,4.03,5660
+36.74.01.1001,Ciater,Serpong,Kota Tangerang Selatan,32996,4.9,6738
+36.74.01.1008,Cilenggang,Serpong,Kota Tangerang Selatan,14794,2.64,5612
+36.74.01.1004,Lengkong Gudang,Serpong,Kota Tangerang Selatan,18000,3.22,5597
+36.74.01.1007,Lengkong Gudang Timur,Serpong,Kota Tangerang Selatan,18584,2.44,7611
+36.74.01.1005,Lengkong Wetan,Serpong,Kota Tangerang Selatan,17881,2.77,6459
+36.74.01.1003,Rawa Mekar Jaya,Serpong,Kota Tangerang Selatan,23163,2.58,8989
+36.74.01.1002,Rawabuntu,Serpong,Kota Tangerang Selatan,35466,3.62,9805
+36.74.01.1009,Serpong,Serpong,Kota Tangerang Selatan,18474,2.37,7789
+36.74.02.1006,Jelupang,Serpong Utara,Kota Tangerang Selatan,45180,4.33,10429
+36.74.02.1007,Lengkong Karya,Serpong Utara,Kota Tangerang Selatan,12116,3.22,3758
+36.74.02.1002,Pakualam,Serpong Utara,Kota Tangerang Selatan,21134,2.97,7110
+36.74.02.1003,Pakujaya,Serpong Utara,Kota Tangerang Selatan,35691,3.48,10245
+36.74.02.1001,Pakulonan,Serpong Utara,Kota Tangerang Selatan,16446,2.79,5896
+36.74.02.1004,Pondok Jagung,Serpong Utara,Kota Tangerang Selatan,24166,2.81,8609
+36.74.02.1005,Pondok Jagung Timur,Serpong Utara,Kota Tangerang Selatan,25863,2.65,9771
+36.74.07.1005,Babakan,Setu,Kota Tangerang Selatan,13134,2.21,5932
+36.74.07.1006,Bakti Jaya,Setu,Kota Tangerang Selatan,15598,2.03,7684
+36.74.07.1004,Kademangan,Setu,Kota Tangerang Selatan,19704,2.49,7914
+36.74.07.1003,Keranggan,Setu,Kota Tangerang Selatan,5858,2.35,2491
+36.74.07.1001,Muncul,Setu,Kota Tangerang Selatan,11417,3.37,3389
+36.74.07.1002,Setu,Setu,Kota Tangerang Selatan,17196,4.19,4108
