@@ -144,29 +144,29 @@ class DataNyataSeeder extends Seeder
     private function zonasi(): void
     {
         DB::table('fitur_peta')->where('layer_id', 'zonasi')->delete();
+        // Satu berkas RDTR bisa 85 MB JSON (sekitar 1 GB bila di-decode PHP), melebihi memori dyno Heroku.
+        // Maka JSON dikirim utuh sebagai teks dan dipecah oleh PostgreSQL.
         foreach (glob(base_path('data/geojson/rdtr_dki_2022/zonasi_*.geojson.gz')) as $berkas) {
-            $this->sisip(array_map(function ($f) {
-                $p = $f['properties'];
-                $angka = fn ($v) => is_numeric(trim((string) $v)) ? (float) trim((string) $v) : null;
-
-                return [
-                    'layer_id' => 'zonasi',
-                    'jenis' => 'zonasi',
-                    'nama' => $p['nama_objek'] ?? null,
-                    'atribut' => array_filter([
-                        'zona' => ($p['zona'] ?? '0') === '0' ? null : $p['zona'],
-                        'kode_zona' => $p['kode_zona'] ?? null,
-                        'kode_subzona' => $p['kode_subzona'] ?? null,
-                        'kdb' => $angka($p['kdb'] ?? null),
-                        'klb' => $angka($p['klb'] ?? null),
-                        'kdh' => $angka($p['kdh'] ?? null),
-                        'kelurahan' => isset($p['kelurahan']) ? preg_replace('/^Kelurahan\s+/i', '', $p['kelurahan']) : null,
-                    ], fn ($v) => $v !== null && $v !== ''),
-                    'tahun' => 2022,
-                    'sumber' => 'RDTR DKI Jakarta 2022 (Pergub 31/2022)',
-                    'geometry' => $f['geometry'],
-                ];
-            }, $this->geojson($berkas)));
+            $isi = (string) gzdecode((string) file_get_contents($berkas));
+            DB::insert(<<<'SQL'
+                INSERT INTO fitur_peta (layer_id, jenis, nama, atribut, tahun, sumber, geom, created_at, updated_at)
+                SELECT 'zonasi', 'zonasi', p->>'nama_objek',
+                       jsonb_strip_nulls(jsonb_build_object(
+                           'zona', nullif(nullif(p->>'zona', '0'), ''),
+                           'kode_zona', nullif(p->>'kode_zona', ''),
+                           'kode_subzona', nullif(p->>'kode_subzona', ''),
+                           'kdb', CASE WHEN trim(p->>'kdb') ~ '^[0-9]+(\.[0-9]+)?$' THEN trim(p->>'kdb')::float END,
+                           'klb', CASE WHEN trim(p->>'klb') ~ '^[0-9]+(\.[0-9]+)?$' THEN trim(p->>'klb')::float END,
+                           'kdh', CASE WHEN trim(p->>'kdh') ~ '^[0-9]+(\.[0-9]+)?$' THEN trim(p->>'kdh')::float END,
+                           'kelurahan', nullif(regexp_replace(coalesce(p->>'kelurahan', ''), '^Kelurahan\s+', '', 'i'), ''))),
+                       2022, 'RDTR DKI Jakarta 2022 (Pergub 31/2022)',
+                       ST_SetSRID(ST_GeomFromGeoJSON(f->'geometry'), 4326), now(), now()
+                FROM jsonb_array_elements(CAST(:isi AS jsonb)->'features') AS f
+                CROSS JOIN LATERAL (SELECT f->'properties' AS p) AS x
+                WHERE jsonb_typeof(f->'geometry') = 'object'
+                  AND jsonb_array_length(coalesce(f->'geometry'->'coordinates', '[]'::jsonb)) > 0
+            SQL, ['isi' => $isi]);
+            unset($isi);
         }
     }
 
