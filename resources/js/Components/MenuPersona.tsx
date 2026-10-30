@@ -88,7 +88,7 @@ export function DrawerMenu({ tab, onTab, terpilih, onUbahPersona, onTutup, onPan
 function IsiLegenda() {
     const { t } = useBahasa();
     const baris: [Dwi, Simbol[], Dwi | null][] = [
-        [['Historis & Risiko', 'History & Risk'], ['banjir'], ['Area rawan banjir historis (merah).', 'Historical flood-prone area (red).']],
+        [['Historis & Risiko', 'History & Risk'], ['banjir-1', 'banjir-2', 'banjir-3', 'genangan'], ['Kerawanan banjir menurut bentuk lahan, makin pekat makin rawan (merah); pernah tergenang Januari 2020 (biru).', 'Flood susceptibility from landform, darker is more prone (red); flooded in January 2020 (blue).']],
         [['Ekosistem Mikro', 'Micro Ecosystem'], ['hijau'], ['Ruang hijau, taman & fasilitas gaya hidup (hijau).', 'Green space, parks & lifestyle amenities (green).']],
         [['Legalitas Lahan', 'Land Legality'], ['legal'], ['Pemetaan zona bidang tanah legal (ungu).', 'Legal land parcel zones (purple).']],
         [['Mobilitas & Transit', 'Mobility & Transit'], ['mrt', 'krl-bogor', 'krl-rangkas', 'krl-cikarang', 'krl-tangerang', 'krl-priok', 'krl-bandara', 'lrt', 'lrt-jabodebek', 'brt', 'stasiun', 'halte-brt', 'halte', 'tol', 'gg'], null],

@@ -143,6 +143,18 @@ class ApiTest extends TestCase
             ->assertOk()->assertJsonPath('catatan', 'Titik ini berada di makam (Makam Uji), bukan kawasan hunian.');
     }
 
+    public function test_ringkasan_banjir_memakai_tingkat_tampilan(): void
+    {
+        DB::insert("INSERT INTO fitur_peta (layer_id, jenis, nama, atribut, sumber, geom, created_at, updated_at) VALUES
+            ('historis_risiko', 'banjir_tampil', 'Bahaya banjir tingkat 3', '{\"tingkat\": 3, \"indeks\": \"0,81–1,00\"}'::jsonb, 'uji', ST_MakeEnvelope(106.831, -6.209, 106.839, -6.201, 4326), now(), now())");
+
+        $teks = array_column($this->getJson('/api/inspect?lat=-6.205&lng=106.835')->assertOk()->json('ringkasan_layer'), 'teks', 'jenis');
+        $this->assertSame('Sangat rawan tergenang (indeks bahaya InaRISK 0,81–1,00)', $teks['banjir-3']);
+
+        $teks = array_column($this->getJson('/api/inspect?lat=-6.2049&lng=106.8049')->assertOk()->json('ringkasan_layer'), 'teks', 'jenis');
+        $this->assertSame('Indeks bahaya banjir InaRISK di bawah 0,50', $teks['banjir']);
+    }
+
     public function test_tahun_mesin_waktu_divalidasi(): void
     {
         $this->getJson('/api/layers/mesin_waktu?tahun=2030')->assertOk();

@@ -19,12 +19,17 @@ export const FRASA: Dwi[] = [
 ];
 
 export type Simbol =
-    | 'banjir' | 'genangan' | 'hijau' | 'rth' | 'akses' | 'trotoar' | 'mrt' | 'lrt' | 'krl-bogor' | 'krl-rangkas'
+    | 'banjir' | 'banjir-1' | 'banjir-2' | 'banjir-3' | 'genangan' | 'hijau' | 'rth' | 'akses' | 'trotoar' | 'mrt' | 'lrt' | 'krl-bogor' | 'krl-rangkas'
     | 'krl-cikarang' | 'krl-lain' | 'krl-tangerang' | 'krl-priok' | 'krl-bandara' | 'lrt-jabodebek' | 'brt' | 'stasiun' | 'halte' | 'halte-brt' | 'tol' | 'gg' | 'waktu' | 'waktu-tol' | 'legal' | 'rute' | 'jalan-kaki' | 'terpilih';
 
 export const LAYERS: { key: LayerKey; title: Dwi; desc: Dwi; grid?: boolean; legend: [Simbol, Dwi][] }[] = [
-    { key: 'historis_risiko', title: ['Historis & Risiko', 'History & Risk'], desc: ['Area rawan banjir dan risiko bencana lain.', 'Flood-prone areas and other disaster risks.'],
-      legend: [['banjir', ['Indeks bahaya banjir InaRISK (merah): makin pekat makin tinggi.', 'InaRISK flood hazard index (red): darker means higher.']], ['genangan', ['Genangan nyata banjir 1 Januari 2020 (biru, BNPB).', 'Actual flooding on 1 January 2020 (blue, BNPB).']]] },
+    { key: 'historis_risiko', title: ['Historis & Risiko', 'History & Risk'], desc: ['Merah: kerawanan banjir menurut bentuk lahan (indeks InaRISK 0–1, bukan persen peluang dan bukan riwayat). Biru: banjir yang benar-benar terjadi.', 'Red: flood susceptibility from landform (InaRISK index 0–1, not a probability or history). Blue: floods that actually happened.'],
+      legend: [
+          ['banjir-1', ['Cukup rawan tergenang, indeks 0,50–0,60 (merah cerah).', 'Somewhat flood-prone, index 0.50–0.60 (light red).']],
+          ['banjir-2', ['Rawan tergenang, indeks 0,61–0,80 (merah medium).', 'Flood-prone, index 0.61–0.80 (medium red).']],
+          ['banjir-3', ['Sangat rawan tergenang, indeks 0,81–1,00 (merah pekat).', 'Highly flood-prone, index 0.81–1.00 (dark red).']],
+          ['genangan', ['Pernah tergenang saat banjir 1 Januari 2020 (biru, BNPB).', 'Flooded on 1 January 2020 (blue, BNPB).']],
+      ] },
     { key: 'ekosistem', title: ['Ekosistem Mikro', 'Micro Ecosystem'], desc: ['Kafe, restoran, mal, perpustakaan, dan ruang hijau.', 'Cafés, restaurants, malls, libraries, and green space.'],
       legend: [['rth', ['Ruang terbuka hijau dan taman.', 'Green open space and parks.']], ['hijau', ['Kafe, restoran, mal, dan perpustakaan.', 'Cafés, restaurants, malls, and libraries.']]] },
     { key: 'inklusivitas', title: ['Inklusivitas', 'Inclusivity'], desc: ['Aksesibilitas pedestrian dan fasilitas umum.', 'Pedestrian accessibility and public facilities.'],
@@ -62,7 +67,10 @@ const KRL_UTAMA = ['bogor', 'rangkas', 'cikarang', 'tangerang', 'priok', 'bandar
  * Properti fitur dari /api/layers sudah diratakan (jenis, lin, brt, moda, ...).
  */
 export const SUBFITUR: Partial<Record<Simbol, (p: Prop) => boolean>> = {
-    banjir: (p) => p.jenis === 'banjir',
+    banjir: (p) => p.jenis === 'banjir_tampil',
+    'banjir-1': (p) => p.jenis === 'banjir_tampil' && p.tingkat === 1,
+    'banjir-2': (p) => p.jenis === 'banjir_tampil' && p.tingkat === 2,
+    'banjir-3': (p) => p.jenis === 'banjir_tampil' && p.tingkat === 3,
     genangan: (p) => p.jenis === 'genangan',
     rth: (p) => p.jenis === 'rth',
     hijau: (p) => p.jenis === 'poi',

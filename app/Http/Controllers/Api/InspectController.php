@@ -39,6 +39,13 @@ class InspectController extends Controller
         'Zona Pembangkit Tenaga Listrik', 'Zona Perlindungan Setempat', 'Zona Konservasi',
     ];
 
+    /** Arti tiga tingkat tampilan bahaya banjir (indeks InaRISK, dari bentuk lahan; bukan peluang atau riwayat). */
+    public const TINGKAT_BANJIR = [
+        1 => 'Cukup rawan tergenang',
+        2 => 'Rawan tergenang',
+        3 => 'Sangat rawan tergenang',
+    ];
+
     /** Pesan untuk titik di luar batas kelurahan Jabodetabek. */
     public const LUAR_CAKUPAN = 'Di luar cakupan NalarRuang (Jabodetabek)';
 
@@ -85,6 +92,13 @@ class InspectController extends Controller
         $banjir = DB::selectOne(
             "SELECT atribut->>'kelas' AS kelas FROM fitur_peta WHERE jenis = 'banjir' AND ST_Contains(geom, {$titik})
              ORDER BY CASE atribut->>'kelas' WHEN 'tinggi' THEN 0 WHEN 'sedang' THEN 1 ELSE 2 END LIMIT 1",
+            [$lng, $lat],
+        );
+
+        // Tingkat tampilan peta (indeks >= 0,50); kelas perhitungan di atas tetap kelas resmi InaRISK.
+        $banjirTampil = DB::selectOne(
+            "SELECT (atribut->>'tingkat')::int AS tingkat, atribut->>'indeks' AS indeks FROM fitur_peta
+             WHERE jenis = 'banjir_tampil' AND ST_Contains(geom, {$titik}) ORDER BY (atribut->>'tingkat')::int DESC LIMIT 1",
             [$lng, $lat],
         );
 
@@ -143,9 +157,9 @@ class InspectController extends Controller
         if ($terdekat['social_vibe']) {
             $ringkasan[] = ['jenis' => 'hijau', 'teks' => 'Kafe atau restoran terdekat '.$this->format($terdekat['social_vibe']->meter)];
         }
-        $ringkasan[] = $banjir
-            ? ['jenis' => 'banjir', 'teks' => 'Area bahaya banjir kelas '.$banjir->kelas.' (InaRISK)']
-            : ['jenis' => 'banjir', 'teks' => 'Di luar area bahaya banjir InaRISK'];
+        $ringkasan[] = $banjirTampil
+            ? ['jenis' => 'banjir-'.$banjirTampil->tingkat, 'teks' => self::TINGKAT_BANJIR[$banjirTampil->tingkat].' (indeks bahaya InaRISK '.$banjirTampil->indeks.')']
+            : ['jenis' => 'banjir', 'teks' => 'Indeks bahaya banjir InaRISK di bawah 0,50'];
         if ($genangan) {
             $ringkasan[] = ['jenis' => 'genangan', 'teks' => 'Tergenang saat banjir 1 Januari 2020 (BNPB)'];
         }

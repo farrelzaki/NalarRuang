@@ -48,6 +48,7 @@ class DataNyataSeeder extends Seeder
         $this->legalitas();
         $this->mesinWaktu();
         $this->genangan();
+        $this->banjirTampil();
         $this->nonHunian();
         $this->hiburan();
         $this->halteBodetabek();
@@ -235,6 +236,30 @@ class DataNyataSeeder extends Seeder
                 'geometry' => $f['geometry'],
             ], $this->geojson($berkas)));
         }
+    }
+
+    /**
+     * Bahaya banjir InaRISK dipisah dua (keputusan tim 30 Okt 2026):
+     * - poligon perhitungan (jenis 'banjir', kelas resmi InaRISK) dipindah ke layer 'banjir_hitung' yang tidak disajikan;
+     * - poligon tampilan (jenis 'banjir_tampil') hanya indeks >= 0,50, tiga tingkat kepekatan.
+     */
+    private function banjirTampil(): void
+    {
+        DB::table('fitur_peta')->where('jenis', 'banjir')->update(['layer_id' => 'banjir_hitung']);
+        DB::table('fitur_peta')->where('jenis', 'banjir_tampil')->delete();
+        $label = [1 => '0,50–0,60', 2 => '0,61–0,80', 3 => '0,81–1,00'];
+        $this->sisip(array_map(fn ($f) => [
+            'layer_id' => 'historis_risiko',
+            'jenis' => 'banjir_tampil',
+            'nama' => 'Bahaya banjir tingkat '.$f['properties']['tingkat'],
+            'atribut' => [
+                'tingkat' => (int) $f['properties']['tingkat'],
+                'indeks' => $label[(int) $f['properties']['tingkat']],
+            ],
+            'tahun' => null,
+            'sumber' => 'InaRISK (BNPB), indeks bahaya ≥ 0,50',
+            'geometry' => $f['geometry'],
+        ], $this->geojson(base_path('data/geojson/banjir_tampilan/inarisk_tampil.geojson.gz'))));
     }
 
     /** Area bukan hunian (bandara, badan jalan tol, makam, militer, perairan): dipakai Detail Lokasi, tidak disajikan sebagai layer. */

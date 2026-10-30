@@ -35,7 +35,7 @@ export type SearchResponse = {
     message?: string;
 };
 
-export type RingkasanLayer = { jenis: 'stasiun' | 'tol' | 'hijau' | 'banjir' | 'genangan' | 'legal'; teks: string };
+export type RingkasanLayer = { jenis: 'stasiun' | 'tol' | 'hijau' | 'banjir' | 'banjir-1' | 'banjir-2' | 'banjir-3' | 'genangan' | 'legal'; teks: string };
 
 export type InspectTitik = {
     jenis_geometri: 'titik';

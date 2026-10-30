@@ -63,6 +63,9 @@ export function SimbolPeta({ kind, size = 16 }: { kind: Simbol; size?: number })
     );
     const isi: Record<Simbol, ReactNode> = {
         banjir: kotak('var(--map-banjir)', 0.3),
+        'banjir-1': kotak('#f87171', 0.3),
+        'banjir-2': kotak('#dc2626', 0.4),
+        'banjir-3': kotak('#7f1d1d', 0.55),
         genangan: kotak('#1d4ed8', 0.35),
         legal: kotak('var(--map-legal)', 0.2),
         rth: kotak('var(--map-hijau)', 0.25),

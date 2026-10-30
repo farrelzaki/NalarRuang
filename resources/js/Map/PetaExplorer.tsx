@@ -71,7 +71,7 @@ function popupHtml(jenis: string, judul: string, isi: string, sumber: string): s
 }
 
 const JENIS_LABEL: Record<string, [string, string]> = {
-    banjir: ['Bahaya banjir', 'Flood hazard'], genangan: ['Genangan banjir 2020', '2020 flooding'], rth: ['Ruang terbuka hijau', 'Green open space'], poi: ['Tempat aktivitas', 'Activity spot'],
+    banjir: ['Bahaya banjir', 'Flood hazard'], banjir_tampil: ['Kerawanan banjir', 'Flood susceptibility'], genangan: ['Genangan banjir 2020', '2020 flooding'], rth: ['Ruang terbuka hijau', 'Green open space'], poi: ['Tempat aktivitas', 'Activity spot'],
     akses: ['Akses disabilitas', 'Disability access'], trotoar: ['Trotoar', 'Sidewalk'], krl: ['Jalur KRL', 'KRL line'], mrt: ['Jalur MRT', 'MRT line'],
     lrt: ['Jalur LRT', 'LRT line'], stasiun: ['Stasiun', 'Station'], halte: ['Halte', 'Bus stop'], tol: ['Gerbang tol', 'Toll gate'],
     ganjil_genap: ['Ruas ganjil-genap', 'Odd-even road'],
@@ -102,6 +102,12 @@ function deskripsi(p: Record<string, any>): string {
         case 'krl': case 'mrt': case 'lrt': return p.nama ?? tr('Jalur kereta.', 'Railway line.');
         case 'brt': return `${tr('Koridor', 'Corridor')} ${p.koridor ?? ''}${p.nama ? ` · ${p.nama}` : ''}.`;
         case 'proyek': return `${p.status ? istilah(p.status) : tr('Proyek', 'Project')}${p.tahun ? `, target ${p.tahun}` : tr(', belum ada target tahun', ', no target year yet')}.`;
+        case 'banjir_tampil': {
+            const arti: Record<number, [string, string]> = { 1: ['Cukup rawan tergenang', 'Somewhat flood-prone'], 2: ['Rawan tergenang', 'Flood-prone'], 3: ['Sangat rawan tergenang', 'Highly flood-prone'] };
+            const a = arti[Number(p.tingkat)] ?? arti[2];
+            return tr(`${a[0]}: indeks bahaya InaRISK ${p.indeks}. Dihitung dari bentuk lahan (ketinggian, kemiringan, jarak ke sungai), bukan persen peluang dan bukan riwayat banjir.`,
+                `${a[1]}: InaRISK hazard index ${String(p.indeks).replace(/,/g, '.')}. Derived from landform (elevation, slope, distance to rivers), not a probability or flood history.`);
+        }
         case 'genangan': return tr('Tergenang saat banjir 1 Januari 2020, menurut peta BNPB.', 'Flooded on 1 January 2020, per the BNPB map.');
         case 'legal': {
             if (!p.peruntukan) return tr('Kawasan permukiman (OSM). Zona RDTR baru tersedia untuk DKI Jakarta.', 'Residential area (OSM). RDTR zoning is only available for Jakarta so far.');
@@ -484,7 +490,7 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
         L.geoJSON(fc, {
             pane: 'nrPoligon',
             ...diKanvas,
-            style: (f) => (f?.properties?.jenis === 'genangan' ? gaya.genangan : gaya.banjir(f?.properties?.kelas)),
+            style: (f) => (f?.properties?.jenis === 'genangan' ? gaya.genangan : gaya.banjirTingkat(Number(f?.properties?.tingkat))),
             onEachFeature: popup,
         }).addTo(g);
     } else if (k === 'ekosistem') {

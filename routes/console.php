@@ -16,7 +16,7 @@ Artisan::command('nalar:muat-data {--paksa : Muat ulang walau versinya sama}', f
     $berkas = array_merge(
         glob(base_path('data/geojson/demo/*.geojson')),
         glob(base_path('data/geojson/demo/fitur/*.geojson')),
-        glob(base_path('data/geojson/{rdtr_dki_2022,genangan_bnpb_2020,osm_tambahan,transit_bodetabek}/*.{geojson,gz,csv}'), GLOB_BRACE),
+        glob(base_path('data/geojson/{rdtr_dki_2022,genangan_bnpb_2020,osm_tambahan,transit_bodetabek,banjir_tampilan}/*.{geojson,gz,csv}'), GLOB_BRACE),
         glob(base_path('data/{udara,penduduk,mesin_waktu}/*.{csv,geojson}'), GLOB_BRACE),
         glob(base_path('database/seeders/*.php')),
     );

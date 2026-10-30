@@ -30,6 +30,16 @@ export const banjir = (kelas: string): PathOptions => ({
     fillOpacity: ({ rendah: 0.15, sedang: 0.3, tinggi: 0.45 } as Record<string, number>)[kelas] ?? 0.3,
 });
 
+/** Tampilan bahaya banjir InaRISK: tiga tingkat kepekatan (indeks 0,50–0,60 / 0,61–0,80 / 0,81–1,00). */
+export const WARNA_BANJIR: Record<number, string> = { 1: '#f87171', 2: '#dc2626', 3: '#7f1d1d' };
+export const banjirTingkat = (tingkat: number): PathOptions => ({
+    color: WARNA_BANJIR[tingkat] ?? WARNA_BANJIR[2],
+    weight: 0.5,
+    opacity: 0.6,
+    fillColor: WARNA_BANJIR[tingkat] ?? WARNA_BANJIR[2],
+    fillOpacity: ({ 1: 0.3, 2: 0.4, 3: 0.55 } as Record<number, number>)[tingkat] ?? 0.4,
+});
+
 /** Genangan nyata banjir Januari 2020 (BNPB): biru, agar beda dari indeks bahaya InaRISK yang merah. */
 export const genangan: PathOptions = { color: '#1d4ed8', weight: 1, opacity: 0.7, fillColor: '#1d4ed8', fillOpacity: 0.35 };
 export const rth: PathOptions = { color: '#22c55e', weight: 1, opacity: 0.9, fillColor: '#22c55e', fillOpacity: 0.25 };

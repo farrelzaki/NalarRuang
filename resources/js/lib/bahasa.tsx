@@ -107,6 +107,8 @@ export function teksServer(s: string, bahasa: Bahasa = aktif): string {
         [/^Di luar cakupan NalarRuang \(Jabodetabek\)$/, () => 'Outside NalarRuang coverage (Greater Jakarta)'],
         [/^Lokasi ini di luar Jabodetabek, jadi belum bisa dinilai\.$/, () => 'This location is outside Greater Jakarta, so it cannot be rated yet.'],
         [/^Tergenang saat banjir 1 Januari 2020 \(BNPB\)$/, () => 'Flooded on 1 January 2020 (BNPB)'],
+        [/^(Cukup rawan|Rawan|Sangat rawan) tergenang \(indeks bahaya InaRISK (.+)\)$/, (_, t, i) => `${({ 'Cukup rawan': 'Somewhat flood-prone', Rawan: 'Flood-prone', 'Sangat rawan': 'Highly flood-prone' } as Record<string, string>)[t]} (InaRISK hazard index ${desimal(i)})`],
+        [/^Indeks bahaya banjir InaRISK di bawah 0,50$/, () => 'InaRISK flood hazard index below 0.50'],
         [/^Titik ini berada di (.+), bukan kawasan hunian\.$/, (_, t) => `This point is in a non-residential area: ${t}.`],
         [/^Zona (.+) \(RDTR DKI 2022\)$/, (_, z) => `Zone ${z.replace(/KLB ([\d,]+)/, (_m: string, v: string) => `FAR ${desimal(v)}`).replace('KDB', 'BCR')} (Jakarta RDTR 2022)`],
         [/^Kawasan permukiman\.$/, () => 'Residential area.'],
