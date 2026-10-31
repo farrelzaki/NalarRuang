@@ -3,12 +3,12 @@
  * tombol merek kanan atas, LAYER/PERSONA + panel kanan di kanan bawah, slider tahun tengah bawah.
  */
 import { Head } from '@inertiajs/react';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Geometry } from 'geojson';
 import type { CommuteResponse, HasilSearch, InspectResponse, LayerKey, LayerResponse, Persona } from '@/types';
 import { api } from '@/lib/api';
 import { useBahasa } from '@/lib/bahasa';
-import { bacaPersonaSesi, PERSONA, simpanPersonaSesi } from '@/lib/nalar';
+import { bacaPersonaSesi, PERSONA, simpanPersonaSesi, SUBFITUR, type Simbol } from '@/lib/nalar';
 import PetaExplorer, { type TitikPeta } from '@/Map/PetaExplorer';
 import { Toast, type NadaToast } from '@/Components/Dasar';
 import { PanelFilter, PanelTop3, SearchBar } from '@/Components/Pencarian';
@@ -16,6 +16,8 @@ import { DetailLokasi } from '@/Components/DetailLokasi';
 import { SimulatorRute, type Moda, type TitikRute } from '@/Components/SimulatorRute';
 import { PanelLayer, PanelProfilPersona, SliderTahun, TombolLayerPersona, TombolMerek, type PanelKananKey, type StatusLayer } from '@/Components/PanelKananPeta';
 import { DialogPersona, DrawerMenu, type TabMenu } from '@/Components/MenuPersona';
+import { Panduan, sudahLihatPanduan } from '@/Components/Panduan';
+import { Link } from '@inertiajs/react';
 
 type PanelKiri = 'top3' | 'filter' | 'detail' | 'rute' | null;
 
@@ -26,6 +28,8 @@ export default function Peta() {
     const [persona, setPersona] = useState<Persona[]>([]);
     const [dialogPersona, setDialogPersona] = useState(false);
     const [siap, setSiap] = useState(false);
+    const [panduan, setPanduan] = useState(false);
+    const panduanDicek = useRef(false);
 
     const [panelKiri, setPanelKiri] = useState<PanelKiri>(null);
     const [panelKanan, setPanelKanan] = useState<PanelKananKey>(null);
@@ -62,6 +66,44 @@ export default function Peta() {
     const [rute, setRute] = useState<CommuteResponse | null>(null);
     const [memuatRute, setMemuatRute] = useState(false);
     const [moda, setModa] = useState<Moda>('mobil');
+    const [lewatTol, setLewatTol] = useState(true);
+    const [hargaBbm, setHargaBbm] = useState(10000);
+    const [hindariGg, setHindariGg] = useState(false);
+    const [jenisKendaraan, setJenisKendaraan] = useState<'mobil' | 'motor'>('mobil');
+    const [konsumsiBbm, setKonsumsiBbm] = useState(12);
+
+    const handleUbahJenisKendaraan = (jenis: 'mobil' | 'motor') => {
+        setJenisKendaraan(jenis);
+        setKonsumsiBbm(jenis === 'motor' ? 40 : 12);
+        
+        // Motor wajib NON-TOL
+        if (jenis === 'motor') {
+            setLewatTol(false);
+        }
+    };
+
+    // Sub-fitur yang disembunyikan
+    const [subMati, setSubMati] = useState<Simbol[]>([]);
+    const layerTampil = useMemo(() => {
+        const saring = subMati.map((s) => SUBFITUR[s]).filter((f): f is NonNullable<typeof f> => !!f);
+        if (panelKiri === 'rute' && moda === 'transit' && rute?.publik) {
+            saring.push((p) => ['krl', 'mrt', 'lrt', 'brt', 'stasiun', 'halte', 'tol', 'ganjil_genap'].includes(String(p.jenis)));
+        }
+        if (!saring.length) return layerData;
+        const hasil: typeof layerData = {};
+        for (const [k, fc] of Object.entries(layerData) as [LayerKey, LayerResponse][]) {
+            const sisa = fc.features.filter((f) => !saring.some((cek) => cek((f.properties ?? {}) as Record<string, unknown>)));
+            hasil[k] = sisa.length === fc.features.length ? fc : { ...fc, features: sisa };
+        }
+        return hasil;
+    }, [layerData, subMati, panelKiri, moda, rute]);
+
+    // Onboarding
+    useEffect(() => {
+        if (!siap || dialogPersona || panduanDicek.current) return;
+        panduanDicek.current = true;
+        if (new URLSearchParams(window.location.search).has('panduan') || !sudahLihatPanduan()) setPanduan(true);
+    }, [siap, dialogPersona]);
 
     const kabar = useCallback((teks: string, nada: NadaToast = 'info') => setToast({ teks, nada, kunci: Date.now() }), []);
     useEffect(() => {
@@ -70,9 +112,8 @@ export default function Peta() {
         return () => clearTimeout(t);
     }, [toast]);
 
-    // Persona sesi: dialog di kunjungan pertama sesi (FR-13, FR-14).
+    // Persona sesi
     useEffect(() => {
-        // ?persona=commuter,zen mengisi persona sesi langsung (tautan demo); tetap hanya disimpan di sessionStorage.
         const dariUrl = new URLSearchParams(window.location.search).get('persona')?.split(',').filter((x): x is Persona => x in PERSONA);
         if (dariUrl?.length) simpanPersonaSesi(dariUrl);
         const p = dariUrl?.length ? dariUrl : bacaPersonaSesi();
@@ -97,14 +138,13 @@ export default function Peta() {
         kabar(t('Preferensi persona tersimpan untuk sesi ini.', 'Persona preferences saved for this session.'), 'success');
     };
 
-    // Perbarui kesimpulan detail saat persona berubah (FR-19, tanpa muat ulang).
     useEffect(() => {
         if (!detail) return;
         if (detail.jenis_geometri === 'titik') muatTitik({ lat: detail.lat, lng: detail.lng }, false);
         else muatWilayah(detail.wilayah_id, false);
     }, [persona]);
 
-    // ---------- Layer ----------
+    // Layer
     async function nyalakanLayer(k: LayerKey) {
         setLayerAktif((a) => ({ ...a, [k]: true }));
         if (cacheLayer.current[k]) {
@@ -128,6 +168,9 @@ export default function Peta() {
             setLayerData((d) => {
                 const salin = { ...d };
                 delete salin[k];
+                // Hapus juga kunci alias persil/legalitas agar data bersih total saat OFF
+                if (k === 'legalitas') delete salin['persil'];
+                if (k === 'persil') delete salin['legalitas'];
                 return salin;
             });
         } else {
@@ -135,14 +178,36 @@ export default function Peta() {
         }
     };
 
-    // ---------- Pencarian ----------
+    // Handler BBOX dynamic request untuk layer poligon berat (legalitas, persil, rdtr)
+    const handleBboxChange = useCallback(async (layerKey: LayerKey, bbox: string) => {
+        if (!layerAktif[layerKey]) return;
+
+        try {
+            const res = await fetch(`/api/layers/${layerKey}?bbox=${bbox}`);
+            if (res.ok) {
+                const data: LayerResponse = await res.json();
+                setLayerData((d) => ({
+                    ...d,
+                    [layerKey]: data,
+                    ...(layerKey === 'legalitas' ? { persil: data } : {}),
+                    ...(layerKey === 'persil' ? { legalitas: data } : {}),
+                }));
+            }
+        } catch (e) {
+            console.error(`Gagal memuat BBOX layer ${layerKey}:`, e);
+        }
+    }, [layerAktif]);
+
+    // Pencarian
     const jalankanCari = async (q: { q?: string; kota?: string[]; persona: Persona[] }) => {
+        setDetail(null);
+        setPin(null);
+        setWilayahTerpilih(null);
+
         setPanelKiri('top3');
         setMencari(true);
         setHasil(null);
         setTop3Aktif(null);
-        setWilayahTerpilih(null);
-        setPin(null);
         try {
             const r = await api.cari(q);
             setHasil(r.hasil);
@@ -167,11 +232,17 @@ export default function Peta() {
         muatWilayah(r.wilayah_id);
     };
 
-    // ---------- Detail lokasi ----------
+    // Detail lokasi
     async function muatTitik(lokasi: TitikPeta, terbang = false) {
         batalDetail.current?.abort();
         const ctrl = new AbortController();
         batalDetail.current = ctrl;
+
+        setHasil(null);
+        setKueri('');
+        setPesanCari(undefined);
+        setTop3Aktif(null);
+
         setPanelKiri('detail');
         setPin(lokasi);
         setWilayahTerpilih(null);
@@ -192,7 +263,14 @@ export default function Peta() {
         batalDetail.current?.abort();
         const ctrl = new AbortController();
         batalDetail.current = ctrl;
-        if (tampilkanPanel) setPanelKiri('detail');
+
+        if (tampilkanPanel) {
+            setHasil(null);
+            setKueri('');
+            setPesanCari(undefined);
+            setTop3Aktif(null);
+            setPanelKiri('detail');
+        }
         setPin(null);
         setMemuatDetail(true);
         setGalatDetail(null);
@@ -207,7 +285,7 @@ export default function Peta() {
         }
     }
 
-    // ---------- Rute ----------
+    // Rute
     const labelTitik = (t: TitikPeta) => `${t.lat.toFixed(4)}, ${t.lng.toFixed(4)}`;
 
     const setelTitikRute = async (t: TitikPeta, kunci: 'a' | 'b') => {
@@ -224,16 +302,22 @@ export default function Peta() {
         const ctrl = new AbortController();
         setMemuatRute(true);
         setRute(null);
-        api.rute(ruteA, ruteB, ctrl.signal)
+
+        // Jika jenis kendaraan adalah motor, paksa lewatTol menjadi false
+        const tolAktif = jenisKendaraan === 'motor' ? false : lewatTol;
+
+        api.rute(ruteA, ruteB, ctrl.signal, tolAktif, hargaBbm, hindariGg)
             .then((r) => {
                 setRute(r);
-                setModa(r.pribadi ? 'mobil' : 'transit');
+                setModa((m) => (m === 'transit' && r.publik ? 'transit' : r.pribadi ? 'mobil' : 'transit'));
                 if (!r.pribadi && !r.publik) kabar(t('Estimasi tidak tersedia untuk titik ini. Coba titik yang lebih dekat ke jalan.', 'No estimate for this point. Try a point closer to a road.'), 'warning');
             })
             .catch((e) => e.name !== 'AbortError' && kabar(t('Estimasi tidak tersedia. Coba lagi sebentar.', 'Estimate unavailable. Please try again shortly.'), 'danger'))
             .finally(() => setMemuatRute(false));
+
         return () => ctrl.abort();
-    }, [ruteA?.lat, ruteA?.lng, ruteB?.lat, ruteB?.lng]);
+    // TAMBAHKAN jenisKendaraan di dalam dependency array di bawah ini:
+    }, [ruteA?.lat, ruteA?.lng, ruteB?.lat, ruteB?.lng, lewatTol, hargaBbm, hindariGg, jenisKendaraan]);
 
     const resetRute = () => {
         setRuteA(null);
@@ -258,7 +342,7 @@ export default function Peta() {
         }
     };
 
-    // ---------- Klik peta ----------
+    // Klik peta
     const klikPeta = (t: TitikPeta) => {
         if (panelKiri === 'rute') {
             if (menunggu === 'a' || (!ruteA && menunggu !== 'b')) {
@@ -298,9 +382,10 @@ export default function Peta() {
             <main className="nr-app" data-mode={panelKiri === 'rute' ? 'rute' : undefined}>
                 <PetaExplorer
                     className="nr-app__peta"
-                    layer={layerData}
+                    layer={layerTampil}
+                    aktif={layerAktif} // <--- Tambahkan baris ini di sini
                     tahun={tahun}
-                    top3={panelKiri === 'top3' || panelKiri === 'detail' ? hasil : null}
+                    top3={panelKiri === 'top3' ? hasil : null}
                     top3Aktif={top3Aktif}
                     wilayahTerpilih={wilayahTerpilih}
                     pin={panelKiri === 'detail' ? pin : null}
@@ -314,19 +399,46 @@ export default function Peta() {
                     onKlikPeta={klikPeta}
                     onLihatDetail={(t) => muatTitik(t, true)}
                     onPilihTop3={pilihTop3}
+                    onBatasPeta={() => kabar(t('Anda sudah mencapai batas maksimum peta.', 'You have reached the edge of the map.'), 'warning')}
+                    onBboxChange={handleBboxChange}
                 />
 
                 <div className="nr-app__kiri">
-                    <SearchBar
-                        nilai={kueri}
-                        onUbah={setKueri}
-                        onCari={(q) => jalankanCari({ q, persona })}
-                        memuat={mencari}
-                        commute={panelKiri === 'rute'}
-                        onToggleCommute={toggleCommute}
-                        filterTerbuka={panelKiri === 'filter'}
-                        onToggleFilter={() => setPanelKiri(panelKiri === 'filter' ? null : 'filter')}
-                    />
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%' }}>
+                        <Link
+                            href="/"
+                            style={{
+                                width: '48px',
+                                height: '48px',
+                                display: 'grid',
+                                placeItems: 'center',
+                                background: 'var(--white)',
+                                borderRadius: 'var(--radius-md)',
+                                boxShadow: 'var(--shadow-lg)',
+                                border: '1px solid var(--line)',
+                                color: 'var(--navy-900)',
+                                flexShrink: 0
+                            }}
+                            title="Kembali ke Beranda"
+                            aria-label="Kembali ke Beranda"
+                        >
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="m15 18-6-6 6-6" />
+                            </svg>
+                        </Link>
+
+                        <SearchBar
+                            nilai={kueri}
+                            onUbah={setKueri}
+                            onCari={(q) => jalankanCari({ q, persona })}
+                            memuat={mencari}
+                            commute={panelKiri === 'rute'}
+                            onToggleCommute={toggleCommute}
+                            filterTerbuka={panelKiri === 'filter'}
+                            onToggleFilter={() => setPanelKiri(panelKiri === 'filter' ? null : 'filter')}
+                        />
+                    </div>
+
                     {panelKiri === 'top3' && <PanelTop3 personaLabel={labelPersona} hasil={hasil} memuat={mencari} pesan={pesanCari} aktif={top3Aktif} onPilih={pilihTop3} />}
                     {panelKiri === 'filter' && (
                         <PanelFilter
@@ -347,9 +459,20 @@ export default function Peta() {
                             memuat={memuatRute}
                             moda={moda}
                             onModa={setModa}
-                            onPilihDiPeta={(k) => {
-                                setMenunggu(k);
-                                kabar(t(`Klik peta untuk menaruh titik ${k.toUpperCase()}.`, `Click the map to place point ${k.toUpperCase()}.`));
+                            jenisKendaraan={jenisKendaraan}
+                            onUbahJenisKendaraan={handleUbahJenisKendaraan}
+                            konsumsiBbm={konsumsiBbm}
+                            onUbahKonsumsiBbm={setKonsumsiBbm}
+                            lewatTol={lewatTol}
+                            onLewatTol={() => setLewatTol((x) => !x)}
+                            hindariGg={hindariGg}
+                            onHindariGg={() => setHindariGg((x) => !x)}
+                            hargaBbm={hargaBbm}
+                            onHargaBbm={setHargaBbm}
+                            onPilihDiPeta={(k) => setMenunggu(k)}
+                            onIsiTitik={(k, titik) => {
+                                if (k === 'a') setRuteA(titik);
+                                else setRuteB(titik);
                             }}
                             onReset={resetRute}
                             onTutup={tutupPanelKiri}
@@ -364,7 +487,15 @@ export default function Peta() {
                 {panelKanan && (
                     <div className="nr-app__kanan">
                         {panelKanan === 'layer' ? (
-                            <PanelLayer aktif={layerAktif} status={layerStatus} onToggle={toggleLayer} onCobaLagi={(k) => nyalakanLayer(k)} onTutup={() => setPanelKanan(null)} />
+                            <PanelLayer
+                                aktif={layerAktif}
+                                status={layerStatus}
+                                onToggle={toggleLayer}
+                                onCobaLagi={(k) => nyalakanLayer(k)}
+                                subMati={subMati}
+                                onSubToggle={(s) => setSubMati((m) => (m.includes(s) ? m.filter((x) => x !== s) : [...m, s]))}
+                                onTutup={() => setPanelKanan(null)}
+                            />
                         ) : (
                             <PanelProfilPersona terpilih={persona} onUbah={balikPersona} onTutup={() => setPanelKanan(null)} />
                         )}
@@ -385,10 +516,10 @@ export default function Peta() {
                     <span className="nr-app__catatan-dot" aria-hidden="true" />
                     <span>
                         <b>{t('Versi demo', 'Demo version')}</b>
-                        <span className="nr-app__catatan-pendek">{t(' · sebagian data contoh', ' · partly sample data')}</span>
+                        <span className="nr-app__catatan-pendek">{t(' · data sekunder publik', ' · public secondary data')}</span>
                         <span className="nr-app__catatan-panjang">{t(
-                            ' · Peta, batas wilayah, jalur KRL, dan area banjir dari data asli (OSM, InaRISK). Kualitas udara, status lahan, dan tahun proyek masih data contoh.',
-                            ' · Map, boundaries, KRL lines, and flood areas are real data (OSM, InaRISK). Air quality, land status, and project years are sample data.',
+                            ' · Semua layer dari data publik (OSM, InaRISK, BNPB, RDTR DKI, satelit PM2.5). Udara adalah rata-rata tahunan satelit; zona lahan baru untuk DKI; status kepemilikan tidak ditampilkan.',
+                            ' · All layers come from public data (OSM, InaRISK, BNPB, Jakarta RDTR, satellite PM2.5). Air is a satellite annual average; zoning covers Jakarta only; ownership status is not shown.',
                         )}</span>
                     </span>
                 </aside>
@@ -402,7 +533,19 @@ export default function Peta() {
                 {drawer && (
                     <div className="nr-app__lapisan">
                         <div className="nr-scrim" onClick={() => setDrawer(null)} />
-                        <DrawerMenu tab={drawer} onTab={setDrawer} terpilih={persona} onUbahPersona={balikPersona} onTutup={() => setDrawer(null)} />
+                        <DrawerMenu
+                            tab={drawer}
+                            onTab={setDrawer}
+                            terpilih={persona}
+                            onUbahPersona={balikPersona}
+                            onTutup={() => setDrawer(null)}
+                            onPanduan={() => {
+                                setDrawer(null);
+                                setPanelKiri(null);
+                                setPanelKanan(null);
+                                setPanduan(true);
+                            }}
+                        />
                     </div>
                 )}
 
@@ -419,6 +562,8 @@ export default function Peta() {
                         />
                     </div>
                 )}
+
+                {panduan && <Panduan onSelesai={() => setPanduan(false)} />}
             </main>
         </>
     );

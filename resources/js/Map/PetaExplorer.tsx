@@ -4,7 +4,7 @@
  */
 import { useEffect, useRef } from 'react';
 import L from 'leaflet';
-import type { Feature, FeatureCollection, Geometry, LineString } from 'geojson';
+import type { Feature, FeatureCollection, Geometry, LineString, Point } from 'geojson';
 import type { CommuteResponse, HasilSearch, LayerKey } from '@/types';
 import { bahasaAktif, pilihTeks, type Bahasa } from '@/lib/bahasa';
 import * as gaya from './gaya';
@@ -13,6 +13,7 @@ export type TitikPeta = { lat: number; lng: number };
 
 type Props = {
     layer: Partial<Record<LayerKey, FeatureCollection>>;
+    aktif?: Partial<Record<LayerKey, boolean>>;
     tahun: number;
     top3: HasilSearch[] | null;
     top3Aktif: number | null;
@@ -28,18 +29,19 @@ type Props = {
     onKlikPeta: (t: TitikPeta) => void;
     onLihatDetail: (t: TitikPeta) => void;
     onPilihTop3: (i: number) => void;
+    onBatasPeta?: () => void;
+    onBboxChange?: (layerKey: LayerKey, bbox: string) => void;
     className?: string;
 };
 
-/** Diperbarui dari props; dibaca handler klik fitur yang dibuat di luar komponen. */
 let modeRuteAktif = false;
 
 const PUSAT: L.LatLngExpression = [-6.43, 106.81];
 const BATAS_DATA = L.latLngBounds([-6.56, 106.7], [-6.28, 106.92]);
-/** Padding agar konten tidak tertutup kolom kiri (392 px) dan panel kanan (design-system.md bagian 5). */
+const BATAS_PETA = L.latLngBounds([-6.85, 106.15], [-5.85, 107.35]);
 const PADDING_KIRI = L.point(392, 80);
 const PADDING_KANAN = L.point(80, 90);
-/** Layar ponsel: panel kiri jadi lembar bawah (±55% tinggi layar), lihat aplikasi.css. */
+
 const ponsel = () => window.innerWidth < 768;
 function padding(): { paddingTopLeft: L.Point; paddingBottomRight: L.Point } {
     return ponsel()
@@ -51,13 +53,12 @@ function esc(s: unknown): string {
     return String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
 }
 
-/** Teks peta mengikuti bahasa aktif saat dibuat (popup dibuat ulang setiap dibuka). */
 const tr = (id: string, en: string) => pilihTeks(bahasaAktif(), id, en);
 
 function popupHtml(jenis: string, judul: string, isi: string, sumber: string): string {
     return `<div class="nr-popup" role="dialog" aria-label="${esc(judul)}">
         <div class="nr-popup__top"><div><div class="nr-eyebrow">${esc(jenis)}</div><h3 class="nr-popup__title">${esc(judul)}</h3></div></div>
-        <p class="nr-popup__body">${esc(isi)}</p>
+        <p class="nr-popup__body" style="white-space: pre-line; line-height: 1.6; margin-top: 6px; margin-bottom: 8px;">${esc(isi)}</p>
         <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px">
             <span class="nr-popup__src">${esc(sumber)}</span>
             <button type="button" class="nr-linkcaps" data-detail>${esc(tr('Lihat detail', 'View details'))}
@@ -67,16 +68,18 @@ function popupHtml(jenis: string, judul: string, isi: string, sumber: string): s
 }
 
 const JENIS_LABEL: Record<string, [string, string]> = {
-    banjir: ['Bahaya banjir', 'Flood hazard'], rth: ['Ruang terbuka hijau', 'Green open space'], poi: ['Kafe & restoran', 'Cafés & restaurants'],
+    banjir: ['Bahaya banjir', 'Flood hazard'], banjir_tampil: ['Kerawanan banjir', 'Flood susceptibility'], genangan: ['Genangan banjir 2020', '2020 flooding'], rth: ['Ruang terbuka hijau', 'Green open space'], poi: ['Tempat aktivitas', 'Activity spot'],
     akses: ['Akses disabilitas', 'Disability access'], trotoar: ['Trotoar', 'Sidewalk'], krl: ['Jalur KRL', 'KRL line'], mrt: ['Jalur MRT', 'MRT line'],
     lrt: ['Jalur LRT', 'LRT line'], stasiun: ['Stasiun', 'Station'], halte: ['Halte', 'Bus stop'], tol: ['Gerbang tol', 'Toll gate'],
-    proyek: ['Proyek infrastruktur', 'Infrastructure project'], legal: ['Bidang lahan', 'Land parcel'],
+    ganjil_genap: ['Ruas ganjil-genap', 'Odd-even road'],
+    proyek: ['Proyek infrastruktur', 'Infrastructure project'], legal: ['Bidang Tanah BPN', 'BPN Land Parcel'],
+    rdtr: ['Rencana Detail Tata Ruang', 'Detailed Spatial Plan'], persil: ['Bidang Tanah (ATR/BPN)', 'Land Parcel (ATR/BPN)'],
+    legalitas: ['Bidang Tanah (ATR/BPN)', 'Land Parcel (ATR/BPN)'],
 };
 
-/** Kosakata atribut data contoh (data/geojson/demo) yang tampil di popup. */
 const ISTILAH_EN: Record<string, string> = {
-    Kafe: 'Café', Restoran: 'Restaurant', 'Makanan cepat saji': 'Fast food', Mal: 'Mall', rendah: 'low', sedang: 'medium', tinggi: 'high',
-    'Dalam pembangunan': 'Under construction', 'SHGB dalam proses': 'SHGB in process', Permukiman: 'Residential', permukiman: 'residential',
+    Kafe: 'Café', Restoran: 'Restaurant', 'Makanan cepat saji': 'Fast food', Mal: 'Mall', Perpustakaan: 'Library', rendah: 'low', sedang: 'medium', tinggi: 'high',
+    'Dalam pembangunan': 'Under construction', 'dalam pembangunan': 'under construction', rencana: 'planned', Permukiman: 'Residential', permukiman: 'residential',
 };
 const istilah = (v: unknown) => (bahasaAktif() === 'en' ? (ISTILAH_EN[String(v)] ?? String(v)) : String(v));
 
@@ -92,14 +95,33 @@ function deskripsi(p: Record<string, any>): string {
         case 'poi': return p.kategori ? `${istilah(p.kategori)}.` : tr('Tempat makan dan nongkrong.', 'A place to eat and hang out.');
         case 'stasiun': return `${p.moda ? String(p.moda).toUpperCase() : tr('Stasiun', 'Station')}${p.lin ? ` · ${tr('Lin', 'Line')} ${p.lin}` : ''}.`;
         case 'krl': case 'mrt': case 'lrt': return p.nama ?? tr('Jalur kereta.', 'Railway line.');
-        case 'proyek': return `${p.status ? istilah(p.status) : tr('Proyek', 'Project')}${p.tahun ? `, target ${p.tahun}` : ''}.`;
-        case 'legal': return tr(`Status contoh: ${p.status ?? '—'}. Peruntukan: ${p.peruntukan ?? 'permukiman'}.`, `Sample status: ${istilah(p.status ?? '—')}. Land use: ${istilah(p.peruntukan ?? 'permukiman')}.`);
+        case 'brt': return `${tr('Koridor', 'Corridor')} ${p.koridor ?? ''}${p.nama ? ` · ${p.nama}` : ''}.`;
+        case 'proyek': return `${p.status ? istilah(p.status) : tr('Proyek', 'Project')}${p.tahun ? `, target ${p.tahun}` : tr(', belum ada target tahun', ', no target year yet')}.`;
+        case 'banjir_tampil': {
+            const arti: Record<number, [string, string]> = { 1: ['Cukup rawan tergenang', 'Somewhat flood-prone'], 2: ['Rawan tergenang', 'Flood-prone'], 3: ['Sangat rawan tergenang', 'Highly flood-prone'] };
+            const a = arti[Number(p.tingkat)] ?? arti[2];
+            return tr(`${a[0]}: indeks bahaya InaRISK ${p.indeks}. Dihitung dari bentuk lahan (ketinggian, kemiringan, jarak ke sungai), bukan persen peluang dan bukan riwayat banjir.`,
+                `${a[1]}: InaRISK hazard index ${String(p.indeks).replace(/,/g, '.')}. Derived from landform (elevation, slope, distance to rivers), not a probability or flood history.`);
+        }
+        case 'genangan': return tr('Tergenang saat banjir 1 Januari 2020, menurut peta BNPB.', 'Flooded on 1 January 2020, per the BNPB map.');
+        case 'ganjil_genap': return tr('Ganjil-genap (Pergub DKI 88/2019): Senin–Jumat 06.00–10.00 & 16.00–21.00 WIB.', 'Odd-even plates (Jakarta Gov. Reg. 88/2019): Mon–Fri 06:00–10:00 & 16:00–21:00.');
         case 'akses': return tr('Fasilitas ditandai ramah kursi roda.', 'Facility marked as wheelchair-friendly.');
+        case 'rdtr': return tr(`Rencana Detail Tata Ruang DKI Jakarta 2022 (${p.NAMOBJ ?? p.NAMZON_1 ?? p.ZONA ?? 'Zonasi'}).`, `Jakarta 2022 Detailed Spatial Plan (${istilah(p.NAMOBJ ?? p.NAMZON_1 ?? p.ZONA ?? 'Zoning')}).`);
         default: return p.nama ?? '';
     }
 }
 
-/** Panah arah sepanjang garis, tiap ±600 m (design-system.md 9.3). */
+function topengRedup(geometri: Geometry[]): L.Polygon {
+    const luar: L.LatLngExpression[] = [[-7.6, 105.4], [-7.6, 108.2], [-5.4, 108.2], [-5.4, 105.4]];
+    const cincin = (c: number[][]) => c.map(([lng, lat]) => [lat, lng] as L.LatLngTuple);
+    const lubang: L.LatLngTuple[][] = [];
+    for (const g of geometri) {
+        if (g.type === 'Polygon') lubang.push(cincin(g.coordinates[0]));
+        else if (g.type === 'MultiPolygon') g.coordinates.forEach((p) => lubang.push(cincin(p[0])));
+    }
+    return L.polygon([luar, ...lubang], { pane: 'nrSeleksi', interactive: false, stroke: false, fillColor: '#0f1b3d', fillOpacity: 0.18 });
+}
+
 function panahArah(coords: [number, number][], tiapMeter = 600): L.Marker[] {
     const hasil: L.Marker[] = [];
     let sisa = tiapMeter / 2;
@@ -144,20 +166,38 @@ export default function PetaExplorer(props: Props) {
     const grupLayer = useRef<Partial<Record<LayerKey, L.LayerGroup>>>({});
     const grupSeleksi = useRef<L.LayerGroup | null>(null);
     const grupRute = useRef<L.LayerGroup | null>(null);
+    const tergambar = useRef<Partial<Record<LayerKey, FeatureCollection>>>({});
     const panggil = useRef(props);
     panggil.current = props;
     modeRuteAktif = props.modeRute;
 
-    // Inisialisasi peta sekali.
     useEffect(() => {
         if (!wadah.current) return;
-        const m = L.map(wadah.current, { zoomControl: false, minZoom: 9, maxZoom: 19, preferCanvas: false }).setView(PUSAT, 13);
+        const m = L.map(wadah.current, {
+            zoomControl: false,
+            minZoom: ponsel() ? 9 : 10,
+            maxZoom: 19,
+            maxBounds: BATAS_PETA,
+            maxBoundsViscosity: 1,
+            preferCanvas: false,
+        }).setView(PUSAT, 13);
+        let terakhirBatas = 0;
+        m.on('drag', () => {
+            const v = m.getBounds();
+            const e = 0.002;
+            const mentok = v.getWest() <= BATAS_PETA.getWest() + e || v.getEast() >= BATAS_PETA.getEast() - e
+                || v.getSouth() <= BATAS_PETA.getSouth() + e || v.getNorth() >= BATAS_PETA.getNorth() - e;
+            if (mentok && Date.now() - terakhirBatas > 5000) {
+                terakhirBatas = Date.now();
+                panggil.current.onBatasPeta?.();
+            }
+        });
         L.control.zoom({ position: 'bottomright', zoomInTitle: tr('Perbesar peta', 'Zoom in'), zoomOutTitle: tr('Perkecil peta', 'Zoom out') }).addTo(m);
         m.attributionControl.setPrefix('<a href="https://leafletjs.com">Leaflet</a>');
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution:
-                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors · Transit: <a href="https://data.commute.shiorilabs.id/">Commute Data Platform</a> (ODbL) · Banjir: InaRISK BNPB',
+                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors · Transit: <a href="https://data.commute.shiorilabs.id/">Commute Data Platform</a> (ODbL) · Banjir: InaRISK & BNPB · Zona: RDTR DKI 2022 · PM2.5: SatPM ACAG (CC BY 4.0) · Bus Bodetabek: Opentransum',
         }).addTo(m);
         m.createPane('nrPoligon').style.zIndex = '410';
         m.createPane('nrGaris').style.zIndex = '420';
@@ -168,6 +208,26 @@ export default function PetaExplorer(props: Props) {
         grupSeleksi.current = L.layerGroup().addTo(m);
         grupRute.current = L.layerGroup().addTo(m);
 
+        const muatBboxFitur = () => {
+            const m = peta.current;
+            if (!m) return;
+            const z = m.getZoom();
+
+            // Cek apakah layer legalitas / persil sedang aktif (ON)
+            const legalitasAktif = panggil.current.aktif?.legalitas ?? true;
+
+            // HANYA panggil onBboxChange jika zoom >= 14 DAN layer sedang ON
+            if (z >= 14 && legalitasAktif && !m.hasLayer(L.Popup.prototype)) {
+                const b = m.getBounds();
+                const bboxStr = `${b.getWest().toFixed(6)},${b.getSouth().toFixed(6)},${b.getEast().toFixed(6)},${b.getNorth().toFixed(6)}`;
+                if (panggil.current.onBboxChange) {
+                    panggil.current.onBboxChange('legalitas', bboxStr);
+                    panggil.current.onBboxChange('persil', bboxStr);
+                }
+            }
+        };
+
+        m.on('moveend zoomend', muatBboxFitur);
         m.on('click', (e: L.LeafletMouseEvent) => panggil.current.onKlikPeta({ lat: e.latlng.lat, lng: e.latlng.lng }));
         m.on('popupopen', (e: L.PopupEvent) => {
             const el = e.popup.getElement()?.querySelector('[data-detail]');
@@ -190,7 +250,6 @@ export default function PetaExplorer(props: Props) {
         };
     }, []);
 
-    // Bahasa: judul tombol zoom. Popup tidak perlu digambar ulang karena isinya dibuat saat dibuka.
     useEffect(() => {
         const set = (sel: string, teks: string) => {
             const el = wadah.current?.querySelector(sel);
@@ -202,23 +261,37 @@ export default function PetaExplorer(props: Props) {
         peta.current?.closePopup();
     }, [props.bahasa]);
 
-    // Layer data.
+    // Sinkronisasi Layer: Otomatis Menghapus Layer dari Peta saat Toggle di-OFF kan
     useEffect(() => {
         const m = peta.current;
         if (!m) return;
-        for (const [k, grup] of Object.entries(grupLayer.current)) {
-            if (!props.layer[k as LayerKey]) {
-                grup?.remove();
-                delete grupLayer.current[k as LayerKey];
+
+        // 1. Bersihkan layer yang di-OFF kan dari state props.layer
+        for (const k of Object.keys(grupLayer.current) as LayerKey[]) {
+            const fc = props.layer[k];
+            if (!fc || !fc.features || fc.features.length === 0) {
+                grupLayer.current[k]?.remove();
+                delete grupLayer.current[k];
+                delete tergambar.current[k];
             }
         }
-        for (const [k, fc] of Object.entries(props.layer) as [LayerKey, FeatureCollection][]) {
-            if (!fc || grupLayer.current[k]) continue;
-            grupLayer.current[k] = gambarLayer(k, fc, props.tahun).addTo(m);
-        }
-    }, [props.layer]);
 
-    // Filter tahun Mesin Waktu (FR-04): gambar ulang layer itu.
+        // 2. Tambahkan/Perbarui layer yang di-ON kan
+        for (const [k, fc] of Object.entries(props.layer) as [LayerKey, FeatureCollection][]) {
+            if (!fc || !fc.features || fc.features.length === 0) continue;
+            
+            if (grupLayer.current[k] && tergambar.current[k] !== fc) {
+                grupLayer.current[k]?.remove();
+                delete grupLayer.current[k];
+            }
+
+            if (!grupLayer.current[k]) {
+                grupLayer.current[k] = gambarLayer(k, fc, props.tahun).addTo(m);
+                tergambar.current[k] = fc;
+            }
+        }
+    }, [props.layer, props.aktif]);
+
     useEffect(() => {
         const m = peta.current;
         const fc = props.layer.mesin_waktu;
@@ -227,11 +300,11 @@ export default function PetaExplorer(props: Props) {
         grupLayer.current.mesin_waktu = gambarLayer('mesin_waktu', fc, props.tahun).addTo(m);
     }, [props.tahun]);
 
-    // Seleksi: Top 3, wilayah terpilih, pin titik.
     useEffect(() => {
         const g = grupSeleksi.current;
         if (!g) return;
         g.clearLayers();
+        if (props.top3?.length) topengRedup(props.top3.map((r) => r.geometri as Geometry)).addTo(g);
         props.top3?.forEach((r, i) => {
             const aktif = props.top3Aktif === i;
             L.geoJSON(r.geometri as Geometry, { pane: 'nrSeleksi', style: { ...gaya.top3, weight: aktif ? 3.5 : 2.5, fillOpacity: aktif ? 0.14 : 0.08 } })
@@ -264,7 +337,6 @@ export default function PetaExplorer(props: Props) {
         }
     }, [props.top3, props.top3Aktif, props.wilayahTerpilih, props.pin]);
 
-    // Rute Simulator (9.3): mengikuti jalan dan rel, berpanah, A isi navy, B putih.
     useEffect(() => {
         const g = grupRute.current;
         if (!g) return;
@@ -275,7 +347,17 @@ export default function PetaExplorer(props: Props) {
             const tebal = kuat ? 5 : 3.5;
             const grup = L.layerGroup().addTo(g);
             L.geoJSON(r.publik.geometri.rel, { pane: 'nrRute', interactive: false, style: { color: '#fff', weight: tebal + 3, opacity: kuat ? 1 : 0.4 } }).addTo(grup);
-            L.geoJSON(r.publik.geometri.rel, { pane: 'nrRute', interactive: false, style: { color: gaya.warna.krl('bogor'), weight: tebal, opacity: kuat ? 1 : 0.4 } }).addTo(grup);
+            const rel = r.publik.geometri.rel;
+            const bagianRel = rel.type === 'MultiLineString' ? rel.coordinates : [rel.coordinates];
+            const linRuas = new Map<number, string>();
+            r.publik.langkah?.forEach((l) => l.tipe === 'naik' && l.garis != null && linRuas.set(l.garis, l.lin));
+            bagianRel.forEach((c, i) =>
+                L.polyline(
+                    c.map(([x, y]) => [y, x] as L.LatLngTuple),
+                    { pane: 'nrRute', interactive: false, color: gaya.warna.lin(linRuas.get(i) ?? 'bogor'), weight: tebal, opacity: kuat ? 1 : 0.4 },
+                ).addTo(grup),
+            );
+            r.publik.geometri.ojol?.forEach((w) => L.geoJSON(w, { pane: 'nrRute', interactive: false, style: { ...gaya.ruteOjol, opacity: kuat ? 1 : 0.4 } }).addTo(grup));
             r.publik.geometri.jalan_kaki.forEach((w) => L.geoJSON(w, { pane: 'nrRute', interactive: false, style: { ...gaya.ruteJalanKaki, opacity: kuat ? 1 : 0.4 } }).addTo(grup));
             r.publik.stasiun.forEach((s) =>
                 L.circleMarker([s.lat, s.lng], { pane: 'nrRute', radius: 6, color: '#0f1b3d', weight: 2.5, fillColor: '#fbf9f6', fillOpacity: 1, opacity: kuat ? 1 : 0.5 })
@@ -305,34 +387,62 @@ export default function PetaExplorer(props: Props) {
             if (r.publik) b.extend(L.geoJSON(r.publik.geometri.rel).getBounds());
             if (props.ruteA) b.extend([props.ruteA.lat, props.ruteA.lng]);
             if (props.ruteB) b.extend([props.ruteB.lat, props.ruteB.lng]);
-            if (b.isValid()) m.flyToBounds(b, { ...padding(), duration: 1 });
+            if (b.isValid()) m.fitBounds(b, { ...padding(), animate: false });
         }
     }, [props.rute, props.moda, props.ruteA, props.ruteB]);
 
-    // Fly-to (FR-07).
+    // Kamera mengabaikan pemindahan ke Jakarta (hanya merespons jika ada pencarian eksplisit / terbangKe)
     useEffect(() => {
         const m = peta.current;
         const t = props.terbangKe;
         if (!m || !t) return;
-        const kurangiGerak = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         if (t.geometri) {
             const b = L.geoJSON(t.geometri).getBounds();
             if (b.isValid()) {
-                const opsi = { ...padding(), maxZoom: 16 };
-                kurangiGerak ? m.fitBounds(b, opsi) : m.flyToBounds(b, { ...opsi, duration: 1.2 });
+                m.setView(b.getCenter(), m.getZoom(), { animate: false });
             }
         } else if (t.titik) {
-            // Titik ditaruh di tengah area peta yang tidak tertutup panel.
-            const b = L.latLng(t.titik.lat, t.titik.lng).toBounds(1);
-            const opsi = { ...padding(), maxZoom: Math.max(m.getZoom(), 15) };
-            kurangiGerak ? m.fitBounds(b, opsi) : m.flyToBounds(b, { ...opsi, duration: 1.2 });
+            m.setView([t.titik.lat, t.titik.lng], m.getZoom(), { animate: false });
         }
     }, [props.terbangKe?.kunci]);
 
     return <div ref={wadah} className={props.className} role="region" aria-label="Peta Jabodetabek, klik untuk melihat detail lokasi" />;
 }
 
-/** Grup yang isinya baru tampil mulai zoom tertentu, untuk titik yang padat (ribuan POI se-Jabodetabek). */
+const IKON_TOL = L.icon({ iconUrl: '/images/peta/tol.png', iconSize: [15, 19], className: 'nr-rambu' });
+const IKON_HALTE = L.icon({ iconUrl: '/images/peta/halte.png', iconSize: [14, 18], className: 'nr-rambu' });
+const IKON_BRT = L.icon({ iconUrl: '/images/peta/halte-brt.png', iconSize: [16, 20], className: 'nr-rambu' });
+
+function grupDiLayar(fitur: Feature[], minZoom: number, buat: (f: Feature, ll: L.LatLng) => L.Marker, popup: (f: Feature, l: L.Layer) => void): L.LayerGroup {
+    const g = L.layerGroup();
+    const titik = fitur
+        .filter((f) => f.geometry?.type === 'Point')
+        .map((f) => ({ f, ll: L.latLng((f.geometry as Point).coordinates[1], (f.geometry as Point).coordinates[0]) }));
+    let peta: L.Map | null = null;
+    const atur = () => {
+        if (!peta) return;
+        g.clearLayers();
+        if (peta.getZoom() < minZoom) return;
+        const b = peta.getBounds().pad(0.3);
+        for (const { f, ll } of titik) {
+            if (!b.contains(ll)) continue;
+            const m = buat(f, ll);
+            popup(f, m);
+            g.addLayer(m);
+        }
+    };
+    g.on('add', (e) => {
+        peta = (e.target as unknown as { _map: L.Map })._map;
+        peta.on('moveend', atur);
+        atur();
+    });
+    g.on('remove', () => {
+        peta?.off('moveend', atur);
+        peta = null;
+    });
+    return g;
+}
+
 function grupZoom(isi: L.Layer, minZoom: number): L.LayerGroup {
     const g = L.layerGroup();
     let peta: L.Map | null = null;
@@ -348,21 +458,21 @@ function grupZoom(isi: L.Layer, minZoom: number): L.LayerGroup {
         atur();
     });
     g.on('remove', () => {
-        peta?.off('zoomend', atur);
+        peta?.off('remove', atur);
         peta = null;
     });
     return g;
 }
 
-/** Gambar satu layer sesuai kartografi. Mesin Waktu difilter tahun (FR-04). Titik digambar di canvas agar ringan. */
 function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.LayerGroup {
     const g = L.layerGroup();
     const kanvas = L.canvas({ pane: 'nrTitik', padding: 0.3 });
-    // Opsi GeoJSON diteruskan Leaflet ke tiap Path, termasuk renderer; tipe @types/leaflet belum mencantumkannya.
     const diKanvas = { renderer: L.canvas({ pane: 'nrPoligon', padding: 0.3 }) } as L.GeoJSONOptions;
+    
     const popup = (f: Feature, l: L.Layer) => {
         const p = (f.properties ?? {}) as Record<string, any>;
         (l as L.Path).bindPopup(() => popupHtml(labelJenis(p.jenis), p.nama ?? labelJenis(p.jenis), deskripsi(p), `${tr('Sumber', 'Source')}: ${p.sumber ?? 'OSM'}`), {
+            autoPan: false,
             closeButton: true,
             autoPanPaddingTopLeft: ponsel() ? L.point(16, 120) : PADDING_KIRI,
             autoPanPaddingBottomRight: ponsel() ? L.point(16, 90) : L.point(414, 90),
@@ -370,7 +480,6 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
             maxWidth: 300,
             className: 'nr-popup-leaflet',
         });
-        // Saat memilih titik rute, klik fitur diteruskan ke peta alih-alih membuka popup.
         const path = l as L.Path & { _openPopup: L.LeafletEventHandlerFn };
         path.off('click', path._openPopup, path);
         path.on('click', (e: L.LeafletMouseEvent) => {
@@ -381,7 +490,12 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
     };
 
     if (k === 'historis_risiko') {
-        L.geoJSON(fc, { pane: 'nrPoligon', ...diKanvas, style: (f) => gaya.banjir(f?.properties?.kelas), onEachFeature: popup }).addTo(g);
+        L.geoJSON(fc, {
+            pane: 'nrPoligon',
+            ...diKanvas,
+            style: (f) => (f?.properties?.jenis === 'genangan' ? gaya.genangan : gaya.banjirTingkat(Number(f?.properties?.tingkat))),
+            onEachFeature: popup,
+        }).addTo(g);
     } else if (k === 'ekosistem') {
         L.geoJSON(fc, {
             pane: 'nrPoligon',
@@ -416,6 +530,21 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
             13,
         ).addTo(g);
     } else if (k === 'mobilitas') {
+        grupZoom(
+            L.geoJSON({ type: 'FeatureCollection', features: fc.features.filter((f) => f.properties?.jenis === 'ganjil_genap') } as FeatureCollection, {
+                pane: 'nrPoligon',
+                ...diKanvas,
+                style: { color: '#9f1239', weight: 1, opacity: 0.7, fillColor: '#9f1239', fillOpacity: 0.45 },
+                onEachFeature: popup,
+            }),
+            13,
+        ).addTo(g);
+        L.geoJSON({ type: 'FeatureCollection', features: fc.features.filter((f) => f.properties?.jenis === 'brt') } as FeatureCollection, {
+            pane: 'nrGaris',
+            ...diKanvas,
+            style: (f) => ({ color: f?.properties?.warna ?? '#0f1b3d', weight: 3, opacity: 0.85 }),
+            onEachFeature: popup,
+        } as L.GeoJSONOptions).addTo(g);
         const garis = fc.features.filter((f) => ['krl', 'mrt', 'lrt'].includes(f.properties?.jenis));
         L.geoJSON({ type: 'FeatureCollection', features: garis } as FeatureCollection, { pane: 'nrGaris', style: gaya.casing, interactive: false }).addTo(g);
         L.geoJSON({ type: 'FeatureCollection', features: garis } as FeatureCollection, {
@@ -423,18 +552,24 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
             style: (f) => {
                 const j = f?.properties?.jenis;
                 if (j === 'mrt') return { color: gaya.warna.mrt(), weight: 5, opacity: 1 };
-                if (j === 'lrt') return { color: gaya.warna.lrt(), weight: 5, opacity: 1 };
+                if (j === 'lrt') return { color: gaya.warna.lrtLin(f?.properties?.lin ?? ''), weight: 5, opacity: 1 };
                 return { color: gaya.warna.krl(f?.properties?.lin ?? 'lain'), weight: 4, opacity: 1, dashArray: '10 6' };
             },
             onEachFeature: popup,
         }).addTo(g);
+        grupDiLayar(
+            fc.features.filter((f) => f.properties?.jenis === 'halte'),
+            15,
+            (f, ll) => L.marker(ll, { pane: 'nrTitik', icon: f.properties?.brt ? IKON_BRT : IKON_HALTE }),
+            popup,
+        ).addTo(g);
         grupZoom(
-            L.geoJSON({ type: 'FeatureCollection', features: fc.features.filter((f) => f.properties?.jenis === 'halte') } as FeatureCollection, {
+            L.geoJSON({ type: 'FeatureCollection', features: fc.features.filter((f) => f.properties?.jenis === 'tol') } as FeatureCollection, {
                 pane: 'nrTitik',
-                pointToLayer: (_f, ll) => L.circleMarker(ll, { pane: 'nrTitik', renderer: kanvas, radius: 3.5, color: '#fff', weight: 1.2, fillColor: '#0f1b3d', fillOpacity: 1 }),
+                pointToLayer: (_f, ll) => L.marker(ll, { pane: 'nrTitik', icon: IKON_TOL }),
                 onEachFeature: popup,
             }),
-            14,
+            13,
         ).addTo(g);
         L.geoJSON({ type: 'FeatureCollection', features: fc.features.filter((f) => f.properties?.jenis === 'stasiun') } as FeatureCollection, {
             pane: 'nrStasiun',
@@ -451,11 +586,117 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
         L.geoJSON(fc, {
             pane: 'nrGaris',
             filter: (f) => !f.properties?.tahun || f.properties.tahun <= tahun,
-            style: gaya.mesinWaktu,
+            style: (f) => gaya.mesinWaktu(f?.properties?.moda),
             onEachFeature: popup,
         }).addTo(g);
-    } else if (k === 'legalitas') {
-        L.geoJSON(fc, { pane: 'nrPoligon', ...diKanvas, style: gaya.legal, onEachFeature: popup }).addTo(g);
+    } else if (k === 'rdtr') {
+        L.geoJSON(fc, {
+            pane: 'nrPoligon',
+            ...diKanvas,
+            style: (f) => gaya.gayaRdtr(f?.properties?.NAMOBJ ?? f?.properties?.NAMZON_1 ?? f?.properties?.ZONA ?? f?.properties?.peruntukan),
+            onEachFeature: (f, l) => {
+                const p = (f.properties ?? {}) as Record<string, any>;
+                const namaZona = p.NAMZON_1 ?? p.namzon_1 ?? p.NAMOBJ ?? p.NAMZON ?? p.NAMSZN ?? p.ZONA ?? p.peruntukan ?? 'Zonasi RDTR';
+                const kodeZona = p.KODSZN_1 ?? p.kodszn_1 ?? p.KODZON_1 ?? p.kodzon_1 ?? p.KODZON ?? p.KODE ?? '—';
+                const sumber = 'Satu Data DKI Jakarta';
+
+                (l as L.Path).bindPopup(() => popupHtml(
+                    tr('Rencana Detail Tata Ruang', 'Detailed Spatial Plan'),
+                    namaZona,
+                    `${tr('Kode Zona', 'Zone Code')}: ${kodeZona}`,
+                    `${tr('Sumber', 'Source')}: ${sumber}`
+                ), {
+                    autoPan: false,
+                    closeButton: true,
+                    autoPanPaddingTopLeft: ponsel() ? L.point(16, 120) : PADDING_KIRI,
+                    autoPanPaddingBottomRight: ponsel() ? L.point(16, 90) : L.point(414, 90),
+                    minWidth: 240,
+                    maxWidth: 300,
+                    className: 'nr-popup-leaflet',
+                });
+
+                const path = l as L.Path & { _openPopup: L.LeafletEventHandlerFn };
+                path.off('click', path._openPopup, path);
+                path.on('click', (e: L.LeafletMouseEvent) => {
+                    if (modeRuteAktif) return;
+                    L.DomEvent.stop(e);
+                    path.openPopup(e.latlng);
+                });
+            },
+        }).addTo(g);
+    } else if (k === 'legalitas' || k === 'persil') {
+        L.geoJSON(fc, {
+            pane: 'nrPoligon',
+            ...diKanvas,
+            style: gaya.gayaPersil ?? gaya.legal,
+            onEachFeature: (f, l) => {
+                const p = (f.properties ?? {}) as Record<string, any>;
+                
+                // 1. NIB
+                const nibRaw = p.NIB ?? p.nib ?? p.NIB_1 ?? p.nib_1 ?? p.KODNIB ?? p.kodnib ?? p.NO_BIDANG ?? p.no_bidang ?? p.NOP ?? p.nop;
+                const nibText = (nibRaw && String(nibRaw).trim() !== '' && String(nibRaw) !== '0') ? String(nibRaw) : null;
+                
+                const idBidang = p.id ?? f.id ?? p.OBJECTID ?? p.objectid;
+                const judulText = nibText ? `NIB: ${nibText}` : (idBidang ? `Bidang Tanah #${idBidang}` : tr('Bidang Tanah BPN', 'BPN Land Parcel'));
+
+                // 2. Nama Zona Resmi
+                const namaZonaRaw = p.NAMZON_1 ?? p.namzon_1 ?? p.NAMZON ?? p.namzon ?? p.NAMOBJ ?? p.namobj ?? p.ZONA ?? p.zona;
+                const kodeZonaRaw = p.KODSZN_1 ?? p.kodszn_1 ?? p.KODZON_1 ?? p.kodzon_1 ?? p.KODZON ?? p.kodzon;
+                
+                let zonaFormatted: string | null = null;
+                if (namaZonaRaw && String(namaZonaRaw).toLowerCase() !== 'bidang tanah') {
+                    const namaClean = istilah(String(namaZonaRaw).trim());
+                    zonaFormatted = kodeZonaRaw ? `${namaClean} (${kodeZonaRaw})` : namaClean;
+                }
+
+                // 3. Status Hak
+                const statusHak = p.HAK ?? p.hak ?? p.TIPE_HAK ?? p.tipe_hak ?? p.JNS_HAK ?? p.jns_hak ?? p.STATUS_HAK ?? p.status_hak;
+                const hakText = statusHak ? String(statusHak) : tr('Hak Milik / Terdaftar', 'Registered Right');
+
+                // 4. Luas & Lokasi
+                const luasVal = p.LUASHA ?? p.luasha ?? p.LUAS ?? p.luas ?? p.LUAS_M2 ?? p.luas_m2 ?? p['SHAPE.AREA'] ?? p.shape_area;
+                const luasText = luasVal ? `${typeof luasVal === 'number' ? luasVal.toFixed(4) : luasVal} ${typeof luasVal === 'number' && luasVal < 500 ? 'ha' : 'm²'}` : null;
+
+                const kelurahan = p.WADMKD ?? p.wadmkd ?? p.Kelurahan ?? p.kelurahan;
+                const kecamatan = p.WADMKC ?? p.wadmkc ?? p.Kecamatan ?? p.kecamatan;
+                const kota = p.WADMKK ?? p.wadmkk ?? p.Kota ?? p.kota;
+                
+                const sumber = 'Satu Data DKI Jakarta';
+
+                const rincian: string[] = [];
+                rincian.push(`Hak: ${hakText}`);
+                if (zonaFormatted) rincian.push(`Zona: ${zonaFormatted}`);
+                if (luasText) rincian.push(`Luas: ${luasText}`);
+                
+                const lokasi = [kelurahan, kecamatan, kota].filter(Boolean).map((x) => String(x).trim()).filter(Boolean).join(', ');
+                if (lokasi) rincian.push(`Lokasi: ${lokasi}`);
+
+                const isiText = rincian.join('\n');
+
+                (l as L.Path).bindPopup(() => popupHtml(
+                    tr('Bidang Tanah (ATR/BPN)', 'Land Parcel (ATR/BPN)'),
+                    judulText,
+                    isiText,
+                    `${tr('Sumber', 'Source')}: ${sumber}`
+                ), {
+                    autoPan: false,
+                    closeButton: true,
+                    autoPanPaddingTopLeft: ponsel() ? L.point(16, 120) : PADDING_KIRI,
+                    autoPanPaddingBottomRight: ponsel() ? L.point(16, 90) : L.point(414, 90),
+                    minWidth: 240,
+                    maxWidth: 320,
+                    className: 'nr-popup-leaflet',
+                });
+
+                const path = l as L.Path & { _openPopup: L.LeafletEventHandlerFn };
+                path.off('click', path._openPopup, path);
+                path.on('click', (e: L.LeafletMouseEvent) => {
+                    if (modeRuteAktif) return;
+                    L.DomEvent.stop(e);
+                    path.openPopup(e.latlng);
+                });
+            },
+        }).addTo(g);
     }
     return g;
 }

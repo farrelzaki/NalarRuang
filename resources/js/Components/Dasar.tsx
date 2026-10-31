@@ -63,11 +63,18 @@ export function SimbolPeta({ kind, size = 16 }: { kind: Simbol; size?: number })
     );
     const isi: Record<Simbol, ReactNode> = {
         banjir: kotak('var(--map-banjir)', 0.3),
+        'banjir-1': kotak('#f87171', 0.3),
+        'banjir-2': kotak('#dc2626', 0.4),
+        'banjir-3': kotak('#7f1d1d', 0.55),
+        genangan: kotak('#1d4ed8', 0.35),
         legal: kotak('var(--map-legal)', 0.2),
         rth: kotak('var(--map-hijau)', 0.25),
         hijau: <circle cx={8} cy={8} r={6} style={{ fill: 'var(--map-hijau)', fillOpacity: 0.8, stroke: 'var(--white)', strokeWidth: 2 }} />,
         akses: <circle cx={8} cy={8} r={6} style={{ fill: 'var(--map-akses)', stroke: 'var(--white)', strokeWidth: 2 }} />,
-        halte: <circle cx={8} cy={8} r={3.5} style={{ fill: 'var(--navy-900)', stroke: 'var(--white)', strokeWidth: 1.5 }} />,
+        halte: <image href="/images/peta/halte.png" x={2.5} y={0.5} width={11} height={15} />,
+        'halte-brt': <image href="/images/peta/halte-brt.png" x={2} y={0} width={12} height={16} />,
+        tol: <image href="/images/peta/tol.png" x={2} y={0} width={12} height={16} />,
+        gg: batang('var(--rose-800)'),
         trotoar: garis('var(--map-akses)', '3 2.5'),
         mrt: batang('var(--map-mrt)'),
         lrt: batang('var(--map-lrt)'),
@@ -75,7 +82,23 @@ export function SimbolPeta({ kind, size = 16 }: { kind: Simbol; size?: number })
         'krl-rangkas': garis('var(--map-krl-rangkas)'),
         'krl-cikarang': garis('var(--map-krl-cikarang)'),
         'krl-lain': garis('var(--map-krl-lain)'),
-        waktu: garis('var(--map-waktu)', '4 3'),
+        'krl-tangerang': garis('var(--map-krl-tangerang)'),
+        'krl-priok': garis('var(--map-krl-priok)'),
+        'krl-bandara': garis('var(--map-krl-bandara)'),
+        'lrt-jabodebek': (
+            <>
+                <rect x={0} y={3} width={16} height={4} rx={2} style={{ fill: 'var(--map-lrt-bekasi)' }} />
+                <rect x={0} y={9} width={16} height={4} rx={2} style={{ fill: 'var(--map-lrt-cibubur)' }} />
+            </>
+        ),
+        brt: (
+            <>
+                <line x1={1} x2={15} y1={5} y2={5} style={{ stroke: '#d62126', strokeWidth: 2.5 }} />
+                <line x1={1} x2={15} y1={11} y2={11} style={{ stroke: '#2f489c', strokeWidth: 2.5 }} />
+            </>
+        ),
+        waktu: garis('var(--map-mrt)', '4 3'),
+        'waktu-tol': garis('#e892a2', '4 3'),
         stasiun: <circle cx={8} cy={8} r={5} style={{ fill: 'var(--map-stasiun)', stroke: 'var(--navy-900)', strokeWidth: 2 }} />,
         rute: (
             <g>

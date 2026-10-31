@@ -61,7 +61,7 @@ unduhan resmi; sisanya diolah manual oleh tim data (Adzkia, Galih).
 | 5 Mesin Waktu | Rencana tata ruang/proyek 2026–2040 | GISTARU | — | Dari video rujukan tim (bukan GISTARU) |
 | 6 Legalitas Lahan | Batas persil BHUMI ATR/BPN | — | — (BHUMI tidak membuka layanan unduh/WMS publik) | Keputusan tim: cari endpoint JSON BHUMI. Belum dikerjakan: perlu dipastikan tidak melanggar ketentuan ATR/BPN |
 | Pencarian & grading | Batas desa/kelurahan (1.503 se-Jabodetabek, kode Kemendagri) | Batas OSM (tidak lengkap di Bekasi dan Kab. Tangerang) | Layanan ArcGIS REST BIG `BATAS_DESAKEL_AR` | — |
-| Commute Simulator | Mobil: Valhalla (utamakan tol, cadangan OSRM) + perkiraan tarif tol; umum: tarif & rute Commute Data API + jalan kaki OSRM | Google Distance Matrix | Ya | — |
+| Commute Simulator | Mobil: Valhalla (utamakan tol, cadangan OSRM) + perkiraan tarif tol, opsi hindari 23 ruas ganjil-genap (webmap ArcGIS Dishub DKI; Pintu Besar Selatan & Balikpapan belum ada di sumber); umum: tarif & rute Commute Data API + jalan kaki OSRM | Google Distance Matrix | Ya | — |
 
 ## 3. Kalender sprint
 

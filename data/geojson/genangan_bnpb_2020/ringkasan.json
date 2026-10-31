@@ -1,0 +1,16 @@
+{
+ "sumber": "https://gis.bnpb.go.id/server/rest/services/Banjir_Jakarta_2020/",
+ "atribusi": "BNPB",
+ "genangan_dki_jan2020": {
+  "di_layanan": 857,
+  "disimpan": 857
+ },
+ "genangan_tangerang_2020": {
+  "di_layanan": 2,
+  "disimpan": 2
+ },
+ "genangan_tangsel_2020": {
+  "di_layanan": 2,
+  "disimpan": 2
+ }
+}

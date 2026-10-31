@@ -1,5 +1,5 @@
 /** Klien endpoint docs/SISTEM.md bagian 2. */
-import type { CommuteResponse, InspectResponse, LayerKey, LayerResponse, Persona, SearchResponse } from '@/types';
+import type { CommuteResponse, InspectResponse, LayerKey, LayerResponse, Persona, SaranLokasi, SearchResponse } from '@/types';
 
 async function ambil<T>(url: string, signal?: AbortSignal): Promise<T> {
     const r = await fetch(url, { headers: { Accept: 'application/json' }, signal });
@@ -21,10 +21,11 @@ const qs = (o: Record<string, string | string[] | number | undefined>) => {
 };
 
 export const api = {
+    lokasi: (q: string, signal?: AbortSignal) => ambil<{ hasil: SaranLokasi[] }>(`/api/lokasi?${qs({ q })}`, signal),
     layer: (k: LayerKey) => ambil<LayerResponse>(`/api/layers/${k}`),
     cari: (q: { q?: string; kota?: string[]; persona: Persona[] }, signal?: AbortSignal) => ambil<SearchResponse>(`/api/search?${qs(q)}`, signal),
     titik: (lat: number, lng: number, persona: Persona[], signal?: AbortSignal) => ambil<InspectResponse>(`/api/inspect?${qs({ lat, lng, persona })}`, signal),
     wilayah: (id: number, persona: Persona[], signal?: AbortSignal) => ambil<InspectResponse>(`/api/inspect?${qs({ wilayah_id: id, persona })}`, signal),
-    rute: (a: { lat: number; lng: number }, b: { lat: number; lng: number }, signal?: AbortSignal) =>
-        ambil<CommuteResponse>(`/api/commute?${qs({ dari: `${a.lat},${a.lng}`, ke: `${b.lat},${b.lng}` })}`, signal),
+    rute: (a: { lat: number; lng: number }, b: { lat: number; lng: number }, signal?: AbortSignal, lewatTol = true, hargaBbm?: number, hindariGg = false) =>
+        ambil<CommuteResponse>(`/api/commute?${qs({ dari: `${a.lat},${a.lng}`, ke: `${b.lat},${b.lng}`, tol: lewatTol ? undefined : 0, gg: hindariGg ? 1 : undefined, bbm: hargaBbm })}`, signal),
 };

@@ -18,16 +18,16 @@
 .nr-app__kanan { position: absolute; right: 58px; bottom: 84.6px; top: 76px; z-index: var(--z-panel); display: flex; align-items: flex-end; pointer-events: none; }
 .nr-app__kanan > * { pointer-events: auto; max-height: 100%; overflow-y: auto; }
 .nr-app__slider { position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: var(--z-controls); }
-.nr-app__toast { position: absolute; left: 50%; bottom: 100px; transform: translateX(-50%); z-index: var(--z-toast); animation: nr-masuk 200ms ease-out; }
+.nr-app__toast { position: absolute; left: 50%; bottom: 100px; transform: translateX(-50%); z-index: var(--z-toast); animation: nr-masuk 200ms var(--ease-out); }
 .nr-app__lapisan { position: absolute; inset: 0; z-index: var(--z-drawer); display: flex; }
-.nr-app__lapisan > .nr-drawer { position: relative; animation: nr-geser 240ms ease-out; }
+.nr-app__lapisan > .nr-drawer { position: relative; animation: nr-geser 260ms var(--ease-drawer); }
 .nr-app__lapisan--tengah { z-index: var(--z-dialog); align-items: center; justify-content: center; padding: 24px; overflow-y: auto; }
-.nr-app__lapisan--tengah > .nr-dialog { position: relative; animation: nr-skala 200ms ease-out; }
+.nr-app__lapisan--tengah > .nr-dialog { position: relative; animation: nr-skala 220ms var(--ease-out); }
 .nr-app[data-mode="rute"] .nr-app__peta { cursor: crosshair; }
 
-@keyframes nr-masuk { from { opacity: 0; transform: translate(-50%, 8px); } }
-@keyframes nr-geser { from { transform: translateX(-24px); opacity: 0; } }
-@keyframes nr-skala { from { transform: scale(0.98); opacity: 0; } }
+@keyframes nr-masuk { from { opacity: 0; transform: translate(-50%, calc(8px * var(--nr-gerak, 1))); } }
+@keyframes nr-geser { from { transform: translateX(calc(-24px * var(--nr-gerak, 1))); opacity: 0; } }
+@keyframes nr-skala { from { transform: scale(calc(1 - 0.03 * var(--nr-gerak, 1))); opacity: 0; } }
 
 @media (max-width: 1279px) {
   .nr-app__kiri { width: 320px; }
@@ -114,7 +114,8 @@
   .nr-app__catatan-dot { margin-top: 0; }
   .nr-app__tombol { right: 8px; left: 8px; bottom: 16px; display: flex; justify-content: flex-start; }
   .nr-app .leaflet-bottom.leaflet-right .leaflet-control-zoom { margin: 0 8px 16px 0; }
-  .nr-app__kanan { left: 8px; right: 8px; top: auto; bottom: 72px; max-height: 60vh; }
+  /* T-021: panel kanan dimulai di bawah baris logo/catatan agar tidak tertutup. */
+  .nr-app__kanan { left: 8px; right: 8px; top: 112px; bottom: 72px; max-height: none; }
   .nr-app__kanan > * { width: 100%; }
   .nr-app__slider { left: 8px; right: 8px; bottom: 72px; transform: none; }
   .nr-app__slider .nr-slider { width: 100%; padding: 12px 16px; }
@@ -143,3 +144,68 @@
   .nr-drawer { width: 86vw; max-width: 340px; }
 }
 .nr-dialog__go { white-space: nowrap; }
+
+/* Pilihan lewat tol di Simulator Rute (T-024). */
+.nr-route__opsi { display: flex; align-items: center; justify-content: space-between; gap: 12px; font: 500 12px/18px var(--font-sans); color: var(--ink-70); }
+.nr-route__bbm { width: 88px; height: 28px; padding: 0 8px; border: 1px solid var(--line); border-radius: var(--radius-xs); background: var(--white); font: 600 12px/1 var(--font-sans); color: var(--navy-900); text-align: right; }
+.nr-route__bbm:focus { outline: 2px solid var(--focus-ring); outline-offset: 1px; }
+.nr-rambu { filter: drop-shadow(0 1px 1.5px rgba(0, 0, 0, 0.4)); }
+/* Penanda gambar di pane khusus tidak tercakup aturan Leaflet; jangan ikut max-width preflight Tailwind. */
+.leaflet-container img.leaflet-marker-icon { max-width: none !important; max-height: none !important; }
+
+/* Saran lokasi kolom titik A/B (FR-10). */
+.nr-route__field { position: relative; }
+.nr-route__saran { position: absolute; left: 0; right: 0; top: calc(100% + 4px); z-index: 5; margin: 0; padding: 4px; list-style: none; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); box-shadow: var(--shadow-lg); max-height: 260px; overflow-y: auto; }
+.nr-route__saran button { display: flex; flex-direction: column; align-items: flex-start; width: 100%; padding: 8px 10px; border: 0; border-radius: var(--radius-xs); background: transparent; text-align: left; cursor: pointer; }
+.nr-route__saran button:hover, .nr-route__saran li[aria-selected="true"] button { background: var(--ink-05); }
+.nr-route__saran-nama { font: 600 13px/18px var(--font-sans); color: var(--navy-900); }
+.nr-route__saran-ket { font: 400 11px/16px var(--font-sans); color: var(--ink-60); }
+
+/* Keterangan ganjil-genap di Simulator Rute (T-024). */
+.nr-route__gg { display: flex; gap: 6px; align-items: flex-start; margin: 0; padding: 8px 10px; border-radius: var(--radius-xs); background: var(--red-50); color: var(--rose-800); font: 500 11px/16px var(--font-sans); }
+.nr-route__gg svg { flex: none; margin-top: 2px; }
+.nr-route__gg--aman { background: var(--ink-05); color: var(--ink-70); }
+
+/* Onboarding (tur panduan) Visual Explorer. */
+.nr-tur { position: fixed; inset: 0; z-index: var(--z-dialog); }
+.nr-tur__redup { position: absolute; inset: 0; background: rgba(15, 27, 61, 0.55); }
+.nr-tur__sorot { position: absolute; border-radius: 16px; box-shadow: 0 0 0 9999px rgba(15, 27, 61, 0.55), 0 0 0 3px var(--white); transition: top 250ms var(--ease-out), left 250ms var(--ease-out), width 250ms var(--ease-out), height 250ms var(--ease-out); pointer-events: none; }
+.nr-tur__kartu { position: absolute; width: min(340px, calc(100vw - 32px)); padding: 18px 18px 16px; background: var(--white); border-radius: var(--radius-lg); box-shadow: var(--shadow-2xl); color: var(--navy-900); font-family: var(--font-sans); }
+.nr-tur__kepala { display: flex; align-items: center; gap: 10px; }
+.nr-tur__ikon { display: grid; place-items: center; width: 32px; height: 32px; border-radius: 10px; background: var(--ink-05); }
+.nr-tur__langkah { font: 600 11px/16px var(--font-sans); letter-spacing: 0.08em; color: var(--ink-50); }
+.nr-tur__lewati { margin-left: auto; border: 0; background: none; padding: 4px 2px; font: 600 12px/16px var(--font-sans); color: var(--ink-60); cursor: pointer; }
+.nr-tur__lewati:hover { color: var(--navy-900); text-decoration: underline; }
+.nr-tur__judul { margin: 14px 0 6px; font: 700 17px/24px var(--font-sans); }
+.nr-tur__isi { margin: 0; font: 400 13.5px/21px var(--font-sans); color: var(--ink-80); }
+.nr-tur__titik { display: flex; gap: 5px; margin-top: 16px; }
+.nr-tur__titik span { width: 6px; height: 6px; border-radius: 3px; background: var(--ink-20); transition: width 200ms var(--ease-out), background-color 200ms ease; }
+.nr-tur__titik span.is-aktif { width: 18px; background: var(--navy-900); }
+.nr-tur__aksi { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
+.nr-tur__kembali, .nr-tur__lanjut { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 16px; border-radius: var(--radius-pill); font: 600 13px/1 var(--font-sans); cursor: pointer; }
+.nr-tur__kembali { border: 1px solid var(--line); background: var(--white); color: var(--navy-900); }
+.nr-tur__lanjut { border: 0; background: var(--navy-900); color: var(--white); }
+.nr-tur__lanjut:focus-visible, .nr-tur__kembali:focus-visible, .nr-tur__lewati:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .nr-tur__sorot, .nr-tur__titik span { transition: none; } }
+
+/* Baris legenda yang bisa dimatikan (T-034). */
+.nr-legend--pilih { width: 100%; padding: 2px 4px 2px 2px; margin: 0 -4px 0 -2px; border: 0; border-radius: var(--radius-xs); background: none; text-align: left; cursor: pointer; }
+.nr-legend--pilih:hover { background: var(--ink-05); }
+.nr-legend--pilih[aria-checked="false"] { color: var(--ink-40); }
+.nr-legend--pilih[aria-checked="false"] svg:not(.nr-svg) { opacity: 0.35; }
+.nr-legend--pilih:focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 1px; }
+.nr-legend__cek { display: grid; place-items: center; flex: none; width: 12px; height: 12px; margin-top: 2px; border: 1.5px solid var(--navy-900); border-radius: 3px; background: var(--white); color: var(--white); }
+.nr-legend--pilih[aria-checked="true"] .nr-legend__cek { background: var(--navy-900); }
+.nr-legend--pilih[aria-checked="false"] .nr-legend__cek { border-color: var(--ink-40); }
+
+/* Langkah perjalanan transportasi umum (T-042). */
+.nr-langkah { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-direction: column; max-height: 320px; overflow-y: auto; }
+.nr-langkah__baris { position: relative; display: flex; gap: 10px; padding: 6px 0 8px; }
+.nr-langkah__baris:not(:last-of-type)::before { content: ""; position: absolute; left: 11px; top: 30px; bottom: -4px; border-left: 2px dotted var(--ink-20); }
+.nr-langkah__baris--naik:not(:last-of-type)::before { border-left: 3px solid var(--warna); left: 10.5px; }
+.nr-langkah__ikon { display: grid; place-items: center; flex: none; width: 24px; height: 24px; border-radius: 50%; background: var(--white); border: 2px solid var(--warna); color: var(--navy-900); z-index: 1; }
+.nr-langkah__baris--naik .nr-langkah__ikon { background: var(--warna); color: var(--white); }
+.nr-langkah__teks { display: flex; flex-direction: column; min-width: 0; }
+.nr-langkah__judul { font: 600 12px/17px var(--font-sans); color: var(--navy-900); }
+.nr-langkah__ket { font: 400 11px/16px var(--font-sans); color: var(--ink-60); }
+.nr-langkah__biaya { margin-top: 2px; padding: 6px 10px; border-radius: var(--radius-xs); background: var(--ink-05); font: 500 11px/16px var(--font-sans); color: var(--ink-70); }

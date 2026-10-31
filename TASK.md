@@ -58,6 +58,45 @@ Checkpoint dan approval:
 - Plan: Disetujui ("ikuti desain ini ... ubah SRS dan WBS")
 - Verification: grep istilah lama, `git diff --stat`
 
+### [~] Masukan uji Izdihar (spreadsheet T-001–T-044)
+
+- Status: [~] Fokus 23 Okt 2026: onboarding + bug peta, untuk dipamerkan Izdihar 24 Okt
+- Mode: standard (permintaan langsung pengguna, perubahan langsung ke demo)
+- Prioritas: Tinggi
+- Sumber: Google Sheet `1x1CN84QKL0QdpSgcs34ImZzyL6fhNSo6Fz2M6pbr5oI` (kolom Work Status milik Izdihar; di sini status kerja kita)
+- Hari ini (H) = dikerjakan 23 Okt. Butuh = menunggu data/keputusan.
+
+| ID | Modul | Ringkas | Status |
+| --- | --- | --- | --- |
+| T-001–T-014 | Landing | Gambar kartu persona & layer, urutan kartu, logo, ukuran visi, tautan "Pelajari" | [x] |
+| T-015 | Landing | Logo instansi sumber data + hapus IQAir | [x] logo; IQAir lihat T-027 |
+| T-016–T-019, T-023 | Landing | Cuplikan peta, hapus "Interaktif", FAQ persona & layer, CTA "Cari Sekarang!", footer Coming Soon, tombol ke peta | [x] |
+| T-020 | Landing | Kartu terlalu besar di desktop; Driver = dekat gerbang tol | [x] menunggu review |
+| T-021 | Peta | Mobile: panel layer tertutup logo | [x] menunggu review |
+| T-022 | Peta | Inspector sebut nama gerbang tol + jarak | [x] |
+| T-024 | Peta | Rute mobil utamakan tol, saklar tol, saklar ganjil-genap, biaya BBM/tol terpisah, harga BBM bisa diatur, TransJakarta di transit | [x]; ojol first/last mile → T-042 |
+| T-025 | Peta | Ikon pesawat kertas | [x] |
+| T-026 | Landing | Judul tanpa titik, jarak judul–subjudul | [x] 23 Okt |
+| T-027 | Landing | Hapus IQAir | [x] 23 Okt (logo & FAQ; skor Zen masih pakai kualitas udara contoh) |
+| T-028 | Peta | Ikon gerbang tol = rambu jalan tol (gambar komentar) | [x] 23 Okt |
+| T-029 | Peta | Ikon halte = rambu bus STOP; halte BRT = ikon "BRT" | [x] 23 Okt (BRT = halte koridor TransJakarta; tampil mulai zoom 15) |
+| T-030 | Peta | Warna lin MRT, LRTJ, LRT Jabodebek, KRL, kereta bandara, BRT sesuai PDF Drive; tampilkan rute BRT | [x] 23 Okt (warna dari PDF Peta Integrasi JakLingko; 31 koridor BRT GTFS dengan warna resmi) |
+| T-031 | Peta | Batas peta Jabodetabek + toast "Anda sudah mencapai batas maksimum peta"; batas zoom out | [x] 23 Okt (zoom out min. 10, HP 9) |
+| T-032 | Peta | Lin KRL Cikarang (biru) melewati Cikarang | [x] 23 Okt (relasi KA lokal Walahar dibuang) |
+| T-033 | Peta | Kesimpulan inspector lebih informatif (sebut nama & jarak fasilitas) | [x] 23 Okt (titik: nama & jarak fasilitas, jumlah kafe 1 km, udara & banjir untuk Zen; wilayah: jumlah fasilitas) |
+| T-034 | Peta | Toggle per sub-fitur di layer Mobilitas (mis. hanya ruas ganjil-genap) | [x] 23 Okt (centang per baris legenda di semua layer berlegenda >1) |
+| T-035 | Peta | Lin KRL Rangkasbitung berhenti di Maja, harus sampai Rangkasbitung | [x] 23 Okt (+ stasiun Citeras, Rangkasbitung) |
+| T-036 | Peta | Lin MRT melewati Lebak Bulus | [x] 23 Okt (rel depo dipotong) |
+| T-037 | Peta | Historis & Risiko data asli; banjir masuk kriteria Zen | [ ] Banjir sudah InaRISK asli; kriteria Zen butuh keputusan (SRS) |
+| T-038 | Peta | Ekosistem: tambah RTH/taman (Zen), mal, perpustakaan | [x] 23 Okt (perpustakaan OSM; mal sudah ada; Zen tidak menghitung makam & lapangan golf) |
+| T-039 | Peta | Mesin Waktu: bercak ungu acak | [x] 23 Okt |
+| T-040 | Peta | Mesin Waktu 2030 hanya MRT & Tol Cikampek Selatan, garis putus-putus, tol merah | [x] 23 Okt (MRT 2029, tol 2030; warna MRT menunggu T-030) |
+| T-041 | Peta | Legalitas lahan dari ATR/BPN | [ ] Butuh (situs ATR/BPN diblokir WAF; tidak di-scrape paksa) |
+| T-042 | Peta | Simulator rute gaya Google Maps: langkah perjalanan, peta lin yang dilalui saja, ojol Rp15.000 bila first/last mile tanpa transum | [x] 23 Okt (ojol bila jalan kaki > 1 km/1,5 km rute; stasiun sampai 12 km) |
+| T-043 | Peta | Ikon pengaturan di kolom cari harus selalu tampil | [x] 23 Okt |
+| T-044 | Peta | Penjelasan cara kerja kolom cari (dijawab di komentar) | [x] 23 Okt (jawaban dikirim ke pengguna) |
+| — | Peta | Onboarding singkat saat pertama membuka peta (permintaan Izdihar 23 Okt) | [x] 23 Okt (8 langkah; buka lagi lewat Menu → Panduan atau `?panduan=1`) |
+
 <!--
 Simpan hanya satu task yang sedang dikerjakan di bagian ini.
 Salin template berikut saat membuat task baru. Jangan mengisi approval sebagai disetujui sebelum pengguna benar-benar menyetujuinya.
