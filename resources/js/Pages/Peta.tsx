@@ -168,12 +168,35 @@ export default function Peta() {
             setLayerData((d) => {
                 const salin = { ...d };
                 delete salin[k];
+                // Hapus juga kunci alias persil/legalitas agar data bersih total saat OFF
+                if (k === 'legalitas') delete salin['persil'];
+                if (k === 'persil') delete salin['legalitas'];
                 return salin;
             });
         } else {
             nyalakanLayer(k);
         }
     };
+
+    // Handler BBOX dynamic request untuk layer poligon berat (legalitas, persil, rdtr)
+    const handleBboxChange = useCallback(async (layerKey: LayerKey, bbox: string) => {
+        if (!layerAktif[layerKey]) return;
+
+        try {
+            const res = await fetch(`/api/layers/${layerKey}?bbox=${bbox}`);
+            if (res.ok) {
+                const data: LayerResponse = await res.json();
+                setLayerData((d) => ({
+                    ...d,
+                    [layerKey]: data,
+                    ...(layerKey === 'legalitas' ? { persil: data } : {}),
+                    ...(layerKey === 'persil' ? { legalitas: data } : {}),
+                }));
+            }
+        } catch (e) {
+            console.error(`Gagal memuat BBOX layer ${layerKey}:`, e);
+        }
+    }, [layerAktif]);
 
     // Pencarian
     const jalankanCari = async (q: { q?: string; kota?: string[]; persona: Persona[] }) => {
@@ -360,6 +383,7 @@ export default function Peta() {
                 <PetaExplorer
                     className="nr-app__peta"
                     layer={layerTampil}
+                    aktif={layerAktif} // <--- Tambahkan baris ini di sini
                     tahun={tahun}
                     top3={panelKiri === 'top3' ? hasil : null}
                     top3Aktif={top3Aktif}
@@ -376,6 +400,7 @@ export default function Peta() {
                     onLihatDetail={(t) => muatTitik(t, true)}
                     onPilihTop3={pilihTop3}
                     onBatasPeta={() => kabar(t('Anda sudah mencapai batas maksimum peta.', 'You have reached the edge of the map.'), 'warning')}
+                    onBboxChange={handleBboxChange}
                 />
 
                 <div className="nr-app__kiri">
