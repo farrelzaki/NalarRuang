@@ -26,7 +26,7 @@
 
 .ed-faq-sec { display: grid; grid-template-columns: 420px 1fr; gap: 64px; align-items: start; }
 
-.ed-menu { position: fixed; inset: 0; z-index: 2000; background: rgba(15, 27, 61, 0.96); display: grid; place-items: center; animation: nr-skala 200ms ease-out; }
+.ed-menu { position: fixed; inset: 0; z-index: 2000; background: rgba(15, 27, 61, 0.96); display: grid; place-items: center; animation: nr-skala 220ms var(--ease-out); }
 .ed-menu nav { display: flex; flex-direction: column; align-items: center; gap: 20px; }
 .ed-menu a { font: 400 44px/1.1 var(--font-fraunces); font-variation-settings: "SOFT" 0, "WONK" 1; color: var(--stone-50); text-decoration: none; }
 .ed-menu a:hover { color: var(--cream-100); text-decoration: underline; text-underline-offset: 6px; }
@@ -55,7 +55,7 @@
   .ed-hero > div[style] { padding-top: 96px !important; }
   .ed-kicker { flex-wrap: wrap; font-size: 16px; padding: 0 16px; }
   .ed-hero__title { font-size: 48px; line-height: 50px; letter-spacing: -1.5px; padding: 0 16px; }
-  .ed-hero__sub { font-size: 15px; line-height: 23px; padding: 0 24px; }
+  .ed-hero__sub { margin-top: 16px; font-size: 15px; line-height: 23px; padding: 0 24px; }
   .ed-marquee { height: 48px; padding: 12px 20px; font-size: 14px; }
   .ed-title { font-size: 38px !important; line-height: 40px !important; }
   .ed-intro { font-size: 18px; }
@@ -92,4 +92,12 @@
   .ed-cta > div[style]:first-child { padding-top: 80px !important; padding-bottom: 64px !important; }
   .ed-footer, .ed-footer__base { grid-template-columns: 1fr; gap: 24px; }
   .ed-menu a { font-size: 30px; }
+}
+
+/* Masukan uji landing 17 Okt 2026: font visi desktop (T-007), logo sumber data (T-015). */
+.ed-vision__text { font-size: 26px; line-height: 38px; }
+.ed-logos__img { height: 26px; width: auto; max-width: 96px; object-fit: contain; flex: none; }
+@media (max-width: 767px) {
+  .ed-vision__text { font-size: 16px; line-height: 26px; }
+  .ed-logos__img { height: 20px; max-width: 64px; }
 }

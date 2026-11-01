@@ -1,0 +1,41 @@
+{
+ "sumber": "https://tataruang.jakarta.go.id/server/rest/services/RDTR_2022/Rencana_Pola_Ruang_RDTR_2022/FeatureServer/0",
+ "atribusi": "Pemprov DKI Jakarta, RDTR WP DKI Jakarta 2022 (Pergub 31/2022)",
+ "ditarik": "2026-10-25",
+ "jumlah_di_layanan": 108964,
+ "dilewati_zona_badan_jalan": 41612,
+ "jumlah_poligon": 67352,
+ "desimal_koordinat": 5,
+ "per_kota": {
+  "Kabupaten Kepulauan Seribu": 727,
+  "Kota Jakarta Barat": 14559,
+  "Kota Jakarta Pusat": 6274,
+  "Kota Jakarta Selatan": 14664,
+  "Kota Jakarta Timur": 18041,
+  "Kota Jakarta Utara": 13084,
+  "Tanpa kota": 3
+ },
+ "per_zona": {
+  "Zona Perumahan": 25671,
+  "Zona Perdagangan dan Jasa": 13444,
+  "Zona Ruang Terbuka Hijau": 11259,
+  "Zona Pelayanan Umum": 8187,
+  "Zona Badan Air": 5069,
+  "Zona Pertahanan dan Keamanan": 1199,
+  "Zona Kawasan Peruntukan Industri": 795,
+  "Zona Perkantoran": 653,
+  "Zona Perlindungan Setempat": 350,
+  "Zona Transportasi": 229,
+  "Zona Pariwisata": 156,
+  "Zona Konservasi": 97,
+  "0": 80,
+  "Zona Hutan produksi": 53,
+  "Zona Pembangkit Tenaga Listrik": 36,
+  "Zona Pertanian": 30,
+  "Zona Ekosistem Mangrove": 18,
+  "Zona Perikanan": 17,
+  "Zona Hutan Lindung": 7,
+  "Tanpa zona": 2
+ },
+ "jumlah_kombinasi_kegiatan": 39
+}

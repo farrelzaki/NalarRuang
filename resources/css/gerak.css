@@ -1,0 +1,91 @@
+/*
+ * Gerak (animasi) NalarRuang. Hanya transform dan opacity.
+ * Landing = halaman pemasaran (sekali-sekali dibuka): masuk dan scroll reveal boleh lebih panjang.
+ * Peta = dipakai berulang: panel <= 220 ms, umpan balik tekan 120 ms.
+ * Kurangi gerakan: --nr-gerak jadi 0, sehingga semua animasi tinggal fade.
+ */
+:root {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --nr-gerak: 1;
+}
+
+@keyframes nr-naik { from { opacity: 0; transform: translateY(calc(16px * var(--nr-gerak))); } }
+@keyframes nr-naik-kecil { from { opacity: 0; transform: translateY(calc(8px * var(--nr-gerak))) scale(calc(1 - 0.02 * var(--nr-gerak))); } }
+@keyframes nr-turun-kecil { from { opacity: 0; transform: translateY(calc(-4px * var(--nr-gerak))); } }
+
+/* ---------------------------------------------------------------- Landing */
+/* Hero: kicker, judul, subjudul, tombol masuk berurutan saat halaman dibuka. */
+.ed-hero .ed-kicker,
+.ed-hero__title,
+.ed-hero__sub,
+.ed-hero .ed-btn { animation: nr-naik 900ms var(--ease-out) backwards; }
+.ed-hero__title { animation-delay: 80ms; }
+.ed-hero__sub { animation-delay: 180ms; }
+.ed-hero .ed-btn { animation-delay: 260ms; }
+
+/* Scroll reveal: kelas dipasang oleh useScrollReveal; --urut = urutan dalam satu induk (stagger 70 ms). */
+.ed-reveal { opacity: 0; transform: translateY(calc(24px * var(--nr-gerak))); transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out); transition-delay: calc(var(--urut, 0) * 70ms); }
+.ed-reveal.is-terlihat { opacity: 1; transform: none; }
+/* Kartu persona memakai rotate() inline: geser lewat properti translate agar rotasinya tetap. */
+.ed-persona-card.ed-reveal { transform: none; translate: 0 calc(32px * var(--nr-gerak)); transition-property: opacity, translate; }
+.ed-persona-card.ed-reveal.is-terlihat { translate: 0 0; }
+
+/* Tombol: umpan balik tekan, panah bergeser saat hover. */
+.ed-btn, .ed-try__btn, .ed-hbtn, .ed-link { transition: background-color 200ms ease, transform 140ms var(--ease-out); }
+.ed-btn:active, .ed-try__btn:active, .ed-hbtn:active { transform: scale(0.97); }
+.ed-btn svg, .ed-try__btn svg, .ed-link svg { transition: transform 200ms var(--ease-out); }
+
+/* FAQ: jawaban turun pelan saat dibuka. */
+.ed-faq__a { animation: nr-turun-kecil 260ms var(--ease-out); }
+
+/* Kartu dan foto. */
+.ed-persona-card { transition: translate 300ms var(--ease-out), box-shadow 300ms ease; }
+.ed-feature__frame { overflow: hidden; }
+.ed-feature__img { transition: transform 600ms var(--ease-out), filter 400ms ease; }
+.ed-tile__shade { transition: opacity 300ms ease; }
+.ed-logos > span { transition: color 200ms ease; }
+
+@media (hover: hover) and (pointer: fine) {
+  .ed-btn:hover svg, .ed-try__btn:hover svg { transform: translateX(3px); }
+  .ed-link:hover svg { transform: translate(2px, -2px); }
+  .ed-persona-card.is-terlihat:hover, .ed-persona-card:not(.ed-reveal):hover { translate: 0 -8px; box-shadow: 0 30px 50px -10px rgba(15, 27, 61, 0.28); }
+  .ed-feature:hover .ed-feature__img { transform: scale(1.03); filter: grayscale(0) !important; }
+  .ed-tile:hover .ed-tile__shade { opacity: 0.7; }
+  .ed-logos > span:hover { color: var(--navy-ink); }
+}
+
+/* ---------------------------------------------------------------- Peta */
+/* Panel kiri dan kanan masuk cepat; Top 3 dan langkah rute berurutan. */
+.nr-app__kiri > .nr-top3,
+.nr-app__kiri > .nr-inspector,
+.nr-app__kiri > .nr-route,
+.nr-app__kiri > .nr-float:not(.nr-search) { animation: nr-naik-kecil 220ms var(--ease-out); }
+.nr-rpanel { transform-origin: bottom right; animation: nr-naik-kecil 200ms var(--ease-out); }
+.nr-top3__item { animation: nr-naik-kecil 260ms var(--ease-out) backwards; }
+.nr-top3__item:nth-child(2) { animation-delay: 50ms; }
+.nr-top3__item:nth-child(3) { animation-delay: 100ms; }
+.nr-langkah__baris { animation: nr-naik-kecil 240ms var(--ease-out) backwards; }
+.nr-langkah__baris:nth-child(2) { animation-delay: 40ms; }
+.nr-langkah__baris:nth-child(3) { animation-delay: 80ms; }
+.nr-langkah__baris:nth-child(4) { animation-delay: 120ms; }
+.nr-langkah__baris:nth-child(n + 5) { animation-delay: 160ms; }
+.nr-route__gg, .nr-route__saran { animation: nr-naik-kecil 180ms var(--ease-out); }
+
+/* Umpan balik tekan untuk tombol peta. */
+.nr-capsbtn, .nr-iconbtn, .nr-search__btn, .nr-mode, .nr-top3__item, .nr-brandbtn, .nr-pcard, .nr-popt, .nr-tur__lanjut, .nr-tur__kembali {
+  transition-property: transform, background-color, border-color, color, box-shadow;
+  transition-duration: 120ms, 160ms, 160ms, 160ms, 160ms;
+  transition-timing-function: var(--ease-out), ease, ease, ease, ease;
+}
+.nr-capsbtn:active, .nr-iconbtn:active, .nr-search__btn:active, .nr-brandbtn:active, .nr-tur__lanjut:active, .nr-tur__kembali:active { transform: scale(0.96); }
+.nr-mode:active:not(:disabled), .nr-top3__item:active, .nr-pcard:active, .nr-popt:active { transform: scale(0.985); }
+
+/* Kurangi gerakan: tetap fade, tanpa pergeseran; marquee berhenti. */
+@media (prefers-reduced-motion: reduce) {
+  :root { --nr-gerak: 0; }
+  .ed-persona-card.ed-reveal { translate: 0 0; }
+  .ed-marquee__jalur { animation-play-state: paused; }
+  .ed-feature__img, .ed-btn svg, .ed-try__btn svg, .ed-link svg { transition: none; }
+}

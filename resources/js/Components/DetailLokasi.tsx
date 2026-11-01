@@ -1,6 +1,6 @@
 /** Detail Lokasi / Point Inspector (8.3–8.7, FR-08, FR-09, FR-17). Titik: bintang; wilayah: centang (SRS v1.2). */
-import type { InspectResponse, Persona } from '@/types';
-import { teksServer, useBahasa } from '@/lib/bahasa';
+import type { FaktaFasilitas, InspectResponse, Persona } from '@/types';
+import { teksServer, useBahasa, type Bahasa } from '@/lib/bahasa';
 import { cx, FRASA, PERSONA, PERSONA_IDS, type Simbol } from '@/lib/nalar';
 import { Bintang, Ikon, Keadaan, SimbolPeta } from './Dasar';
 
@@ -84,16 +84,160 @@ export function DetailLokasi({ data, memuat, galat, sesi, onTutup }: Props) {
     );
 }
 
+/** "450 m" / "2,1 km" (EN: "2.1 km"). */
+function jarak(meter: number, bahasa: Bahasa): string {
+    return meter < 1000 ? `${Math.round(meter / 10) * 10} m` : `${(meter / 1000).toLocaleString(bahasa === 'en' ? 'en-US' : 'id-ID', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} km`;
+}
+
+const INTI: [string, string][] = [
+    ['Belum mendukung aktivitasmu', 'Does not support your routine yet'],
+    ['Mungkin kurang optimal', 'May be less than ideal'],
+    ['Cukup mendukung aktivitasmu', 'Supports your routine fairly well'],
+    ['Sangat mendukung aktivitasmu', 'Strongly supports your routine'],
+];
+const UDARA: Record<string, [string, string]> = {
+    // Kelas relatif antarkelurahan Jabodetabek, bukan ambang kesehatan mutlak (semua di atas baku mutu).
+    sehat: ['relatif bersih', 'relatively clean'],
+    kurang_sehat: ['sedang', 'moderate'],
+    tidak_sehat: ['relatif tercemar', 'relatively polluted'],
+    berbahaya: ['berbahaya', 'hazardous'],
+};
+
+/** Kesimpulan titik yang menyebut alasannya (T-033), mis. stasiun terdekat dan jaraknya. */
+function kalimatTitik(p: Persona, s: number, f: FaktaFasilitas, bahasa: Bahasa): string {
+    const en = bahasa === 'en';
+    const label = PERSONA[p].label;
+    const j = jarak(f.meter, bahasa);
+    const n = f.nama?.trim();
+    const baik = s >= 2;
+    const dalam = n ? ` (${n})` : '';
+    let alasan: string;
+    if (p === 'commuter') {
+        alasan = baik
+            ? en ? `${n ? n + ' Station' : 'a station'} is ${j} away` : `terdapat Stasiun ${n || 'kereta'} yang berjarak ${j} dari lokasi`
+            : en ? `the nearest station${dalam} is ${j} away` : `stasiun terdekat${dalam} berjarak ${j} dari lokasi`;
+    } else if (p === 'driver') {
+        alasan = baik
+            ? en ? `the ${n ? n + ' toll gate' : 'nearest toll gate'} is ${j} away` : `terdapat Gerbang Tol ${n || 'terdekat'} yang berjarak ${j} dari lokasi`
+            : en ? `the nearest toll gate${dalam} is ${j} away` : `gerbang tol terdekat${dalam} berjarak ${j} dari lokasi`;
+    } else if (p === 'social_vibe') {
+        const k = f.jumlah_1km ?? 0;
+        alasan = k > 0
+            ? en ? `there are ${k} cafés, restaurants, and activity spots within 1 km, the nearest${dalam} ${j} away` : `terdapat ${k} kafe, restoran, dan tempat aktivitas dalam radius 1 km, yang terdekat${dalam} ${j}`
+            : en ? `the nearest hangout spot${dalam} is ${j} away` : `tempat nongkrong terdekat${dalam} berjarak ${j} dari lokasi`;
+    } else {
+        const u = UDARA[f.kualitas_udara ?? ''] ?? ['belum diketahui', 'unknown'];
+        const pm = f.pm25 != null ? ` (PM2.5 ${String(Math.round(f.pm25))} µg/m³)` : '';
+        alasan = en ? `air quality is ${u[1]}${pm} and the nearest park${dalam} is ${j} away` : `kualitas udara ${u[0]}${pm} dan taman terdekat${dalam} berjarak ${j}`;
+    }
+    const inti = INTI[Math.max(0, Math.min(3, s))][en ? 1 : 0];
+    let k = en ? `For the ${label} lifestyle: ${inti} because ${alasan}.` : `Buat gaya hidup ${label}: ${inti} karena ${alasan}.`;
+    if (p === 'zen' && (f.banjir === 'sedang' || f.banjir === 'tinggi')) {
+        k += en ? ` Note: this spot is in a ${f.banjir === 'tinggi' ? 'high' : 'medium'} flood hazard area.` : ` Perhatikan: lokasi ini berada di area bahaya banjir kelas ${f.banjir}.`;
+    }
+    if (p === 'zen' && f.genangan_2020) {
+        k += en ? ' This spot was flooded on 1 January 2020.' : ' Lokasi ini tergenang saat banjir 1 Januari 2020.';
+    }
+    return s <= 1 ? k + (en ? ' Consider other locations.' : ' Pertimbangkan lokasi lain.') : k;
+}
+
+/** Kesimpulan wilayah dengan jumlah fasilitas utama di dalamnya. */
+function kalimatWilayah(p: Persona, cocok: boolean, n: number, bahasa: Bahasa, dekat: { nama: string; meter: number } | null = null): string {
+    const en = bahasa === 'en';
+    const label = PERSONA[p].label;
+    const benda: Record<Persona, [string, string, string]> = {
+        commuter: ['stasiun', 'station', 'stations'],
+        driver: ['gerbang tol', 'toll gate', 'toll gates'],
+        social_vibe: ['kafe, restoran, mal, atau perpustakaan', 'café, restaurant, mall, or library', 'cafés, restaurants, malls, or libraries'],
+        zen: ['ruang hijau', 'green space', 'green spaces'],
+    };
+    const [id, satu, banyak] = benda[p];
+    // Tidak ada di dalam kawasan: sebutkan yang terdekat di luar batas (cocok bila <= 2,5 km, TBD-09).
+    const luar = n === 0 && dekat && dekat.meter > 0 ? jarakLuar(p, dekat, bahasa) : '';
+    if (en) {
+        const isi = n > 0
+            ? `${n} ${n === 1 ? satu : banyak} in this area`
+            : cocok && dekat
+              ? `a ${satu} within 2.5 km${luar.replace('; the nearest', ', the nearest')}`
+              : `no ${satu} in this area yet${luar}`;
+        return cocok ? `A match for the ${label} lifestyle: ${isi}.` : `Not yet a match for the ${label} lifestyle: ${isi}${p === 'zen' && n > 0 ? ', but the air quality is poor' : ''}.`;
+    }
+    const isi = n > 0
+        ? `ada ${n} ${id} di kawasan ini`
+        : cocok && dekat
+          ? `ada ${id} dalam radius 2,5 km${luar.replace('; terdekat', ', terdekat')}`
+          : `belum ada ${id} dalam radius 2,5 km${luar}`;
+    return cocok ? `Cocok untuk gaya hidup ${label}: ${isi}.` : `Belum cocok untuk gaya hidup ${label}: ${isi}${p === 'zen' && n > 0 ? ', tetapi kualitas udaranya kurang baik' : ''}.`;
+}
+
+/** "; terdekat Gerbang Tol Ciawi Selatan, 1,0 km dari batas kawasan". */
+function jarakLuar(p: Persona, d: { nama: string; meter: number }, bahasa: Bahasa): string {
+    const en = bahasa === 'en';
+    const awalan: Record<Persona, [string, string]> = {
+        commuter: ['Stasiun ', ' Station'],
+        driver: ['Gerbang Tol ', ' toll gate'],
+        social_vibe: ['', ''],
+        zen: ['', ''],
+    };
+    const nama = d.nama ? (en ? `${d.nama}${awalan[p][1]}` : `${awalan[p][0]}${d.nama}`) : '';
+    const j = jarak(d.meter, bahasa);
+    return en ? `; the nearest${nama ? `, ${nama},` : ''} is ${j} from the area boundary` : `; terdekat${nama ? ` ${nama},` : ''} ${j} dari batas kawasan`;
+}
+
+/** Ringkasan fasilitas terdekat untuk panel area (sama gaya dengan ringkasan titik). */
+function RingkasanWilayah({ data }: { data: Extract<InspectResponse, { jenis_geometri: 'wilayah' }> }) {
+    const { t, bahasa } = useBahasa();
+    if (!data.terdekat) return null;
+    const baris: [Simbol, string][] = [];
+    const tulis = (p: Persona, simbol: Simbol, label: [string, string]) => {
+        const d = data.terdekat?.[p];
+        if (!d) return;
+        const n = data.jumlah_fasilitas[p];
+        baris.push([
+            simbol,
+            n > 0
+                ? t(`${n} ${label[0]} di kawasan ini`, `${n} ${label[1]} in this area`)
+                : t(`${label[0][0].toUpperCase() + label[0].slice(1)} terdekat${d.nama ? ` ${d.nama}` : ''}, ${jarak(d.meter, bahasa)} dari batas`,
+                    `Nearest ${label[1]}${d.nama ? ` ${d.nama}` : ''}, ${jarak(d.meter, bahasa)} from the boundary`),
+        ]);
+    };
+    tulis('commuter', 'stasiun', ['stasiun', 'station(s)']);
+    tulis('driver', 'tol', ['gerbang tol', 'toll gate(s)']);
+    tulis('social_vibe', 'hijau', ['tempat aktivitas', 'activity spot(s)']);
+    tulis('zen', 'rth', ['ruang hijau', 'green space(s)']);
+    if (data.udara?.pm25 != null) {
+        const u = UDARA[data.udara.kategori ?? ''] ?? ['belum diketahui', 'unknown'];
+        const pm = String(Math.round(data.udara.pm25));
+        baris.push(['rth', t(`Udara ${u[0]}: PM2.5 rata-rata 2024 ${pm} µg/m³ (satelit)`, `Air ${u[1]}: 2024 average PM2.5 ${pm} µg/m³ (satellite)`)]);
+    }
+    if (data.penduduk) {
+        const n = data.penduduk.kepadatan_per_km2.toLocaleString(bahasa === 'en' ? 'en-US' : 'id-ID');
+        baris.push(['terpilih', t(`Kepadatan ±${n} jiwa/km² (estimasi WorldPop 2025)`, `Density ±${n} people/km² (WorldPop 2025 estimate)`)]);
+    }
+    return (
+        <div className="nr-layer-summary" aria-label={t('Fasilitas di sekitar kawasan', 'Facilities around this area')}>
+            {baris.map(([s, teks]) => (
+                <span key={teks} className="nr-legend">
+                    <SimbolPeta kind={s} />
+                    {teks}
+                </span>
+            ))}
+        </div>
+    );
+}
+
 function IsiDetail({ data, sesi }: { data: InspectResponse; sesi: Persona[] }) {
-    const { t } = useBahasa();
+    const { t, bahasa } = useBahasa();
     const titik = data.jenis_geometri === 'titik';
     const kesimpulan = sesi.map((p) => {
         const label = PERSONA[p].label;
         if (titik) {
             const s = data.stars[p];
-            return s == null ? null : t(`Buat gaya hidup ${label}: ${FRASA[s][0]}`, `For the ${label} lifestyle: ${FRASA[s][1]}`);
+            if (s == null) return null;
+            const f = data.fakta?.[p];
+            return f ? kalimatTitik(p, s, f, bahasa) : t(`Buat gaya hidup ${label}: ${FRASA[s][0]}`, `For the ${label} lifestyle: ${FRASA[s][1]}`);
         }
-        return data.match[p] ? t(`Cocok untuk gaya hidup ${label}.`, `A match for the ${label} lifestyle.`) : t(`Belum cocok untuk gaya hidup ${label}.`, `Not yet a match for the ${label} lifestyle.`);
+        return kalimatWilayah(p, data.match[p], data.jumlah_fasilitas?.[p] ?? 0, bahasa, data.terdekat?.[p] ?? null);
     }).filter((k): k is string => k !== null);
 
     return (
@@ -129,6 +273,12 @@ function IsiDetail({ data, sesi }: { data: InspectResponse; sesi: Persona[] }) {
                         </span>
                     ))}
                 </div>
+            )}
+            {data.jenis_geometri === 'wilayah' && <RingkasanWilayah data={data} />}
+            {titik && data.catatan && (
+                <p className="nr-summary__note" role="note">
+                    {teksServer(data.catatan)}
+                </p>
             )}
             {kesimpulan.length > 0 && <KartuKesimpulan kalimat={kesimpulan} tidakLengkap={data.data_tidak_lengkap} />}
         </>

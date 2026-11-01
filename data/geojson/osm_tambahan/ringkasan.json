@@ -1,0 +1,36 @@
+{
+ "sumber": "OpenStreetMap, ekstrak provinsi download.openstreetmap.fr (ODbL)",
+ "provinsi": [
+  "jakarta",
+  "west_java",
+  "banten"
+ ],
+ "bbox": [
+  106.35,
+  -6.85,
+  107.25,
+  -5.95
+ ],
+ "ditarik": "2026-10-27",
+ "jumlah_elemen_dibaca": 216000,
+ "non_hunian": {
+  "bandara": 541,
+  "jalan_tol": 4685,
+  "makam": 1210,
+  "militer": 153,
+  "perairan": 4919
+ },
+ "ruang_hijau": {
+  "jumlah": 15606,
+  "bernama": 1353,
+  "luas_min_1000m2": 11507
+ },
+ "gazetteer": {
+  "landmark": 30217,
+  "jalan": 85084
+ },
+ "hiburan": {
+  "jumlah": 2331,
+  "bernama": 910
+ }
+}

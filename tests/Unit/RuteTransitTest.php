@@ -51,6 +51,12 @@ class RuteTransitTest extends TestCase
         $this->assertSame(88, $rute['menit']);
         $this->assertSame(['KRL Bogor 65 mnt', 'Pindah 600 m', 'TransJakarta 9 14 mnt'], $rute['rincian']);
         $this->assertSame(['KCI-BOO', 'KCI-CW', 'TJ-X', 'TJ-Y'], array_column($rute['stasiun'], 'id'));
+
+        // Langkah perjalanan untuk daftar ala navigasi (T-042).
+        $this->assertSame(['naik', 'pindah', 'naik'], array_column($rute['langkah'], 'tipe'));
+        $this->assertSame(['moda' => 'KRL Bogor', 'jenis' => 'krl', 'lin' => 'bogor', 'dari' => 'Bogor', 'ke' => 'Cawang', 'henti' => 2],
+            array_intersect_key($rute['langkah'][0], array_flip(['moda', 'jenis', 'lin', 'dari', 'ke', 'henti'])));
+        $this->assertSame(['tj', 'tj', 1], [$rute['langkah'][2]['jenis'], $rute['langkah'][2]['lin'], $rute['langkah'][2]['garis']]);
     }
 
     public function test_tarif_kosong_dijumlah_dari_segmen(): void

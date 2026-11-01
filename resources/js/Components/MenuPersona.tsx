@@ -13,9 +13,10 @@ type DrawerProps = {
     terpilih: Persona[];
     onUbahPersona: (p: Persona) => void;
     onTutup: () => void;
+    onPanduan?: () => void;
 };
 
-export function DrawerMenu({ tab, onTab, terpilih, onUbahPersona, onTutup }: DrawerProps) {
+export function DrawerMenu({ tab, onTab, terpilih, onUbahPersona, onTutup, onPanduan }: DrawerProps) {
     const { t } = useBahasa();
     const tutupRef = useRef<HTMLButtonElement>(null);
     useEffect(() => {
@@ -35,6 +36,11 @@ export function DrawerMenu({ tab, onTab, terpilih, onUbahPersona, onTutup }: Dra
             <div className="nr-drawer__head">
                 <Wordmark />
                 <span style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    {onPanduan && (
+                        <button type="button" className="nr-linkcaps" onClick={onPanduan}>
+                            {t('Panduan', 'Guide')}
+                        </button>
+                    )}
                     <PilihBahasa />
                     <button ref={tutupRef} type="button" className="nr-drawer__close" aria-label={t('Tutup menu', 'Close menu')} onClick={onTutup}>
                         <Ikon name="x" size={15} />
@@ -82,10 +88,11 @@ export function DrawerMenu({ tab, onTab, terpilih, onUbahPersona, onTutup }: Dra
 function IsiLegenda() {
     const { t } = useBahasa();
     const baris: [Dwi, Simbol[], Dwi | null][] = [
-        [['Historis & Risiko', 'History & Risk'], ['banjir'], ['Area rawan banjir historis (merah).', 'Historical flood-prone area (red).']],
+        [['Historis & Risiko', 'History & Risk'], ['banjir-1', 'banjir-2', 'banjir-3', 'genangan'], ['Kerawanan banjir menurut bentuk lahan, makin pekat makin rawan (merah); pernah tergenang Januari 2020 (biru).', 'Flood susceptibility from landform, darker is more prone (red); flooded in January 2020 (blue).']],
         [['Ekosistem Mikro', 'Micro Ecosystem'], ['hijau'], ['Ruang hijau, taman & fasilitas gaya hidup (hijau).', 'Green space, parks & lifestyle amenities (green).']],
         [['Legalitas Lahan', 'Land Legality'], ['legal'], ['Pemetaan zona bidang tanah legal (ungu).', 'Legal land parcel zones (purple).']],
-        [['Mobilitas & Transit', 'Mobility & Transit'], ['mrt', 'krl-bogor', 'krl-rangkas', 'lrt', 'stasiun', 'waktu'], null],
+        [['Mobilitas & Transit', 'Mobility & Transit'], ['mrt', 'krl-bogor', 'krl-rangkas', 'krl-cikarang', 'krl-tangerang', 'krl-priok', 'krl-bandara', 'lrt', 'lrt-jabodebek', 'brt', 'stasiun', 'halte-brt', 'halte', 'tol', 'gg'], null],
+        [['Mesin Waktu', 'Time Machine'], ['waktu', 'waktu-tol'], ['Infrastruktur masa depan, garis putus-putus: MRT (oranye) & tol (merah).', 'Future infrastructure, dashed: MRT (orange) & toll road (red).']],
         [['Inklusivitas', 'Inclusivity'], ['trotoar', 'akses'], ['Trotoar layak (biru putus-putus) & titik akses disabilitas (biru).', 'Proper sidewalks (dashed blue) & disability access points (blue).']],
     ];
     return (
@@ -105,7 +112,7 @@ function IsiLegenda() {
                             <span className="nr-lgrow__text">{t(teks)}</span>
                         ) : (
                             <>
-                                <span className="nr-lgrow__text">{t('MRT (oranye solid) · KRL Merah · KRL Hijau · LRT (ungu solid) · Stasiun (titik putih).', 'MRT (solid orange) · KRL Red · KRL Green · LRT (solid purple) · Station (white dot).')}</span>
+                                <span className="nr-lgrow__text">{t('MRT (oranye solid) · KRL Merah · KRL Hijau · KRL Biru · LRT (ungu solid) · Stasiun (titik putih) · Halte TransJakarta/Biskita (titik navy) · Gerbang tol (kotak oranye).', 'MRT (solid orange) · KRL Red · KRL Green · KRL Blue · LRT (solid purple) · Station (white dot) · TransJakarta/Biskita stop (navy dot) · Toll gate (orange square).')}</span>
                                 <span className="nr-lgrow__text" style={{ marginTop: 4 }}>
                                     {t('Garis putus-putus ungu = ', 'Dashed purple line = ')}
                                     <b>{t('Mesin Waktu', 'Time Machine')}</b> {t('(proyek 2026–2030).', '(2026–2030 projects).')}
@@ -143,11 +150,11 @@ function IsiTentang() {
             <Istilah judul="Point Inspector">{t('Panel evaluasi kawasan (0–3 Bintang) yang muncul saat klik peta.', 'An area evaluation panel (0–3 stars) that appears when you click the map.')}</Istilah>
             <Istilah judul="Commute Simulator">{t('Kalkulator waktu & biaya estimasi kendaraan pribadi vs transportasi umum.', 'Estimated time & cost calculator: private vehicle vs public transport.')}</Istilah>
             <Istilah judul="Persona Grading">{t('3★ Sangat Cocok · 2★ Cukup · 1★ Kurang Cocok.', '3★ Great match · 2★ Fair · 1★ Poor match.')}</Istilah>
-            <Istilah judul={t('Sumber data', 'Data sources')}>{SUMBER.join(' · ') + t('. Peta dasar © OpenStreetMap contributors.', '. Basemap © OpenStreetMap contributors.')}</Istilah>
+            <Istilah judul={t('Sumber data', 'Data sources')}>{SUMBER.map((x) => x.nama).join(' · ') + t('. Peta dasar © OpenStreetMap contributors.', '. Basemap © OpenStreetMap contributors.')}</Istilah>
             <Istilah judul={t('Catatan', 'Note')}>
                 {t(
-                    'Skor dan rekomendasi merupakan estimasi dari data sekunder publik, bukan penilaian resmi. Versi demo: sebagian atribut (mis. kualitas udara, status lahan) masih data contoh. Dibuat oleh Kelompok 4 — Developer Rumah, IPB University.',
-                    'Scores and recommendations are estimates from public secondary data, not official assessments. Demo version: some attributes (e.g. air quality, land status) are still sample data. Built by Group 4 — Developer Rumah, IPB University.',
+                    'Skor dan rekomendasi merupakan estimasi dari data sekunder publik, bukan penilaian resmi. Kualitas udara memakai rata-rata PM2.5 tahun 2024 dari satelit, dan zona lahan RDTR baru tersedia untuk DKI Jakarta. Dibuat oleh Kelompok 4 — Developer Rumah, IPB University.',
+                    'Scores and recommendations are estimates from public secondary data, not official assessments. Air quality uses satellite-based 2024 average PM2.5, and RDTR zoning is only available for Jakarta so far. Built by Group 4 — Developer Rumah, IPB University.',
                 )}
             </Istilah>
         </>

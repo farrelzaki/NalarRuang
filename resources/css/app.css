@@ -13,6 +13,7 @@
 @import "./komponen.css";
 @import "./aplikasi.css";
 @import "./landing.css";
+@import "./gerak.css";
 
 @source "../views";
 @source "../js";

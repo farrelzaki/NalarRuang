@@ -501,8 +501,11 @@ Stack: Laravel + Inertia + React + Tailwind + Leaflet (`docs/RENCANA.md`). Kompo
   --color-rose-800: #9f1239; --color-maroon-700: #860f23; --color-amber-700: #b45309;
   /* data peta */
   --color-map-banjir: #ef4444; --color-map-hijau: #22c55e; --color-map-akses: #0ea5e9;
-  --color-map-mrt: #f97316; --color-map-lrt: #9333ea; --color-map-krl-bogor: #dc2626;
-  --color-map-krl-rangkas: #16a34a; --color-map-krl-cikarang: #2563eb; --color-map-krl-lain: #64748b;
+  /* Warna lin mengikuti Peta Integrasi Transportasi Umum Jakarta (JakLingko), T-030. */
+  --color-map-mrt: #cf0e33; --color-map-lrt: #fe4913; --color-map-lrt-bekasi: #154d22; --color-map-lrt-cibubur: #17258b;
+  --color-map-kalayang: #545152; --color-map-krl-bogor: #fd1516; --color-map-krl-rangkas: #85c733;
+  --color-map-krl-cikarang: #51bad5; --color-map-krl-tangerang: #be4311; --color-map-krl-priok: #f13698;
+  --color-map-krl-bandara: #0b0548; --color-map-krl-lain: #64748b; /* BRT: warna koridor dari GTFS TransJakarta */
   --color-map-stasiun: #fbf9f6; --color-map-waktu: #a855f7; --color-map-legal: #8b5cf6;
 
   --radius-md: 12px; --radius-lg: 16px; --radius-xl: 24px; --radius-2xl: 32px;
