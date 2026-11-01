@@ -111,6 +111,16 @@ function deskripsi(p: Record<string, any>): string {
     }
 }
 
+/** Helper penentu warna titik fasilitas Ekosistem Mikro */
+function warnaEkosistem(f: Feature): string {
+    const p = f.properties ?? {};
+    const kat = String(p.kategori ?? p.jenis ?? p.nama ?? '').toLowerCase();
+    if (kat.includes('kafe') || kat.includes('cafe') || kat.includes('restoran') || kat.includes('restaurant') || kat.includes('kuliner') || kat.includes('makanan') || kat.includes('kopi') || kat.includes('coffee')) return '#d97706'; // Oranye Amber
+    if (kat.includes('taman') || kat.includes('rth') || kat.includes('park')) return '#22c55e'; // Hijau
+    if (kat.includes('mal') || kat.includes('mall') || kat.includes('plaza') || kat.includes('toko') || kat.includes('pasar') || kat.includes('belanja') || kat.includes('swalayan') || kat.includes('komersial') || kat.includes('trade')) return '#0284c7'; // Hijau Emerald (Mall & Belanja)
+    return '#0284c7'; // Default Mall & Belanja
+}
+
 function topengRedup(geometri: Geometry[]): L.Polygon {
     const luar: L.LatLngExpression[] = [[-7.6, 105.4], [-7.6, 108.2], [-5.4, 108.2], [-5.4, 105.4]];
     const cincin = (c: number[][]) => c.map(([lng, lat]) => [lat, lng] as L.LatLngTuple);
@@ -213,10 +223,8 @@ export default function PetaExplorer(props: Props) {
             if (!m) return;
             const z = m.getZoom();
 
-            // Cek apakah layer legalitas / persil sedang aktif (ON)
             const legalitasAktif = panggil.current.aktif?.legalitas ?? true;
 
-            // HANYA panggil onBboxChange jika zoom >= 14 DAN layer sedang ON
             if (z >= 14 && legalitasAktif && !m.hasLayer(L.Popup.prototype)) {
                 const b = m.getBounds();
                 const bboxStr = `${b.getWest().toFixed(6)},${b.getSouth().toFixed(6)},${b.getEast().toFixed(6)},${b.getNorth().toFixed(6)}`;
@@ -261,12 +269,10 @@ export default function PetaExplorer(props: Props) {
         peta.current?.closePopup();
     }, [props.bahasa]);
 
-    // Sinkronisasi Layer: Otomatis Menghapus Layer dari Peta saat Toggle di-OFF kan
     useEffect(() => {
         const m = peta.current;
         if (!m) return;
 
-        // 1. Bersihkan layer yang di-OFF kan dari state props.layer
         for (const k of Object.keys(grupLayer.current) as LayerKey[]) {
             const fc = props.layer[k];
             if (!fc || !fc.features || fc.features.length === 0) {
@@ -276,7 +282,6 @@ export default function PetaExplorer(props: Props) {
             }
         }
 
-        // 2. Tambahkan/Perbarui layer yang di-ON kan
         for (const [k, fc] of Object.entries(props.layer) as [LayerKey, FeatureCollection][]) {
             if (!fc || !fc.features || fc.features.length === 0) continue;
             
@@ -391,7 +396,6 @@ export default function PetaExplorer(props: Props) {
         }
     }, [props.rute, props.moda, props.ruteA, props.ruteB]);
 
-    // Kamera mengabaikan pemindahan ke Jakarta (hanya merespons jika ada pencarian eksplisit / terbangKe)
     useEffect(() => {
         const m = peta.current;
         const t = props.terbangKe;
@@ -508,7 +512,15 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
             L.geoJSON(fc, {
                 pane: 'nrTitik',
                 filter: (f) => f.properties?.jenis === 'poi',
-                pointToLayer: (_f, ll) => L.circleMarker(ll, { pane: 'nrTitik', renderer: kanvas, radius: 5, color: '#fff', weight: 2, fillColor: '#22c55e', fillOpacity: 0.8 }),
+                pointToLayer: (f, ll) => L.circleMarker(ll, {
+                    pane: 'nrTitik',
+                    renderer: kanvas,
+                    radius: 5,
+                    color: '#fff',
+                    weight: 2,
+                    fillColor: warnaEkosistem(f),
+                    fillOpacity: 0.9
+                }),
                 onEachFeature: popup,
             }),
             14,
@@ -632,14 +644,12 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
             onEachFeature: (f, l) => {
                 const p = (f.properties ?? {}) as Record<string, any>;
                 
-                // 1. NIB
                 const nibRaw = p.NIB ?? p.nib ?? p.NIB_1 ?? p.nib_1 ?? p.KODNIB ?? p.kodnib ?? p.NO_BIDANG ?? p.no_bidang ?? p.NOP ?? p.nop;
                 const nibText = (nibRaw && String(nibRaw).trim() !== '' && String(nibRaw) !== '0') ? String(nibRaw) : null;
                 
                 const idBidang = p.id ?? f.id ?? p.OBJECTID ?? p.objectid;
                 const judulText = nibText ? `NIB: ${nibText}` : (idBidang ? `Bidang Tanah #${idBidang}` : tr('Bidang Tanah BPN', 'BPN Land Parcel'));
 
-                // 2. Nama Zona Resmi
                 const namaZonaRaw = p.NAMZON_1 ?? p.namzon_1 ?? p.NAMZON ?? p.namzon ?? p.NAMOBJ ?? p.namobj ?? p.ZONA ?? p.zona;
                 const kodeZonaRaw = p.KODSZN_1 ?? p.kodszn_1 ?? p.KODZON_1 ?? p.kodzon_1 ?? p.KODZON ?? p.kodzon;
                 
@@ -649,11 +659,9 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
                     zonaFormatted = kodeZonaRaw ? `${namaClean} (${kodeZonaRaw})` : namaClean;
                 }
 
-                // 3. Status Hak
                 const statusHak = p.HAK ?? p.hak ?? p.TIPE_HAK ?? p.tipe_hak ?? p.JNS_HAK ?? p.jns_hak ?? p.STATUS_HAK ?? p.status_hak;
                 const hakText = statusHak ? String(statusHak) : tr('Hak Milik / Terdaftar', 'Registered Right');
 
-                // 4. Luas & Lokasi
                 const luasVal = p.LUASHA ?? p.luasha ?? p.LUAS ?? p.luas ?? p.LUAS_M2 ?? p.luas_m2 ?? p['SHAPE.AREA'] ?? p.shape_area;
                 const luasText = luasVal ? `${typeof luasVal === 'number' ? luasVal.toFixed(4) : luasVal} ${typeof luasVal === 'number' && luasVal < 500 ? 'ha' : 'm²'}` : null;
 

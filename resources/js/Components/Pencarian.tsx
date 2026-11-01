@@ -37,7 +37,7 @@ export function SearchBar({ nilai, onUbah, onCari, memuat, commute, onToggleComm
                 disabled={commute}
             />
             <span className="nr-search__tools">
-                {!commute && (
+                {(
                     <button type="button" data-tur="filter" className="nr-search__btn" aria-pressed={filterTerbuka} aria-label={t('Pilih kota dan persona', 'Choose city and persona')} title={t('Pilih kota dan persona', 'Choose city and persona')} onClick={onToggleFilter}>
                         <Ikon name="sliders-horizontal" size={16} />
                     </button>

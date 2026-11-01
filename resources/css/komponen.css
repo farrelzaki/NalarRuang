@@ -1,4 +1,3 @@
-
 /* NalarRuang — kelas komponen. Nilai dari tokens.css; geometri dari Figma section revisi (aplikasi 1536, landing 1440). */
 *, *::before, *::after { box-sizing: border-box; }
 body { margin: 0; font-family: var(--font-sans); color: var(--text-primary); background: var(--surface-page); }
@@ -81,6 +80,26 @@ input { font: inherit; }
 .nr-persona-row__name { font: 500 14px/21px var(--font-sans); color: var(--ink-50); }
 .nr-persona-row--session .nr-persona-row__name { font-weight: 700; color: var(--navy-900); }
 .nr-badge { display: inline-flex; align-items: center; padding: 4px 10px; border-radius: var(--radius-pill); background: var(--cyan-100); color: var(--cyan-600); font: 700 9px/9px var(--font-sans); letter-spacing: 0.45px; text-transform: uppercase; white-space: nowrap; }
+
+/* Styling Badge & Icon Kategori Ekosistem Mikro (Revisi Warna) */
+.nr-badge-mikro {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: var(--radius-pill, 9999px);
+    font: 700 10px/12px var(--font-sans);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #ffffff !important;
+}
+.nr-badge-mikro--kuliner, .nr-legend-symbol--kuliner { background-color: #d97706 !important; border-color: #b45309 !important; color: #ffffff !important; }
+.nr-badge-mikro--taman,   .nr-legend-symbol--taman   { background-color: #22c55e !important; border-color: #15803d !important; color: #ffffff !important; }
+.nr-badge-mikro--pendidikan, .nr-legend-symbol--pendidikan { background-color: #2563eb !important; }
+.nr-badge-mikro--kesehatan,  .nr-legend-symbol--kesehatan  { background-color: #ef4444 !important; }
+.nr-badge-mikro--komersial, .nr-legend-symbol--komersial { background-color: #0284c7 !important; border-color: #0369a1  !important; color: #ffffff !important; }
+.nr-badge-mikro--ibadah,     .nr-legend-symbol--ibadah     { background-color: #a855f7 !important; }
+
 .nr-stars { margin-left: auto; display: inline-flex; gap: 4px; align-items: center; }
 .nr-stars__zero { font: 400 10px/16.25px var(--font-sans); color: var(--ink-50); margin-right: 4px; white-space: nowrap; }
 .nr-match { margin-left: auto; display: inline-flex; align-items: center; gap: 6px; font: 700 10px/16.25px var(--font-sans); color: var(--navy-900); white-space: nowrap; }
@@ -137,45 +156,47 @@ input { font: inherit; }
 @keyframes nr-spin { to { transform: rotate(360deg); } }
 .nr-legend { display: flex; align-items: flex-start; gap: 8px; font: 400 10px/16.25px var(--font-sans); color: var(--ink-70); }
 .nr-legend svg { margin-top: 0.1px; }
+/* Menjaga bentuk lingkaran dan perataan simbol legenda */
+.nr-legend {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font: 400 10px/16.25px var(--font-sans);
+    color: var(--ink-70);
+}
+
+.nr-legend--pilih {
+    background: transparent;
+    border: none;
+    padding: 2px 0;
+    cursor: pointer;
+    text-align: left;
+}
+
 /* Penyesuaian Panel Layer Spasial untuk Tampilan Mobile */
 @media (max-width: 640px) {
-    /* 1. Header & Search Bar di Peta */
     .nr-search {
         width: calc(100vw - 32px) !important;
         height: 44px;
         padding: 0 10px;
     }
-
     .nr-search__input {
         font-size: 12px;
         margin-left: 8px;
     }
-
-    /* 2. Panel Layer Spasial (Mencegah Ketutupan Header / Logo NalarRuang) */
     .nr-rpanel {
         width: calc(100vw - 32px) !important;
         max-width: 100%;
         margin-top: 10px;
-        max-height: calc(100vh - 150px) !important; /* Mencegah panel terpotong di layar pendek */
+        max-height: calc(100vh - 150px) !important;
         overflow-y: auto;
         border-radius: var(--radius-md);
         z-index: 10;
     }
+    .nr-layer { padding: 10px; }
+    .nr-layer__title { font-size: 13px; }
+    .nr-layer__desc { font-size: 9.5px; line-height: 14px; }
 
-    .nr-layer {
-        padding: 10px;
-    }
-
-    .nr-layer__title {
-        font-size: 13px;
-    }
-
-    .nr-layer__desc {
-        font-size: 9.5px;
-        line-height: 14px;
-    }
-
-    /* 3. Modal Dialog Persona (Ukuran iPhone SE 320px - 375px) */
     .nr-dialog {
         width: calc(100vw - 24px) !important;
         max-width: 100% !important;
@@ -184,55 +205,30 @@ input { font: inherit; }
         max-height: 90vh !important;
         overflow-y: auto !important;
     }
+    .nr-dialog__title { font-size: 26px !important; line-height: 30px !important; }
+    .nr-dialog__lead { margin-top: 8px !important; font-size: 12px !important; line-height: 18px !important; }
 
-    .nr-dialog__title {
-        font-size: 26px !important;
-        line-height: 30px !important;
-    }
-
-    .nr-dialog__lead {
-        margin-top: 8px !important;
-        font-size: 12px !important;
-        line-height: 18px !important;
-    }
-
-    /* Ubah Grid Persona menjadi 2 Kolom x 2 Baris (Kotak-Kotak Sejajar) */
     .nr-dialog__cards {
-        grid-template-columns: repeat(2, 1fr) !important; /* 2 kolom sejajar */
+        grid-template-columns: repeat(2, 1fr) !important;
         gap: 10px !important;
     }
-
     .nr-dcard {
         min-height: 140px !important;
-        padding: 10px 12px !important; /* Penyesuaian padding agar muat di 2 kolom */
+        padding: 10px 12px !important;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
     }
-
-    .nr-dcard__top {
-        padding-bottom: 4px !important;
-        margin-bottom: 4px !important;
-    }
-
+    .nr-dcard__top { padding-bottom: 4px !important; margin-bottom: 4px !important; }
     .nr-dcard__name {
-        font-size: 15px !important; /* Ukuran judul disesuaikan agar tidak pecah/terpotong */
+        font-size: 15px !important;
         line-height: 18px !important;
         margin: 2px 0 !important;
         min-height: 36px !important;
     }
+    .nr-dcard__desc { font-size: 10.5px !important; line-height: 14px !important; }
+    .nr-dcard__tag { font-size: 7.5px !important; line-height: 10px !important; }
 
-    .nr-dcard__desc {
-        font-size: 10.5px !important;
-        line-height: 14px !important;
-    }
-
-    .nr-dcard__tag {
-        font-size: 7.5px !important;
-        line-height: 10px !important;
-    }
-
-    /* 4. Tombol Footer & Warning Modal */
     .nr-dialog__foot {
         padding-top: 12px !important;
         display: flex !important;
@@ -242,17 +238,16 @@ input { font: inherit; }
         gap: 8px !important;
         width: 100% !important;
     }
-
     .nr-dialog__go {
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
         gap: 8px !important;
         width: 100% !important;
-        min-height: 44px !important; /* Ukuran area sentuh standar mobile */
+        min-height: 44px !important;
         padding: 10px 20px !important;
-        background: var(--navy-900, #0f1b3d) !important; /* Warna latar belakang tombol */
-        color: #ffffff !important; /* Warna teks putih tegas */
+        background: var(--navy-900, #0f1b3d) !important;
+        color: #ffffff !important;
         font-family: var(--font-sans) !important;
         font-size: 14px !important;
         font-weight: 600 !important;
@@ -260,19 +255,8 @@ input { font: inherit; }
         text-decoration: none !important;
         box-sizing: border-box !important;
     }
-
-    .nr-dialog__go span {
-        color: #ffffff !important;
-        display: inline-block !important;
-    }
-
-    .nr-dialog__go svg {
-        width: 18px !important;
-        height: 18px !important;
-        color: #ffffff !important;
-        stroke: #ffffff !important;
-        flex-shrink: 0 !important;
-    }
+    .nr-dialog__go span { color: #ffffff !important; display: inline-block !important; }
+    .nr-dialog__go svg { width: 18px !important; height: 18px !important; color: #ffffff !important; stroke: #ffffff !important; flex-shrink: 0 !important; }
 }
 
 /* Toggle 36 × 20 */
@@ -347,7 +331,6 @@ input { font: inherit; }
 .nr-dialog__title { margin: 0; font: 400 42px/44px var(--font-fraunces); font-variation-settings: "SOFT" 0, "WONK" 1; color: var(--navy-900); }
 .nr-dialog__lead { margin: 12px 0 0; max-width: 560px; font: 400 15px/22px var(--font-sans); color: var(--ink-70); }
 .nr-dialog__cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
-/* Dialog persona — Perbaikan tinggi & kesejajaran card */
 .nr-dcard { position: relative; min-height: 240px; padding: 20px; border: 1px solid var(--line); border-radius: var(--radius-lg); text-align: left; display: flex; flex-direction: column; transition: transform 160ms ease-out, background-color 160ms ease-out; }
 .nr-dcard:hover { background: var(--white-50); }
 .nr-dcard[aria-checked="true"] { background: var(--white); transform: scale(1.02); box-shadow: var(--shadow-xl); }
@@ -480,5 +463,3 @@ input { font: inherit; }
 .ed-try__text { margin: 0 0 28px; font: 400 15px/24.38px var(--font-sans); color: var(--stone-50-80); }
 .ed-try__btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; border-radius: var(--radius-pill); background: var(--white); color: var(--navy-ink); font: 700 12px/16px var(--font-sans); letter-spacing: 1.2px; text-transform: uppercase; text-decoration: none; }
 .ed-try__btn:hover { background: var(--cream-100); }
-
-/* Kurangi gerakan: lihat gerak.css (--nr-gerak = 0, animasi tinggal fade). */

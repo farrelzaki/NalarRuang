@@ -8,7 +8,7 @@ export const PERSONA: Record<Persona, { label: string; ikon: string; no: string;
     commuter: { label: 'Commuter', ikon: 'tram-front', no: '01', tag: ['Akses transit paling utama', 'Transit access comes first'], desc: ['Mengutamakan akses transit, seperti stasiun dan halte.', 'Prioritises transit access, such as stations and bus stops.'] },
     driver: { label: 'Driver', ikon: 'car', no: '02', tag: ['Dekat Gerbang Tol', 'Toll Gate Nearby'], desc: ['Fokus pencarian jarak radius dengan gerbang tol terdekat.', 'Prioritises radius distance to the nearest toll gates.'] },
     social_vibe: { label: 'Social & Vibe', ikon: 'coffee', no: '03', tag: ['Dekat seru-serunya kota', 'Close to the city buzz'], desc: ['Mengutamakan hiburan, kafe, dan restoran.', 'Prioritises entertainment, cafés, and restaurants.'] },
-    zen: { label: 'Zen', ikon: 'leaf', no: '04', tag: ['Tenang, hijau, lega', 'Quiet, green, spacious'], desc: ['Mengutamakan udara yang lebih bersih dan taman atau ruang terbuka hijau di dekat rumah.', 'Prioritises cleaner air and parks or green open space close to home.'] },
+    zen: { label: 'Zen', ikon: 'leaf', no: '04', tag: ['Tenang, hijau, bebas banjir', 'Quiet, green, flood-free'], desc: ['Mengutamakan akses ruang terbuka hijau, taman, perpustakaan, serta lokasi bebas dari risiko banjir.', 'Prioritises access to green open space, parks, libraries, and flood-free locations.'] },
 };
 
 export const FRASA: Dwi[] = [
@@ -19,7 +19,7 @@ export const FRASA: Dwi[] = [
 ];
 
 export type Simbol =
-    | 'banjir' | 'banjir-1' | 'banjir-2' | 'banjir-3' | 'genangan' | 'hijau' | 'rth' | 'akses' | 'trotoar' | 'mrt' | 'lrt' | 'krl-bogor' | 'krl-rangkas'
+    | 'banjir' | 'banjir-1' | 'banjir-2' | 'banjir-3' | 'genangan' | 'hijau' | 'rth' | 'perpus' | 'kuliner' | 'komersial' | 'akses' | 'trotoar' | 'mrt' | 'lrt' | 'krl-bogor' | 'krl-rangkas'
     | 'krl-cikarang' | 'krl-lain' | 'krl-tangerang' | 'krl-priok' | 'krl-bandara' | 'lrt-jabodebek' | 'brt' | 'stasiun' | 'halte' | 'halte-brt' | 'tol' | 'gg' | 'waktu' | 'waktu-tol' | 'legal' | 'rute' | 'jalan-kaki' | 'terpilih';
 
 export const LAYERS: { key: LayerKey; title: Dwi; desc: Dwi; grid?: boolean; legend: [Simbol, Dwi][] }[] = [
@@ -31,7 +31,11 @@ export const LAYERS: { key: LayerKey; title: Dwi; desc: Dwi; grid?: boolean; leg
           ['genangan', ['Pernah tergenang saat banjir 1 Januari 2020 (biru, BNPB).', 'Flooded on 1 January 2020 (blue, BNPB).']],
       ] },
     { key: 'ekosistem', title: ['Ekosistem Mikro', 'Micro Ecosystem'], desc: ['Kafe, restoran, mal, perpustakaan, dan ruang hijau.', 'Cafés, restaurants, malls, libraries, and green space.'],
-      legend: [['rth', ['Ruang terbuka hijau dan taman.', 'Green open space and parks.']], ['hijau', ['Kafe, restoran, mal, dan perpustakaan.', 'Cafés, restaurants, malls, and libraries.']]] },
+      legend: [
+          ['rth', ['Taman & RTH (Hijau)', 'Parks & Green Open Space (Green)']],
+          ['kuliner', ['Kafe & Restoran (Oranye Amber)', 'Cafés & Restaurants (Amber Orange)']],
+          ['komersial', ['Mall & Belanja (Biru Sky)', 'Malls & Shopping (Sky Blue)']],
+      ] },
     { key: 'inklusivitas', title: ['Inklusivitas', 'Inclusivity'], desc: ['Aksesibilitas pedestrian dan fasilitas umum.', 'Pedestrian accessibility and public facilities.'],
       legend: [['trotoar', ['Trotoar dan akses pedestrian layak.', 'Proper sidewalks and pedestrian access.']], ['akses', ['Titik akses dan halte ramah kursi roda.', 'Wheelchair-friendly access points and stops.']]] },
     { key: 'mobilitas', title: ['Mobilitas & Transit', 'Mobility & Transit'], desc: ['Halte, stasiun KRL/MRT, dan jalur arteri.', 'Bus stops, KRL/MRT stations, and arterial roads.'], grid: true,
@@ -62,10 +66,7 @@ export const WARNA_LIN: Record<string, string> = {
 
 type Prop = Record<string, unknown>;
 const KRL_UTAMA = ['bogor', 'rangkas', 'cikarang', 'tangerang', 'priok', 'bandara'];
-/**
- * Sub-fitur tiap baris legenda: fitur mana yang disembunyikan bila baris itu dimatikan (T-034).
- * Properti fitur dari /api/layers sudah diratakan (jenis, lin, brt, moda, ...).
- */
+
 export const SUBFITUR: Partial<Record<Simbol, (p: Prop) => boolean>> = {
     banjir: (p) => p.jenis === 'banjir_tampil',
     'banjir-1': (p) => p.jenis === 'banjir_tampil' && p.tingkat === 1,
@@ -73,7 +74,8 @@ export const SUBFITUR: Partial<Record<Simbol, (p: Prop) => boolean>> = {
     'banjir-3': (p) => p.jenis === 'banjir_tampil' && p.tingkat === 3,
     genangan: (p) => p.jenis === 'genangan',
     rth: (p) => p.jenis === 'rth',
-    hijau: (p) => p.jenis === 'poi',
+    kuliner: (p) => p.jenis === 'poi' && ['kafe', 'cafe', 'restoran', 'restaurant', 'kuliner', 'makanan', 'fast_food', 'kedai', 'kopi', 'coffee'].some(k => String(p.kategori ?? '').toLowerCase().includes(k)),
+    komersial: (p) => p.jenis === 'poi' && ['mal', 'mall', 'belanja', 'toko', 'pasar', 'supermarket', 'komersial', 'plaza', 'swalayan', 'trade'].some(k => String(p.kategori ?? '').toLowerCase().includes(k) || !['kafe', 'cafe', 'restoran', 'restaurant', 'perpus', 'library', 'taman', 'rth'].some(x => String(p.kategori ?? '').toLowerCase().includes(x))),
     trotoar: (p) => p.jenis === 'trotoar',
     akses: (p) => p.jenis === 'akses',
     mrt: (p) => p.jenis === 'mrt',
@@ -97,7 +99,6 @@ export const SUBFITUR: Partial<Record<Simbol, (p: Prop) => boolean>> = {
     legal: (p) => p.jenis === 'legal',
 };
 
-/** Sumber data menurut keputusan kelompok (docs/RENCANA.md bagian 2a). */
 export const SUMBER: { nama: string; logo?: string }[] = [
     { nama: 'InaRISK (BNPB)', logo: '/images/logo/bnpb.png' },
     { nama: 'Batas desa BIG', logo: '/images/logo/big.png' },
@@ -121,7 +122,6 @@ export function rupiah(n: number): string {
     return 'Rp ' + n.toLocaleString('id-ID');
 }
 
-/** Persona sesi: hanya sessionStorage (CLAUDE.md aturan 2, FR-14). */
 const KUNCI_PERSONA = 'nalarruang.persona';
 
 export function bacaPersonaSesi(): Persona[] | null {
