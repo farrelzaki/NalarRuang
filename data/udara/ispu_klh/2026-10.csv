@@ -2009,3 +2009,6 @@ waktu,id_stasiun,nama,kota,lat,lon,pm25,pm10,o3,no2,so2,co,hc
 2026-10-31 23:00:00,KABUPATEN_TANGERANGCG,Kabupaten Tangerang Curug,Tangerang,-6.24779,106.563004,0,,5,1,21,6,2
 2026-10-31 23:00:00,KBN_MARUNDA,KBN Marunda Jakarta Utara,Jakarta Utara,-6.10898,106.944,48,28,19,1,38,17,0
 2026-10-31 23:00:00,TANGERANG,Tangerang Pasir Jaya,Tangerang,-6.19749,106.57,51,39,60,65,,7,
+2026-10-05 11:00:00,TANGERANG_SELATAN,Tangerang Selatan Serpong,Tangerang Selatan,-6.298188,106.667107,107,59,,32,0,16,
+2026-10-05 12:00:00,TANGERANG_SELATAN,Tangerang Selatan Serpong,Tangerang Selatan,-6.298188,106.667107,106,58,,32,0,16,
+2026-10-05 13:00:00,TANGERANG_SELATAN,Tangerang Selatan Serpong,Tangerang Selatan,-6.298188,106.667107,104,57,,32,0,16,
