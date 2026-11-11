@@ -79,7 +79,8 @@ resources/
   js/app.tsx              Entri Inertia (resolve halaman dari Pages/).
   js/Pages/               Halaman Inertia: Landing (/), Peta (/peta).
   js/Components/          Komponen React: panel layer, search bar, Point Inspector.
-  js/Map/                 Semua kode Leaflet. Satu-satunya tempat yang boleh menyentuh `L`.
+  js/Map/                 Semua kode peta (Leaflet dan Mapbox). Satu-satunya tempat yang boleh menyentuh `L` atau `mapboxgl`.
+                          PetaPilihan memilih PetaMapbox bila VITE_MAPBOX_TOKEN ada, selain itu PetaExplorer (Leaflet).
   js/types/               Tipe TypeScript yang mencerminkan kontrak API.
 routes/
   web.php                 Rute halaman Inertia.
@@ -123,6 +124,9 @@ Jabodetabek (batas desa BIG, OSM, InaRISK, Commute Data API, GTFS TransJakarta),
 legalitas, tahun Mesin Waktu) ditimpa data nyata oleh `DataNyataSeeder` (dipanggil otomatis):
 PM2.5 satelit, zona RDTR DKI 2022, genangan BNPB 2020, proyek dari berita resmi. Sumber di README
 tiap folder `data/`.
+**Peta Mapbox (sejak 12 Nov 2026).** Isi `VITE_MAPBOX_TOKEN` (token publik `pk.…`) di `.env`, lalu jalankan ulang
+`npm run dev`/`npm run build`; di Heroku isi sebagai Config Var. Mapbox GL JS dimuat dari CDN Mapbox, bukan npm.
+Tanpa token, atau dengan `/peta?mesin=leaflet`, peta memakai Leaflet. Mode miring/3D dijadwalkan paling akhir.
 Simulator rute memakai server publik Valhalla (mobil, cadangan OSRM) dan OSRM (jalan kaki); butuh internet. Pintasan demo:
 `/peta?persona=commuter,zen` mengisi persona sesi tanpa dialog.
 
@@ -160,7 +164,8 @@ mayor di tengah semester.
 | PostgreSQL / PostGIS | 17.6 / 3.6.2 (lokal) |
 | react, react-dom | 19.3 |
 | @inertiajs/react | 3.8 |
-| leaflet | 1.9.4 |
+| leaflet | 1.9.4 (cadangan; dihapus setelah Mapbox stabil) |
+| Mapbox GL JS | 3.28.1 (CDN, `resources/js/Map/mapbox.ts`) |
 | tailwindcss, @tailwindcss/vite | 4.3 |
 | vite | 8.3 |
 | typescript | 7.0 |

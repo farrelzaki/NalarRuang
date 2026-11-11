@@ -44,7 +44,11 @@ tim di atas bunyi SRS. Blade + Alpine dan SPA terpisah dipertimbangkan dan
 tidak dipilih.
 
 **Sengaja tidak dipakai:** MongoDB, pipeline NLP/scraping, cron job Python
-(tidak punya work package di WBS), dan Mapbox (SRS menetapkan Leaflet).
+(tidak punya work package di WBS).
+
+**Perubahan 12 Nov 2026 (disetujui Farrel):** peta dipindah ke Mapbox GL JS (2D dulu, mode miring/3D paling akhir).
+Leaflet tetap sebagai cadangan otomatis sampai Mapbox stabil. SRS B01/SW02 masih menyebut Leaflet dan perlu
+diperbarui tim sebelum Review 3. Rencana: dokumen "Rencana Migrasi Peta ke Mapbox NalarRuang" (Claude Docs).
 
 ## 2a. Sumber data per layer
 

@@ -28,6 +28,24 @@ Gunakan file ini untuk mencatat pekerjaan proyek. Satu task harus memiliki tujua
 
 ## Task Aktif
 
+### [~] Migrasi peta ke Mapbox GL JS (2D)
+
+- Status: [~] Implementasi selesai di `fitur/peta-mapbox`, menunggu token dan uji tim
+- Mode: standard (diminta dan disetujui langsung oleh Farrel, 12 Nov 2026)
+- Prioritas: Tinggi
+- Tujuan: peta memakai Mapbox dengan fitur sama seperti Leaflet; mode miring/3D dikerjakan paling akhir.
+- Non-goals: mode 3D, menghapus Leaflet, mengubah backend atau kontrak API.
+
+Kriteria selesai:
+
+- [x] PetaMapbox dengan props sama; cadangan otomatis ke Leaflet.
+- [x] Uji asap dengan tiruan mapboxgl lulus.
+- [ ] Token Mapbox diisi lokal dan di Heroku.
+- [ ] Daftar periksa paritas lulus dengan Mapbox asli (layer, legenda, popup, Top 3, Point Inspector, rute, Mesin Waktu, batas peta, HP).
+- [ ] `npm run typecheck` dan `npm run build` bersih.
+- [ ] SRS B01/SW02 diperbarui.
+
+
 ### [~] Penyelarasan dokumen dan artifact ke desain final + masukan Izdihar (Tahap A–C)
 
 - Status: [~] Tahap A, B, C selesai, menunggu tinjauan pengguna
