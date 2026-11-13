@@ -15,46 +15,202 @@
 @keyframes nr-naik-kecil { from { opacity: 0; transform: translateY(calc(8px * var(--nr-gerak))) scale(calc(1 - 0.02 * var(--nr-gerak))); } }
 @keyframes nr-turun-kecil { from { opacity: 0; transform: translateY(calc(-4px * var(--nr-gerak))); } }
 
-/* ---------------------------------------------------------------- Landing */
-/* Hero: kicker, judul, subjudul, tombol masuk berurutan saat halaman dibuka. */
-.ed-hero .ed-kicker,
-.ed-hero__title,
-.ed-hero__sub,
-.ed-hero .ed-btn { animation: nr-naik 900ms var(--ease-out) backwards; }
-.ed-hero__title { animation-delay: 80ms; }
-.ed-hero__sub { animation-delay: 180ms; }
-.ed-hero .ed-btn { animation-delay: 260ms; }
+/* ---------------------------------------------------------------- Landing
+ * Satu koreografi per seksi, dipicu sekali saat seksi masuk layar (data-gerak + is-terlihat, lib/gerak.ts).
+ * Semua status "sebelum muncul" dikunci di bawah .ed-gerak-siap: tanpa JS, halaman tampil utuh.
+ * FAQ ke footer sengaja diam supaya terasa sebagai penutup.
+ */
+@keyframes ed-naik-masker { from { transform: translateY(105%); } }
+@keyframes ed-pudar { from { opacity: 0; } }
 
-/* Scroll reveal: kelas dipasang oleh useScrollReveal; --urut = urutan dalam satu induk (stagger 70 ms). */
+/* Hero: kamera mendorong pelan dari dekat, lalu melayang; judul naik dari balik masker baris. */
+@keyframes ed-dorong { from { transform: scale(1.14); filter: brightness(0.4); } }
+@keyframes ed-melayang { from { transform: scale(1) translate(0, 0); } to { transform: scale(1.07) translate(-6px, 3px); } }
+@keyframes ed-jejak-jalan { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+@keyframes ed-butir { 0%, 100% { transform: translate(0, 0); } 25% { transform: translate(-3%, 2%); } 50% { transform: translate(2%, -3%); } 75% { transform: translate(-2%, -1%); } }
+.ed-hero__latar svg { animation: ed-dorong 2600ms var(--ease-out) both; }
+.ed-hero__kamera { transform-origin: 226px 250px; animation: ed-melayang 36s ease-in-out 2600ms infinite alternate; }
+.ed-hero__lampu { animation: ed-pudar 1600ms ease 1200ms backwards; }
+.ed-jejak path { stroke-dasharray: 16 34; animation: ed-jejak-jalan var(--durasi) linear var(--tunda) infinite backwards; }
+.ed-hero__butir { animation: ed-butir 900ms steps(4) infinite; }
+.ed-hero .ed-kicker { animation: nr-naik 900ms var(--ease-out) 300ms backwards; }
+.ed-hero__title .ed-baris > span { animation: ed-naik-masker 1100ms var(--ease-out) 420ms backwards; }
+.ed-hero__title .ed-baris + .ed-baris > span { animation-delay: 540ms; }
+.ed-hero__sub { animation: nr-naik 900ms var(--ease-out) 760ms backwards; }
+.ed-hero .ed-btn { animation: nr-naik 900ms var(--ease-out) 860ms backwards; }
+/* Saat digulir, isi hero sedikit tertinggal lalu memudar (hanya peramban yang mendukung scroll timeline). */
+@supports (animation-timeline: scroll()) {
+  @keyframes ed-hero-lepas { to { transform: translateY(-90px); opacity: 0; } }
+  @keyframes ed-hero-turun { to { transform: translateY(140px); } }
+  .ed-hero__isi { animation: ed-hero-lepas linear both; animation-timeline: scroll(root); animation-range: 0 640px; }
+  .ed-hero > .ed-hero__latar { animation: ed-hero-turun linear both; animation-timeline: scroll(root); animation-range: 0 773px; }
+}
+
+/* Reveal umum (judul, paragraf, kartu fitur, langkah). --urut = urutan dalam satu induk. */
 .ed-reveal { opacity: 0; transform: translateY(calc(24px * var(--nr-gerak))); transition: opacity 700ms var(--ease-out), transform 700ms var(--ease-out); transition-delay: calc(var(--urut, 0) * 70ms); }
 .ed-reveal.is-terlihat { opacity: 1; transform: none; }
-/* Kartu persona memakai rotate() inline: geser lewat properti translate agar rotasinya tetap. */
-.ed-persona-card.ed-reveal { transform: none; translate: 0 calc(32px * var(--nr-gerak)); transition-property: opacity, translate; }
-.ed-persona-card.ed-reveal.is-terlihat { translate: 0 0; }
+
+/* Tiga kolom visi: garis putus-putus tergambar, lalu judul naik dari balik masker. */
+.ed-cols[data-gerak] { position: relative; }
+.ed-cols[data-gerak]::before, .ed-cols[data-gerak]::after { content: ""; position: absolute; left: 0; right: 0; height: 1px; background: repeating-linear-gradient(90deg, var(--line) 0 4px, transparent 4px 8px); transition: transform 1300ms var(--ease-in-out); }
+.ed-cols[data-gerak]::before { top: -1px; transform-origin: left; }
+.ed-cols[data-gerak]::after { bottom: -1px; transform-origin: right; }
+.ed-col__title { overflow: hidden; padding: 0 6px 4px; }
+.ed-col__title > span { display: inline-block; transition: transform 1000ms var(--ease-out); transition-delay: calc(450ms + var(--urut) * 140ms); }
+.ed-col .ed-body { transition: opacity 900ms ease, transform 900ms var(--ease-out); transition-delay: calc(700ms + var(--urut) * 140ms); }
+.ed-gerak-siap .ed-cols[data-gerak] { border-color: transparent; }
+.ed-gerak-siap .ed-cols[data-gerak]:not(.is-terlihat)::before, .ed-gerak-siap .ed-cols[data-gerak]:not(.is-terlihat)::after { transform: scaleX(0); }
+.ed-gerak-siap .ed-cols[data-gerak]:not(.is-terlihat) .ed-col__title > span { transform: translateY(110%); }
+.ed-gerak-siap .ed-cols[data-gerak]:not(.is-terlihat) .ed-body { opacity: 0; transform: translateY(calc(12px * var(--nr-gerak))); }
+@media (min-width: 768px) {
+  .ed-cols[data-gerak] > * + * { position: relative; }
+  .ed-cols[data-gerak] > * + *::before { content: ""; position: absolute; left: -0.8px; top: 0; bottom: 0; width: 0.8px; background: repeating-linear-gradient(180deg, var(--line) 0 4px, transparent 4px 8px); transform-origin: top; transition: transform 1100ms var(--ease-in-out) 500ms; }
+  .ed-gerak-siap .ed-cols[data-gerak] > * + * { border-left-color: transparent; }
+  .ed-gerak-siap .ed-cols[data-gerak]:not(.is-terlihat) > * + *::before { transform: scaleY(0); }
+}
+
+/* Our Vision: cetakan foto jatuh ke meja dan "berkembang" dari putih ke hitam-putih, didahului kilat. */
+@keyframes ed-letak {
+  0% { opacity: 0; transform: translateY(calc(-48px * var(--nr-gerak))) rotate(calc(-8deg * var(--nr-gerak))) scale(1.05); }
+  55% { opacity: 1; transform: translateY(calc(5px * var(--nr-gerak))) rotate(calc(0.8deg * var(--nr-gerak))) scale(1); }
+  100% { transform: rotate(calc(-1.2deg * var(--nr-gerak))); }
+}
+@keyframes ed-kembang {
+  0% { filter: grayscale(1) brightness(2.6) contrast(0.3) blur(5px); }
+  35% { filter: grayscale(1) brightness(1.7) contrast(0.55) blur(2px); }
+  100% { filter: grayscale(1) brightness(1) contrast(1) blur(0); }
+}
+@keyframes ed-kilat { 0% { opacity: 0.95; } 100% { opacity: 0; } }
+.ed-vision__frame { transform: rotate(calc(-1.2deg * var(--nr-gerak))); transition: transform 500ms var(--ease-out), box-shadow 500ms ease; }
+.ed-vision__meja.is-terlihat .ed-vision__frame { animation: ed-letak 1400ms var(--ease-out) backwards; }
+.ed-vision__meja.is-terlihat .ed-vision__photo { animation: ed-kembang 3200ms ease-out 450ms backwards; }
+.ed-vision__meja.is-terlihat .ed-vision__kilat { animation: ed-kilat 800ms ease-out 380ms backwards; }
+.ed-gerak-siap .ed-vision__meja:not(.is-terlihat) .ed-vision__frame { opacity: 0; }
+
+/* Misi: garis maroon membuka dari tengah, angka bergulir, teks menyusul. */
+.ed-mission__cols[data-gerak] { position: relative; }
+.ed-mission__cols[data-gerak]::before, .ed-mission__cols[data-gerak]::after { content: ""; position: absolute; left: 0; right: 0; height: 1px; background: repeating-linear-gradient(90deg, var(--maroon-700) 0 4px, transparent 4px 8px); transition: transform 1200ms var(--ease-in-out); }
+.ed-mission__cols[data-gerak]::before { top: -1px; }
+.ed-mission__cols[data-gerak]::after { bottom: -1px; }
+.ed-odo__gulung { transform: translateY(calc(var(--angka) * -40px)); transition: transform 1600ms cubic-bezier(0.16, 1, 0.3, 1); transition-delay: calc(350ms + var(--urut) * 180ms); }
+.ed-mission__text { transition: opacity 900ms ease, transform 900ms var(--ease-out); transition-delay: calc(800ms + var(--urut) * 180ms); }
+.ed-gerak-siap .ed-mission__cols[data-gerak] { border-color: transparent; }
+.ed-gerak-siap .ed-mission__cols[data-gerak]:not(.is-terlihat)::before, .ed-gerak-siap .ed-mission__cols[data-gerak]:not(.is-terlihat)::after { transform: scaleX(0); }
+.ed-gerak-siap .ed-mission__cols[data-gerak]:not(.is-terlihat) .ed-odo__gulung { transform: translateY(0); }
+.ed-gerak-siap .ed-mission__cols[data-gerak]:not(.is-terlihat) .ed-mission__text { opacity: 0; transform: translateY(calc(12px * var(--nr-gerak))); }
+@media (max-width: 767px) { .ed-gerak-siap .ed-mission__cols[data-gerak] .ed-mission__col + .ed-mission__col { border-top-color: var(--maroon-700); } }
+
+/* Persona: kipas simetris terhadap tengah (--k = jarak bertanda dari tengah), dibuka dari tumpukan. */
+.ed-persona-row .ed-persona-card {
+  --sudut: calc(var(--k) * 4deg);
+  --turun: calc(var(--k-abs) * var(--k-abs) * 10px);
+  transform: translateY(var(--turun)) rotate(var(--sudut));
+  transform-origin: 50% 110%;
+  transition: transform 450ms var(--ease-out), box-shadow 450ms ease, filter 400ms ease;
+}
+@keyframes ed-kipas {
+  from { opacity: 0; transform: translateX(calc(var(--k) * -304px * var(--nr-gerak))) translateY(calc(40px * var(--nr-gerak))) rotate(0deg) scale(0.92); }
+  30% { opacity: 1; }
+}
+.ed-persona-row.is-terlihat .ed-persona-card { animation: ed-kipas 1300ms cubic-bezier(0.2, 0.9, 0.15, 1) backwards; animation-delay: calc(150ms + var(--k-abs) * 90ms); }
+.ed-gerak-siap .ed-persona-row:not(.is-terlihat) .ed-persona-card { opacity: 0; }
+.ed-persona-card__foto { transition: transform 900ms var(--ease-out); }
+.ed-persona-card__desc { transition: transform 450ms var(--ease-out); }
+
+/* Fitur: video demo memudar masuk setelah benar-benar mulai diputar. */
+.ed-feature__video { transition: opacity 400ms ease; }
+.ed-feature.is-main .ed-feature__video { opacity: 1; }
+
+/* Layer: tiga kolom naik bergantian, lalu bergulir tanpa henti (tengah berlawanan arah). */
+@keyframes ed-gulir-naik { to { transform: translateY(-50%); } }
+@keyframes ed-gulir-turun { from { transform: translateY(-50%); } to { transform: translateY(0); } }
+.ed-tiles__jalur { animation: ed-gulir-naik var(--durasi) linear infinite; }
+.ed-tiles__col--turun .ed-tiles__jalur { animation-name: ed-gulir-turun; }
+.ed-tiles__col { transition: opacity 900ms ease, transform 1100ms var(--ease-out); transition-delay: calc(var(--urut) * 140ms); }
+.ed-gerak-siap .ed-tiles[data-gerak]:not(.is-terlihat) .ed-tiles__col { opacity: 0; transform: translateY(calc(80px * var(--nr-gerak))); }
+.ed-tiles:hover .ed-tiles__jalur { animation-play-state: paused; }
+.ed-tile__foto { transition: transform 700ms var(--ease-out), filter 500ms ease; }
+.ed-tile__shade { transition: opacity 300ms ease; }
+
+/* Sumber data: baris berjalan berlawanan; disorot = baris berhenti, logo membesar sedikit. */
+.ed-logos__jalur { animation: ed-geser var(--durasi) linear infinite; }
+.ed-logos__baris--balik .ed-logos__jalur { animation-direction: reverse; }
+.ed-logos__baris:hover .ed-logos__jalur { animation-play-state: paused; }
+.ed-logos__item { transition: transform 260ms var(--ease-out), color 200ms ease; }
+.ed-logos__baris { transition: opacity 900ms ease, transform 1000ms var(--ease-out); transition-delay: calc(var(--urut) * 120ms); }
+.ed-gerak-siap .ed-logos[data-gerak]:not(.is-terlihat) .ed-logos__baris { opacity: 0; transform: translateX(calc(48px * var(--nr-gerak))); }
+.ed-gerak-siap .ed-logos[data-gerak]:not(.is-terlihat) .ed-logos__baris--balik { transform: translateX(calc(-48px * var(--nr-gerak))); }
+
+/* Cara kerja: sorotan memindahkan tanda "langkah aktif"; fotonya disapu naik dari bawah. */
+.ed-step { transition: background-color 450ms ease; }
+.ed-step__title, .ed-step__num { transition: color 450ms ease; }
+.ed-step__text { transition: color 450ms ease; }
+.ed-step > .ed-step__foto { clip-path: inset(100% 0 0 0); transition: clip-path 700ms var(--ease-in-out); }
+.ed-step__num { transition: color 450ms ease, transform 700ms var(--ease-out); }
+.ed-step:is(:hover, :focus) { background-color: var(--navy-900); }
+.ed-step:is(:hover, :focus) > .ed-step__foto { clip-path: inset(0 0 0 0); }
+.ed-step:is(:hover, :focus) .ed-step__title, .ed-step:is(:hover, :focus) .ed-step__num { color: var(--stone-50); }
+.ed-step:is(:hover, :focus) .ed-step__text { color: var(--stone-50-80); }
+.ed-step:is(:hover, :focus) .ed-step__num { transform: translateY(calc(-8px * var(--nr-gerak))); }
+.ed-steps:is(:hover, :has(.ed-step:focus)) .ed-step--current:not(:hover, :focus) { background-color: var(--stone-50); }
+.ed-steps:is(:hover, :has(.ed-step:focus)) .ed-step--current:not(:hover, :focus) .ed-step__title { color: var(--navy-ink); }
+.ed-steps:is(:hover, :has(.ed-step:focus)) .ed-step--current:not(:hover, :focus) .ed-step__num { color: var(--line); }
+.ed-steps:is(:hover, :has(.ed-step:focus)) .ed-step--current:not(:hover, :focus) .ed-step__text { color: var(--ed-ink-60); }
+
+/* Coba Sekarang: layar hitam, letterbox menutup, gambar mendekat, judul merapat. */
+@keyframes ed-mendekat { from { transform: scale(1.22); filter: blur(14px) brightness(0.5); } to { transform: scale(1.04); filter: blur(4px); } }
+@keyframes ed-hanyut { from { transform: scale(1.04) translate(0, 0); } to { transform: scale(1.1) translate(-1.5%, -1%); } }
+@keyframes ed-judul-sinema { from { opacity: 0; letter-spacing: 0.32em; filter: blur(8px); } }
+.ed-try__shot { transform: scale(1.04); }
+.ed-try__card.is-terlihat .ed-try__shot { animation: ed-mendekat 3000ms var(--ease-out) backwards, ed-hanyut 24s ease-in-out 3000ms infinite alternate; }
+@keyframes ed-terang { from { opacity: 1; } to { opacity: 0; } }
+.ed-try__card.is-terlihat .ed-try__gelap { animation: ed-terang 2200ms ease-in 250ms backwards; }
+.ed-try__card.is-terlihat .ed-try__bilah { animation: ed-bilah 2600ms var(--ease-in-out) backwards; }
+@keyframes ed-bilah { 0%, 45% { transform: scaleY(1); } 100% { transform: scaleY(0); } }
+.ed-try__card.is-terlihat .ed-try__title { animation: ed-judul-sinema 1800ms var(--ease-out) 900ms backwards; }
+.ed-try__card.is-terlihat .ed-try__text { animation: nr-naik 1000ms var(--ease-out) 1500ms backwards; }
+.ed-try__card.is-terlihat .ed-try__btn { animation: nr-naik 1000ms var(--ease-out) 1700ms backwards; }
+.ed-gerak-siap .ed-try__card:not(.is-terlihat) .ed-try__gelap { opacity: 1; }
+.ed-gerak-siap .ed-try__card:not(.is-terlihat) .ed-try__bilah { transform: scaleY(1); }
+.ed-gerak-siap .ed-try__card:not(.is-terlihat) .ed-try__inner { opacity: 0; }
+
+/* FAQ: garis pemisah tergambar berurutan; akordeon membuka dan menutup dengan halus. */
+.ed-faq[data-gerak] .ed-faq__item::after { content: ""; position: absolute; left: 0; right: 0; bottom: -0.8px; height: 0.8px; background: var(--line); transform-origin: left; transition: transform 900ms var(--ease-in-out); transition-delay: calc(var(--urut) * 90ms); }
+.ed-faq__q { transition: opacity 700ms ease, transform 700ms var(--ease-out); transition-delay: calc(150ms + var(--urut) * 90ms); }
+.ed-gerak-siap .ed-faq[data-gerak] .ed-faq__item { border-bottom-color: transparent; }
+.ed-gerak-siap .ed-faq[data-gerak]:not(.is-terlihat) .ed-faq__item::after { transform: scaleX(0); }
+.ed-gerak-siap .ed-faq[data-gerak]:not(.is-terlihat) .ed-faq__q { opacity: 0; transform: translateX(calc(-16px * var(--nr-gerak))); }
+.ed-faq__lipat { transition: grid-template-rows 480ms var(--ease-in-out); }
+.ed-faq__lipat > .ed-faq__a { opacity: 0; transition: opacity 300ms ease, padding-bottom 480ms var(--ease-in-out); }
+.ed-faq__item.is-buka .ed-faq__lipat > .ed-faq__a { opacity: 1; transition-delay: 120ms, 0ms; }
+.ed-faq__tanda::after { transition: transform 420ms var(--ease-in-out); }
 
 /* Tombol: umpan balik tekan, panah bergeser saat hover. */
 .ed-btn, .ed-try__btn, .ed-hbtn, .ed-link { transition: background-color 200ms ease, transform 140ms var(--ease-out); }
 .ed-btn:active, .ed-try__btn:active, .ed-hbtn:active { transform: scale(0.97); }
 .ed-btn svg, .ed-try__btn svg, .ed-link svg { transition: transform 200ms var(--ease-out); }
 
-/* FAQ: jawaban turun pelan saat dibuka. */
-.ed-faq__a { animation: nr-turun-kecil 260ms var(--ease-out); }
-
-/* Kartu dan foto. */
-.ed-persona-card { transition: translate 300ms var(--ease-out), box-shadow 300ms ease; }
+/* Kartu fitur. */
 .ed-feature__frame { overflow: hidden; }
 .ed-feature__img { transition: transform 600ms var(--ease-out), filter 400ms ease; }
-.ed-tile__shade { transition: opacity 300ms ease; }
-.ed-logos > span { transition: color 200ms ease; }
 
 @media (hover: hover) and (pointer: fine) {
   .ed-btn:hover svg, .ed-try__btn:hover svg { transform: translateX(3px); }
   .ed-link:hover svg { transform: translate(2px, -2px); }
-  .ed-persona-card.is-terlihat:hover, .ed-persona-card:not(.ed-reveal):hover { translate: 0 -8px; box-shadow: 0 30px 50px -10px rgba(15, 27, 61, 0.28); }
   .ed-feature:hover .ed-feature__img { transform: scale(1.03); filter: grayscale(0) !important; }
-  .ed-tile:hover .ed-tile__shade { opacity: 0.7; }
-  .ed-logos > span:hover { color: var(--navy-ink); }
+  .ed-tile:hover .ed-tile__foto { transform: scale(1.06); filter: grayscale(0); }
+  .ed-tile:hover .ed-tile__shade { opacity: 0.6; }
+  .ed-logos__item:hover { transform: scale(1.1); color: var(--navy-ink); }
+  .ed-vision__frame:hover { transform: rotate(0deg) translateY(-4px); box-shadow: 0 30px 60px -20px rgba(15, 27, 61, 0.35); }
 }
+/* Persona: kartu disorot tegak, naik, dan maju; kartu lain sedikit meredup. */
+@media (hover: hover) and (pointer: fine) {
+  .ed-persona-row .ed-persona-card:hover { transform: translateY(-18px) rotate(0deg) scale(1.04); box-shadow: 0 36px 60px -16px rgba(15, 27, 61, 0.4); z-index: 2; }
+  .ed-persona-card:hover .ed-persona-card__foto { transform: scale(1.08); }
+  .ed-persona-card:hover .ed-persona-card__desc { transform: translateY(-4px); }
+  .ed-persona-row:hover .ed-persona-card:not(:hover) { filter: saturate(0.55) brightness(0.92); }
+}
+.ed-persona-row .ed-persona-card:focus-visible { transform: translateY(-18px) rotate(0deg) scale(1.04); z-index: 2; }
 
 /* ---------------------------------------------------------------- Peta */
 /* Panel kiri dan kanan masuk cepat; Top 3 dan langkah rute berurutan. */
@@ -85,7 +241,10 @@
 /* Kurangi gerakan: tetap fade, tanpa pergeseran; marquee berhenti. */
 @media (prefers-reduced-motion: reduce) {
   :root { --nr-gerak: 0; }
-  .ed-persona-card.ed-reveal { translate: 0 0; }
-  .ed-marquee__jalur { animation-play-state: paused; }
-  .ed-feature__img, .ed-btn svg, .ed-try__btn svg, .ed-link svg { transition: none; }
+  .ed-marquee__jalur, .ed-tiles__jalur, .ed-logos__jalur, .ed-hero__kamera, .ed-hero__butir { animation-play-state: paused; }
+  .ed-hero__lampu { display: none; }
+  .ed-hero__isi, .ed-hero > .ed-hero__latar, .ed-hero__latar svg, .ed-try__shot { animation: none !important; }
+  .ed-feature__img, .ed-btn svg, .ed-try__btn svg, .ed-link svg, .ed-odo__gulung { transition: none; }
+  .ed-persona-row .ed-persona-card { transform: none; }
+  .ed-vision__frame { transform: none; }
 }

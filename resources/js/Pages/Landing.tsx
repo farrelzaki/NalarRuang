@@ -11,9 +11,9 @@ import {
     KartuFotoPersona,
     KartuLangkah,
     KolomFitur,
+    KolomLayer,
     MisiKami,
     StripSumberData,
-    TileLayer,
     VisiKami,
 } from '@/Components/Landing/Seksi';
 import { Ikon } from '@/Components/Dasar';
@@ -99,20 +99,20 @@ export default function Landing() {
                             )}
                         </p>
                     </div>
-                    <div className="ed-persona-row">
-                        <KartuFotoPersona nama="Commuter" desc={t(PERSONA.commuter.desc)} src="/images/landing-page-card-commuter.jpg" rotasi={-4} />
-                        <KartuFotoPersona nama="Driver" desc={t(PERSONA.driver.desc)} src="/images/landing-page-card-driver.jpeg" rotasi={-1.5} />
-                        <KartuFotoPersona nama="Social & Vibe" desc={t(PERSONA.social_vibe.desc)} src="/images/landing-page-card-sosial.jpeg" rotasi={1} />
-                        <KartuFotoPersona nama="Zen" desc={t(PERSONA.zen.desc)} src="/images/landing-page-card-zen.jpeg" posisi="center 85%" rotasi={4} />
+                    <div className="ed-persona-row" data-gerak="kipas">
+                        <KartuFotoPersona indeks={0} jumlah={4} nama="Commuter" desc={t(PERSONA.commuter.desc)} src="/images/landing-page-card-commuter.jpg" />
+                        <KartuFotoPersona indeks={1} jumlah={4} nama="Driver" desc={t(PERSONA.driver.desc)} src="/images/landing-page-card-driver.jpeg" />
+                        <KartuFotoPersona indeks={2} jumlah={4} nama="Social & Vibe" desc={t(PERSONA.social_vibe.desc)} src="/images/landing-page-card-sosial.jpeg" />
+                        <KartuFotoPersona indeks={3} jumlah={4} nama="Zen" desc={t(PERSONA.zen.desc)} src="/images/landing-page-card-zen.jpeg" posisi="center 85%" />
                     </div>
                 </section>
 
                 <section className="ed-sec" id="fitur">
                     <JudulSeksi varian="kiri" eyebrow={t('Fitur Utama', 'Key Features')} judul={t('Tiga cara menjelajah.', 'Three ways to explore.')} />
                     <div className="ed-fitur-grid">
-                        <KartuFitur judul="Requirement Search" desc={t('Ketik kebutuhanmu, dapatkan tiga kawasan paling cocok lengkap dengan persen kecocokan.', 'Type what you need and get the three best-matching areas with a match percentage.')} gambar="/images/fitur-search.jpg" />
-                        <KartuFitur judul="Smart Point Inspector" desc={t('Klik titik mana pun untuk melihat skor 0–3 bintang per persona dan kesimpulannya.', 'Click any point to see a 0–3 star score per persona and a summary.')} gambar="/images/fitur-inspector.jpg" />
-                        <KartuFitur judul="Commute Simulator" desc={t('Bandingkan waktu dan biaya mobil pribadi dengan transportasi umum.', 'Compare the time and cost of driving with public transport.')} gambar="/images/fitur-commute.jpg" />
+                        <KartuFitur judul="Requirement Search" desc={t('Ketik kebutuhanmu, dapatkan tiga kawasan paling cocok lengkap dengan persen kecocokan.', 'Type what you need and get the three best-matching areas with a match percentage.')} gambar="/images/fitur-search.jpg" video="/videos/demo-search.mp4" />
+                        <KartuFitur judul="Smart Point Inspector" desc={t('Klik titik mana pun untuk melihat skor 0–3 bintang per persona dan kesimpulannya.', 'Click any point to see a 0–3 star score per persona and a summary.')} gambar="/images/fitur-inspector.jpg" video="/videos/demo-inspector.mp4" />
+                        <KartuFitur judul="Commute Simulator" desc={t('Bandingkan waktu dan biaya mobil pribadi dengan transportasi umum.', 'Compare the time and cost of driving with public transport.')} gambar="/images/fitur-commute.jpg" video="/videos/demo-commute.mp4" />
                     </div>
                 </section>
 
@@ -130,20 +130,28 @@ export default function Landing() {
                             )}
                         </p>
                     </div>
-                    <div className="ed-tiles">
-                        <div className="ed-tiles__col">
-                            <TileLayer judul={t('Historis & Risiko', 'History & Risk')} src="/images/foto-historis-dan-risiko.jpeg" />
-                            <TileLayer judul={t('Mobilitas & Transit', 'Mobility & Transit')} src="/images/foto-mobilitas-dan-transit.jpeg" tinggi={300} />
-                        </div>
-                        <div className="ed-tiles__col" style={{ marginTop: 48 }}>
-                            <TileLayer judul={t('Ekosistem Mikro', 'Micro Ecosystem')} src="/images/foto-ekosistem-mikro.jpeg" posisi="center 80%" tinggi={276} />
-                            <TileLayer judul={t('Mesin Waktu', 'Time Machine')} src="/images/foto-mesin-waktu.jpeg" />
-                        </div>
-                        <div className="ed-tiles__col">
-                            <TileLayer judul={t('Inklusivitas', 'Inclusivity')} src="/images/foto-inklusivitas.jpeg" posisi="center 90%" tinggi={216} />
-                            <TileLayer judul={t('Legalitas Lahan', 'Land Legality')} src="/images/foto-legalitas-lahan.png" posisi="center 20%" tinggi={260} />
-                        </div>
-                    </div>
+                    <KolomLayer
+                        kolom={[
+                            [
+                                { judul: t('Historis & Risiko', 'History & Risk'), src: '/images/foto-historis-dan-risiko.jpeg' },
+                                { judul: t('Mobilitas & Transit', 'Mobility & Transit'), src: '/images/foto-mobilitas-dan-transit.jpeg', tinggi: 300 },
+                                { judul: t('Inklusivitas', 'Inclusivity'), src: '/images/foto-inklusivitas.jpeg', posisi: 'center 90%', tinggi: 260 },
+                                { judul: t('Mobilitas & Transit', 'Mobility & Transit'), src: '/images/landing-page-card-driver.jpeg', posisi: 'center 70%', tinggi: 236 },
+                            ],
+                            [
+                                { judul: t('Ekosistem Mikro', 'Micro Ecosystem'), src: '/images/foto-ekosistem-mikro.jpeg', posisi: 'center 80%', tinggi: 276 },
+                                { judul: t('Mesin Waktu', 'Time Machine'), src: '/images/foto-mesin-waktu.jpeg' },
+                                { judul: t('Ekosistem Mikro', 'Micro Ecosystem'), src: '/images/landing-page-card-sosial.jpeg', tinggi: 300 },
+                                { judul: t('Mesin Waktu', 'Time Machine'), src: '/images/foto-aerial-jakarta.jpg', tinggi: 236 },
+                            ],
+                            [
+                                { judul: t('Legalitas Lahan', 'Land Legality'), src: '/images/foto-legalitas-lahan.png', posisi: 'center 20%', tinggi: 260 },
+                                { judul: t('Mobilitas & Transit', 'Mobility & Transit'), src: '/images/landing-page-card-commuter.jpg', tinggi: 236 },
+                                { judul: t('Ekosistem Mikro', 'Micro Ecosystem'), src: '/images/landing-page-card-zen.jpeg', posisi: 'center 80%', tinggi: 276 },
+                                { judul: t('Legalitas Lahan', 'Land Legality'), src: '/images/foto-tahap-tampil.jpeg', tinggi: 236 },
+                            ],
+                        ]}
+                    />
                 </section>
 
                 <section className="ed-sec">
@@ -165,9 +173,9 @@ export default function Landing() {
                     <div style={{ marginTop: 64 }}>
                         <KartuLangkah
                             langkah={[
-                                { no: '01', judul: t('Kumpulkan', 'Collect'), teks: t('Data publik mentah dihimpun dari OpenStreetMap, InaRISK, dan ATR/BPN.', 'Raw public data is gathered from OpenStreetMap, InaRISK, and ATR/BPN.') },
-                                { no: '02', judul: t('Olah', 'Process'), teks: t('Pembersihan dan penataan struktur data di QGIS menjadi enam layer spasial.', 'Data is cleaned and structured in QGIS into six spatial layers.') },
-                                { no: '03', judul: t('Hitung', 'Score'), teks: t('Interseksi spasial dan pembobotan skor persona (0–3 bintang).', 'Spatial intersection and persona score weighting (0–3 stars).') },
+                                { no: '01', judul: t('Kumpulkan', 'Collect'), teks: t('Data publik mentah dihimpun dari OpenStreetMap, InaRISK, dan ATR/BPN.', 'Raw public data is gathered from OpenStreetMap, InaRISK, and ATR/BPN.'), foto: '/images/foto-aerial-jakarta.jpg' },
+                                { no: '02', judul: t('Olah', 'Process'), teks: t('Pembersihan dan penataan struktur data di QGIS menjadi enam layer spasial.', 'Data is cleaned and structured in QGIS into six spatial layers.'), foto: '/images/foto-legalitas-lahan.png' },
+                                { no: '03', judul: t('Hitung', 'Score'), teks: t('Interseksi spasial dan pembobotan skor persona (0–3 bintang).', 'Spatial intersection and persona score weighting (0–3 stars).'), foto: '/images/fitur-inspector.jpg' },
                                 {
                                     no: '04',
                                     judul: t('Tampilkan', 'Present'),

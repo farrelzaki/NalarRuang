@@ -15,14 +15,10 @@
 .ed-fitur-grid > * + * { border-left: 1px dashed var(--line); }
 
 .ed-layer-sec { display: grid; grid-template-columns: 1fr 720px; gap: 64px; align-items: center; }
-.ed-tiles { display: grid; grid-template-columns: repeat(3, 228px); gap: 12px; mask-image: linear-gradient(to bottom, #000 82%, transparent); }
-.ed-tiles__col { display: flex; flex-direction: column; gap: 12px; }
+.ed-tiles { display: grid; grid-template-columns: repeat(3, minmax(0, 228px)); gap: 12px; height: 640px; overflow: hidden; mask-image: linear-gradient(to bottom, transparent, #000 9%, #000 82%, transparent); }
 
 .ed-steps { display: grid; border-top: 0.8px solid var(--line); border-bottom: 0.8px solid var(--line); }
 .ed-steps > * + * { border-left: 0.8px solid var(--line); }
-.ed-step--current { background-size: cover; background-position: center; position: relative; }
-.ed-step--current::before { content: ""; position: absolute; inset: 0; background: rgba(15, 27, 61, 0.55); }
-.ed-step--current > * { position: relative; }
 
 .ed-faq-sec { display: grid; grid-template-columns: 420px 1fr; gap: 64px; align-items: start; }
 
@@ -74,11 +70,12 @@
   .ed-feature { padding: 28px 4px; }
   .ed-feature__title { font-size: 26px; line-height: 32px; }
   .ed-layer-sec { gap: 32px; }
-  .ed-tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .ed-tiles__col { display: contents; }
-  .ed-tile { width: auto; height: 160px !important; }
-  .ed-tile__title { left: 14px; bottom: 14px; font-size: 20px; line-height: 24px; }
-  .ed-logos { grid-template-columns: 1fr 1fr; gap: 16px; font-size: 14px; }
+  .ed-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; height: 460px; }
+  .ed-tiles__set { gap: 8px; padding-bottom: 8px; }
+  .ed-tile__foto { height: 150px !important; }
+  .ed-tile__title { left: 10px; right: 8px; bottom: 10px; font-size: 15px; line-height: 18px; }
+  .ed-logos { font-size: 14px; }
+  .ed-logos__item { margin-right: 32px; }
   .ed-step { height: auto; min-height: 180px; padding: 24px; gap: 16px; }
   .ed-step__num { font-size: 64px; line-height: 64px; }
   .ed-try { padding: 40px 12px; }
@@ -101,3 +98,83 @@
   .ed-vision__text { font-size: 16px; line-height: 26px; }
   .ed-logos__img { height: 20px; max-width: 64px; }
 }
+
+/* ---------------------------------------------------------------- Struktur gerak landing (13 Nov 2026)
+   Gerakannya sendiri ada di gerak.css; di sini hanya susunan lapisan yang dibutuhkan. */
+
+/* Hero: foto, lapisan gelap, dan jejak lampu dalam satu SVG (lihat FOTO_HERO di Seksi.tsx). */
+.ed-hero > .ed-hero__latar { position: absolute; inset: 0; overflow: hidden; }
+.ed-hero__latar svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.ed-hero__latar::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(120% 90% at 50% 45%, transparent 55%, rgba(10, 16, 32, 0.55)); }
+.ed-hero__gelap { fill: rgba(23, 35, 56, 0.55); }
+.ed-hero__butir { position: absolute; inset: -50%; pointer-events: none; opacity: 0.09; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+.ed-baris { display: block; overflow: hidden; padding-bottom: 0.06em; margin-bottom: -0.06em; }
+.ed-baris > span { display: inline-block; }
+.ed-jejak path { fill: none; stroke-linecap: round; }
+.ed-jejak__pendar { stroke-width: 4.2; opacity: 0.9; }
+.ed-jejak__inti { stroke-width: 1.1; }
+.ed-jejak--merah .ed-jejak__pendar { stroke: #ff3b2f; }
+.ed-jejak--merah .ed-jejak__inti { stroke: #ffc2b8; }
+.ed-jejak--putih .ed-jejak__pendar { stroke: #fff1cf; }
+.ed-jejak--putih .ed-jejak__inti { stroke: #ffffff; }
+.ed-jejak--kuning .ed-jejak__pendar { stroke: #ffb347; }
+.ed-jejak--kuning .ed-jejak__inti { stroke: #ffe3ad; }
+.ed-jejak--redup { opacity: 0.35; }
+.ed-jejak--redup .ed-jejak__pendar { stroke: #ff6a4d; }
+.ed-jejak--redup .ed-jejak__inti { stroke: #ffd0c4; }
+
+/* Our Vision: foto cetak di atas "meja"; kilat kamera menutup bingkai sesaat. */
+.ed-vision__frame { position: relative; }
+.ed-vision__kilat { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; }
+
+/* Misi: angka kedua bergulir seperti odometer. */
+.ed-odo { display: inline-block; height: 40px; overflow: hidden; vertical-align: top; }
+.ed-odo__gulung { display: flex; flex-direction: column; }
+.ed-odo__gulung > span { display: block; height: 40px; line-height: 40px; }
+
+/* Persona: foto di lapisan sendiri agar bisa diperbesar saat disorot tanpa menggeser teks. */
+.ed-persona-card__foto { position: absolute; inset: 0; background-size: cover; }
+.ed-persona-card:focus-visible { outline: 2px solid var(--navy-ink); outline-offset: 4px; }
+
+/* Fitur: video demo menutup gambar di dalam bingkai putus-putus. */
+.ed-feature__frame { position: relative; }
+.ed-feature__video { position: absolute; inset: 8.8px; width: calc(100% - 17.6px); height: calc(100% - 17.6px); object-fit: cover; opacity: 0; pointer-events: none; background: var(--map-ground); }
+
+/* Layer: kolom bergulir; dua set identik bertumpuk, padding-bawah = gap agar -50% pas satu set. */
+.ed-tiles__col { min-width: 0; }
+.ed-tiles__set { display: flex; flex-direction: column; gap: 12px; padding-bottom: 12px; }
+.ed-tile { width: 100%; height: auto; }
+.ed-tile__foto { width: 100%; background-size: cover; }
+.ed-tile__shade, .ed-tile__title { pointer-events: none; }
+
+/* Sumber data: tiga baris berjalan, tepi kiri-kanan memudar. */
+.ed-logos.ed-logos--jalan { display: block; max-width: 1120px; mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent); }
+.ed-logos__baris { overflow: hidden; padding: 10px 0; }
+.ed-logos__jalur { display: flex; width: max-content; }
+.ed-logos__item { display: inline-flex; align-items: center; gap: 10px; margin-right: 56px; white-space: nowrap; }
+
+/* Cara kerja: foto langkah tersembunyi di balik clip-path sampai disorot. */
+.ed-step { cursor: default; outline: none; }
+.ed-step > * { position: relative; }
+.ed-step > .ed-step__foto { position: absolute; inset: 0; background-size: cover; background-position: center; }
+.ed-step__foto::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(15, 27, 61, 0.92), rgba(15, 27, 61, 0.5)); }
+.ed-step:focus-visible { box-shadow: inset 0 0 0 2px var(--cream-100); }
+
+/* Coba Sekarang: lapisan hitam dan bilah letterbox untuk pembuka sinematis. */
+.ed-try__gelap { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; }
+.ed-try__bilah { position: absolute; left: 0; right: 0; height: 13%; background: #000; transform: scaleY(0); pointer-events: none; }
+.ed-try__bilah--atas { top: 0; transform-origin: top; }
+.ed-try__bilah--bawah { bottom: 0; transform-origin: bottom; }
+
+/* FAQ: jawaban dilipat dengan grid-rows agar buka-tutup beranimasi; tanda plus digambar CSS. */
+.ed-faq__item { position: relative; }
+.ed-faq__lipat { display: grid; grid-template-rows: 0fr; }
+.ed-faq__item.is-buka .ed-faq__lipat { grid-template-rows: 1fr; }
+.ed-faq__lipat > .ed-faq__a { min-height: 0; overflow: hidden; margin: 0; padding-bottom: 32px; }
+.ed-faq__item:not(.is-buka) .ed-faq__lipat > .ed-faq__a { padding-bottom: 0; }
+.ed-faq__tanda { position: relative; flex: none; width: 24px; height: 24px; }
+.ed-faq__tanda::before, .ed-faq__tanda::after { content: ""; position: absolute; left: 50%; top: 50%; width: 22px; height: 1.6px; margin: -0.8px 0 0 -11px; background: currentColor; border-radius: 1px; }
+.ed-faq__tanda::after { transform: rotate(90deg); }
+.ed-faq__item.is-buka .ed-faq__tanda::after { transform: rotate(180deg); }
+.ed-faq__q { gap: 24px; }

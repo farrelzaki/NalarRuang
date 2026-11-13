@@ -1,17 +1,67 @@
 /** Komponen landing (design-system.md bagian 10), di-porting dari design system NalarRuang. */
 import { Link } from '@inertiajs/react';
-import { useState, type CSSProperties, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { PilihBahasa, useBahasa } from '@/lib/bahasa';
 import { cx, SUMBER } from '@/lib/nalar';
 import { Ikon } from '../Dasar';
 
 const foto = (src: string, posisi = 'center'): CSSProperties => ({ backgroundImage: `url(${src})`, backgroundSize: 'cover', backgroundPosition: posisi });
 
+/**
+ * Foto hero dan jejak lampu mobil. Koordinat jalur memakai ukuran asli foto (viewBox), dan SVG memakai
+ * `slice` seperti background-size: cover, jadi jejak selalu menempel di bundaran berapa pun lebar layar.
+ * Bila foto diganti, perbarui `lebar`, `tinggi`, dan titik jalur di bawah.
+ */
+const FOTO_HERO = {
+    src: '/images/foto-bundaran-hi.jpg',
+    lebar: 460,
+    tinggi: 343,
+    // Jalur kiri: lalu lintas menjauh (lampu belakang merah). Kanan: mendekat (lampu depan putih).
+    // Bundaran: busur depan air mancur (terlihat) dan busur belakang (redup, tertutup air).
+    jalur: [
+        { d: 'M-12 326 C 50 310 112 294 152 285', warna: 'merah', durasi: 5.2, tunda: 0 },
+        { d: 'M-12 336 C 60 318 120 299 160 288', warna: 'merah', durasi: 6.4, tunda: 1.7 },
+        { d: 'M108 279 A 118 12 0 0 0 344 279', warna: 'kuning', durasi: 4.6, tunda: 0.6 },
+        { d: 'M344 279 A 118 12 0 0 0 108 279', warna: 'redup', durasi: 4.6, tunda: 2.9 },
+        { d: 'M300 286 C 352 293 410 305 472 322', warna: 'putih', durasi: 4.8, tunda: 0.9 },
+        { d: 'M296 290 C 350 299 404 314 472 334', warna: 'putih', durasi: 6.1, tunda: 2.4 },
+    ],
+} as const;
+
+function LatarHero() {
+    const { src, lebar, tinggi, jalur } = FOTO_HERO;
+    return (
+        <div className="ed-hero__latar" aria-hidden="true">
+            <svg viewBox={`0 0 ${lebar} ${tinggi}`} preserveAspectRatio="xMidYMid slice">
+                <defs>
+                    <filter id="ed-pendar" x="-20%" y="-200%" width="140%" height="500%">
+                        <feGaussianBlur stdDeviation="1.6" />
+                    </filter>
+                </defs>
+                <g className="ed-hero__kamera">
+                    <image href={src} width={lebar} height={tinggi} preserveAspectRatio="xMidYMid slice" />
+                    <rect width={lebar} height={tinggi} className="ed-hero__gelap" />
+                    <g className="ed-hero__lampu">
+                        {jalur.map((j, i) => (
+                            <g key={i} className={`ed-jejak ed-jejak--${j.warna}`} style={{ '--durasi': `${j.durasi}s`, '--tunda': `${j.tunda}s` } as CSSProperties}>
+                                <path d={j.d} pathLength={100} filter="url(#ed-pendar)" className="ed-jejak__pendar" />
+                                <path d={j.d} pathLength={100} className="ed-jejak__inti" />
+                            </g>
+                        ))}
+                    </g>
+                </g>
+            </svg>
+            <div className="ed-hero__butir" />
+        </div>
+    );
+}
+
 export function HeroLanding({ onMenu }: { onMenu: () => void }) {
     const { t } = useBahasa();
     return (
         <div>
-            <div className="ed-hero ed-photo" style={{ ...foto('/images/foto-bundaran-hi.jpg', 'center 40%'), height: 773 }}>
+            <div className="ed-hero ed-hero--hidup" style={{ height: 773 }}>
+                <LatarHero />
                 <div className="ed-header">
                     <button type="button" className="ed-hbtn" onClick={onMenu}>
                         MENU<span style={{ color: 'var(--hero-muted)' }}>∷</span>
@@ -26,7 +76,7 @@ export function HeroLanding({ onMenu }: { onMenu: () => void }) {
                         </Link>
                     </span>
                 </div>
-                <div style={{ paddingTop: 158 }}>
+                <div className="ed-hero__isi" style={{ paddingTop: 158 }}>
                     <div className="ed-kicker">
                         <span>{t('Data Spasial', 'Spatial Data')}</span>
                         <span className="ed-kicker__x">×</span>
@@ -35,9 +85,8 @@ export function HeroLanding({ onMenu }: { onMenu: () => void }) {
                         <span>{t('Rekomendasi', 'Recommendation')}</span>
                     </div>
                     <h1 className="ed-hero__title">
-                        {t('Hunian yang cocok', 'A home that fits')}
-                        <br />
-                        {t('Kota yang terbaca', 'A city you can read')}
+                        <span className="ed-baris"><span>{t('Hunian yang cocok', 'A home that fits')}</span></span>
+                        <span className="ed-baris"><span>{t('Kota yang terbaca', 'A city you can read')}</span></span>
                     </h1>
                     <p className="ed-hero__sub">{t('Temukan ruang hidup idealmu dengan analisis data spasial perkotaan yang komprehensif.', 'Find your ideal living space with comprehensive urban spatial data analysis.')}</p>
                     <div style={{ marginTop: 28 }}>
@@ -95,10 +144,12 @@ export function JudulSeksi({ varian, intro, eyebrow, judul }: { varian?: 'kiri' 
 
 export function KolomFitur({ kolom }: { kolom: { judul: string; teks: string }[] }) {
     return (
-        <div className="ed-cols">
-            {kolom.map((k) => (
-                <div key={k.judul} className="ed-col">
-                    <h3 className="ed-col__title">{k.judul}</h3>
+        <div className="ed-cols" data-gerak="garis">
+            {kolom.map((k, i) => (
+                <div key={k.judul} className="ed-col" style={{ '--urut': i } as CSSProperties}>
+                    <h3 className="ed-col__title">
+                        <span>{k.judul}</span>
+                    </h3>
                     <p className="ed-body" style={{ maxWidth: 280, margin: '0 auto' }}>
                         {k.teks}
                     </p>
@@ -121,8 +172,11 @@ export function VisiKami() {
                     )}
                 </p>
             </div>
-            <div className="ed-vision__frame">
-                <div className="ed-vision__photo ed-photo ed-bw" style={foto('/images/foto-bundaran-hi.jpg')} />
+            <div className="ed-vision__meja" data-gerak="cetak">
+                <div className="ed-vision__frame">
+                    <div className="ed-vision__photo ed-photo ed-bw" style={foto('/images/foto-bundaran-hi.jpg')} />
+                    <div className="ed-vision__kilat" aria-hidden="true" />
+                </div>
             </div>
         </section>
     );
@@ -147,10 +201,19 @@ export function MisiKami() {
     return (
         <section className="ed-mission">
             <h2 className="ed-mission__title">Mission</h2>
-            <div className="ed-mission__cols">
+            <div className="ed-mission__cols" data-gerak="odometer">
                 {misi.map((t, i) => (
-                    <div key={i} className="ed-mission__col">
-                        <span className="ed-mission__num">0{i + 1}</span>
+                    <div key={i} className="ed-mission__col" style={{ '--urut': i } as CSSProperties}>
+                        <span className="ed-mission__num" aria-label={`0${i + 1}`}>
+                            0
+                            <span className="ed-odo" aria-hidden="true">
+                                <span className="ed-odo__gulung" style={{ '--angka': i + 1 } as CSSProperties}>
+                                    {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => (
+                                        <span key={n}>{n}</span>
+                                    ))}
+                                </span>
+                            </span>
+                        </span>
                         <p className="ed-mission__text">{t}</p>
                     </div>
                 ))}
@@ -159,9 +222,16 @@ export function MisiKami() {
     );
 }
 
-export function KartuFotoPersona({ nama, desc, src, rotasi, posisi }: { nama: string; desc: string; src: string; rotasi?: number; posisi?: string }) {
+/**
+ * Kartu persona. Kemiringan tidak ditulis per kartu: `.ed-persona-row` menyusunnya seperti kipas yang
+ * simetris terhadap tengah (lihat gerak.css), dari indeks dan jumlah kartu.
+ */
+export function KartuFotoPersona({ nama, desc, src, posisi, indeks, jumlah }: { nama: string; desc: string; src: string; posisi?: string; indeks: number; jumlah: number }) {
+    // -1.5, -0.5, 0.5, 1.5 untuk empat kartu: jarak bertanda dari sumbu tengah.
+    const dariTengah = indeks - (jumlah - 1) / 2;
     return (
-        <div className="ed-persona-card ed-photo" style={{ ...foto(src, posisi), transform: rotasi ? `rotate(${rotasi}deg)` : undefined }}>
+        <div className="ed-persona-card" style={{ '--k': dariTengah, '--k-abs': Math.abs(dariTengah) } as CSSProperties} tabIndex={0}>
+            <div className="ed-persona-card__foto ed-photo" style={foto(src, posisi)} />
             <div className="ed-persona-card__text">
                 <p className="ed-persona-card__name">{nama}</p>
                 <p className="ed-persona-card__desc">{desc}</p>
@@ -170,12 +240,67 @@ export function KartuFotoPersona({ nama, desc, src, rotasi, posisi }: { nama: st
     );
 }
 
-export function KartuFitur({ judul, desc, gambar }: { judul: string; desc: string; gambar: string }) {
+/**
+ * Kartu fitur: diam menampilkan gambar; saat disorot (hover/fokus) gambar berganti video demo.
+ * Video dimuat hanya saat dibutuhkan (preload="none"). Bila berkas video belum ada atau gagal,
+ * kartu tetap memakai gambar. Di layar sentuh video diputar saat kartu terlihat.
+ */
+export function KartuFitur({ judul, desc, gambar, video }: { judul: string; desc: string; gambar: string; video?: string }) {
     const { t } = useBahasa();
+    const kartu = useRef<HTMLElement>(null);
+    const vid = useRef<HTMLVideoElement>(null);
+    const [main, setMain] = useState(false);
+    const [gagal, setGagal] = useState(false);
+
+    const putar = () => {
+        const v = vid.current;
+        if (!v || gagal) return;
+        v.play().catch(() => undefined);
+    };
+    const henti = () => {
+        const v = vid.current;
+        setMain(false);
+        if (!v) return;
+        v.pause();
+        try {
+            v.currentTime = 0;
+        } catch {
+            /* belum ada metadata */
+        }
+    };
+
+    useEffect(() => {
+        const el = kartu.current;
+        if (!el || !video || typeof IntersectionObserver === 'undefined' || !window.matchMedia?.('(hover: none)').matches) return;
+        const io = new IntersectionObserver(([d]) => (d.intersectionRatio > 0.6 ? putar() : henti()), { threshold: [0, 0.6] });
+        io.observe(el);
+        return () => io.disconnect();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [video, gagal]);
+
     return (
-        <article className="ed-feature">
+        <article ref={kartu} className={cx('ed-feature', main && 'is-main')} onMouseEnter={putar} onMouseLeave={henti} onFocus={putar} onBlur={henti}>
             <div className="ed-feature__frame">
                 <div className="ed-feature__img" style={{ ...foto(gambar), filter: 'grayscale(0.35)' }} role="img" aria-label={t(`Cuplikan peta ${judul}`, `${judul} map preview`)} />
+                {video && !gagal && (
+                    <video
+                        ref={vid}
+                        className="ed-feature__video"
+                        src={video}
+                        poster={gambar}
+                        muted
+                        loop
+                        playsInline
+                        preload="none"
+                        aria-hidden="true"
+                        tabIndex={-1}
+                        onPlaying={() => setMain(true)}
+                        onError={() => {
+                            setGagal(true);
+                            setMain(false);
+                        }}
+                    />
+                )}
             </div>
             <h3 className="ed-feature__title">{judul}</h3>
             <p className="ed-body">{desc}</p>
@@ -185,9 +310,37 @@ export function KartuFitur({ judul, desc, gambar }: { judul: string; desc: strin
 
 export function TileLayer({ judul, src, tinggi = 236, posisi }: { judul: string; src: string; tinggi?: number; posisi?: string }) {
     return (
-        <div className="ed-tile ed-photo ed-bw" style={{ ...foto(src, posisi), height: tinggi }}>
+        <div className="ed-tile">
+            <div className="ed-tile__foto ed-photo ed-bw" style={{ ...foto(src, posisi), height: tinggi }} />
             <div className="ed-tile__shade" />
             <p className="ed-tile__title">{judul}</p>
+        </div>
+    );
+}
+
+type Tile = { judul: string; src: string; tinggi?: number; posisi?: string };
+
+/**
+ * Tiga kolom foto layer yang terus bergulir vertikal (kolom tengah berlawanan arah), di bawah masker
+ * gradien. Isi kolom digandakan agar putarannya mulus; salinan disembunyikan dari pembaca layar.
+ * Berhenti saat disorot dan bila pengguna memilih kurangi gerakan.
+ */
+export function KolomLayer({ kolom }: { kolom: Tile[][] }) {
+    return (
+        <div className="ed-tiles" data-gerak="tiles">
+            {kolom.map((isi, k) => (
+                <div key={k} className={cx('ed-tiles__col', k % 2 === 1 && 'ed-tiles__col--turun')} style={{ '--urut': k, '--durasi': `${38 + k * 6}s` } as CSSProperties}>
+                    <div className="ed-tiles__jalur">
+                        {[0, 1].map((salinan) => (
+                            <div key={salinan} className="ed-tiles__set" aria-hidden={salinan === 1 || undefined}>
+                                {isi.map((tile, i) => (
+                                    <TileLayer key={i} {...tile} />
+                                ))}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            ))}
         </div>
     );
 }
@@ -199,13 +352,30 @@ export function StripSumberData() {
             <h2 className="ed-title" style={{ fontSize: 36, lineHeight: '40px', marginBottom: 40, color: 'var(--navy-ink)' }}>
                 {t('Sumber Data Terbuka', 'Open Data Sources')}
             </h2>
-            <div className="ed-logos">
+            {/* Daftar lengkap untuk pembaca layar; baris bergerak di bawahnya hanya hiasan. */}
+            <ul className="nr-sr">
                 {SUMBER.map((s) => (
-                    <span key={s.nama}>
-                        {s.logo ? <img className="ed-logos__img" src={s.logo} alt="" /> : <Ikon name="database" size={20} />}
-                        {s.nama}
-                    </span>
+                    <li key={s.nama}>{s.nama}</li>
                 ))}
+            </ul>
+            <div className="ed-logos ed-logos--jalan" aria-hidden="true" data-gerak="logos">
+                {[0, 1, 2].map((baris) => {
+                    const isi = SUMBER.filter((_, i) => i % 3 === baris);
+                    return (
+                        <div key={baris} className={cx('ed-logos__baris', baris === 1 && 'ed-logos__baris--balik')} style={{ '--urut': baris, '--durasi': `${34 + baris * 5}s` } as CSSProperties}>
+                            <div className="ed-logos__jalur">
+                                {[0, 1, 2, 3].map((salinan) =>
+                                    isi.map((s) => (
+                                        <span key={`${salinan}-${s.nama}`} className="ed-logos__item">
+                                            {s.logo ? <img className="ed-logos__img" src={s.logo} alt="" /> : <Ikon name="database" size={20} />}
+                                            {s.nama}
+                                        </span>
+                                    )),
+                                )}
+                            </div>
+                        </div>
+                    );
+                })}
             </div>
             <Link className="ed-link" href="/peta" style={{ marginTop: 48, paddingBottom: 6, borderBottom: '2px solid var(--line)' }}>
                 {t('Buka Peta Interaktif', 'Open Interactive Map')}
@@ -215,21 +385,23 @@ export function StripSumberData() {
     );
 }
 
-export function KartuLangkah({ langkah }: { langkah: { no: string; judul: string; teks: string; foto?: string }[] }) {
+/**
+ * Empat langkah cara kerja. Gambar tiap langkah hanya muncul saat langkah itu disorot; tanpa sorotan,
+ * langkah terakhir tetap ditandai (navy) seperti desain. Di layar sentuh, ketukan menyorot langkah.
+ */
+export function KartuLangkah({ langkah }: { langkah: { no: string; judul: string; teks: string; foto: string }[] }) {
     return (
         <div className="ed-steps" style={{ gridTemplateColumns: `repeat(${langkah.length}, 1fr)` }}>
-            {langkah.map((s, i) => {
-                const terakhir = i === langkah.length - 1;
-                return (
-                    <div key={s.no} className={cx('ed-step', terakhir && 'ed-step--current', terakhir && 'ed-photo')} style={terakhir && s.foto ? foto(s.foto) : undefined}>
-                        <div>
-                            <h3 className="ed-step__title">{s.judul}</h3>
-                            <p className="ed-step__text">{s.teks}</p>
-                        </div>
-                        <span className="ed-step__num">{s.no}</span>
+            {langkah.map((s, i) => (
+                <div key={s.no} className={cx('ed-step', i === langkah.length - 1 && 'ed-step--current')} tabIndex={0}>
+                    <div className="ed-step__foto ed-photo" style={foto(s.foto)} aria-hidden="true" />
+                    <div>
+                        <h3 className="ed-step__title">{s.judul}</h3>
+                        <p className="ed-step__text">{s.teks}</p>
                     </div>
-                );
-            })}
+                    <span className="ed-step__num">{s.no}</span>
+                </div>
+            ))}
         </div>
     );
 }
@@ -238,9 +410,10 @@ export function CobaSekarang() {
     const { t } = useBahasa();
     return (
         <section className="ed-try" id="coba">
-            <div className="ed-try__card">
+            <div className="ed-try__card" data-gerak="sinema">
                 <div className="ed-try__shot" style={{ backgroundImage: 'url(/images/coba-sekarang.jpg)' }} />
                 <div className="ed-try__veil" />
+                <div className="ed-try__gelap" aria-hidden="true" />
                 <div className="ed-try__inner">
                     <h2 className="ed-try__title">{t('Coba Sekarang', 'Try It Now')}</h2>
                     <p className="ed-try__text">{t('Gunakan fitur pencarian, filter layer, dan persona untuk mensimulasikan pencarian kawasan idealmu.', 'Use search, layer filters, and personas to simulate finding your ideal area.')}</p>
@@ -249,6 +422,8 @@ export function CobaSekarang() {
                         <Ikon name="arrow-right" size={14} strokeWidth={2.5} />
                     </Link>
                 </div>
+                <div className="ed-try__bilah ed-try__bilah--atas" aria-hidden="true" />
+                <div className="ed-try__bilah ed-try__bilah--bawah" aria-hidden="true" />
             </div>
         </section>
     );
@@ -257,24 +432,23 @@ export function CobaSekarang() {
 export function AccordionFAQ({ butir }: { butir: { q: string; a: string }[] }) {
     const [buka, setBuka] = useState(0);
     return (
-        <div className="ed-faq">
+        <div className="ed-faq" data-gerak="faq">
             {butir.map((it, i) => {
                 const terbuka = buka === i;
                 return (
-                    <div key={i} className="ed-faq__item">
-                        <button type="button" className="ed-faq__q" aria-expanded={terbuka} onClick={() => setBuka(terbuka ? -1 : i)}>
+                    <div key={i} className={cx('ed-faq__item', terbuka && 'is-buka')} style={{ '--urut': i } as CSSProperties}>
+                        <button type="button" className="ed-faq__q" aria-expanded={terbuka} aria-controls={`faq-${i}`} id={`faq-q-${i}`} onClick={() => setBuka(terbuka ? -1 : i)}>
                             {it.q}
-                            <Ikon name={terbuka ? 'minus' : 'plus'} size={28} strokeWidth={1.5} />
+                            <span className="ed-faq__tanda" aria-hidden="true" />
                         </button>
-                        
-                        {/* Kode Solusi 3 diletakkan di sini untuk menggantikan baris lama */}
-                        {terbuka && (
+                        {/* Jawaban selalu dirender agar buka dan tutup sama-sama beranimasi; inert saat tertutup. */}
+                        <div className="ed-faq__lipat" id={`faq-${i}`} role="region" aria-labelledby={`faq-q-${i}`} inert={!terbuka}>
                             <div className="ed-faq__a space-y-3">
                                 {it.a.split('\n\n').map((paragraf, idx) => (
                                     <p key={idx}>{paragraf}</p>
                                 ))}
                             </div>
-                        )}
+                        </div>
                     </div>
                 );
             })}

@@ -108,7 +108,7 @@ export const SUMBER: { nama: string; logo?: string }[] = [
     { nama: 'GTFS TransJakarta', logo: '/images/logo/transjakarta.png' },
     { nama: 'Biskita Trans Pakuan', logo: '/images/logo/trans-pakuan.png' },
     { nama: 'RDTR DKI Jakarta 2022', logo: '/images/logo/jakarta.png' },
-    { nama: 'DKI-Siap ATR/BPN (Hak Tanah)', logo: '/images/logo/bpn.png' },
+    { nama: 'DKI-Siap ATR/BPN (Hak Tanah)', logo: '/images/logo/atr-bpn.png' },
     { nama: 'BNPB genangan banjir 2020', logo: '/images/logo/bnpb.png' },
     { nama: 'SatPM PM2.5 (ACAG, CC BY 4.0)' },
     { nama: 'Opentransum' },

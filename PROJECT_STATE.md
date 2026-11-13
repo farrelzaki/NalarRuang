@@ -68,6 +68,20 @@ Alasan: Mapbox tanpa kartu kredit dibatasi 5.000 muat peta per bulan. Rencana: d
 - Label nama stasiun memakai font peta dasar (Noto Sans dari OpenFreeMap), bukan Plus Jakarta Sans; teks di
   dalam kanvas peta tidak bisa memakai font web.
 
+## Animasi landing (14 Nov 2026)
+
+Tanpa dependensi baru: CSS + IntersectionObserver (`lib/gerak.ts`, atribut `data-gerak` per seksi, gerakan di
+`gerak.css`). Hero: jejak lampu mobil di bundaran (SVG di atas foto, koordinat di `FOTO_HERO`, `Seksi.tsx`), butir
+film, judul naik per baris, parallax saat digulir. Visi: garis putus tergambar. Our Vision: foto cetak jatuh dan
+"berkembang". Misi: angka odometer. Persona: kipas simetris dari tengah + hover. Fitur: video demo saat hover
+(`public/videos/demo-*.mp4`, **belum ada**, kartu jatuh ke gambar; lihat `public/videos/README.md`). Layer: tiga
+kolom foto bergulir (foto tambahan memakai foto yang sudah ada di repo). Sumber data: tiga baris berjalan, berhenti
+saat disorot. Cara kerja: foto per langkah muncul saat disorot. Coba Sekarang: letterbox + fade dari hitam. FAQ:
+garis tergambar, akordeon halus. FAQ ke footer diam. `prefers-reduced-motion` dihormati. Ikut diperbaiki: logo
+ATR/BPN di sumber data menunjuk `bpn.png` yang tidak ada (kini `atr-bpn.png`).
+- Perlu dari tim: foto hero beresolusi tinggi (yang sekarang 460 px, sumber blur) dan tiga video demo. Bila foto
+  hero diganti, sesuaikan `FOTO_HERO` (ukuran dan titik jalur) agar jejak lampu tetap di bundaran.
+
 ## Dikerjakan anggota tim di luar sesi agen (25 Okt – 1 Nov)
 
 Commit `c143594`, `61a1ed3` (25 Okt), `2ed7280` (26 Okt), `69cae69` (31 Okt), `e162dc9` (1 Nov):
