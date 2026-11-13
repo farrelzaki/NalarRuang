@@ -1,16 +1,19 @@
 /**
  * Visual Explorer (UI01–UI05). Tata letak design-system.md bagian 5: search + satu panel di kolom kiri,
- * tombol merek kanan atas, LAYER/PERSONA + panel kanan di kanan bawah, slider tahun tengah bawah.
+ * tombol merek kanan atas, LAYER/PERSONA + panel kanan di kanan bawah; tengah bawah: slider tahun di atas bilah alat
+ * (Jelajah / Titik / Area, mode tampilan 2D / Miring / 3D, zoom).
  */
 import { Head } from '@inertiajs/react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { Geometry } from 'geojson';
 import type { CommuteResponse, HasilSearch, InspectResponse, LayerKey, LayerResponse, Persona } from '@/types';
 import { api } from '@/lib/api';
-import { useBahasa } from '@/lib/bahasa';
+import { teksServer, useBahasa } from '@/lib/bahasa';
 import { bacaPersonaSesi, PERSONA, simpanPersonaSesi, SUBFITUR, type Simbol } from '@/lib/nalar';
-import type { TitikPeta } from '@/Map/PetaExplorer';
-import PetaPilihan from '@/Map/PetaPilihan';
+import type { ModeKamera, TitikPeta } from '@/Map/PetaExplorer';
+import PetaPilihan, { type MesinPeta } from '@/Map/PetaPilihan';
+import { luasPoligonM2, teksLuas } from '@/Map/isiPeta';
+import { BilahAlat, type Alat } from '@/Components/BilahAlat';
 import { Toast, type NadaToast } from '@/Components/Dasar';
 import { PanelFilter, PanelTop3, SearchBar } from '@/Components/Pencarian';
 import { DetailLokasi } from '@/Components/DetailLokasi';
@@ -23,6 +26,21 @@ import { Link } from '@inertiajs/react';
 type PanelKiri = 'top3' | 'filter' | 'detail' | 'rute' | null;
 
 const LAYER_AWAL: LayerKey[] = ['mobilitas'];
+
+/** Radius lingkaran alat Titik: sama dengan ambang 3 bintang (1,2 km). */
+const RADIUS_TITIK = 1200;
+const LUAS_AREA_MAKS = 25_000_000;
+const SUDUT_MAKS = 60;
+const KUNCI_KAMERA = 'nr-mode-kamera';
+
+function kameraTersimpan(): ModeKamera {
+    try {
+        const v = sessionStorage.getItem(KUNCI_KAMERA);
+        return v === 'miring' || v === '3d' ? v : 'atas';
+    } catch {
+        return 'atas';
+    }
+}
 
 export default function Peta() {
     const { t, bahasa } = useBahasa();
@@ -83,6 +101,15 @@ export default function Peta() {
         }
     };
 
+    // Bilah alat: Jelajah / Titik / Area, mode kamera, zoom
+    const [alat, setAlat] = useState<Alat>('titik');
+    const [sudutArea, setSudutArea] = useState<TitikPeta[]>([]);
+    const [memuatArea, setMemuatArea] = useState(false);
+    const areaTerakhir = useRef<TitikPeta[] | null>(null);
+    const [modeKamera, setModeKamera] = useState<ModeKamera>(kameraTersimpan);
+    const [mesin, setMesin] = useState<MesinPeta>('leaflet');
+    const [perintahZoom, setPerintahZoom] = useState<{ arah: 1 | -1; kunci: number } | null>(null);
+
     // Sub-fitur yang disembunyikan
     const [subMati, setSubMati] = useState<Simbol[]>([]);
     const layerTampil = useMemo(() => {
@@ -142,6 +169,7 @@ export default function Peta() {
     useEffect(() => {
         if (!detail) return;
         if (detail.jenis_geometri === 'titik') muatTitik({ lat: detail.lat, lng: detail.lng }, false);
+        else if (detail.jenis_geometri === 'area') areaTerakhir.current && muatArea(areaTerakhir.current);
         else muatWilayah(detail.wilayah_id, false);
     }, [persona]);
 
@@ -286,6 +314,60 @@ export default function Peta() {
         }
     }
 
+    /** Nilai area yang digambar lewat GET /api/inspect?area=... */
+    async function muatArea(sudut: TitikPeta[]) {
+        batalDetail.current?.abort();
+        const ctrl = new AbortController();
+        batalDetail.current = ctrl;
+        setMemuatArea(true);
+        try {
+            const d = await api.area(sudut, persona, ctrl.signal);
+            areaTerakhir.current = sudut;
+            setHasil(null);
+            setKueri('');
+            setPesanCari(undefined);
+            setTop3Aktif(null);
+            setPin(null);
+            setGalatDetail(null);
+            setDetail(d);
+            if (d.jenis_geometri !== 'titik') setWilayahTerpilih(d.geometri);
+            setSudutArea([]);
+            setPanelKiri('detail');
+        } catch (e) {
+            if ((e as Error).name !== 'AbortError') kabar(teksServer((e as Error).message), 'danger');
+        } finally {
+            setMemuatArea(false);
+        }
+    }
+
+    const luasGambar = useMemo(() => (sudutArea.length >= 3 ? luasPoligonM2(sudutArea) : 0), [sudutArea]);
+
+    const selesaiArea = () => {
+        if (sudutArea.length < 3) {
+            kabar(t('Area butuh minimal 3 titik sudut.', 'An area needs at least 3 corner points.'), 'warning');
+            return;
+        }
+        if (luasGambar > LUAS_AREA_MAKS) {
+            kabar(t('Area terlalu luas (maksimal 25 km²). Urungkan beberapa titik.', 'The area is too large (at most 25 km²). Undo some points.'), 'warning');
+            return;
+        }
+        muatArea(sudutArea);
+    };
+
+    const gantiAlat = (a: Alat) => {
+        setAlat(a);
+        if (a !== 'area') setSudutArea([]);
+    };
+
+    const gantiKamera = (m: ModeKamera) => {
+        setModeKamera(m);
+        try {
+            sessionStorage.setItem(KUNCI_KAMERA, m);
+        } catch {
+            /* tanpa sessionStorage: mode tidak diingat */
+        }
+    };
+
     // Rute
     const labelTitik = (t: TitikPeta) => `${t.lat.toFixed(4)}, ${t.lng.toFixed(4)}`;
 
@@ -344,22 +426,34 @@ export default function Peta() {
     };
 
     // Klik peta
-    const klikPeta = (t: TitikPeta) => {
+    const klikPeta = (titik: TitikPeta) => {
         if (panelKiri === 'rute') {
             if (menunggu === 'a' || (!ruteA && menunggu !== 'b')) {
-                setelTitikRute(t, 'a');
+                setelTitikRute(titik, 'a');
                 setMenunggu('b');
             } else if (menunggu === 'b' || !ruteB) {
-                setelTitikRute(t, 'b');
+                setelTitikRute(titik, 'b');
                 setMenunggu(null);
             }
             return;
         }
+        if (alat === 'jelajah') return;
+        if (alat === 'area') {
+            if (memuatArea) return;
+            if (sudutArea.length === 0 && detail?.jenis_geometri === 'area') setWilayahTerpilih(null);
+            if (sudutArea.length >= SUDUT_MAKS) {
+                kabar(t(`Maksimal ${SUDUT_MAKS} titik sudut. Tekan Selesai.`, `At most ${SUDUT_MAKS} corner points. Press Done.`), 'warning');
+                return;
+            }
+            setSudutArea((s) => [...s, titik]);
+            return;
+        }
         setTop3Aktif(null);
-        muatTitik(t);
+        muatTitik(titik);
     };
 
     const tutupPanelKiri = () => {
+        areaTerakhir.current = null;
         setPanelKiri(null);
         setPin(null);
         setWilayahTerpilih(null);
@@ -376,25 +470,34 @@ export default function Peta() {
     const labelPersona = persona.map((p) => PERSONA[p].label).join(' & ') || 'Commuter';
     const mesinWaktuAktif = !!layerAktif.mesin_waktu;
     const proyekDiTahun = (layerData.mesin_waktu?.features ?? []).filter((f) => !f.properties?.tahun || f.properties.tahun <= tahun).length;
+    const modeRute = panelKiri === 'rute';
+    const gambarArea = !modeRute && alat === 'area';
+    const pinTampil = panelKiri === 'detail' ? pin : null;
+    const lingkaran = useMemo(() => (pinTampil && alat === 'titik' && !modeRute ? { pusat: pinTampil, meter: RADIUS_TITIK } : null), [pinTampil, alat, modeRute]);
 
     return (
         <>
             <Head title={t('Peta', 'Map')} />
-            <main className="nr-app" data-mode={panelKiri === 'rute' ? 'rute' : undefined}>
+            <main className="nr-app" data-mode={modeRute ? 'rute' : undefined} data-alat={modeRute ? undefined : alat}>
                 <PetaPilihan
                     className="nr-app__peta"
                     layer={layerTampil}
                     aktif={layerAktif}
                     tahun={tahun}
-                    top3={panelKiri === 'top3' ? hasil : null}
+                    top3={panelKiri === 'top3' && !gambarArea ? hasil : null}
                     top3Aktif={top3Aktif}
                     wilayahTerpilih={wilayahTerpilih}
-                    pin={panelKiri === 'detail' ? pin : null}
+                    pin={pinTampil}
+                    lingkaran={lingkaran}
+                    sudutArea={gambarArea ? sudutArea : undefined}
+                    modeKamera={modeKamera}
+                    perintahZoom={perintahZoom}
+                    onMesin={setMesin}
                     rute={panelKiri === 'rute' ? rute : null}
                     ruteA={panelKiri === 'rute' ? ruteA : null}
                     ruteB={panelKiri === 'rute' ? ruteB : null}
                     moda={moda}
-                    modeRute={panelKiri === 'rute'}
+                    modeRute={modeRute || gambarArea}
                     bahasa={bahasa}
                     terbangKe={terbangKe}
                     onKlikPeta={klikPeta}
@@ -405,7 +508,7 @@ export default function Peta() {
                 />
 
                 <div className="nr-app__kiri">
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%' }}>
+                    <div className="nr-app__atas" style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%' }}>
                         <Link
                             href="/"
                             style={{
@@ -512,6 +615,24 @@ export default function Peta() {
                         <SliderTahun tahun={tahun} onUbah={setTahun} kosong={!!layerData.mesin_waktu && proyekDiTahun === 0} />
                     </div>
                 )}
+
+                <div className="nr-app__bilah">
+                    <BilahAlat
+                        alat={alat}
+                        onAlat={gantiAlat}
+                        alatTersedia={!modeRute}
+                        modeKamera={modeKamera}
+                        onModeKamera={gantiKamera}
+                        kameraTersedia={mesin === 'maplibre'}
+                        onZoom={(arah) => setPerintahZoom({ arah, kunci: Date.now() })}
+                        jumlahSudut={sudutArea.length}
+                        teksLuas={luasGambar ? teksLuas(luasGambar) : null}
+                        memuatArea={memuatArea}
+                        onUrungkan={() => setSudutArea((s) => s.slice(0, -1))}
+                        onHapus={() => setSudutArea([])}
+                        onSelesai={selesaiArea}
+                    />
+                </div>
 
                 <aside className="nr-app__catatan nr-float" aria-label={t('Keterangan data', 'Data notice')}>
                     <span className="nr-app__catatan-dot" aria-hidden="true" />

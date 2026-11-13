@@ -134,3 +134,42 @@ export function isiPopup(layer: string, p: Record<string, any>, idFitur?: unknow
 /** Atribusi sumber data yang tampil di pojok peta (HTML). */
 export const ATRIBUSI_DATA =
     'Transit: <a href="https://data.commute.shiorilabs.id/">Commute Data Platform</a> (ODbL) · Banjir: InaRISK & BNPB · Zona: RDTR DKI 2022 · PM2.5: SatPM ACAG (CC BY 4.0) · Bus Bodetabek: Opentransum';
+
+/* ---------------- Geometri bilah alat (Titik dan Area) ---------------- */
+
+const R_BUMI = 6_371_008.8;
+const RAD = Math.PI / 180;
+
+/** Lingkaran radius `meter` di sekitar titik, sebagai cincin [lng, lat] tertutup (cukup akurat untuk < 10 km). */
+export function lingkaranCincin(pusat: { lat: number; lng: number }, meter: number, sisi = 64): [number, number][] {
+    const dLat = (meter / R_BUMI) / RAD;
+    const dLng = dLat / Math.cos(pusat.lat * RAD);
+    const cincin: [number, number][] = [];
+    for (let i = 0; i <= sisi; i++) {
+        const a = (i / sisi) * 2 * Math.PI;
+        cincin.push([pusat.lng + dLng * Math.cos(a), pusat.lat + dLat * Math.sin(a)]);
+    }
+    return cincin;
+}
+
+/** Perkiraan luas poligon (m²) dari titik sudutnya; proyeksi ekuirektangular di lintang tengah, galat < 1% untuk area < 25 km². */
+export function luasPoligonM2(sudut: { lat: number; lng: number }[]): number {
+    if (sudut.length < 3) return 0;
+    const lat0 = (sudut.reduce((s, p) => s + p.lat, 0) / sudut.length) * RAD;
+    const xy = sudut.map((p) => [p.lng * RAD * R_BUMI * Math.cos(lat0), p.lat * RAD * R_BUMI]);
+    let s = 0;
+    for (let i = 0; i < xy.length; i++) {
+        const [x1, y1] = xy[i];
+        const [x2, y2] = xy[(i + 1) % xy.length];
+        s += x1 * y2 - x2 * y1;
+    }
+    return Math.abs(s) / 2;
+}
+
+/** "450 m²", "3,2 ha", atau "1,25 km²". */
+export function teksLuas(m2: number): string {
+    const angka = (n: number, d: number) => n.toLocaleString(bahasaAktif() === 'en' ? 'en-US' : 'id-ID', { maximumFractionDigits: d });
+    if (m2 >= 1_000_000) return `${angka(m2 / 1_000_000, 2)} km²`;
+    if (m2 >= 10_000) return `${angka(m2 / 10_000, 1)} ha`;
+    return `${angka(m2, 0)} m²`;
+}

@@ -56,7 +56,15 @@ Alasan: Mapbox tanpa kartu kredit dibatasi 5.000 muat peta per bulan. Rencana: d
 - 13 Nov: peta kosong di laptop karena `.maplibregl-map { position: relative }` dari CDN menimpa pembungkus;
   diperbaiki dengan `.nr-peta-maplibre.maplibregl-map`. Mode 2D / Miring / 3D ditambahkan (tidak lagi ditunda),
   uji asap 41/41.
-- Perlu dilakukan: pull, `npm run dev`, uji berdampingan dengan `?mesin=leaflet`, lalu perbarui SRS B01/SW02.
+- 13 Nov (sore): **bilah alat tengah bawah** — Jelajah / Titik (lingkaran 1,2 km) / Area (gambar poligon, Urungkan,
+  Hapus, Selesai), mode tampilan 2D / Miring / 3D, dan zoom dalam satu baris (`Components/BilahAlat.tsx`); kontrol
+  zoom dan kamera di dalam peta dihapus. Endpoint baru `GET /api/inspect?area=` (disetujui; `docs/SISTEM.md` bagian 2,
+  `App\Services\AreaPoligon`). Onboarding langkah "Nilai titik atau area" menunjuk bilah alat. Ikut diperbaiki:
+  tata letak HP (kotak cari jatuh ke bawah dan LAYER/PERSONA hilang karena pembungkus tombol kembali) dan toast di
+  atas petunjuk bilah. Uji: AreaPoligon via PHP murni; uji menyeluruh halaman Peta di Chrome 23/23; uji peta 34/34.
+  `php artisan test` (termasuk 2 tes fitur area baru) belum dijalankan karena tidak ada PostGIS di lingkungan agen.
+- Perlu dilakukan: pull, `npm run dev`, uji berdampingan dengan `?mesin=leaflet`, jalankan `php artisan test`,
+  lalu perbarui SRS B01/SW02.
 - Label nama stasiun memakai font peta dasar (Noto Sans dari OpenFreeMap), bukan Plus Jakarta Sans; teks di
   dalam kanvas peta tidak bisa memakai font web.
 

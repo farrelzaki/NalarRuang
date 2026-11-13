@@ -12,6 +12,9 @@ import { ATRIBUSI_DATA, isiPopupLegal, isiPopupRdtr, isiPopupUmum, popupHtml, po
 
 export type TitikPeta = { lat: number; lng: number };
 
+/** Mode kamera bilah alat: tampak atas, miring, atau 3D (hanya MapLibre; Leaflet selalu tampak atas). */
+export type ModeKamera = 'atas' | 'miring' | '3d';
+
 /** Props bersama untuk semua mesin peta (Leaflet dan MapLibre). */
 export type PropsPeta = {
     layer: Partial<Record<LayerKey, FeatureCollection>>;
@@ -25,8 +28,16 @@ export type PropsPeta = {
     ruteA: TitikPeta | null;
     ruteB: TitikPeta | null;
     moda: 'mobil' | 'transit';
+    /** True saat klik peta dipakai untuk menaruh titik (rute A/B atau sudut Area): popup fitur tidak dibuka. */
     modeRute: boolean;
     bahasa: Bahasa;
+    /** Alat Titik: lingkaran radius di sekitar pin (meter). */
+    lingkaran?: { pusat: TitikPeta; meter: number } | null;
+    /** Alat Area: titik sudut yang sedang digambar (belum selesai). */
+    sudutArea?: TitikPeta[];
+    modeKamera?: ModeKamera;
+    /** Perintah zoom dari bilah alat; `kunci` berubah tiap klik. */
+    perintahZoom?: { arah: 1 | -1; kunci: number } | null;
     terbangKe: { geometri?: Geometry; titik?: TitikPeta; kunci: number } | null;
     onKlikPeta: (t: TitikPeta) => void;
     onLihatDetail: (t: TitikPeta) => void;
@@ -134,7 +145,7 @@ export default function PetaExplorer(props: Props) {
                 panggil.current.onBatasPeta?.();
             }
         });
-        L.control.zoom({ position: 'bottomright', zoomInTitle: tr('Perbesar peta', 'Zoom in'), zoomOutTitle: tr('Perkecil peta', 'Zoom out') }).addTo(m);
+        // Tombol zoom ada di bilah alat tengah bawah (perintahZoom), bukan kontrol Leaflet.
         m.attributionControl.setPrefix('<a href="https://leafletjs.com">Leaflet</a>');
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
@@ -260,6 +271,19 @@ export default function PetaExplorer(props: Props) {
         if (props.wilayahTerpilih) {
             L.geoJSON(props.wilayahTerpilih, { pane: 'nrSeleksi', style: gaya.terpilih, interactive: false }).addTo(g);
         }
+        if (props.lingkaran) {
+            L.circle([props.lingkaran.pusat.lat, props.lingkaran.pusat.lng], {
+                pane: 'nrSeleksi', radius: props.lingkaran.meter, interactive: false,
+                color: '#0f1b3d', weight: 1.5, dashArray: '6 6', fillColor: '#0f1b3d', fillOpacity: 0.06,
+            }).addTo(g);
+        }
+        const sudut = props.sudutArea ?? [];
+        if (sudut.length) {
+            const ll = sudut.map((p) => L.latLng(p.lat, p.lng));
+            if (ll.length >= 3) L.polygon(ll, { pane: 'nrSeleksi', interactive: false, color: '#0f1b3d', weight: 2, dashArray: '6 4', fillColor: '#0f1b3d', fillOpacity: 0.12 }).addTo(g);
+            else L.polyline(ll, { pane: 'nrSeleksi', interactive: false, color: '#0f1b3d', weight: 2, dashArray: '6 4' }).addTo(g);
+            ll.forEach((p, i) => L.circleMarker(p, { pane: 'nrSeleksi', interactive: false, radius: i === 0 ? 6 : 4.5, color: '#0f1b3d', weight: 2, fillColor: '#ffffff', fillOpacity: 1 }).addTo(g));
+        }
         if (props.pin) {
             L.marker([props.pin.lat, props.pin.lng], {
                 pane: 'nrSeleksi',
@@ -272,7 +296,16 @@ export default function PetaExplorer(props: Props) {
                 }),
             }).addTo(g);
         }
-    }, [props.top3, props.top3Aktif, props.wilayahTerpilih, props.pin]);
+    }, [props.top3, props.top3Aktif, props.wilayahTerpilih, props.pin, props.lingkaran, props.sudutArea]);
+
+    // Zoom dari bilah alat.
+    useEffect(() => {
+        const m = peta.current;
+        const z = props.perintahZoom;
+        if (!m || !z) return;
+        if (z.arah > 0) m.zoomIn();
+        else m.zoomOut();
+    }, [props.perintahZoom?.kunci]);
 
     useEffect(() => {
         const g = grupRute.current;

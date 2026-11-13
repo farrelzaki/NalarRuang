@@ -185,10 +185,21 @@ function jarakLuar(p: Persona, d: { nama: string; meter: number }, bahasa: Bahas
 }
 
 /** Ringkasan fasilitas terdekat untuk panel area (sama gaya dengan ringkasan titik). */
-function RingkasanWilayah({ data }: { data: Extract<InspectResponse, { jenis_geometri: 'wilayah' }> }) {
+function RingkasanWilayah({ data }: { data: Extract<InspectResponse, { jenis_geometri: 'wilayah' | 'area' }> }) {
     const { t, bahasa } = useBahasa();
     if (!data.terdekat) return null;
     const baris: [Simbol, string][] = [];
+    const angka = (n: number, digit = 0) => n.toLocaleString(bahasa === 'en' ? 'en-US' : 'id-ID', { maximumFractionDigits: digit });
+    if (data.jenis_geometri === 'area') {
+        const luas = data.luas_m2 >= 100_000
+            ? `${angka(data.luas_m2 / 1_000_000, 2)} km² (${angka(data.luas_m2 / 10_000, 1)} ha)`
+            : `${angka(data.luas_m2)} m² (${angka(data.luas_m2 / 10_000, 2)} ha)`;
+        baris.push(['terpilih', t(`Luas area ${luas}`, `Area size ${luas}`)]);
+        if (data.kelurahan.length > 1) {
+            const daftar = data.kelurahan.map((k) => `${k.nama} ${Math.round(k.porsi * 100)}%`).join(', ');
+            baris.push(['terpilih', t(`Mencakup kelurahan ${daftar}`, `Covers villages ${daftar}`)]);
+        }
+    }
     const tulis = (p: Persona, simbol: Simbol, label: [string, string]) => {
         const d = data.terdekat?.[p];
         if (!d) return;
@@ -210,7 +221,16 @@ function RingkasanWilayah({ data }: { data: Extract<InspectResponse, { jenis_geo
         const pm = String(Math.round(data.udara.pm25));
         baris.push(['rth', t(`Udara ${u[0]}: PM2.5 rata-rata 2024 ${pm} µg/m³ (satelit)`, `Air ${u[1]}: 2024 average PM2.5 ${pm} µg/m³ (satellite)`)]);
     }
-    if (data.penduduk) {
+    if (data.jenis_geometri === 'area') {
+        const persen = Math.round(data.banjir.porsi_rawan * 100);
+        baris.push([
+            persen > 0 ? 'banjir-2' : 'banjir',
+            persen > 0
+                ? t(`${persen}% luas area rawan tergenang (indeks bahaya InaRISK ≥ 0,50)`, `${persen}% of the area is flood-prone (InaRISK hazard index ≥ 0.50)`)
+                : t('Tidak ada bagian area dengan indeks bahaya banjir InaRISK ≥ 0,50', 'No part of the area has an InaRISK flood hazard index ≥ 0.50'),
+        ]);
+    }
+    if (data.jenis_geometri === 'wilayah' && data.penduduk) {
         const n = data.penduduk.kepadatan_per_km2.toLocaleString(bahasa === 'en' ? 'en-US' : 'id-ID');
         baris.push(['terpilih', t(`Kepadatan ±${n} jiwa/km² (estimasi WorldPop 2025)`, `Density ±${n} people/km² (WorldPop 2025 estimate)`)]);
     }
@@ -247,7 +267,7 @@ function IsiDetail({ data, sesi }: { data: InspectResponse; sesi: Persona[] }) {
                     <Ikon name="map-pin" size={22} />
                 </span>
                 <div>
-                    <div className="nr-eyebrow">{titik ? t('Titik Terpilih', 'Selected Point') : t('Area Terpilih', 'Selected Area')}</div>
+                    <div className="nr-eyebrow">{titik ? t('Titik Terpilih', 'Selected Point') : data.jenis_geometri === 'area' ? t('Area Digambar', 'Drawn Area') : t('Area Terpilih', 'Selected Area')}</div>
                     <h3 className="nr-inspector__name" id="nr-inspector-name">
                         {teksServer(data.nama)}
                     </h3>
@@ -274,7 +294,7 @@ function IsiDetail({ data, sesi }: { data: InspectResponse; sesi: Persona[] }) {
                     ))}
                 </div>
             )}
-            {data.jenis_geometri === 'wilayah' && <RingkasanWilayah data={data} />}
+            {data.jenis_geometri !== 'titik' && <RingkasanWilayah data={data} />}
             {titik && data.catatan && (
                 <p className="nr-summary__note" role="note">
                     {teksServer(data.catatan)}

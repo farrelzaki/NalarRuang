@@ -41,6 +41,8 @@ Kriteria selesai:
 - [x] PetaMapLibre dengan props sama; cadangan otomatis ke Leaflet.
 - [x] Uji asap dengan tiruan maplibregl lulus (41/41).
 - [x] Mode 2D / Miring / 3D (gedung OpenFreeMap, medan AWS Terrarium).
+- [x] Bilah alat tengah bawah: Jelajah / Titik / Area + mode tampilan + zoom; endpoint `inspect?area=` (13 Nov).
+- [ ] `php artisan test` lulus (tes `test_inspect_area_*`, `AreaPoligonTest`).
 - [ ] Daftar periksa paritas lulus dengan MapLibre asli (layer, legenda, popup, Top 3, Point Inspector, rute, Mesin Waktu, batas peta, HP).
 - [ ] `npm run typecheck` dan `npm run build` bersih.
 - [ ] SRS B01/SW02 diperbarui.

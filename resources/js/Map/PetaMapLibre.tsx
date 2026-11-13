@@ -9,9 +9,9 @@ import { useEffect, useRef, useState } from 'react';
 import type { Feature, FeatureCollection, Geometry, LineString, MultiLineString, Polygon, Position } from 'geojson';
 import type { LayerKey } from '@/types';
 import * as gaya from './gaya';
-import { ATRIBUSI_DATA, isiPopup, popupHtml, ponsel, tr, warnaEkosistem } from './isiPeta';
+import { ATRIBUSI_DATA, isiPopup, lingkaranCincin, popupHtml, ponsel, tr, warnaEkosistem } from './isiPeta';
 import { GAYA_PETA, muatMapLibre, type MapLibreGL } from './maplibre';
-import type { PropsPeta, TitikPeta } from './PetaExplorer';
+import type { ModeKamera, PropsPeta, TitikPeta } from './PetaExplorer';
 
 type Props = PropsPeta & { onGagal?: (alasan: string) => void };
 
@@ -267,18 +267,7 @@ const PIN_SVG = '<svg width="30" height="38" viewBox="-15 -36 30 38"><path d="M0
 
 /* ---------------- Mode kamera: 2D, Miring, 3D ---------------- */
 
-export type ModeKamera = 'atas' | 'miring' | '3d';
-const KUNCI_MODE = 'nr-mode-kamera';
 const DEM_TERRARIUM = 'https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png';
-
-function modeTersimpan(): ModeKamera {
-    try {
-        const v = sessionStorage.getItem(KUNCI_MODE);
-        return v === 'miring' || v === '3d' ? v : 'atas';
-    } catch {
-        return 'atas';
-    }
-}
 
 /** Gedung 3D dari layer `building` tile OpenMapTiles (OpenFreeMap) dan medan dari AWS Terrarium. */
 function pasang3D(m: Apa): void {
@@ -308,11 +297,6 @@ function pasang3D(m: Apa): void {
 }
 
 function terapkanKamera(m: Apa, mode: ModeKamera, animasi: boolean): void {
-    try {
-        sessionStorage.setItem(KUNCI_MODE, mode);
-    } catch {
-        /* sesi tanpa penyimpanan: abaikan */
-    }
     const miring = mode !== 'atas';
     for (const h of [m.dragRotate, m.touchPitch]) (miring ? h?.enable : h?.disable)?.call(h);
     if (miring) {
@@ -327,40 +311,6 @@ function terapkanKamera(m: Apa, mode: ModeKamera, animasi: boolean): void {
     const tujuan = mode === 'atas' ? { pitch: 0, bearing: 0 } : { pitch: mode === '3d' ? 60 : 50, bearing: m.getBearing() || -17 };
     if (animasi) m.easeTo({ ...tujuan, duration: 800 });
     else m.jumpTo(tujuan);
-    document.querySelectorAll<HTMLButtonElement>('.nr-kamera button[data-mode]').forEach((b) => {
-        b.classList.toggle('aktif', b.dataset.mode === mode);
-        b.setAttribute('aria-pressed', String(b.dataset.mode === mode));
-    });
-}
-
-/** Tiga tombol mode kamera, sebagai kontrol MapLibre di pojok kanan bawah. */
-function kontrolKamera(pilih: (mode: ModeKamera) => void): Apa {
-    let el: HTMLDivElement | null = null;
-    return {
-        onAdd() {
-            el = document.createElement('div');
-            el.className = 'maplibregl-ctrl maplibregl-ctrl-group nr-kamera';
-            el.setAttribute('role', 'group');
-            el.setAttribute('aria-label', tr('Mode tampilan peta', 'Map view mode'));
-            const aktif = modeTersimpan();
-            const tombol: [ModeKamera, string, string, string][] = [
-                ['atas', '2D', tr('Tampak atas (2D)', 'Top view (2D)'), ''],
-                ['miring', tr('Miring', 'Tilt'), tr('Peta miring, bisa diputar', 'Tilted map, can rotate'), ''],
-                ['3d', '3D', tr('3D: gedung dan medan', '3D: buildings and terrain'), ''],
-            ];
-            el.innerHTML = tombol
-                .map(([m, label, judul]) => `<button type="button" data-mode="${m}" class="${m === aktif ? 'aktif' : ''}" aria-pressed="${m === aktif}" title="${judul}" aria-label="${judul}">${label}</button>`)
-                .join('');
-            el.addEventListener('click', (e) => {
-                const b = (e.target as HTMLElement).closest<HTMLButtonElement>('button[data-mode]');
-                if (b) pilih(b.dataset.mode as ModeKamera);
-            });
-            return el;
-        },
-        onRemove() {
-            el?.remove();
-        },
-    };
 }
 
 /* ---------------- Komponen ---------------- */
@@ -404,10 +354,8 @@ export default function PetaMapLibre(props: Props) {
                 });
                 m.touchZoomRotate.disableRotation();
                 m.keyboard?.disableRotation?.();
-                m.addControl(new maplibregl.AttributionControl({ compact: ponsel(), customAttribution: ATRIBUSI_DATA }), 'bottom-left');
-                m.addControl(new maplibregl.NavigationControl({ showCompass: true, visualizePitch: true }), 'bottom-right');
-                // Ditambah setelah zoom: di pojok bawah, kontrol yang ditambah belakangan tampil di atasnya.
-                m.addControl(kontrolKamera((mode) => terapkanKamera(m, mode, true)), 'bottom-right');
+                // Zoom dan mode kamera ada di bilah alat tengah bawah (props perintahZoom dan modeKamera).
+                m.addControl(new maplibregl.AttributionControl({ compact: true, customAttribution: ATRIBUSI_DATA }), 'bottom-right');
                 peta.current = m;
 
                 let dimuat = false;
@@ -431,7 +379,7 @@ export default function PetaMapLibre(props: Props) {
                     pasang3D(m);
                     pasangSeleksi(m);
                     pasangRute(m);
-                    terapkanKamera(m, modeTersimpan(), false);
+                    terapkanKamera(m, panggil.current.modeKamera ?? 'atas', false);
                     muatIkon(m).then(() => {
                         if (!batal) setSiap(true);
                     });
@@ -535,14 +483,7 @@ export default function PetaMapLibre(props: Props) {
             el?.setAttribute('title', teks);
             el?.setAttribute('aria-label', teks);
         };
-        set('.maplibregl-ctrl-zoom-in', tr('Perbesar peta', 'Zoom in'));
-        set('.maplibregl-ctrl-zoom-out', tr('Perkecil peta', 'Zoom out'));
-        set('.maplibregl-ctrl-compass', tr('Kembali menghadap utara', 'Reset north'));
-        set('.nr-kamera [data-mode="atas"]', tr('Tampak atas (2D)', 'Top view (2D)'));
-        set('.nr-kamera [data-mode="miring"]', tr('Peta miring, bisa diputar', 'Tilted map, can rotate'));
-        set('.nr-kamera [data-mode="3d"]', tr('3D: gedung dan medan', '3D: buildings and terrain'));
-        const miring = wadah.current?.querySelector('.nr-kamera [data-mode="miring"]');
-        if (miring) miring.textContent = tr('Miring', 'Tilt');
+        set('.maplibregl-ctrl-attrib-button', tr('Sumber data peta', 'Map data sources'));
         popup.current?.remove();
     }, [props.bahasa, siap]);
 
@@ -591,7 +532,22 @@ export default function PetaMapLibre(props: Props) {
         if (m.getLayer('nr-mesin_waktu-proyek')) m.setFilter('nr-mesin_waktu-proyek', filterTahun(props.tahun));
     }, [props.tahun, siap]);
 
-    // Seleksi: topeng redup, wilayah Top 3, wilayah terpilih, nomor peringkat, pin titik.
+    // Mode kamera dan zoom dari bilah alat.
+    useEffect(() => {
+        const m = peta.current;
+        if (!m || !siap) return;
+        terapkanKamera(m, props.modeKamera ?? 'atas', true);
+    }, [props.modeKamera, siap]);
+
+    useEffect(() => {
+        const m = peta.current;
+        const z = props.perintahZoom;
+        if (!m || !z) return;
+        if (z.arah > 0) m.zoomIn();
+        else m.zoomOut();
+    }, [props.perintahZoom?.kunci]);
+
+    // Seleksi: topeng redup, wilayah Top 3, wilayah terpilih, lingkaran Titik, area gambar, nomor peringkat, pin titik.
     useEffect(() => {
         const m = peta.current;
         if (!m || !siap) return;
@@ -601,6 +557,16 @@ export default function PetaMapLibre(props: Props) {
             props.top3.forEach((r, i) => fitur.push({ type: 'Feature', properties: { peran: 'top3', urutan: i, aktif: props.top3Aktif === i }, geometry: r.geometri as Geometry }));
         }
         if (props.wilayahTerpilih) fitur.push({ type: 'Feature', properties: { peran: 'terpilih' }, geometry: props.wilayahTerpilih });
+        if (props.lingkaran) {
+            fitur.push({ type: 'Feature', properties: { peran: 'lingkaran' }, geometry: { type: 'Polygon', coordinates: [lingkaranCincin(props.lingkaran.pusat, props.lingkaran.meter)] } });
+        }
+        const sudut = props.sudutArea ?? [];
+        if (sudut.length) {
+            const xy = sudut.map((p) => [p.lng, p.lat]);
+            if (xy.length >= 3) fitur.push({ type: 'Feature', properties: { peran: 'area' }, geometry: { type: 'Polygon', coordinates: [[...xy, xy[0]]] } });
+            else if (xy.length === 2) fitur.push({ type: 'Feature', properties: { peran: 'area' }, geometry: { type: 'LineString', coordinates: xy } });
+            xy.forEach((c, i) => fitur.push({ type: 'Feature', properties: { peran: 'sudut', pertama: i === 0 }, geometry: { type: 'Point', coordinates: c } }));
+        }
         m.getSource('nr-seleksi')?.setData({ type: 'FeatureCollection', features: fitur });
 
         penandaSeleksi.current.forEach((p) => p.remove());
@@ -617,7 +583,7 @@ export default function PetaMapLibre(props: Props) {
             const el = elemen(`<div class="nr-pin-maplibre" aria-hidden="true">${PIN_SVG}</div>`);
             penandaSeleksi.current.push(new mb.current.Marker({ element: el, anchor: 'bottom', offset: [0, 2] }).setLngLat([props.pin.lng, props.pin.lat]).addTo(m));
         }
-    }, [props.top3, props.top3Aktif, props.wilayahTerpilih, props.pin, siap]);
+    }, [props.top3, props.top3Aktif, props.wilayahTerpilih, props.pin, props.lingkaran, props.sudutArea, siap]);
 
     // Rute A→B: rel berwarna per lin, ojol, jalan kaki, mobil, stasiun, panah arah, titik A/B.
     useEffect(() => {
@@ -701,6 +667,14 @@ function pasangSeleksi(m: Apa): void {
     tambah({ id: 'nr-seleksi-top3-garis', type: 'line', filter: peran('top3'), paint: { 'line-color': NAVY, 'line-width': ['case', ['to-boolean', ['get', 'aktif']], 3.5, 2.5] } });
     tambah({ id: 'nr-seleksi-terpilih-isi', type: 'fill', filter: peran('terpilih'), paint: { 'fill-color': NAVY, 'fill-opacity': 0.08 } });
     tambah({ id: 'nr-seleksi-terpilih-garis', type: 'line', filter: peran('terpilih'), paint: { 'line-color': NAVY, 'line-width': 2.5 } });
+    tambah({ id: 'nr-seleksi-lingkaran-isi', type: 'fill', filter: peran('lingkaran'), paint: { 'fill-color': NAVY, 'fill-opacity': 0.06 } });
+    tambah({ id: 'nr-seleksi-lingkaran-garis', type: 'line', filter: peran('lingkaran'), paint: { 'line-color': NAVY, 'line-width': 1.5, 'line-dasharray': [3, 3] } });
+    tambah({ id: 'nr-seleksi-area-isi', type: 'fill', filter: ['all', peran('area'), ['==', ['geometry-type'], 'Polygon']], paint: { 'fill-color': NAVY, 'fill-opacity': 0.12 } });
+    tambah({ id: 'nr-seleksi-area-garis', type: 'line', filter: peran('area'), layout: { 'line-join': 'round' }, paint: { 'line-color': NAVY, 'line-width': 2, 'line-dasharray': [3, 2] } });
+    tambah({
+        id: 'nr-seleksi-sudut', type: 'circle', filter: peran('sudut'),
+        paint: { 'circle-radius': ['case', ['to-boolean', ['get', 'pertama']], 6, 4.5], 'circle-color': '#ffffff', 'circle-stroke-color': NAVY, 'circle-stroke-width': 2 },
+    });
 }
 
 /** Sumber dan layer rute (paling atas). */
