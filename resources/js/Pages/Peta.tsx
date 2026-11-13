@@ -9,7 +9,8 @@ import type { CommuteResponse, HasilSearch, InspectResponse, LayerKey, LayerResp
 import { api } from '@/lib/api';
 import { useBahasa } from '@/lib/bahasa';
 import { bacaPersonaSesi, PERSONA, simpanPersonaSesi, SUBFITUR, type Simbol } from '@/lib/nalar';
-import PetaExplorer, { type TitikPeta } from '@/Map/PetaExplorer';
+import type { TitikPeta } from '@/Map/PetaExplorer';
+import PetaPilihan from '@/Map/PetaPilihan';
 import { Toast, type NadaToast } from '@/Components/Dasar';
 import { PanelFilter, PanelTop3, SearchBar } from '@/Components/Pencarian';
 import { DetailLokasi } from '@/Components/DetailLokasi';
@@ -380,10 +381,10 @@ export default function Peta() {
         <>
             <Head title={t('Peta', 'Map')} />
             <main className="nr-app" data-mode={panelKiri === 'rute' ? 'rute' : undefined}>
-                <PetaExplorer
+                <PetaPilihan
                     className="nr-app__peta"
                     layer={layerTampil}
-                    aktif={layerAktif} // <--- Tambahkan baris ini di sini
+                    aktif={layerAktif}
                     tahun={tahun}
                     top3={panelKiri === 'top3' ? hasil : null}
                     top3Aktif={top3Aktif}
