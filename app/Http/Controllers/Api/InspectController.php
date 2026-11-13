@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Services\AreaPoligon;
 use App\Services\PersonaScoring;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use InvalidArgumentException;
 
 /**
- * GET /api/inspect (FR-08, FR-09, FR-17). Titik: bintang; wilayah: centang (SRS v1.2 BR 10).
+ * GET /api/inspect (FR-08, FR-09, FR-17). Titik: bintang; wilayah dan area gambar: centang (SRS v1.2 BR 10).
+ * Area (`area=lng,lat;...`, alat Area di bilah alat, 13 Nov 2026) memakai aturan cocok yang sama dengan wilayah.
  */
 class InspectController extends Controller
 {
@@ -56,6 +59,10 @@ class InspectController extends Controller
     public function __invoke(Request $request): JsonResponse
     {
         $persona = array_values(array_intersect((array) $request->query('persona', []), PersonaScoring::PERSONA));
+
+        if ($request->filled('area')) {
+            return $this->area((string) $request->query('area'), $persona);
+        }
 
         if ($request->filled('wilayah_id')) {
             return $this->wilayah((int) $request->query('wilayah_id'), $persona);
@@ -277,6 +284,105 @@ class InspectController extends Controller
             'data_tidak_lengkap' => $w->kualitas_udara === null,
             'udara' => ['kategori' => $w->kualitas_udara, 'pm25' => $w->pm25 === null ? null : (float) $w->pm25, 'sumber' => 'SatPM 2024 (ACAG)'],
             'penduduk' => $w->penduduk ? ['jumlah' => (int) $w->penduduk, 'kepadatan_per_km2' => (int) $w->kepadatan, 'sumber' => 'Estimasi WorldPop 2025'] : null,
+        ]);
+    }
+
+    /**
+     * Area yang digambar pengguna: dinilai seperti wilayah (cocok bila fasilitas utama di dalam area atau
+     * paling jauh 2,5 km dari batasnya). Udara diambil dari kelurahan yang paling banyak tercakup.
+     */
+    private function area(string $teks, array $persona): JsonResponse
+    {
+        try {
+            $cincin = AreaPoligon::urai($teks);
+        } catch (InvalidArgumentException $e) {
+            return response()->json(['message' => $e->getMessage()], 422);
+        }
+
+        // Poligon yang garisnya saling memotong dirapikan PostGIS; hanya bagian poligonnya yang diambil.
+        $a = DB::selectOne(
+            'SELECT ST_AsGeoJSON(g, 7) AS geojson, ST_Area(g::geography) AS luas
+             FROM (SELECT ST_CollectionExtract(ST_MakeValid(ST_GeomFromText(?, 4326)), 3) AS g) s',
+            [AreaPoligon::wkt($cincin)],
+        );
+        $luas = (float) ($a->luas ?? 0);
+        if (! $a?->geojson || $luas <= 0) {
+            return response()->json(['message' => 'Bentuk area tidak valid. Coba gambar ulang tanpa garis yang saling memotong.'], 422);
+        }
+        if ($luas < AreaPoligon::LUAS_MIN_M2) {
+            return response()->json(['message' => 'Area terlalu kecil (minimal 500 m²).'], 422);
+        }
+        if ($luas > AreaPoligon::LUAS_MAKS_M2) {
+            return response()->json(['message' => 'Area terlalu luas (maksimal 25 km²). Perkecil areanya.'], 422);
+        }
+
+        $g = '(SELECT ST_SetSRID(ST_GeomFromGeoJSON(?), 4326) AS g) a';
+        $kelurahan = DB::select(
+            "SELECT w.id, w.nama, w.kecamatan, w.kota, w.kualitas_udara, (w.atribut->>'pm25')::float AS pm25,
+                    ST_Area(ST_Intersection(ST_MakeValid(w.geom), a.g)::geography) AS irisan
+             FROM wilayah w, {$g} WHERE ST_Intersects(w.geom, a.g) ORDER BY irisan DESC",
+            [$a->geojson],
+        );
+        $tercakup = array_sum(array_map(fn ($k) => (float) $k->irisan, $kelurahan));
+        if (! $kelurahan || $tercakup / $luas < AreaPoligon::CAKUPAN_MIN) {
+            return response()->json(['message' => 'Sebagian besar area berada di luar Jabodetabek. Gambar area di dalam batas peta.'], 422);
+        }
+        $utama = $kelurahan[0];
+
+        $jumlah = [];
+        $terdekat = [];
+        foreach (self::FASILITAS as $p => $jenis) {
+            $tanda = implode(',', array_fill(0, count($jenis), '?'));
+            $syarat = str_replace('atribut', 'f.atribut', self::SYARAT[$p] ?? '');
+            $jumlah[$p] = (int) DB::selectOne(
+                "SELECT count(*) AS n FROM fitur_peta f, {$g} WHERE f.jenis IN ({$tanda}) {$syarat} AND ST_Intersects(f.geom, a.g)",
+                [$a->geojson, ...$jenis],
+            )->n;
+            $b = DB::selectOne(
+                "SELECT f.nama, ST_Distance(f.geom::geography, a.g::geography) AS meter
+                 FROM fitur_peta f, {$g} WHERE f.jenis IN ({$tanda}) {$syarat}
+                 ORDER BY f.geom <-> a.g LIMIT 1",
+                [$a->geojson, ...$jenis],
+            );
+            $terdekat[$p] = $b ? ['nama' => $this->namaFasilitas($p, $b->nama), 'meter' => (int) round($b->meter)] : null;
+        }
+
+        $cocok = [];
+        foreach (PersonaScoring::PERSONA as $p) {
+            $cocok[$p] = $this->skor->cocokWilayah($p, isset($terdekat[$p]) ? (float) $terdekat[$p]['meter'] : null, $utama->kualitas_udara);
+        }
+
+        // Porsi luas area yang masuk tampilan rawan banjir (indeks InaRISK >= 0,50; bentuk lahan, bukan peluang).
+        $rawan = (float) DB::selectOne(
+            "SELECT coalesce(sum(ST_Area(ST_Intersection(ST_MakeValid(f.geom), a.g)::geography)), 0) AS m2
+             FROM fitur_peta f, {$g} WHERE f.jenis = 'banjir_tampil' AND ST_Intersects(f.geom, a.g)",
+            [$a->geojson],
+        )->m2;
+
+        $lain = count($kelurahan) - 1;
+        $lokasi = trim(implode(', ', array_filter(['Kel. '.$utama->nama, $utama->kecamatan ? 'Kec. '.$utama->kecamatan : null, $utama->kota])));
+
+        return response()->json([
+            'jenis_geometri' => 'area',
+            'nama' => 'Area yang kamu gambar',
+            'wilayah' => $lokasi.($lain > 0 ? " dan {$lain} kelurahan lain" : ''),
+            'wilayah_id' => $utama->id,
+            'geometri' => json_decode($a->geojson),
+            'luas_m2' => (int) round($luas),
+            'kelurahan' => array_map(fn ($k) => [
+                'id' => $k->id,
+                'nama' => $k->nama,
+                'kecamatan' => $k->kecamatan,
+                'kota' => $k->kota,
+                'porsi' => round(min(1, (float) $k->irisan / $luas), 3),
+            ], array_slice($kelurahan, 0, 5)),
+            'match' => $cocok,
+            'jumlah_fasilitas' => $jumlah,
+            'terdekat' => $terdekat,
+            'kesimpulan' => array_map(fn ($p) => $this->skor->kesimpulanWilayah($p, $cocok[$p]), $persona),
+            'data_tidak_lengkap' => $utama->kualitas_udara === null,
+            'udara' => ['kategori' => $utama->kualitas_udara, 'pm25' => $utama->pm25 === null ? null : (float) $utama->pm25, 'sumber' => 'SatPM 2024 (ACAG)'],
+            'banjir' => ['porsi_rawan' => round(min(1, $rawan / $luas), 3), 'sumber' => 'InaRISK BNPB'],
         ]);
     }
 
