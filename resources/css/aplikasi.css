@@ -58,6 +58,9 @@
 
 /* ---------- MapLibre (PetaMapLibre) ---------- */
 .nr-peta-maplibre { background: var(--map-ground); font-family: var(--font-sans); }
+/* maplibre-gl.css (dimuat belakangan dari CDN) memberi .maplibregl-map position: relative, yang membuat
+   pembungkus absolute setinggi 0 sehingga peta kosong. Spesifisitas dua kelas mengembalikannya. */
+.nr-peta-maplibre.maplibregl-map { position: absolute; inset: 0; }
 .nr-app .maplibregl-ctrl-bottom-right .maplibregl-ctrl-group { margin: 0 16px 28px 0; }
 .nr-app .maplibregl-ctrl-attrib { font-size: 12px; }
 .nr-popup-maplibre .maplibregl-popup-content { padding: 0; background: transparent; box-shadow: none; border-radius: var(--radius-md); }
