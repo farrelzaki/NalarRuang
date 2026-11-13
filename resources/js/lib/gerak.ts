@@ -48,7 +48,17 @@ export function useScrollReveal(akar: RefObject<HTMLElement | null>, ulang: unkn
             { rootMargin: '0px 0px -8% 0px', threshold: 0.12 },
         );
         [...el, ...koreo].forEach((e) => pengamat.observe(e));
-        return () => pengamat.disconnect();
+
+        // Hemat baterai: animasi tak berujung dihentikan selama seksinya tidak terlihat.
+        const berulang = Array.from(wadah.querySelectorAll<HTMLElement>('.ed-hero, .ed-marquee, .ed-tiles, .ed-logos--jalan, .ed-try__card'));
+        const penjaga = new IntersectionObserver((daftar) => {
+            for (const d of daftar) d.target.classList.toggle('is-luar', !d.isIntersecting);
+        });
+        berulang.forEach((e) => penjaga.observe(e));
+        return () => {
+            pengamat.disconnect();
+            penjaga.disconnect();
+        };
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, ulang);
 }

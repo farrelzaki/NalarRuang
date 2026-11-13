@@ -79,6 +79,10 @@ kolom foto bergulir (foto tambahan memakai foto yang sudah ada di repo). Sumber 
 saat disorot. Cara kerja: foto per langkah muncul saat disorot. Coba Sekarang: letterbox + fade dari hitam. FAQ:
 garis tergambar, akordeon halus. FAQ ke footer diam. `prefers-reduced-motion` dihormati. Ikut diperbaiki: logo
 ATR/BPN di sumber data menunjuk `bpn.png` yang tidak ada (kini `atr-bpn.png`).
+- 14 Nov (revisi tampilan): jejak lampu dibuat ekor + kepala dengan sisa cahaya lajur; bingkai Our Vision mendarat
+  lurus; tile layer tidak lagi mengulang judul (foto tambahan diberi judul isi + label layer kecil); logo sumber data
+  abu-abu (berwarna saat disorot) dan baris tidak lagi menyusut ke tengah (`justify-items` lama ikut berlaku di blok
+  pada Chrome baru); tirai Coba Sekarang lebih gelap; animasi tak berujung berhenti saat di luar layar.
 - Perlu dari tim: foto hero beresolusi tinggi (yang sekarang 460 px, sumber blur) dan tiga video demo. Bila foto
   hero diganti, sesuaikan `FOTO_HERO` (ukuran dan titik jalur) agar jejak lampu tetap di bundaran.
 

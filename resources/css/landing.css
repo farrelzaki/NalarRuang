@@ -31,6 +31,7 @@
 @media (max-width: 1200px) {
   .ed-sec { padding: 72px 32px; }
   .ed-layer-sec, .ed-faq-sec { grid-template-columns: 1fr; }
+  .ed-tiles { justify-content: center; }
   .ed-fitur-grid { grid-template-columns: 1fr; }
   .ed-fitur-grid > * + * { border-left: 0; border-top: 1px dashed var(--line); }
   .ed-persona-row { flex-wrap: wrap; }
@@ -73,7 +74,9 @@
   .ed-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; height: 460px; }
   .ed-tiles__set { gap: 8px; padding-bottom: 8px; }
   .ed-tile__foto { height: 150px !important; }
-  .ed-tile__title { left: 10px; right: 8px; bottom: 10px; font-size: 15px; line-height: 18px; }
+  .ed-tile__teks { left: 10px; right: 8px; bottom: 10px; }
+  .ed-tile__title, .ed-tile--contoh .ed-tile__title { font-size: 15px; line-height: 18px; }
+  .ed-tile__lapis { font-size: 10px; line-height: 13px; margin-bottom: 3px; }
   .ed-logos { font-size: 14px; }
   .ed-logos__item { margin-right: 32px; }
   .ed-step { height: auto; min-height: 180px; padding: 24px; gap: 16px; }
@@ -112,17 +115,15 @@
 .ed-baris { display: block; overflow: hidden; padding-bottom: 0.06em; margin-bottom: -0.06em; }
 .ed-baris > span { display: inline-block; }
 .ed-jejak path { fill: none; stroke-linecap: round; }
-.ed-jejak__pendar { stroke-width: 4.2; opacity: 0.9; }
-.ed-jejak__inti { stroke-width: 1.1; }
-.ed-jejak--merah .ed-jejak__pendar { stroke: #ff3b2f; }
-.ed-jejak--merah .ed-jejak__inti { stroke: #ffc2b8; }
-.ed-jejak--putih .ed-jejak__pendar { stroke: #fff1cf; }
-.ed-jejak--putih .ed-jejak__inti { stroke: #ffffff; }
-.ed-jejak--kuning .ed-jejak__pendar { stroke: #ffb347; }
-.ed-jejak--kuning .ed-jejak__inti { stroke: #ffe3ad; }
-.ed-jejak--redup { opacity: 0.35; }
-.ed-jejak--redup .ed-jejak__pendar { stroke: #ff6a4d; }
-.ed-jejak--redup .ed-jejak__inti { stroke: #ffd0c4; }
+.ed-jejak__dasar { stroke-width: 1.6; opacity: 0.16; }
+.ed-jejak__ekor { stroke-width: 2.6; opacity: 0.6; }
+.ed-jejak__kepala { stroke-width: 1.2; }
+.ed-jejak--merah .ed-jejak__dasar, .ed-jejak--merah .ed-jejak__ekor { stroke: #ff3b2f; }
+.ed-jejak--merah .ed-jejak__kepala { stroke: #ffd3cc; }
+.ed-jejak--putih .ed-jejak__dasar, .ed-jejak--putih .ed-jejak__ekor { stroke: #ffefc9; }
+.ed-jejak--putih .ed-jejak__kepala { stroke: #ffffff; }
+.ed-jejak--kuning .ed-jejak__dasar, .ed-jejak--kuning .ed-jejak__ekor { stroke: #ffae3d; }
+.ed-jejak--kuning .ed-jejak__kepala { stroke: #fff0d1; }
 
 /* Our Vision: foto cetak di atas "meja"; kilat kamera menutup bingkai sesaat. */
 .ed-vision__frame { position: relative; }
@@ -135,7 +136,6 @@
 
 /* Persona: foto di lapisan sendiri agar bisa diperbesar saat disorot tanpa menggeser teks. */
 .ed-persona-card__foto { position: absolute; inset: 0; background-size: cover; }
-.ed-persona-card:focus-visible { outline: 2px solid var(--navy-ink); outline-offset: 4px; }
 
 /* Fitur: video demo menutup gambar di dalam bingkai putus-putus. */
 .ed-feature__frame { position: relative; }
@@ -146,12 +146,16 @@
 .ed-tiles__set { display: flex; flex-direction: column; gap: 12px; padding-bottom: 12px; }
 .ed-tile { width: 100%; height: auto; }
 .ed-tile__foto { width: 100%; background-size: cover; }
-.ed-tile__shade, .ed-tile__title { pointer-events: none; }
+.ed-tile__shade, .ed-tile__teks { pointer-events: none; }
+.ed-tile__teks { position: absolute; left: 24px; right: 20px; bottom: 22px; }
+.ed-tile__teks .ed-tile__title { position: static; }
+.ed-tile__lapis { margin: 0 0 6px; font: 500 12px/16px var(--font-sans); letter-spacing: 0.2px; color: rgba(247, 245, 240, 0.72); }
+.ed-tile--contoh .ed-tile__title { font-size: 24px; line-height: 28px; }
 
 /* Sumber data: tiga baris berjalan, tepi kiri-kanan memudar. */
-.ed-logos.ed-logos--jalan { display: block; max-width: 1120px; mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent); }
-.ed-logos__baris { overflow: hidden; padding: 10px 0; }
-.ed-logos__jalur { display: flex; width: max-content; }
+.ed-logos.ed-logos--jalan { display: block; justify-items: normal; max-width: 1120px; mask-image: linear-gradient(to right, transparent, #000 10%, #000 90%, transparent); }
+.ed-logos__baris { overflow: hidden; padding: 14px 0; }
+.ed-logos__jalur { display: flex; width: max-content; will-change: transform; }
 .ed-logos__item { display: inline-flex; align-items: center; gap: 10px; margin-right: 56px; white-space: nowrap; }
 
 /* Cara kerja: foto langkah tersembunyi di balik clip-path sampai disorot. */
@@ -159,7 +163,6 @@
 .ed-step > * { position: relative; }
 .ed-step > .ed-step__foto { position: absolute; inset: 0; background-size: cover; background-position: center; }
 .ed-step__foto::after { content: ""; position: absolute; inset: 0; background: linear-gradient(to top, rgba(15, 27, 61, 0.92), rgba(15, 27, 61, 0.5)); }
-.ed-step:focus-visible { box-shadow: inset 0 0 0 2px var(--cream-100); }
 
 /* Coba Sekarang: lapisan hitam dan bilah letterbox untuk pembuka sinematis. */
 .ed-try__gelap { position: absolute; inset: 0; background: #000; opacity: 0; pointer-events: none; }
@@ -178,3 +181,17 @@
 .ed-faq__tanda::after { transform: rotate(90deg); }
 .ed-faq__item.is-buka .ed-faq__tanda::after { transform: rotate(180deg); }
 .ed-faq__q { gap: 24px; }
+
+/* Logo sumber data seragam: abu-abu bersama teksnya, berwarna saat disorot. */
+.ed-logos--jalan .ed-logos__img { filter: grayscale(1); opacity: 0.6; transition: filter 260ms ease, opacity 260ms ease; }
+.ed-logos--jalan .ed-logos__item:hover .ed-logos__img { filter: none; opacity: 1; }
+/* Coba Sekarang: tirai lebih gelap di tengah agar teks terbaca, peta tidak terlalu "permen". */
+.ed-try__shot { filter: blur(4px) saturate(0.65); }
+.ed-try__veil { background: radial-gradient(70% 80% at 50% 50%, rgba(11, 16, 33, 0.74), rgba(11, 16, 33, 0.5)); }
+.ed-try__text { color: rgba(247, 245, 240, 0.86); }
+@media (max-width: 767px) {
+  .ed-tile__teks { left: 10px; right: 8px; bottom: 10px; }
+  .ed-tile__title, .ed-tile--contoh .ed-tile__title { font-size: 14px; line-height: 17px; }
+  .ed-tile__lapis { display: none; }
+}
+@media (max-width: 767px) { .ed-jejak__dasar { opacity: 0.08; } }

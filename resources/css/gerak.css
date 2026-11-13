@@ -26,12 +26,15 @@
 /* Hero: kamera mendorong pelan dari dekat, lalu melayang; judul naik dari balik masker baris. */
 @keyframes ed-dorong { from { transform: scale(1.14); filter: brightness(0.4); } }
 @keyframes ed-melayang { from { transform: scale(1) translate(0, 0); } to { transform: scale(1.07) translate(-6px, 3px); } }
-@keyframes ed-jejak-jalan { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
+/* Periode dash 140 pada pathLength 100: tiap mobil sempat hilang sebelum muncul lagi. Kepala = ujung ekor (--maju). */
+@keyframes ed-jejak-jalan { from { stroke-dashoffset: calc(140 + var(--maju, 0)); } to { stroke-dashoffset: var(--maju, 0); } }
 @keyframes ed-butir { 0%, 100% { transform: translate(0, 0); } 25% { transform: translate(-3%, 2%); } 50% { transform: translate(2%, -3%); } 75% { transform: translate(-2%, -1%); } }
 .ed-hero__latar svg { animation: ed-dorong 2600ms var(--ease-out) both; }
 .ed-hero__kamera { transform-origin: 226px 250px; animation: ed-melayang 36s ease-in-out 2600ms infinite alternate; }
 .ed-hero__lampu { animation: ed-pudar 1600ms ease 1200ms backwards; }
-.ed-jejak path { stroke-dasharray: 16 34; animation: ed-jejak-jalan var(--durasi) linear var(--tunda) infinite backwards; }
+.ed-jejak__ekor, .ed-jejak__kepala { animation: ed-jejak-jalan var(--durasi) linear var(--tunda) infinite backwards; }
+.ed-jejak__ekor { stroke-dasharray: 24 116; }
+.ed-jejak__kepala { stroke-dasharray: 3 137; --maju: -21; }
 .ed-hero__butir { animation: ed-butir 900ms steps(4) infinite; }
 .ed-hero .ed-kicker { animation: nr-naik 900ms var(--ease-out) 300ms backwards; }
 .ed-hero__title .ed-baris > span { animation: ed-naik-masker 1100ms var(--ease-out) 420ms backwards; }
@@ -73,7 +76,7 @@
 @keyframes ed-letak {
   0% { opacity: 0; transform: translateY(calc(-48px * var(--nr-gerak))) rotate(calc(-8deg * var(--nr-gerak))) scale(1.05); }
   55% { opacity: 1; transform: translateY(calc(5px * var(--nr-gerak))) rotate(calc(0.8deg * var(--nr-gerak))) scale(1); }
-  100% { transform: rotate(calc(-1.2deg * var(--nr-gerak))); }
+  100% { transform: none; }
 }
 @keyframes ed-kembang {
   0% { filter: grayscale(1) brightness(2.6) contrast(0.3) blur(5px); }
@@ -81,7 +84,7 @@
   100% { filter: grayscale(1) brightness(1) contrast(1) blur(0); }
 }
 @keyframes ed-kilat { 0% { opacity: 0.95; } 100% { opacity: 0; } }
-.ed-vision__frame { transform: rotate(calc(-1.2deg * var(--nr-gerak))); transition: transform 500ms var(--ease-out), box-shadow 500ms ease; }
+.ed-vision__frame { transition: transform 500ms var(--ease-out), box-shadow 500ms ease; }
 .ed-vision__meja.is-terlihat .ed-vision__frame { animation: ed-letak 1400ms var(--ease-out) backwards; }
 .ed-vision__meja.is-terlihat .ed-vision__photo { animation: ed-kembang 3200ms ease-out 450ms backwards; }
 .ed-vision__meja.is-terlihat .ed-vision__kilat { animation: ed-kilat 800ms ease-out 380ms backwards; }
@@ -158,7 +161,7 @@
 .ed-steps:is(:hover, :has(.ed-step:focus)) .ed-step--current:not(:hover, :focus) .ed-step__text { color: var(--ed-ink-60); }
 
 /* Coba Sekarang: layar hitam, letterbox menutup, gambar mendekat, judul merapat. */
-@keyframes ed-mendekat { from { transform: scale(1.22); filter: blur(14px) brightness(0.5); } to { transform: scale(1.04); filter: blur(4px); } }
+@keyframes ed-mendekat { from { transform: scale(1.22); filter: blur(14px) saturate(0.65) brightness(0.5); } to { transform: scale(1.04); filter: blur(4px) saturate(0.65); } }
 @keyframes ed-hanyut { from { transform: scale(1.04) translate(0, 0); } to { transform: scale(1.1) translate(-1.5%, -1%); } }
 @keyframes ed-judul-sinema { from { opacity: 0; letter-spacing: 0.32em; filter: blur(8px); } }
 .ed-try__shot { transform: scale(1.04); }
@@ -185,6 +188,11 @@
 .ed-faq__item.is-buka .ed-faq__lipat > .ed-faq__a { opacity: 1; transition-delay: 120ms, 0ms; }
 .ed-faq__tanda::after { transition: transform 420ms var(--ease-in-out); }
 
+/* Animasi tak berujung berhenti saat seksinya di luar layar (kelas is-luar dari lib/gerak.ts). */
+.is-luar .ed-tiles__jalur, .is-luar .ed-logos__jalur, .is-luar.ed-tiles .ed-tiles__jalur, .is-luar.ed-logos .ed-logos__jalur,
+.ed-hero.is-luar .ed-hero__kamera, .ed-hero.is-luar .ed-jejak__ekor, .ed-hero.is-luar .ed-jejak__kepala, .ed-hero.is-luar .ed-hero__butir,
+.ed-try__card.is-luar .ed-try__shot, .ed-marquee.is-luar .ed-marquee__jalur { animation-play-state: paused; }
+
 /* Tombol: umpan balik tekan, panah bergeser saat hover. */
 .ed-btn, .ed-try__btn, .ed-hbtn, .ed-link { transition: background-color 200ms ease, transform 140ms var(--ease-out); }
 .ed-btn:active, .ed-try__btn:active, .ed-hbtn:active { transform: scale(0.97); }
@@ -201,7 +209,7 @@
   .ed-tile:hover .ed-tile__foto { transform: scale(1.06); filter: grayscale(0); }
   .ed-tile:hover .ed-tile__shade { opacity: 0.6; }
   .ed-logos__item:hover { transform: scale(1.1); color: var(--navy-ink); }
-  .ed-vision__frame:hover { transform: rotate(0deg) translateY(-4px); box-shadow: 0 30px 60px -20px rgba(15, 27, 61, 0.35); }
+  .ed-vision__frame:hover { transform: translateY(-4px); box-shadow: 0 30px 60px -20px rgba(15, 27, 61, 0.35); }
 }
 /* Persona: kartu disorot tegak, naik, dan maju; kartu lain sedikit meredup. */
 @media (hover: hover) and (pointer: fine) {
@@ -210,7 +218,6 @@
   .ed-persona-card:hover .ed-persona-card__desc { transform: translateY(-4px); }
   .ed-persona-row:hover .ed-persona-card:not(:hover) { filter: saturate(0.55) brightness(0.92); }
 }
-.ed-persona-row .ed-persona-card:focus-visible { transform: translateY(-18px) rotate(0deg) scale(1.04); z-index: 2; }
 
 /* ---------------------------------------------------------------- Peta */
 /* Panel kiri dan kanan masuk cepat; Top 3 dan langkah rute berurutan. */
@@ -246,5 +253,4 @@
   .ed-hero__isi, .ed-hero > .ed-hero__latar, .ed-hero__latar svg, .ed-try__shot { animation: none !important; }
   .ed-feature__img, .ed-btn svg, .ed-try__btn svg, .ed-link svg, .ed-odo__gulung { transition: none; }
   .ed-persona-row .ed-persona-card { transform: none; }
-  .ed-vision__frame { transform: none; }
-}
+  }

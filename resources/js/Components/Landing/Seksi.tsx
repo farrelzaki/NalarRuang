@@ -17,12 +17,11 @@ const FOTO_HERO = {
     lebar: 460,
     tinggi: 343,
     // Jalur kiri: lalu lintas menjauh (lampu belakang merah). Kanan: mendekat (lampu depan putih).
-    // Bundaran: busur depan air mancur (terlihat) dan busur belakang (redup, tertutup air).
+    // Bundaran: busur depan air mancur (kuning). Busur belakang tidak digambar karena tertutup air.
     jalur: [
         { d: 'M-12 326 C 50 310 112 294 152 285', warna: 'merah', durasi: 5.2, tunda: 0 },
         { d: 'M-12 336 C 60 318 120 299 160 288', warna: 'merah', durasi: 6.4, tunda: 1.7 },
         { d: 'M108 279 A 118 12 0 0 0 344 279', warna: 'kuning', durasi: 4.6, tunda: 0.6 },
-        { d: 'M344 279 A 118 12 0 0 0 108 279', warna: 'redup', durasi: 4.6, tunda: 2.9 },
         { d: 'M300 286 C 352 293 410 305 472 322', warna: 'putih', durasi: 4.8, tunda: 0.9 },
         { d: 'M296 290 C 350 299 404 314 472 334', warna: 'putih', durasi: 6.1, tunda: 2.4 },
     ],
@@ -43,9 +42,16 @@ function LatarHero() {
                     <rect width={lebar} height={tinggi} className="ed-hero__gelap" />
                     <g className="ed-hero__lampu">
                         {jalur.map((j, i) => (
-                            <g key={i} className={`ed-jejak ed-jejak--${j.warna}`} style={{ '--durasi': `${j.durasi}s`, '--tunda': `${j.tunda}s` } as CSSProperties}>
-                                <path d={j.d} pathLength={100} filter="url(#ed-pendar)" className="ed-jejak__pendar" />
-                                <path d={j.d} pathLength={100} className="ed-jejak__inti" />
+                            <g key={i} className={`ed-jejak ed-jejak--${j.warna}`}>
+                                {/* Sisa cahaya sepanjang lajur, seperti foto bukaan lama. */}
+                                <path d={j.d} pathLength={100} filter="url(#ed-pendar)" className="ed-jejak__dasar" />
+                                {/* Dua mobil per lajur, berselang setengah putaran: ekor berpendar dan kepala yang terang. */}
+                                {[0, 0.5].map((fase) => (
+                                    <g key={fase} style={{ '--durasi': `${j.durasi}s`, '--tunda': `${j.tunda + fase * j.durasi}s` } as CSSProperties}>
+                                        <path d={j.d} pathLength={100} filter="url(#ed-pendar)" className="ed-jejak__ekor" />
+                                        <path d={j.d} pathLength={100} className="ed-jejak__kepala" />
+                                    </g>
+                                ))}
                             </g>
                         ))}
                     </g>
@@ -230,7 +236,7 @@ export function KartuFotoPersona({ nama, desc, src, posisi, indeks, jumlah }: { 
     // -1.5, -0.5, 0.5, 1.5 untuk empat kartu: jarak bertanda dari sumbu tengah.
     const dariTengah = indeks - (jumlah - 1) / 2;
     return (
-        <div className="ed-persona-card" style={{ '--k': dariTengah, '--k-abs': Math.abs(dariTengah) } as CSSProperties} tabIndex={0}>
+        <div className="ed-persona-card" style={{ '--k': dariTengah, '--k-abs': Math.abs(dariTengah) } as CSSProperties}>
             <div className="ed-persona-card__foto ed-photo" style={foto(src, posisi)} />
             <div className="ed-persona-card__text">
                 <p className="ed-persona-card__name">{nama}</p>
@@ -308,17 +314,21 @@ export function KartuFitur({ judul, desc, gambar, video }: { judul: string; desc
     );
 }
 
-export function TileLayer({ judul, src, tinggi = 236, posisi }: { judul: string; src: string; tinggi?: number; posisi?: string }) {
+/** Tile layer. Tanpa `lapis`: judul = nama layer. Dengan `lapis`: judul = contoh isi layer, nama layer jadi label kecil. */
+export function TileLayer({ judul, lapis, src, tinggi = 236, posisi }: Tile) {
     return (
-        <div className="ed-tile">
+        <div className={cx('ed-tile', lapis && 'ed-tile--contoh')}>
             <div className="ed-tile__foto ed-photo ed-bw" style={{ ...foto(src, posisi), height: tinggi }} />
             <div className="ed-tile__shade" />
-            <p className="ed-tile__title">{judul}</p>
+            <div className="ed-tile__teks">
+                {lapis && <p className="ed-tile__lapis">{lapis}</p>}
+                <p className="ed-tile__title">{judul}</p>
+            </div>
         </div>
     );
 }
 
-type Tile = { judul: string; src: string; tinggi?: number; posisi?: string };
+type Tile = { judul: string; lapis?: string; src: string; tinggi?: number; posisi?: string };
 
 /**
  * Tiga kolom foto layer yang terus bergulir vertikal (kolom tengah berlawanan arah), di bawah masker
@@ -345,6 +355,13 @@ export function KolomLayer({ kolom }: { kolom: Tile[][] }) {
     );
 }
 
+/** Susunan tiga baris berjalan: logo yang sama (BNPB, Pemprov DKI) sengaja dipisah ke baris berbeda. */
+const BARIS_SUMBER = [
+    ['InaRISK (BNPB)', 'Overpass API (OSM)', 'Biskita Trans Pakuan', 'RDTR DKI Jakarta 2022'],
+    ['Batas desa BIG', 'Commute Data Platform', 'BNPB genangan banjir 2020', 'SatPM PM2.5 (ACAG, CC BY 4.0)'],
+    ['Pantau Banjir Jakarta', 'GTFS TransJakarta', 'DKI-Siap ATR/BPN (Hak Tanah)', 'Opentransum'],
+];
+
 export function StripSumberData() {
     const { t } = useBahasa();
     return (
@@ -359,12 +376,12 @@ export function StripSumberData() {
                 ))}
             </ul>
             <div className="ed-logos ed-logos--jalan" aria-hidden="true" data-gerak="logos">
-                {[0, 1, 2].map((baris) => {
-                    const isi = SUMBER.filter((_, i) => i % 3 === baris);
+                {BARIS_SUMBER.map((nama, baris) => {
+                    const isi = nama.map((n) => SUMBER.find((s) => s.nama === n)).filter((s): s is (typeof SUMBER)[number] => !!s);
                     return (
                         <div key={baris} className={cx('ed-logos__baris', baris === 1 && 'ed-logos__baris--balik')} style={{ '--urut': baris, '--durasi': `${34 + baris * 5}s` } as CSSProperties}>
                             <div className="ed-logos__jalur">
-                                {[0, 1, 2, 3].map((salinan) =>
+                                {[0, 1].map((salinan) =>
                                     isi.map((s) => (
                                         <span key={`${salinan}-${s.nama}`} className="ed-logos__item">
                                             {s.logo ? <img className="ed-logos__img" src={s.logo} alt="" /> : <Ikon name="database" size={20} />}
@@ -393,7 +410,7 @@ export function KartuLangkah({ langkah }: { langkah: { no: string; judul: string
     return (
         <div className="ed-steps" style={{ gridTemplateColumns: `repeat(${langkah.length}, 1fr)` }}>
             {langkah.map((s, i) => (
-                <div key={s.no} className={cx('ed-step', i === langkah.length - 1 && 'ed-step--current')} tabIndex={0}>
+                <div key={s.no} className={cx('ed-step', i === langkah.length - 1 && 'ed-step--current')}>
                     <div className="ed-step__foto ed-photo" style={foto(s.foto)} aria-hidden="true" />
                     <div>
                         <h3 className="ed-step__title">{s.judul}</h3>

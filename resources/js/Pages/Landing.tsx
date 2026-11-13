@@ -134,21 +134,20 @@ export default function Landing() {
                         kolom={[
                             [
                                 { judul: t('Historis & Risiko', 'History & Risk'), src: '/images/foto-historis-dan-risiko.jpeg' },
-                                { judul: t('Mobilitas & Transit', 'Mobility & Transit'), src: '/images/foto-mobilitas-dan-transit.jpeg', tinggi: 300 },
-                                { judul: t('Inklusivitas', 'Inclusivity'), src: '/images/foto-inklusivitas.jpeg', posisi: 'center 90%', tinggi: 260 },
-                                { judul: t('Mobilitas & Transit', 'Mobility & Transit'), src: '/images/landing-page-card-driver.jpeg', posisi: 'center 70%', tinggi: 236 },
+                                { judul: t('Inklusivitas', 'Inclusivity'), src: '/images/foto-inklusivitas.jpeg', posisi: 'center 90%', tinggi: 276 },
+                                { judul: t('Akses jalan & tol', 'Roads & toll access'), lapis: t('Mobilitas & Transit', 'Mobility & Transit'), src: '/images/landing-page-card-driver.jpeg', posisi: 'center 70%', tinggi: 260 },
                             ],
                             [
                                 { judul: t('Ekosistem Mikro', 'Micro Ecosystem'), src: '/images/foto-ekosistem-mikro.jpeg', posisi: 'center 80%', tinggi: 276 },
                                 { judul: t('Mesin Waktu', 'Time Machine'), src: '/images/foto-mesin-waktu.jpeg' },
-                                { judul: t('Ekosistem Mikro', 'Micro Ecosystem'), src: '/images/landing-page-card-sosial.jpeg', tinggi: 300 },
-                                { judul: t('Mesin Waktu', 'Time Machine'), src: '/images/foto-aerial-jakarta.jpg', tinggi: 236 },
+                                { judul: t('Kafe & restoran', 'Cafés & restaurants'), lapis: t('Ekosistem Mikro', 'Micro Ecosystem'), src: '/images/landing-page-card-sosial.jpeg', tinggi: 290 },
+                                { judul: t('Rencana kawasan', 'Area plans'), lapis: t('Mesin Waktu', 'Time Machine'), src: '/images/foto-aerial-jakarta.jpg', tinggi: 236 },
                             ],
                             [
                                 { judul: t('Legalitas Lahan', 'Land Legality'), src: '/images/foto-legalitas-lahan.png', posisi: 'center 20%', tinggi: 260 },
-                                { judul: t('Mobilitas & Transit', 'Mobility & Transit'), src: '/images/landing-page-card-commuter.jpg', tinggi: 236 },
-                                { judul: t('Ekosistem Mikro', 'Micro Ecosystem'), src: '/images/landing-page-card-zen.jpeg', posisi: 'center 80%', tinggi: 276 },
-                                { judul: t('Legalitas Lahan', 'Land Legality'), src: '/images/foto-tahap-tampil.jpeg', tinggi: 236 },
+                                { judul: t('Mobilitas & Transit', 'Mobility & Transit'), src: '/images/foto-mobilitas-dan-transit.jpeg', tinggi: 290 },
+                                { judul: t('Taman & ruang hijau', 'Parks & green space'), lapis: t('Ekosistem Mikro', 'Micro Ecosystem'), src: '/images/landing-page-card-zen.jpeg', posisi: 'center 80%', tinggi: 250 },
+                                { judul: t('Kualitas udara', 'Air quality'), lapis: t('Historis & Risiko', 'History & Risk'), src: '/images/foto-interior-malam.jpg', tinggi: 236 },
                             ],
                         ]}
                     />
