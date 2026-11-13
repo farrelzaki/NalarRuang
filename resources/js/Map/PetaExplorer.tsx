@@ -12,7 +12,7 @@ import { ATRIBUSI_DATA, isiPopupLegal, isiPopupRdtr, isiPopupUmum, popupHtml, po
 
 export type TitikPeta = { lat: number; lng: number };
 
-/** Props bersama untuk semua mesin peta (Leaflet dan Mapbox). */
+/** Props bersama untuk semua mesin peta (Leaflet dan MapLibre). */
 export type PropsPeta = {
     layer: Partial<Record<LayerKey, FeatureCollection>>;
     aktif?: Partial<Record<LayerKey, boolean>>;

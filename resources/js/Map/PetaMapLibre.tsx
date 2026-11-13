@@ -1,8 +1,8 @@
 /**
- * Peta Visual Explorer (UI01) di atas Mapbox GL JS, mode 2D.
- * Props dan perilaku sama dengan PetaExplorer (Leaflet); dipilih oleh PetaPilihan bila token Mapbox ada.
+ * Peta Visual Explorer (UI01) di atas MapLibre GL JS + OpenFreeMap, mode 2D.
+ * Props dan perilaku sama dengan PetaExplorer (Leaflet); dipilih oleh PetaPilihan bila WebGL tersedia.
  *
- * Catatan skala: zoom Mapbox = zoom Leaflet − 1 (ubin 512 px), jadi ambang zoom di sini satu lebih kecil.
+ * Catatan skala: zoom MapLibre = zoom Leaflet − 1 (ubin 512 px), jadi ambang zoom di sini satu lebih kecil.
  * Urutan gambar dijaga dengan layer "slot" kosong: poligon < garis < titik < stasiun < seleksi < rute.
  */
 import { useEffect, useRef, useState } from 'react';
@@ -10,7 +10,7 @@ import type { Feature, FeatureCollection, Geometry, LineString, MultiLineString,
 import type { LayerKey } from '@/types';
 import * as gaya from './gaya';
 import { ATRIBUSI_DATA, isiPopup, popupHtml, ponsel, tr, warnaEkosistem } from './isiPeta';
-import { GAYA_MAPBOX, TOKEN_MAPBOX, muatMapbox, type MapboxGL } from './mapbox';
+import { GAYA_PETA, muatMapLibre, type MapLibreGL } from './maplibre';
 import type { PropsPeta, TitikPeta } from './PetaExplorer';
 
 type Props = PropsPeta & { onGagal?: (alasan: string) => void };
@@ -29,7 +29,17 @@ const idSlot = (s: Slot) => `nr-slot-${s}`;
 /** Layer ditaruh tepat di bawah slot berikutnya, sehingga berada di kelompok slot-nya. */
 const sebelum = (s: Slot) => idSlot(SLOT[SLOT.indexOf(s) + 1] ?? 'atas');
 
-const FONT = ['DIN Pro Medium', 'Arial Unicode MS Regular'];
+/** Font label diambil dari gaya peta dasar, agar pasti tersedia di server glyph OpenFreeMap. */
+let FONT: string[] = ['Noto Sans Regular'];
+
+function fontDariGaya(m: Apa): string[] {
+    const daftar: string[][] = [];
+    for (const l of m.getStyle()?.layers ?? []) {
+        const f = l?.layout?.['text-font'];
+        if (Array.isArray(f) && f.every((x: unknown) => typeof x === 'string')) daftar.push(f as string[]);
+    }
+    return daftar.find((f) => f.some((x) => /bold/i.test(x))) ?? daftar[0] ?? FONT;
+}
 const NAVY = '#0f1b3d';
 
 let modeRuteAktif = false;
@@ -215,12 +225,12 @@ const IKON: { id: string; url: string; tinggi: number }[] = [
 
 function muatIkon(m: Apa): Promise<void> {
     const satu = (i: (typeof IKON)[number]) =>
-        new Promise<void>((selesai) => {
-            m.loadImage(i.url, (err: unknown, img: Apa) => {
-                if (!err && img && !m.hasImage(i.id)) m.addImage(i.id, img, { pixelRatio: Math.max(1, img.height / i.tinggi) });
-                selesai();
-            });
-        });
+        Promise.resolve(m.loadImage(i.url))
+            .then((r: Apa) => {
+                const img = r?.data ?? r;
+                if (img && !m.hasImage(i.id)) m.addImage(i.id, img, { pixelRatio: Math.max(1, img.height / i.tinggi) });
+            })
+            .catch((e: unknown) => console.warn(`[NalarRuang] Ikon ${i.url} gagal dimuat:`, e));
     return Promise.all(IKON.map(satu)).then(() => tambahPanah(m));
 }
 
@@ -257,10 +267,10 @@ const PIN_SVG = '<svg width="30" height="38" viewBox="-15 -36 30 38"><path d="M0
 
 /* ---------------- Komponen ---------------- */
 
-export default function PetaMapbox(props: Props) {
+export default function PetaMapLibre(props: Props) {
     const wadah = useRef<HTMLDivElement>(null);
     const peta = useRef<Apa>(null);
-    const mb = useRef<MapboxGL>(null);
+    const mb = useRef<MapLibreGL>(null);
     const [siap, setSiap] = useState(false);
     const tergambar = useRef<Partial<Record<LayerKey, FeatureCollection>>>({});
     const idInteraktif = useRef<Set<string>>(new Set());
@@ -275,15 +285,13 @@ export default function PetaMapbox(props: Props) {
     useEffect(() => {
         let batal = false;
         let m: Apa = null;
-        muatMapbox()
-            .then((mapboxgl) => {
+        muatMapLibre()
+            .then((maplibregl) => {
                 if (batal || !wadah.current) return;
-                mb.current = mapboxgl;
-                mapboxgl.accessToken = TOKEN_MAPBOX;
-                m = new mapboxgl.Map({
+                mb.current = maplibregl;
+                m = new maplibregl.Map({
                     container: wadah.current,
-                    style: GAYA_MAPBOX,
-                    projection: 'mercator',
+                    style: GAYA_PETA,
                     center: PUSAT,
                     zoom: ZOOM_AWAL,
                     minZoom: ponsel() ? 8 : 9,
@@ -298,26 +306,27 @@ export default function PetaMapbox(props: Props) {
                 });
                 m.touchZoomRotate.disableRotation();
                 m.keyboard?.disableRotation?.();
-                m.addControl(new mapboxgl.AttributionControl({ compact: ponsel(), customAttribution: ATRIBUSI_DATA }), 'bottom-left');
-                m.addControl(new mapboxgl.NavigationControl({ showCompass: false }), 'bottom-right');
+                m.addControl(new maplibregl.AttributionControl({ compact: ponsel(), customAttribution: ATRIBUSI_DATA }), 'bottom-left');
+                m.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
                 peta.current = m;
 
                 let dimuat = false;
                 const waktuHabis = window.setTimeout(() => {
-                    if (!dimuat) panggil.current.onGagal?.('Peta Mapbox tidak selesai dimuat dalam 20 detik.');
+                    if (!dimuat) panggil.current.onGagal?.('Peta MapLibre tidak selesai dimuat dalam 20 detik.');
                 }, 20000);
                 m.on('error', (e: Apa) => {
-                    const status = e?.error?.status;
-                    console.warn('[NalarRuang] Galat Mapbox:', e?.error ?? e);
-                    if (!dimuat && (status === 401 || status === 403)) {
+                    console.warn('[NalarRuang] Galat MapLibre:', e?.error ?? e);
+                    // Gaya OpenFreeMap tidak bisa diambil sebelum peta siap: kembali ke Leaflet.
+                    if (!dimuat && !m.isStyleLoaded?.() && Number(e?.error?.status) >= 400) {
                         window.clearTimeout(waktuHabis);
-                        panggil.current.onGagal?.('Token Mapbox ditolak (periksa VITE_MAPBOX_TOKEN dan pembatasan URL).');
+                        panggil.current.onGagal?.(`Gaya peta OpenFreeMap gagal dimuat (HTTP ${e.error.status}).`);
                     }
                 });
 
                 m.on('load', () => {
                     dimuat = true;
                     window.clearTimeout(waktuHabis);
+                    FONT = fontDariGaya(m);
                     for (const s of SLOT) m.addLayer({ id: idSlot(s), type: 'background', layout: { visibility: 'none' } });
                     pasangSeleksi(m);
                     pasangRute(m);
@@ -406,7 +415,7 @@ export default function PetaMapbox(props: Props) {
         const p = (f.properties ?? {}) as Record<string, any>;
         const isi = isiPopup(kunciDariSumber(String(f.source)), p, f.id);
         popup.current?.remove();
-        const pp = new mb.current.Popup({ closeButton: true, closeOnClick: true, maxWidth: ponsel() ? '260px' : '320px', className: 'nr-popup-mapbox', offset: 8, focusAfterOpen: false })
+        const pp = new mb.current.Popup({ closeButton: true, closeOnClick: true, maxWidth: ponsel() ? '260px' : '320px', className: 'nr-popup-maplibre', offset: 8, focusAfterOpen: false })
             .setLngLat(lngLat)
             .setHTML(popupHtml(...isi))
             .addTo(m);
@@ -424,8 +433,8 @@ export default function PetaMapbox(props: Props) {
             el?.setAttribute('title', teks);
             el?.setAttribute('aria-label', teks);
         };
-        set('.mapboxgl-ctrl-zoom-in', tr('Perbesar peta', 'Zoom in'));
-        set('.mapboxgl-ctrl-zoom-out', tr('Perkecil peta', 'Zoom out'));
+        set('.maplibregl-ctrl-zoom-in', tr('Perbesar peta', 'Zoom in'));
+        set('.maplibregl-ctrl-zoom-out', tr('Perkecil peta', 'Zoom out'));
         popup.current?.remove();
     }, [props.bahasa, siap]);
 
@@ -497,7 +506,7 @@ export default function PetaMapbox(props: Props) {
             penandaSeleksi.current.push(new mb.current.Marker({ element: el }).setLngLat([r.pusat.lng, r.pusat.lat]).addTo(m));
         });
         if (props.pin) {
-            const el = elemen(`<div class="nr-pin-mapbox" aria-hidden="true">${PIN_SVG}</div>`);
+            const el = elemen(`<div class="nr-pin-maplibre" aria-hidden="true">${PIN_SVG}</div>`);
             penandaSeleksi.current.push(new mb.current.Marker({ element: el, anchor: 'bottom', offset: [0, 2] }).setLngLat([props.pin.lng, props.pin.lat]).addTo(m));
         }
     }, [props.top3, props.top3Aktif, props.wilayahTerpilih, props.pin, siap]);
@@ -571,7 +580,7 @@ export default function PetaMapbox(props: Props) {
         }
     }, [props.terbangKe?.kunci, siap]);
 
-    return <div ref={wadah} className={`${props.className ?? ''} nr-peta-mapbox`} role="region" aria-label="Peta Jabodetabek, klik untuk melihat detail lokasi" />;
+    return <div ref={wadah} className={`${props.className ?? ''} nr-peta-maplibre`} role="region" aria-label="Peta Jabodetabek, klik untuk melihat detail lokasi" />;
 }
 
 /** Sumber dan layer seleksi (di atas data, di bawah rute). */

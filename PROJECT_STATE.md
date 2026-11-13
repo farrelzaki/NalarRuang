@@ -6,12 +6,12 @@ Perbarui saat memulai sesi, melewati checkpoint, membuat keputusan penting, mene
 
 ## Metadata
 
-- Terakhir diperbarui: 2026-11-12 (branch `fitur/peta-mapbox`)
+- Terakhir diperbarui: 2026-11-13 (branch `fitur/peta-mapbox`, PR #3)
 - Mode kerja: `competition`
 - Status sesi: Berjalan — pindah ke akun Claude baru (handoff 11 Nov)
 - Sprint aktif: Sprint 3 (9–20 Nov). Review 3: **20 Nov**. Final: **27 Nov**. Lomba BTN Housingpreneur tutup **30 Nov**
-- Task aktif: migrasi peta ke Mapbox GL JS (2D). Mode miring/3D dijadwalkan paling akhir
-- Checkpoint terakhir: migrasi 2D selesai di branch `fitur/peta-mapbox`, menunggu token Mapbox dan uji tim
+- Task aktif: migrasi peta ke MapLibre GL JS + OpenFreeMap (2D). Mode miring/3D dijadwalkan paling akhir
+- Checkpoint terakhir: migrasi 2D selesai di branch `fitur/peta-mapbox` (PR #3), menunggu uji tim
 
 ## Kondisi sistem saat ini
 
@@ -37,24 +37,25 @@ Perbarui saat memulai sesi, melewati checkpoint, membuat keputusan penting, mene
 - **UI:** landing dengan animasi, onboarding peta 8 langkah, dwibahasa ID/EN, masukan uji Izdihar
   T-001–T-044 sebagian besar selesai (lihat `TASK.md`).
 
-## Migrasi peta ke Mapbox (12 Nov 2026)
+## Migrasi peta ke MapLibre + OpenFreeMap (12–13 Nov 2026)
 
-Disetujui Farrel 12 Nov: ganti peta ke Mapbox sekarang (2D, fitur sama); mode miring dan 3D dikerjakan
-paling akhir setelah pekerjaan lain selesai. Rencana: dokumen Claude Docs "Rencana Migrasi Peta ke Mapbox NalarRuang".
+Disetujui Farrel 12 Nov: ganti mesin peta sekarang (2D, fitur sama); mode miring dan 3D dikerjakan paling akhir.
+13 Nov: Mapbox diganti MapLibre GL JS + OpenFreeMap (gratis, tanpa token, tanpa kuota; dipakai juga oleh Atransum).
+Alasan: Mapbox tanpa kartu kredit dibatasi 5.000 muat peta per bulan. Rencana: dokumen Claude Docs
+"Rencana Migrasi Peta NalarRuang".
 
 - Branch `fitur/peta-mapbox` (belum di-merge; Heroku tidak berubah).
-- `Map/PetaPilihan.tsx` memilih `Map/PetaMapbox.tsx` bila `VITE_MAPBOX_TOKEN` (pk.…) ada dan WebGL tersedia,
-  selain itu `Map/PetaExplorer.tsx` (Leaflet). Mapbox gagal dimuat atau token ditolak → otomatis Leaflet.
-  `?mesin=leaflet` memaksa Leaflet.
-- Mapbox GL JS 3.28.1 dimuat dari CDN Mapbox (`Map/mapbox.ts`); `package.json` tidak berubah.
+- `Map/PetaPilihan.tsx` memilih `Map/PetaMapLibre.tsx` bila WebGL tersedia, selain itu `Map/PetaExplorer.tsx`
+  (Leaflet). MapLibre atau gaya OpenFreeMap gagal dimuat → otomatis Leaflet. `?mesin=leaflet` memaksa Leaflet.
+- MapLibre GL JS 5.24.0 dimuat dari CDN jsDelivr (`Map/maplibre.ts`); gaya `tiles.openfreemap.org/styles/positron`;
+  `package.json` tidak berubah. Font label dibaca dari gaya peta dasar.
 - Teks popup dipindah ke `Map/isiPeta.ts` dan dipakai kedua mesin.
-- Verifikasi: tsc (stub) bersih; uji asap Chrome dengan tiruan mapboxgl lulus 29/29 (urutan layer, popup,
-  Top 3, rute, slider tahun, Legalitas per layar, cadangan saat 401). **Belum dicek dengan Mapbox asli**
-  (lingkungan agen tidak bisa menjangkau api.mapbox.com) dan `npm run build` belum dijalankan.
-- Perlu dilakukan: buat token, isi `.env` dan Config Vars Heroku (harus ada saat build), uji berdampingan
-  dengan `?mesin=leaflet`, lalu perbarui SRS B01/SW02.
-- Label nama stasiun di Mapbox memakai huruf peta Mapbox (DIN Pro), bukan Plus Jakarta Sans; Mapbox tidak
-  memuat font web untuk teks di dalam peta.
+- Verifikasi: tsc (stub) bersih; uji asap Chrome dengan tiruan maplibregl (lihat PR #3). **Belum dicek dengan
+  MapLibre/OpenFreeMap asli** (lingkungan agen tidak bisa menjangkau CDN dan server tile) dan `npm run build`
+  belum dijalankan.
+- Perlu dilakukan: pull, `npm run dev`, uji berdampingan dengan `?mesin=leaflet`, lalu perbarui SRS B01/SW02.
+- Label nama stasiun memakai font peta dasar (Noto Sans dari OpenFreeMap), bukan Plus Jakarta Sans; teks di
+  dalam kanvas peta tidak bisa memakai font web.
 
 ## Dikerjakan anggota tim di luar sesi agen (25 Okt – 1 Nov)
 
@@ -113,7 +114,7 @@ di kode (`97d610b`), rumus final belum dipastikan sama.
 
 ## Langkah berikutnya yang diusulkan
 
-0. Mapbox: buat token, uji `fitur/peta-mapbox`, merge ke `fitur/demo-ui` bila lulus.
+0. MapLibre: uji `fitur/peta-mapbox` (PR #3), merge ke `fitur/demo-ui` bila lulus.
 
 1. Tinjau poin "Perlu ditinjau" bersama anggota yang mengubah Legalitas (paling mendesak: label hak tanah palsu).
 2. Sepakati endpoint penilaian area, lalu kerjakan bilah alat Jelajah/Titik/Area dan mode Newbie/Pro.

@@ -46,9 +46,10 @@ tidak dipilih.
 **Sengaja tidak dipakai:** MongoDB, pipeline NLP/scraping, cron job Python
 (tidak punya work package di WBS).
 
-**Perubahan 12 Nov 2026 (disetujui Farrel):** peta dipindah ke Mapbox GL JS (2D dulu, mode miring/3D paling akhir).
-Leaflet tetap sebagai cadangan otomatis sampai Mapbox stabil. SRS B01/SW02 masih menyebut Leaflet dan perlu
-diperbarui tim sebelum Review 3. Rencana: dokumen "Rencana Migrasi Peta ke Mapbox NalarRuang" (Claude Docs).
+**Perubahan 12–13 Nov 2026 (disetujui Farrel):** peta dipindah ke MapLibre GL JS + peta dasar OpenFreeMap
+(gratis, tanpa token; 13 Nov menggantikan rencana Mapbox karena Mapbox tanpa kartu kredit dibatasi 5.000 muat
+peta per bulan). 2D dulu, mode miring/3D paling akhir. Leaflet tetap sebagai cadangan otomatis sampai MapLibre stabil. SRS B01/SW02 masih menyebut Leaflet dan perlu
+diperbarui tim sebelum Review 3. Rencana: dokumen "Rencana Migrasi Peta NalarRuang" (Claude Docs).
 
 ## 2a. Sumber data per layer
 

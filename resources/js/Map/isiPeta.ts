@@ -1,6 +1,6 @@
 /**
  * Isi peta yang tidak bergantung pada pustaka peta: teks popup, label jenis, warna titik.
- * Dipakai bersama oleh PetaExplorer (Leaflet) dan PetaMapbox agar teksnya selalu sama.
+ * Dipakai bersama oleh PetaExplorer (Leaflet) dan PetaMapLibre agar teksnya selalu sama.
  */
 import type { Feature } from 'geojson';
 import { bahasaAktif, pilihTeks } from '@/lib/bahasa';
