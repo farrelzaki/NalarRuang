@@ -10,7 +10,7 @@ Perbarui saat memulai sesi, melewati checkpoint, membuat keputusan penting, mene
 - Mode kerja: `competition`
 - Status sesi: Berjalan — pindah ke akun Claude baru (handoff 11 Nov)
 - Sprint aktif: Sprint 3 (9–20 Nov). Review 3: **20 Nov**. Final: **27 Nov**. Lomba BTN Housingpreneur tutup **30 Nov**
-- Task aktif: migrasi peta ke MapLibre GL JS + OpenFreeMap (2D). Mode miring/3D dijadwalkan paling akhir
+- Task aktif: migrasi peta ke MapLibre GL JS + OpenFreeMap, termasuk mode 2D / Miring / 3D (diminta Farrel 13 Nov)
 - Checkpoint terakhir: migrasi 2D selesai di branch `fitur/peta-mapbox` (PR #3), menunggu uji tim
 
 ## Kondisi sistem saat ini
@@ -53,6 +53,9 @@ Alasan: Mapbox tanpa kartu kredit dibatasi 5.000 muat peta per bulan. Rencana: d
 - Verifikasi: tsc (stub) bersih; uji asap Chrome dengan tiruan maplibregl (lihat PR #3). **Belum dicek dengan
   MapLibre/OpenFreeMap asli** (lingkungan agen tidak bisa menjangkau CDN dan server tile) dan `npm run build`
   belum dijalankan.
+- 13 Nov: peta kosong di laptop karena `.maplibregl-map { position: relative }` dari CDN menimpa pembungkus;
+  diperbaiki dengan `.nr-peta-maplibre.maplibregl-map`. Mode 2D / Miring / 3D ditambahkan (tidak lagi ditunda),
+  uji asap 41/41.
 - Perlu dilakukan: pull, `npm run dev`, uji berdampingan dengan `?mesin=leaflet`, lalu perbarui SRS B01/SW02.
 - Label nama stasiun memakai font peta dasar (Noto Sans dari OpenFreeMap), bukan Plus Jakarta Sans; teks di
   dalam kanvas peta tidak bisa memakai font web.

@@ -69,6 +69,12 @@
 .nr-popup-maplibre.maplibregl-popup-anchor-top .maplibregl-popup-tip { border-bottom-color: var(--white); }
 .nr-popup-maplibre .nr-popup { width: 280px; padding-right: 32px; }
 .nr-pin-maplibre { pointer-events: none; line-height: 0; }
+.nr-kamera { display: flex; }
+.nr-app .nr-kamera.maplibregl-ctrl-group { margin: 0 16px 8px 0; }
+.nr-kamera button { width: auto; min-width: 36px; height: 32px; padding: 0 10px; font: 600 12px/1 var(--font-sans); color: var(--ink-60); letter-spacing: .02em; }
+.nr-kamera button + button { border-top: 0; border-left: 1px solid var(--line); }
+.nr-kamera button.aktif { background: var(--navy-900); color: #fff; }
+.nr-kamera button:focus-visible { outline: 2px solid var(--navy-900); outline-offset: -2px; }
 
 /* Nomor peringkat Top 3 di pusat wilayah dan titik A/B. */
 .nr-peringkat { display: grid; place-items: center; width: 26px; height: 26px; border-radius: var(--radius-pill); background: var(--navy-900); color: var(--white); border: 2px solid var(--white); font: 700 12px/1 var(--font-sans); box-shadow: var(--shadow-md); cursor: pointer; }

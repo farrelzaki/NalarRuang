@@ -34,12 +34,13 @@ Gunakan file ini untuk mencatat pekerjaan proyek. Satu task harus memiliki tujua
 - Mode: standard (diminta dan disetujui langsung oleh Farrel, 12 Nov 2026; MapLibre disetujui 13 Nov)
 - Prioritas: Tinggi
 - Tujuan: peta memakai MapLibre + OpenFreeMap dengan fitur sama seperti Leaflet; mode miring/3D dikerjakan paling akhir.
-- Non-goals: mode 3D, menghapus Leaflet, mengubah backend atau kontrak API.
+- Non-goals: menghapus Leaflet, mengubah backend atau kontrak API. (Mode 2D/Miring/3D masuk scope 13 Nov.)
 
 Kriteria selesai:
 
 - [x] PetaMapLibre dengan props sama; cadangan otomatis ke Leaflet.
-- [x] Uji asap dengan tiruan maplibregl lulus.
+- [x] Uji asap dengan tiruan maplibregl lulus (41/41).
+- [x] Mode 2D / Miring / 3D (gedung OpenFreeMap, medan AWS Terrarium).
 - [ ] Daftar periksa paritas lulus dengan MapLibre asli (layer, legenda, popup, Top 3, Point Inspector, rute, Mesin Waktu, batas peta, HP).
 - [ ] `npm run typecheck` dan `npm run build` bersih.
 - [ ] SRS B01/SW02 diperbarui.

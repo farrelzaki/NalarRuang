@@ -1,5 +1,5 @@
 /**
- * Peta Visual Explorer (UI01) di atas MapLibre GL JS + OpenFreeMap, mode 2D.
+ * Peta Visual Explorer (UI01) di atas MapLibre GL JS + OpenFreeMap, dengan mode kamera 2D, Miring, dan 3D.
  * Props dan perilaku sama dengan PetaExplorer (Leaflet); dipilih oleh PetaPilihan bila WebGL tersedia.
  *
  * Catatan skala: zoom MapLibre = zoom Leaflet − 1 (ubin 512 px), jadi ambang zoom di sini satu lebih kecil.
@@ -265,6 +265,104 @@ function elemen(html: string): HTMLElement {
 
 const PIN_SVG = '<svg width="30" height="38" viewBox="-15 -36 30 38"><path d="M0 0 C-3.5 -8 -13 -14 -13 -23 A13 13 0 1 1 13 -23 C13 -14 3.5 -8 0 0Z" fill="#0f1b3d" stroke="#fff" stroke-width="2"/><circle cy="-23" r="4.5" fill="#fff"/></svg>';
 
+/* ---------------- Mode kamera: 2D, Miring, 3D ---------------- */
+
+export type ModeKamera = 'atas' | 'miring' | '3d';
+const KUNCI_MODE = 'nr-mode-kamera';
+const DEM_TERRARIUM = 'https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png';
+
+function modeTersimpan(): ModeKamera {
+    try {
+        const v = sessionStorage.getItem(KUNCI_MODE);
+        return v === 'miring' || v === '3d' ? v : 'atas';
+    } catch {
+        return 'atas';
+    }
+}
+
+/** Gedung 3D dari layer `building` tile OpenMapTiles (OpenFreeMap) dan medan dari AWS Terrarium. */
+function pasang3D(m: Apa): void {
+    const sumberVektor = Object.entries(m.getStyle()?.sources ?? {}).find(([, v]: [string, Apa]) => v?.type === 'vector')?.[0];
+    if (sumberVektor && !m.getLayer('nr-gedung')) {
+        m.addLayer(
+            {
+                id: 'nr-gedung',
+                type: 'fill-extrusion',
+                source: sumberVektor,
+                'source-layer': 'building',
+                minzoom: 13,
+                layout: { visibility: 'none' },
+                paint: {
+                    'fill-extrusion-color': ['interpolate', ['linear'], ['coalesce', ['get', 'render_height'], 0], 0, '#e7e3dc', 40, '#d6d0c6', 150, '#bdb5a8'],
+                    'fill-extrusion-height': ['interpolate', ['linear'], ['zoom'], 13, 0, 14.5, ['coalesce', ['get', 'render_height'], 6]],
+                    'fill-extrusion-base': ['coalesce', ['get', 'render_min_height'], 0],
+                    'fill-extrusion-opacity': 0.85,
+                },
+            },
+            idSlot('poligon'),
+        );
+    }
+    if (!m.getSource('nr-dem')) {
+        m.addSource('nr-dem', { type: 'raster-dem', tiles: [DEM_TERRARIUM], tileSize: 256, maxzoom: 14, encoding: 'terrarium', attribution: 'Terrain Tiles: Mapzen, AWS' });
+    }
+}
+
+function terapkanKamera(m: Apa, mode: ModeKamera, animasi: boolean): void {
+    try {
+        sessionStorage.setItem(KUNCI_MODE, mode);
+    } catch {
+        /* sesi tanpa penyimpanan: abaikan */
+    }
+    const miring = mode !== 'atas';
+    for (const h of [m.dragRotate, m.touchPitch]) (miring ? h?.enable : h?.disable)?.call(h);
+    if (miring) {
+        m.touchZoomRotate?.enableRotation?.();
+        m.keyboard?.enableRotation?.();
+    } else {
+        m.touchZoomRotate?.disableRotation?.();
+        m.keyboard?.disableRotation?.();
+    }
+    if (m.getLayer('nr-gedung')) m.setLayoutProperty('nr-gedung', 'visibility', mode === '3d' ? 'visible' : 'none');
+    m.setTerrain(mode === '3d' && m.getSource('nr-dem') ? { source: 'nr-dem', exaggeration: 1.5 } : null);
+    const tujuan = mode === 'atas' ? { pitch: 0, bearing: 0 } : { pitch: mode === '3d' ? 60 : 50, bearing: m.getBearing() || -17 };
+    if (animasi) m.easeTo({ ...tujuan, duration: 800 });
+    else m.jumpTo(tujuan);
+    document.querySelectorAll<HTMLButtonElement>('.nr-kamera button[data-mode]').forEach((b) => {
+        b.classList.toggle('aktif', b.dataset.mode === mode);
+        b.setAttribute('aria-pressed', String(b.dataset.mode === mode));
+    });
+}
+
+/** Tiga tombol mode kamera, sebagai kontrol MapLibre di pojok kanan bawah. */
+function kontrolKamera(pilih: (mode: ModeKamera) => void): Apa {
+    let el: HTMLDivElement | null = null;
+    return {
+        onAdd() {
+            el = document.createElement('div');
+            el.className = 'maplibregl-ctrl maplibregl-ctrl-group nr-kamera';
+            el.setAttribute('role', 'group');
+            el.setAttribute('aria-label', tr('Mode tampilan peta', 'Map view mode'));
+            const aktif = modeTersimpan();
+            const tombol: [ModeKamera, string, string, string][] = [
+                ['atas', '2D', tr('Tampak atas (2D)', 'Top view (2D)'), ''],
+                ['miring', tr('Miring', 'Tilt'), tr('Peta miring, bisa diputar', 'Tilted map, can rotate'), ''],
+                ['3d', '3D', tr('3D: gedung dan medan', '3D: buildings and terrain'), ''],
+            ];
+            el.innerHTML = tombol
+                .map(([m, label, judul]) => `<button type="button" data-mode="${m}" class="${m === aktif ? 'aktif' : ''}" aria-pressed="${m === aktif}" title="${judul}" aria-label="${judul}">${label}</button>`)
+                .join('');
+            el.addEventListener('click', (e) => {
+                const b = (e.target as HTMLElement).closest<HTMLButtonElement>('button[data-mode]');
+                if (b) pilih(b.dataset.mode as ModeKamera);
+            });
+            return el;
+        },
+        onRemove() {
+            el?.remove();
+        },
+    };
+}
+
 /* ---------------- Komponen ---------------- */
 
 export default function PetaMapLibre(props: Props) {
@@ -298,7 +396,7 @@ export default function PetaMapLibre(props: Props) {
                     maxZoom: 18,
                     maxBounds: BATAS_PETA,
                     pitch: 0,
-                    maxPitch: 0,
+                    maxPitch: 75,
                     dragRotate: false,
                     pitchWithRotate: false,
                     touchPitch: false,
@@ -307,7 +405,9 @@ export default function PetaMapLibre(props: Props) {
                 m.touchZoomRotate.disableRotation();
                 m.keyboard?.disableRotation?.();
                 m.addControl(new maplibregl.AttributionControl({ compact: ponsel(), customAttribution: ATRIBUSI_DATA }), 'bottom-left');
-                m.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
+                m.addControl(new maplibregl.NavigationControl({ showCompass: true, visualizePitch: true }), 'bottom-right');
+                // Ditambah setelah zoom: di pojok bawah, kontrol yang ditambah belakangan tampil di atasnya.
+                m.addControl(kontrolKamera((mode) => terapkanKamera(m, mode, true)), 'bottom-right');
                 peta.current = m;
 
                 let dimuat = false;
@@ -328,8 +428,10 @@ export default function PetaMapLibre(props: Props) {
                     window.clearTimeout(waktuHabis);
                     FONT = fontDariGaya(m);
                     for (const s of SLOT) m.addLayer({ id: idSlot(s), type: 'background', layout: { visibility: 'none' } });
+                    pasang3D(m);
                     pasangSeleksi(m);
                     pasangRute(m);
+                    terapkanKamera(m, modeTersimpan(), false);
                     muatIkon(m).then(() => {
                         if (!batal) setSiap(true);
                     });
@@ -435,6 +537,12 @@ export default function PetaMapLibre(props: Props) {
         };
         set('.maplibregl-ctrl-zoom-in', tr('Perbesar peta', 'Zoom in'));
         set('.maplibregl-ctrl-zoom-out', tr('Perkecil peta', 'Zoom out'));
+        set('.maplibregl-ctrl-compass', tr('Kembali menghadap utara', 'Reset north'));
+        set('.nr-kamera [data-mode="atas"]', tr('Tampak atas (2D)', 'Top view (2D)'));
+        set('.nr-kamera [data-mode="miring"]', tr('Peta miring, bisa diputar', 'Tilted map, can rotate'));
+        set('.nr-kamera [data-mode="3d"]', tr('3D: gedung dan medan', '3D: buildings and terrain'));
+        const miring = wadah.current?.querySelector('.nr-kamera [data-mode="miring"]');
+        if (miring) miring.textContent = tr('Miring', 'Tilt');
         popup.current?.remove();
     }, [props.bahasa, siap]);
 

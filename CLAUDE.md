@@ -126,7 +126,8 @@ PM2.5 satelit, zona RDTR DKI 2022, genangan BNPB 2020, proyek dari berita resmi.
 tiap folder `data/`.
 **Peta MapLibre + OpenFreeMap (sejak 13 Nov 2026).** Gratis, tanpa token. MapLibre GL JS dimuat dari CDN jsDelivr,
 bukan npm. Tanpa WebGL, bila MapLibre gagal dimuat, atau dengan `/peta?mesin=leaflet`, peta memakai Leaflet.
-Mode miring/3D (gedung OpenFreeMap, medan AWS Terrarium) dijadwalkan paling akhir.
+Tombol 2D / Miring / 3D di kanan bawah (sejak 13 Nov): Miring memiringkan dan memutar peta; 3D menambah
+gedung OpenFreeMap (`fill-extrusion`) dan medan AWS Terrarium. Pilihan mode disimpan di sessionStorage.
 Simulator rute memakai server publik Valhalla (mobil, cadangan OSRM) dan OSRM (jalan kaki); butuh internet. Pintasan demo:
 `/peta?persona=commuter,zen` mengisi persona sesi tanpa dialog.
 
