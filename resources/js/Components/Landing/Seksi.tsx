@@ -359,7 +359,7 @@ export function KolomLayer({ kolom }: { kolom: Tile[][] }) {
 const BARIS_SUMBER = [
     ['InaRISK (BNPB)', 'Overpass API (OSM)', 'Biskita Trans Pakuan', 'RDTR DKI Jakarta 2022'],
     ['Batas desa BIG', 'Commute Data Platform', 'BNPB genangan banjir 2020', 'SatPM PM2.5 (ACAG, CC BY 4.0)'],
-    ['Pantau Banjir Jakarta', 'GTFS TransJakarta', 'DKI-Siap ATR/BPN (Hak Tanah)', 'Opentransum'],
+    ['Pantau Banjir Jakarta', 'GTFS TransJakarta', 'DKI-Siap ATR/BPN (Hak Tanah)', 'Opentransum', 'JUTPI3 2045 via ModaHub (CC BY-NC 4.0)'],
 ];
 
 export function StripSumberData() {

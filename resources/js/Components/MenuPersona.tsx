@@ -115,7 +115,7 @@ function IsiLegenda() {
                                 <span className="nr-lgrow__text">{t('MRT (oranye solid) · KRL Merah · KRL Hijau · KRL Biru · LRT (ungu solid) · Stasiun (titik putih) · Halte TransJakarta/Biskita (titik navy) · Gerbang tol (kotak oranye).', 'MRT (solid orange) · KRL Red · KRL Green · KRL Blue · LRT (solid purple) · Station (white dot) · TransJakarta/Biskita stop (navy dot) · Toll gate (orange square).')}</span>
                                 <span className="nr-lgrow__text" style={{ marginTop: 4 }}>
                                     {t('Garis putus-putus ungu = ', 'Dashed purple line = ')}
-                                    <b>{t('Mesin Waktu', 'Time Machine')}</b> {t('(proyek 2026–2030).', '(2026–2030 projects).')}
+                                    <b>{t('Mesin Waktu', 'Time Machine')}</b> {t('(proyek 2026–2045, termasuk rencana JUTPI3).', '(2026–2045 projects, incl. JUTPI3 plans).')}
                                 </span>
                             </>
                         )}

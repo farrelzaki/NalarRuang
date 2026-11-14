@@ -124,8 +124,9 @@ export function TombolLayerPersona({ terbuka, onKlik }: { terbuka: PanelKananKey
 
 export function SliderTahun({ tahun, onUbah, kosong }: { tahun: number; onUbah: (t: number) => void; kosong?: boolean }) {
     const { t: tr } = useBahasa();
+    // Sampai 2045: rencana JUTPI3 tanpa tahun resmi ditampilkan di ujung slider (keputusan tim 14 Nov 2026).
     const min = 2026;
-    const max = 2030;
+    const max = 2045;
     const pct = ((tahun - min) / (max - min)) * 100;
     return (
         <div className="nr-slider">
@@ -134,7 +135,7 @@ export function SliderTahun({ tahun, onUbah, kosong }: { tahun: number; onUbah: 
                 <span className="nr-slider__track">
                     <span className="nr-slider__rail" />
                     <span className="nr-slider__fill" style={{ width: `${pct}%` }} />
-                    {[2026, 2027, 2028, 2029, 2030].map((t) => (
+                    {[2026, 2030, 2035, 2040, 2045].map((t) => (
                         <span key={t} className="nr-slider__tick" style={{ left: `${((t - min) / (max - min)) * 100}%` }} />
                     ))}
                     <span className="nr-slider__knob" style={{ left: `${pct}%` }} />
@@ -152,6 +153,7 @@ export function SliderTahun({ tahun, onUbah, kosong }: { tahun: number; onUbah: 
                 <span className="nr-slider__value">{tahun}</span>
             </div>
             {kosong && <p className="nr-slider__empty">{tr('Belum ada proyek di tahun ini.', 'No projects in this year yet.')}</p>}
+            {tahun === max && !kosong && <p className="nr-slider__empty">{tr('Termasuk rencana JUTPI3 yang belum punya tahun.', 'Includes JUTPI3 plans with no set year.')}</p>}
         </div>
     );
 }

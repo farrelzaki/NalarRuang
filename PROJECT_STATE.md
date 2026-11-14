@@ -164,3 +164,17 @@ di kode (`97d610b`), rumus final belum dipastikan sama.
 - Bila prompt tugas bertabrakan dengan `docs/RENCANA.md`, RENCANA yang dipakai (27 Sep).
 - Git: branch per fitur + PR ke `main`. Agen tidak commit/push tanpa diminta.
 - Yang coding bersama agen: Farrel, Adzkia, Nur'Afia. Izdihar dan Galih tidak.
+
+## Mesin Waktu sampai 2045 (14 Nov 2026)
+
+Keputusan Galih 14 Nov: rentang Mesin Waktu melebar dari 2026–2030 ke **2026–2045** (menyimpang dari SRS FR-04 /
+desain; SRS perlu disesuaikan). Data baru `data/mesin_waktu/proyek_jutpi3.geojson` (27 garis) dibuat oleh
+`data/scripts/gabung_jutpi3.py` dari:
+- `jutpi3_modahub.geojson`: 53 lin JUTPI3 2045 + 787 stasiun dari ModaHub (dataset plan2045, CC BY-NC 4.0).
+- `fase_video_jutpi3.csv`: 28 fase dan tahun yang dibaca dari video rujukan (youtu.be/DNarc_hZMXY).
+- Aturan: fase yang sudah punya garis OSM di `proyek.geojson` dilewati; tahun dari `proyek.csv` (berita resmi)
+  > video > 2045 ("rencana jangka panjang"). Bus/BRT JUTPI3 tidak dimasukkan; lin kereta rencana (Eastern/Western
+  Ring, JIS, Jonggol, Leuwiliang) dan Tram Bogor masuk di 2045.
+- Seeder `DataNyataSeeder::mesinWaktu()` kini membaca kedua berkas; kontrak API tidak berubah. Slider 2026–2045
+  (tanda 2026/2030/2035/2040/2045), atribusi ditambahkan di peta, Legenda, dan Sumber Data landing.
+- Perlu dicek di laptop: `php artisan db:seed --class=DataNyataSeeder`, lalu geser slider Mesin Waktu.

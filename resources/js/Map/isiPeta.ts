@@ -54,7 +54,7 @@ export function deskripsi(p: Record<string, any>): string {
         case 'stasiun': return `${p.moda ? String(p.moda).toUpperCase() : tr('Stasiun', 'Station')}${p.lin ? ` · ${tr('Lin', 'Line')} ${p.lin}` : ''}.`;
         case 'krl': case 'mrt': case 'lrt': return p.nama ?? tr('Jalur kereta.', 'Railway line.');
         case 'brt': return `${tr('Koridor', 'Corridor')} ${p.koridor ?? ''}${p.nama ? ` · ${p.nama}` : ''}.`;
-        case 'proyek': return `${p.status ? istilah(p.status) : tr('Proyek', 'Project')}${p.tahun ? `, target ${p.tahun}` : tr(', belum ada target tahun', ', no target year yet')}.`;
+        case 'proyek': return `${p.status ? istilah(p.status) : tr('Proyek', 'Project')}${Number(p.tahun) >= 2045 ? tr(', rencana jangka panjang JUTPI3 (2045)', ', long-term JUTPI3 plan (2045)') : p.tahun ? `, target ${p.tahun}` : tr(', belum ada target tahun', ', no target year yet')}.`;
         case 'banjir_tampil': {
             const arti: Record<number, [string, string]> = { 1: ['Cukup rawan tergenang', 'Somewhat flood-prone'], 2: ['Rawan tergenang', 'Flood-prone'], 3: ['Sangat rawan tergenang', 'Highly flood-prone'] };
             const a = arti[Number(p.tingkat)] ?? arti[2];
@@ -133,7 +133,7 @@ export function isiPopup(layer: string, p: Record<string, any>, idFitur?: unknow
 
 /** Atribusi sumber data yang tampil di pojok peta (HTML). */
 export const ATRIBUSI_DATA =
-    'Transit: <a href="https://data.commute.shiorilabs.id/">Commute Data Platform</a> (ODbL) · Banjir: InaRISK & BNPB · Zona: RDTR DKI 2022 · PM2.5: SatPM ACAG (CC BY 4.0) · Bus Bodetabek: Opentransum';
+    'Transit: <a href="https://data.commute.shiorilabs.id/">Commute Data Platform</a> (ODbL) · Banjir: InaRISK & BNPB · Zona: RDTR DKI 2022 · PM2.5: SatPM ACAG (CC BY 4.0) · Bus Bodetabek: Opentransum · Rencana 2045: JUTPI3 via <a href="https://modahub.petakpeta.com/atribusi">ModaHub</a> (CC BY-NC 4.0)';
 
 /* ---------------- Geometri bilah alat (Titik dan Area) ---------------- */
 
