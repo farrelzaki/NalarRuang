@@ -68,6 +68,30 @@ unduhan resmi; sisanya diolah manual oleh tim data (Adzkia, Galih).
 | Pencarian & grading | Batas desa/kelurahan (1.503 se-Jabodetabek, kode Kemendagri) | Batas OSM (tidak lengkap di Bekasi dan Kab. Tangerang) | Layanan ArcGIS REST BIG `BATAS_DESAKEL_AR` | — |
 | Commute Simulator | Mobil: Valhalla (utamakan tol, cadangan OSRM) + perkiraan tarif tol, opsi hindari 23 ruas ganjil-genap (webmap ArcGIS Dishub DKI; Pintu Besar Selatan & Balikpapan belum ada di sumber); umum: tarif & rute Commute Data API + jalan kaki OSRM | Google Distance Matrix | Ya | — |
 
+### Memuat data persil (Legalitas) ke Heroku
+
+Data hak tanah DKI (`layer_id = 'persil'`) tidak ada di repo dan tidak dimuat oleh seeder; isinya diimpor langsung
+ke basis data. `DemoPetaSeeder` tidak menghapus layer ini (`LAYER_LUAR_REPO`), jadi deploy berikutnya tidak
+menimpanya, dan impor persil juga tidak menyentuh layer lain. **Syarat:** asal dan izin sumber data sudah dipastikan
+(lihat `PROJECT_STATE.md`, "Perlu ditinjau" no. 1).
+
+Di laptop yang punya basis data lengkap (sesuaikan nama tabel bila persil tidak di `fitur_peta`):
+
+```bash
+# 0. Cek jumlah dan ukuran dulu
+psql -U postgres -d nalarruang -c "SELECT count(*), pg_size_pretty(sum(pg_column_size(geom))) FROM fitur_peta WHERE layer_id = 'persil'"
+# 1. Ekspor hanya persil (geometri disederhanakan ~0,5 m, hex EWKB)
+psql -U postgres -d nalarruang -c "\copy (SELECT layer_id, jenis, nama, atribut, tahun, sumber, encode(ST_AsEWKB(ST_SimplifyPreserveTopology(geom, 0.000005)), 'hex') FROM fitur_peta WHERE layer_id = 'persil') TO 'persil.csv' WITH CSV HEADER"
+# 2. Pastikan muat di paket Heroku Postgres
+heroku pg:info -a <nama-app>
+# 3. Ganti persil lama (hanya persil) lalu impor
+heroku pg:psql -a <nama-app> -c "DELETE FROM fitur_peta WHERE layer_id = 'persil'"
+heroku pg:psql -a <nama-app> -c "\copy fitur_peta (layer_id, jenis, nama, atribut, tahun, sumber, geom) FROM 'persil.csv' WITH CSV HEADER"
+heroku pg:psql -a <nama-app> -c "ANALYZE fitur_peta"
+```
+
+Jangan me-restore `backup_nalarruang.sql` utuh ke Heroku: itu menimpa semua tabel.
+
 ## 3. Kalender sprint
 
 | Sprint | Periode | Fokus | Penutup |

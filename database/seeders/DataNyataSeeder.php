@@ -54,7 +54,7 @@ class DataNyataSeeder extends Seeder
         $this->halteBodetabek();
         $this->gazetteer();
 
-        DB::statement('UPDATE fitur_peta SET geom = ST_CollectionExtract(ST_MakeValid(geom), ST_Dimension(geom) + 1) WHERE NOT ST_IsValid(geom)');
+        DB::statement("UPDATE fitur_peta SET geom = ST_CollectionExtract(ST_MakeValid(geom), ST_Dimension(geom) + 1) WHERE layer_id <> 'persil' AND NOT ST_IsValid(geom)");
         // Luas RTH untuk syarat Zen (taman >= 1.000 m²); dihitung sekali di sini.
         DB::statement("UPDATE fitur_peta SET atribut = atribut || jsonb_build_object('luas_m2', round(ST_Area(geom::geography))) WHERE jenis = 'rth'");
         DB::statement('ANALYZE fitur_peta');
