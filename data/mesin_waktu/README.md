@@ -27,3 +27,7 @@ Dibuat dengan `python data/scripts/tarik_proyek_osm.py` (setelah `tarik_osm_tamb
   garis per lin (bukan per fase, tanpa tahun). Lisensi JUTPI3 di sana: CC BY-NC 4.0. Belum diunduh ke repo.
 - Keputusan tim 14 Nov: rentang Mesin Waktu boleh melebar sampai 2045 (fase 20XX ditampilkan sebagai
   "Rencana 2045").
+- Garis OSM empat proyek rel di `proyek.geojson` ternyata tidak pas: LRT 1B hanya 1,8 dari 6 km; MRT 2A segmen 1
+  dan 2 memakai garis yang sama (17,6 km); MRT EW tahap I 48 km padahal 25,6 km. `gabung_jutpi3.py` kini
+  membuat garis pengganti per fase dari ModaHub (properti `menggantikan`), dan seeder melewati garis OSM-nya.
+  Tahun dan status tetap dari `proyek.csv`. Proyek tol tetap memakai garis OSM.

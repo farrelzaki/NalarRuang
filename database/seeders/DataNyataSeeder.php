@@ -204,12 +204,16 @@ class DataNyataSeeder extends Seeder
     {
         DB::table('fitur_peta')->where('layer_id', 'mesin_waktu')->delete();
         $fitur = [];
-        foreach (['proyek.geojson', 'proyek_jutpi3.geojson'] as $berkas) {
-            $jalur = base_path('data/mesin_waktu/'.$berkas);
-            if (is_file($jalur)) {
-                array_push($fitur, ...array_filter($this->geojson($jalur), fn ($f) => $f['geometry'] !== null));
+        $jutpi = is_file(base_path('data/mesin_waktu/proyek_jutpi3.geojson'))
+            ? $this->geojson(base_path('data/mesin_waktu/proyek_jutpi3.geojson')) : [];
+        // Garis OSM proyek rel yang tidak pas diganti garis fase JUTPI3 (lihat data/scripts/gabung_jutpi3.py).
+        $diganti = array_filter(array_map(fn ($f) => $f['properties']['menggantikan'] ?? null, $jutpi));
+        foreach ($this->geojson(base_path('data/mesin_waktu/proyek.geojson')) as $f) {
+            if ($f['geometry'] !== null && ! in_array($f['properties']['id'] ?? null, $diganti, true)) {
+                $fitur[] = $f;
             }
         }
+        array_push($fitur, ...$jutpi);
         $this->sisip(array_map(function ($f) {
             $p = $f['properties'];
             $situs = parse_url((string) ($p['sumber'] ?? ''), PHP_URL_HOST);
