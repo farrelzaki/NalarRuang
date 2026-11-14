@@ -1,10 +1,10 @@
 /**
  * Peta Visual Explorer (UI01). Satu-satunya tempat yang menyentuh `L` (CLAUDE.md).
- * Basemap OSM standar; layer dari /api/layers; seleksi, Top 3, dan rute mengikuti kartografi design-system.md bagian 9.
+ * Basemap OSM standar; layer dari /api/layers; seleksi, Top 3, isochrone, dan rute mengikuti kartografi design-system.md bagian 9.
  */
 import { useEffect, useRef } from 'react';
 import L from 'leaflet';
-import type { Feature, FeatureCollection, Geometry, LineString, Point } from 'geojson';
+import type { Feature, FeatureCollection, Geometry, Point } from 'geojson';
 import type { CommuteResponse, HasilSearch, LayerKey } from '@/types';
 import { bahasaAktif, pilihTeks, type Bahasa } from '@/lib/bahasa';
 import * as gaya from './gaya';
@@ -19,6 +19,7 @@ type Props = {
     top3Aktif: number | null;
     wilayahTerpilih: Geometry | null;
     pin: TitikPeta | null;
+    isochrone?: FeatureCollection | null;
     rute: CommuteResponse | null;
     ruteA: TitikPeta | null;
     ruteB: TitikPeta | null;
@@ -284,7 +285,7 @@ export default function PetaExplorer(props: Props) {
 
         for (const [k, fc] of Object.entries(props.layer) as [LayerKey, FeatureCollection][]) {
             if (!fc || !fc.features || fc.features.length === 0) continue;
-            
+
             if (grupLayer.current[k] && tergambar.current[k] !== fc) {
                 grupLayer.current[k]?.remove();
                 delete grupLayer.current[k];
@@ -328,6 +329,28 @@ export default function PetaExplorer(props: Props) {
         if (props.wilayahTerpilih) {
             L.geoJSON(props.wilayahTerpilih, { pane: 'nrSeleksi', style: gaya.terpilih, interactive: false }).addTo(g);
         }
+
+        // Render poligon Travel-Time Isochrone menggantikan lingkaran radius lama (T-056)
+        if (props.pin && props.isochrone && props.isochrone.features?.length) {
+            const isoLayer = L.geoJSON(props.isochrone, {
+                pane: 'nrSeleksi',
+                interactive: false,
+                style: {
+                    color: '#2563eb',
+                    weight: 2.25,
+                    opacity: 0.9,
+                    fillColor: '#3b82f6',
+                    fillOpacity: 0.2,
+                },
+            }).addTo(g);
+
+            const m = peta.current;
+            const bounds = isoLayer.getBounds();
+            if (m && bounds.isValid()) {
+                m.fitBounds(bounds, { ...padding(), maxZoom: 16, animate: true });
+            }
+        }
+
         if (props.pin) {
             L.marker([props.pin.lat, props.pin.lng], {
                 pane: 'nrSeleksi',
@@ -340,7 +363,7 @@ export default function PetaExplorer(props: Props) {
                 }),
             }).addTo(g);
         }
-    }, [props.top3, props.top3Aktif, props.wilayahTerpilih, props.pin]);
+    }, [props.top3, props.top3Aktif, props.wilayahTerpilih, props.pin, props.isochrone]);
 
     useEffect(() => {
         const g = grupRute.current;
@@ -472,7 +495,7 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
     const g = L.layerGroup();
     const kanvas = L.canvas({ pane: 'nrTitik', padding: 0.3 });
     const diKanvas = { renderer: L.canvas({ pane: 'nrPoligon', padding: 0.3 }) } as L.GeoJSONOptions;
-    
+
     const popup = (f: Feature, l: L.Layer) => {
         const p = (f.properties ?? {}) as Record<string, any>;
         (l as L.Path).bindPopup(() => popupHtml(labelJenis(p.jenis), p.nama ?? labelJenis(p.jenis), deskripsi(p), `${tr('Sumber', 'Source')}: ${p.sumber ?? 'OSM'}`), {
@@ -519,7 +542,7 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
                     color: '#fff',
                     weight: 2,
                     fillColor: warnaEkosistem(f),
-                    fillOpacity: 0.9
+                    fillOpacity: 0.9,
                 }),
                 onEachFeature: popup,
             }),
@@ -616,7 +639,7 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
                     tr('Rencana Detail Tata Ruang', 'Detailed Spatial Plan'),
                     namaZona,
                     `${tr('Kode Zona', 'Zone Code')}: ${kodeZona}`,
-                    `${tr('Sumber', 'Source')}: ${sumber}`
+                    `${tr('Sumber', 'Source')}: ${sumber}`,
                 ), {
                     autoPan: false,
                     closeButton: true,
@@ -643,16 +666,16 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
             style: gaya.gayaPersil ?? gaya.legal,
             onEachFeature: (f, l) => {
                 const p = (f.properties ?? {}) as Record<string, any>;
-                
+
                 const nibRaw = p.NIB ?? p.nib ?? p.NIB_1 ?? p.nib_1 ?? p.KODNIB ?? p.kodnib ?? p.NO_BIDANG ?? p.no_bidang ?? p.NOP ?? p.nop;
                 const nibText = (nibRaw && String(nibRaw).trim() !== '' && String(nibRaw) !== '0') ? String(nibRaw) : null;
-                
+
                 const idBidang = p.id ?? f.id ?? p.OBJECTID ?? p.objectid;
                 const judulText = nibText ? `NIB: ${nibText}` : (idBidang ? `Bidang Tanah #${idBidang}` : tr('Bidang Tanah BPN', 'BPN Land Parcel'));
 
                 const namaZonaRaw = p.NAMZON_1 ?? p.namzon_1 ?? p.NAMZON ?? p.namzon ?? p.NAMOBJ ?? p.namobj ?? p.ZONA ?? p.zona;
                 const kodeZonaRaw = p.KODSZN_1 ?? p.kodszn_1 ?? p.KODZON_1 ?? p.kodzon_1 ?? p.KODZON ?? p.kodzon;
-                
+
                 let zonaFormatted: string | null = null;
                 if (namaZonaRaw && String(namaZonaRaw).toLowerCase() !== 'bidang tanah') {
                     const namaClean = istilah(String(namaZonaRaw).trim());
@@ -668,14 +691,14 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
                 const kelurahan = p.WADMKD ?? p.wadmkd ?? p.Kelurahan ?? p.kelurahan;
                 const kecamatan = p.WADMKC ?? p.wadmkc ?? p.Kecamatan ?? p.kecamatan;
                 const kota = p.WADMKK ?? p.wadmkk ?? p.Kota ?? p.kota;
-                
+
                 const sumber = 'Satu Data DKI Jakarta';
 
                 const rincian: string[] = [];
                 rincian.push(`Hak: ${hakText}`);
                 if (zonaFormatted) rincian.push(`Zona: ${zonaFormatted}`);
                 if (luasText) rincian.push(`Luas: ${luasText}`);
-                
+
                 const lokasi = [kelurahan, kecamatan, kota].filter(Boolean).map((x) => String(x).trim()).filter(Boolean).join(', ');
                 if (lokasi) rincian.push(`Lokasi: ${lokasi}`);
 
@@ -685,7 +708,7 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
                     tr('Bidang Tanah (ATR/BPN)', 'Land Parcel (ATR/BPN)'),
                     judulText,
                     isiText,
-                    `${tr('Sumber', 'Source')}: ${sumber}`
+                    `${tr('Sumber', 'Source')}: ${sumber}`,
                 ), {
                     autoPan: false,
                     closeButton: true,

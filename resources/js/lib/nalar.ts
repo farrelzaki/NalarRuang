@@ -6,10 +6,20 @@ export const PERSONA_IDS: Persona[] = ['commuter', 'driver', 'social_vibe', 'zen
 
 export const PERSONA: Record<Persona, { label: string; ikon: string; no: string; tag: Dwi; desc: Dwi }> = {
     commuter: { label: 'Commuter', ikon: 'tram-front', no: '01', tag: ['Akses transit paling utama', 'Transit access comes first'], desc: ['Mengutamakan akses transit, seperti stasiun dan halte.', 'Prioritises transit access, such as stations and bus stops.'] },
-    driver: { label: 'Driver', ikon: 'car', no: '02', tag: ['Dekat Gerbang Tol', 'Toll Gate Nearby'], desc: ['Fokus pencarian jarak radius dengan gerbang tol terdekat.', 'Prioritises radius distance to the nearest toll gates.'] },
+    driver: { label: 'Driver', ikon: 'car', no: '02', tag: ['Dekat Gerbang Tol', 'Toll Gate Nearby'], desc: ['Mengutamakan jangkauan waktu tempuh (isochrone) menuju gerbang tol terdekat.', 'Prioritises travel-time reach (isochrone) to the nearest toll gates.'] },
     social_vibe: { label: 'Social & Vibe', ikon: 'coffee', no: '03', tag: ['Dekat seru-serunya kota', 'Close to the city buzz'], desc: ['Mengutamakan hiburan, kafe, dan restoran.', 'Prioritises entertainment, cafés, and restaurants.'] },
     zen: { label: 'Zen', ikon: 'leaf', no: '04', tag: ['Tenang, hijau, bebas banjir', 'Quiet, green, flood-free'], desc: ['Mengutamakan akses ruang terbuka hijau, taman, perpustakaan, serta lokasi bebas dari risiko banjir.', 'Prioritises access to green open space, parks, libraries, and flood-free locations.'] },
 };
+
+export type IsochroneMode = 'pedestrian' | 'bicycle' | 'auto';
+
+export const ISOCHRONE_MODES: { value: IsochroneMode; label: Dwi }[] = [
+    { value: 'pedestrian', label: ['Jalan Kaki', 'Walking'] },
+    { value: 'bicycle', label: ['Sepeda', 'Cycling'] },
+    { value: 'auto', label: ['Mobil', 'Driving'] },
+];
+
+export const ISOCHRONE_MINUTES = [5, 10, 15] as const;
 
 export const FRASA: Dwi[] = [
     ['Belum mendukung aktivitasmu, pertimbangkan lokasi lain.', 'Does not support your activities yet, consider another location.'],
@@ -20,7 +30,7 @@ export const FRASA: Dwi[] = [
 
 export type Simbol =
     | 'banjir' | 'banjir-1' | 'banjir-2' | 'banjir-3' | 'genangan' | 'hijau' | 'rth' | 'perpus' | 'kuliner' | 'komersial' | 'akses' | 'trotoar' | 'mrt' | 'lrt' | 'krl-bogor' | 'krl-rangkas'
-    | 'krl-cikarang' | 'krl-lain' | 'krl-tangerang' | 'krl-priok' | 'krl-bandara' | 'lrt-jabodebek' | 'brt' | 'stasiun' | 'halte' | 'halte-brt' | 'tol' | 'gg' | 'waktu' | 'waktu-tol' | 'legal' | 'rute' | 'jalan-kaki' | 'terpilih';
+    | 'krl-cikarang' | 'krl-lain' | 'krl-tangerang' | 'krl-priok' | 'krl-bandara' | 'lrt-jabodebek' | 'brt' | 'stasiun' | 'halte' | 'halte-brt' | 'tol' | 'gg' | 'waktu' | 'waktu-tol' | 'legal' | 'rute' | 'jalan-kaki' | 'terpilih' | 'isochrone';
 
 export const LAYERS: { key: LayerKey; title: Dwi; desc: Dwi; grid?: boolean; legend: [Simbol, Dwi][] }[] = [
     { key: 'historis_risiko', title: ['Historis & Risiko', 'History & Risk'], desc: ['Merah: kerawanan banjir menurut bentuk lahan (indeks InaRISK 0–1, bukan persen peluang dan bukan riwayat). Biru: banjir yang benar-benar terjadi.', 'Red: flood susceptibility from landform (InaRISK index 0–1, not a probability or history). Blue: floods that actually happened.'],

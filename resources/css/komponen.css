@@ -173,8 +173,108 @@ input { font: inherit; }
     text-align: left;
 }
 
+/* Kontrol Travel-Time Isochrone (T-056) */
+.nr-iso {
+    position: fixed;
+    top: 76px;
+    right: 16px;
+    z-index: 950;
+    width: 280px;
+    padding: 12px 14px;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.nr-iso__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    color: #2563eb;
+}
+.nr-iso__title {
+    font: 700 10px/15px var(--font-sans);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #2563eb;
+}
+.nr-iso__modes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    padding: 3px;
+    border-radius: var(--radius-md);
+    background: var(--ink-05);
+}
+.nr-iso__modebtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    padding: 6px 4px;
+    border-radius: 6px;
+    font: 700 10.5px/14px var(--font-sans);
+    color: var(--ink-60);
+    white-space: nowrap;
+    transition: background-color 140ms ease-out, color 140ms ease-out;
+}
+.nr-iso__modebtn:hover {
+    color: var(--navy-900);
+}
+.nr-iso__modebtn[aria-pressed="true"] {
+    background: var(--navy-900);
+    color: var(--white);
+    box-shadow: var(--shadow-sm);
+}
+.nr-iso__row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.nr-iso__lbl {
+    font: 700 10px/15px var(--font-sans);
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--ink-50);
+    white-space: nowrap;
+}
+.nr-iso__times {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    flex: 1;
+}
+.nr-iso__timebtn {
+    padding: 5px 4px;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--white);
+    font: 700 11px/14px var(--font-sans);
+    color: var(--ink-70);
+    font-variant-numeric: tabular-nums;
+    transition: border-color 140ms ease-out, background-color 140ms ease-out, color 140ms ease-out;
+}
+.nr-iso__timebtn:hover {
+    background: var(--ink-05);
+}
+.nr-iso__timebtn[aria-pressed="true"] {
+    border-color: #2563eb;
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
 /* Penyesuaian Panel Layer Spasial untuk Tampilan Mobile */
 @media (max-width: 640px) {
+    .nr-iso {
+        top: 68px;
+        left: 16px;
+        right: 16px;
+        width: auto;
+        padding: 10px 12px;
+        gap: 8px;
+    }
     .nr-search {
         width: calc(100vw - 32px) !important;
         height: 44px;
