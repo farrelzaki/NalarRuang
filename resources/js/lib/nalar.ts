@@ -20,7 +20,7 @@ export const FRASA: Dwi[] = [
 
 export type Simbol =
     | 'banjir' | 'banjir-1' | 'banjir-2' | 'banjir-3' | 'genangan' | 'hijau' | 'rth' | 'perpus' | 'kuliner' | 'komersial' | 'akses' | 'trotoar' | 'mrt' | 'lrt' | 'krl-bogor' | 'krl-rangkas'
-    | 'krl-cikarang' | 'krl-lain' | 'krl-tangerang' | 'krl-priok' | 'krl-bandara' | 'lrt-jabodebek' | 'brt' | 'stasiun' | 'halte' | 'halte-brt' | 'tol' | 'gg' | 'waktu' | 'waktu-tol' | 'legal' | 'rute' | 'jalan-kaki' | 'terpilih';
+    | 'krl-cikarang' | 'krl-lain' | 'krl-tangerang' | 'krl-priok' | 'krl-bandara' | 'lrt-jabodebek' | 'brt' | 'stasiun' | 'halte' | 'halte-brt' | 'tol' | 'gg' | 'waktu' | 'waktu-tol' | 'waktu-stasiun' | 'legal' | 'rute' | 'jalan-kaki' | 'terpilih';
 
 export const LAYERS: { key: LayerKey; title: Dwi; desc: Dwi; grid?: boolean; legend: [Simbol, Dwi][] }[] = [
     { key: 'historis_risiko', title: ['Historis & Risiko', 'History & Risk'], desc: ['Merah: kerawanan banjir menurut bentuk lahan (indeks InaRISK 0–1, bukan persen peluang dan bukan riwayat). Biru: banjir yang benar-benar terjadi.', 'Red: flood susceptibility from landform (InaRISK index 0–1, not a probability or history). Blue: floods that actually happened.'],
@@ -41,7 +41,7 @@ export const LAYERS: { key: LayerKey; title: Dwi; desc: Dwi; grid?: boolean; leg
     { key: 'mobilitas', title: ['Mobilitas & Transit', 'Mobility & Transit'], desc: ['Halte, stasiun KRL/MRT, dan jalur arteri.', 'Bus stops, KRL/MRT stations, and arterial roads.'], grid: true,
       legend: [['mrt', ['MRT Lin Utara-Selatan (merah).', 'MRT North-South Line (red).']], ['krl-bogor', ['KRL Lin Bogor (merah).', 'KRL Bogor Line (red).']], ['krl-rangkas', ['KRL Lin Rangkasbitung (hijau).', 'KRL Rangkasbitung Line (green).']], ['krl-cikarang', ['KRL Lin Cikarang (biru muda).', 'KRL Cikarang Line (light blue).']], ['krl-tangerang', ['KRL Lin Tangerang (cokelat).', 'KRL Tangerang Line (brown).']], ['krl-priok', ['KRL Lin Tanjung Priok (merah muda).', 'KRL Tanjung Priok Line (pink).']], ['krl-bandara', ['KA Bandara Soekarno-Hatta (biru tua).', 'Soekarno-Hatta Airport Rail (navy).']], ['lrt', ['LRT Jakarta (oranye).', 'LRT Jakarta (orange).']], ['lrt-jabodebek', ['LRT Jabodebek Bekasi (hijau tua) & Cibubur (biru tua).', 'LRT Jabodebek Bekasi (dark green) & Cibubur (dark blue).']], ['brt', ['Rute BRT TransJakarta (warna koridor).', 'TransJakarta BRT routes (corridor colours).']], ['stasiun', ['Stasiun transit.', 'Transit station.']], ['halte-brt', ['Halte BRT TransJakarta (perbesar peta).', 'TransJakarta BRT stop (zoom in).']], ['halte', ['Halte bus lain, termasuk Biskita (perbesar peta).', 'Other bus stops, incl. Biskita (zoom in).']], ['tol', ['Gerbang tol.', 'Toll gate.']], ['gg', ['Ruas ganjil-genap DKI (perbesar peta).', 'Jakarta odd-even roads (zoom in).']]] },
     { key: 'mesin_waktu', title: ['Mesin Waktu', 'Time Machine'], desc: ['Proyek infrastruktur dan tata ruang masa depan.', 'Future infrastructure and spatial planning projects.'],
-      legend: [['waktu', ['Proyek MRT, LRT, dan kereta, tampil mulai tahun targetnya. Rencana JUTPI3 tanpa tahun tampil di 2045.', 'MRT, LRT, and rail projects, shown from their target year. JUTPI3 plans without a year appear at 2045.']], ['waktu-tol', ['Proyek jalan tol, tampil mulai tahun targetnya.', 'Toll road projects, shown from their target year.']]] },
+      legend: [['waktu', ['Proyek MRT, LRT, dan kereta, tampil mulai tahun targetnya. Rencana JUTPI3 tanpa tahun tampil di 2045.', 'MRT, LRT, and rail projects, shown from their target year. JUTPI3 plans without a year appear at 2045.']], ['waktu-tol', ['Proyek jalan tol, tampil mulai tahun targetnya.', 'Toll road projects, shown from their target year.']], ['waktu-stasiun', ['Stasiun rencana (perbesar peta).', 'Planned station (zoom in).']]] },
     { key: 'legalitas', title: ['Legalitas Lahan', 'Land Legality'], desc: ['Hak tanah terdaftar daerah DKI Jakarta.', 'Registered Land Rights in DKI Jakarta.'],
       legend: [['legal', ['Hak Tanah Terdaftar daerah DKI Jakarta.', 'Registered Land Rights in DKI Jakarta.']]] },
 ];
@@ -96,6 +96,7 @@ export const SUBFITUR: Partial<Record<Simbol, (p: Prop) => boolean>> = {
     gg: (p) => p.jenis === 'ganjil_genap',
     waktu: (p) => p.jenis === 'proyek' && p.moda !== 'tol',
     'waktu-tol': (p) => p.jenis === 'proyek' && p.moda === 'tol',
+    'waktu-stasiun': (p) => p.jenis === 'stasiun_rencana',
     legal: (p) => p.jenis === 'legal',
 };
 

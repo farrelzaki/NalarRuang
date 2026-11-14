@@ -92,6 +92,50 @@ def potong(garis, s0, s1):
     return [[round(x, 6), round(y, 6)] for x, y in hasil]
 
 
+STASIUN_ADA = DIR.parent / 'geojson' / 'demo' / 'fitur' / 'mobilitas.geojson'
+JARAK_KE_GARIS_M = 120
+JARAK_KE_STASIUN_ADA_M = 250
+
+
+def stasiun_rencana(garis_fase, stasiun):
+    """Stasiun ModaHub yang dilewati tiap fase; tahunnya = fase paling awal yang melewatinya.
+
+    Stasiun yang sudah beroperasi (<= 250 m dari stasiun bermoda sama di layer Mobilitas) tidak ikut, jadi ujung
+    fase yang menyambung ke jalur lama (mis. Bundaran HI, Velodrome) tidak digambar dua kali. Stasiun baru di
+    titik transfer moda lain (mis. MRT Kota di dekat KRL Jakarta Kota) tetap ikut.
+    """
+    ada = [(f['geometry']['coordinates'], (f['properties'].get('atribut') or {}).get('moda'))
+           for f in json.loads(STASIUN_ADA.read_text(encoding='utf-8'))['features']
+           if f['properties'].get('jenis') == 'stasiun' and f['geometry']['type'] == 'Point']
+    hasil = {}
+    for g in garis_fase:
+        p = g['properties']
+        kode, garis = p.get('lin_modahub'), g['geometry']['coordinates']
+        if not kode or len(garis) < 2:
+            continue
+        for s in stasiun:
+            if kode not in s['properties']['lin']:
+                continue
+            xy = s['geometry']['coordinates']
+            if proyeksi(garis, xy)[0] > JARAK_KE_GARIS_M or any(m == p['moda'] and jarak_m(xy, a) <= JARAK_KE_STASIUN_ADA_M for a, m in ada):
+                continue
+            kunci = s['properties']['stop_id']
+            lama = hasil.get(kunci)
+            if lama is None or p['tahun'] < lama['properties']['tahun']:
+                hasil[kunci] = {
+                    'type': 'Feature',
+                    'properties': {
+                        'id': kunci.split(':')[-1], 'nama': s['properties']['nama'], 'jenis': 'stasiun_rencana',
+                        'moda': p['moda'], 'lin': p['nama'], 'tahun': p['tahun'], 'asal_tahun': p['asal_tahun'],
+                        'status_okt_2026': p['status_okt_2026'], 'sumber': p['sumber'], 'tanggal_sumber': p['tanggal_sumber'],
+                        'geometri': SUMBER_JUTPI,
+                    },
+                    'geometry': {'type': 'Point', 'coordinates': [round(xy[0], 6), round(xy[1], 6)]},
+                }
+    print(f'{len(hasil)} stasiun rencana')
+    return list(hasil.values())
+
+
 def main():
     data = json.loads((DIR / 'jutpi3_modahub.geojson').read_text(encoding='utf-8'))
     lin, stasiun = {}, []
@@ -159,6 +203,7 @@ def main():
                 'tahun': tahun,
                 'asal_tahun': asal,
                 'geometri': SUMBER_JUTPI,
+                'lin_modahub': kode,
             },
             'geometry': {'type': 'LineString', 'coordinates': geom},
         })
@@ -203,11 +248,13 @@ def main():
                 'sumber': 'https://modahub.petakpeta.com', 'tanggal_sumber': '2025-07-01',
                 'catatan': 'rencana jangka panjang JUTPI3, belum ada tahun; tidak ada di video rujukan',
                 'tahun': TAHUN_RENCANA, 'asal_tahun': 'rencana JUTPI3 tanpa tahun', 'geometri': SUMBER_JUTPI,
+                'lin_modahub': kode,
             },
             'geometry': {'type': 'LineString', 'coordinates': [[round(x, 6), round(y, 6)] for x, y in garis]},
         })
         laporan.append(f'   {nama}: {TAHUN_RENCANA}')
 
+    keluar += stasiun_rencana(keluar, stasiun)
     (DIR / 'proyek_jutpi3.geojson').write_text(json.dumps({'type': 'FeatureCollection', 'features': keluar}, ensure_ascii=False), encoding='utf-8')
     print('\n'.join(laporan))
     print(f'{len(keluar)} fitur -> proyek_jutpi3.geojson')

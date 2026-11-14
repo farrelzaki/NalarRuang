@@ -31,3 +31,6 @@ Dibuat dengan `python data/scripts/tarik_proyek_osm.py` (setelah `tarik_osm_tamb
   dan 2 memakai garis yang sama (17,6 km); MRT EW tahap I 48 km padahal 25,6 km. `gabung_jutpi3.py` kini
   membuat garis pengganti per fase dari ModaHub (properti `menggantikan`), dan seeder melewati garis OSM-nya.
   Tahun dan status tetap dari `proyek.csv`. Proyek tol tetap memakai garis OSM.
+- `proyek_jutpi3.geojson` juga memuat titik `jenis = stasiun_rencana` (stasiun ModaHub <= 120 m dari garis fase;
+  tahun = fase paling awal yang melewatinya). Stasiun yang sudah beroperasi dengan moda sama (<= 250 m dari
+  stasiun di layer Mobilitas) tidak dimasukkan.

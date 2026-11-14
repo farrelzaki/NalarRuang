@@ -225,11 +225,13 @@ class DataNyataSeeder extends Seeder
 
             return [
                 'layer_id' => 'mesin_waktu',
-                'jenis' => 'proyek',
+                // Garis proyek, atau titik stasiun rencana (stasiun_rencana) dari fase JUTPI3.
+                'jenis' => $p['jenis'] ?? 'proyek',
                 'nama' => $p['nama'],
                 'atribut' => array_filter([
                     'status' => $p['status_okt_2026'] ?? null,
                     'moda' => $p['moda'] ?? null,
+                    'lin' => $p['lin'] ?? null,
                     'tautan' => $p['sumber'] ?? null,
                     'catatan' => $p['catatan'] ?? null,
                 ]),

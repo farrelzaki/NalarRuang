@@ -30,7 +30,7 @@ const JENIS_LABEL: Record<string, [string, string]> = {
     akses: ['Akses disabilitas', 'Disability access'], trotoar: ['Trotoar', 'Sidewalk'], krl: ['Jalur KRL', 'KRL line'], mrt: ['Jalur MRT', 'MRT line'],
     lrt: ['Jalur LRT', 'LRT line'], stasiun: ['Stasiun', 'Station'], halte: ['Halte', 'Bus stop'], tol: ['Gerbang tol', 'Toll gate'],
     ganjil_genap: ['Ruas ganjil-genap', 'Odd-even road'],
-    proyek: ['Proyek infrastruktur', 'Infrastructure project'], legal: ['Bidang Tanah BPN', 'BPN Land Parcel'],
+    proyek: ['Proyek infrastruktur', 'Infrastructure project'], stasiun_rencana: ['Stasiun rencana', 'Planned station'], legal: ['Bidang Tanah BPN', 'BPN Land Parcel'],
     rdtr: ['Rencana Detail Tata Ruang', 'Detailed Spatial Plan'], persil: ['Bidang Tanah (ATR/BPN)', 'Land Parcel (ATR/BPN)'],
     legalitas: ['Bidang Tanah (ATR/BPN)', 'Land Parcel (ATR/BPN)'],
 };
@@ -54,6 +54,7 @@ export function deskripsi(p: Record<string, any>): string {
         case 'stasiun': return `${p.moda ? String(p.moda).toUpperCase() : tr('Stasiun', 'Station')}${p.lin ? ` · ${tr('Lin', 'Line')} ${p.lin}` : ''}.`;
         case 'krl': case 'mrt': case 'lrt': return p.nama ?? tr('Jalur kereta.', 'Railway line.');
         case 'brt': return `${tr('Koridor', 'Corridor')} ${p.koridor ?? ''}${p.nama ? ` · ${p.nama}` : ''}.`;
+        case 'stasiun_rencana': return `${p.lin ? `${p.lin}. ` : ''}${Number(p.tahun) >= 2045 ? tr('Rencana jangka panjang JUTPI3 (2045).', 'Long-term JUTPI3 plan (2045).') : tr(`Rencana mulai ${p.tahun}.`, `Planned from ${p.tahun}.`)}`;
         case 'proyek': return `${p.status ? istilah(p.status) : tr('Proyek', 'Project')}${Number(p.tahun) >= 2045 ? tr(', rencana jangka panjang JUTPI3 (2045)', ', long-term JUTPI3 plan (2045)') : p.tahun ? `, target ${p.tahun}` : tr(', belum ada target tahun', ', no target year yet')}.`;
         case 'banjir_tampil': {
             const arti: Record<number, [string, string]> = { 1: ['Cukup rawan tergenang', 'Somewhat flood-prone'], 2: ['Rawan tergenang', 'Flood-prone'], 3: ['Sangat rawan tergenang', 'Highly flood-prone'] };

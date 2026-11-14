@@ -566,6 +566,12 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
             pane: 'nrGaris',
             filter: (f) => !f.properties?.tahun || f.properties.tahun <= tahun,
             style: (f) => gaya.mesinWaktu(f?.properties?.moda),
+            // Stasiun rencana JUTPI3: lingkaran putih bertepi warna proyek, nama saat disorot.
+            pointToLayer: (f, ll) =>
+                L.circleMarker(ll, { pane: 'nrStasiun', radius: 5, color: gaya.mesinWaktu(f.properties?.moda).color, weight: 2.5, fillColor: '#fbf9f6', fillOpacity: 1 }).bindTooltip(
+                    String(f.properties?.nama ?? ''),
+                    { direction: 'top', offset: [0, -6], className: 'nr-maplabel nr-label-stasiun' },
+                ),
             onEachFeature: popup,
         }).addTo(g);
     } else if (k === 'rdtr') {

@@ -154,7 +154,16 @@ function definisiLayer(k: LayerKey): DefLayer[] {
             ];
         case 'mesin_waktu':
             return [
-                L('proyek', 'garis', true, { type: 'line', paint: { 'line-color': ['get', '_warna'], 'line-width': 5, 'line-dasharray': [2, 1.6] } }),
+                L('proyek', 'garis', true, { type: 'line', filter: jenis('proyek'), paint: { 'line-color': ['get', '_warna'], 'line-width': 5, 'line-dasharray': [2, 1.6] } }),
+                L('stasiun', 'stasiun', true, {
+                    type: 'circle', minzoom: 10, filter: jenis('stasiun_rencana'),
+                    paint: { 'circle-radius': ['interpolate', ['linear'], ['zoom'], 10, 3, 14, 6], 'circle-color': '#fbf9f6', 'circle-stroke-color': ['get', '_warna'], 'circle-stroke-width': 2.5 },
+                }),
+                L('stasiun-label', 'stasiun', false, {
+                    type: 'symbol', minzoom: 13, filter: jenis('stasiun_rencana'),
+                    layout: { 'text-field': ['get', 'nama'], 'text-font': FONT, 'text-size': 11, 'text-anchor': 'bottom', 'text-offset': [0, -0.9], 'text-padding': 2 },
+                    paint: { 'text-color': ['get', '_warna'], 'text-halo-color': 'rgba(255,255,255,0.95)', 'text-halo-width': 2 },
+                }),
             ];
         case 'rdtr':
             return [
@@ -173,6 +182,8 @@ function definisiLayer(k: LayerKey): DefLayer[] {
 }
 
 const filterTahun = (tahun: number) => ['<=', ['coalesce', ['to-number', ['get', 'tahun']], 0], tahun];
+/** Filter tahun slider digabung dengan filter jenis bawaan layer Mesin Waktu (garis atau stasiun). */
+const denganTahun = (dasar: unknown, tahun: number) => (dasar ? ['all', dasar, filterTahun(tahun)] : filterTahun(tahun));
 
 /* ---------------- Geometri bantu ---------------- */
 
@@ -516,7 +527,7 @@ export default function PetaMapLibre(props: Props) {
             for (const d of defs) {
                 const id = String(d.spec.id);
                 if (!m.getLayer(id)) {
-                    const spec = k === 'mesin_waktu' ? { ...d.spec, filter: filterTahun(props.tahun) } : d.spec;
+                    const spec = k === 'mesin_waktu' ? { ...d.spec, filter: denganTahun(d.spec.filter, props.tahun) } : d.spec;
                     m.addLayer(spec, sebelum(d.slot));
                 }
                 if (d.interaktif) idInteraktif.current.add(id);
@@ -529,7 +540,10 @@ export default function PetaMapLibre(props: Props) {
     useEffect(() => {
         const m = peta.current;
         if (!m || !siap) return;
-        if (m.getLayer('nr-mesin_waktu-proyek')) m.setFilter('nr-mesin_waktu-proyek', filterTahun(props.tahun));
+        for (const d of definisiLayer('mesin_waktu')) {
+            const id = String(d.spec.id);
+            if (m.getLayer(id)) m.setFilter(id, denganTahun(d.spec.filter, props.tahun) as never);
+        }
     }, [props.tahun, siap]);
 
     // Mode kamera dan zoom dari bilah alat.
