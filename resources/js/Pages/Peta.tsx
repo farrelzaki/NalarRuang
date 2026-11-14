@@ -497,7 +497,8 @@ export default function Peta() {
                     ruteA={panelKiri === 'rute' ? ruteA : null}
                     ruteB={panelKiri === 'rute' ? ruteB : null}
                     moda={moda}
-                    modeRute={modeRute || gambarArea}
+                    // Popup fitur dan klik wilayah Top 3 hanya di alat Jelajah; alat Titik/Area dan mode rute memakai klik untuk menaruh titik.
+                    modeRute={modeRute || alat !== 'jelajah'}
                     bahasa={bahasa}
                     terbangKe={terbangKe}
                     onKlikPeta={klikPeta}

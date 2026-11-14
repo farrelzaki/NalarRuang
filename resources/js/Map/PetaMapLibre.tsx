@@ -340,6 +340,11 @@ export default function PetaMapLibre(props: Props) {
     panggil.current = props;
     modeRuteAktif = props.modeRute;
 
+    // Pindah ke alat Titik/Area (atau mode rute): tutup popup fitur yang masih terbuka.
+    useEffect(() => {
+        if (props.modeRute) popup.current?.remove();
+    }, [props.modeRute]);
+
     // Inisialisasi peta.
     useEffect(() => {
         let batal = false;
@@ -446,6 +451,7 @@ export default function PetaMapLibre(props: Props) {
     }, []);
 
     function layerInteraktifAda(m: Apa): string[] {
+        if (modeRuteAktif) return [];
         const ids = [...idInteraktif.current].filter((id) => m.getLayer(id));
         if (!modeRuteAktif && m.getLayer('nr-seleksi-top3-isi')) ids.unshift('nr-seleksi-top3-isi');
         return ids;
@@ -453,8 +459,8 @@ export default function PetaMapLibre(props: Props) {
 
     function klik(m: Apa, e: Apa): void {
         const ll: TitikPeta = { lat: e.lngLat.lat, lng: e.lngLat.lng };
-        // Wilayah Top 3 berada di atas layer data, sama seperti pane seleksi di Leaflet.
-        if (m.getLayer('nr-seleksi-top3-isi')) {
+        // Wilayah Top 3 berada di atas layer data, sama seperti pane seleksi di Leaflet. Hanya di alat Jelajah.
+        if (!modeRuteAktif && m.getLayer('nr-seleksi-top3-isi')) {
             const t = m.queryRenderedFeatures(e.point, { layers: ['nr-seleksi-top3-isi'] })[0];
             if (t) {
                 panggil.current.onPilihTop3(Number(t.properties?.urutan));

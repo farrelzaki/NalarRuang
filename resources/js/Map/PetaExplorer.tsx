@@ -28,7 +28,7 @@ export type PropsPeta = {
     ruteA: TitikPeta | null;
     ruteB: TitikPeta | null;
     moda: 'mobil' | 'transit';
-    /** True saat klik peta dipakai untuk menaruh titik (rute A/B atau sudut Area): popup fitur tidak dibuka. */
+    /** True saat klik peta dipakai untuk menaruh titik (alat Titik/Area atau rute A/B): popup fitur dan klik Top 3 tidak dibuka, klik diteruskan ke peta. */
     modeRute: boolean;
     bahasa: Bahasa;
     /** Alat Titik: lingkaran radius di sekitar pin (meter). */
@@ -123,6 +123,11 @@ export default function PetaExplorer(props: Props) {
     const panggil = useRef(props);
     panggil.current = props;
     modeRuteAktif = props.modeRute;
+
+    // Pindah ke alat Titik/Area (atau mode rute): tutup popup fitur yang masih terbuka.
+    useEffect(() => {
+        if (props.modeRute) peta.current?.closePopup();
+    }, [props.modeRute]);
 
     useEffect(() => {
         if (!wadah.current) return;
@@ -257,6 +262,7 @@ export default function PetaExplorer(props: Props) {
             const aktif = props.top3Aktif === i;
             L.geoJSON(r.geometri as Geometry, { pane: 'nrSeleksi', style: { ...gaya.top3, weight: aktif ? 3.5 : 2.5, fillOpacity: aktif ? 0.14 : 0.08 } })
                 .on('click', (e) => {
+                    if (modeRuteAktif) return;
                     L.DomEvent.stopPropagation(e);
                     panggil.current.onPilihTop3(i);
                 })
@@ -265,7 +271,10 @@ export default function PetaExplorer(props: Props) {
                 pane: 'nrSeleksi',
                 icon: L.divIcon({ className: '', html: `<span class="nr-peringkat">${i + 1}</span>`, iconSize: [26, 26], iconAnchor: [13, 13] }),
             })
-                .on('click', () => panggil.current.onPilihTop3(i))
+                .on('click', (e) => {
+                    if (modeRuteAktif) peta.current?.fire('click', e);
+                    else panggil.current.onPilihTop3(i);
+                })
                 .addTo(g);
         });
         if (props.wilayahTerpilih) {
@@ -447,7 +456,11 @@ function pasangPopup(l: L.Layer, isi: IsiPopup, lebarMaks: number): void {
     const path = l as L.Path & { _openPopup: L.LeafletEventHandlerFn };
     path.off('click', path._openPopup, path);
     path.on('click', (e: L.LeafletMouseEvent) => {
-        if (modeRuteAktif) return;
+        if (modeRuteAktif) {
+            // Path meneruskan klik ke peta sendiri; marker tidak, jadi diteruskan manual.
+            if (l instanceof L.Marker) (l as L.Marker & { _map?: L.Map })._map?.fire('click', e);
+            return;
+        }
         L.DomEvent.stop(e);
         path.openPopup(e.latlng);
     });

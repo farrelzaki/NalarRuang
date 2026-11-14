@@ -21,13 +21,13 @@
 .nr-app:has(.nr-bilah__petunjuk) .nr-app__slider { bottom: 128px; }
 .nr-app__bilah { position: absolute; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: var(--z-controls); pointer-events: none; }
 .nr-app__bilah > * { pointer-events: auto; }
-.nr-app[data-alat="area"] .nr-app__peta, .nr-app[data-alat="area"] .maplibregl-canvas-container.maplibregl-interactive { cursor: crosshair; }
+/* Alat Titik/Area dan mode rute: klik menaruh titik, jadi fitur peta tidak menampilkan kursor tangan. */
+.nr-app:is([data-alat="titik"], [data-alat="area"], [data-mode="rute"]) :is(.nr-app__peta, .maplibregl-canvas-container.maplibregl-interactive, .leaflet-interactive) { cursor: crosshair; }
 .nr-app__toast { position: absolute; left: 50%; bottom: 148px; transform: translateX(-50%); z-index: var(--z-toast); animation: nr-masuk 200ms var(--ease-out); }
 .nr-app__lapisan { position: absolute; inset: 0; z-index: var(--z-drawer); display: flex; }
 .nr-app__lapisan > .nr-drawer { position: relative; animation: nr-geser 260ms var(--ease-drawer); }
 .nr-app__lapisan--tengah { z-index: var(--z-dialog); align-items: center; justify-content: center; padding: 24px; overflow-y: auto; }
 .nr-app__lapisan--tengah > .nr-dialog { position: relative; animation: nr-skala 220ms var(--ease-out); }
-.nr-app[data-mode="rute"] .nr-app__peta { cursor: crosshair; }
 
 @keyframes nr-masuk { from { opacity: 0; transform: translate(-50%, calc(8px * var(--nr-gerak, 1))); } }
 @keyframes nr-geser { from { transform: translateX(calc(-24px * var(--nr-gerak, 1))); opacity: 0; } }
