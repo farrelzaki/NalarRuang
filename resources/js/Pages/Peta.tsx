@@ -2,26 +2,45 @@
  * Visual Explorer (UI01–UI05). Tata letak design-system.md bagian 5: search + satu panel di kolom kiri,
  * tombol merek kanan atas, LAYER/PERSONA + panel kanan di kanan bawah, slider tahun tengah bawah.
  */
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import type { Geometry } from 'geojson';
+import type { FeatureCollection, Geometry } from 'geojson';
 import type { CommuteResponse, HasilSearch, InspectResponse, LayerKey, LayerResponse, Persona } from '@/types';
 import { api } from '@/lib/api';
 import { useBahasa } from '@/lib/bahasa';
-import { bacaPersonaSesi, PERSONA, simpanPersonaSesi, SUBFITUR, type Simbol } from '@/lib/nalar';
+import {
+    bacaPersonaSesi,
+    PERSONA,
+    simpanPersonaSesi,
+    SUBFITUR,
+    type IsochroneMode,
+    type Simbol,
+} from '@/lib/nalar';
 import PetaExplorer, { type TitikPeta } from '@/Map/PetaExplorer';
 import { Toast, type NadaToast } from '@/Components/Dasar';
 import { PanelFilter, PanelTop3, SearchBar } from '@/Components/Pencarian';
 import { DetailLokasi } from '@/Components/DetailLokasi';
 import { SimulatorRute, type Moda, type TitikRute } from '@/Components/SimulatorRute';
-import { PanelLayer, PanelProfilPersona, SliderTahun, TombolLayerPersona, TombolMerek, type PanelKananKey, type StatusLayer } from '@/Components/PanelKananPeta';
+import { PanelIsochrone, PanelLayer, PanelProfilPersona, SliderTahun, TombolLayerPersona, TombolMerek, type PanelKananKey, type StatusLayer } from '@/Components/PanelKananPeta';
 import { DialogPersona, DrawerMenu, type TabMenu } from '@/Components/MenuPersona';
 import { Panduan, sudahLihatPanduan } from '@/Components/Panduan';
-import { Link } from '@inertiajs/react';
 
 type PanelKiri = 'top3' | 'filter' | 'detail' | 'rute' | null;
 
+type InspectDenganIsochrone = InspectResponse & {
+    isochrone?: FeatureCollection | null;
+    isochrone_meta?: {
+        mode: IsochroneMode;
+        minutes: number;
+        aktif: boolean;
+    } | null;
+};
+
 const LAYER_AWAL: LayerKey[] = ['mobilitas'];
+
+function modeDefaultPersona(p: Persona[]): IsochroneMode {
+    return p.includes('driver') && !p.includes('commuter') ? 'auto' : 'pedestrian';
+}
 
 export default function Peta() {
     const { t, bahasa } = useBahasa();
@@ -50,11 +69,13 @@ export default function Peta() {
     const [mencari, setMencari] = useState(false);
     const [top3Aktif, setTop3Aktif] = useState<number | null>(null);
 
-    // Detail
-    const [detail, setDetail] = useState<InspectResponse | null>(null);
+    // Detail & Isochrone
+    const [detail, setDetail] = useState<InspectDenganIsochrone | null>(null);
     const [memuatDetail, setMemuatDetail] = useState(false);
     const [galatDetail, setGalatDetail] = useState<string | null>(null);
     const [pin, setPin] = useState<TitikPeta | null>(null);
+    const [isoMode, setIsoMode] = useState<IsochroneMode>('pedestrian');
+    const [isoMinutes, setIsoMinutes] = useState<number>(10);
     const [wilayahTerpilih, setWilayahTerpilih] = useState<Geometry | null>(null);
     const [terbangKe, setTerbangKe] = useState<{ geometri?: Geometry; titik?: TitikPeta; kunci: number } | null>(null);
     const batalDetail = useRef<AbortController | null>(null);
@@ -75,7 +96,7 @@ export default function Peta() {
     const handleUbahJenisKendaraan = (jenis: 'mobil' | 'motor') => {
         setJenisKendaraan(jenis);
         setKonsumsiBbm(jenis === 'motor' ? 40 : 12);
-        
+
         // Motor wajib NON-TOL
         if (jenis === 'motor') {
             setLewatTol(false);
@@ -117,14 +138,19 @@ export default function Peta() {
         const dariUrl = new URLSearchParams(window.location.search).get('persona')?.split(',').filter((x): x is Persona => x in PERSONA);
         if (dariUrl?.length) simpanPersonaSesi(dariUrl);
         const p = dariUrl?.length ? dariUrl : bacaPersonaSesi();
-        if (p?.length) setPersona(p);
-        else setDialogPersona(true);
+        if (p?.length) {
+            setPersona(p);
+            setIsoMode(modeDefaultPersona(p));
+        } else {
+            setDialogPersona(true);
+        }
         setSiap(true);
         LAYER_AWAL.forEach((k) => nyalakanLayer(k));
     }, []);
 
     const ubahPersonaSesi = (p: Persona[]) => {
         setPersona(p);
+        setIsoMode(modeDefaultPersona(p));
         if (!simpanPersonaSesi(p)) kabar(t('Gagal menyimpan preferensi. Coba pilih lagi.', 'Could not save your preferences. Please choose again.'), 'danger');
     };
 
@@ -140,7 +166,7 @@ export default function Peta() {
 
     useEffect(() => {
         if (!detail) return;
-        if (detail.jenis_geometri === 'titik') muatTitik({ lat: detail.lat, lng: detail.lng }, false);
+        if (detail.jenis_geometri === 'titik') muatTitik({ lat: detail.lat, lng: detail.lng }, false, isoMode, isoMinutes);
         else muatWilayah(detail.wilayah_id, false);
     }, [persona]);
 
@@ -232,8 +258,13 @@ export default function Peta() {
         muatWilayah(r.wilayah_id);
     };
 
-    // Detail lokasi
-    async function muatTitik(lokasi: TitikPeta, terbang = false) {
+    // Detail lokasi berbasis Travel-Time Isochrone (T-056)
+    async function muatTitik(
+        lokasi: TitikPeta,
+        terbang = false,
+        modeParam: IsochroneMode = isoMode,
+        minutesParam: number = isoMinutes,
+    ) {
         batalDetail.current?.abort();
         const ctrl = new AbortController();
         batalDetail.current = ctrl;
@@ -249,14 +280,47 @@ export default function Peta() {
         setMemuatDetail(true);
         setGalatDetail(null);
         if (terbang) setTerbangKe({ titik: lokasi, kunci: Date.now() });
+
         try {
-            setDetail(await api.titik(lokasi.lat, lokasi.lng, persona, ctrl.signal));
+            const params = new URLSearchParams({
+                lat: String(lokasi.lat),
+                lng: String(lokasi.lng),
+                mode: modeParam,
+                minutes: String(minutesParam),
+            });
+            persona.forEach((p) => params.append('persona[]', p));
+
+            const res = await fetch(`/api/inspect?${params.toString()}`, {
+                signal: ctrl.signal,
+                headers: { Accept: 'application/json' },
+            });
+            if (!res.ok) {
+                throw new Error('Gagal memuat detail lokasi');
+            }
+            const hasilTitik: InspectDenganIsochrone = await res.json();
+            setDetail(hasilTitik);
         } catch (e) {
-            if ((e as Error).name !== 'AbortError') setGalatDetail(t('Layer ini belum punya data untuk lokasi yang kamu pilih.', 'This layer has no data for the location you picked yet.'));
+            if ((e as Error).name !== 'AbortError') {
+                setGalatDetail(t('Layer ini belum punya data untuk lokasi yang kamu pilih.', 'This layer has no data for the location you picked yet.'));
+            }
         } finally {
             setMemuatDetail(false);
         }
     }
+
+    const ubahIsoMode = (modeBaru: IsochroneMode) => {
+        setIsoMode(modeBaru);
+        if (pin) {
+            muatTitik(pin, false, modeBaru, isoMinutes);
+        }
+    };
+
+    const ubahIsoMinutes = (menitBaru: number) => {
+        setIsoMinutes(menitBaru);
+        if (pin) {
+            muatTitik(pin, false, isoMode, menitBaru);
+        }
+    };
 
     async function muatWilayah(id: number | null, tampilkanPanel = true) {
         if (!id) return;
@@ -316,7 +380,6 @@ export default function Peta() {
             .finally(() => setMemuatRute(false));
 
         return () => ctrl.abort();
-    // TAMBAHKAN jenisKendaraan di dalam dependency array di bawah ini:
     }, [ruteA?.lat, ruteA?.lng, ruteB?.lat, ruteB?.lng, lewatTol, hargaBbm, hindariGg, jenisKendaraan]);
 
     const resetRute = () => {
@@ -383,12 +446,13 @@ export default function Peta() {
                 <PetaExplorer
                     className="nr-app__peta"
                     layer={layerTampil}
-                    aktif={layerAktif} // <--- Tambahkan baris ini di sini
+                    aktif={layerAktif}
                     tahun={tahun}
                     top3={panelKiri === 'top3' ? hasil : null}
                     top3Aktif={top3Aktif}
                     wilayahTerpilih={wilayahTerpilih}
                     pin={panelKiri === 'detail' ? pin : null}
+                    isochrone={panelKiri === 'detail' && pin ? (detail?.isochrone ?? null) : null}
                     rute={panelKiri === 'rute' ? rute : null}
                     ruteA={panelKiri === 'rute' ? ruteA : null}
                     ruteB={panelKiri === 'rute' ? ruteB : null}
@@ -417,7 +481,7 @@ export default function Peta() {
                                 boxShadow: 'var(--shadow-lg)',
                                 border: '1px solid var(--line)',
                                 color: 'var(--navy-900)',
-                                flexShrink: 0
+                                flexShrink: 0,
                             }}
                             title="Kembali ke Beranda"
                             aria-label="Kembali ke Beranda"
@@ -479,6 +543,17 @@ export default function Peta() {
                         />
                     )}
                 </div>
+
+                {/* Kontrol Travel-Time Isochrone (T-056) */}
+                {panelKiri === 'detail' && pin && (
+                    <PanelIsochrone
+                        mode={isoMode}
+                        minutes={isoMinutes}
+                        memuat={memuatDetail}
+                        onUbahMode={ubahIsoMode}
+                        onUbahMinutes={ubahIsoMinutes}
+                    />
+                )}
 
                 <div className="nr-app__merek">
                     <TombolMerek terbuka={!!drawer} onKlik={() => setDrawer('persona')} />
