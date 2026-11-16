@@ -464,7 +464,7 @@ export default function PetaExplorer(props: Props) {
         g.clearLayers();
         if (!props.kapasitasLahan?.features?.length) return;
         gambarKapasitas(props.kapasitasLahan, (p) => {
-            if (p.jenis !== 'tapak') return null;
+            if (p.jenis !== 'tapak' && p.jenis !== 'taman') return null;
             const satuan = String(p.satuan) === 'kamar' ? tr('kamar', 'rooms') : tr('unit', 'units');
             return `${p.lantai} ${tr('lantai', 'floors')} · ${p.jumlah} ${satuan}`;
         }).addTo(g);

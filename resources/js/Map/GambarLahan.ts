@@ -272,16 +272,36 @@ export class AlatLahan {
     }
 }
 
-/** Gaya hasil kapasitas: kavling, jalan, tapak bangunan. */
+/** Warna tipe unit mengikuti pola TestFit: hijau, biru, ungu. Kamar kos memakai biru. */
+export const WARNA_UNIT: Record<string, string> = { studio: '#2fbf71', '1br': '#4a90e2', '2br': '#7b5cd6', kamar: '#4a90e2' };
+
+const WARNA_ATAP = ['#f2994a', '#e8833a', '#f5b06b'];
+
+/** Gaya hasil kapasitas: kavling + jalan (rumah tapak), unit + koridor + taman + parkir (kos/apartemen). */
 export function gambarKapasitas(fc: FeatureCollection, label: (p: Record<string, unknown>) => string | null): L.GeoJSON {
     return L.geoJSON(fc, {
         pane: 'nrLahanIsi',
         interactive: false,
         style: (f) => {
-            const jenis = f?.properties?.jenis;
-            if (jenis === 'jalan') return { stroke: false, fillColor: '#9aa3b5', fillOpacity: 0.55 };
-            if (jenis === 'tapak') return { color: '#1f3b6e', weight: 1.5, fillColor: '#3b6fd8', fillOpacity: 0.45 };
-            return { color: '#ffffff', weight: 0.8, fillColor: '#f2994a', fillOpacity: 0.75 };
+            const p = (f?.properties ?? {}) as Record<string, unknown>;
+            switch (p.jenis) {
+                case 'jalan':
+                    return { stroke: false, fillColor: '#8a93a6', fillOpacity: 0.6 };
+                case 'unit':
+                    return { color: '#1d2433', weight: 0.6, fillColor: WARNA_UNIT[String(p.tipe)] ?? '#4a90e2', fillOpacity: 0.92 };
+                case 'koridor':
+                    return { stroke: false, fillColor: '#3b4252', fillOpacity: 0.9 };
+                case 'taman':
+                    return { color: '#e7a3a3', weight: 1, fillColor: '#f4b6b6', fillOpacity: 0.55 };
+                case 'parkir':
+                    return { stroke: false, fillColor: '#6b7280', fillOpacity: 0.55 };
+                case 'slot':
+                    return { color: '#ffffff', weight: 0.8, fillColor: '#2fbf71', fillOpacity: 0.55 };
+                case 'tapak':
+                    return { color: '#1f3b6e', weight: 1.5, fillColor: '#3b6fd8', fillOpacity: 0.45 };
+                default:
+                    return { color: '#ffffff', weight: 0.8, fillColor: WARNA_ATAP[Number(p.varian ?? 0) % 3], fillOpacity: 0.85 };
+            }
         },
         onEachFeature: (f, layer) => {
             const teks = label((f.properties ?? {}) as Record<string, unknown>);
