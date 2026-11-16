@@ -33,7 +33,7 @@ class InspectController extends Controller
      * Ruang hijau untuk Zen: taman, hutan kota, lapangan seluas minimal 1.000 m² (luas_m2 dihitung DataNyataSeeder);
      * makam dan lapangan golf tidak dihitung (T-038).
      */
-    private const SYARAT = [
+    public const SYARAT = [
         'zen' => "AND coalesce(atribut->>'kategori', '') NOT IN ('cemetery', 'golf_course') AND coalesce((atribut->>'luas_m2')::float, 0) >= 1000",
     ];
 
