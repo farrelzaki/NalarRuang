@@ -9,7 +9,7 @@
  * Hasil dikirim sebagai GeoJSON Polygon [lng, lat] (konversi koordinat hanya di folder Map/).
  */
 import L from 'leaflet';
-import type { FeatureCollection, Polygon } from 'geojson';
+import type { FeatureCollection, Geometry, Polygon, Position } from 'geojson';
 
 export type ModeLahan = 'kotak' | 'poligon';
 
@@ -48,7 +48,7 @@ export class AlatLahan {
 
     /**
      * onUbah: lahan berubah (tarik = true selama masih ditarik, dikirim paling sering tiap 100 ms).
-     * onTarik: dipanggil tiap gerakan tarik, untuk melenturkan isi kapasitas tanpa menunggu server.
+     * onTarik: dipanggil tiap gerakan tarik, untuk memotong dan memudarkan isi kapasitas tanpa menunggu server.
      */
     constructor(peta: L.Map, onUbah: (g: Polygon | null, tarik?: boolean) => void, onTarik?: (titik: L.LatLng[], kotak: boolean) => void) {
         this.peta = peta;
@@ -244,7 +244,7 @@ export class AlatLahan {
         return this.mode === 'kotak';
     }
 
-    /** Tiap gerakan tarik: isi dilenturkan langsung, lahan dikirim untuk dihitung ulang (dibatasi 100 ms). */
+    /** Tiap gerakan tarik: isi di luar batas langsung dipudarkan, lahan dikirim untuk dihitung ulang (dibatasi 100 ms). */
     private saatTarik(): void {
         this.ditarik = true;
         this.onTarik?.(this.titik, this.mode === 'kotak');
@@ -306,13 +306,8 @@ export const WARNA_UNIT: Record<string, string> = { studio: '#2fbf71', '1br': '#
 
 const WARNA_ATAP = ['#f2994a', '#e8833a', '#f5b06b'];
 
-/** Gaya hasil kapasitas: kavling + jalan (rumah tapak), unit + koridor + taman + parkir (kos/apartemen). */
-export function gambarKapasitas(fc: FeatureCollection, label: (p: Record<string, unknown>) => string | null): L.GeoJSON {
-    return L.geoJSON(fc, {
-        pane: 'nrLahanIsi',
-        interactive: false,
-        style: (f) => {
-            const p = (f?.properties ?? {}) as Record<string, unknown>;
+/** Gaya isi hasil kapasitas: kavling + jalan (rumah tapak), unit + koridor + taman + parkir (kos/apartemen). */
+function gayaIsi(p: Record<string, unknown>): L.PathOptions {
             switch (p.jenis) {
                 case 'jalan':
                     return { stroke: false, fillColor: '#8a93a6', fillOpacity: 0.6 };
@@ -331,70 +326,201 @@ export function gambarKapasitas(fc: FeatureCollection, label: (p: Record<string,
                 default:
                     return { color: '#ffffff', weight: 0.8, fillColor: WARNA_ATAP[Number(p.varian ?? 0) % 3], fillOpacity: 0.85 };
             }
-        },
-        onEachFeature: (f, layer) => {
-            const teks = label((f.properties ?? {}) as Record<string, unknown>);
-            if (teks) layer.bindTooltip(teks, { permanent: true, direction: 'center', className: 'nr-lahan-label' });
-        },
-    });
 }
 
-/** Geometri asli tiap poligon isi, supaya pelenturan selalu dihitung dari hasil server, bukan dari pelenturan sebelumnya. */
-const asliLentur = new WeakMap<L.Polygon, unknown>();
 
-type Ubah = (ll: L.LatLng) => L.LatLng;
+/** Isi yang tampil satu per satu dan dianimasikan muncul/hilang; sisanya (jalan, koridor, taman, parkir) berganti bentuk saja. */
+const SATUAN_ISI = new Set(['unit', 'kavling', 'slot']);
+const LAMA_HILANG = 280;
 
-/** Kotak: peta linear dari kotak batas lama ke kotak batas baru (tepat untuk tarik sudut kotak dan geser). */
-function ubahKotak(dari: L.LatLng[], ke: L.LatLng[]): Ubah {
-    const a = L.latLngBounds(dari);
-    const b = L.latLngBounds(ke);
-    const sy = (b.getNorth() - b.getSouth()) / (a.getNorth() - a.getSouth() || 1e-12);
-    const sx = (b.getEast() - b.getWest()) / (a.getEast() - a.getWest() || 1e-12);
-    return (ll) => L.latLng(b.getSouth() + (ll.lat - a.getSouth()) * sy, b.getWest() + (ll.lng - a.getWest()) * sx);
+type ItemIsi = { layer: L.Polygon; jenis: string; tipe: string; pusat: [number, number]; luas: number };
+
+function cincinLuar(g: Geometry): Position[] {
+    if (g.type === 'Polygon') return g.coordinates[0] ?? [];
+    if (g.type === 'MultiPolygon') return g.coordinates.flatMap((p) => p[0] ?? []);
+    return [];
 }
 
-/** Poligon bebas: tiap titik ikut bergeser sebesar rata-rata pergeseran sudut, berbobot 1/jarak² (bagian dekat sudut yang ditarik ikut paling jauh). */
-function ubahSudut(dari: L.LatLng[], ke: L.LatLng[]): Ubah {
-    const kos = Math.cos((dari[0].lat * Math.PI) / 180);
-    const geser = dari.map((d, i) => [ke[i].lat - d.lat, ke[i].lng - d.lng]);
-    return (ll) => {
-        let w = 0;
-        let dy = 0;
-        let dx = 0;
-        for (let i = 0; i < dari.length; i++) {
-            const jy = ll.lat - dari[i].lat;
-            const jx = (ll.lng - dari[i].lng) * kos;
-            const j2 = jy * jy + jx * jx;
-            if (j2 < 1e-16) return L.latLng(ll.lat + geser[i][0], ll.lng + geser[i][1]);
-            const b = 1 / j2;
-            w += b;
-            dy += b * geser[i][0];
-            dx += b * geser[i][1];
-        }
-        return L.latLng(ll.lat + dy / w, ll.lng + dx / w);
-    };
+/** Pusat (meter, kira-kira) dan luas (m²) dari cincin luar, cukup untuk mencocokkan isi lama dengan isi baru. */
+function ukur(g: Geometry): { pusat: [number, number]; luas: number } {
+    const c = cincinLuar(g);
+    if (c.length === 0) return { pusat: [0, 0], luas: 0 };
+    const kos = Math.cos(((c[0][1] ?? 0) * Math.PI) / 180);
+    const m = c.map(([x, y]) => [x * 111320 * kos, y * 110574] as const);
+    let luas = 0;
+    let sx = 0;
+    let sy = 0;
+    for (let i = 0; i < m.length; i++) {
+        const [x1, y1] = m[i];
+        const [x2, y2] = m[(i + 1) % m.length];
+        luas += x1 * y2 - x2 * y1;
+        sx += x1;
+        sy += y1;
+    }
+    return { pusat: [sx / m.length, sy / m.length], luas: Math.abs(luas) / 2 };
 }
 
-function petaDalam(x: unknown, f: (ll: L.LatLng) => L.LatLng): unknown {
-    return Array.isArray(x) ? x.map((y) => petaDalam(y, f)) : f(x as L.LatLng);
+function latLngsDari(g: Geometry): L.LatLng[][] | L.LatLng[][][] {
+    if (g.type === 'MultiPolygon') return L.GeoJSON.coordsToLatLngs(g.coordinates, 2) as L.LatLng[][][];
+    return L.GeoJSON.coordsToLatLngs((g as Polygon).coordinates, 1) as L.LatLng[][];
+}
+
+function didalam(t: L.LatLng, poli: L.LatLng[]): boolean {
+    let isi = false;
+    for (let i = 0, j = poli.length - 1; i < poli.length; j = i++) {
+        const a = poli[i];
+        const b = poli[j];
+        if (a.lat > t.lat !== b.lat > t.lat && t.lng < ((b.lng - a.lng) * (t.lat - a.lat)) / (b.lat - a.lat) + a.lng) isi = !isi;
+    }
+    return isi;
 }
 
 /**
- * Lenturkan isi kapasitas (unit, kavling, jalan, taman, ...) mengikuti lahan yang sedang ditarik, tanpa menunggu server.
- * `dari` = lahan tempat isi itu dihitung, `ke` = lahan saat ini.
+ * Lapisan hasil kapasitas yang berganti dengan halus: isi yang sama dengan hasil sebelumnya tetap di tempat
+ * (warnanya bertransisi), isi baru muncul memudar, isi yang tidak ada lagi memudar hilang. Selama lahan ditarik,
+ * lapisan dipotong ke batas lahan dan unit/kavling yang keluar batas langsung memudar.
  */
-export function lenturkan(grup: L.LayerGroup, dari: L.LatLng[], ke: L.LatLng[], kotak: boolean): void {
-    if (dari.length < 3 || ke.length < 3) return;
-    const ubah = !kotak && dari.length === ke.length ? ubahSudut(dari, ke) : ubahKotak(dari, ke);
-    const jalan = (l: L.Layer): void => {
-        if (l instanceof L.Polygon) {
-            if (!asliLentur.has(l)) asliLentur.set(l, petaDalam(l.getLatLngs(), (ll) => L.latLng(ll.lat, ll.lng)));
-            l.setLatLngs(petaDalam(asliLentur.get(l), ubah) as L.LatLng[][]);
-            const tip = l.getTooltip();
-            if (tip) tip.setLatLng(l.getBounds().getCenter());
-        } else if (l instanceof L.LayerGroup) {
-            l.eachLayer(jalan);
+export class LapisanKapasitas {
+    private peta: L.Map;
+    private grup: L.LayerGroup;
+    private label: (p: Record<string, unknown>) => string | null;
+    private item: ItemIsi[] = [];
+    private batas: L.LatLng[] | null = null;
+
+    constructor(peta: L.Map, grup: L.LayerGroup, label: (p: Record<string, unknown>) => string | null) {
+        this.peta = peta;
+        this.grup = grup;
+        this.label = label;
+        this.pasangPotong = this.pasangPotong.bind(this);
+        this.lepasPotong = this.lepasPotong.bind(this);
+        peta.on('zoomstart', this.lepasPotong);
+        peta.on('zoomend viewreset', this.pasangPotong);
+    }
+
+    setLabel(label: (p: Record<string, unknown>) => string | null): void {
+        this.label = label;
+    }
+
+    perbarui(fc: FeatureCollection | null | undefined): void {
+        const fitur = (fc?.features ?? []).filter((f) => f.geometry && (f.geometry.type === 'Polygon' || f.geometry.type === 'MultiPolygon'));
+        const sisa = new Set(this.item);
+        const baru: ItemIsi[] = [];
+        const urutanDasar = new Map<string, ItemIsi[]>();
+        for (const it of this.item) {
+            if (SATUAN_ISI.has(it.jenis)) continue;
+            urutanDasar.set(it.jenis, [...(urutanDasar.get(it.jenis) ?? []), it]);
         }
-    };
-    grup.eachLayer(jalan);
+
+        for (const f of fitur) {
+            const p = (f.properties ?? {}) as Record<string, unknown>;
+            const jenis = String(p.jenis ?? '');
+            const tipe = String(p.tipe ?? '');
+            const u = ukur(f.geometry);
+            let cocok: ItemIsi | undefined;
+            if (SATUAN_ISI.has(jenis)) {
+                let terbaik = 1.5;
+                for (const it of sisa) {
+                    if (it.jenis !== jenis) continue;
+                    const d = Math.hypot(it.pusat[0] - u.pusat[0], it.pusat[1] - u.pusat[1]);
+                    const rasio = it.luas > 0 ? u.luas / it.luas : 0;
+                    if (d < terbaik && rasio > 0.75 && rasio < 1.33) {
+                        terbaik = d;
+                        cocok = it;
+                    }
+                }
+            } else {
+                cocok = urutanDasar.get(jenis)?.shift();
+            }
+
+            const gaya = gayaIsi(p);
+            const teks = this.label(p);
+            if (cocok) {
+                sisa.delete(cocok);
+                cocok.layer.setLatLngs(latLngsDari(f.geometry));
+                cocok.layer.setStyle(gaya);
+                cocok.layer.getElement()?.classList.remove('nr-isi-luar', 'nr-isi-hilang');
+                if (teks) {
+                    if (cocok.layer.getTooltip()) cocok.layer.setTooltipContent(teks);
+                    else cocok.layer.bindTooltip(teks, { permanent: true, direction: 'center', className: 'nr-lahan-label' });
+                    cocok.layer.getTooltip()?.setLatLng(cocok.layer.getBounds().getCenter());
+                } else if (cocok.layer.getTooltip()) {
+                    cocok.layer.unbindTooltip();
+                }
+                baru.push({ ...cocok, tipe, pusat: u.pusat, luas: u.luas });
+            } else {
+                const layer = L.polygon(latLngsDari(f.geometry), { ...gaya, pane: 'nrLahanIsi', interactive: false });
+                if (teks) layer.bindTooltip(teks, { permanent: true, direction: 'center', className: 'nr-lahan-label' });
+                layer.addTo(this.grup);
+                layer.getElement()?.classList.add(SATUAN_ISI.has(jenis) ? 'nr-isi-muncul' : 'nr-isi-pudar-masuk');
+                baru.push({ layer, jenis, tipe, pusat: u.pusat, luas: u.luas });
+            }
+        }
+
+        for (const it of sisa) this.hapus(it.layer);
+        this.item = baru;
+        if (this.batas) this.saring(this.batas);
+    }
+
+    /** Batas lahan saat ini (atau null). Dipotong ke batas ini dan unit/kavling yang keluar batas dipudarkan. */
+    saring(batas: L.LatLng[] | null): void {
+        this.batas = batas && batas.length >= 3 ? batas.map((t) => L.latLng(t.lat, t.lng)) : null;
+        this.pasangPotong();
+        for (const it of this.item) {
+            if (!SATUAN_ISI.has(it.jenis)) continue;
+            const el = it.layer.getElement();
+            if (!el) continue;
+            // Titik sudut ditarik 10% ke pusatnya dulu, supaya unit yang tepat menempel batas tidak dianggap keluar.
+            const c = it.layer.getBounds().getCenter();
+            const luar = this.batas
+                ? !cincinPoligon(it.layer).every((t) => didalam(L.latLng(c.lat + 0.9 * (t.lat - c.lat), c.lng + 0.9 * (t.lng - c.lng)), this.batas!))
+                : false;
+            el.classList.toggle('nr-isi-luar', luar);
+        }
+    }
+
+    kosongkan(): void {
+        for (const it of this.item) this.hapus(it.layer);
+        this.item = [];
+    }
+
+    hancurkan(): void {
+        this.kosongkan();
+        this.peta.off('zoomstart', this.lepasPotong);
+        this.peta.off('zoomend viewreset', this.pasangPotong);
+        this.lepasPotong();
+    }
+
+    private hapus(layer: L.Polygon): void {
+        const el = layer.getElement();
+        if (!el) {
+            this.grup.removeLayer(layer);
+            return;
+        }
+        el.classList.add('nr-isi-hilang');
+        layer.unbindTooltip();
+        window.setTimeout(() => this.grup.removeLayer(layer), LAMA_HILANG);
+    }
+
+    /** Potong pane isi ke batas lahan (clip-path dalam koordinat layer point, sama dengan koordinat pane). */
+    private pasangPotong(): void {
+        const pane = this.peta.getPane('nrLahanIsi');
+        if (!pane) return;
+        if (!this.batas) {
+            pane.style.clipPath = '';
+            return;
+        }
+        const titik = this.batas.map((t) => this.peta.latLngToLayerPoint(t));
+        pane.style.clipPath = `polygon(${titik.map((p) => `${p.x.toFixed(1)}px ${p.y.toFixed(1)}px`).join(', ')})`;
+    }
+
+    private lepasPotong(): void {
+        const pane = this.peta.getPane('nrLahanIsi');
+        if (pane) pane.style.clipPath = '';
+    }
+}
+
+function cincinPoligon(layer: L.Polygon): L.LatLng[] {
+    const ll = layer.getLatLngs() as unknown[];
+    const datar = (x: unknown): L.LatLng[] => (Array.isArray(x) ? x.flatMap(datar) : [x as L.LatLng]);
+    return datar(ll);
 }

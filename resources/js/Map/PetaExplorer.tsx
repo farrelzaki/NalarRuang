@@ -8,7 +8,7 @@ import type { Feature, FeatureCollection, Geometry, Point, Polygon } from 'geojs
 import type { CommuteResponse, HasilSearch, LayerKey } from '@/types';
 import { bahasaAktif, pilihTeks, type Bahasa } from '@/lib/bahasa';
 import * as gaya from './gaya';
-import { AlatLahan, gambarKapasitas, lenturkan, type ModeLahan } from './GambarLahan';
+import { AlatLahan, LapisanKapasitas, type ModeLahan } from './GambarLahan';
 
 export type TitikPeta = { lat: number; lng: number };
 
@@ -40,8 +40,6 @@ type Props = {
     /** Kavling/jalan/tapak dari POST /api/lahan. */
     kapasitasLahan?: FeatureCollection | null;
     onLahanBerubah?: (g: Polygon | null, tarik?: boolean) => void;
-    /** Lahan tempat `kapasitasLahan` dihitung; dasar pelenturan isi saat lahan ditarik. */
-    kapasitasDasar?: Polygon | null;
     className?: string;
 };
 
@@ -448,24 +446,28 @@ export default function PetaExplorer(props: Props) {
         }
     }, [props.terbangKe?.kunci]);
 
-    // Uji Lahan (FR-23): isi kapasitas ikut melentur selama lahan ditarik.
-    const lentur = (titik: L.LatLng[], kotak: boolean) => {
-        const g = grupKapasitas.current;
-        const dasar = panggil.current.kapasitasDasar?.coordinates[0];
-        if (!g || !dasar) return;
-        const dari = dasar.slice(0, -1).map(([lng, lat]) => L.latLng(lat, lng));
-        lenturkan(g, dari, titik, kotak);
+    // Uji Lahan (FR-23): lapisan isi yang berganti halus; dibuat sekali bersama peta.
+    const lapisan = useRef<LapisanKapasitas | null>(null);
+    const labelIsi = (p: Record<string, unknown>): string | null => {
+        if (p.jenis !== 'tapak' && p.jenis !== 'taman') return null;
+        const satuan = String(p.satuan) === 'kamar' ? tr('kamar', 'rooms') : tr('unit', 'units');
+        return `${p.lantai} ${tr('lantai', 'floors')} · ${p.jumlah} ${satuan}`;
     };
 
     // Uji Lahan (FR-23)
     useEffect(() => {
         const m = peta.current;
         if (!m) return;
+        if (!lapisan.current && grupKapasitas.current) lapisan.current = new LapisanKapasitas(m, grupKapasitas.current, labelIsi);
         if (!alat.current) {
             alat.current = new AlatLahan(
                 m,
-                (g, tarik) => panggil.current.onLahanBerubah?.(g, tarik),
-                (titik, kotak) => lentur(titik, kotak),
+                (g, tarik) => {
+                    // Batas lahan terbaru: isi dipotong ke batas ini dan unit/kavling di luar batas langsung memudar.
+                    lapisan.current?.saring(g ? g.coordinates[0].slice(0, -1).map(([lng, lat]) => L.latLng(lat, lng)) : null);
+                    panggil.current.onLahanBerubah?.(g, tarik);
+                },
+                (titik) => lapisan.current?.saring(titik),
             );
         }
         alat.current.mulai(props.alatLahan?.mode ?? null);
@@ -476,17 +478,10 @@ export default function PetaExplorer(props: Props) {
     }, [props.selesaiLahan]);
 
     useEffect(() => {
-        const g = grupKapasitas.current;
-        if (!g) return;
-        g.clearLayers();
-        if (!props.kapasitasLahan?.features?.length) return;
-        gambarKapasitas(props.kapasitasLahan, (p) => {
-            if (p.jenis !== 'tapak' && p.jenis !== 'taman') return null;
-            const satuan = String(p.satuan) === 'kamar' ? tr('kamar', 'rooms') : tr('unit', 'units');
-            return `${p.lantai} ${tr('lantai', 'floors')} · ${p.jumlah} ${satuan}`;
-        }).addTo(g);
-        // Hasil baru datang saat lahan masih ditarik: langsung lenturkan ke posisi kursor sekarang supaya tidak meloncat balik.
-        if (alat.current?.ditarik) lentur(alat.current.titikSekarang(), alat.current.modeKotak);
+        const l = lapisan.current;
+        if (!l) return;
+        l.setLabel(labelIsi);
+        l.perbarui(props.kapasitasLahan);
     }, [props.kapasitasLahan, props.bahasa]);
 
     return <div ref={wadah} className={props.className} role="region" aria-label="Peta Jabodetabek, klik untuk melihat detail lokasi" />;
