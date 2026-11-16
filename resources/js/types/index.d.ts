@@ -2,7 +2,7 @@
  * Tipe yang mencerminkan kontrak API (docs/SISTEM.md bagian 2).
  * Milik bersama Farrel, Adzkia, dan Nur'Afia: ubah hanya setelah kontrak disepakati.
  */
-import type { FeatureCollection, Geometry, LineString, MultiLineString } from 'geojson';
+import type { FeatureCollection, Geometry, LineString, MultiLineString, Polygon } from 'geojson';
 
 export type Persona = 'commuter' | 'driver' | 'social_vibe' | 'zen';
 
@@ -111,4 +111,68 @@ export type CommuteResponse = {
         geometri: { jalan_kaki: LineString[]; ojol?: LineString[]; rel: LineString | MultiLineString };
     }) | null;
     catatan: string;
+};
+/** Uji Lahan (FR-23): tipe bangunan yang diestimasi. */
+export type TipeLahan = 'rumah' | 'kos' | 'apartemen';
+
+/** Asumsi yang bisa diubah pengguna; server menjepitnya ke rentang aman dan mengembalikan nilai yang dipakai. */
+export type AsumsiLahan = {
+    lebar_kavling?: number;
+    panjang_kavling?: number;
+    lebar_jalan?: number;
+    luas_kamar?: number;
+    luas_unit?: number;
+    efisiensi?: number;
+    sempadan?: number;
+    lantai?: number | null;
+};
+
+/** Badan permintaan POST /api/lahan. */
+export type LahanRequest = {
+    geometri: Polygon;
+    tipe: TipeLahan;
+    asumsi?: AsumsiLahan;
+    persona?: Persona[];
+};
+
+export type KapasitasLahan = {
+    jumlah: number;
+    satuan: 'rumah' | 'kamar' | 'unit';
+    lantai: number;
+    lantai_maks: number;
+    luas_tapak_m2: number;
+    luas_lantai_m2: number;
+    kepadatan_per_ha: number | null;
+    /** Rumah tapak. */
+    luas_kavling_m2?: number;
+    luas_tapak_per_unit_m2?: number;
+    luas_bangunan_per_unit_m2?: number;
+    porsi_jalan_fasum?: number | null;
+    /** Kos dan apartemen. */
+    luas_per_unit_m2?: number;
+    porsi_tapak?: number | null;
+};
+
+/** Respons POST /api/lahan (FR-23). */
+export type LahanResponse = {
+    luas_m2: number;
+    keliling_m: number;
+    pusat: { lat: number; lng: number };
+    wilayah: string;
+    wilayah_id: number;
+    /** Zona RDTR paling luas di lahan (hanya DKI); porsi 0–1 dari luas lahan. */
+    zonasi: { zona: string; subzona: string | null; porsi: number; sumber: string } | null;
+    /** KDB dalam persen, KLB rasio; sumber 'asumsi' bila zona tidak tersedia. */
+    intensitas: { kdb: number; klb: number; sumber: 'RDTR DKI 2022' | 'asumsi'; alternatif: 1 | 2; luas_persil_m2: number };
+    banjir: { porsi_rawan: number; tingkat_maks: 1 | 2 | 3 | null; genangan_2020: boolean };
+    match: Record<Persona, boolean>;
+    terdekat: Record<Persona, { nama: string; meter: number } | null>;
+    jumlah_fasilitas: Record<Persona, number>;
+    kesimpulan: string[];
+    tipe: TipeLahan;
+    asumsi: AsumsiLahan;
+    kapasitas: KapasitasLahan;
+    /** Fitur `jenis`: 'kavling' dan 'jalan' (rumah tapak) atau 'tapak' (kos/apartemen). */
+    geometri_kapasitas: FeatureCollection;
+    catatan: string[];
 };

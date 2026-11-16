@@ -52,6 +52,7 @@ Mengikuti SRS 5.5.
 | Persona Grading | `PersonaScoringService` | bintang 0–3 (titik), centang (wilayah), auto-summary | 1.4.5 |
 | Commute Simulator | `CommuteService` | toggle di search bar, Pin A/B | 1.4.5 |
 | Backend & API | skema, endpoint, optimasi query | — | 1.4.6 |
+| Uji Lahan (FR-23) | `POST /api/lahan`, `KapasitasLahan` | tombol Uji Lahan, alat gambar `Map/GambarLahan.ts`, `PanelLahan` | — (tambahan 16 Nov 2026) |
 
 ### Preferensi persona
 
@@ -131,13 +132,19 @@ Waktu, Legalitas Lahan.
 | `GET /api/commute` | FR-10, FR-11 | `dari`, `ke` (koordinat `lat,lng`); opsional `tol=0` (hindari tol), `gg=1` (hindari ruas ganjil-genap DKI), `bbm` (harga BBM Rp/liter, 5.000–30.000, bawaan 10.000) | Per moda `pribadi` dan `publik`: jarak, waktu, biaya, dan geometri rute (`LineString`/`MultiLineString` searah A→B); masing-masing boleh `null`. `pribadi` juga mengirim `biaya_bbm`, `biaya_tol`, `lewat_tol`, `ganjil_genap` (`hindari`, `ruas[]` = ruas ganjil-genap yang masih disusuri); `publik` mengirim `rincian`, `stasiun[]`, `langkah[]` (`tipe`: `jalan`, `ojol`, `naik`, `pindah`), `biaya_transum`, `biaya_ojol`, dan `geometri.ojol[]`; first/last mile > 1 km memakai ojol Rp15.000 |
 | `GET /api/lokasi` | FR-10 | `q` (min. 3 huruf) | Saran lokasi untuk kolom titik A/B: `hasil[]` berisi `nama`, `keterangan`, `jenis` (`wilayah`, `stasiun`, `halte`, `poi`), `lat`, `lng`. Dicari dari data sendiri, tanpa geocoding luar |
 
+| `POST /api/lahan` | FR-23 | JSON: `geometri` (GeoJSON `Polygon`, cincin luar saja, 4–200 titik), `tipe` (`rumah`, `kos`, `apartemen`), opsional `asumsi` (`lebar_kavling`, `panjang_kavling`, `lebar_jalan`, `luas_kamar`, `luas_unit`, `efisiensi`, `sempadan`, `lantai`; dijepit ke rentang aman), `persona[]` dari sesi | `luas_m2`, `keliling_m`, `pusat`, `wilayah`, `wilayah_id`, `zonasi` (zona RDTR paling luas + `porsi`, hanya DKI; `null` di luar DKI), `intensitas` (`kdb` %, `klb`, `sumber` `RDTR DKI 2022`/`asumsi`, `alternatif` 1/2, `luas_persil_m2`), `banjir` (`porsi_rawan`, `tingkat_maks`, `genangan_2020`), `match`/`terdekat`/`jumlah_fasilitas` per persona (aturan wilayah TBD-09), `kesimpulan`, `asumsi` yang dipakai, `kapasitas` (`jumlah`, `satuan` `rumah`/`kamar`/`unit`, `lantai`, `lantai_maks`, `luas_tapak_m2`, `luas_lantai_m2`, `kepadatan_per_ha`, dst.), `geometri_kapasitas` (`FeatureCollection`: `kavling` + `jalan` untuk rumah tapak, `tapak` untuk kos/apartemen), `catatan[]`. Galat 422: lahan menyilang, < 30 m², > 20 ha, atau di luar Jabodetabek |
+
 - `search` mengembalikan tepat tiga hasil (Business Rule 1). Kalau tidak ada
   yang memenuhi, kembalikan daftar kosong dengan `message` (UC-03).
 - `commute` bergantung pada TBD-ROUTE. Sementara: mobil lewat Valhalla (cadangan OSRM),
   umum lewat Commute Data API; tarif tol dan waktu tempuh adalah perkiraan.
 - Metrik wilayah untuk `search` (jarak ke stasiun/tol/POI/RTH, jumlah POI, porsi banjir)
   dihitung sekali oleh `DemoPetaSeeder` dan disimpan di `wilayah.atribut`.
-- Bentuk respons semua endpoint di atas dites di `tests/Feature/ApiTest.php`.
+- `lahan` memakai POST karena koordinat poligon bisa terlalu panjang untuk query string. Rumus kapasitas ada di
+  `app/Services/KapasitasLahan.php` (dites tanpa basis data); KDB/KLB bertingkat menurut luas persil dibaca dari
+  `atribut.kdb_teks`/`klb_teks` zona RDTR (Alternatif 1 untuk rumah tapak dan kos, Alternatif 2 untuk apartemen).
+  Grid kavling dibuat di UTM 48S dan diputar searah sisi terpanjang lahan.
+- Bentuk respons semua endpoint di atas dites di `tests/Feature/ApiTest.php` (Uji Lahan: `tests/Feature/LahanTest.php`).
 
 ## 3. Antarmuka
 
@@ -154,6 +161,7 @@ yang udah di revisi". Nilai visual, komponen, dan aturan kartografi ada di
 | UI04 | Simulator Rute | Titik A/B, kotak MOBIL dan TRANSIT (waktu + biaya) |
 | UI05 | Menu utama | Drawer kiri: tab Persona, Legenda, Tentang |
 | UI06 | Landing page | Halaman editorial pengantar peta |
+| UI07 | Uji Lahan | Tombol di sebelah kanan search; panel kiri: mode Kotak/Poligon, tab Rumah tapak/Kos/Apartemen, slider asumsi; peta: lahan oranye dengan pegangan sudut, kavling/tapak bangunan |
 
 Perilaku yang sudah pasti:
 
