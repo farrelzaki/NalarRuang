@@ -115,8 +115,6 @@ export default function Peta() {
     const [galatLahan, setGalatLahan] = useState<string | null>(null);
     /** True bila perubahan terakhir datang dari menggambar/menarik lahan (dikirim tanpa jeda). */
     const lahanDariPeta = useRef(false);
-    /** Lahan tempat `hasilLahan` dihitung (dasar pelenturan isi saat ditarik). */
-    const [dasarLahan, setDasarLahan] = useState<Polygon | null>(null);
     // Satu permintaan /api/lahan berjalan sekaligus; permintaan baru selama itu hanya menyimpan yang terakhir di antrean.
     const lahanJalan = useRef<AbortController | null>(null);
     const lahanAntre = useRef<LahanRequest | null>(null);
@@ -437,7 +435,6 @@ export default function Peta() {
         api.lahan(badan, ctrl.signal)
             .then((r) => {
                 setHasilLahan(r);
-                setDasarLahan(badan.geometri);
                 setGalatLahan(null);
             })
             .catch((e) => {
@@ -478,7 +475,6 @@ export default function Peta() {
 
     const resetLahan = () => {
         batalLahan();
-        setDasarLahan(null);
         setAlatLahan(null);
         setGeomLahan(null);
         setHasilLahan(null);
@@ -488,7 +484,6 @@ export default function Peta() {
 
     const mulaiLahan = (mode: ModeGambar) => {
         batalLahan();
-        setDasarLahan(null);
         setGeomLahan(null);
         setHasilLahan(null);
         setGalatLahan(null);
@@ -583,7 +578,6 @@ export default function Peta() {
                     alatLahan={panelKiri === 'lahan' ? alatLahan : null}
                     selesaiLahan={selesaiLahan}
                     kapasitasLahan={panelKiri === 'lahan' && geomLahan ? (hasilLahan?.geometri_kapasitas ?? null) : null}
-                    kapasitasDasar={dasarLahan}
                     onLahanBerubah={(g) => {
                         lahanDariPeta.current = true;
                         setGeomLahan(g);

@@ -623,3 +623,15 @@ input { font: inherit; }
 .nr-lahan__warna--taman { background: #f4b6b6; }
 .nr-lahan__warna--parkir { background: #6b7280; }
 .nr-lahan__kurang { color: #b45309; }
+
+/* Uji Lahan: isi kapasitas berganti halus (warna bertransisi, unit/kavling baru muncul, yang hilang memudar). */
+.leaflet-nrLahanIsi-pane path { transition: fill 0.3s ease, fill-opacity 0.3s ease, stroke-opacity 0.3s ease, opacity 0.28s ease; transform-box: fill-box; transform-origin: center; }
+.leaflet-nrLahanIsi-pane path.nr-isi-muncul { animation: nr-isi-muncul 0.32s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.leaflet-nrLahanIsi-pane path.nr-isi-pudar-masuk { animation: nr-isi-pudar-masuk 0.3s ease both; }
+.leaflet-nrLahanIsi-pane path.nr-isi-luar,
+.leaflet-nrLahanIsi-pane path.nr-isi-hilang { opacity: 0; }
+@keyframes nr-isi-muncul { from { opacity: 0; transform: scale(0.6); } }
+@keyframes nr-isi-pudar-masuk { from { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+    .leaflet-nrLahanIsi-pane path { transition: none; animation: none !important; }
+}
