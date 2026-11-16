@@ -66,9 +66,9 @@ class KapasitasLahanTest extends TestCase
 
     public function test_asumsi_dijepit_ke_rentang_dan_kunci_asing_dibuang(): void
     {
-        $a = $this->k->asumsi('kos', ['luas_kamar' => 2, 'efisiensi' => 0.95, 'lantai' => '3', 'jahat' => 1]);
+        $a = $this->k->asumsi('kos', ['luas_kamar' => 2, 'rasio_parkir' => 9, 'lantai' => '3', 'jahat' => 1]);
         $this->assertSame(6.0, $a['luas_kamar']);
-        $this->assertSame(0.9, $a['efisiensi']);
+        $this->assertSame(2.0, $a['rasio_parkir']);
         $this->assertSame(3, $a['lantai']);
         $this->assertArrayNotHasKey('jahat', $a);
 
@@ -110,7 +110,7 @@ class KapasitasLahanTest extends TestCase
         $this->assertSame(300.0, $r['luas_tapak_m2']);
         $this->assertSame(3, $r['lantai']);
         $this->assertSame(900.0, $r['luas_lantai_m2']);
-        $this->assertSame(52, $r['jumlah']); // 900 x 0,7 / 12 = 52,5
+        $this->assertSame(56, $r['jumlah']); // 900 x 0,75 (efisiensi cadangan) / 12 = 56,25
         $this->assertSame('kamar', $r['satuan']);
     }
 
@@ -140,6 +140,67 @@ class KapasitasLahanTest extends TestCase
         $r = $this->k->bangunan('kos', 500, 400, $this->k->asumsi('kos', []), 0.0, 0.0);
         $this->assertSame(0, $r['jumlah']);
         $this->assertSame(0, $r['lantai']);
+    }
+
+    public function test_porsi_tipe_apartemen_dan_luas_rata_rata(): void
+    {
+        $a = $this->k->asumsi('apartemen', []);
+        $this->assertEqualsWithDelta(['studio' => 0.3, '1br' => 0.5, '2br' => 0.2], $this->k->porsiTipe($a), 1e-9);
+        $this->assertEqualsWithDelta(36.0, $this->k->luasRataUnit($a), 1e-9); // 0,3x24 + 0,5x36 + 0,2x54
+        $this->assertSame(4.5, $this->k->lebarUnit('apartemen', $a));          // 36 / 8 m
+        $this->assertSame(3.0, $this->k->lebarUnit('kos', $this->k->asumsi('kos', []))); // 12 / 4 m
+
+        // Studio + 2 kamar > 100 % dipangkas supaya 1 kamar tidak negatif.
+        $b = $this->k->asumsi('apartemen', ['porsi_studio' => 0.7, 'porsi_2br' => 0.6]);
+        $this->assertEqualsWithDelta(0.3, $b['porsi_2br'], 1e-9);
+        $this->assertEqualsWithDelta(0.0, $this->k->porsiTipe($b)['1br'], 1e-9);
+    }
+
+    public function test_tebal_gedung_koridor_tengah(): void
+    {
+        $this->assertSame(18.0, KapasitasLahan::tebalGedung('apartemen')); // 8 + 2 + 8
+        $this->assertSame(9.5, KapasitasLahan::tebalGedung('kos'));        // 4 + 1,5 + 4
+    }
+
+    public function test_sebar_tipe_merata_sesuai_porsi(): void
+    {
+        $urut = KapasitasLahan::sebarTipe(10, ['studio' => 0.3, '1br' => 0.5, '2br' => 0.2]);
+        $this->assertCount(10, $urut);
+        $this->assertSame(['studio' => 3, '1br' => 5, '2br' => 2], array_merge(['studio' => 0, '1br' => 0, '2br' => 0], array_count_values($urut)));
+        // Tidak ada tiga petak berturut-turut bertipe sama untuk porsi seimbang seperti ini.
+        for ($i = 2; $i < 10; $i++) {
+            $this->assertFalse($urut[$i] === $urut[$i - 1] && $urut[$i] === $urut[$i - 2], "Tipe menumpuk di petak {$i}");
+        }
+        $this->assertSame([], KapasitasLahan::sebarTipe(0, ['studio' => 1]));
+        $this->assertSame(['kamar', 'kamar'], KapasitasLahan::sebarTipe(2, ['kamar' => 1, 'x' => 0]));
+    }
+
+    public function test_porsi_lingkar_dibatasi_kdb(): void
+    {
+        $this->assertSame(1.0, KapasitasLahan::porsiLingkar(10000, 60, 4000));   // KDB 6000 m² > cincin
+        $this->assertSame(0.5, KapasitasLahan::porsiLingkar(10000, 20, 4000));   // KDB 2000 m² = separuh cincin
+        $this->assertSame(0.0, KapasitasLahan::porsiLingkar(10000, 60, 0));
+    }
+
+    public function test_gedung_unit_per_lantai_kali_lantai_dan_parkir(): void
+    {
+        $a = $this->k->asumsi('apartemen', []);
+        $urut = KapasitasLahan::sebarTipe(40, $this->k->porsiTipe($a));
+        // Lahan 5000 m², tapak gedung 1800 m², KLB 1,6 -> 8000 m² lantai -> maks 4 lantai.
+        $g = $this->k->gedung('apartemen', 5000, 1800, $urut, $a, 40.0, 1.6);
+
+        $this->assertSame(4, $g['lantai']);
+        $this->assertSame(40, $g['unit_per_lantai']);
+        $this->assertSame(160, $g['jumlah']);
+        $this->assertSame(['studio' => 48, '1br' => 80, '2br' => 32], array_merge(['studio' => 0, '1br' => 0, '2br' => 0], $g['komposisi']));
+        $this->assertSame(80, $g['parkir']['butuh']); // 160 x 0,5
+        $this->assertSame(7200.0, $g['luas_lantai_m2']);
+
+        $dua = $this->k->gedung('apartemen', 5000, 1800, $urut, $this->k->asumsi('apartemen', ['lantai' => 2]), 40.0, 1.6);
+        $this->assertSame(80, $dua['jumlah']);
+
+        $kosong = $this->k->gedung('kos', 5000, 0, [], $this->k->asumsi('kos', []), 60.0, 1.8);
+        $this->assertSame(0, $kosong['jumlah']);
     }
 
     public function test_faktor_skala_tapak(): void

@@ -75,9 +75,11 @@ class LahanTest extends TestCase
 
         $kavling = array_filter($r['geometri_kapasitas']['features'], fn ($f) => $f['properties']['jenis'] === 'kavling');
         $this->assertSame(count($kavling), $r['kapasitas']['jumlah']);
-        $this->assertGreaterThan(60, $r['kapasitas']['jumlah']);
+        // Jalan lingkar 8 m menyisakan sekitar 94 x 94 m: 4 baris x 15 kavling 6 m.
+        $this->assertGreaterThan(40, $r['kapasitas']['jumlah']);
         $this->assertLessThan(120, $r['kapasitas']['jumlah']);
         $this->assertSame('rumah', $r['kapasitas']['satuan']);
+        $this->assertNotEmpty(array_filter($r['geometri_kapasitas']['features'], fn ($f) => $f['properties']['jenis'] === 'jalan'));
 
         $this->assertTrue($r['match']['commuter'], 'Stasiun A sekitar 300 m dari lahan.');
         $this->assertFalse($r['match']['driver'], 'Gerbang tol lebih dari 2,5 km.');
@@ -92,13 +94,24 @@ class LahanTest extends TestCase
         $this->assertSame(1, $kos['intensitas']['alternatif']);
         $this->assertSame(0.6, (float) $kos['intensitas']['klb']);
         $this->assertSame('kamar', $kos['kapasitas']['satuan']);
-        $this->assertSame('tapak', $kos['geometri_kapasitas']['features'][0]['properties']['jenis']);
+        $jenisKos = array_column(array_column($kos['geometri_kapasitas']['features'], 'properties'), 'jenis');
+        $this->assertContains('unit', $jenisKos);
+        $this->assertContains('koridor', $jenisKos);
+        $this->assertSame($kos['kapasitas']['unit_per_lantai'] * $kos['kapasitas']['lantai'], $kos['kapasitas']['jumlah']);
 
-        $apt = $this->lahan(['tipe' => 'apartemen', 'asumsi' => ['luas_unit' => 45]])->assertOk()->json();
+        $apt = $this->lahan(['tipe' => 'apartemen', 'asumsi' => ['porsi_studio' => 0.2, 'porsi_2br' => 0.5]])->assertOk()->json();
         $this->assertSame(2, $apt['intensitas']['alternatif']);
         $this->assertSame(1.6, (float) $apt['intensitas']['klb']);
-        $this->assertSame(45.0, (float) $apt['asumsi']['luas_unit']);
-        $this->assertGreaterThan($kos['kapasitas']['luas_lantai_m2'], $apt['kapasitas']['luas_lantai_m2']);
+        $this->assertEqualsWithDelta(0.5, (float) $apt['asumsi']['porsi_2br'], 1e-9);
+        $k = $apt['kapasitas'];
+        $this->assertGreaterThan(0, $k['unit_per_lantai']);
+        $this->assertSame($k['jumlah'], array_sum($k['komposisi']));
+        $this->assertGreaterThan($k['komposisi']['studio'] ?? 0, $k['komposisi']['2br'] ?? 0);
+        $this->assertSame((int) ceil($k['jumlah'] * 0.5), $k['parkir']['butuh']);
+        $this->assertLessThanOrEqual($k['parkir']['butuh'], $k['parkir']['muat']);
+        $tipeUnit = array_unique(array_column(array_filter(array_column($apt['geometri_kapasitas']['features'], 'properties'), fn ($p) => $p['jenis'] === 'unit'), 'tipe'));
+        sort($tipeUnit);
+        $this->assertSame(['1br', '2br', 'studio'], $tipeUnit);
     }
 
     public function test_di_luar_dki_memakai_asumsi(): void

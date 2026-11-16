@@ -258,25 +258,27 @@ class LahanController extends Controller
         return [$cocok, $terdekat, $jumlah];
     }
 
-    /**
-     * Rumah tapak: grid kavling di UTM 48S, diputar searah sisi terpanjang lahan (ST_OrientedEnvelope), berpola
-     * jalan + dua baris kavling saling membelakangi. Kavling yang utuh berada di dalam lahan saja yang dihitung.
-     *
-     * @return array{0: array<string, mixed>, 1: array<string, mixed>}
-     */
-    private function rumah(string $geojson, float $luas, array $asumsi, array $intensitas): array
+    /** Angka yang sudah dijepit (float) ditulis langsung ke SQL; masukan teks tetap lewat binding. */
+    private static function n(float $x): string
     {
-        $lebar = (float) $asumsi['lebar_kavling'];
-        $panjang = (float) $asumsi['panjang_kavling'];
-        $jalan = (float) $asumsi['lebar_jalan'];
-        $periode = $jalan + 2 * $panjang;
+        return sprintf('%.6F', $x);
+    }
+
+    /**
+     * Petak-petak persegi panjang di dalam poligon (UTM 48S, EWKT), diputar searah sisi terpanjangnya, berpola
+     * lorong/jalan + dua baris petak saling membelakangi. Dipakai untuk kavling rumah dan slot parkir.
+     * Hanya petak yang utuh di dalam poligon yang dikembalikan, terurut per blok, baris, lalu kolom.
+     *
+     * @return array{petak: list<object>, jalan: list<string>}
+     */
+    private function petak(string $ewkt, float $lebar, float $panjang, float $lorong): array
+    {
+        [$w, $p, $j, $per] = array_map([self::class, 'n'], [$lebar, $panjang, $lorong, $lorong + 2 * $panjang]);
         $utm = self::UTM;
 
         $baris = DB::select(
-            "WITH l AS (SELECT ST_Transform(ST_SetSRID(ST_GeomFromGeoJSON(?), 4326), {$utm}) AS g),
-             o AS (
-                 SELECT g, ST_Centroid(g) AS pusat, ST_ExteriorRing(ST_OrientedEnvelope(g)) AS cincin FROM l
-             ),
+            "WITH l AS (SELECT ST_GeomFromEWKT(?) AS g),
+             o AS (SELECT g, ST_Centroid(g) AS pusat, ST_ExteriorRing(ST_OrientedEnvelope(g)) AS cincin FROM l),
              sudut AS (
                  SELECT g, pusat,
                         CASE WHEN ST_Distance(ST_PointN(cincin, 1), ST_PointN(cincin, 2)) >= ST_Distance(ST_PointN(cincin, 2), ST_PointN(cincin, 3))
@@ -284,83 +286,255 @@ class LahanController extends Controller
                              ELSE ST_Azimuth(ST_PointN(cincin, 2), ST_PointN(cincin, 3)) END AS az
                  FROM o
              ),
-             -- Putar lahan supaya sisi terpanjang sejajar sumbu X (azimut diukur dari utara, searah jarum jam).
              r AS (SELECT ST_Rotate(g, az - pi() / 2, pusat) AS g, az, pusat FROM sudut),
              e AS (SELECT g, ST_Buffer(g, 0.05) AS gb, az, pusat, ST_XMin(g) AS x0, ST_YMin(g) AS y0, ST_XMax(g) AS x1, ST_YMax(g) AS y1 FROM r),
-             blok AS (SELECT e.*, b FROM e, generate_series(0, ceil((e.y1 - e.y0) / ?::float8)::int) AS b),
-             kavling AS (
-                 SELECT blok.gb, blok.az, blok.pusat,
-                        ST_MakeEnvelope(blok.x0 + k * ?::float8, blok.y0 + blok.b * ?::float8 + ?::float8 + s * ?::float8,
-                                        blok.x0 + (k + 1) * ?::float8, blok.y0 + blok.b * ?::float8 + ?::float8 + (s + 1) * ?::float8, {$utm}) AS kotak
-                 FROM blok, generate_series(0, ceil((blok.x1 - blok.x0) / ?::float8)::int) AS k, generate_series(0, 1) AS s
+             blok AS (SELECT e.*, b FROM e, generate_series(0, ceil((e.y1 - e.y0) / {$per})::int) AS b),
+             petak AS (
+                 SELECT blok.gb, blok.az, blok.pusat, blok.b, k, s,
+                        ST_MakeEnvelope(blok.x0 + k * {$w}, blok.y0 + blok.b * {$per} + {$j} + s * {$p},
+                                        blok.x0 + (k + 1) * {$w}, blok.y0 + blok.b * {$per} + {$j} + (s + 1) * {$p}, {$utm}) AS kotak
+                 FROM blok, generate_series(0, ceil((blok.x1 - blok.x0) / {$w})::int) AS k, generate_series(0, 1) AS s
              ),
              jalan AS (
-                 SELECT blok.g, blok.az, blok.pusat,
-                        ST_Intersection(blok.g, ST_MakeEnvelope(blok.x0, blok.y0 + blok.b * ?::float8, blok.x1, blok.y0 + blok.b * ?::float8 + ?::float8, {$utm})) AS kotak
+                 SELECT blok.az, blok.pusat,
+                        ST_Intersection(blok.g, ST_MakeEnvelope(blok.x0, blok.y0 + blok.b * {$per}, blok.x1, blok.y0 + blok.b * {$per} + {$j}, {$utm})) AS kotak
                  FROM blok
              )
-             SELECT 'kavling' AS jenis, ST_AsGeoJSON(ST_Transform(ST_Rotate(kotak, pi() / 2 - az, pusat), 4326), 6) AS geo
-             FROM kavling WHERE ST_CoveredBy(kotak, gb)
+             SELECT 'petak' AS jenis, b, k, s, ST_AsGeoJSON(ST_Transform(ST_Rotate(kotak, pi() / 2 - az, pusat), 4326), 6) AS geo,
+                    ST_AsEWKT(ST_Rotate(kotak, pi() / 2 - az, pusat)) AS ewkt
+             FROM petak WHERE ST_CoveredBy(kotak, gb)
              UNION ALL
-             SELECT 'jalan', ST_AsGeoJSON(ST_Transform(ST_Rotate(kotak, pi() / 2 - az, pusat), 4326), 6)
-             FROM jalan WHERE NOT ST_IsEmpty(kotak) AND ST_Area(kotak) > 1",
-            [
-                $geojson,
-                $periode,
-                $lebar, $periode, $jalan, $panjang, $lebar, $periode, $jalan, $panjang,
-                $lebar,
-                $periode, $periode, $jalan,
-            ],
+             SELECT 'jalan', 0, 0, 0, ST_AsGeoJSON(ST_Transform(ST_Rotate(kotak, pi() / 2 - az, pusat), 4326), 6), NULL
+             FROM jalan WHERE NOT ST_IsEmpty(kotak) AND ST_Area(kotak) > 1
+             ORDER BY 2, 4, 3",
+            [$ewkt],
         );
 
+        return [
+            'petak' => array_values(array_filter($baris, fn ($b) => $b->jenis === 'petak')),
+            'jalan' => array_map(fn ($b) => $b->geo, array_values(array_filter($baris, fn ($b) => $b->jenis === 'jalan'))),
+        ];
+    }
+
+    /** @return array<string, mixed> */
+    private static function fitur(string $geo, array $properti): array
+    {
+        return ['type' => 'Feature', 'properties' => $properti, 'geometry' => json_decode($geo)];
+    }
+
+    /**
+     * Rumah tapak: jalan lingkar di tepi lahan, lalu grid kavling di dalamnya dengan jalan lingkungan tiap dua baris
+     * (semua jalan tersambung ke jalan lingkar). Jumlah rumah = kavling yang utuh muat.
+     *
+     * @return array{0: array<string, mixed>, 1: array<string, mixed>}
+     */
+    private function rumah(string $geojson, float $luas, array $asumsi, array $intensitas): array
+    {
+        $jalan = (float) $asumsi['lebar_jalan'];
+        $utm = self::UTM;
+
+        $l = DB::selectOne(
+            "WITH l AS (SELECT ST_Transform(ST_SetSRID(ST_GeomFromGeoJSON(?), 4326), {$utm}) AS g),
+                  d AS (SELECT g, ST_Buffer(g, -".self::n($jalan).", 'join=mitre') AS dalam FROM l)
+             SELECT ST_IsEmpty(dalam) OR ST_Area(dalam) < 1 AS sempit, ST_AsEWKT(g) AS lahan, ST_AsEWKT(dalam) AS dalam,
+                    ST_AsGeoJSON(ST_Transform(ST_Difference(g, dalam), 4326), 6) AS lingkar
+             FROM d",
+            [$geojson],
+        );
+
+        // Lahan terlalu sempit untuk jalan lingkar: kavling langsung di seluruh lahan.
+        $petak = $this->petak($l->sempit ? $l->lahan : $l->dalam, (float) $asumsi['lebar_kavling'], (float) $asumsi['panjang_kavling'], $jalan);
+
         $fitur = [];
-        $jumlah = 0;
-        foreach ($baris as $b) {
-            if ($b->jenis === 'kavling') {
-                $jumlah++;
-            }
-            $fitur[] = ['type' => 'Feature', 'properties' => ['jenis' => $b->jenis], 'geometry' => json_decode($b->geo)];
+        if (! $l->sempit) {
+            $fitur[] = self::fitur($l->lingkar, ['jenis' => 'jalan']);
+        }
+        foreach ($petak['jalan'] as $geo) {
+            $fitur[] = self::fitur($geo, ['jenis' => 'jalan']);
+        }
+        foreach ($petak['petak'] as $p) {
+            // Tiga warna atap bergantian supaya deretan rumah terbaca seperti tampak atas perumahan.
+            $fitur[] = self::fitur($p->geo, ['jenis' => 'kavling', 'varian' => ($p->k + $p->s + $p->b) % 3]);
         }
 
-        $kapasitas = $this->kapasitas->rumah($luas, $jumlah, $asumsi, $intensitas['kdb'], $intensitas['klb']);
+        $kapasitas = $this->kapasitas->rumah($luas, count($petak['petak']), $asumsi, $intensitas['kdb'], $intensitas['klb']);
 
         return [$kapasitas, ['type' => 'FeatureCollection', 'features' => $fitur]];
     }
 
     /**
-     * Kos/apartemen: lahan dikurangi sempadan (buffer ke dalam), lalu diperkecil seimbang di sekitar pusatnya
-     * supaya luasnya sama dengan tapak yang diizinkan KDB.
+     * Kos/apartemen bergaya TestFit: gedung berkoridor tengah yang mengikuti tepi lahan (dikurangi sempadan),
+     * dua deret unit di kiri-kanan koridor. Unit dibagi dengan Voronoi dari titik-titik berjarak satu lebar unit
+     * di sepanjang garis tengah tiap deret, sehingga ikut berbelok di sudut. Bila tapak melebihi KDB, lingkar gedung
+     * dipotong (bentuk C/U). Halaman tengah menjadi taman dan parkir (slot 2,5 x 5 m).
      *
      * @return array{0: array<string, mixed>, 1: array<string, mixed>}
      */
     private function bangunan(string $tipe, string $geojson, float $luas, array $asumsi, array $intensitas): array
     {
         $utm = self::UTM;
-        $sempadan = (float) $asumsi['sempadan'];
+        $s = (float) $asumsi['sempadan'];
+        $du = KapasitasLahan::KEDALAMAN_UNIT[$tipe];
+        $c = KapasitasLahan::LEBAR_KORIDOR[$tipe];
+        $tebal = KapasitasLahan::tebalGedung($tipe);
+        $w = $this->kapasitas->lebarUnit($tipe, $asumsi);
+        [$ns, $nsdu, $nsduc, $nst, $nw] = array_map([self::class, 'n'], [$s, $s + $du, $s + $du + $c, $s + $tebal, $w]);
+        $tengah1 = self::n($s + $du / 2);
+        $tengah2 = self::n($s + $du + $c + $du / 2);
+        $minLuas = self::n(0.35 * $w * $du);
 
+        $ukur = DB::selectOne(
+            "WITH l AS (SELECT ST_Transform(ST_SetSRID(ST_GeomFromGeoJSON(?), 4326), {$utm}) AS g)
+             SELECT ST_Area(ST_Difference(ST_Buffer(g, -{$ns}, 'join=mitre'), ST_Buffer(g, -{$nst}, 'join=mitre'))) AS cincin FROM l",
+            [$geojson],
+        );
+        $cincin = (float) ($ukur->cincin ?? 0);
+        $porsi = KapasitasLahan::porsiLingkar($luas, $intensitas['kdb'], $cincin);
+
+        $unit = $cincin > 0 && $porsi > 0 ? DB::select(
+            "WITH l AS (SELECT ST_Transform(ST_SetSRID(ST_GeomFromGeoJSON(?), 4326), {$utm}) AS g),
+             p AS (SELECT ST_Centroid(g) AS pusat FROM l),
+             pita AS (
+                 SELECT 1 AS deret, ST_Difference(ST_Buffer(g, -{$ns}, 'join=mitre'), ST_Buffer(g, -{$nsdu}, 'join=mitre')) AS band, {$tengah1}::float8 AS tengah FROM l
+                 UNION ALL
+                 SELECT 2, ST_Difference(ST_Buffer(g, -{$nsduc}, 'join=mitre'), ST_Buffer(g, -{$nst}, 'join=mitre')), {$tengah2}::float8 FROM l
+             ),
+             garis AS (SELECT pita.deret, ST_ExteriorRing((ST_Dump(ST_Buffer(l.g, -pita.tengah, 'join=mitre'))).geom) AS ln FROM pita, l),
+             benih AS (
+                 SELECT deret, (ST_Dump(ST_LineInterpolatePoints(ln, LEAST(1.0, {$nw} / ST_Length(ln)), true))).geom AS t
+                 FROM garis WHERE ST_Length(ln) > {$nw}
+             ),
+             sel AS (
+                 SELECT deret, (ST_Dump(ST_VoronoiPolygons(ST_Collect(t), 0, (SELECT ST_Expand(g, 200) FROM l)))).geom AS v
+                 FROM benih GROUP BY deret
+             ),
+             u AS (
+                 SELECT sel.deret, ST_CollectionExtract(ST_Intersection(sel.v, pita.band), 3) AS g
+                 FROM sel JOIN pita USING (deret) WHERE ST_Intersects(sel.v, pita.band)
+             )
+             SELECT u.deret, ST_Area(u.g) AS luas, ST_Azimuth(p.pusat, ST_PointOnSurface(u.g)) AS az,
+                    ST_AsGeoJSON(ST_Transform(u.g, 4326), 6) AS geo, ST_AsEWKT(u.g) AS ewkt
+             FROM u, p WHERE NOT ST_IsEmpty(u.g) AND ST_Area(u.g) >= {$minLuas}
+             ORDER BY az",
+            [$geojson],
+        ) : [];
+
+        // Potong lingkar bila tapak penuh melebihi KDB: pertahankan unit dengan azimut < 2*pi*porsi (bentuk C/U).
+        $batasAz = 2 * M_PI * $porsi;
+        $unit = array_values(array_filter($unit, fn ($u) => $porsi >= 1 || (float) $u->az < $batasAz));
+
+        if ($unit === []) {
+            // Lahan terlalu sempit untuk gedung berkoridor: hitungan cadangan satu massa bangunan.
+            return $this->bangunanSederhana($tipe, $geojson, $luas, $asumsi, $intensitas);
+        }
+
+        $porsiTipe = $tipe === 'kos' ? ['kamar' => 1.0] : $this->kapasitas->porsiTipe($asumsi);
+        $urutan = KapasitasLahan::sebarTipe(count($unit), $porsiTipe);
+
+        // Koridor (dipotong sama) dan halaman tengah; tapak = unit + koridor.
+        $irisan = $porsi >= 1 ? 'k.g' : 'ST_Intersection(k.g, ST_Buffer(ST_Collect(ARRAY(SELECT ST_GeomFromEWKT(e) FROM unnest(?::text[]) AS e)), '.self::n($c + 1).'))';
+        $bind = [$geojson];
+        if ($porsi < 1) {
+            $bind[] = '{'.implode(',', array_map(fn ($u) => '"'.$u->ewkt.'"', $unit)).'}';
+        }
+        $gedung = DB::selectOne(
+            "WITH l AS (SELECT ST_Transform(ST_SetSRID(ST_GeomFromGeoJSON(?), 4326), {$utm}) AS g),
+             k AS (SELECT ST_Difference(ST_Buffer(g, -{$nsdu}, 'join=mitre'), ST_Buffer(g, -{$nsduc}, 'join=mitre')) AS g FROM l),
+             kor AS (SELECT ST_CollectionExtract({$irisan}, 3) AS g FROM k)
+             SELECT ST_AsGeoJSON(ST_Transform(kor.g, 4326), 6) AS koridor, ST_Area(kor.g) AS luas_koridor, ST_AsEWKT(kor.g) AS ewkt FROM kor",
+            $bind,
+        );
+
+        $luasUnit = array_sum(array_map(fn ($u) => (float) $u->luas, $unit));
+        $luasTapak = $luasUnit + (float) $gedung->luas_koridor;
+        $kapasitas = $this->kapasitas->gedung($tipe, $luas, $luasTapak, $urutan, $asumsi, $intensitas['kdb'], $intensitas['klb']);
+
+        $fitur = [];
+        foreach ($unit as $i => $u) {
+            $fitur[] = self::fitur($u->geo, ['jenis' => 'unit', 'tipe' => $urutan[$i]]);
+        }
+        if ($gedung->koridor) {
+            $fitur[] = self::fitur($gedung->koridor, ['jenis' => 'koridor']);
+        }
+
+        // Halaman: lahan dikurangi sempadan dan gedung (dengan jarak 3 m). Parkir diambil dari halaman sesuai kebutuhan.
+        $semuaGedung = '{'.implode(',', array_map(fn ($e) => '"'.$e.'"', [...array_map(fn ($u) => $u->ewkt, $unit), $gedung->ewkt])).'}';
+        $halaman = DB::selectOne(
+            "WITH l AS (SELECT ST_Transform(ST_SetSRID(ST_GeomFromGeoJSON(?), 4326), {$utm}) AS g),
+             b AS (SELECT ST_Union(ARRAY(SELECT ST_GeomFromEWKT(e) FROM unnest(?::text[]) AS e)) AS g),
+             h AS (SELECT ST_CollectionExtract(ST_Difference(ST_Buffer(l.g, -".self::n($s + 1).", 'join=mitre'), ST_Buffer(b.g, 3)), 3) AS g FROM l, b)
+             SELECT ST_AsEWKT(g) AS ewkt, ST_Area(g) AS luas FROM h WHERE NOT ST_IsEmpty(g)",
+            [$geojson, $semuaGedung],
+        );
+
+        $taman = $halaman?->ewkt;
+        $butuh = $kapasitas['parkir']['butuh'];
+        if ($halaman && $butuh > 0) {
+            $slot = $this->petak($halaman->ewkt, KapasitasLahan::SLOT_PARKIR['lebar'], KapasitasLahan::SLOT_PARKIR['panjang'], KapasitasLahan::SLOT_PARKIR['lorong']);
+            $dipakai = array_slice($slot['petak'], 0, $butuh);
+            $kapasitas['parkir']['muat'] = count($dipakai);
+            if ($dipakai !== []) {
+                $aspal = DB::selectOne(
+                    "WITH h AS (SELECT ST_GeomFromEWKT(?) AS g),
+                     s AS (SELECT ST_Collect(ARRAY(SELECT ST_GeomFromEWKT(e) FROM unnest(?::text[]) AS e)) AS g),
+                     a AS (SELECT ST_CollectionExtract(ST_Intersection(h.g, ST_Buffer(ST_ConvexHull(s.g), ".self::n(KapasitasLahan::SLOT_PARKIR['lorong']).", 'join=mitre')), 3) AS g FROM h, s)
+                     SELECT ST_AsGeoJSON(ST_Transform(a.g, 4326), 6) AS aspal,
+                            ST_AsEWKT(ST_CollectionExtract(ST_Difference(h.g, a.g), 3)) AS sisa
+                     FROM a, h",
+                    [$halaman->ewkt, '{'.implode(',', array_map(fn ($p) => '"'.$p->ewkt.'"', $dipakai)).'}'],
+                );
+                $fitur[] = self::fitur($aspal->aspal, ['jenis' => 'parkir']);
+                foreach ($dipakai as $p) {
+                    $fitur[] = self::fitur($p->geo, ['jenis' => 'slot']);
+                }
+                $taman = $aspal->sisa;
+            }
+        }
+        if ($taman) {
+            $geo = DB::selectOne('SELECT ST_AsGeoJSON(ST_Transform(ST_GeomFromEWKT(?), 4326), 6) AS geo, ST_Area(ST_GeomFromEWKT(?)) AS luas', [$taman, $taman]);
+            if ((float) $geo->luas > 4) {
+                // Label jumlah lantai dan unit di tengah taman (tooltip permanen di peta).
+                $fitur[] = self::fitur($geo->geo, ['jenis' => 'taman', 'lantai' => $kapasitas['lantai'], 'jumlah' => $kapasitas['jumlah'], 'satuan' => $kapasitas['satuan']]);
+            }
+        }
+
+        return [$kapasitas, ['type' => 'FeatureCollection', 'features' => $fitur]];
+    }
+
+    /**
+     * Cadangan untuk lahan yang terlalu sempit bagi gedung berkoridor: satu massa bangunan (lahan dikurangi sempadan,
+     * diperkecil seimbang sampai seluas tapak KDB).
+     *
+     * @return array{0: array<string, mixed>, 1: array<string, mixed>}
+     */
+    private function bangunanSederhana(string $tipe, string $geojson, float $luas, array $asumsi, array $intensitas): array
+    {
+        $utm = self::UTM;
         $t = DB::selectOne(
             "WITH l AS (SELECT ST_Transform(ST_SetSRID(ST_GeomFromGeoJSON(?), 4326), {$utm}) AS g),
-                  s AS (SELECT ST_Buffer(g, -(?::float8), 'join=mitre') AS g FROM l)
+                  s AS (SELECT ST_Buffer(g, -".self::n((float) $asumsi['sempadan']).", 'join=mitre') AS g FROM l)
              SELECT ST_Area(g) AS luas, ST_AsEWKT(g) AS ewkt FROM s WHERE NOT ST_IsEmpty(g)",
-            [$geojson, $sempadan],
+            [$geojson],
         );
 
         $tersedia = $t ? (float) $t->luas : 0.0;
         $kapasitas = $this->kapasitas->bangunan($tipe, $luas, $tersedia, $asumsi, $intensitas['kdb'], $intensitas['klb']);
+        $kapasitas += [
+            'unit_per_lantai' => $kapasitas['lantai'] > 0 ? intdiv($kapasitas['jumlah'], $kapasitas['lantai']) : 0,
+            'komposisi' => [],
+            'parkir' => ['butuh' => (int) ceil($kapasitas['jumlah'] * (float) ($asumsi['rasio_parkir'] ?? 0)), 'muat' => 0],
+        ];
 
         $fitur = [];
         $faktor = KapasitasLahan::faktorSkala($tersedia, (float) $kapasitas['luas_tapak_m2']);
         if ($t && $faktor > 0) {
+            $f = self::n($faktor);
             $tapak = DB::selectOne(
-                'WITH s AS (SELECT ST_GeomFromEWKT(?) AS g)
-                 SELECT ST_AsGeoJSON(ST_Transform(ST_Scale(g, ST_MakePoint(?::float8, ?::float8), ST_Centroid(g)), 4326), 6) AS geo FROM s',
-                [$t->ewkt, $faktor, $faktor],
+                "WITH s AS (SELECT ST_GeomFromEWKT(?) AS g)
+                 SELECT ST_AsGeoJSON(ST_Transform(ST_Scale(g, ST_MakePoint({$f}, {$f}), ST_Centroid(g)), 4326), 6) AS geo FROM s",
+                [$t->ewkt],
             );
-            $fitur[] = [
-                'type' => 'Feature',
-                'properties' => ['jenis' => 'tapak', 'lantai' => $kapasitas['lantai'], 'jumlah' => $kapasitas['jumlah'], 'satuan' => $kapasitas['satuan']],
-                'geometry' => json_decode($tapak->geo),
-            ];
+            $fitur[] = self::fitur($tapak->geo, ['jenis' => 'tapak', 'lantai' => $kapasitas['lantai'], 'jumlah' => $kapasitas['jumlah'], 'satuan' => $kapasitas['satuan']]);
         }
 
         return [$kapasitas, ['type' => 'FeatureCollection', 'features' => $fitur]];

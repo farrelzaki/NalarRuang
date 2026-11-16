@@ -21,8 +21,8 @@ class KapasitasLahan
     /** Asumsi bawaan per tipe; bisa diubah pengguna dalam rentang RENTANG. */
     public const BAWAAN = [
         'rumah' => ['lebar_kavling' => 6.0, 'panjang_kavling' => 15.0, 'lebar_jalan' => 8.0],
-        'kos' => ['luas_kamar' => 12.0, 'efisiensi' => 0.7, 'sempadan' => 2.0, 'lantai' => null],
-        'apartemen' => ['luas_unit' => 36.0, 'efisiensi' => 0.75, 'sempadan' => 5.0, 'lantai' => null],
+        'kos' => ['luas_kamar' => 12.0, 'sempadan' => 2.0, 'lantai' => null, 'rasio_parkir' => 0.2],
+        'apartemen' => ['porsi_studio' => 0.3, 'porsi_2br' => 0.2, 'sempadan' => 5.0, 'lantai' => null, 'rasio_parkir' => 0.5],
     ];
 
     /** Rentang masukan asumsi [min, max]. */
@@ -31,11 +31,26 @@ class KapasitasLahan
         'panjang_kavling' => [8, 30],
         'lebar_jalan' => [4, 15],
         'luas_kamar' => [6, 30],
-        'luas_unit' => [18, 150],
-        'efisiensi' => [0.5, 0.9],
+        'porsi_studio' => [0, 1],
+        'porsi_2br' => [0, 1],
         'sempadan' => [0, 15],
         'lantai' => [1, 60],
+        'rasio_parkir' => [0, 2],
     ];
+
+    /** Luas tiap tipe unit apartemen (m²) dan warna tampilannya mengikuti pola TestFit (hijau/biru/ungu). */
+    public const LUAS_TIPE = ['studio' => 24.0, '1br' => 36.0, '2br' => 54.0];
+
+    /**
+     * Penampang gedung bergaya koridor tengah (double-loaded): kedalaman satu deret unit dan lebar koridor (m).
+     * Kos memakai kamar 3 x 4 m; apartemen unit sedalam 8 m.
+     */
+    public const KEDALAMAN_UNIT = ['kos' => 4.0, 'apartemen' => 8.0];
+
+    public const LEBAR_KORIDOR = ['kos' => 1.5, 'apartemen' => 2.0];
+
+    /** Satu slot parkir mobil 2,5 x 5 m dengan lorong 6 m. */
+    public const SLOT_PARKIR = ['lebar' => 2.5, 'panjang' => 5.0, 'lorong' => 6.0];
 
     /** Intensitas asumsi bila zona RDTR tidak tersedia (KDB dalam persen, KLB rasio). */
     public const ASUMSI_INTENSITAS = [
@@ -69,6 +84,11 @@ class KapasitasLahan
             [$min, $max] = self::RENTANG[$kunci];
             $nilai = (float) max($min, min($max, (float) $masukan[$kunci]));
             $hasil[$kunci] = $kunci === 'lantai' ? (int) round($nilai) : $nilai;
+        }
+
+        // Porsi studio + 2 kamar paling banyak 100 %; sisanya 1 kamar.
+        if (isset($hasil['porsi_studio'], $hasil['porsi_2br']) && $hasil['porsi_studio'] + $hasil['porsi_2br'] > 1) {
+            $hasil['porsi_2br'] = round(1 - $hasil['porsi_studio'], 4);
         }
 
         return $hasil;
@@ -205,8 +225,8 @@ class KapasitasLahan
     {
         $kdb = $kdbPersen ?? self::ASUMSI_INTENSITAS[$tipe]['kdb'];
         $klbPakai = $klb ?? self::ASUMSI_INTENSITAS[$tipe]['klb'];
-        $luasPerUnit = (float) ($tipe === 'kos' ? $asumsi['luas_kamar'] : $asumsi['luas_unit']);
-        $efisiensi = (float) $asumsi['efisiensi'];
+        $luasPerUnit = $tipe === 'kos' ? (float) $asumsi['luas_kamar'] : $this->luasRataUnit($asumsi);
+        $efisiensi = self::EFISIENSI_CADANGAN;
 
         $tapak = max(0.0, min($luasTapakTersedia, $luasLahan * $kdb / 100));
         $totalLantaiMaks = $luasLahan * $klbPakai;
@@ -233,6 +253,127 @@ class KapasitasLahan
         ];
     }
 
+    /** Efisiensi lantai untuk hitungan cadangan (lahan terlalu sempit untuk gedung berkoridor). */
+    public const EFISIENSI_CADANGAN = 0.75;
+
+    /** Porsi tiap tipe unit apartemen dari asumsi (jumlahnya 1). @return array{studio: float, 1br: float, 2br: float} */
+    public function porsiTipe(array $asumsi): array
+    {
+        $studio = (float) ($asumsi['porsi_studio'] ?? self::BAWAAN['apartemen']['porsi_studio']);
+        $dua = (float) ($asumsi['porsi_2br'] ?? self::BAWAAN['apartemen']['porsi_2br']);
+
+        return ['studio' => $studio, '1br' => max(0.0, 1 - $studio - $dua), '2br' => $dua];
+    }
+
+    /** Luas rata-rata satu unit apartemen menurut komposisi (m²). */
+    public function luasRataUnit(array $asumsi): float
+    {
+        $luas = 0.0;
+        foreach ($this->porsiTipe($asumsi) as $t => $porsi) {
+            $luas += $porsi * self::LUAS_TIPE[$t];
+        }
+
+        return $luas;
+    }
+
+    /** Lebar muka satu unit/kamar di sepanjang koridor (m): luas dibagi kedalaman deret. */
+    public function lebarUnit(string $tipe, array $asumsi): float
+    {
+        $luas = $tipe === 'kos' ? (float) $asumsi['luas_kamar'] : $this->luasRataUnit($asumsi);
+
+        return round($luas / self::KEDALAMAN_UNIT[$tipe], 3);
+    }
+
+    /** Tebal gedung berkoridor tengah: dua deret unit + koridor (m). */
+    public static function tebalGedung(string $tipe): float
+    {
+        return 2 * self::KEDALAMAN_UNIT[$tipe] + self::LEBAR_KORIDOR[$tipe];
+    }
+
+    /**
+     * Urutan tipe untuk $n petak unit, disebar merata mengikuti porsi (petak bersebelahan tidak menumpuk satu tipe).
+     * Tiap langkah memilih tipe yang paling tertinggal dari targetnya.
+     *
+     * @param  array<string, float>  $porsi
+     * @return list<string>
+     */
+    public static function sebarTipe(int $n, array $porsi): array
+    {
+        $porsi = array_filter($porsi, fn ($p) => $p > 0);
+        if ($n <= 0 || $porsi === []) {
+            return [];
+        }
+        $total = array_sum($porsi);
+        $hitung = array_fill_keys(array_keys($porsi), 0);
+        $hasil = [];
+        for ($i = 1; $i <= $n; $i++) {
+            $pilih = null;
+            $kurang = -INF;
+            foreach ($porsi as $t => $p) {
+                $selisih = $p / $total * $i - $hitung[$t];
+                if ($selisih > $kurang + 1e-9) {
+                    $kurang = $selisih;
+                    $pilih = $t;
+                }
+            }
+            $hitung[$pilih]++;
+            $hasil[] = $pilih;
+        }
+
+        return $hasil;
+    }
+
+    /**
+     * Porsi lingkar gedung yang dipertahankan (0–1) supaya tapak tidak melebihi KDB. Gedung lalu "dipotong" seperti
+     * huruf C/U, mirip bentuk yang dihasilkan TestFit pada lahan sempit.
+     */
+    public static function porsiLingkar(float $luasLahan, float $kdbPersen, float $luasCincin): float
+    {
+        if ($luasCincin <= 0) {
+            return 0.0;
+        }
+
+        return round(min(1.0, $luasLahan * $kdbPersen / 100 / $luasCincin), 4);
+    }
+
+    /**
+     * Gedung berkoridor tengah yang mengikuti tepi lahan: jumlah unit = petak per lantai (geometris) x jumlah lantai.
+     * Lantai dibatasi KLB (total luas lantai) dan LANTAI_MAKS; pengguna boleh memilih lebih sedikit.
+     *
+     * @param  array<string, float|int|null>  $asumsi
+     * @param  list<string>  $urutanTipe  tipe tiap petak di satu lantai (dari sebarTipe)
+     * @return array<string, mixed>
+     */
+    public function gedung(string $tipe, float $luasLahan, float $luasTapak, array $urutanTipe, array $asumsi, ?float $kdbPersen, ?float $klb): array
+    {
+        $klbPakai = $klb ?? self::ASUMSI_INTENSITAS[$tipe]['klb'];
+        $perLantai = count($urutanTipe);
+        if ($luasTapak <= 0 || $perLantai === 0 || $klbPakai <= 0) {
+            return $this->kosong($tipe, $luasTapak) + ['unit_per_lantai' => 0, 'komposisi' => [], 'parkir' => ['butuh' => 0, 'muat' => 0]];
+        }
+
+        $lantaiMaks = max(1, min(self::LANTAI_MAKS[$tipe], (int) floor($luasLahan * $klbPakai / $luasTapak + 1e-9)));
+        $lantai = $asumsi['lantai'] !== null ? max(1, min($lantaiMaks, (int) $asumsi['lantai'])) : $lantaiMaks;
+
+        $komposisi = array_map(fn ($n) => $n * $lantai, array_count_values($urutanTipe));
+        $jumlah = $perLantai * $lantai;
+
+        return [
+            'jumlah' => $jumlah,
+            'satuan' => $tipe === 'kos' ? 'kamar' : 'unit',
+            'luas_per_unit_m2' => round($tipe === 'kos' ? (float) $asumsi['luas_kamar'] : $this->luasRataUnit($asumsi), 1),
+            'lantai' => $lantai,
+            'lantai_maks' => $lantaiMaks,
+            'unit_per_lantai' => $perLantai,
+            'komposisi' => $komposisi,
+            'luas_tapak_m2' => round($luasTapak, 1),
+            'luas_lantai_m2' => round($luasTapak * $lantai, 1),
+            'porsi_tapak' => $luasLahan > 0 ? round($luasTapak / $luasLahan, 3) : null,
+            'kepadatan_per_ha' => $luasLahan > 0 ? round($jumlah / ($luasLahan / 10000), 1) : null,
+            'parkir' => ['butuh' => (int) ceil($jumlah * (float) ($asumsi['rasio_parkir'] ?? 0)), 'muat' => 0],
+        ];
+    }
+
     /** Faktor skala tapak (0–1) supaya poligon sempadan di peta luasnya sama dengan tapak yang dihitung. */
     public static function faktorSkala(float $luasTersedia, float $luasTapak): float
     {
@@ -249,7 +390,7 @@ class KapasitasLahan
         return [
             'jumlah' => 0,
             'satuan' => $tipe === 'kos' ? 'kamar' : 'unit',
-            'luas_per_unit_m2' => (float) ($tipe === 'kos' ? self::BAWAAN['kos']['luas_kamar'] : self::BAWAAN['apartemen']['luas_unit']),
+            'luas_per_unit_m2' => $tipe === 'kos' ? (float) self::BAWAAN['kos']['luas_kamar'] : $this->luasRataUnit([]),
             'lantai' => 0,
             'lantai_maks' => 0,
             'luas_tapak_m2' => round($tapak, 1),
