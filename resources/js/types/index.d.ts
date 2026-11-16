@@ -121,11 +121,17 @@ export type AsumsiLahan = {
     panjang_kavling?: number;
     lebar_jalan?: number;
     luas_kamar?: number;
-    luas_unit?: number;
-    efisiensi?: number;
+    /** Apartemen: porsi studio (24 m²) dan 2 kamar (54 m²), 0–1; sisanya 1 kamar (36 m²). */
+    porsi_studio?: number;
+    porsi_2br?: number;
     sempadan?: number;
     lantai?: number | null;
+    /** Slot parkir mobil per unit/kamar. */
+    rasio_parkir?: number;
 };
+
+/** Tipe unit apartemen; kos memakai 'kamar'. */
+export type TipeUnit = 'studio' | '1br' | '2br' | 'kamar';
 
 /** Badan permintaan POST /api/lahan. */
 export type LahanRequest = {
@@ -151,6 +157,11 @@ export type KapasitasLahan = {
     /** Kos dan apartemen. */
     luas_per_unit_m2?: number;
     porsi_tapak?: number | null;
+    unit_per_lantai?: number;
+    /** Jumlah unit per tipe di semua lantai. */
+    komposisi?: Partial<Record<TipeUnit, number>>;
+    /** Slot parkir mobil yang dibutuhkan (rasio x unit) dan yang muat di halaman. */
+    parkir?: { butuh: number; muat: number };
 };
 
 /** Respons POST /api/lahan (FR-23). */
@@ -172,7 +183,10 @@ export type LahanResponse = {
     tipe: TipeLahan;
     asumsi: AsumsiLahan;
     kapasitas: KapasitasLahan;
-    /** Fitur `jenis`: 'kavling' dan 'jalan' (rumah tapak) atau 'tapak' (kos/apartemen). */
+    /**
+     * Fitur `jenis`: rumah tapak 'kavling' (varian 0–2) + 'jalan'; kos/apartemen 'unit' (`tipe`), 'koridor',
+     * 'taman', 'parkir', 'slot'; lahan sempit 'tapak'. 'taman'/'tapak' membawa `lantai`, `jumlah`, `satuan` untuk label.
+     */
     geometri_kapasitas: FeatureCollection;
     catatan: string[];
 };
