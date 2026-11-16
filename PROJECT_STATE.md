@@ -6,7 +6,7 @@ Perbarui saat memulai sesi, melewati checkpoint, membuat keputusan penting, mene
 
 ## Metadata
 
-- Terakhir diperbarui: 2026-09-29
+- Terakhir diperbarui: 2026-11-16
 - Mode kerja: `competition`
 - Status sesi: Berjalan
 - Task aktif: Penyelarasan dokumen dan artifact ke desain final + masukan Izdihar (Tahap A–C)
@@ -62,6 +62,8 @@ repo tidak salah konteks. Tahap 2 (setelah desain Figma masuk): melengkapi `docs
 - Pembagian endpoint Farrel vs Adzkia masih usulan.
 
 ## Keputusan Penting
+
+- **Uji Lahan / FR-23 (16 Nov 2026):** fitur ala TestFit disetujui PM, dikerjakan Galih bersama agen di branch `fitur/uji-lahan` (menyentuh folder backend dan frontend dengan izin tim). Endpoint baru `POST /api/lahan`. Rumah tapak = jumlah kavling geometris (UTM 48S); kos/apartemen = KDB/KLB RDTR (Alternatif 1/2) atau asumsi di luar DKI. Biaya dan harga properti tidak termasuk.
 
 - SRS v1.0 + WBS adalah acuan; Project Charter hanya riwayat.
   Enam layer, tanpa MongoDB/NLP, data diolah di QGIS lalu diimpor ke PostGIS,

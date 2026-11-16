@@ -28,6 +28,23 @@ Gunakan file ini untuk mencatat pekerjaan proyek. Satu task harus memiliki tujua
 
 ## Task Aktif
 
+### [~] Uji Lahan ala TestFit (FR-23)
+
+- Status: [~] Implementasi selesai di branch `fitur/uji-lahan`, menunggu uji lokal (PostGIS + browser) oleh Galih
+- Mode: competition · Scope, Plan, dan Approval disetujui Galih 16 Nov 2026 (fitur disetujui PM; kontrak API disepakati tim)
+- Prioritas: Tinggi (target sebelum Sprint Review 3, 20 Nov 2026)
+- Tujuan: Pengguna menggambar lahan (kotak tarik sudut atau poligon), lalu melihat luas, zona RDTR + KDB/KLB, banjir, kecocokan persona, dan estimasi kapasitas rumah tapak (kavling digambar), kos, atau apartemen.
+- Scope termasuk: `KapasitasLahan` + tes unit, `POST /api/lahan` + tes fitur, `kdb_teks`/`klb_teks` di `DataNyataSeeder`, `Map/GambarLahan.ts`, `PanelLahan`, integrasi `Peta.tsx`, kontrak di `docs/SISTEM.md` + `types/`, draf FR-23 di SRS.
+- Non-goals: biaya/keuntungan, harga tanah, listing properti, layout AI per unit seperti TestFit.
+
+Kriteria selesai:
+
+- [x] Rumus kapasitas murni dan teruji (`tests/Unit/KapasitasLahanTest.php`, 13 tes).
+- [ ] `php artisan test` lulus di mesin dengan PostGIS (termasuk `tests/Feature/LahanTest.php`).
+- [ ] `npm run typecheck` dan `npm run build` lulus.
+- [ ] Uji manual di peta: kotak, poligon, tiga tipe, slider, lahan di DKI dan di luar DKI.
+- [ ] PM meninjau draf FR-23 di SRS.
+
 ### [~] Penyelarasan dokumen dan artifact ke desain final + masukan Izdihar (Tahap A–C)
 
 - Status: [~] Tahap A, B, C selesai, menunggu tinjauan pengguna
