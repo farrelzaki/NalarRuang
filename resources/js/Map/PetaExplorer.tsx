@@ -8,7 +8,7 @@ import type { Feature, FeatureCollection, Geometry, Point, Polygon } from 'geojs
 import type { CommuteResponse, HasilSearch, LayerKey } from '@/types';
 import { bahasaAktif, pilihTeks, type Bahasa } from '@/lib/bahasa';
 import * as gaya from './gaya';
-import { AlatLahan, gambarKapasitas, type ModeLahan } from './GambarLahan';
+import { AlatLahan, gambarKapasitas, lenturkan, type ModeLahan } from './GambarLahan';
 
 export type TitikPeta = { lat: number; lng: number };
 
@@ -39,7 +39,9 @@ type Props = {
     selesaiLahan?: number;
     /** Kavling/jalan/tapak dari POST /api/lahan. */
     kapasitasLahan?: FeatureCollection | null;
-    onLahanBerubah?: (g: Polygon | null) => void;
+    onLahanBerubah?: (g: Polygon | null, tarik?: boolean) => void;
+    /** Lahan tempat `kapasitasLahan` dihitung; dasar pelenturan isi saat lahan ditarik. */
+    kapasitasDasar?: Polygon | null;
     className?: string;
 };
 
@@ -446,11 +448,26 @@ export default function PetaExplorer(props: Props) {
         }
     }, [props.terbangKe?.kunci]);
 
+    // Uji Lahan (FR-23): isi kapasitas ikut melentur selama lahan ditarik.
+    const lentur = (titik: L.LatLng[], kotak: boolean) => {
+        const g = grupKapasitas.current;
+        const dasar = panggil.current.kapasitasDasar?.coordinates[0];
+        if (!g || !dasar) return;
+        const dari = dasar.slice(0, -1).map(([lng, lat]) => L.latLng(lat, lng));
+        lenturkan(g, dari, titik, kotak);
+    };
+
     // Uji Lahan (FR-23)
     useEffect(() => {
         const m = peta.current;
         if (!m) return;
-        if (!alat.current) alat.current = new AlatLahan(m, (g) => panggil.current.onLahanBerubah?.(g));
+        if (!alat.current) {
+            alat.current = new AlatLahan(
+                m,
+                (g, tarik) => panggil.current.onLahanBerubah?.(g, tarik),
+                (titik, kotak) => lentur(titik, kotak),
+            );
+        }
         alat.current.mulai(props.alatLahan?.mode ?? null);
     }, [props.alatLahan?.mode, props.alatLahan?.kunci]);
 
@@ -468,6 +485,8 @@ export default function PetaExplorer(props: Props) {
             const satuan = String(p.satuan) === 'kamar' ? tr('kamar', 'rooms') : tr('unit', 'units');
             return `${p.lantai} ${tr('lantai', 'floors')} · ${p.jumlah} ${satuan}`;
         }).addTo(g);
+        // Hasil baru datang saat lahan masih ditarik: langsung lenturkan ke posisi kursor sekarang supaya tidak meloncat balik.
+        if (alat.current?.ditarik) lentur(alat.current.titikSekarang(), alat.current.modeKotak);
     }, [props.kapasitasLahan, props.bahasa]);
 
     return <div ref={wadah} className={props.className} role="region" aria-label="Peta Jabodetabek, klik untuk melihat detail lokasi" />;

@@ -33,7 +33,11 @@ function ikonPegangan(jenis: 'sudut' | 'tengah' | 'geser' | 'awal'): L.DivIcon {
 export class AlatLahan {
     private peta: L.Map;
     private grup: L.LayerGroup;
-    private onUbah: (g: Polygon | null) => void;
+    private onUbah: (g: Polygon | null, tarik?: boolean) => void;
+    private onTarik?: (titik: L.LatLng[], kotak: boolean) => void;
+    private terakhirKirim = 0;
+    /** True selama sudut, titik tengah, atau pegangan geser sedang ditarik. */
+    ditarik = false;
     private mode: ModeLahan | null = null;
     private titik: L.LatLng[] = [];
     private tertutup = false;
@@ -42,9 +46,14 @@ export class AlatLahan {
     private pegangan: L.Marker[] = [];
     private zoomGandaAwal = true;
 
-    constructor(peta: L.Map, onUbah: (g: Polygon | null) => void) {
+    /**
+     * onUbah: lahan berubah (tarik = true selama masih ditarik, dikirim paling sering tiap 100 ms).
+     * onTarik: dipanggil tiap gerakan tarik, untuk melenturkan isi kapasitas tanpa menunggu server.
+     */
+    constructor(peta: L.Map, onUbah: (g: Polygon | null, tarik?: boolean) => void, onTarik?: (titik: L.LatLng[], kotak: boolean) => void) {
         this.peta = peta;
         this.onUbah = onUbah;
+        this.onTarik = onTarik;
         this.grup = L.layerGroup().addTo(peta);
         this.klik = this.klik.bind(this);
         this.gerak = this.gerak.bind(this);
@@ -177,11 +186,9 @@ export class AlatLahan {
                         this.poligon?.setLatLngs(this.titik);
                         this.perbaruiPosisi(i);
                     }
+                    this.saatTarik();
                 });
-                m.on('dragend', () => {
-                    this.gambar();
-                    this.kirim();
-                });
+                m.on('dragend', () => this.akhirTarik());
             }
             this.pegangan.push(m);
         });
@@ -200,11 +207,9 @@ export class AlatLahan {
                 m.on('drag', (e) => {
                     this.titik[i + 1] = (e.target as L.Marker).getLatLng();
                     this.poligon?.setLatLngs(this.titik);
+                    this.saatTarik();
                 });
-                m.on('dragend', () => {
-                    this.gambar();
-                    this.kirim();
-                });
+                m.on('dragend', () => this.akhirTarik());
                 this.pegangan.push(m);
             });
         }
@@ -224,12 +229,36 @@ export class AlatLahan {
             const dLng = kini.lng - awalGeser.lng;
             this.titik = titikAwal.map((t) => L.latLng(t.lat + dLat, t.lng + dLng));
             this.poligon?.setLatLngs(this.titik);
+            this.saatTarik();
         });
-        geser.on('dragend', () => {
-            this.gambar();
-            this.kirim();
-        });
+        geser.on('dragend', () => this.akhirTarik());
         this.pegangan.push(geser);
+    }
+
+    /** Titik lahan saat ini (salinan). */
+    titikSekarang(): L.LatLng[] {
+        return this.titik.map((t) => L.latLng(t.lat, t.lng));
+    }
+
+    get modeKotak(): boolean {
+        return this.mode === 'kotak';
+    }
+
+    /** Tiap gerakan tarik: isi dilenturkan langsung, lahan dikirim untuk dihitung ulang (dibatasi 100 ms). */
+    private saatTarik(): void {
+        this.ditarik = true;
+        this.onTarik?.(this.titik, this.mode === 'kotak');
+        const kini = performance.now();
+        if (kini - this.terakhirKirim >= 100) {
+            this.terakhirKirim = kini;
+            this.kirim(true);
+        }
+    }
+
+    private akhirTarik(): void {
+        this.ditarik = false;
+        this.gambar();
+        this.kirim();
     }
 
     /** Saat menarik, pindahkan pegangan sudut lain (kotak) tanpa menggambar ulang semuanya. */
@@ -247,14 +276,14 @@ export class AlatLahan {
         return L.latLng(lat, lng);
     }
 
-    private kirim(): void {
+    private kirim(tarik = false): void {
         if (!this.tertutup || this.titik.length < 3) {
             this.onUbah(null);
             return;
         }
         const cincin = this.titik.map((t) => [Number(t.lng.toFixed(7)), Number(t.lat.toFixed(7))]);
         cincin.push([...cincin[0]]);
-        this.onUbah({ type: 'Polygon', coordinates: [cincin] });
+        this.onUbah({ type: 'Polygon', coordinates: [cincin] }, tarik);
     }
 
     private bersihkan(): void {
@@ -308,4 +337,64 @@ export function gambarKapasitas(fc: FeatureCollection, label: (p: Record<string,
             if (teks) layer.bindTooltip(teks, { permanent: true, direction: 'center', className: 'nr-lahan-label' });
         },
     });
+}
+
+/** Geometri asli tiap poligon isi, supaya pelenturan selalu dihitung dari hasil server, bukan dari pelenturan sebelumnya. */
+const asliLentur = new WeakMap<L.Polygon, unknown>();
+
+type Ubah = (ll: L.LatLng) => L.LatLng;
+
+/** Kotak: peta linear dari kotak batas lama ke kotak batas baru (tepat untuk tarik sudut kotak dan geser). */
+function ubahKotak(dari: L.LatLng[], ke: L.LatLng[]): Ubah {
+    const a = L.latLngBounds(dari);
+    const b = L.latLngBounds(ke);
+    const sy = (b.getNorth() - b.getSouth()) / (a.getNorth() - a.getSouth() || 1e-12);
+    const sx = (b.getEast() - b.getWest()) / (a.getEast() - a.getWest() || 1e-12);
+    return (ll) => L.latLng(b.getSouth() + (ll.lat - a.getSouth()) * sy, b.getWest() + (ll.lng - a.getWest()) * sx);
+}
+
+/** Poligon bebas: tiap titik ikut bergeser sebesar rata-rata pergeseran sudut, berbobot 1/jarak² (bagian dekat sudut yang ditarik ikut paling jauh). */
+function ubahSudut(dari: L.LatLng[], ke: L.LatLng[]): Ubah {
+    const kos = Math.cos((dari[0].lat * Math.PI) / 180);
+    const geser = dari.map((d, i) => [ke[i].lat - d.lat, ke[i].lng - d.lng]);
+    return (ll) => {
+        let w = 0;
+        let dy = 0;
+        let dx = 0;
+        for (let i = 0; i < dari.length; i++) {
+            const jy = ll.lat - dari[i].lat;
+            const jx = (ll.lng - dari[i].lng) * kos;
+            const j2 = jy * jy + jx * jx;
+            if (j2 < 1e-16) return L.latLng(ll.lat + geser[i][0], ll.lng + geser[i][1]);
+            const b = 1 / j2;
+            w += b;
+            dy += b * geser[i][0];
+            dx += b * geser[i][1];
+        }
+        return L.latLng(ll.lat + dy / w, ll.lng + dx / w);
+    };
+}
+
+function petaDalam(x: unknown, f: (ll: L.LatLng) => L.LatLng): unknown {
+    return Array.isArray(x) ? x.map((y) => petaDalam(y, f)) : f(x as L.LatLng);
+}
+
+/**
+ * Lenturkan isi kapasitas (unit, kavling, jalan, taman, ...) mengikuti lahan yang sedang ditarik, tanpa menunggu server.
+ * `dari` = lahan tempat isi itu dihitung, `ke` = lahan saat ini.
+ */
+export function lenturkan(grup: L.LayerGroup, dari: L.LatLng[], ke: L.LatLng[], kotak: boolean): void {
+    if (dari.length < 3 || ke.length < 3) return;
+    const ubah = !kotak && dari.length === ke.length ? ubahSudut(dari, ke) : ubahKotak(dari, ke);
+    const jalan = (l: L.Layer): void => {
+        if (l instanceof L.Polygon) {
+            if (!asliLentur.has(l)) asliLentur.set(l, petaDalam(l.getLatLngs(), (ll) => L.latLng(ll.lat, ll.lng)));
+            l.setLatLngs(petaDalam(asliLentur.get(l), ubah) as L.LatLng[][]);
+            const tip = l.getTooltip();
+            if (tip) tip.setLatLng(l.getBounds().getCenter());
+        } else if (l instanceof L.LayerGroup) {
+            l.eachLayer(jalan);
+        }
+    };
+    grup.eachLayer(jalan);
 }
