@@ -5,7 +5,7 @@
 import { Head, Link } from '@inertiajs/react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { FeatureCollection, Geometry, Polygon } from 'geojson';
-import type { AsumsiLahan, CommuteResponse, HasilSearch, InspectResponse, LahanResponse, LayerKey, LayerResponse, Persona, TipeLahan } from '@/types';
+import type { AsumsiLahan, CommuteResponse, LahanRequest, HasilSearch, InspectResponse, LahanResponse, LayerKey, LayerResponse, Persona, TipeLahan } from '@/types';
 import { api } from '@/lib/api';
 import { useBahasa } from '@/lib/bahasa';
 import {
@@ -113,6 +113,13 @@ export default function Peta() {
     const [hasilLahan, setHasilLahan] = useState<LahanResponse | null>(null);
     const [memuatLahan, setMemuatLahan] = useState(false);
     const [galatLahan, setGalatLahan] = useState<string | null>(null);
+    /** True bila perubahan terakhir datang dari menggambar/menarik lahan (dikirim tanpa jeda). */
+    const lahanDariPeta = useRef(false);
+    /** Lahan tempat `hasilLahan` dihitung (dasar pelenturan isi saat ditarik). */
+    const [dasarLahan, setDasarLahan] = useState<Polygon | null>(null);
+    // Satu permintaan /api/lahan berjalan sekaligus; permintaan baru selama itu hanya menyimpan yang terakhir di antrean.
+    const lahanJalan = useRef<AbortController | null>(null);
+    const lahanAntre = useRef<LahanRequest | null>(null);
 
     // Sub-fitur yang disembunyikan
     const [subMati, setSubMati] = useState<Simbol[]>([]);
@@ -417,37 +424,61 @@ export default function Peta() {
         }
     };
 
-    // Uji Lahan: hitung ulang setiap lahan, tipe, asumsi, atau persona berubah (jeda 350 ms saat slider digeser).
-    useEffect(() => {
-        if (panelKiri !== 'lahan' || !geomLahan) {
-            setMemuatLahan(false);
+    // Uji Lahan: hitung ulang setiap lahan, tipe, asumsi, atau persona berubah.
+    const kirimLahan = useRef<(badan: LahanRequest) => void>(() => {});
+    kirimLahan.current = (badan: LahanRequest) => {
+        if (lahanJalan.current) {
+            lahanAntre.current = badan;
             return;
         }
         const ctrl = new AbortController();
+        lahanJalan.current = ctrl;
         setMemuatLahan(true);
-        setGalatLahan(null);
-        const jeda = setTimeout(() => {
-            api.lahan({ geometri: geomLahan, tipe: tipeLahan, asumsi: asumsiLahan, persona }, ctrl.signal)
-                .then((r) => {
-                    setHasilLahan(r);
-                    setGalatLahan(null);
-                })
-                .catch((e) => {
-                    if ((e as Error).name === 'AbortError') return;
-                    setHasilLahan(null);
-                    setGalatLahan((e as Error).message || t('Lahan belum bisa dihitung. Coba lagi sebentar.', 'The site could not be calculated. Please try again shortly.'));
-                })
-                .finally(() => {
-                    if (!ctrl.signal.aborted) setMemuatLahan(false);
-                });
-        }, 350);
-        return () => {
-            clearTimeout(jeda);
-            ctrl.abort();
-        };
+        api.lahan(badan, ctrl.signal)
+            .then((r) => {
+                setHasilLahan(r);
+                setDasarLahan(badan.geometri);
+                setGalatLahan(null);
+            })
+            .catch((e) => {
+                if ((e as Error).name === 'AbortError') return;
+                setHasilLahan(null);
+                setGalatLahan((e as Error).message || t('Lahan belum bisa dihitung. Coba lagi sebentar.', 'The site could not be calculated. Please try again shortly.'));
+            })
+            .finally(() => {
+                if (lahanJalan.current === ctrl) lahanJalan.current = null;
+                if (ctrl.signal.aborted) return;
+                const berikut = lahanAntre.current;
+                lahanAntre.current = null;
+                if (berikut) kirimLahan.current(berikut);
+                else setMemuatLahan(false);
+            });
+    };
+
+    const batalLahan = () => {
+        lahanJalan.current?.abort();
+        lahanJalan.current = null;
+        lahanAntre.current = null;
+    };
+
+    useEffect(() => {
+        if (panelKiri !== 'lahan' || !geomLahan) {
+            batalLahan();
+            setMemuatLahan(false);
+            return;
+        }
+        // Lahan yang digambar/ditarik langsung dikirim (antrean membatasi lajunya); slider dan ketikan diberi jeda 350 ms.
+        const badan: LahanRequest = { geometri: geomLahan, tipe: tipeLahan, asumsi: asumsiLahan, persona };
+        const jeda = setTimeout(() => kirimLahan.current(badan), lahanDariPeta.current ? 0 : 350);
+        lahanDariPeta.current = false;
+        return () => clearTimeout(jeda);
     }, [panelKiri, geomLahan, tipeLahan, asumsiLahan, persona]);
 
+    useEffect(() => batalLahan, []);
+
     const resetLahan = () => {
+        batalLahan();
+        setDasarLahan(null);
         setAlatLahan(null);
         setGeomLahan(null);
         setHasilLahan(null);
@@ -456,6 +487,8 @@ export default function Peta() {
     };
 
     const mulaiLahan = (mode: ModeGambar) => {
+        batalLahan();
+        setDasarLahan(null);
         setGeomLahan(null);
         setHasilLahan(null);
         setGalatLahan(null);
@@ -550,7 +583,11 @@ export default function Peta() {
                     alatLahan={panelKiri === 'lahan' ? alatLahan : null}
                     selesaiLahan={selesaiLahan}
                     kapasitasLahan={panelKiri === 'lahan' && geomLahan ? (hasilLahan?.geometri_kapasitas ?? null) : null}
-                    onLahanBerubah={setGeomLahan}
+                    kapasitasDasar={dasarLahan}
+                    onLahanBerubah={(g) => {
+                        lahanDariPeta.current = true;
+                        setGeomLahan(g);
+                    }}
                 />
 
                 <div className="nr-app__kiri">
