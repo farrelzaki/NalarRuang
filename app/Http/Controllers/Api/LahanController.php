@@ -278,16 +278,19 @@ class LahanController extends Controller
 
         $baris = DB::select(
             "WITH l AS (SELECT ST_GeomFromEWKT(?) AS g),
-             o AS (SELECT g, ST_Centroid(g) AS pusat, ST_ExteriorRing(ST_OrientedEnvelope(g)) AS cincin FROM l),
-             sudut AS (
+             o AS (SELECT g, ST_SetSRID(ST_MakePoint(700000, 9300000), {$utm}) AS pusat, ST_ExteriorRing(ST_OrientedEnvelope(g)) AS cincin FROM l),
+             sudut0 AS (
                  SELECT g, pusat,
                         CASE WHEN ST_Distance(ST_PointN(cincin, 1), ST_PointN(cincin, 2)) >= ST_Distance(ST_PointN(cincin, 2), ST_PointN(cincin, 3))
                              THEN ST_Azimuth(ST_PointN(cincin, 1), ST_PointN(cincin, 2))
                              ELSE ST_Azimuth(ST_PointN(cincin, 2), ST_PointN(cincin, 3)) END AS az
                  FROM o
              ),
+             -- Arah dinormalkan ke [0, pi) dan diputar terhadap titik tetap, lalu grid dikunci ke kelipatan ukuran petak:
+             -- saat lahan ditarik, petak yang sudah ada tidak bergeser, hanya bertambah/berkurang di tepi.
+             sudut AS (SELECT g, pusat, az - pi() * floor(az / pi()) AS az FROM sudut0),
              r AS (SELECT ST_Rotate(g, az - pi() / 2, pusat) AS g, az, pusat FROM sudut),
-             e AS (SELECT g, ST_Buffer(g, 0.05) AS gb, az, pusat, ST_XMin(g) AS x0, ST_YMin(g) AS y0, ST_XMax(g) AS x1, ST_YMax(g) AS y1 FROM r),
+             e AS (SELECT g, ST_Buffer(g, 0.05) AS gb, az, pusat, floor(ST_XMin(g) / {$w}) * {$w} AS x0, floor(ST_YMin(g) / {$per}) * {$per} AS y0, ST_XMax(g) AS x1, ST_YMax(g) AS y1 FROM r),
              blok AS (SELECT e.*, b FROM e, generate_series(0, ceil((e.y1 - e.y0) / {$per})::int) AS b),
              petak AS (
                  SELECT blok.gb, blok.az, blok.pusat, blok.b, k, s,
@@ -400,10 +403,21 @@ class LahanController extends Controller
                  SELECT 2, ST_Difference(ST_Buffer(g, -{$nsduc}, 'join=mitre'), ST_Buffer(g, -{$nst}, 'join=mitre')), {$tengah2}::float8 FROM l
              ),
              garis AS (SELECT pita.deret, ST_ExteriorRing((ST_Dump(ST_Buffer(l.g, -pita.tengah, 'join=mitre'))).geom) AS ln FROM pita, l),
-             benih AS (
-                 SELECT deret, (ST_Dump(ST_LineInterpolatePoints(ln, LEAST(1.0, {$nw} / ST_Length(ln)), true))).geom AS t
-                 FROM garis WHERE ST_Length(ln) > {$nw}
+             -- Benih unit di tiap ruas garis tengah, pada kelipatan lebar unit terhadap proyeksi global ruas itu,
+             -- supaya unit di sisi yang tidak ditarik tetap di tempatnya.
+             ruas AS (
+                 SELECT garis.deret, ST_StartPoint(d.geom) AS a, ST_Length(d.geom) AS pjg,
+                        sin(ST_Azimuth(ST_StartPoint(d.geom), ST_EndPoint(d.geom))) AS ux,
+                        cos(ST_Azimuth(ST_StartPoint(d.geom), ST_EndPoint(d.geom))) AS uy
+                 FROM garis, LATERAL ST_DumpSegments(garis.ln) AS d
+                 WHERE ST_Length(d.geom) > 0.01
              ),
+             ruas2 AS (SELECT ruas.*, ST_X(a) * ux + ST_Y(a) * uy AS proj FROM ruas),
+             benih0 AS (
+                 SELECT deret, a, ux, uy, (ceil((proj - {$nw} / 2) / {$nw}) + k) * {$nw} + {$nw} / 2 - proj AS t, pjg
+                 FROM ruas2, LATERAL generate_series(0, ceil(pjg / {$nw})::int) AS k
+             ),
+             benih AS (SELECT deret, ST_Translate(a, t * ux, t * uy) AS t FROM benih0 WHERE t >= 0 AND t < pjg),
              sel AS (
                  SELECT deret, (ST_Dump(ST_VoronoiPolygons(ST_Collect(t), 0, (SELECT ST_Expand(g, 200) FROM l)))).geom AS v
                  FROM benih GROUP BY deret
