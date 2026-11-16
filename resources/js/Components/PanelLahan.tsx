@@ -2,7 +2,7 @@
  * Panel Uji Lahan (FR-23): gambar lahan → luas, zona, banjir, kecocokan persona, dan estimasi kapasitas
  * rumah tapak / kos / apartemen dengan asumsi yang bisa digeser. Terinspirasi TestFit.
  */
-import type { AsumsiLahan, LahanResponse, Persona, TipeLahan } from '@/types';
+import type { AsumsiLahan, LahanResponse, Persona, TipeLahan, TipeUnit } from '@/types';
 import { teksServer, useBahasa, type Bahasa } from '@/lib/bahasa';
 import { cx, PERSONA_IDS } from '@/lib/nalar';
 import { Ikon, Keadaan } from './Dasar';
@@ -44,15 +44,23 @@ const SLIDER: Record<TipeLahan, Slider[]> = {
     ],
     kos: [
         { kunci: 'luas_kamar', label: ['Luas kamar', 'Room size'], min: 6, max: 30, step: 1, satuan: 'm²' },
-        { kunci: 'efisiensi', label: ['Efisiensi lantai', 'Floor efficiency'], min: 0.5, max: 0.9, step: 0.05, satuan: '%', persen: true },
         { kunci: 'sempadan', label: ['Sempadan bangunan', 'Building setback'], min: 0, max: 15, step: 0.5, satuan: 'm' },
+        { kunci: 'rasio_parkir', label: ['Parkir mobil per kamar', 'Car parking per room'], min: 0, max: 2, step: 0.1, satuan: '' },
     ],
     apartemen: [
-        { kunci: 'luas_unit', label: ['Luas unit', 'Unit size'], min: 18, max: 150, step: 1, satuan: 'm²' },
-        { kunci: 'efisiensi', label: ['Efisiensi lantai', 'Floor efficiency'], min: 0.5, max: 0.9, step: 0.05, satuan: '%', persen: true },
+        { kunci: 'porsi_studio', label: ['Porsi studio (24 m²)', 'Studio share (24 m²)'], min: 0, max: 1, step: 0.05, satuan: '%', persen: true },
+        { kunci: 'porsi_2br', label: ['Porsi 2 kamar (54 m²)', '2-bedroom share (54 m²)'], min: 0, max: 1, step: 0.05, satuan: '%', persen: true },
         { kunci: 'sempadan', label: ['Sempadan bangunan', 'Building setback'], min: 0, max: 15, step: 0.5, satuan: 'm' },
+        { kunci: 'rasio_parkir', label: ['Parkir mobil per unit', 'Car parking per unit'], min: 0, max: 2, step: 0.1, satuan: '' },
     ],
 };
+
+const TIPE_UNIT: { kunci: TipeUnit; label: [string, string] }[] = [
+    { kunci: 'studio', label: ['Studio', 'Studio'] },
+    { kunci: '1br', label: ['1 kamar', '1 bedroom'] },
+    { kunci: '2br', label: ['2 kamar', '2 bedrooms'] },
+    { kunci: 'kamar', label: ['Kamar kos', 'Boarding room'] },
+];
 
 function angka(n: number, bahasa: Bahasa, desimal = 0): string {
     return n.toLocaleString(bahasa === 'en' ? 'en-US' : 'id-ID', { minimumFractionDigits: 0, maximumFractionDigits: desimal });
@@ -169,8 +177,30 @@ function IsiLahan({ data, memuat, tipe, asumsi, onAsumsi, sesi }: Props & { data
                             <li>{t(`Total lantai ${luasTeks(k.luas_lantai_m2, bahasa)}, ${angka(k.luas_per_unit_m2 ?? 0, bahasa)} m² per ${satId}`, `Total floor area ${luasTeks(k.luas_lantai_m2, bahasa)}, ${angka(k.luas_per_unit_m2 ?? 0, bahasa)} m² per ${satEn.replace(/s$/, '')}`)}</li>
                         </>
                     )}
+                    {k.unit_per_lantai != null && k.unit_per_lantai > 0 && <li>{t(`${angka(k.unit_per_lantai, bahasa)} ${satId} per lantai`, `${angka(k.unit_per_lantai, bahasa)} ${satEn} per floor`)}</li>}
                     {k.kepadatan_per_ha != null && <li>{t(`Kepadatan ${angka(k.kepadatan_per_ha, bahasa, 1)} ${satId}/ha`, `Density ${angka(k.kepadatan_per_ha, bahasa, 1)} ${satEn}/ha`)}</li>}
                 </ul>
+                {sesuai && data.tipe !== 'rumah' && (
+                    <ul className="nr-lahan__legenda" aria-label={t('Komposisi unit', 'Unit mix')}>
+                        {TIPE_UNIT.filter((u) => (k.komposisi?.[u.kunci] ?? 0) > 0).map((u) => (
+                            <li key={u.kunci}>
+                                <i className={`nr-lahan__warna nr-lahan__warna--${u.kunci}`} aria-hidden />
+                                {t(u.label[0], u.label[1])} <b>{angka(k.komposisi?.[u.kunci] ?? 0, bahasa)}</b>
+                            </li>
+                        ))}
+                        <li>
+                            <i className="nr-lahan__warna nr-lahan__warna--taman" aria-hidden />
+                            {t('Taman', 'Courtyard')}
+                        </li>
+                        {k.parkir && k.parkir.butuh > 0 && (
+                            <li className={cx(k.parkir.muat < k.parkir.butuh && 'nr-lahan__kurang')}>
+                                <i className="nr-lahan__warna nr-lahan__warna--parkir" aria-hidden />
+                                {t('Parkir', 'Parking')} <b>{angka(k.parkir.muat, bahasa)}/{angka(k.parkir.butuh, bahasa)}</b>
+                                {k.parkir.muat < k.parkir.butuh && t(' (sisanya basement)', ' (rest in basement)')}
+                            </li>
+                        )}
+                    </ul>
+                )}
             </div>
 
             <div className="nr-lahan__asumsi">
