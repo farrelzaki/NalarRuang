@@ -4,10 +4,11 @@
  */
 import { useEffect, useRef } from 'react';
 import L from 'leaflet';
-import type { Feature, FeatureCollection, Geometry, Point } from 'geojson';
+import type { Feature, FeatureCollection, Geometry, Point, Polygon } from 'geojson';
 import type { CommuteResponse, HasilSearch, LayerKey } from '@/types';
 import { bahasaAktif, pilihTeks, type Bahasa } from '@/lib/bahasa';
 import * as gaya from './gaya';
+import { AlatLahan, gambarKapasitas, type ModeLahan } from './GambarLahan';
 
 export type TitikPeta = { lat: number; lng: number };
 
@@ -32,6 +33,13 @@ type Props = {
     onPilihTop3: (i: number) => void;
     onBatasPeta?: () => void;
     onBboxChange?: (layerKey: LayerKey, bbox: string) => void;
+    /** Uji Lahan (FR-23): mode alat gambar; kunci baru = mulai ulang gambar. null = alat mati. */
+    alatLahan?: { mode: ModeLahan; kunci: number } | null;
+    /** Ubah angka ini untuk menutup poligon yang sedang digambar (tombol Selesai). */
+    selesaiLahan?: number;
+    /** Kavling/jalan/tapak dari POST /api/lahan. */
+    kapasitasLahan?: FeatureCollection | null;
+    onLahanBerubah?: (g: Polygon | null) => void;
     className?: string;
 };
 
@@ -177,6 +185,8 @@ export default function PetaExplorer(props: Props) {
     const grupLayer = useRef<Partial<Record<LayerKey, L.LayerGroup>>>({});
     const grupSeleksi = useRef<L.LayerGroup | null>(null);
     const grupRute = useRef<L.LayerGroup | null>(null);
+    const grupKapasitas = useRef<L.LayerGroup | null>(null);
+    const alat = useRef<AlatLahan | null>(null);
     const tergambar = useRef<Partial<Record<LayerKey, FeatureCollection>>>({});
     const panggil = useRef(props);
     panggil.current = props;
@@ -214,10 +224,12 @@ export default function PetaExplorer(props: Props) {
         m.createPane('nrGaris').style.zIndex = '420';
         m.createPane('nrTitik').style.zIndex = '430';
         m.createPane('nrStasiun').style.zIndex = '440';
+        m.createPane('nrLahanIsi').style.zIndex = '445';
         m.createPane('nrSeleksi').style.zIndex = '450';
         m.createPane('nrRute').style.zIndex = '460';
         grupSeleksi.current = L.layerGroup().addTo(m);
         grupRute.current = L.layerGroup().addTo(m);
+        grupKapasitas.current = L.layerGroup().addTo(m);
 
         const muatBboxFitur = () => {
             const m = peta.current;
@@ -254,6 +266,7 @@ export default function PetaExplorer(props: Props) {
         m.fire('zoomend');
         peta.current = m;
         return () => {
+            alat.current = null;
             m.remove();
             peta.current = null;
         };
@@ -432,6 +445,30 @@ export default function PetaExplorer(props: Props) {
             m.setView([t.titik.lat, t.titik.lng], m.getZoom(), { animate: false });
         }
     }, [props.terbangKe?.kunci]);
+
+    // Uji Lahan (FR-23)
+    useEffect(() => {
+        const m = peta.current;
+        if (!m) return;
+        if (!alat.current) alat.current = new AlatLahan(m, (g) => panggil.current.onLahanBerubah?.(g));
+        alat.current.mulai(props.alatLahan?.mode ?? null);
+    }, [props.alatLahan?.mode, props.alatLahan?.kunci]);
+
+    useEffect(() => {
+        if (props.selesaiLahan) alat.current?.selesai();
+    }, [props.selesaiLahan]);
+
+    useEffect(() => {
+        const g = grupKapasitas.current;
+        if (!g) return;
+        g.clearLayers();
+        if (!props.kapasitasLahan?.features?.length) return;
+        gambarKapasitas(props.kapasitasLahan, (p) => {
+            if (p.jenis !== 'tapak') return null;
+            const satuan = String(p.satuan) === 'kamar' ? tr('kamar', 'rooms') : tr('unit', 'units');
+            return `${p.lantai} ${tr('lantai', 'floors')} · ${p.jumlah} ${satuan}`;
+        }).addTo(g);
+    }, [props.kapasitasLahan, props.bahasa]);
 
     return <div ref={wadah} className={props.className} role="region" aria-label="Peta Jabodetabek, klik untuk melihat detail lokasi" />;
 }

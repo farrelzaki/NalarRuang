@@ -1,8 +1,23 @@
 /** Klien endpoint docs/SISTEM.md bagian 2. */
-import type { CommuteResponse, InspectResponse, LayerKey, LayerResponse, Persona, SaranLokasi, SearchResponse } from '@/types';
+import type { CommuteResponse, InspectResponse, LahanRequest, LahanResponse, LayerKey, LayerResponse, Persona, SaranLokasi, SearchResponse } from '@/types';
 
 async function ambil<T>(url: string, signal?: AbortSignal): Promise<T> {
     const r = await fetch(url, { headers: { Accept: 'application/json' }, signal });
+    if (!r.ok) {
+        const isi = await r.json().catch(() => ({}));
+        throw new Error(isi.message ?? `Permintaan gagal (${r.status}).`);
+    }
+    return r.json() as Promise<T>;
+}
+
+/** POST JSON; galat 422 membawa pesan yang bisa langsung ditampilkan. */
+async function kirim<T>(url: string, badan: unknown, signal?: AbortSignal): Promise<T> {
+    const r = await fetch(url, {
+        method: 'POST',
+        headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify(badan),
+        signal,
+    });
     if (!r.ok) {
         const isi = await r.json().catch(() => ({}));
         throw new Error(isi.message ?? `Permintaan gagal (${r.status}).`);
@@ -28,4 +43,6 @@ export const api = {
     wilayah: (id: number, persona: Persona[], signal?: AbortSignal) => ambil<InspectResponse>(`/api/inspect?${qs({ wilayah_id: id, persona })}`, signal),
     rute: (a: { lat: number; lng: number }, b: { lat: number; lng: number }, signal?: AbortSignal, lewatTol = true, hargaBbm?: number, hindariGg = false) =>
         ambil<CommuteResponse>(`/api/commute?${qs({ dari: `${a.lat},${a.lng}`, ke: `${b.lat},${b.lng}`, tol: lewatTol ? undefined : 0, gg: hindariGg ? 1 : undefined, bbm: hargaBbm })}`, signal),
+    /** Uji Lahan (FR-23). */
+    lahan: (badan: LahanRequest, signal?: AbortSignal) => kirim<LahanResponse>('/api/lahan', badan, signal),
 };

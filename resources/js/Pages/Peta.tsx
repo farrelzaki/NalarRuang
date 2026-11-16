@@ -4,8 +4,8 @@
  */
 import { Head, Link } from '@inertiajs/react';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import type { FeatureCollection, Geometry } from 'geojson';
-import type { CommuteResponse, HasilSearch, InspectResponse, LayerKey, LayerResponse, Persona } from '@/types';
+import type { FeatureCollection, Geometry, Polygon } from 'geojson';
+import type { AsumsiLahan, CommuteResponse, HasilSearch, InspectResponse, LahanResponse, LayerKey, LayerResponse, Persona, TipeLahan } from '@/types';
 import { api } from '@/lib/api';
 import { useBahasa } from '@/lib/bahasa';
 import {
@@ -24,8 +24,9 @@ import { SimulatorRute, type Moda, type TitikRute } from '@/Components/Simulator
 import { PanelIsochrone, PanelLayer, PanelProfilPersona, SliderTahun, TombolLayerPersona, TombolMerek, type PanelKananKey, type StatusLayer } from '@/Components/PanelKananPeta';
 import { DialogPersona, DrawerMenu, type TabMenu } from '@/Components/MenuPersona';
 import { Panduan, sudahLihatPanduan } from '@/Components/Panduan';
+import { PanelLahan, type ModeGambar } from '@/Components/PanelLahan';
 
-type PanelKiri = 'top3' | 'filter' | 'detail' | 'rute' | null;
+type PanelKiri = 'top3' | 'filter' | 'detail' | 'rute' | 'lahan' | null;
 
 type InspectDenganIsochrone = InspectResponse & {
     isochrone?: FeatureCollection | null;
@@ -102,6 +103,16 @@ export default function Peta() {
             setLewatTol(false);
         }
     };
+
+    // Uji Lahan (FR-23)
+    const [alatLahan, setAlatLahan] = useState<{ mode: ModeGambar; kunci: number } | null>(null);
+    const [selesaiLahan, setSelesaiLahan] = useState(0);
+    const [geomLahan, setGeomLahan] = useState<Polygon | null>(null);
+    const [tipeLahan, setTipeLahan] = useState<TipeLahan>('rumah');
+    const [asumsiLahan, setAsumsiLahan] = useState<AsumsiLahan>({});
+    const [hasilLahan, setHasilLahan] = useState<LahanResponse | null>(null);
+    const [memuatLahan, setMemuatLahan] = useState(false);
+    const [galatLahan, setGalatLahan] = useState<string | null>(null);
 
     // Sub-fitur yang disembunyikan
     const [subMati, setSubMati] = useState<Simbol[]>([]);
@@ -397,6 +408,7 @@ export default function Peta() {
             setRuteA(null);
             setRuteB(null);
         } else {
+            if (panelKiri === 'lahan') resetLahan();
             setPanelKiri('rute');
             setPin(null);
             setWilayahTerpilih(null);
@@ -405,8 +417,77 @@ export default function Peta() {
         }
     };
 
+    // Uji Lahan: hitung ulang setiap lahan, tipe, asumsi, atau persona berubah (jeda 350 ms saat slider digeser).
+    useEffect(() => {
+        if (panelKiri !== 'lahan' || !geomLahan) {
+            setMemuatLahan(false);
+            return;
+        }
+        const ctrl = new AbortController();
+        setMemuatLahan(true);
+        setGalatLahan(null);
+        const jeda = setTimeout(() => {
+            api.lahan({ geometri: geomLahan, tipe: tipeLahan, asumsi: asumsiLahan, persona }, ctrl.signal)
+                .then((r) => {
+                    setHasilLahan(r);
+                    setGalatLahan(null);
+                })
+                .catch((e) => {
+                    if ((e as Error).name === 'AbortError') return;
+                    setHasilLahan(null);
+                    setGalatLahan((e as Error).message || t('Lahan belum bisa dihitung. Coba lagi sebentar.', 'The site could not be calculated. Please try again shortly.'));
+                })
+                .finally(() => {
+                    if (!ctrl.signal.aborted) setMemuatLahan(false);
+                });
+        }, 350);
+        return () => {
+            clearTimeout(jeda);
+            ctrl.abort();
+        };
+    }, [panelKiri, geomLahan, tipeLahan, asumsiLahan, persona]);
+
+    const resetLahan = () => {
+        setAlatLahan(null);
+        setGeomLahan(null);
+        setHasilLahan(null);
+        setGalatLahan(null);
+        setAsumsiLahan({});
+    };
+
+    const mulaiLahan = (mode: ModeGambar) => {
+        setGeomLahan(null);
+        setHasilLahan(null);
+        setGalatLahan(null);
+        setAlatLahan({ mode, kunci: Date.now() });
+    };
+
+    const toggleLahan = () => {
+        if (panelKiri === 'lahan') {
+            setPanelKiri(null);
+            resetLahan();
+            return;
+        }
+        if (panelKiri === 'rute') {
+            setRute(null);
+            setRuteA(null);
+            setRuteB(null);
+            setMenunggu(null);
+        }
+        setPanelKiri('lahan');
+        setPin(null);
+        setDetail(null);
+        setHasil(null);
+        setTop3Aktif(null);
+        setWilayahTerpilih(null);
+        mulaiLahan('kotak');
+        kabar(t('Tarik sudut kotak untuk mengatur luas lahan, atau pilih Poligon untuk menggambar bentuk bebas.', 'Drag the box corners to set the site size, or choose Polygon to draw a free shape.'));
+    };
+
     // Klik peta
     const klikPeta = (t: TitikPeta) => {
+        // Saat Uji Lahan aktif, klik peta dipakai alat gambar (Map/GambarLahan.ts).
+        if (panelKiri === 'lahan') return;
         if (panelKiri === 'rute') {
             if (menunggu === 'a' || (!ruteA && menunggu !== 'b')) {
                 setelTitikRute(t, 'a');
@@ -422,6 +503,7 @@ export default function Peta() {
     };
 
     const tutupPanelKiri = () => {
+        if (panelKiri === 'lahan') resetLahan();
         setPanelKiri(null);
         setPin(null);
         setWilayahTerpilih(null);
@@ -465,6 +547,10 @@ export default function Peta() {
                     onPilihTop3={pilihTop3}
                     onBatasPeta={() => kabar(t('Anda sudah mencapai batas maksimum peta.', 'You have reached the edge of the map.'), 'warning')}
                     onBboxChange={handleBboxChange}
+                    alatLahan={panelKiri === 'lahan' ? alatLahan : null}
+                    selesaiLahan={selesaiLahan}
+                    kapasitasLahan={panelKiri === 'lahan' && geomLahan ? (hasilLahan?.geometri_kapasitas ?? null) : null}
+                    onLahanBerubah={setGeomLahan}
                 />
 
                 <div className="nr-app__kiri">
@@ -501,6 +587,20 @@ export default function Peta() {
                             filterTerbuka={panelKiri === 'filter'}
                             onToggleFilter={() => setPanelKiri(panelKiri === 'filter' ? null : 'filter')}
                         />
+
+                        <button
+                            type="button"
+                            className="nr-lahan-tombol"
+                            aria-pressed={panelKiri === 'lahan'}
+                            onClick={toggleLahan}
+                            title={t('Uji Lahan: gambar lahan dan hitung kapasitasnya', 'Site Test: draw a site and estimate its capacity')}
+                            aria-label={t('Uji Lahan', 'Site Test')}
+                        >
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                                <path d="M4 7V4h3M17 4h3v3M20 17v3h-3M7 20H4v-3" />
+                                <rect x="8" y="8" width="8" height="8" rx="1" />
+                            </svg>
+                        </button>
                     </div>
 
                     {panelKiri === 'top3' && <PanelTop3 personaLabel={labelPersona} hasil={hasil} memuat={mencari} pesan={pesanCari} aktif={top3Aktif} onPilih={pilihTop3} />}
@@ -514,6 +614,27 @@ export default function Peta() {
                         />
                     )}
                     {panelKiri === 'detail' && <DetailLokasi data={memuatDetail ? null : detail} memuat={memuatDetail} galat={galatDetail} sesi={persona} onTutup={tutupPanelKiri} />}
+                    {panelKiri === 'lahan' && alatLahan && (
+                        <PanelLahan
+                            mode={alatLahan.mode}
+                            onMode={mulaiLahan}
+                            adaLahan={!!geomLahan}
+                            data={hasilLahan}
+                            memuat={memuatLahan}
+                            galat={galatLahan}
+                            tipe={tipeLahan}
+                            onTipe={(x) => {
+                                setTipeLahan(x);
+                                setAsumsiLahan({});
+                            }}
+                            asumsi={asumsiLahan}
+                            onAsumsi={setAsumsiLahan}
+                            sesi={persona}
+                            onGambarUlang={() => mulaiLahan(alatLahan.mode)}
+                            onSelesaiPoligon={() => setSelesaiLahan(Date.now())}
+                            onTutup={tutupPanelKiri}
+                        />
+                    )}
                     {panelKiri === 'rute' && (
                         <SimulatorRute
                             a={ruteA}
