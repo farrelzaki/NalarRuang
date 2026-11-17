@@ -715,17 +715,22 @@ class LahanController extends Controller
 
         $luasTaman = 0.0;
         $luasParkir = 0.0;
+        $berlabel = false;
         foreach ($zona as $id => &$z) {
             if ($z['jenis'] === 'parkir') {
                 $z['lantai'] = max(1, $lantaiParkir);
                 $luasParkir += $this->luasUtm($z['ewkt']);
                 $fitur[] = self::fitur($this->keGeo($z['ewkt']), ['jenis' => 'parkir', 'zona' => $id, 'lantai' => $z['lantai']]);
             } elseif ($z['jenis'] === 'taman') {
-                $luasTaman += $this->luasUtm($z['ewkt']);
-                $fitur[] = self::fitur($this->keGeo($z['ewkt']), [
-                    'jenis' => 'taman', 'zona' => $id,
-                    'lantai' => $kapasitas['lantai'], 'jumlah' => $kapasitas['jumlah'], 'satuan' => $kapasitas['satuan'],
-                ]);
+                $luas = $this->luasUtm($z['ewkt']);
+                $luasTaman += $luas;
+                $properti = ['jenis' => 'taman', 'zona' => $id];
+                // Label "N lantai · M unit" cukup sekali, di taman pertama yang cukup luas, supaya tidak menumpuk.
+                if (! $berlabel && $luas >= 100) {
+                    $properti += ['lantai' => $kapasitas['lantai'], 'jumlah' => $kapasitas['jumlah'], 'satuan' => $kapasitas['satuan']];
+                    $berlabel = true;
+                }
+                $fitur[] = self::fitur($this->keGeo($z['ewkt']), $properti);
             }
         }
         unset($z);

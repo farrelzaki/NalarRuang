@@ -461,6 +461,8 @@ export default function PetaExplorer(props: Props) {
     const lapisan = useRef<LapisanKapasitas | null>(null);
     const labelIsi = (p: Record<string, unknown>): string | null => {
         if (p.jenis !== 'tapak' && p.jenis !== 'taman') return null;
+        // Taman rumah tapak (dan taman kedua dst.) tidak membawa angka gedung: tanpa label.
+        if (p.lantai == null || p.jumlah == null) return null;
         const satuan = String(p.satuan) === 'kamar' ? tr('kamar', 'rooms') : tr('unit', 'units');
         return `${p.lantai} ${tr('lantai', 'floors')} · ${p.jumlah} ${satuan}`;
     };
