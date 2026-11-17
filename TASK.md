@@ -45,6 +45,16 @@ Kriteria selesai:
 - [ ] Uji manual di peta: kotak, poligon, tiga tipe, slider, lahan di DKI dan di luar DKI.
 - [ ] PM meninjau draf FR-23 di SRS.
 
+Tahap 2 (17 Nov 2026, disetujui Galih): pola tata letak (rumah grid/cluster, kos keliling/koridor, apartemen
+keliling/wrap/tower), zona bangunan/parkir/taman yang bisa ditarik/ditambah/dihapus sendiri (`Map/ZonaLahan.ts`),
+parkir motor untuk kos, ringkasan KDB/KLB/KDH/tinggi/parkir yang merah bila lewat batas RDTR, dan pratinjau 3D
+three.js yang dimuat malas (`Map/Lahan3D.ts`, `Components/Pratinjau3D.tsx`; dependensi baru `three` + `@types/three`).
+
+- [x] Logika murni baru teruji (`tests/Unit/KapasitasLahanTest.php`, 23 tes).
+- [ ] `npm install`, `npm run typecheck`, `php artisan test --filter=Lahan` lulus di mesin Galih.
+- [ ] Uji manual: ganti pola, tarik/tambah/hapus zona, 3D ikut berubah saat lahan/zona ditarik.
+- [ ] Tim diberi tahu soal dependensi `three` (CLAUDE.md: jangan menambah dependensi diam-diam).
+
 ### [~] Penyelarasan dokumen dan artifact ke desain final + masukan Izdihar (Tahap A–C)
 
 - Status: [~] Tahap A, B, C selesai, menunggu tinjauan pengguna

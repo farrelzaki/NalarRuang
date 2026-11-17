@@ -2,7 +2,7 @@
  * Panel Uji Lahan (FR-23): gambar lahan → luas, zona, banjir, kecocokan persona, dan estimasi kapasitas
  * rumah tapak / kos / apartemen dengan asumsi yang bisa digeser. Terinspirasi TestFit.
  */
-import type { AsumsiLahan, LahanResponse, Persona, TipeLahan, TipeUnit } from '@/types';
+import type { AsumsiLahan, JenisZona, LahanResponse, Persona, PolaLahan, RingkasanLahan, TipeLahan, TipeUnit } from '@/types';
 import { teksServer, useBahasa, type Bahasa } from '@/lib/bahasa';
 import { cx, PERSONA_IDS } from '@/lib/nalar';
 import { Ikon, Keadaan } from './Dasar';
@@ -21,6 +21,14 @@ type Props = {
     onTipe: (t: TipeLahan) => void;
     asumsi: AsumsiLahan;
     onAsumsi: (a: AsumsiLahan) => void;
+    /** Pola tata letak; null = bawaan tipe. */
+    pola: PolaLahan | null;
+    onPola: (p: PolaLahan) => void;
+    /** True bila zona sudah ditarik/ditambah pengguna. */
+    zonaManual: boolean;
+    onAturUlangZona: () => void;
+    onTambahZona: (j: JenisZona) => void;
+    on3D: () => void;
     sesi: Persona[];
     onGambarUlang: () => void;
     onSelesaiPoligon: () => void;
@@ -45,7 +53,7 @@ const SLIDER: Record<TipeLahan, Slider[]> = {
     kos: [
         { kunci: 'luas_kamar', label: ['Luas kamar', 'Room size'], min: 6, max: 30, step: 1, satuan: 'm²' },
         { kunci: 'sempadan', label: ['Sempadan bangunan', 'Building setback'], min: 0, max: 15, step: 0.5, satuan: 'm' },
-        { kunci: 'rasio_parkir', label: ['Parkir mobil per kamar', 'Car parking per room'], min: 0, max: 2, step: 0.1, satuan: '' },
+        { kunci: 'rasio_motor', label: ['Parkir motor per kamar', 'Motorbike parking per room'], min: 0, max: 3, step: 0.1, satuan: '' },
     ],
     apartemen: [
         { kunci: 'porsi_studio', label: ['Porsi studio (24 m²)', 'Studio share (24 m²)'], min: 0, max: 1, step: 0.05, satuan: '%', persen: true },
@@ -54,6 +62,29 @@ const SLIDER: Record<TipeLahan, Slider[]> = {
         { kunci: 'rasio_parkir', label: ['Parkir mobil per unit', 'Car parking per unit'], min: 0, max: 2, step: 0.1, satuan: '' },
     ],
 };
+
+/** Pola per tipe (urutan sama dengan KapasitasLahan::POLA; yang pertama bawaan). */
+const POLA: Record<TipeLahan, { kunci: PolaLahan; label: [string, string]; ket: [string, string] }[]> = {
+    rumah: [
+        { kunci: 'grid', label: ['Grid', 'Grid'], ket: ['Jalan lingkar, taman di ujung', 'Ring road, park at one end'] },
+        { kunci: 'cluster', label: ['Cluster', 'Cluster'], ket: ['Kavling sampai tepi, taman di tengah', 'Plots to the edge, central park'] },
+    ],
+    kos: [
+        { kunci: 'keliling', label: ['Keliling', 'Perimeter'], ket: ['Kamar mengelilingi ruang tengah', 'Rooms around a courtyard'] },
+        { kunci: 'koridor', label: ['Koridor', 'Corridor'], ket: ['Satu blok memanjang, parkir motor di depan', 'One long block, bike parking in front'] },
+    ],
+    apartemen: [
+        { kunci: 'keliling', label: ['Keliling', 'Perimeter'], ket: ['Gedung di tepi, taman + parkir di tengah', 'Edge building, park + parking inside'] },
+        { kunci: 'wrap', label: ['Wrap', 'Wrap'], ket: ['Gedung membungkus gedung parkir', 'Units wrap a parking garage'] },
+        { kunci: 'tower', label: ['Tower', 'Tower'], ket: ['Satu menara tinggi, parkir permukaan', 'One tall tower, surface parking'] },
+    ],
+};
+
+const ZONA_TAMBAH: { kunci: JenisZona; label: [string, string] }[] = [
+    { kunci: 'bangunan', label: ['Gedung', 'Building'] },
+    { kunci: 'parkir', label: ['Parkir', 'Parking'] },
+    { kunci: 'taman', label: ['Taman', 'Park'] },
+];
 
 const TIPE_UNIT: { kunci: TipeUnit; label: [string, string] }[] = [
     { kunci: 'studio', label: ['Studio', 'Studio'] },
@@ -135,6 +166,43 @@ export function PanelLahan(props: Props) {
                 </div>
             )}
 
+            {props.adaLahan && (
+                <div className="nr-lahan__pola" role="radiogroup" aria-label={t('Pola tata letak', 'Layout pattern')}>
+                    {POLA[props.tipe].map((x) => {
+                        const aktif = (props.pola ?? (data && data.tipe === props.tipe ? data.pola : POLA[props.tipe][0].kunci)) === x.kunci;
+                        return (
+                            <button key={x.kunci} type="button" role="radio" aria-checked={aktif} className={cx('nr-lahan__polabtn', aktif && 'nr-lahan__polabtn--aktif')} onClick={() => props.onPola(x.kunci)} title={t(x.ket[0], x.ket[1])}>
+                                <b>{t(x.label[0], x.label[1])}</b>
+                                <span>{t(x.ket[0], x.ket[1])}</span>
+                            </button>
+                        );
+                    })}
+                </div>
+            )}
+
+            {props.adaLahan && data && (
+                <div className="nr-lahan__zona">
+                    <p className="nr-lahan__zona-teks">
+                        {t('Tarik garis putus-putus di peta untuk mengubah tiap zona sendiri-sendiri.', 'Drag the dashed outlines on the map to reshape each zone on its own.')}
+                    </p>
+                    <div className="nr-lahan__zona-aksi">
+                        {ZONA_TAMBAH.filter((z) => z.kunci !== 'parkir' || props.tipe !== 'rumah').map((z) => (
+                            <button key={z.kunci} type="button" className={`nr-lahan__zonabtn nr-lahan__zonabtn--${z.kunci}`} onClick={() => props.onTambahZona(z.kunci)}>
+                                + {t(z.label[0], z.label[1])}
+                            </button>
+                        ))}
+                        {props.zonaManual && (
+                            <button type="button" className="nr-lahan__zonabtn" onClick={props.onAturUlangZona}>
+                                <Ikon name="rotate-ccw" size={12} /> {t('Zona bawaan', 'Default zones')}
+                            </button>
+                        )}
+                        <button type="button" className="nr-lahan__zonabtn nr-lahan__zonabtn--3d" onClick={props.on3D}>
+                            <Ikon name="layers" size={13} /> {t('Lihat 3D', 'View 3D')}
+                        </button>
+                    </div>
+                </div>
+            )}
+
             {props.adaLahan && props.galat && <Keadaan kind="galat" title={t('Lahan belum bisa diuji', 'This site cannot be tested yet')} text={teksServer(props.galat)} />}
             {props.adaLahan && !props.galat && !data && <Keadaan kind="memuat" title={t('Menghitung lahan', 'Calculating the site')} />}
             {props.adaLahan && !props.galat && data && <IsiLahan {...props} data={data} />}
@@ -195,13 +263,16 @@ function IsiLahan({ data, memuat, tipe, asumsi, onAsumsi, sesi }: Props & { data
                         {k.parkir && k.parkir.butuh > 0 && (
                             <li className={cx(k.parkir.muat < k.parkir.butuh && 'nr-lahan__kurang')}>
                                 <i className="nr-lahan__warna nr-lahan__warna--parkir" aria-hidden />
-                                {t('Parkir', 'Parking')} <b>{angka(k.parkir.muat, bahasa)}/{angka(k.parkir.butuh, bahasa)}</b>
+                                {k.parkir.jenis === 'motor' ? t('Parkir motor', 'Bike parking') : t('Parkir mobil', 'Car parking')} <b>{angka(k.parkir.muat, bahasa)}/{angka(k.parkir.butuh, bahasa)}</b>
+                                {k.parkir.lantai > 1 && t(` (${k.parkir.lantai} lantai)`, ` (${k.parkir.lantai} levels)`)}
                                 {k.parkir.muat < k.parkir.butuh && t(' (sisanya basement)', ' (rest in basement)')}
                             </li>
                         )}
                     </ul>
                 )}
             </div>
+
+            {sesuai && data.ringkasan && <Ringkasan r={data.ringkasan} parkir={k.parkir} />}
 
             <div className="nr-lahan__asumsi">
                 <div className="nr-eyebrow">{t('Asumsi (geser untuk mengubah)', 'Assumptions (drag to change)')}</div>
@@ -264,6 +335,33 @@ function IsiLahan({ data, memuat, tipe, asumsi, onAsumsi, sesi }: Props & { data
                 <p key={c} className="nr-summary__note" role="note">
                     {teksServer(c)}
                 </p>
+            ))}
+        </div>
+    );
+}
+
+/** Bar ringkasan kepatuhan seperti tabel TestFit: angka terpakai vs batas RDTR, merah bila lewat batas. */
+function Ringkasan({ r, parkir }: { r: RingkasanLahan; parkir?: { butuh: number; muat: number } }) {
+    const { t, bahasa } = useBahasa();
+    const langgar = (k: RingkasanLahan['pelanggaran'][number]) => r.pelanggaran.includes(k);
+    const sel: { kunci: string; label: string; nilai: string; batas: string | null; merah: boolean; judul: string }[] = [
+        { kunci: 'kdb', label: 'KDB', nilai: `${angka(r.kdb_terpakai, bahasa, 1)}%`, batas: `${angka(r.kdb_batas, bahasa)}%`, merah: langgar('kdb'), judul: t('Koefisien Dasar Bangunan: tapak bangunan dibanding luas lahan', 'Building coverage ratio') },
+        { kunci: 'klb', label: 'KLB', nilai: angka(r.klb_terpakai, bahasa, 2), batas: angka(r.klb_batas, bahasa, 2), merah: langgar('klb'), judul: t('Koefisien Lantai Bangunan: total luas lantai dibanding luas lahan', 'Floor area ratio') },
+        { kunci: 'kdh', label: 'KDH', nilai: `${angka(r.kdh_terpakai, bahasa, 1)}%`, batas: r.kdh_batas != null ? `≥${angka(r.kdh_batas, bahasa)}%` : null, merah: langgar('kdh'), judul: t('Koefisien Dasar Hijau: taman dibanding luas lahan', 'Green area ratio') },
+        { kunci: 'tinggi', label: t('Tinggi', 'Height'), nilai: `${angka(r.tinggi_m, bahasa, 1)} m`, batas: null, merah: false, judul: t('Perkiraan tinggi gedung', 'Estimated building height') },
+    ];
+    if (parkir && parkir.butuh > 0) {
+        sel.push({ kunci: 'parkir', label: t('Parkir', 'Parking'), nilai: angka(parkir.muat, bahasa), batas: angka(parkir.butuh, bahasa), merah: langgar('parkir'), judul: t('Slot yang muat dibanding yang dibutuhkan', 'Stalls provided vs required') });
+    }
+
+    return (
+        <div className="nr-lahan__ringkasan" aria-label={t('Ringkasan aturan', 'Rules summary')}>
+            {sel.map((x) => (
+                <div key={x.kunci} className={cx('nr-lahan__ringsel', x.merah && 'nr-lahan__ringsel--merah')} title={x.judul}>
+                    <span className="nr-lahan__ringlabel">{x.label}</span>
+                    <b>{x.nilai}</b>
+                    {x.batas && <span className="nr-lahan__ringbatas">{t('batas', 'limit')} {x.batas}</span>}
+                </div>
             ))}
         </div>
     );

@@ -3,9 +3,9 @@
  * tombol merek kanan atas, LAYER/PERSONA + panel kanan di kanan bawah, slider tahun tengah bawah.
  */
 import { Head, Link } from '@inertiajs/react';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { FeatureCollection, Geometry, Polygon } from 'geojson';
-import type { AsumsiLahan, CommuteResponse, LahanRequest, HasilSearch, InspectResponse, LahanResponse, LayerKey, LayerResponse, Persona, TipeLahan } from '@/types';
+import type { AsumsiLahan, CommuteResponse, JenisZona, LahanRequest, PolaLahan, ZonaLahanMasuk, HasilSearch, InspectResponse, LahanResponse, LayerKey, LayerResponse, Persona, TipeLahan } from '@/types';
 import { api } from '@/lib/api';
 import { useBahasa } from '@/lib/bahasa';
 import {
@@ -25,6 +25,8 @@ import { PanelIsochrone, PanelLayer, PanelProfilPersona, SliderTahun, TombolLaye
 import { DialogPersona, DrawerMenu, type TabMenu } from '@/Components/MenuPersona';
 import { Panduan, sudahLihatPanduan } from '@/Components/Panduan';
 import { PanelLahan, type ModeGambar } from '@/Components/PanelLahan';
+
+const Pratinjau3D = lazy(() => import('@/Components/Pratinjau3D'));
 
 type PanelKiri = 'top3' | 'filter' | 'detail' | 'rute' | 'lahan' | null;
 
@@ -111,6 +113,12 @@ export default function Peta() {
     const [tipeLahan, setTipeLahan] = useState<TipeLahan>('rumah');
     const [asumsiLahan, setAsumsiLahan] = useState<AsumsiLahan>({});
     const [hasilLahan, setHasilLahan] = useState<LahanResponse | null>(null);
+    /** Pola tata letak; null = pola bawaan tipe. */
+    const [polaLahan, setPolaLahan] = useState<PolaLahan | null>(null);
+    /** Zona yang ditarik pengguna; null = zona bawaan pola dari server. */
+    const [zonaLahan, setZonaLahan] = useState<ZonaLahanMasuk[] | null>(null);
+    const [tambahZona, setTambahZona] = useState<{ jenis: JenisZona; kunci: number } | null>(null);
+    const [tampil3D, setTampil3D] = useState(false);
     const [memuatLahan, setMemuatLahan] = useState(false);
     const [galatLahan, setGalatLahan] = useState<string | null>(null);
     /** True bila perubahan terakhir datang dari menggambar/menarik lahan (dikirim tanpa jeda). */
@@ -465,11 +473,18 @@ export default function Peta() {
             return;
         }
         // Lahan yang digambar/ditarik langsung dikirim (antrean membatasi lajunya); slider dan ketikan diberi jeda 350 ms.
-        const badan: LahanRequest = { geometri: geomLahan, tipe: tipeLahan, asumsi: asumsiLahan, persona };
+        const badan: LahanRequest = {
+            geometri: geomLahan,
+            tipe: tipeLahan,
+            asumsi: asumsiLahan,
+            persona,
+            ...(polaLahan ? { pola: polaLahan } : {}),
+            ...(zonaLahan ? { zona: zonaLahan } : {}),
+        };
         const jeda = setTimeout(() => kirimLahan.current(badan), lahanDariPeta.current ? 0 : 350);
         lahanDariPeta.current = false;
         return () => clearTimeout(jeda);
-    }, [panelKiri, geomLahan, tipeLahan, asumsiLahan, persona]);
+    }, [panelKiri, geomLahan, tipeLahan, asumsiLahan, persona, polaLahan, zonaLahan]);
 
     useEffect(() => batalLahan, []);
 
@@ -480,10 +495,14 @@ export default function Peta() {
         setHasilLahan(null);
         setGalatLahan(null);
         setAsumsiLahan({});
+        setPolaLahan(null);
+        setZonaLahan(null);
+        setTampil3D(false);
     };
 
     const mulaiLahan = (mode: ModeGambar) => {
         batalLahan();
+        setZonaLahan(null);
         setGeomLahan(null);
         setHasilLahan(null);
         setGalatLahan(null);
@@ -553,6 +572,12 @@ export default function Peta() {
         <>
             <Head title={t('Peta', 'Map')} />
             <main className="nr-app" data-mode={panelKiri === 'rute' ? 'rute' : undefined}>
+                {panelKiri === 'lahan' && tampil3D && hasilLahan && (
+                    // three.js baru diunduh saat pratinjau 3D dibuka, jadi halaman peta tidak bertambah berat.
+                    <Suspense fallback={<div className="nr-3d nr-3d--muat">{t('Menyiapkan tampilan 3D…', 'Preparing 3D view…')}</div>}>
+                        <Pratinjau3D data={hasilLahan} lahan={geomLahan} onTutup={() => setTampil3D(false)} />
+                    </Suspense>
+                )}
                 <PetaExplorer
                     className="nr-app__peta"
                     layer={layerTampil}
@@ -582,6 +607,13 @@ export default function Peta() {
                         lahanDariPeta.current = true;
                         setGeomLahan(g);
                     }}
+                    zonaLahan={panelKiri === 'lahan' && geomLahan ? (hasilLahan?.zona ?? null) : null}
+                    zonaManual={zonaLahan}
+                    onZonaBerubah={(z) => {
+                        lahanDariPeta.current = true;
+                        setZonaLahan(z);
+                    }}
+                    tambahZona={tambahZona}
                 />
 
                 <div className="nr-app__kiri">
@@ -657,7 +689,18 @@ export default function Peta() {
                             onTipe={(x) => {
                                 setTipeLahan(x);
                                 setAsumsiLahan({});
+                                setPolaLahan(null);
+                                setZonaLahan(null);
                             }}
+                            pola={polaLahan}
+                            onPola={(x) => {
+                                setPolaLahan(x);
+                                setZonaLahan(null);
+                            }}
+                            zonaManual={!!zonaLahan}
+                            onAturUlangZona={() => setZonaLahan(null)}
+                            onTambahZona={(jenis) => setTambahZona({ jenis, kunci: Date.now() })}
+                            on3D={() => setTampil3D(true)}
                             asumsi={asumsiLahan}
                             onAsumsi={setAsumsiLahan}
                             sesi={persona}
