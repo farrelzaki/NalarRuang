@@ -609,7 +609,8 @@ input { font: inherit; }
 .nr-lahan-pegangan--geser { display: grid; place-items: center; background: #e4572e; border-color: var(--white); color: var(--white); cursor: move; }
 .nr-gambar-lahan--titik, .nr-gambar-lahan--titik .leaflet-interactive { cursor: crosshair !important; }
 /* Saat menggambar, fitur layer lain tidak menangkap klik supaya titik sudut bisa ditaruh di mana saja. */
-.nr-gambar-lahan .leaflet-interactive:not(.nr-lahan):not(.nr-lahan-pegangan) { pointer-events: none !important; }
+/* Saat Uji Lahan aktif, hanya lahan, pegangannya, dan pegangan zona yang bisa diklik (POI/stasiun tidak ikut terpencet). */
+.nr-gambar-lahan .leaflet-interactive:not(.nr-lahan):not(.nr-lahan-pegangan):not(.nr-zona-sudut):not(.nr-zona-geser) { pointer-events: none !important; }
 .nr-lahan-label.leaflet-tooltip { background: var(--navy-900); color: var(--white); border: 0; border-radius: var(--radius-pill); padding: 3px 10px; font: 700 11px/16px var(--font-sans); box-shadow: var(--shadow-md); }
 .nr-lahan-label.leaflet-tooltip::before { display: none; }
 

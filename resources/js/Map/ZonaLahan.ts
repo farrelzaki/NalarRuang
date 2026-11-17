@@ -28,10 +28,43 @@ function keCincin(c: L.LatLng[][]): Position[][] {
     });
 }
 
+function didalam(t: L.LatLng, poli: L.LatLng[]): boolean {
+    let isi = false;
+    for (let i = 0, j = poli.length - 1; i < poli.length; j = i++) {
+        const a = poli[i];
+        const b = poli[j];
+        if (a.lat > t.lat !== b.lat > t.lat && t.lng < ((b.lng - a.lng) * (t.lat - a.lat)) / (b.lat - a.lat) + a.lng) isi = !isi;
+    }
+    return isi;
+}
+
+/**
+ * Titik label/pegangan geser: rata-rata titik sudut bila jatuh di dalam zona; bila tidak (zona berbentuk U atau
+ * berlubang, mis. parkir yang mengelilingi menara), titik kisi di dalam zona yang paling dekat ke rata-rata itu.
+ */
 function pusat(c: L.LatLng[][]): L.LatLng {
     const luar = c[0] ?? [];
     const n = luar.length || 1;
-    return L.latLng(luar.reduce((s, t) => s + t.lat, 0) / n, luar.reduce((s, t) => s + t.lng, 0) / n);
+    const rata = L.latLng(luar.reduce((s, t) => s + t.lat, 0) / n, luar.reduce((s, t) => s + t.lng, 0) / n);
+    const masuk = (t: L.LatLng) => didalam(t, luar) && !c.slice(1).some((lubang) => didalam(t, lubang));
+    if (masuk(rata) || luar.length < 3) return rata;
+
+    const b = L.latLngBounds(luar);
+    let terbaik: L.LatLng | null = null;
+    let jarak = Infinity;
+    const N = 24;
+    for (let i = 1; i < N; i++) {
+        for (let j = 1; j < N; j++) {
+            const t = L.latLng(b.getSouth() + ((b.getNorth() - b.getSouth()) * i) / N, b.getWest() + ((b.getEast() - b.getWest()) * j) / N);
+            if (!masuk(t)) continue;
+            const d = (t.lat - rata.lat) ** 2 + (t.lng - rata.lng) ** 2;
+            if (d < jarak) {
+                jarak = d;
+                terbaik = t;
+            }
+        }
+    }
+    return terbaik ?? rata;
 }
 
 function ikonSudut(jenis: JenisZona): L.DivIcon {
