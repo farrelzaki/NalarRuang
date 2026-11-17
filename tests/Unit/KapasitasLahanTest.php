@@ -66,9 +66,9 @@ class KapasitasLahanTest extends TestCase
 
     public function test_asumsi_dijepit_ke_rentang_dan_kunci_asing_dibuang(): void
     {
-        $a = $this->k->asumsi('kos', ['luas_kamar' => 2, 'rasio_parkir' => 9, 'lantai' => '3', 'jahat' => 1]);
+        $a = $this->k->asumsi('kos', ['luas_kamar' => 2, 'rasio_motor' => 9, 'lantai' => '3', 'jahat' => 1]);
         $this->assertSame(6.0, $a['luas_kamar']);
-        $this->assertSame(2.0, $a['rasio_parkir']);
+        $this->assertSame(3.0, $a['rasio_motor']);
         $this->assertSame(3, $a['lantai']);
         $this->assertArrayNotHasKey('jahat', $a);
 
@@ -208,5 +208,54 @@ class KapasitasLahanTest extends TestCase
         $this->assertSame(0.5, KapasitasLahan::faktorSkala(400, 100));
         $this->assertSame(1.0, KapasitasLahan::faktorSkala(100, 400));
         $this->assertSame(0.0, KapasitasLahan::faktorSkala(0, 100));
+    }
+
+    public function test_pola_tidak_dikenal_jatuh_ke_bawaan(): void
+    {
+        $this->assertSame('wrap', KapasitasLahan::polaSah('apartemen', 'wrap'));
+        $this->assertSame('keliling', KapasitasLahan::polaSah('apartemen', 'grid'));
+        $this->assertSame('grid', KapasitasLahan::polaSah('rumah', null));
+        $this->assertSame('koridor', KapasitasLahan::polaSah('kos', 'koridor'));
+    }
+
+    public function test_parkir_motor_untuk_kos_mobil_untuk_apartemen(): void
+    {
+        $this->assertSame('motor', KapasitasLahan::jenisParkir('kos'));
+        $this->assertSame('mobil', KapasitasLahan::jenisParkir('apartemen'));
+        $this->assertNull(KapasitasLahan::jenisParkir('rumah'));
+        $this->assertSame(40, $this->k->butuhParkir('kos', 40, $this->k->asumsi('kos', [])));
+        $this->assertSame(20, $this->k->butuhParkir('apartemen', 40, $this->k->asumsi('apartemen', [])));
+        $this->assertSame(0.8, KapasitasLahan::ukuranSlot('motor')['lebar']);
+        $this->assertSame(2.5, KapasitasLahan::ukuranSlot('mobil')['lebar']);
+    }
+
+    public function test_lantai_gedung_parkir(): void
+    {
+        $this->assertSame(3, KapasitasLahan::lantaiParkir(250, 100, 10));
+        $this->assertSame(2, KapasitasLahan::lantaiParkir(250, 100, 2)); // tidak lebih tinggi dari gedung hunian
+        $this->assertSame(1, KapasitasLahan::lantaiParkir(0, 100, 10));
+        $this->assertSame(0, KapasitasLahan::lantaiParkir(50, 0, 10));
+    }
+
+    public function test_sisi_tower_dibatasi_kdb_tapak_maks_dan_lahan(): void
+    {
+        // 10.000 m2, KDB 40 %: 90 % x 4.000 = 3.600, dibatasi 1.600 -> sisi 40 m.
+        $this->assertSame(40.0, KapasitasLahan::sisiTower(10000, 40, 9000));
+        // Lahan kecil: 80 % x 500 = 400 -> sisi 20 m.
+        $this->assertSame(20.0, KapasitasLahan::sisiTower(1000, 60, 500));
+        $this->assertSame(0.0, KapasitasLahan::sisiTower(1000, 0, 500));
+    }
+
+    public function test_ringkasan_menandai_pelanggaran(): void
+    {
+        $r = KapasitasLahan::ringkasan('apartemen', 10000, 5000, 30000, 500, 6, 40, 4.0, 10.0, ['butuh' => 100, 'muat' => 60]);
+        $this->assertSame(50.0, $r['kdb_terpakai']);
+        $this->assertSame(3.0, $r['klb_terpakai']);
+        $this->assertSame(5.0, $r['kdh_terpakai']);
+        $this->assertSame(19.2, $r['tinggi_m']);
+        $this->assertSame(['kdb', 'kdh', 'parkir'], $r['pelanggaran']);
+
+        $aman = KapasitasLahan::ringkasan('kos', 1000, 500, 1500, 200, 3, 60, 1.8, null, ['butuh' => 10, 'muat' => 10]);
+        $this->assertSame([], $aman['pelanggaran']);
     }
 }

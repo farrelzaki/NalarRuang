@@ -21,7 +21,7 @@ class KapasitasLahan
     /** Asumsi bawaan per tipe; bisa diubah pengguna dalam rentang RENTANG. */
     public const BAWAAN = [
         'rumah' => ['lebar_kavling' => 6.0, 'panjang_kavling' => 15.0, 'lebar_jalan' => 8.0],
-        'kos' => ['luas_kamar' => 12.0, 'sempadan' => 2.0, 'lantai' => null, 'rasio_parkir' => 0.2],
+        'kos' => ['luas_kamar' => 12.0, 'sempadan' => 2.0, 'lantai' => null, 'rasio_motor' => 1.0],
         'apartemen' => ['porsi_studio' => 0.3, 'porsi_2br' => 0.2, 'sempadan' => 5.0, 'lantai' => null, 'rasio_parkir' => 0.5],
     ];
 
@@ -36,7 +36,39 @@ class KapasitasLahan
         'sempadan' => [0, 15],
         'lantai' => [1, 60],
         'rasio_parkir' => [0, 2],
+        'rasio_motor' => [0, 3],
     ];
+
+    /**
+     * Pola tata letak per tipe (mirip "preset" TestFit). Pola pertama adalah bawaan.
+     * - rumah  grid: jalan lingkar + grid kavling + taman/fasum di satu ujung; cluster: kavling sampai tepi, taman di tengah.
+     * - kos    keliling: gedung mengikuti tepi + ruang tengah; koridor: satu blok memanjang di belakang, parkir motor di depan.
+     * - apartemen keliling: gedung keliling + taman + parkir permukaan; wrap: gedung keliling membungkus gedung parkir
+     *   bertingkat; tower: satu menara ringkas + parkir permukaan.
+     */
+    public const POLA = [
+        'rumah' => ['grid', 'cluster'],
+        'kos' => ['keliling', 'koridor'],
+        'apartemen' => ['keliling', 'wrap', 'tower'],
+    ];
+
+    /** Jenis zona yang bisa ditarik sendiri-sendiri di peta. */
+    public const JENIS_ZONA = ['bangunan', 'parkir', 'taman'];
+
+    /** Slot parkir motor 0,8 x 2 m dengan lorong 2 m (kos). */
+    public const SLOT_MOTOR = ['lebar' => 0.8, 'panjang' => 2.0, 'lorong' => 2.0];
+
+    /** Kira-kira luas lahan per slot termasuk lorong (m²), untuk menakar zona parkir bawaan. */
+    public const LUAS_PER_SLOT = ['mobil' => 25.0, 'motor' => 2.8];
+
+    /** Tinggi satu lantai (m) untuk tinggi bangunan dan pratinjau 3D. */
+    public const TINGGI_LANTAI = ['rumah' => 3.5, 'kos' => 3.2, 'apartemen' => 3.2];
+
+    /** Porsi lahan rumah tapak untuk taman/fasum pada pola bawaan. */
+    public const PORSI_FASUM = 0.1;
+
+    /** Tapak menara paling luas (m²) pada pola tower. */
+    public const TAPAK_TOWER_MAKS = 1600.0;
 
     /** Luas tiap tipe unit apartemen (m²) dan warna tampilannya mengikuti pola TestFit (hijau/biru/ungu). */
     public const LUAS_TIPE = ['studio' => 24.0, '1br' => 36.0, '2br' => 54.0];
@@ -370,7 +402,103 @@ class KapasitasLahan
             'luas_lantai_m2' => round($luasTapak * $lantai, 1),
             'porsi_tapak' => $luasLahan > 0 ? round($luasTapak / $luasLahan, 3) : null,
             'kepadatan_per_ha' => $luasLahan > 0 ? round($jumlah / ($luasLahan / 10000), 1) : null,
-            'parkir' => ['butuh' => (int) ceil($jumlah * (float) ($asumsi['rasio_parkir'] ?? 0)), 'muat' => 0],
+            'parkir' => ['butuh' => $this->butuhParkir($tipe, $jumlah, $asumsi), 'muat' => 0, 'jenis' => self::jenisParkir($tipe), 'lantai' => 1],
+        ];
+    }
+
+    /** Pola yang sah untuk tipe ini; selain itu pola bawaan. */
+    public static function polaSah(string $tipe, mixed $pola): string
+    {
+        $daftar = self::POLA[$tipe] ?? [];
+
+        return is_string($pola) && in_array($pola, $daftar, true) ? $pola : ($daftar[0] ?? '');
+    }
+
+    /** Jenis kendaraan parkir: motor untuk kos, mobil untuk apartemen, tidak ada untuk rumah tapak (parkir di kavling). */
+    public static function jenisParkir(string $tipe): ?string
+    {
+        return match ($tipe) {
+            'kos' => 'motor',
+            'apartemen' => 'mobil',
+            default => null,
+        };
+    }
+
+    /** Slot parkir yang dibutuhkan: jumlah unit x rasio (motor untuk kos, mobil untuk apartemen). */
+    public function butuhParkir(string $tipe, int $jumlah, array $asumsi): int
+    {
+        $rasio = $tipe === 'kos' ? (float) ($asumsi['rasio_motor'] ?? 0) : (float) ($asumsi['rasio_parkir'] ?? 0);
+
+        return (int) ceil($jumlah * $rasio - 1e-9);
+    }
+
+    /** Ukuran slot parkir (lebar, panjang, lorong) menurut jenisnya. @return array{lebar: float, panjang: float, lorong: float} */
+    public static function ukuranSlot(string $jenis): array
+    {
+        return $jenis === 'motor' ? self::SLOT_MOTOR : self::SLOT_PARKIR;
+    }
+
+    /**
+     * Jumlah lantai gedung parkir (pola wrap): cukup untuk menampung kebutuhan, paling banyak setinggi gedung hunian.
+     * 0 bila satu lantai pun tidak memuat slot.
+     */
+    public static function lantaiParkir(int $butuh, int $slotPerLantai, int $lantaiMaks): int
+    {
+        if ($slotPerLantai <= 0) {
+            return 0;
+        }
+
+        return max(1, min(max(1, $lantaiMaks), (int) ceil($butuh / $slotPerLantai)));
+    }
+
+    /**
+     * Sisi menara (m) pada pola tower: tapak = min(90 % batas KDB, TAPAK_TOWER_MAKS, 80 % lahan setelah sempadan).
+     */
+    public static function sisiTower(float $luasLahan, float $kdbPersen, float $luasTersedia): float
+    {
+        $tapak = min($luasLahan * $kdbPersen / 100 * 0.9, self::TAPAK_TOWER_MAKS, $luasTersedia * 0.8);
+
+        return $tapak > 0 ? round(sqrt($tapak), 2) : 0.0;
+    }
+
+    /**
+     * Ringkasan kepatuhan seperti tabel TestFit, dibandingkan dengan batas RDTR (atau asumsi):
+     * KDB = tapak / lahan, KLB = total lantai / lahan, KDH = taman / lahan, tinggi = lantai x tinggi per lantai.
+     * `pelanggaran` berisi kunci yang melewati batas (kdb, klb, kdh, parkir) supaya UI bisa menandainya merah.
+     *
+     * @param  array{butuh?: int, muat?: int}|null  $parkir
+     * @return array<string, mixed>
+     */
+    public static function ringkasan(string $tipe, float $luasLahan, float $tapak, float $luasLantai, float $luasTaman, int $lantai, float $kdbBatas, float $klbBatas, ?float $kdhBatas, ?array $parkir): array
+    {
+        $kdb = $luasLahan > 0 ? $tapak / $luasLahan * 100 : 0.0;
+        $klb = $luasLahan > 0 ? $luasLantai / $luasLahan : 0.0;
+        $kdh = $luasLahan > 0 ? $luasTaman / $luasLahan * 100 : 0.0;
+
+        $langgar = [];
+        if ($kdb > $kdbBatas + 0.5) {
+            $langgar[] = 'kdb';
+        }
+        if ($klb > $klbBatas + 0.01) {
+            $langgar[] = 'klb';
+        }
+        if ($kdhBatas !== null && $kdh + 0.5 < $kdhBatas) {
+            $langgar[] = 'kdh';
+        }
+        if ($parkir && ($parkir['muat'] ?? 0) < ($parkir['butuh'] ?? 0)) {
+            $langgar[] = 'parkir';
+        }
+
+        return [
+            'kdb_terpakai' => round($kdb, 1),
+            'kdb_batas' => $kdbBatas,
+            'klb_terpakai' => round($klb, 2),
+            'klb_batas' => $klbBatas,
+            'kdh_terpakai' => round($kdh, 1),
+            'kdh_batas' => $kdhBatas,
+            'tinggi_lantai_m' => self::TINGGI_LANTAI[$tipe],
+            'tinggi_m' => round($lantai * self::TINGGI_LANTAI[$tipe], 1),
+            'pelanggaran' => $langgar,
         ];
     }
 
