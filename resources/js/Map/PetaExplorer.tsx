@@ -4,11 +4,12 @@
  */
 import { useEffect, useRef } from 'react';
 import L from 'leaflet';
-import type { Feature, FeatureCollection, Geometry, Point, Polygon } from 'geojson';
-import type { CommuteResponse, HasilSearch, LayerKey } from '@/types';
+import type { Feature, FeatureCollection, Geometry, MultiPolygon, Point, Polygon } from 'geojson';
+import type { CommuteResponse, HasilSearch, JenisZona, LayerKey, ZonaLahanMasuk, ZonaLahanProps } from '@/types';
 import { bahasaAktif, pilihTeks, type Bahasa } from '@/lib/bahasa';
 import * as gaya from './gaya';
 import { AlatLahan, LapisanKapasitas, type ModeLahan } from './GambarLahan';
+import { AlatZona, type TeksZona } from './ZonaLahan';
 
 export type TitikPeta = { lat: number; lng: number };
 
@@ -40,6 +41,13 @@ type Props = {
     /** Kavling/jalan/tapak dari POST /api/lahan. */
     kapasitasLahan?: FeatureCollection | null;
     onLahanBerubah?: (g: Polygon | null, tarik?: boolean) => void;
+    /** Zona dari respons /api/lahan (bawaan pola atau hasil potong zona pengguna). */
+    zonaLahan?: FeatureCollection<Polygon | MultiPolygon, ZonaLahanProps> | null;
+    /** Zona pengguna (belum dipotong); null = zona bawaan pola. */
+    zonaManual?: ZonaLahanMasuk[] | null;
+    onZonaBerubah?: (zona: ZonaLahanMasuk[], tarik: boolean) => void;
+    /** Kunci baru = tambahkan satu zona berjenis ini di tengah lahan. */
+    tambahZona?: { jenis: JenisZona; kunci: number } | null;
     className?: string;
 };
 
@@ -225,6 +233,7 @@ export default function PetaExplorer(props: Props) {
         m.createPane('nrTitik').style.zIndex = '430';
         m.createPane('nrStasiun').style.zIndex = '440';
         m.createPane('nrLahanIsi').style.zIndex = '445';
+        m.createPane('nrZona').style.zIndex = '448';
         m.createPane('nrSeleksi').style.zIndex = '450';
         m.createPane('nrRute').style.zIndex = '460';
         grupSeleksi.current = L.layerGroup().addTo(m);
@@ -267,6 +276,8 @@ export default function PetaExplorer(props: Props) {
         peta.current = m;
         return () => {
             alat.current = null;
+            alatZona.current = null;
+            lapisan.current = null;
             m.remove();
             peta.current = null;
         };
@@ -454,10 +465,24 @@ export default function PetaExplorer(props: Props) {
         return `${p.lantai} ${tr('lantai', 'floors')} · ${p.jumlah} ${satuan}`;
     };
 
+    const alatZona = useRef<AlatZona | null>(null);
+    const teksZona = (): TeksZona => ({
+        label: { bangunan: tr('Gedung', 'Building'), parkir: tr('Parkir', 'Parking'), taman: tr('Taman', 'Park') },
+        hapus: tr('Hapus zona', 'Remove zone'),
+    });
+
     // Uji Lahan (FR-23)
     useEffect(() => {
         const m = peta.current;
         if (!m) return;
+        if (!alatZona.current) {
+            alatZona.current = new AlatZona(
+                m,
+                (zona, tarik) => panggil.current.onZonaBerubah?.(zona, tarik),
+                (id, cincin) => lapisan.current?.saringZona(id, cincin),
+                teksZona(),
+            );
+        }
         if (!lapisan.current && grupKapasitas.current) lapisan.current = new LapisanKapasitas(m, grupKapasitas.current, labelIsi);
         if (!alat.current) {
             alat.current = new AlatLahan(
@@ -471,7 +496,21 @@ export default function PetaExplorer(props: Props) {
             );
         }
         alat.current.mulai(props.alatLahan?.mode ?? null);
+        if (!props.alatLahan) alatZona.current?.kosongkan();
     }, [props.alatLahan?.mode, props.alatLahan?.kunci]);
+
+    // Zona: tampil hanya bila lahan sudah punya hasil; pegangan zona pengguna tetap di tempat yang ditarik.
+    useEffect(() => {
+        const z = alatZona.current;
+        if (!z) return;
+        z.setTeks(teksZona());
+        if (!props.alatLahan || !props.zonaLahan) z.kosongkan();
+        else z.tampilkan(props.zonaLahan, props.zonaManual ?? null);
+    }, [props.zonaLahan, props.zonaManual, props.alatLahan, props.bahasa]);
+
+    useEffect(() => {
+        if (props.tambahZona && alat.current) alatZona.current?.tambah(props.tambahZona.jenis, alat.current.titikSekarang());
+    }, [props.tambahZona?.kunci]);
 
     useEffect(() => {
         if (props.selesaiLahan) alat.current?.selesai();
@@ -482,6 +521,8 @@ export default function PetaExplorer(props: Props) {
         if (!l) return;
         l.setLabel(labelIsi);
         l.perbarui(props.kapasitasLahan);
+        // Hasil baru sudah memuat zona terbaru: lepas penyamaran per zona, kecuali zona masih ditarik.
+        if (!alatZona.current?.ditarik) l.saringZona(null);
     }, [props.kapasitasLahan, props.bahasa]);
 
     return <div ref={wadah} className={props.className} role="region" aria-label="Peta Jabodetabek, klik untuk melihat detail lokasi" />;

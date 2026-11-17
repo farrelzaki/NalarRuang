@@ -316,11 +316,15 @@ function gayaIsi(p: Record<string, unknown>): L.PathOptions {
                 case 'koridor':
                     return { stroke: false, fillColor: '#3b4252', fillOpacity: 0.9 };
                 case 'taman':
-                    return { color: '#e7a3a3', weight: 1, fillColor: '#f4b6b6', fillOpacity: 0.55 };
+                    return { color: '#6fbf80', weight: 1, fillColor: '#bfe3c0', fillOpacity: 0.7 };
                 case 'parkir':
                     return { stroke: false, fillColor: '#6b7280', fillOpacity: 0.55 };
                 case 'slot':
                     return { color: '#ffffff', weight: 0.8, fillColor: '#2fbf71', fillOpacity: 0.55 };
+                case 'inti':
+                    return { color: '#1d2433', weight: 0.6, fillColor: '#9aa3b2', fillOpacity: 0.9 };
+                case 'void':
+                    return { color: '#e7a3a3', weight: 0.8, fillColor: '#f4b6b6', fillOpacity: 0.4 };
                 case 'tapak':
                     return { color: '#1f3b6e', weight: 1.5, fillColor: '#3b6fd8', fillOpacity: 0.45 };
                 default:
@@ -333,7 +337,7 @@ function gayaIsi(p: Record<string, unknown>): L.PathOptions {
 const SATUAN_ISI = new Set(['unit', 'kavling', 'slot']);
 const LAMA_HILANG = 280;
 
-type ItemIsi = { layer: L.Polygon; jenis: string; tipe: string; pusat: [number, number]; luas: number };
+type ItemIsi = { layer: L.Polygon; jenis: string; tipe: string; pusat: [number, number]; luas: number; zona: number | null };
 
 function cincinLuar(g: Geometry): Position[] {
     if (g.type === 'Polygon') return g.coordinates[0] ?? [];
@@ -386,6 +390,7 @@ export class LapisanKapasitas {
     private label: (p: Record<string, unknown>) => string | null;
     private item: ItemIsi[] = [];
     private batas: L.LatLng[] | null = null;
+    private zonaTarik = new Map<number, L.LatLng[][]>();
 
     constructor(peta: L.Map, grup: L.LayerGroup, label: (p: Record<string, unknown>) => string | null) {
         this.peta = peta;
@@ -415,6 +420,7 @@ export class LapisanKapasitas {
             const p = (f.properties ?? {}) as Record<string, unknown>;
             const jenis = String(p.jenis ?? '');
             const tipe = String(p.tipe ?? '');
+            const zona = typeof p.zona === 'number' ? p.zona : null;
             const u = ukur(f.geometry);
             let cocok: ItemIsi | undefined;
             if (SATUAN_ISI.has(jenis)) {
@@ -446,19 +452,29 @@ export class LapisanKapasitas {
                 } else if (cocok.layer.getTooltip()) {
                     cocok.layer.unbindTooltip();
                 }
-                baru.push({ ...cocok, tipe, pusat: u.pusat, luas: u.luas });
+                baru.push({ ...cocok, tipe, pusat: u.pusat, luas: u.luas, zona });
             } else {
                 const layer = L.polygon(latLngsDari(f.geometry), { ...gaya, pane: 'nrLahanIsi', interactive: false });
                 if (teks) layer.bindTooltip(teks, { permanent: true, direction: 'center', className: 'nr-lahan-label' });
                 layer.addTo(this.grup);
                 layer.getElement()?.classList.add(SATUAN_ISI.has(jenis) ? 'nr-isi-muncul' : 'nr-isi-pudar-masuk');
-                baru.push({ layer, jenis, tipe, pusat: u.pusat, luas: u.luas });
+                baru.push({ layer, jenis, tipe, pusat: u.pusat, luas: u.luas, zona });
             }
         }
 
         for (const it of sisa) this.hapus(it.layer);
         this.item = baru;
-        if (this.batas) this.saring(this.batas);
+        this.saring(this.batas);
+    }
+
+    /**
+     * Zona yang sedang ditarik (id server -> cincin baru): unit/kavling/slot zona itu yang keluar zona langsung memudar,
+     * bagian lain zona itu (koridor, inti, aspal parkir) disamarkan sampai hasil server datang. null = lepas semua.
+     */
+    saringZona(id: number | null, cincin?: L.LatLng[][]): void {
+        if (id === null) this.zonaTarik.clear();
+        else if (cincin) this.zonaTarik.set(id, cincin.map((r) => r.map((t) => L.latLng(t.lat, t.lng))));
+        this.saring(this.batas);
     }
 
     /** Batas lahan saat ini (atau null). Dipotong ke batas ini dan unit/kavling yang keluar batas dipudarkan. */
@@ -466,15 +482,19 @@ export class LapisanKapasitas {
         this.batas = batas && batas.length >= 3 ? batas.map((t) => L.latLng(t.lat, t.lng)) : null;
         this.pasangPotong();
         for (const it of this.item) {
-            if (!SATUAN_ISI.has(it.jenis)) continue;
             const el = it.layer.getElement();
             if (!el) continue;
+            const zona = it.zona !== null ? this.zonaTarik.get(it.zona) : undefined;
+            if (!SATUAN_ISI.has(it.jenis)) {
+                el.classList.toggle('nr-isi-luar', !!zona);
+                continue;
+            }
             // Titik sudut ditarik 10% ke pusatnya dulu, supaya unit yang tepat menempel batas tidak dianggap keluar.
             const c = it.layer.getBounds().getCenter();
-            const luar = this.batas
-                ? !cincinPoligon(it.layer).every((t) => didalam(L.latLng(c.lat + 0.9 * (t.lat - c.lat), c.lng + 0.9 * (t.lng - c.lng)), this.batas!))
-                : false;
-            el.classList.toggle('nr-isi-luar', luar);
+            const titik = cincinPoligon(it.layer).map((t) => L.latLng(c.lat + 0.9 * (t.lat - c.lat), c.lng + 0.9 * (t.lng - c.lng)));
+            const keluarLahan = this.batas ? !titik.every((t) => didalam(t, this.batas!)) : false;
+            const keluarZona = zona ? !titik.every((t) => didalam(t, zona[0]) && !zona.slice(1).some((lubang) => didalam(t, lubang))) : false;
+            el.classList.toggle('nr-isi-luar', keluarLahan || keluarZona);
         }
     }
 
