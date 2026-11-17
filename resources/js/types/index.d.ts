@@ -2,7 +2,7 @@
  * Tipe yang mencerminkan kontrak API (docs/SISTEM.md bagian 2).
  * Milik bersama Farrel, Adzkia, dan Nur'Afia: ubah hanya setelah kontrak disepakati.
  */
-import type { FeatureCollection, Geometry, LineString, MultiLineString, Polygon } from 'geojson';
+import type { FeatureCollection, Geometry, LineString, MultiLineString, MultiPolygon, Polygon } from 'geojson';
 
 export type Persona = 'commuter' | 'driver' | 'social_vibe' | 'zen';
 
@@ -126,8 +126,35 @@ export type AsumsiLahan = {
     porsi_2br?: number;
     sempadan?: number;
     lantai?: number | null;
-    /** Slot parkir mobil per unit/kamar. */
+    /** Apartemen: slot parkir mobil per unit. */
     rasio_parkir?: number;
+    /** Kos: slot parkir motor per kamar. */
+    rasio_motor?: number;
+};
+
+/** Pola tata letak (mirip preset TestFit). rumah: grid/cluster; kos: keliling/koridor; apartemen: keliling/wrap/tower. */
+export type PolaLahan = 'grid' | 'cluster' | 'keliling' | 'koridor' | 'wrap' | 'tower';
+
+/** Zona yang bisa ditarik sendiri-sendiri. */
+export type JenisZona = 'bangunan' | 'parkir' | 'taman';
+
+/** Zona yang dikirim pengguna setelah menariknya; urutan = nomor zona (`id`). */
+export type ZonaLahanMasuk = { jenis: JenisZona; geometri: Polygon };
+
+/** Zona di respons: geometri yang sudah dipotong ke lahan; `lantai` untuk gedung parkir bertingkat. */
+export type ZonaLahanProps = { id: number; jenis: JenisZona; luas_m2: number; lantai?: number };
+
+/** Kepatuhan terhadap RDTR (atau asumsi); `pelanggaran` berisi kunci yang lewat batas. */
+export type RingkasanLahan = {
+    kdb_terpakai: number;
+    kdb_batas: number;
+    klb_terpakai: number;
+    klb_batas: number;
+    kdh_terpakai: number;
+    kdh_batas: number | null;
+    tinggi_lantai_m: number;
+    tinggi_m: number;
+    pelanggaran: ('kdb' | 'klb' | 'kdh' | 'parkir')[];
 };
 
 /** Tipe unit apartemen; kos memakai 'kamar'. */
@@ -138,6 +165,9 @@ export type LahanRequest = {
     geometri: Polygon;
     tipe: TipeLahan;
     asumsi?: AsumsiLahan;
+    pola?: PolaLahan;
+    /** Tanpa ini zona dibuat dari pola; dengan ini zona pengguna yang diisi. */
+    zona?: ZonaLahanMasuk[];
     persona?: Persona[];
 };
 
@@ -160,8 +190,8 @@ export type KapasitasLahan = {
     unit_per_lantai?: number;
     /** Jumlah unit per tipe di semua lantai. */
     komposisi?: Partial<Record<TipeUnit, number>>;
-    /** Slot parkir mobil yang dibutuhkan (rasio x unit) dan yang muat di halaman. */
-    parkir?: { butuh: number; muat: number };
+    /** Slot parkir yang dibutuhkan (rasio x unit) dan yang muat; motor untuk kos, mobil untuk apartemen. */
+    parkir?: { butuh: number; muat: number; jenis: 'motor' | 'mobil' | null; lantai: number };
 };
 
 /** Respons POST /api/lahan (FR-23). */
@@ -174,18 +204,24 @@ export type LahanResponse = {
     /** Zona RDTR paling luas di lahan (hanya DKI); porsi 0–1 dari luas lahan. */
     zonasi: { zona: string; subzona: string | null; porsi: number; sumber: string } | null;
     /** KDB dalam persen, KLB rasio; sumber 'asumsi' bila zona tidak tersedia. */
-    intensitas: { kdb: number; klb: number; sumber: 'RDTR DKI 2022' | 'asumsi'; alternatif: 1 | 2; luas_persil_m2: number };
+    intensitas: { kdb: number; klb: number; kdh: number | null; sumber: 'RDTR DKI 2022' | 'asumsi'; alternatif: 1 | 2; luas_persil_m2: number };
     banjir: { porsi_rawan: number; tingkat_maks: 1 | 2 | 3 | null; genangan_2020: boolean };
     match: Record<Persona, boolean>;
     terdekat: Record<Persona, { nama: string; meter: number } | null>;
     jumlah_fasilitas: Record<Persona, number>;
     kesimpulan: string[];
     tipe: TipeLahan;
+    pola: PolaLahan;
+    pola_tersedia: PolaLahan[];
     asumsi: AsumsiLahan;
     kapasitas: KapasitasLahan;
+    ringkasan: RingkasanLahan;
+    zona: FeatureCollection<Polygon | MultiPolygon, ZonaLahanProps>;
+    zona_manual: boolean;
     /**
-     * Fitur `jenis`: rumah tapak 'kavling' (varian 0–2) + 'jalan'; kos/apartemen 'unit' (`tipe`), 'koridor',
-     * 'taman', 'parkir', 'slot'; lahan sempit 'tapak'. 'taman'/'tapak' membawa `lantai`, `jumlah`, `satuan` untuk label.
+     * Fitur `jenis`: rumah tapak 'kavling' (varian 0–2) + 'jalan' + 'taman'; kos/apartemen 'unit' (`tipe`), 'koridor',
+     * 'inti', 'void', 'taman', 'parkir' (`lantai`), 'slot'; lahan sempit 'tapak'. Isi zona membawa `zona` (id zona).
+     * 'taman'/'tapak' membawa `lantai`, `jumlah`, `satuan` untuk label.
      */
     geometri_kapasitas: FeatureCollection;
     catatan: string[];
