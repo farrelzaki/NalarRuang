@@ -151,13 +151,13 @@ export type JenisAkses = 'gerbang' | 'pintu';
 export type AksesLahanMasuk = {
     jenis: JenisAkses;
     titik: [number, number];
-    /** Lebar gerbang (m), 2,5–30; kosong = bawaan tipe. */
+    /** Gerbang: lebar 2,5–30 m (kosong = bawaan tipe). Pintu: lebar bukaan 1,5–20 m (kosong = 3 m). */
     lebar?: number;
-    /** Panjang jalan masuk dari gerbang (m), 2–300; kosong = otomatis sampai jalan/parkir. */
+    /** Gerbang: panjang jalan masuk 2–300 m (kosong = sampai jalan/parkir). Pintu: kedalaman lobi 2–40 m (kosong = satu unit). */
     panjang?: number;
 };
 
-/** Akses di respons; gerbang membawa panjang jalan masuk yang dipakai dan apakah panjang itu otomatis. */
+/** Akses di respons: lebar dan panjang yang dipakai (gerbang: jalan masuk; pintu: lobi) dan apakah panjangnya otomatis. */
 export type AksesLahanProps = { id: number; jenis: JenisAkses; lebar: number; panjang?: number; otomatis?: boolean };
 
 /** Kepatuhan terhadap RDTR (atau asumsi); `pelanggaran` berisi kunci yang lewat batas. */
