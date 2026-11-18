@@ -692,10 +692,24 @@ input { font: inherit; }
 .nr-lahan__warna--lobi { background: #f2b544; }
 .nr-akses-ujung { width: 14px; height: 14px; border-radius: 2px; background: var(--white); border: 2px solid #b45309; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); cursor: ew-resize; }
 .nr-akses-dalam { width: 14px; height: 14px; border-radius: 50%; background: #b45309; border: 2px solid var(--white); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35); cursor: ns-resize; }
-.nr-lahan__aksesdaftar { display: flex; flex-direction: column; gap: 6px; margin: 8px 0 0; padding: 0; list-style: none; }
-.nr-lahan__aksesbaris { display: flex; align-items: center; gap: 6px; padding: 6px 8px; border: 1px solid var(--line); border-radius: var(--radius-md); font: 600 11px/16px var(--font-sans); color: var(--navy-900); }
-.nr-lahan__aksesbaris > b { flex: 1; min-width: 0; }
-.nr-lahan__aksesbaris label { display: inline-flex; align-items: center; gap: 3px; font-weight: 500; color: var(--stone-500, #6b7280); }
-.nr-lahan__aksesbaris input { width: 52px; padding: 2px 4px; border: 1px solid var(--line); border-radius: 6px; font: 600 11px/16px var(--font-sans); color: var(--navy-900); background: var(--white); }
-.nr-lahan__aksesbaris button { display: grid; place-items: center; width: 20px; height: 20px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--stone-500, #6b7280); cursor: pointer; font: 700 13px/1 var(--font-sans); }
-.nr-lahan__aksesbaris button:hover { background: var(--cream-100, #f7f4ee); }
+.nr-lahan__aksesdaftar { display: flex; flex-direction: column; gap: 8px; margin: 10px 0 0; padding: 0; list-style: none; }
+.nr-lahan__aksesbaris { display: flex; flex-direction: column; gap: 8px; padding: 10px 12px; border: 1px solid var(--line); border-left: 3px solid #b45309; border-radius: var(--radius-md); background: var(--white); }
+.nr-lahan__aksesbaris--pintu { border-left-color: #7c3aed; }
+.nr-lahan__akseskepala { display: flex; align-items: center; gap: 6px; font: 400 11px/16px var(--font-sans); color: var(--stone-500, #6b7280); }
+.nr-lahan__akseskepala i { width: 8px; height: 8px; border-radius: 50%; background: #b45309; flex: none; }
+.nr-lahan__aksesbaris--pintu .nr-lahan__akseskepala i { background: #7c3aed; }
+.nr-lahan__akseskepala b { font: 700 12px/16px var(--font-sans); color: var(--navy-900); white-space: nowrap; }
+.nr-lahan__akseskepala span { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.nr-lahan__akseskepala button { display: grid; place-items: center; width: 22px; height: 22px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--stone-500, #6b7280); cursor: pointer; font: 700 14px/1 var(--font-sans); }
+.nr-lahan__akseskepala button:hover { background: var(--cream-100, #f7f4ee); color: var(--navy-900); }
+.nr-lahan__aksesisian { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.nr-lahan__aksesisian label { display: flex; flex-direction: column; gap: 4px; font: 600 11px/14px var(--font-sans); color: var(--stone-500, #6b7280); }
+.nr-lahan__aksesisian label > span:first-child { display: flex; align-items: center; gap: 6px; }
+.nr-lahan__aksesisian small { padding: 0 6px; border-radius: var(--radius-pill); background: var(--cream-100, #f7f4ee); font: 600 10px/16px var(--font-sans); color: var(--stone-500, #6b7280); }
+.nr-lahan__aksesangka { display: flex; align-items: center; gap: 4px; padding: 0 8px 0 0; border: 1px solid var(--line); border-radius: 8px; background: var(--white); }
+.nr-lahan__aksesangka:focus-within { border-color: var(--navy-900); }
+.nr-lahan__aksesangka input { flex: 1; min-width: 0; width: 100%; padding: 6px 8px; border: 0; outline: none; background: transparent; font: 600 13px/18px var(--font-sans); color: var(--navy-900); }
+.nr-lahan__aksesangka input::placeholder { color: var(--stone-400, #9ca3af); font-weight: 500; }
+.nr-lahan__aksesangka em { font: 500 12px/18px var(--font-sans); font-style: normal; color: var(--stone-500, #6b7280); }
+.nr-akses-ujung--pintu { border-color: #7c3aed; }
+.nr-akses-dalam--pintu { background: #7c3aed; }

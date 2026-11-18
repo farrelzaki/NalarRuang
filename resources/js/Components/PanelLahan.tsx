@@ -390,8 +390,9 @@ function Ringkasan({ r, parkir }: { r: RingkasanLahan; parkir?: { butuh: number;
 }
 
 /**
- * Daftar gerbang dan pintu dengan lebar dan panjang jalan masuk yang bisa diketik sendiri.
- * Panjang kosong = otomatis sampai jalan/parkir (angka otomatis dari server tampil sebagai petunjuk).
+ * Daftar gerbang dan pintu dengan lebar dan panjang yang bisa diketik sendiri.
+ * Gerbang: lebar gerbang + panjang jalan masuk. Pintu: lebar bukaan + kedalaman lobi ke dalam gedung.
+ * Panjang kosong = otomatis (angka otomatis dari server tampil sebagai petunjuk).
  */
 function DaftarAkses({ akses, server, onAkses }: { akses: AksesLahanMasuk[]; server: { id: number; jenis: string; lebar: number; panjang?: number; otomatis?: boolean }[]; onAkses: (a: AksesLahanMasuk[]) => void }) {
     const { t, bahasa } = useBahasa();
@@ -414,27 +415,58 @@ function DaftarAkses({ akses, server, onAkses }: { akses: AksesLahanMasuk[]; ser
         <ul className="nr-lahan__aksesdaftar" aria-label={t('Gerbang dan pintu', 'Gates and doors')}>
             {akses.map((a, i) => {
                 const s = server.find((x) => x.id === i && x.jenis === a.jenis);
-                const nomor = a.jenis === 'gerbang' ? ++nGerbang : ++nPintu;
+                const gerbang = a.jenis === 'gerbang';
+                const nomor = gerbang ? ++nGerbang : ++nPintu;
+                const otomatis = a.panjang === undefined;
                 return (
-                    <li key={i} className="nr-lahan__aksesbaris">
-                        <b>{a.jenis === 'gerbang' ? t(`Gerbang ${nomor}`, `Gate ${nomor}`) : t(`Pintu ${nomor}`, `Door ${nomor}`)}</b>
-                        {a.jenis === 'gerbang' && (
-                            <>
-                                <label>
-                                    {t('Lebar', 'Width')}
-                                    <input type="number" min={2.5} max={30} step={0.5} inputMode="decimal" value={a.lebar ?? ''} placeholder={s ? angka(s.lebar, bahasa, 1) : ''} onChange={(e) => ubah(i, 'lebar', e.target.value)} aria-label={t('Lebar gerbang (m)', 'Gate width (m)')} />
-                                    m
-                                </label>
-                                <label>
-                                    {t('Panjang', 'Length')}
-                                    <input type="number" min={2} max={300} step={1} inputMode="decimal" value={a.panjang ?? ''} placeholder={s?.panjang != null ? `${angka(s.panjang, bahasa, 0)} ${t('oto', 'auto')}` : t('oto', 'auto')} onChange={(e) => ubah(i, 'panjang', e.target.value)} aria-label={t('Panjang jalan masuk (m), kosong = otomatis', 'Access road length (m), empty = automatic')} />
-                                    m
-                                </label>
-                            </>
-                        )}
-                        <button type="button" onClick={() => onAkses(akses.filter((_, k) => k !== i))} aria-label={t('Hapus', 'Remove')} title={t('Hapus', 'Remove')}>
-                            ×
-                        </button>
+                    <li key={i} className={`nr-lahan__aksesbaris nr-lahan__aksesbaris--${a.jenis}`}>
+                        <div className="nr-lahan__akseskepala">
+                            <i aria-hidden />
+                            <b>{gerbang ? t(`Gerbang ${nomor}`, `Gate ${nomor}`) : t(`Pintu ${nomor}`, `Door ${nomor}`)}</b>
+                            <span>{gerbang ? t('jalan masuk', 'access road') : t('lobi gedung', 'building lobby')}</span>
+                            <button type="button" onClick={() => onAkses(akses.filter((_, k) => k !== i))} aria-label={t('Hapus', 'Remove')} title={t('Hapus', 'Remove')}>
+                                ×
+                            </button>
+                        </div>
+                        <div className="nr-lahan__aksesisian">
+                            <label>
+                                <span>{t('Lebar', 'Width')}</span>
+                                <span className="nr-lahan__aksesangka">
+                                    <input
+                                        type="number"
+                                        min={gerbang ? 2.5 : 1.5}
+                                        max={gerbang ? 30 : 20}
+                                        step={0.5}
+                                        inputMode="decimal"
+                                        value={a.lebar ?? ''}
+                                        placeholder={s ? angka(s.lebar, bahasa, 1) : ''}
+                                        onChange={(e) => ubah(i, 'lebar', e.target.value)}
+                                        aria-label={gerbang ? t('Lebar gerbang (m)', 'Gate width (m)') : t('Lebar pintu (m)', 'Door width (m)')}
+                                    />
+                                    <em>m</em>
+                                </span>
+                            </label>
+                            <label>
+                                <span>
+                                    {gerbang ? t('Panjang', 'Length') : t('Kedalaman', 'Depth')}
+                                    {otomatis && <small>{t('otomatis', 'auto')}</small>}
+                                </span>
+                                <span className="nr-lahan__aksesangka">
+                                    <input
+                                        type="number"
+                                        min={2}
+                                        max={gerbang ? 300 : 40}
+                                        step={1}
+                                        inputMode="decimal"
+                                        value={a.panjang ?? ''}
+                                        placeholder={s?.panjang != null ? angka(s.panjang, bahasa, 0) : ''}
+                                        onChange={(e) => ubah(i, 'panjang', e.target.value)}
+                                        aria-label={gerbang ? t('Panjang jalan masuk (m), kosong = otomatis', 'Access road length (m), empty = automatic') : t('Kedalaman lobi (m), kosong = otomatis', 'Lobby depth (m), empty = automatic')}
+                                    />
+                                    <em>m</em>
+                                </span>
+                            </label>
+                        </div>
                     </li>
                 );
             })}
