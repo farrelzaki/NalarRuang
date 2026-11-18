@@ -186,42 +186,51 @@ export function PanelLahan(props: Props) {
 
             {props.adaLahan && data && (
                 <div className="nr-lahan__zona">
-                    <p className="nr-lahan__zona-teks">
-                        {t('Tarik garis putus-putus di peta untuk mengubah tiap zona sendiri-sendiri.', 'Drag the dashed outlines on the map to reshape each zone on its own.')}
-                    </p>
-                    <div className="nr-lahan__zona-aksi">
-                        {ZONA_TAMBAH.filter((z) => z.kunci !== 'parkir' || props.tipe !== 'rumah').map((z) => (
-                            <button key={z.kunci} type="button" className={`nr-lahan__zonabtn nr-lahan__zonabtn--${z.kunci}`} onClick={() => props.onTambahZona(z.kunci)}>
-                                + {t(z.label[0], z.label[1])}
+                    <section className="nr-lahan__grup" aria-labelledby="nr-lahan-zona">
+                        <div className="nr-lahan__grupkepala">
+                            <h3 id="nr-lahan-zona">{t('Zona', 'Zones')}</h3>
+                            {props.zonaManual && (
+                                <button type="button" className="nr-lahan__tautan" onClick={props.onAturUlangZona}>
+                                    <Ikon name="rotate-ccw" size={12} /> {t('Kembalikan bawaan', 'Reset to default')}
+                                </button>
+                            )}
+                        </div>
+                        <p className="nr-lahan__zona-teks">{t('Tarik garis putus-putus di peta untuk mengubah tiap zona.', 'Drag the dashed outlines on the map to reshape each zone.')}</p>
+                        <div className="nr-lahan__tambah">
+                            {ZONA_TAMBAH.filter((z) => z.kunci !== 'parkir' || props.tipe !== 'rumah').map((z) => (
+                                <button key={z.kunci} type="button" className={`nr-lahan__zonabtn nr-lahan__zonabtn--${z.kunci}`} onClick={() => props.onTambahZona(z.kunci)}>
+                                    + {t(z.label[0], z.label[1])}
+                                </button>
+                            ))}
+                        </div>
+                    </section>
+
+                    <section className="nr-lahan__grup" aria-labelledby="nr-lahan-akses">
+                        <div className="nr-lahan__grupkepala">
+                            <h3 id="nr-lahan-akses">{t('Akses', 'Access')}</h3>
+                            <span className="nr-lahan__grupjumlah">{props.akses.length}/6</span>
+                        </div>
+                        <p className="nr-lahan__zona-teks">
+                            {props.tipe === 'rumah'
+                                ? t('Gerbang menempel di tepi lahan dan membuka jalan masuk ke jalan lingkungan.', 'Gates snap to the site edge and open an access road to the street network.')
+                                : t('Gerbang membuka jalan masuk ke parkir; pintu menempel di tepi gedung dan menjadi lobi.', 'Gates open an access road to parking; doors snap to the building and become a lobby.')}
+                        </p>
+                        <div className="nr-lahan__tambah">
+                            <button type="button" className="nr-lahan__zonabtn nr-lahan__aksesbtn--gerbang" disabled={props.akses.length >= 6} onClick={() => props.onTambahAkses('gerbang')}>
+                                + {t('Gerbang', 'Gate')}
                             </button>
-                        ))}
-                        {props.zonaManual && (
-                            <button type="button" className="nr-lahan__zonabtn" onClick={props.onAturUlangZona}>
-                                <Ikon name="rotate-ccw" size={12} /> {t('Zona bawaan', 'Default zones')}
-                            </button>
-                        )}
-                    </div>
-                    <p className="nr-lahan__zona-teks">
-                        {props.tipe === 'rumah'
-                            ? t('Gerbang menempel di tepi lahan; tarik ujungnya untuk mengatur lebar. Jalan masuk ditarik dari gerbang ke jalan lingkungan.', 'Gates snap to the site edge; drag their ends to set the width. An access road runs from each gate to the street network.')
-                            : t('Gerbang (mobil/motor) menempel di tepi lahan dan membuka jalan ke parkir; tarik ujungnya untuk mengatur lebar. Pintu menempel di tepi gedung dan menjadi lobi.', 'Gates (cars/bikes) snap to the site edge and open a road to parking; drag their ends to set the width. Doors snap to the building and become a lobby.')}
-                    </p>
-                    <div className="nr-lahan__zona-aksi">
-                        <button type="button" className="nr-lahan__zonabtn nr-lahan__aksesbtn--gerbang" disabled={props.akses.length >= 6} onClick={() => props.onTambahAkses('gerbang')}>
-                            + {t('Gerbang kendaraan', 'Vehicle gate')}
-                        </button>
-                        {props.tipe !== 'rumah' && (
-                            <button type="button" className="nr-lahan__zonabtn nr-lahan__aksesbtn--pintu" disabled={props.akses.length >= 6} onClick={() => props.onTambahAkses('pintu')}>
-                                + {t('Pintu gedung', 'Building door')}
-                            </button>
-                        )}
-                    </div>
-                    {props.akses.length > 0 && <DaftarAkses akses={props.akses} server={data?.akses?.features.map((f) => f.properties) ?? []} onAkses={props.onAkses} />}
-                    <div className="nr-lahan__zona-aksi">
-                        <button type="button" className="nr-lahan__zonabtn nr-lahan__zonabtn--3d" onClick={props.on3D}>
-                            <Ikon name="layers" size={13} /> {t('Lihat 3D', 'View 3D')}
-                        </button>
-                    </div>
+                            {props.tipe !== 'rumah' && (
+                                <button type="button" className="nr-lahan__zonabtn nr-lahan__aksesbtn--pintu" disabled={props.akses.length >= 6} onClick={() => props.onTambahAkses('pintu')}>
+                                    + {t('Pintu gedung', 'Building door')}
+                                </button>
+                            )}
+                        </div>
+                        {props.akses.length > 0 && <DaftarAkses akses={props.akses} server={data?.akses?.features.map((f) => f.properties) ?? []} onAkses={props.onAkses} />}
+                    </section>
+
+                    <button type="button" className="nr-lahan__btn3d" onClick={props.on3D}>
+                        <Ikon name="layers" size={15} /> {t('Lihat 3D', 'View 3D')}
+                    </button>
                 </div>
             )}
 

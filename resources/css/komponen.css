@@ -713,3 +713,18 @@ input { font: inherit; }
 .nr-lahan__aksesangka em { font: 500 12px/18px var(--font-sans); font-style: normal; color: var(--stone-500, #6b7280); }
 .nr-akses-ujung--pintu { border-color: #7c3aed; }
 .nr-akses-dalam--pintu { background: #7c3aed; }
+
+/* Uji Lahan: kelompok Zona dan Akses, tombol tambah sejajar, tombol 3D selebar panel. */
+.nr-lahan__zona { display: flex; flex-direction: column; gap: 10px; margin: 12px 0 0; }
+.nr-lahan__grup { display: flex; flex-direction: column; gap: 6px; padding: 12px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--cream-50, #fbfaf7); }
+.nr-lahan__grupkepala { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.nr-lahan__grupkepala h3 { margin: 0; font: 700 10px/14px var(--font-sans); letter-spacing: 1px; text-transform: uppercase; color: var(--stone-500, #6b7280); }
+.nr-lahan__grupjumlah { font: 600 11px/14px var(--font-sans); color: var(--stone-500, #6b7280); }
+.nr-lahan__tautan { display: inline-flex; align-items: center; gap: 4px; padding: 0; border: 0; background: none; color: var(--navy-900); cursor: pointer; font: 600 11px/14px var(--font-sans); }
+.nr-lahan__tautan:hover { text-decoration: underline; }
+.nr-lahan__grup .nr-lahan__zona-teks { margin: 0; }
+.nr-lahan__tambah { display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 6px; }
+.nr-lahan__tambah .nr-lahan__zonabtn { justify-content: center; padding: 7px 10px; background: var(--white); }
+.nr-lahan__tambah .nr-lahan__zonabtn:disabled { opacity: 0.45; cursor: not-allowed; }
+.nr-lahan__btn3d { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 10px 14px; border: 0; border-radius: var(--radius-pill); background: var(--navy-900); color: var(--white); cursor: pointer; font: 700 13px/18px var(--font-sans); }
+.nr-lahan__btn3d:hover { filter: brightness(1.15); }
