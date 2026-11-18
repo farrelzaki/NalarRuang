@@ -67,6 +67,18 @@ class KapasitasLahan
     /** Porsi lahan rumah tapak untuk taman/fasum pada pola bawaan. */
     public const PORSI_FASUM = 0.1;
 
+    /**
+     * Akses yang bisa ditaruh sendiri: `gerbang` = gerbang kendaraan (mobil/motor) di tepi lahan, `pintu` = pintu
+     * masuk/keluar gedung di tepi zona bangunan (kos/apartemen saja; rumah tapak punya pintu sendiri-sendiri).
+     */
+    public const JENIS_AKSES = ['gerbang', 'pintu'];
+
+    /** Paling banyak gerbang + pintu. */
+    public const AKSES_MAKS = 6;
+
+    /** Lebar pejalan dari pintu gedung ke gerbang (m). */
+    public const LEBAR_JALUR = 1.5;
+
     /** Tapak menara paling luas (m²) pada pola tower. */
     public const TAPAK_TOWER_MAKS = 1600.0;
 
@@ -500,6 +512,34 @@ class KapasitasLahan
             'tinggi_m' => round($lantai * self::TINGGI_LANTAI[$tipe], 1),
             'pelanggaran' => $langgar,
         ];
+    }
+
+    /** Apakah jenis akses berlaku untuk tipe ini (pintu gedung tidak untuk rumah tapak). */
+    public static function aksesBerlaku(string $tipe, string $jenis): bool
+    {
+        return in_array($jenis, self::JENIS_AKSES, true) && ! ($tipe === 'rumah' && $jenis === 'pintu');
+    }
+
+    /** Lebar jalan akses dari gerbang (m): rumah = lebar jalan lingkungan, kos = 3 m (motor), apartemen = 6 m (dua arah). */
+    public static function lebarAkses(string $tipe, array $asumsi): float
+    {
+        return match ($tipe) {
+            'rumah' => (float) ($asumsi['lebar_jalan'] ?? self::BAWAAN['rumah']['lebar_jalan']),
+            'kos' => 3.0,
+            default => 6.0,
+        };
+    }
+
+    /**
+     * Sisi kotak [x0, y0, x1, y1] yang paling dekat ke titik (gx, gy): 'x0', 'x1', 'y0', atau 'y1'.
+     * Dipakai untuk meletakkan zona parkir bawaan di sisi gerbang.
+     */
+    public static function sisiTerdekat(float $gx, float $gy, float $x0, float $y0, float $x1, float $y1): string
+    {
+        $jarak = ['y0' => abs($gy - $y0), 'y1' => abs($y1 - $gy), 'x0' => abs($gx - $x0), 'x1' => abs($x1 - $gx)];
+        asort($jarak);
+
+        return (string) array_key_first($jarak);
     }
 
     /** Faktor skala tapak (0–1) supaya poligon sempadan di peta luasnya sama dengan tapak yang dihitung. */

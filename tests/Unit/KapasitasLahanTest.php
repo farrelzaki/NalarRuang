@@ -258,4 +258,23 @@ class KapasitasLahanTest extends TestCase
         $aman = KapasitasLahan::ringkasan('kos', 1000, 500, 1500, 200, 3, 60, 1.8, null, ['butuh' => 10, 'muat' => 10]);
         $this->assertSame([], $aman['pelanggaran']);
     }
+
+    public function test_akses_gerbang_dan_pintu(): void
+    {
+        $this->assertTrue(KapasitasLahan::aksesBerlaku('rumah', 'gerbang'));
+        $this->assertFalse(KapasitasLahan::aksesBerlaku('rumah', 'pintu'));
+        $this->assertTrue(KapasitasLahan::aksesBerlaku('kos', 'pintu'));
+        $this->assertFalse(KapasitasLahan::aksesBerlaku('apartemen', 'jendela'));
+        $this->assertSame(8.0, KapasitasLahan::lebarAkses('rumah', $this->k->asumsi('rumah', [])));
+        $this->assertSame(3.0, KapasitasLahan::lebarAkses('kos', []));
+        $this->assertSame(6.0, KapasitasLahan::lebarAkses('apartemen', []));
+    }
+
+    public function test_sisi_terdekat_untuk_parkir_dekat_gerbang(): void
+    {
+        $this->assertSame('y0', KapasitasLahan::sisiTerdekat(50, 1, 0, 0, 100, 60));
+        $this->assertSame('y1', KapasitasLahan::sisiTerdekat(50, 59, 0, 0, 100, 60));
+        $this->assertSame('x0', KapasitasLahan::sisiTerdekat(2, 30, 0, 0, 100, 60));
+        $this->assertSame('x1', KapasitasLahan::sisiTerdekat(99, 30, 0, 0, 100, 60));
+    }
 }

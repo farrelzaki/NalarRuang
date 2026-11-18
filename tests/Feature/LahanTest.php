@@ -169,6 +169,34 @@ class LahanTest extends TestCase
             ->assertStatus(422);
     }
 
+    public function test_gerbang_dan_pintu_mengubah_tata_letak(): void
+    {
+        $tanpa = $this->lahan(['tipe' => 'apartemen'])->assertOk()->json();
+        $r = $this->lahan(['tipe' => 'apartemen', 'akses' => [
+            // Sedikit di luar tepi barat: harus ditempelkan ke tepi lahan.
+            ['jenis' => 'gerbang', 'titik' => [106.80195, -6.2075]],
+            ['jenis' => 'pintu', 'titik' => [106.8025, -6.20795]],
+        ]])->assertOk()->json();
+
+        $this->assertSame([0, 1], array_column(array_column($r['akses']['features'], 'properties'), 'id'));
+        $this->assertEqualsWithDelta(106.802, $r['akses']['features'][0]['geometry']['coordinates'][0], 2e-5);
+        $jenis = array_column(array_column($r['geometri_kapasitas']['features'], 'properties'), 'jenis');
+        $this->assertContains('akses', $jenis); // jalan dari gerbang menembus gedung keliling ke parkir
+        $this->assertContains('lobi', $jenis);
+        $this->assertLessThan($tanpa['kapasitas']['unit_per_lantai'], $r['kapasitas']['unit_per_lantai']);
+
+        // Rumah tapak: pintu gedung diabaikan; gerbang pada pola cluster membuka jalan dan memakan kavling.
+        $cluster = $this->lahan(['tipe' => 'rumah', 'pola' => 'cluster'])->assertOk()->json();
+        $rumah = $this->lahan(['tipe' => 'rumah', 'pola' => 'cluster', 'akses' => [
+            ['jenis' => 'gerbang', 'titik' => [106.8025, -6.208]],
+            ['jenis' => 'pintu', 'titik' => [106.8025, -6.2075]],
+        ]])->assertOk()->json();
+        $this->assertSame(['gerbang'], array_column(array_column($rumah['akses']['features'], 'properties'), 'jenis'));
+        $this->assertLessThanOrEqual($cluster['kapasitas']['jumlah'], $rumah['kapasitas']['jumlah']);
+
+        $this->lahan(['tipe' => 'kos', 'akses' => [['jenis' => 'jendela', 'titik' => [106.8025, -6.208]]]])->assertStatus(422);
+    }
+
     public function test_di_luar_dki_memakai_asumsi(): void
     {
         DB::table('fitur_peta')->where('layer_id', 'zonasi')->delete();
