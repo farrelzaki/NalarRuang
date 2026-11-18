@@ -536,6 +536,12 @@ class KapasitasLahan
         return is_numeric($lebar) ? round(max(2.5, min(30.0, (float) $lebar)), 2) : self::lebarAkses($tipe, $asumsi);
     }
 
+    /** Panjang jalan masuk dari gerbang yang diatur pengguna, dijepit ke 2–300 m; null = otomatis sampai jalan/parkir. */
+    public static function panjangGerbang(mixed $panjang): ?float
+    {
+        return is_numeric($panjang) ? round(max(2.0, min(300.0, (float) $panjang)), 1) : null;
+    }
+
     /**
      * Sisi kotak [x0, y0, x1, y1] yang paling dekat ke titik (gx, gy): 'x0', 'x1', 'y0', atau 'y1'.
      * Dipakai untuk meletakkan zona parkir bawaan di sisi gerbang.

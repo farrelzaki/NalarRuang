@@ -199,6 +199,13 @@ class LahanTest extends TestCase
         $this->assertSame(20.0, (float) $lebar['akses']['features'][0]['properties']['lebar']);
         $this->assertLessThanOrEqual($r['kapasitas']['unit_per_lantai'], $lebar['kapasitas']['unit_per_lantai']);
 
+        // Panjang jalan masuk yang diatur sendiri dipakai apa adanya (tidak sampai parkir).
+        $pendek = $this->lahan(['tipe' => 'apartemen', 'akses' => [['jenis' => 'gerbang', 'titik' => [106.80195, -6.2075], 'lebar' => 4, 'panjang' => 5]]])->assertOk()->json();
+        $p = $pendek['akses']['features'][0]['properties'];
+        $this->assertSame(5.0, (float) $p['panjang']);
+        $this->assertFalse($p['otomatis']);
+        $this->assertTrue($r['akses']['features'][0]['properties']['otomatis']);
+
         $this->lahan(['tipe' => 'kos', 'akses' => [['jenis' => 'jendela', 'titik' => [106.8025, -6.208]]]])->assertStatus(422);
     }
 

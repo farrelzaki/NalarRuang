@@ -285,4 +285,13 @@ class KapasitasLahanTest extends TestCase
         $this->assertSame(2.5, KapasitasLahan::lebarGerbang('kos', [], 1));
         $this->assertSame(30.0, KapasitasLahan::lebarGerbang('rumah', [], 99));
     }
+
+    public function test_panjang_gerbang_dijepit_atau_otomatis(): void
+    {
+        $this->assertNull(KapasitasLahan::panjangGerbang(null));
+        $this->assertNull(KapasitasLahan::panjangGerbang(''));
+        $this->assertSame(15.0, KapasitasLahan::panjangGerbang('15'));
+        $this->assertSame(2.0, KapasitasLahan::panjangGerbang(0));
+        $this->assertSame(300.0, KapasitasLahan::panjangGerbang(900));
+    }
 }
