@@ -2,7 +2,7 @@
  * Panel Uji Lahan (FR-23): gambar lahan → luas, zona, banjir, kecocokan persona, dan estimasi kapasitas
  * rumah tapak / kos / apartemen dengan asumsi yang bisa digeser. Terinspirasi TestFit.
  */
-import type { AsumsiLahan, JenisZona, LahanResponse, Persona, PolaLahan, RingkasanLahan, TipeLahan, TipeUnit } from '@/types';
+import type { AsumsiLahan, JenisAkses, JenisZona, LahanResponse, Persona, PolaLahan, RingkasanLahan, TipeLahan, TipeUnit } from '@/types';
 import { teksServer, useBahasa, type Bahasa } from '@/lib/bahasa';
 import { cx, PERSONA_IDS } from '@/lib/nalar';
 import { Ikon, Keadaan } from './Dasar';
@@ -28,6 +28,9 @@ type Props = {
     zonaManual: boolean;
     onAturUlangZona: () => void;
     onTambahZona: (j: JenisZona) => void;
+    /** Jumlah gerbang + pintu yang sudah ditaruh (paling banyak 6). */
+    jumlahAkses: number;
+    onTambahAkses: (j: JenisAkses) => void;
     on3D: () => void;
     sesi: Persona[];
     onGambarUlang: () => void;
@@ -194,6 +197,21 @@ export function PanelLahan(props: Props) {
                         {props.zonaManual && (
                             <button type="button" className="nr-lahan__zonabtn" onClick={props.onAturUlangZona}>
                                 <Ikon name="rotate-ccw" size={12} /> {t('Zona bawaan', 'Default zones')}
+                            </button>
+                        )}
+                    </div>
+                    <p className="nr-lahan__zona-teks">
+                        {props.tipe === 'rumah'
+                            ? t('Gerbang menempel di tepi lahan; jalan masuk ditarik dari gerbang ke jalan lingkungan.', 'Gates snap to the site edge; an access road runs from each gate to the street network.')
+                            : t('Gerbang (mobil/motor) menempel di tepi lahan dan membuka jalan ke parkir; pintu menempel di tepi gedung dan menjadi lobi.', 'Gates (cars/bikes) snap to the site edge and open a road to parking; doors snap to the building and become a lobby.')}
+                    </p>
+                    <div className="nr-lahan__zona-aksi">
+                        <button type="button" className="nr-lahan__zonabtn nr-lahan__aksesbtn--gerbang" disabled={props.jumlahAkses >= 6} onClick={() => props.onTambahAkses('gerbang')}>
+                            + {t('Gerbang kendaraan', 'Vehicle gate')}
+                        </button>
+                        {props.tipe !== 'rumah' && (
+                            <button type="button" className="nr-lahan__zonabtn nr-lahan__aksesbtn--pintu" disabled={props.jumlahAkses >= 6} onClick={() => props.onTambahAkses('pintu')}>
+                                + {t('Pintu gedung', 'Building door')}
                             </button>
                         )}
                         <button type="button" className="nr-lahan__zonabtn nr-lahan__zonabtn--3d" onClick={props.on3D}>

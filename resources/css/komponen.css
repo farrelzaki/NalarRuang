@@ -610,7 +610,7 @@ input { font: inherit; }
 .nr-gambar-lahan--titik, .nr-gambar-lahan--titik .leaflet-interactive { cursor: crosshair !important; }
 /* Saat menggambar, fitur layer lain tidak menangkap klik supaya titik sudut bisa ditaruh di mana saja. */
 /* Saat Uji Lahan aktif, hanya lahan, pegangannya, dan pegangan zona yang bisa diklik (POI/stasiun tidak ikut terpencet). */
-.nr-gambar-lahan .leaflet-interactive:not(.nr-lahan):not(.nr-lahan-pegangan):not(.nr-zona-sudut):not(.nr-zona-geser) { pointer-events: none !important; }
+.nr-gambar-lahan .leaflet-interactive:not(.nr-lahan):not(.nr-lahan-pegangan):not(.nr-zona-sudut):not(.nr-zona-geser):not(.nr-akses) { pointer-events: none !important; }
 .nr-lahan-label.leaflet-tooltip { background: var(--navy-900); color: var(--white); border: 0; border-radius: var(--radius-pill); padding: 3px 10px; font: 700 11px/16px var(--font-sans); box-shadow: var(--shadow-md); }
 .nr-lahan-label.leaflet-tooltip::before { display: none; }
 
@@ -678,3 +678,15 @@ input { font: inherit; }
 .nr-3d__kanvas { position: relative; flex: 1; min-height: 0; }
 .nr-3d__kanvas canvas { display: block; width: 100%; height: 100%; }
 .nr-3d__catatan { margin: 0; padding: 6px 14px 8px; font: 400 11px/15px var(--font-sans); color: var(--stone-500, #6b7280); }
+
+/* Uji Lahan: gerbang kendaraan dan pintu gedung. */
+.nr-akses { width: auto !important; height: auto !important; }
+.nr-akses__isi { display: inline-flex; align-items: center; gap: 4px; transform: translate(-50%, -50%); padding: 2px 4px 2px 6px; border-radius: var(--radius-pill); background: #b45309; color: var(--white); font: 700 10px/16px var(--font-sans); letter-spacing: 0.4px; white-space: nowrap; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35); cursor: grab; }
+.nr-akses--pintu .nr-akses__isi { background: #7c3aed; }
+.nr-akses__titik { width: 8px; height: 8px; border-radius: 50%; background: var(--white); }
+.nr-akses__hapus { display: grid; place-items: center; width: 16px; height: 16px; padding: 0; border: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.25); color: inherit; font: 700 12px/1 var(--font-sans); cursor: pointer; }
+.nr-akses__hapus:hover { background: rgba(255, 255, 255, 0.45); }
+.nr-lahan__aksesbtn--gerbang { border-color: #b45309; color: #92400e; }
+.nr-lahan__aksesbtn--pintu { border-color: #7c3aed; color: #6d28d9; }
+.nr-lahan__warna--akses { background: #5b6270; }
+.nr-lahan__warna--lobi { background: #f2b544; }

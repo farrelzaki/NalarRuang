@@ -55,6 +55,14 @@ three.js yang dimuat malas (`Map/Lahan3D.ts`, `Components/Pratinjau3D.tsx`; depe
 - [ ] Uji manual: ganti pola, tarik/tambah/hapus zona, 3D ikut berubah saat lahan/zona ditarik.
 - [ ] Tim diberi tahu soal dependensi `three` (CLAUDE.md: jangan menambah dependensi diam-diam).
 
+Tahap 3 (18 Nov 2026, permintaan PM lewat Galih): gerbang kendaraan (mobil/motor, menempel tepi lahan) dan pintu gedung
+(menempel tepi zona bangunan) yang bisa ditambah/digeser/dihapus sendiri (`Map/AksesLahan.ts`); gerbang membuka jalan
+akses ke jalan lingkungan/parkir dan memindahkan parkir bawaan ke sisinya, pintu menjadi lobi + jalur pejalan.
+
+- [x] Logika murni akses teruji (`tests/Unit/KapasitasLahanTest.php`, 25 tes).
+- [ ] `php artisan test --filter=Lahan` dan `npm run typecheck` lulus di mesin Galih.
+- [ ] Uji manual: tambah/geser/hapus gerbang dan pintu, isi ikut berubah, tampil di 3D.
+
 ### [~] Penyelarasan dokumen dan artifact ke desain final + masukan Izdihar (Tahap A–C)
 
 - Status: [~] Tahap A, B, C selesai, menunggu tinjauan pengguna

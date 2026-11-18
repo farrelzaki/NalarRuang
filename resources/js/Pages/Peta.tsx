@@ -5,7 +5,7 @@
 import { Head, Link } from '@inertiajs/react';
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { FeatureCollection, Geometry, Polygon } from 'geojson';
-import type { AsumsiLahan, CommuteResponse, JenisZona, LahanRequest, PolaLahan, ZonaLahanMasuk, HasilSearch, InspectResponse, LahanResponse, LayerKey, LayerResponse, Persona, TipeLahan } from '@/types';
+import type { AksesLahanMasuk, AsumsiLahan, CommuteResponse, JenisAkses, JenisZona, LahanRequest, PolaLahan, ZonaLahanMasuk, HasilSearch, InspectResponse, LahanResponse, LayerKey, LayerResponse, Persona, TipeLahan } from '@/types';
 import { api } from '@/lib/api';
 import { useBahasa } from '@/lib/bahasa';
 import {
@@ -118,6 +118,9 @@ export default function Peta() {
     /** Zona yang ditarik pengguna; null = zona bawaan pola dari server. */
     const [zonaLahan, setZonaLahan] = useState<ZonaLahanMasuk[] | null>(null);
     const [tambahZona, setTambahZona] = useState<{ jenis: JenisZona; kunci: number } | null>(null);
+    /** Gerbang kendaraan dan pintu gedung yang ditaruh pengguna. */
+    const [aksesLahan, setAksesLahan] = useState<AksesLahanMasuk[]>([]);
+    const [tambahAkses, setTambahAkses] = useState<{ jenis: JenisAkses; kunci: number } | null>(null);
     const [tampil3D, setTampil3D] = useState(false);
     const [memuatLahan, setMemuatLahan] = useState(false);
     const [galatLahan, setGalatLahan] = useState<string | null>(null);
@@ -480,11 +483,12 @@ export default function Peta() {
             persona,
             ...(polaLahan ? { pola: polaLahan } : {}),
             ...(zonaLahan ? { zona: zonaLahan } : {}),
+            ...(aksesLahan.length ? { akses: aksesLahan } : {}),
         };
         const jeda = setTimeout(() => kirimLahan.current(badan), lahanDariPeta.current ? 0 : 350);
         lahanDariPeta.current = false;
         return () => clearTimeout(jeda);
-    }, [panelKiri, geomLahan, tipeLahan, asumsiLahan, persona, polaLahan, zonaLahan]);
+    }, [panelKiri, geomLahan, tipeLahan, asumsiLahan, persona, polaLahan, zonaLahan, aksesLahan]);
 
     useEffect(() => batalLahan, []);
 
@@ -497,12 +501,14 @@ export default function Peta() {
         setAsumsiLahan({});
         setPolaLahan(null);
         setZonaLahan(null);
+        setAksesLahan([]);
         setTampil3D(false);
     };
 
     const mulaiLahan = (mode: ModeGambar) => {
         batalLahan();
         setZonaLahan(null);
+        setAksesLahan([]);
         setGeomLahan(null);
         setHasilLahan(null);
         setGalatLahan(null);
@@ -614,6 +620,13 @@ export default function Peta() {
                         setZonaLahan(z);
                     }}
                     tambahZona={tambahZona}
+                    akses={aksesLahan}
+                    aksesServer={panelKiri === 'lahan' && geomLahan ? (hasilLahan?.akses ?? null) : null}
+                    onAksesBerubah={(a) => {
+                        lahanDariPeta.current = true;
+                        setAksesLahan(a);
+                    }}
+                    tambahAkses={tambahAkses}
                 />
 
                 <div className="nr-app__kiri">
@@ -691,6 +704,8 @@ export default function Peta() {
                                 setAsumsiLahan({});
                                 setPolaLahan(null);
                                 setZonaLahan(null);
+                                // Rumah tapak tidak punya pintu gedung bersama.
+                                if (x === 'rumah') setAksesLahan((a) => a.filter((y) => y.jenis === 'gerbang'));
                             }}
                             pola={polaLahan}
                             onPola={(x) => {
@@ -700,6 +715,8 @@ export default function Peta() {
                             zonaManual={!!zonaLahan}
                             onAturUlangZona={() => setZonaLahan(null)}
                             onTambahZona={(jenis) => setTambahZona({ jenis, kunci: Date.now() })}
+                            jumlahAkses={aksesLahan.length}
+                            onTambahAkses={(jenis) => setTambahAkses({ jenis, kunci: Date.now() })}
                             on3D={() => setTampil3D(true)}
                             asumsi={asumsiLahan}
                             onAsumsi={setAsumsiLahan}
