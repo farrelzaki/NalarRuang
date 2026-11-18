@@ -202,8 +202,8 @@ export function PanelLahan(props: Props) {
                     </div>
                     <p className="nr-lahan__zona-teks">
                         {props.tipe === 'rumah'
-                            ? t('Gerbang menempel di tepi lahan; jalan masuk ditarik dari gerbang ke jalan lingkungan.', 'Gates snap to the site edge; an access road runs from each gate to the street network.')
-                            : t('Gerbang (mobil/motor) menempel di tepi lahan dan membuka jalan ke parkir; pintu menempel di tepi gedung dan menjadi lobi.', 'Gates (cars/bikes) snap to the site edge and open a road to parking; doors snap to the building and become a lobby.')}
+                            ? t('Gerbang menempel di tepi lahan; tarik ujungnya untuk mengatur lebar. Jalan masuk ditarik dari gerbang ke jalan lingkungan.', 'Gates snap to the site edge; drag their ends to set the width. An access road runs from each gate to the street network.')
+                            : t('Gerbang (mobil/motor) menempel di tepi lahan dan membuka jalan ke parkir; tarik ujungnya untuk mengatur lebar. Pintu menempel di tepi gedung dan menjadi lobi.', 'Gates (cars/bikes) snap to the site edge and open a road to parking; drag their ends to set the width. Doors snap to the building and become a lobby.')}
                     </p>
                     <div className="nr-lahan__zona-aksi">
                         <button type="button" className="nr-lahan__zonabtn nr-lahan__aksesbtn--gerbang" disabled={props.jumlahAkses >= 6} onClick={() => props.onTambahAkses('gerbang')}>

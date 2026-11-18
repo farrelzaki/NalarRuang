@@ -627,6 +627,7 @@ export default function Peta() {
                         setAksesLahan(a);
                     }}
                     tambahAkses={tambahAkses}
+                    lebarGerbang={tipeLahan === 'rumah' ? (asumsiLahan.lebar_jalan ?? 8) : tipeLahan === 'kos' ? 3 : 6}
                 />
 
                 <div className="nr-app__kiri">
