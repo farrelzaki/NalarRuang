@@ -132,9 +132,10 @@ class LahanController extends Controller
                     'jenis' => (string) $a['jenis'],
                     'ewkt' => $this->titikUtm((float) $a['titik'][0], (float) $a['titik'][1]),
                     // Lebar gerbang yang ditarik pengguna; pintu memakai lebar jalur pejalan.
-                    'lebar' => $a['jenis'] === 'gerbang' ? KapasitasLahan::lebarGerbang($tipe, $asumsi, $a['lebar'] ?? null) : KapasitasLahan::LEBAR_JALUR,
-                    // Panjang jalan masuk; null = otomatis sampai jalan lingkungan/parkir.
-                    'panjang' => $a['jenis'] === 'gerbang' ? KapasitasLahan::panjangGerbang($a['panjang'] ?? null) : null,
+                    // Gerbang: lebar gerbang + panjang jalan masuk (null = otomatis sampai jalan/parkir).
+                    // Pintu: lebar bukaan + kedalaman lobi ke dalam gedung (null = otomatis sedalam satu unit).
+                    'lebar' => $a['jenis'] === 'gerbang' ? KapasitasLahan::lebarGerbang($tipe, $asumsi, $a['lebar'] ?? null) : KapasitasLahan::lebarPintu($a['lebar'] ?? null),
+                    'panjang' => $a['jenis'] === 'gerbang' ? KapasitasLahan::panjangGerbang($a['panjang'] ?? null) : KapasitasLahan::panjangPintu($a['panjang'] ?? null),
                     'otomatis' => ! isset($a['panjang']) || ! is_numeric($a['panjang']),
                 ];
             }
@@ -637,19 +638,7 @@ class LahanController extends Controller
     private function jalanMasuk(array &$a, string $lahan, string $tujuan): string
     {
         if (! $a['otomatis'] && $a['panjang'] !== null) {
-            // Arah ke dalam = dari titik gerbang ke titik terdekat pada lahan yang diperkecil 0,5 m.
-            $r = DB::selectOne(
-                "WITH a AS (SELECT ST_GeomFromEWKT(?) AS p, ST_GeomFromEWKT(?) AS l),
-                 d AS (SELECT p, l, ST_ClosestPoint(ST_Buffer(l, -0.5), p) AS q FROM a),
-                 v AS (SELECT p, l, (ST_X(q) - ST_X(p)) AS dx, (ST_Y(q) - ST_Y(p)) AS dy FROM d)
-                 SELECT CASE WHEN sqrt(dx * dx + dy * dy) < 1e-6 THEN NULL ELSE ST_AsEWKT(ST_CollectionExtract(ST_Intersection(l,
-                        ST_Buffer(ST_MakeLine(p, ST_Translate(p, dx / sqrt(dx * dx + dy * dy) * ".self::n((float) $a['panjang']).", dy / sqrt(dx * dx + dy * dy) * ".self::n((float) $a['panjang']).")),
-                                  ".self::n($a['lebar'] / 2).", 'endcap=flat')), 3)) END AS g
-                 FROM v",
-                [$a['ewkt'], $lahan],
-            );
-
-            return $r->g ?? self::KOSONG;
+            return $this->pitaKeDalam($a['ewkt'], $lahan, (float) $a['lebar'], (float) $a['panjang']);
         }
 
         $a['panjang'] = round((float) DB::selectOne(
@@ -658,6 +647,26 @@ class LahanController extends Controller
         )->d, 1);
 
         return $this->op('ST_Intersection', $this->pita($a['ewkt'], $tujuan, $a['lebar']), $lahan);
+    }
+
+    /**
+     * Pita lurus dari titik di tepi $wadah, tegak lurus tepi ke arah dalam, selebar $lebar dan sepanjang $panjang,
+     * dipotong ke $wadah. Arah ke dalam = dari titik ke titik terdekat pada $wadah yang diperkecil 0,5 m.
+     */
+    private function pitaKeDalam(string $titik, string $wadah, float $lebar, float $panjang): string
+    {
+        $r = DB::selectOne(
+            "WITH a AS (SELECT ST_GeomFromEWKT(?) AS p, ST_GeomFromEWKT(?) AS l),
+             d AS (SELECT p, l, ST_ClosestPoint(ST_Buffer(l, -0.5), p) AS q FROM a),
+             v AS (SELECT p, l, (ST_X(q) - ST_X(p)) AS dx, (ST_Y(q) - ST_Y(p)) AS dy FROM d)
+             SELECT CASE WHEN sqrt(dx * dx + dy * dy) < 1e-6 THEN NULL ELSE ST_AsEWKT(ST_CollectionExtract(ST_Intersection(l,
+                    ST_Buffer(ST_MakeLine(p, ST_Translate(p, dx / sqrt(dx * dx + dy * dy) * ".self::n($panjang).", dy / sqrt(dx * dx + dy * dy) * ".self::n($panjang).")),
+                              ".self::n($lebar / 2).", 'endcap=flat')), 3)) END AS g
+             FROM v",
+            [$titik, $wadah],
+        );
+
+        return $r->g ?? self::KOSONG;
     }
 
     /**
@@ -705,8 +714,8 @@ class LahanController extends Controller
         foreach ($akses as $id => $a) {
             $fitur[] = self::fitur($this->keGeo($a['ewkt']), array_filter([
                 'id' => $id, 'jenis' => $a['jenis'], 'lebar' => $a['lebar'],
-                'panjang' => $a['jenis'] === 'gerbang' ? (float) ($a['panjang'] ?? 0) : null,
-                'otomatis' => $a['jenis'] === 'gerbang' ? $a['otomatis'] : null,
+                'panjang' => (float) ($a['panjang'] ?? 0),
+                'otomatis' => $a['otomatis'],
             ], fn ($v) => $v !== null));
         }
 
@@ -910,10 +919,14 @@ class LahanController extends Controller
                 continue;
             }
             $a['ewkt'] = $this->tepiTerdekat($a['ewkt'], $gedung);
-            $i = $this->terdekat($ewktUnit, $a['ewkt'], KapasitasLahan::KEDALAMAN_UNIT[$tipe] + 2);
-            if ($i !== null && ! isset($buang[$i])) {
-                $lobi[$i] = true;
-                $fitur[] = self::fitur($unit[$i]['geo'], ['jenis' => 'lobi', 'zona' => $unit[$i]['zona'], 'akses' => $id]);
+            // Lobi: pita selebar pintu dari tepi gedung ke dalam sedalam `panjang` (otomatis: satu unit).
+            if ($a['panjang'] === null) {
+                $a['panjang'] = KapasitasLahan::KEDALAMAN_UNIT[$tipe];
+            }
+            $ruangLobi = $this->op('ST_Intersection', $this->pitaKeDalam($a['ewkt'], $gedung, (float) $a['lebar'], (float) $a['panjang']), $gedung);
+            if ($this->luasUtm($ruangLobi) > 0.5) {
+                $lobi += $this->terpotong($ewktUnit, $ruangLobi);
+                $fitur[] = self::fitur($this->keGeo($ruangLobi), ['jenis' => 'lobi', 'akses' => $id]);
             }
             $ke = $gerbang === [] ? $this->tepiTerdekat($a['ewkt'], $lahan) : $this->terdekatTitik($a['ewkt'], array_values($gerbang));
             $jalur = $this->op('ST_Difference', $this->pita($a['ewkt'], $ke, KapasitasLahan::LEBAR_JALUR), $this->op('ST_Union', $gedung, $aksesGabung));

@@ -542,6 +542,18 @@ class KapasitasLahan
         return is_numeric($panjang) ? round(max(2.0, min(300.0, (float) $panjang)), 1) : null;
     }
 
+    /** Lebar pintu gedung (bukaan lobi di tepi gedung) dijepit ke 1,5–20 m; bawaan 3 m. */
+    public static function lebarPintu(mixed $lebar): float
+    {
+        return is_numeric($lebar) ? round(max(1.5, min(20.0, (float) $lebar)), 2) : 3.0;
+    }
+
+    /** Kedalaman lobi dari pintu ke dalam gedung, dijepit ke 2–40 m; null = otomatis sedalam satu unit. */
+    public static function panjangPintu(mixed $panjang): ?float
+    {
+        return is_numeric($panjang) ? round(max(2.0, min(40.0, (float) $panjang)), 1) : null;
+    }
+
     /**
      * Sisi kotak [x0, y0, x1, y1] yang paling dekat ke titik (gx, gy): 'x0', 'x1', 'y0', atau 'y1'.
      * Dipakai untuk meletakkan zona parkir bawaan di sisi gerbang.

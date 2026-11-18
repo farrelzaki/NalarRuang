@@ -294,4 +294,14 @@ class KapasitasLahanTest extends TestCase
         $this->assertSame(2.0, KapasitasLahan::panjangGerbang(0));
         $this->assertSame(300.0, KapasitasLahan::panjangGerbang(900));
     }
+
+    public function test_lebar_dan_kedalaman_pintu(): void
+    {
+        $this->assertSame(3.0, KapasitasLahan::lebarPintu(null));
+        $this->assertSame(1.5, KapasitasLahan::lebarPintu(0.5));
+        $this->assertSame(20.0, KapasitasLahan::lebarPintu(50));
+        $this->assertNull(KapasitasLahan::panjangPintu(''));
+        $this->assertSame(40.0, KapasitasLahan::panjangPintu(99));
+        $this->assertSame(12.0, KapasitasLahan::panjangPintu('12'));
+    }
 }

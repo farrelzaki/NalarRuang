@@ -199,6 +199,18 @@ class LahanTest extends TestCase
         $this->assertSame(20.0, (float) $lebar['akses']['features'][0]['properties']['lebar']);
         $this->assertLessThanOrEqual($r['kapasitas']['unit_per_lantai'], $lebar['kapasitas']['unit_per_lantai']);
 
+        // Pintu: lebar bukaan dan kedalaman lobi bisa diatur; lobi yang lebih lebar memakan lebih banyak unit.
+        $pintu = $r['akses']['features'][1]['properties'];
+        $this->assertSame(3.0, (float) $pintu['lebar']);
+        $this->assertSame(8.0, (float) $pintu['panjang']); // otomatis: kedalaman unit apartemen
+        $this->assertTrue($pintu['otomatis']);
+        $lebarPintu = $this->lahan(['tipe' => 'apartemen', 'akses' => [
+            ['jenis' => 'gerbang', 'titik' => [106.80195, -6.2075]],
+            ['jenis' => 'pintu', 'titik' => [106.8025, -6.20795], 'lebar' => 15, 'panjang' => 18],
+        ]])->assertOk()->json();
+        $this->assertSame(15.0, (float) $lebarPintu['akses']['features'][1]['properties']['lebar']);
+        $this->assertLessThanOrEqual($r['kapasitas']['unit_per_lantai'], $lebarPintu['kapasitas']['unit_per_lantai']);
+
         // Panjang jalan masuk yang diatur sendiri dipakai apa adanya (tidak sampai parkir).
         $pendek = $this->lahan(['tipe' => 'apartemen', 'akses' => [['jenis' => 'gerbang', 'titik' => [106.80195, -6.2075], 'lebar' => 4, 'panjang' => 5]]])->assertOk()->json();
         $p = $pendek['akses']['features'][0]['properties'];
