@@ -7,7 +7,7 @@
  */
 import L from 'leaflet';
 import type { FeatureCollection, Point } from 'geojson';
-import type { AksesLahanMasuk, JenisAkses } from '@/types';
+import type { AksesLahanMasuk, AksesLahanProps, JenisAkses } from '@/types';
 
 export type TeksAkses = { label: Record<JenisAkses, string>; hapus: string };
 
@@ -77,6 +77,7 @@ export class AlatAkses {
     private teks: TeksAkses;
     /** Lebar gerbang bila belum diatur dan belum ada dari server (m). */
     private lebarBawaan = 6;
+    private panjangServer: (number | null)[] = [];
     /** True selama gerbang/pintu ditarik; tampilan baru ditunda sampai tarikan selesai. */
     ditarik = false;
 
@@ -116,7 +117,7 @@ export class AlatAkses {
      */
     tampilkan(
         akses: AksesLahanMasuk[],
-        dariServer: FeatureCollection<Point, { id: number; jenis: JenisAkses; lebar: number }> | null | undefined,
+        dariServer: FeatureCollection<Point, AksesLahanProps> | null | undefined,
         lahan: L.LatLng[],
         gedung: L.LatLng[][],
     ): void {
@@ -124,6 +125,11 @@ export class AlatAkses {
         this.gedung = gedung;
         if (this.ditarik) return;
         const server = new Map((dariServer?.features ?? []).map((f) => [f.properties.id, f] as const));
+        // Panjang yang dipakai server (termasuk yang otomatis) hanya untuk meletakkan pegangan; tidak membuatnya manual.
+        this.panjangServer = akses.map((a, i) => {
+            const f = server.get(i);
+            return f && f.properties.jenis === a.jenis ? (f.properties.panjang ?? null) : null;
+        });
         this.akses = akses.map((a, i) => {
             const s = server.get(i);
             // Hanya bila jenisnya sama: setelah hapus, nomor lama dari server bisa menunjuk akses lain.
@@ -200,6 +206,36 @@ export class AlatAkses {
                   )
                 : [];
 
+            // Pegangan panjang: di ujung dalam jalan masuk, tegak lurus tepi ke arah dalam lahan.
+            const kedalam = () => {
+                const kos = Math.cos((ruas.titik.lat * Math.PI) / 180);
+                const pusatLahan = this.lahan.length >= 3 ? L.latLngBounds(this.lahan).getCenter() : ruas.titik;
+                let nx = -ruas.uy;
+                let ny = ruas.ux;
+                if ((pusatLahan.lng - ruas.titik.lng) * kos * nx + (pusatLahan.lat - ruas.titik.lat) * ny < 0) {
+                    nx = -nx;
+                    ny = -ny;
+                }
+                return { nx, ny, kos };
+            };
+            let panjang = a.panjang ?? this.panjangServer[i] ?? 10;
+            const titikDalam = () => {
+                const { nx, ny, kos } = kedalam();
+                const m = Math.max(panjang, 2) / 111320;
+                return L.latLng(ruas.titik.lat + m * ny, ruas.titik.lng + (m * nx) / kos);
+            };
+            const pandu = gerbang
+                ? L.polyline([ruas.titik, titikDalam()], { pane: 'nrZona', interactive: false, color: '#b45309', weight: 1.5, dashArray: '4 4' }).addTo(this.grup)
+                : null;
+            const dalam = gerbang
+                ? L.marker(titikDalam(), {
+                      icon: L.divIcon({ className: 'nr-akses-dalam', iconSize: [14, 14], iconAnchor: [7, 7] }),
+                      draggable: true,
+                      keyboard: false,
+                      zIndexOffset: 1300,
+                  }).addTo(this.grup)
+                : null;
+
             const label = L.marker(this.letakLabel(ruas.titik, a.jenis), {
                 icon: ikon(a.jenis, this.teks),
                 draggable: true,
@@ -213,8 +249,23 @@ export class AlatAkses {
                 pegangan[0]?.setLatLng(p);
                 pegangan[1]?.setLatLng(q);
                 label.setLatLng(this.letakLabel(ruas.titik, a.jenis));
+                pandu?.setLatLngs([ruas.titik, titikDalam()]);
+                dalam?.setLatLng(titikDalam());
                 this.akses[i] = { ...this.akses[i], titik: [ruas.titik.lng, ruas.titik.lat], ...(gerbang ? { lebar } : {}) };
             };
+
+            // Tarik pegangan dalam: panjang jalan masuk = jarak tegak lurus dari tepi, 2–300 m (tidak lagi otomatis).
+            if (dalam) dalam.on('drag', () => {
+                const { nx, ny, kos } = kedalam();
+                const h = dalam.getLatLng();
+                const proyeksi = ((h.lng - ruas.titik.lng) * kos * nx + (h.lat - ruas.titik.lat) * ny) * 111320;
+                panjang = Math.round(Math.max(2, Math.min(300, proyeksi)) * 2) / 2;
+                dalam.setLatLng(titikDalam());
+                pandu?.setLatLngs([ruas.titik, titikDalam()]);
+                this.akses[i] = { ...this.akses[i], panjang };
+                this.saatTarik();
+            });
+            dalam?.on('dragend', () => this.akhirTarik());
 
             // Label: geser seluruh gerbang/pintu di sepanjang tepi.
             label.on('drag', () => {

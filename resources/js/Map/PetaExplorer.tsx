@@ -5,7 +5,7 @@
 import { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import type { Feature, FeatureCollection, Geometry, MultiPolygon, Point, Polygon } from 'geojson';
-import type { AksesLahanMasuk, CommuteResponse, HasilSearch, JenisAkses, JenisZona, LayerKey, ZonaLahanMasuk, ZonaLahanProps } from '@/types';
+import type { AksesLahanMasuk, AksesLahanProps, CommuteResponse, HasilSearch, JenisAkses, JenisZona, LayerKey, ZonaLahanMasuk, ZonaLahanProps } from '@/types';
 import { bahasaAktif, pilihTeks, type Bahasa } from '@/lib/bahasa';
 import * as gaya from './gaya';
 import { AlatLahan, LapisanKapasitas, type ModeLahan } from './GambarLahan';
@@ -51,7 +51,7 @@ type Props = {
     tambahZona?: { jenis: JenisZona; kunci: number } | null;
     /** Gerbang kendaraan dan pintu gedung yang ditaruh pengguna. */
     akses?: AksesLahanMasuk[];
-    aksesServer?: FeatureCollection<Point, { id: number; jenis: JenisAkses; lebar: number }> | null;
+    aksesServer?: FeatureCollection<Point, AksesLahanProps> | null;
     /** Lebar gerbang baru sebelum ada jawaban server (m). */
     lebarGerbang?: number;
     onAksesBerubah?: (akses: AksesLahanMasuk[], tarik: boolean) => void;
