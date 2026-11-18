@@ -2,7 +2,7 @@
  * Tipe yang mencerminkan kontrak API (docs/SISTEM.md bagian 2).
  * Milik bersama Farrel, Adzkia, dan Nur'Afia: ubah hanya setelah kontrak disepakati.
  */
-import type { FeatureCollection, Geometry, LineString, MultiLineString, MultiPolygon, Polygon } from 'geojson';
+import type { FeatureCollection, Geometry, LineString, MultiLineString, MultiPolygon, Point, Polygon } from 'geojson';
 
 export type Persona = 'commuter' | 'driver' | 'social_vibe' | 'zen';
 
@@ -144,6 +144,12 @@ export type ZonaLahanMasuk = { jenis: JenisZona; geometri: Polygon };
 /** Zona di respons: geometri yang sudah dipotong ke lahan; `lantai` untuk gedung parkir bertingkat. */
 export type ZonaLahanProps = { id: number; jenis: JenisZona; luas_m2: number; lantai?: number };
 
+/** Akses yang ditaruh sendiri: gerbang kendaraan (mobil/motor) di tepi lahan, pintu masuk/keluar gedung di tepi zona bangunan. */
+export type JenisAkses = 'gerbang' | 'pintu';
+
+/** Titik akses [lng, lat]; urutan = `id` akses. Pintu diabaikan untuk rumah tapak. */
+export type AksesLahanMasuk = { jenis: JenisAkses; titik: [number, number] };
+
 /** Kepatuhan terhadap RDTR (atau asumsi); `pelanggaran` berisi kunci yang lewat batas. */
 export type RingkasanLahan = {
     kdb_terpakai: number;
@@ -168,6 +174,8 @@ export type LahanRequest = {
     pola?: PolaLahan;
     /** Tanpa ini zona dibuat dari pola; dengan ini zona pengguna yang diisi. */
     zona?: ZonaLahanMasuk[];
+    /** Gerbang dan pintu (≤ 6). */
+    akses?: AksesLahanMasuk[];
     persona?: Persona[];
 };
 
@@ -218,9 +226,12 @@ export type LahanResponse = {
     ringkasan: RingkasanLahan;
     zona: FeatureCollection<Polygon | MultiPolygon, ZonaLahanProps>;
     zona_manual: boolean;
+    /** Akses yang dipakai, sudah ditempelkan ke tepi lahan (gerbang) atau tepi gedung (pintu). */
+    akses: FeatureCollection<Point, { id: number; jenis: JenisAkses }>;
     /**
      * Fitur `jenis`: rumah tapak 'kavling' (varian 0–2) + 'jalan' + 'taman'; kos/apartemen 'unit' (`tipe`), 'koridor',
-     * 'inti', 'void', 'taman', 'parkir' (`lantai`), 'slot'; lahan sempit 'tapak'. Isi zona membawa `zona` (id zona).
+     * 'inti', 'void', 'taman', 'parkir' (`lantai`), 'slot', 'lobi', 'jalur'; semua tipe 'akses' (jalan dari gerbang);
+     * lahan sempit 'tapak'. Isi zona membawa `zona` (id zona); akses/lobi/jalur membawa `akses` (id akses).
      * 'taman'/'tapak' membawa `lantai`, `jumlah`, `satuan` untuk label.
      */
     geometri_kapasitas: FeatureCollection;
