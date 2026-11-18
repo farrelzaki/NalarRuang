@@ -66,6 +66,7 @@ class LahanController extends Controller
             'akses.*.jenis' => 'required|in:'.implode(',', KapasitasLahan::JENIS_AKSES),
             'akses.*.titik' => 'required|array|size:2',
             'akses.*.titik.*' => 'required|numeric',
+            'akses.*.lebar' => 'nullable|numeric',
             'persona' => 'nullable|array',
             'persona.*' => 'string',
         ]);
@@ -126,7 +127,12 @@ class LahanController extends Controller
         $akses = [];
         foreach (array_values((array) $request->input('akses', [])) as $id => $a) {
             if (KapasitasLahan::aksesBerlaku($tipe, (string) $a['jenis'])) {
-                $akses[$id] = ['jenis' => (string) $a['jenis'], 'ewkt' => $this->titikUtm((float) $a['titik'][0], (float) $a['titik'][1])];
+                $akses[$id] = [
+                    'jenis' => (string) $a['jenis'],
+                    'ewkt' => $this->titikUtm((float) $a['titik'][0], (float) $a['titik'][1]),
+                    // Lebar gerbang yang ditarik pengguna; pintu memakai lebar jalur pejalan.
+                    'lebar' => $a['jenis'] === 'gerbang' ? KapasitasLahan::lebarGerbang($tipe, $asumsi, $a['lebar'] ?? null) : KapasitasLahan::LEBAR_JALUR,
+                ];
             }
         }
         [$kapasitas, $geometri, $zona, $luasTaman, $aksesFc] = $tipe === 'rumah'
@@ -658,12 +664,12 @@ class LahanController extends Controller
         return $r ? (int) $r->i : null;
     }
 
-    /** @param array<int, array{jenis: string, ewkt: string}> $akses @return array<string, mixed> FeatureCollection titik */
+    /** @param array<int, array{jenis: string, ewkt: string, lebar: float}> $akses @return array<string, mixed> FeatureCollection titik */
     private function fiturAkses(array $akses): array
     {
         $fitur = [];
         foreach ($akses as $id => $a) {
-            $fitur[] = self::fitur($this->keGeo($a['ewkt']), ['id' => $id, 'jenis' => $a['jenis']]);
+            $fitur[] = self::fitur($this->keGeo($a['ewkt']), ['id' => $id, 'jenis' => $a['jenis'], 'lebar' => $a['lebar']]);
         }
 
         return ['type' => 'FeatureCollection', 'features' => $fitur];
@@ -716,11 +722,10 @@ class LahanController extends Controller
 
         // Gerbang: menempel ke tepi lahan, lalu jalan akses ditarik ke jaringan jalan terdekat; kavling yang dilewati dibuang.
         $jaringan = $this->satukan($jalanEwkt);
-        $lebar = KapasitasLahan::lebarAkses('rumah', $asumsi);
         $aksesJalan = [];
         foreach ($akses as $id => &$a) {
             $a['ewkt'] = $this->tepiTerdekat($a['ewkt'], $lahan);
-            $pita = $this->op('ST_Intersection', $this->pita($a['ewkt'], $jaringan, $lebar), $lahan);
+            $pita = $this->op('ST_Intersection', $this->pita($a['ewkt'], $jaringan, $a['lebar']), $lahan);
             if ($this->luasUtm($pita) > 0.5) {
                 $aksesJalan[] = $pita;
                 $fitur[] = self::fitur($this->keGeo($pita), ['jenis' => 'akses', 'akses' => $id]);
@@ -848,10 +853,9 @@ class LahanController extends Controller
         // 3. Jalan akses dari tiap gerbang ke zona parkir terdekat (atau ke gedung bila tidak ada parkir).
         $parkirGabung = $this->gabung(self::saring($zona, 'parkir'));
         $tujuan = $this->luasUtm($parkirGabung) > 1 ? $parkirGabung : $gedung;
-        $lebar = KapasitasLahan::lebarAkses($tipe, $asumsi);
         $aksesJalan = [];
         foreach ($gerbang as $id => $titik) {
-            $pita = $this->op('ST_Intersection', $this->pita($titik, $tujuan, $lebar), $lahan);
+            $pita = $this->op('ST_Intersection', $this->pita($titik, $tujuan, $akses[$id]['lebar']), $lahan);
             if ($this->luasUtm($pita) > 0.5) {
                 $aksesJalan[] = $pita;
                 $fitur[] = self::fitur($this->keGeo($pita), ['jenis' => 'akses', 'akses' => $id]);

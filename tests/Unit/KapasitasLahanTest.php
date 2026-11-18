@@ -277,4 +277,12 @@ class KapasitasLahanTest extends TestCase
         $this->assertSame('x0', KapasitasLahan::sisiTerdekat(2, 30, 0, 0, 100, 60));
         $this->assertSame('x1', KapasitasLahan::sisiTerdekat(99, 30, 0, 0, 100, 60));
     }
+
+    public function test_lebar_gerbang_dijepit(): void
+    {
+        $this->assertSame(6.0, KapasitasLahan::lebarGerbang('apartemen', [], null));
+        $this->assertSame(12.0, KapasitasLahan::lebarGerbang('apartemen', [], '12'));
+        $this->assertSame(2.5, KapasitasLahan::lebarGerbang('kos', [], 1));
+        $this->assertSame(30.0, KapasitasLahan::lebarGerbang('rumah', [], 99));
+    }
 }

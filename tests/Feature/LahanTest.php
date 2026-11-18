@@ -194,6 +194,11 @@ class LahanTest extends TestCase
         $this->assertSame(['gerbang'], array_column(array_column($rumah['akses']['features'], 'properties'), 'jenis'));
         $this->assertLessThanOrEqual($cluster['kapasitas']['jumlah'], $rumah['kapasitas']['jumlah']);
 
+        // Gerbang yang dilebarkan memakan lebih banyak unit dan lebarnya dikembalikan.
+        $lebar = $this->lahan(['tipe' => 'apartemen', 'akses' => [['jenis' => 'gerbang', 'titik' => [106.80195, -6.2075], 'lebar' => 20]]])->assertOk()->json();
+        $this->assertSame(20.0, (float) $lebar['akses']['features'][0]['properties']['lebar']);
+        $this->assertLessThanOrEqual($r['kapasitas']['unit_per_lantai'], $lebar['kapasitas']['unit_per_lantai']);
+
         $this->lahan(['tipe' => 'kos', 'akses' => [['jenis' => 'jendela', 'titik' => [106.8025, -6.208]]]])->assertStatus(422);
     }
 

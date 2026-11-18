@@ -530,6 +530,12 @@ class KapasitasLahan
         };
     }
 
+    /** Lebar gerbang yang diatur pengguna dijepit ke 2,5–30 m; null = lebar bawaan tipe. */
+    public static function lebarGerbang(string $tipe, array $asumsi, mixed $lebar): float
+    {
+        return is_numeric($lebar) ? round(max(2.5, min(30.0, (float) $lebar)), 2) : self::lebarAkses($tipe, $asumsi);
+    }
+
     /**
      * Sisi kotak [x0, y0, x1, y1] yang paling dekat ke titik (gx, gy): 'x0', 'x1', 'y0', atau 'y1'.
      * Dipakai untuk meletakkan zona parkir bawaan di sisi gerbang.
