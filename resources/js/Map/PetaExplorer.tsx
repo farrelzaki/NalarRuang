@@ -51,7 +51,9 @@ type Props = {
     tambahZona?: { jenis: JenisZona; kunci: number } | null;
     /** Gerbang kendaraan dan pintu gedung yang ditaruh pengguna. */
     akses?: AksesLahanMasuk[];
-    aksesServer?: FeatureCollection<Point, { id: number; jenis: JenisAkses }> | null;
+    aksesServer?: FeatureCollection<Point, { id: number; jenis: JenisAkses; lebar: number }> | null;
+    /** Lebar gerbang baru sebelum ada jawaban server (m). */
+    lebarGerbang?: number;
     onAksesBerubah?: (akses: AksesLahanMasuk[], tarik: boolean) => void;
     tambahAkses?: { jenis: JenisAkses; kunci: number } | null;
     className?: string;
@@ -543,9 +545,10 @@ export default function PetaExplorer(props: Props) {
         const a = alatAkses.current;
         if (!a) return;
         a.setTeks(teksAkses());
+        a.setLebarBawaan(props.lebarGerbang ?? 6);
         if (!props.alatLahan || !props.zonaLahan) a.kosongkan();
         else a.tampilkan(props.akses ?? [], props.aksesServer, alat.current?.titikSekarang() ?? [], cincinGedung());
-    }, [props.akses, props.aksesServer, props.zonaLahan, props.alatLahan, props.bahasa]);
+    }, [props.akses, props.aksesServer, props.zonaLahan, props.alatLahan, props.bahasa, props.lebarGerbang]);
 
     useEffect(() => {
         if (props.tambahAkses && alat.current) alatAkses.current?.tambah(props.tambahAkses.jenis, alat.current.titikSekarang(), cincinGedung());

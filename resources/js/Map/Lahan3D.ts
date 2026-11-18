@@ -212,7 +212,8 @@ export function buatAdegan(wadah: HTMLElement, data: LahanResponse, lahan: Polyg
         for (const a of d.akses?.features ?? []) {
             const [x, n] = p(a.geometry.coordinates);
             if (a.properties.jenis === 'gerbang') {
-                for (const dx of [-3.2, 3.2]) {
+                const setengah = Number(a.properties.lebar ?? 6) / 2 + 0.3;
+                for (const dx of [-setengah, setengah]) {
                     const tiang = new THREE.BoxGeometry(0.6, 3, 0.6);
                     tiang.translate(x + dx, 1.5, -n);
                     masuk('gerbang', 0xb45309, tiang);

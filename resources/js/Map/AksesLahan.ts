@@ -13,7 +13,13 @@ export type TeksAkses = { label: Record<JenisAkses, string>; hapus: string };
 
 /** Titik terdekat pada kumpulan cincin (meter kira-kira, lng diskalakan cos lintang). */
 function tempel(t: L.LatLng, cincin: L.LatLng[][]): L.LatLng {
+    return tempelRuas(t, cincin).titik;
+}
+
+/** Seperti tempel(), plus arah satuan ruas tepi tempat titik itu menempel (sumbu x = timur terskala, y = utara). */
+function tempelRuas(t: L.LatLng, cincin: L.LatLng[][]): { titik: L.LatLng; ux: number; uy: number } {
     let terbaik = t;
+    let arah: [number, number] = [1, 0];
     let jarak = Infinity;
     const kos = Math.cos((t.lat * Math.PI) / 180);
     for (const r of cincin) {
@@ -33,10 +39,22 @@ function tempel(t: L.LatLng, cincin: L.LatLng[][]): L.LatLng {
             if (d < jarak) {
                 jarak = d;
                 terbaik = L.latLng(qy, qx / kos);
+                const n = Math.sqrt(p2) || 1;
+                arah = [dx / n, dy / n];
             }
         }
     }
-    return terbaik;
+    return { titik: terbaik, ux: arah[0], uy: arah[1] };
+}
+
+const LEBAR_MIN = 2.5;
+const LEBAR_MAKS = 30;
+
+/** Dua ujung gerbang selebar `lebar` m di sepanjang arah tepi. */
+function ujung(c: L.LatLng, ux: number, uy: number, lebar: number): [L.LatLng, L.LatLng] {
+    const kos = Math.cos((c.lat * Math.PI) / 180);
+    const m = lebar / 2 / 111320;
+    return [L.latLng(c.lat - m * uy, c.lng - (m * ux) / kos), L.latLng(c.lat + m * uy, c.lng + (m * ux) / kos)];
 }
 
 function ikon(jenis: JenisAkses, teks: TeksAkses): L.DivIcon {
@@ -57,6 +75,8 @@ export class AlatAkses {
     private terakhirKirim = 0;
     private onUbah: (akses: AksesLahanMasuk[], tarik: boolean) => void;
     private teks: TeksAkses;
+    /** Lebar gerbang bila belum diatur dan belum ada dari server (m). */
+    private lebarBawaan = 6;
     /** True selama gerbang/pintu ditarik; tampilan baru ditunda sampai tarikan selesai. */
     ditarik = false;
 
@@ -71,13 +91,17 @@ export class AlatAkses {
         this.teks = teks;
     }
 
+    setLebarBawaan(lebar: number): void {
+        this.lebarBawaan = lebar;
+    }
+
     /**
      * Tampilkan akses. Posisi dari server (sudah menempel ke tepi lahan/gedung) dipakai bila ada untuk id yang sama;
      * selain itu posisi lokal.
      */
     tampilkan(
         akses: AksesLahanMasuk[],
-        dariServer: FeatureCollection<Point, { id: number; jenis: JenisAkses }> | null | undefined,
+        dariServer: FeatureCollection<Point, { id: number; jenis: JenisAkses; lebar: number }> | null | undefined,
         lahan: L.LatLng[],
         gedung: L.LatLng[][],
     ): void {
@@ -88,7 +112,9 @@ export class AlatAkses {
         this.akses = akses.map((a, i) => {
             const s = server.get(i);
             // Hanya bila jenisnya sama: setelah hapus, nomor lama dari server bisa menunjuk akses lain.
-            return s && s.properties.jenis === a.jenis ? { jenis: a.jenis, titik: [s.geometry.coordinates[0], s.geometry.coordinates[1]] } : a;
+            return s && s.properties.jenis === a.jenis
+                ? { jenis: a.jenis, titik: [s.geometry.coordinates[0], s.geometry.coordinates[1]], lebar: a.lebar ?? s.properties.lebar }
+                : a;
         });
         this.gambar();
     }
@@ -138,28 +164,47 @@ export class AlatAkses {
     private gambar(): void {
         this.grup.clearLayers();
         this.akses.forEach((a, i) => {
-            const m = L.marker(L.latLng(a.titik[1], a.titik[0]), {
+            const pusat = L.latLng(a.titik[1], a.titik[0]);
+            const tepi = this.tepi(a.jenis);
+            const gerbang = a.jenis === 'gerbang';
+            let lebar = a.lebar ?? this.lebarBawaan;
+            let ruas = tepi.length ? tempelRuas(pusat, tepi) : { titik: pusat, ux: 1, uy: 0 };
+
+            // Gerbang = garis tebal selebar gerbang di tepi lahan, dengan pegangan di kedua ujungnya.
+            const garis = gerbang
+                ? L.polyline(ujung(ruas.titik, ruas.ux, ruas.uy, lebar), { pane: 'nrZona', interactive: false, color: '#b45309', weight: 7, opacity: 0.9, lineCap: 'butt' }).addTo(this.grup)
+                : null;
+            const pegangan = gerbang
+                ? ujung(ruas.titik, ruas.ux, ruas.uy, lebar).map((t) =>
+                      L.marker(t, {
+                          icon: L.divIcon({ className: 'nr-akses-ujung', iconSize: [12, 12], iconAnchor: [6, 6] }),
+                          draggable: true,
+                          keyboard: false,
+                          zIndexOffset: 1150,
+                      }).addTo(this.grup),
+                  )
+                : [];
+            const susunUjung = () => {
+                const [p, q] = ujung(ruas.titik, ruas.ux, ruas.uy, lebar);
+                garis?.setLatLngs([p, q]);
+                pegangan[0]?.setLatLng(p);
+                pegangan[1]?.setLatLng(q);
+            };
+
+            const m = L.marker(ruas.titik, {
                 icon: ikon(a.jenis, this.teks),
                 draggable: true,
                 keyboard: false,
                 zIndexOffset: 1200,
             }).addTo(this.grup);
             m.on('drag', () => {
-                const tepi = this.tepi(a.jenis);
-                const t = tepi.length ? tempel(m.getLatLng(), tepi) : m.getLatLng();
-                m.setLatLng(t);
-                this.akses[i] = { jenis: a.jenis, titik: [t.lng, t.lat] };
-                this.ditarik = true;
-                const kini = performance.now();
-                if (kini - this.terakhirKirim >= 100) {
-                    this.terakhirKirim = kini;
-                    this.kirim(true);
-                }
+                ruas = tepi.length ? tempelRuas(m.getLatLng(), tepi) : { titik: m.getLatLng(), ux: 1, uy: 0 };
+                m.setLatLng(ruas.titik);
+                susunUjung();
+                this.akses[i] = { ...this.akses[i], titik: [ruas.titik.lng, ruas.titik.lat] };
+                this.saatTarik();
             });
-            m.on('dragend', () => {
-                this.ditarik = false;
-                this.kirim(false);
-            });
+            m.on('dragend', () => this.akhirTarik());
             m.on('click', (e: L.LeafletMouseEvent) => {
                 const sasaran = e.originalEvent?.target as HTMLElement | null;
                 if (!sasaran?.closest('[data-hapus]')) return;
@@ -168,10 +213,37 @@ export class AlatAkses {
                 this.gambar();
                 this.kirim(false);
             });
+
+            // Tarik ujung: lebar = dua kali jarak dari tengah ke ujung (ditempel ke tepi), 2,5–30 m.
+            for (const h of pegangan) {
+                h.on('drag', () => {
+                    const t = tepi.length ? tempel(h.getLatLng(), tepi) : h.getLatLng();
+                    lebar = Math.round(Math.max(LEBAR_MIN, Math.min(LEBAR_MAKS, 2 * this.peta.distance(ruas.titik, t))) * 2) / 2;
+                    susunUjung();
+                    this.akses[i] = { ...this.akses[i], lebar };
+                    this.saatTarik();
+                });
+                h.on('dragend', () => this.akhirTarik());
+            }
         });
     }
 
+    private saatTarik(): void {
+        this.ditarik = true;
+        const kini = performance.now();
+        if (kini - this.terakhirKirim >= 100) {
+            this.terakhirKirim = kini;
+            this.kirim(true);
+        }
+    }
+
+    private akhirTarik(): void {
+        this.ditarik = false;
+        this.kirim(false);
+        this.gambar();
+    }
+
     private kirim(tarik: boolean): void {
-        this.onUbah(this.akses.map((a) => ({ jenis: a.jenis, titik: [a.titik[0], a.titik[1]] })), tarik);
+        this.onUbah(this.akses.map((a) => ({ jenis: a.jenis, titik: [a.titik[0], a.titik[1]], ...(a.lebar !== undefined ? { lebar: a.lebar } : {}) })), tarik);
     }
 }
