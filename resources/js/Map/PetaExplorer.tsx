@@ -5,11 +5,12 @@
 import { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import type { Feature, FeatureCollection, Geometry, MultiPolygon, Point, Polygon } from 'geojson';
-import type { CommuteResponse, HasilSearch, JenisZona, LayerKey, ZonaLahanMasuk, ZonaLahanProps } from '@/types';
+import type { AksesLahanMasuk, CommuteResponse, HasilSearch, JenisAkses, JenisZona, LayerKey, ZonaLahanMasuk, ZonaLahanProps } from '@/types';
 import { bahasaAktif, pilihTeks, type Bahasa } from '@/lib/bahasa';
 import * as gaya from './gaya';
 import { AlatLahan, LapisanKapasitas, type ModeLahan } from './GambarLahan';
 import { AlatZona, type TeksZona } from './ZonaLahan';
+import { AlatAkses, type TeksAkses } from './AksesLahan';
 
 export type TitikPeta = { lat: number; lng: number };
 
@@ -48,6 +49,11 @@ type Props = {
     onZonaBerubah?: (zona: ZonaLahanMasuk[], tarik: boolean) => void;
     /** Kunci baru = tambahkan satu zona berjenis ini di tengah lahan. */
     tambahZona?: { jenis: JenisZona; kunci: number } | null;
+    /** Gerbang kendaraan dan pintu gedung yang ditaruh pengguna. */
+    akses?: AksesLahanMasuk[];
+    aksesServer?: FeatureCollection<Point, { id: number; jenis: JenisAkses }> | null;
+    onAksesBerubah?: (akses: AksesLahanMasuk[], tarik: boolean) => void;
+    tambahAkses?: { jenis: JenisAkses; kunci: number } | null;
     className?: string;
 };
 
@@ -277,6 +283,7 @@ export default function PetaExplorer(props: Props) {
         return () => {
             alat.current = null;
             alatZona.current = null;
+            alatAkses.current = null;
             lapisan.current = null;
             m.remove();
             peta.current = null;
@@ -468,6 +475,17 @@ export default function PetaExplorer(props: Props) {
     };
 
     const alatZona = useRef<AlatZona | null>(null);
+    const alatAkses = useRef<AlatAkses | null>(null);
+    const teksAkses = (): TeksAkses => ({
+        label: { gerbang: tr('Gerbang', 'Gate'), pintu: tr('Pintu', 'Door') },
+        hapus: tr('Hapus', 'Remove'),
+    });
+    /** Cincin zona bangunan dari hasil terakhir (tempat pintu menempel). */
+    const cincinGedung = (): L.LatLng[][] =>
+        (panggil.current.zonaLahan?.features ?? [])
+            .filter((f) => f.properties.jenis === 'bangunan')
+            .flatMap((f) => (f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates))
+            .flatMap((poli) => poli.map((r) => r.slice(0, -1).map(([lng, lat]) => L.latLng(lat, lng))));
     const teksZona = (): TeksZona => ({
         label: { bangunan: tr('Gedung', 'Building'), parkir: tr('Parkir', 'Parking'), taman: tr('Taman', 'Park') },
         hapus: tr('Hapus zona', 'Remove zone'),
@@ -477,6 +495,9 @@ export default function PetaExplorer(props: Props) {
     useEffect(() => {
         const m = peta.current;
         if (!m) return;
+        if (!alatAkses.current) {
+            alatAkses.current = new AlatAkses(m, (a, tarik) => panggil.current.onAksesBerubah?.(a, tarik), teksAkses());
+        }
         if (!alatZona.current) {
             alatZona.current = new AlatZona(
                 m,
@@ -498,7 +519,10 @@ export default function PetaExplorer(props: Props) {
             );
         }
         alat.current.mulai(props.alatLahan?.mode ?? null);
-        if (!props.alatLahan) alatZona.current?.kosongkan();
+        if (!props.alatLahan) {
+            alatZona.current?.kosongkan();
+            alatAkses.current?.kosongkan();
+        }
     }, [props.alatLahan?.mode, props.alatLahan?.kunci]);
 
     // Zona: tampil hanya bila lahan sudah punya hasil; pegangan zona pengguna tetap di tempat yang ditarik.
@@ -513,6 +537,19 @@ export default function PetaExplorer(props: Props) {
     useEffect(() => {
         if (props.tambahZona && alat.current) alatZona.current?.tambah(props.tambahZona.jenis, alat.current.titikSekarang());
     }, [props.tambahZona?.kunci]);
+
+    // Gerbang & pintu: tampil bila lahan sudah punya hasil; posisi dari server (sudah menempel tepi) bila ada.
+    useEffect(() => {
+        const a = alatAkses.current;
+        if (!a) return;
+        a.setTeks(teksAkses());
+        if (!props.alatLahan || !props.zonaLahan) a.kosongkan();
+        else a.tampilkan(props.akses ?? [], props.aksesServer, alat.current?.titikSekarang() ?? [], cincinGedung());
+    }, [props.akses, props.aksesServer, props.zonaLahan, props.alatLahan, props.bahasa]);
+
+    useEffect(() => {
+        if (props.tambahAkses && alat.current) alatAkses.current?.tambah(props.tambahAkses.jenis, alat.current.titikSekarang(), cincinGedung());
+    }, [props.tambahAkses?.kunci]);
 
     useEffect(() => {
         if (props.selesaiLahan) alat.current?.selesai();

@@ -321,6 +321,12 @@ function gayaIsi(p: Record<string, unknown>): L.PathOptions {
                     return { stroke: false, fillColor: '#6b7280', fillOpacity: 0.55 };
                 case 'slot':
                     return { color: '#ffffff', weight: 0.8, fillColor: '#2fbf71', fillOpacity: 0.55 };
+                case 'akses':
+                    return { color: '#ffffff', weight: 1, dashArray: '4 4', fillColor: '#5b6270', fillOpacity: 0.9 };
+                case 'lobi':
+                    return { color: '#1d2433', weight: 0.6, fillColor: '#f2b544', fillOpacity: 0.95 };
+                case 'jalur':
+                    return { stroke: false, fillColor: '#e2cf9f', fillOpacity: 0.9 };
                 case 'inti':
                     return { color: '#1d2433', weight: 0.6, fillColor: '#9aa3b2', fillOpacity: 0.9 };
                 case 'void':

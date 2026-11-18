@@ -189,11 +189,38 @@ export function buatAdegan(wadah: HTMLElement, data: LahanResponse, lahan: Polyg
                     case 'jalan':
                         masuk('jalan', 0x6b7280, datar(s, 0.07));
                         break;
+                    case 'akses':
+                        masuk('akses', 0x4b5160, datar(s, 0.14));
+                        break;
+                    case 'jalur':
+                        masuk('jalur', 0xd9c48f, datar(s, 0.13));
+                        break;
+                    case 'lobi':
+                        // Lobi dua lantai berwarna kuning, di atasnya lanjut massa gedung.
+                        masuk('lobi', 0xf2b544, ekstrusi(s, Math.min(tinggiGedung, tinggiLantai * 2) - 0.3));
+                        if (tinggiGedung > tinggiLantai * 2) masuk('koridor', 0x59606e, ekstrusi(s, tinggiGedung - tinggiLantai * 2 - 0.3, tinggiLantai * 2));
+                        break;
                     case 'taman':
                     case 'void':
                         masuk('taman', 0x9fd3a6, datar(s, 0.09));
                         break;
                 }
+            }
+        }
+
+        // Gerbang: dua tiang di titik gerbang; pintu: kanopi kecil.
+        for (const a of d.akses?.features ?? []) {
+            const [x, n] = p(a.geometry.coordinates);
+            if (a.properties.jenis === 'gerbang') {
+                for (const dx of [-3.2, 3.2]) {
+                    const tiang = new THREE.BoxGeometry(0.6, 3, 0.6);
+                    tiang.translate(x + dx, 1.5, -n);
+                    masuk('gerbang', 0xb45309, tiang);
+                }
+            } else {
+                const kanopi = new THREE.BoxGeometry(4, 0.3, 4);
+                kanopi.translate(x, 3.2, -n);
+                masuk('pintu', 0x7c3aed, kanopi);
             }
         }
 
@@ -218,7 +245,7 @@ export function buatAdegan(wadah: HTMLElement, data: LahanResponse, lahan: Polyg
                 color: e.warna,
                 transparent: e.transparan !== undefined,
                 opacity: e.transparan ?? 1,
-                side: kunci === 'lahan' || kunci === 'taman' || kunci === 'jalan' || kunci === 'aspal' || kunci === 'slot' || kunci === 'pekarangan' ? THREE.DoubleSide : THREE.FrontSide,
+                side: ['lahan', 'taman', 'jalan', 'aspal', 'slot', 'pekarangan', 'akses', 'jalur'].includes(kunci) ? THREE.DoubleSide : THREE.FrontSide,
             });
             isi.add(new THREE.Mesh(g, mat));
         }
