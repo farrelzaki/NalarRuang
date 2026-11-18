@@ -148,7 +148,17 @@ export type ZonaLahanProps = { id: number; jenis: JenisZona; luas_m2: number; la
 export type JenisAkses = 'gerbang' | 'pintu';
 
 /** Titik akses [lng, lat]; urutan = `id` akses. Pintu diabaikan untuk rumah tapak. */
-export type AksesLahanMasuk = { jenis: JenisAkses; titik: [number, number]; /** Lebar gerbang (m), 2,5–30; kosong = bawaan tipe. */ lebar?: number };
+export type AksesLahanMasuk = {
+    jenis: JenisAkses;
+    titik: [number, number];
+    /** Lebar gerbang (m), 2,5–30; kosong = bawaan tipe. */
+    lebar?: number;
+    /** Panjang jalan masuk dari gerbang (m), 2–300; kosong = otomatis sampai jalan/parkir. */
+    panjang?: number;
+};
+
+/** Akses di respons; gerbang membawa panjang jalan masuk yang dipakai dan apakah panjang itu otomatis. */
+export type AksesLahanProps = { id: number; jenis: JenisAkses; lebar: number; panjang?: number; otomatis?: boolean };
 
 /** Kepatuhan terhadap RDTR (atau asumsi); `pelanggaran` berisi kunci yang lewat batas. */
 export type RingkasanLahan = {
@@ -227,7 +237,7 @@ export type LahanResponse = {
     zona: FeatureCollection<Polygon | MultiPolygon, ZonaLahanProps>;
     zona_manual: boolean;
     /** Akses yang dipakai, sudah ditempelkan ke tepi lahan (gerbang) atau tepi gedung (pintu). */
-    akses: FeatureCollection<Point, { id: number; jenis: JenisAkses; lebar: number }>;
+    akses: FeatureCollection<Point, AksesLahanProps>;
     /**
      * Fitur `jenis`: rumah tapak 'kavling' (varian 0–2) + 'jalan' + 'taman'; kos/apartemen 'unit' (`tipe`), 'koridor',
      * 'inti', 'void', 'taman', 'parkir' (`lantai`), 'slot', 'lobi', 'jalur'; semua tipe 'akses' (jalan dari gerbang);
