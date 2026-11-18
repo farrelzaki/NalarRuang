@@ -610,7 +610,7 @@ input { font: inherit; }
 .nr-gambar-lahan--titik, .nr-gambar-lahan--titik .leaflet-interactive { cursor: crosshair !important; }
 /* Saat menggambar, fitur layer lain tidak menangkap klik supaya titik sudut bisa ditaruh di mana saja. */
 /* Saat Uji Lahan aktif, hanya lahan, pegangannya, dan pegangan zona yang bisa diklik (POI/stasiun tidak ikut terpencet). */
-.nr-gambar-lahan .leaflet-interactive:not(.nr-lahan):not(.nr-lahan-pegangan):not(.nr-zona-sudut):not(.nr-zona-geser):not(.nr-akses):not(.nr-akses-ujung) { pointer-events: none !important; }
+.nr-gambar-lahan .leaflet-interactive:not(.nr-lahan):not(.nr-lahan-pegangan):not(.nr-zona-sudut):not(.nr-zona-geser):not(.nr-akses):not(.nr-akses-ujung):not(.nr-akses-dalam) { pointer-events: none !important; }
 .nr-lahan-label.leaflet-tooltip { background: var(--navy-900); color: var(--white); border: 0; border-radius: var(--radius-pill); padding: 3px 10px; font: 700 11px/16px var(--font-sans); box-shadow: var(--shadow-md); }
 .nr-lahan-label.leaflet-tooltip::before { display: none; }
 
@@ -691,3 +691,11 @@ input { font: inherit; }
 .nr-lahan__warna--akses { background: #5b6270; }
 .nr-lahan__warna--lobi { background: #f2b544; }
 .nr-akses-ujung { width: 14px; height: 14px; border-radius: 2px; background: var(--white); border: 2px solid #b45309; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); cursor: ew-resize; }
+.nr-akses-dalam { width: 14px; height: 14px; border-radius: 50%; background: #b45309; border: 2px solid var(--white); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35); cursor: ns-resize; }
+.nr-lahan__aksesdaftar { display: flex; flex-direction: column; gap: 6px; margin: 8px 0 0; padding: 0; list-style: none; }
+.nr-lahan__aksesbaris { display: flex; align-items: center; gap: 6px; padding: 6px 8px; border: 1px solid var(--line); border-radius: var(--radius-md); font: 600 11px/16px var(--font-sans); color: var(--navy-900); }
+.nr-lahan__aksesbaris > b { flex: 1; min-width: 0; }
+.nr-lahan__aksesbaris label { display: inline-flex; align-items: center; gap: 3px; font-weight: 500; color: var(--stone-500, #6b7280); }
+.nr-lahan__aksesbaris input { width: 52px; padding: 2px 4px; border: 1px solid var(--line); border-radius: 6px; font: 600 11px/16px var(--font-sans); color: var(--navy-900); background: var(--white); }
+.nr-lahan__aksesbaris button { display: grid; place-items: center; width: 20px; height: 20px; padding: 0; border: 0; border-radius: 50%; background: transparent; color: var(--stone-500, #6b7280); cursor: pointer; font: 700 13px/1 var(--font-sans); }
+.nr-lahan__aksesbaris button:hover { background: var(--cream-100, #f7f4ee); }

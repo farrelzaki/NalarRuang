@@ -2,7 +2,7 @@
  * Panel Uji Lahan (FR-23): gambar lahan → luas, zona, banjir, kecocokan persona, dan estimasi kapasitas
  * rumah tapak / kos / apartemen dengan asumsi yang bisa digeser. Terinspirasi TestFit.
  */
-import type { AsumsiLahan, JenisAkses, JenisZona, LahanResponse, Persona, PolaLahan, RingkasanLahan, TipeLahan, TipeUnit } from '@/types';
+import type { AksesLahanMasuk, AsumsiLahan, JenisAkses, JenisZona, LahanResponse, Persona, PolaLahan, RingkasanLahan, TipeLahan, TipeUnit } from '@/types';
 import { teksServer, useBahasa, type Bahasa } from '@/lib/bahasa';
 import { cx, PERSONA_IDS } from '@/lib/nalar';
 import { Ikon, Keadaan } from './Dasar';
@@ -28,8 +28,9 @@ type Props = {
     zonaManual: boolean;
     onAturUlangZona: () => void;
     onTambahZona: (j: JenisZona) => void;
-    /** Jumlah gerbang + pintu yang sudah ditaruh (paling banyak 6). */
-    jumlahAkses: number;
+    /** Gerbang dan pintu yang sudah ditaruh (paling banyak 6), bisa diubah angkanya dari panel. */
+    akses: AksesLahanMasuk[];
+    onAkses: (a: AksesLahanMasuk[]) => void;
     onTambahAkses: (j: JenisAkses) => void;
     on3D: () => void;
     sesi: Persona[];
@@ -206,14 +207,17 @@ export function PanelLahan(props: Props) {
                             : t('Gerbang (mobil/motor) menempel di tepi lahan dan membuka jalan ke parkir; tarik ujungnya untuk mengatur lebar. Pintu menempel di tepi gedung dan menjadi lobi.', 'Gates (cars/bikes) snap to the site edge and open a road to parking; drag their ends to set the width. Doors snap to the building and become a lobby.')}
                     </p>
                     <div className="nr-lahan__zona-aksi">
-                        <button type="button" className="nr-lahan__zonabtn nr-lahan__aksesbtn--gerbang" disabled={props.jumlahAkses >= 6} onClick={() => props.onTambahAkses('gerbang')}>
+                        <button type="button" className="nr-lahan__zonabtn nr-lahan__aksesbtn--gerbang" disabled={props.akses.length >= 6} onClick={() => props.onTambahAkses('gerbang')}>
                             + {t('Gerbang kendaraan', 'Vehicle gate')}
                         </button>
                         {props.tipe !== 'rumah' && (
-                            <button type="button" className="nr-lahan__zonabtn nr-lahan__aksesbtn--pintu" disabled={props.jumlahAkses >= 6} onClick={() => props.onTambahAkses('pintu')}>
+                            <button type="button" className="nr-lahan__zonabtn nr-lahan__aksesbtn--pintu" disabled={props.akses.length >= 6} onClick={() => props.onTambahAkses('pintu')}>
                                 + {t('Pintu gedung', 'Building door')}
                             </button>
                         )}
+                    </div>
+                    {props.akses.length > 0 && <DaftarAkses akses={props.akses} server={data?.akses?.features.map((f) => f.properties) ?? []} onAkses={props.onAkses} />}
+                    <div className="nr-lahan__zona-aksi">
                         <button type="button" className="nr-lahan__zonabtn nr-lahan__zonabtn--3d" onClick={props.on3D}>
                             <Ikon name="layers" size={13} /> {t('Lihat 3D', 'View 3D')}
                         </button>
@@ -382,5 +386,58 @@ function Ringkasan({ r, parkir }: { r: RingkasanLahan; parkir?: { butuh: number;
                 </div>
             ))}
         </div>
+    );
+}
+
+/**
+ * Daftar gerbang dan pintu dengan lebar dan panjang jalan masuk yang bisa diketik sendiri.
+ * Panjang kosong = otomatis sampai jalan/parkir (angka otomatis dari server tampil sebagai petunjuk).
+ */
+function DaftarAkses({ akses, server, onAkses }: { akses: AksesLahanMasuk[]; server: { id: number; jenis: string; lebar: number; panjang?: number; otomatis?: boolean }[]; onAkses: (a: AksesLahanMasuk[]) => void }) {
+    const { t, bahasa } = useBahasa();
+    const ubah = (i: number, kunci: 'lebar' | 'panjang', teks: string) => {
+        const n = Number(teks.replace(',', '.'));
+        onAkses(
+            akses.map((a, k) => {
+                if (k !== i) return a;
+                const salin = { ...a };
+                if (teks.trim() === '' || !Number.isFinite(n)) delete salin[kunci];
+                else salin[kunci] = n;
+                return salin;
+            }),
+        );
+    };
+    let nGerbang = 0;
+    let nPintu = 0;
+
+    return (
+        <ul className="nr-lahan__aksesdaftar" aria-label={t('Gerbang dan pintu', 'Gates and doors')}>
+            {akses.map((a, i) => {
+                const s = server.find((x) => x.id === i && x.jenis === a.jenis);
+                const nomor = a.jenis === 'gerbang' ? ++nGerbang : ++nPintu;
+                return (
+                    <li key={i} className="nr-lahan__aksesbaris">
+                        <b>{a.jenis === 'gerbang' ? t(`Gerbang ${nomor}`, `Gate ${nomor}`) : t(`Pintu ${nomor}`, `Door ${nomor}`)}</b>
+                        {a.jenis === 'gerbang' && (
+                            <>
+                                <label>
+                                    {t('Lebar', 'Width')}
+                                    <input type="number" min={2.5} max={30} step={0.5} inputMode="decimal" value={a.lebar ?? ''} placeholder={s ? angka(s.lebar, bahasa, 1) : ''} onChange={(e) => ubah(i, 'lebar', e.target.value)} aria-label={t('Lebar gerbang (m)', 'Gate width (m)')} />
+                                    m
+                                </label>
+                                <label>
+                                    {t('Panjang', 'Length')}
+                                    <input type="number" min={2} max={300} step={1} inputMode="decimal" value={a.panjang ?? ''} placeholder={s?.panjang != null ? `${angka(s.panjang, bahasa, 0)} ${t('oto', 'auto')}` : t('oto', 'auto')} onChange={(e) => ubah(i, 'panjang', e.target.value)} aria-label={t('Panjang jalan masuk (m), kosong = otomatis', 'Access road length (m), empty = automatic')} />
+                                    m
+                                </label>
+                            </>
+                        )}
+                        <button type="button" onClick={() => onAkses(akses.filter((_, k) => k !== i))} aria-label={t('Hapus', 'Remove')} title={t('Hapus', 'Remove')}>
+                            ×
+                        </button>
+                    </li>
+                );
+            })}
+        </ul>
     );
 }

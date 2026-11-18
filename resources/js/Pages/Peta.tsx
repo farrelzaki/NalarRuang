@@ -716,7 +716,8 @@ export default function Peta() {
                             zonaManual={!!zonaLahan}
                             onAturUlangZona={() => setZonaLahan(null)}
                             onTambahZona={(jenis) => setTambahZona({ jenis, kunci: Date.now() })}
-                            jumlahAkses={aksesLahan.length}
+                            akses={aksesLahan}
+                            onAkses={setAksesLahan}
                             onTambahAkses={(jenis) => setTambahAkses({ jenis, kunci: Date.now() })}
                             on3D={() => setTampil3D(true)}
                             asumsi={asumsiLahan}
