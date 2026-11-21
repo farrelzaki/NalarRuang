@@ -1,5 +1,5 @@
 /** Komponen dasar design system NalarRuang (Ikon, Wordmark, Bintang, SimbolPeta, Toggle, Toast, keadaan). */
-import type { CSSProperties, ReactNode } from 'react';
+import { useEffect, useState, type CSSProperties, type ReactNode } from 'react';
 import { useBahasa } from '@/lib/bahasa';
 import { cx, type Simbol } from '@/lib/nalar';
 import { IKON } from './ikon-data';
@@ -159,11 +159,35 @@ export function Toast({ tone = 'info', children }: { tone?: NadaToast; children:
     );
 }
 
+const FRASA_MEMUAT_LANJUTAN: [string, string][] = [
+    ['Menyiapkan data', 'Prepping the data'],
+    ['Menyusun hasil', 'Assembling the results'],
+    ['Hampir siap', 'Almost there'],
+    ['Masih bekerja', 'Still working on it'],
+];
+
+/** Teks "memuat" berganti tiap ~2,2 detik: title spesifik dulu, lalu frasa umum bergilir. Diam bila prefers-reduced-motion. */
+function useFrasaMemuat(aktif: boolean) {
+    const [i, setI] = useState(0);
+    useEffect(() => {
+        if (!aktif) return;
+        setI(0);
+        if (typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+        const id = window.setInterval(() => setI((n) => n + 1), 2200);
+        return () => window.clearInterval(id);
+    }, [aktif]);
+    return i;
+}
+
 export function Keadaan({ kind, title, text, action, onAction }: { kind: 'kosong' | 'peringatan' | 'galat' | 'memuat'; title?: string; text?: string; action?: string; onAction?: () => void }) {
     const { t } = useBahasa();
+    const i = useFrasaMemuat(kind === 'memuat');
     if (kind === 'memuat') {
+        const frasa = [title ?? t('Memuat', 'Loading'), ...FRASA_MEMUAT_LANJUTAN.map((f) => t(...f))];
+        const teksKini = frasa[i % frasa.length];
         return (
-            <div className="nr-state" aria-busy="true" aria-label={title ?? t('Memuat', 'Loading')} style={{ flexDirection: 'column', gap: 10 }}>
+            <div className="nr-state" aria-busy="true" aria-label={teksKini} style={{ flexDirection: 'column', gap: 10 }}>
+                <span className="nr-state__memuat-teks">{teksKini}</span>
                 <span className="nr-skeleton" style={{ width: '40%' }} />
                 <span className="nr-skeleton" style={{ width: '85%' }} />
                 <span className="nr-skeleton" style={{ width: '70%' }} />

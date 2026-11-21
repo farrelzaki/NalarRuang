@@ -477,6 +477,7 @@ input { font: inherit; }
 .nr-state__text { margin: 0; font: 400 10px/16.25px var(--font-sans); color: var(--ink-60); }
 .nr-state__action { margin-top: 6px; }
 .nr-skeleton { display: block; height: 12px; border-radius: var(--radius-pill); background: var(--ink-05); animation: nr-pulse 1.2s ease-in-out infinite; }
+.nr-state__memuat-teks { margin: 0 0 2px; font: 600 12px/18px var(--font-sans); color: var(--ink-60); }
 @keyframes nr-pulse { 50% { opacity: 0.4; } }
 
 /* ---------- Landing (tema editorial, 1440) ---------- */
