@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 /**
  * GET /api/layers dan GET /api/layers/{layer_id}
@@ -47,11 +48,13 @@ class LayerController extends Controller
 
         // BBOX Filtering untuk layer poligon berat
         if ($bbox = $request->query('bbox')) {
-            $angka = array_map('floatval', explode(',', (string) $bbox));
-            if (count($angka) === 4) {
-                $kondisi[] = 'geom && ST_MakeEnvelope(?, ?, ?, ?, 4326)';
-                array_push($nilai, $angka[0], $angka[1], $angka[2], $angka[3]);
+            $bagian = explode(',', (string) $bbox);
+            if (count($bagian) !== 4 || count(array_filter($bagian, 'is_numeric')) !== 4) {
+                return response()->json(['message' => 'Format bbox harus minLng,minLat,maxLng,maxLat (angka).'], 422);
             }
+            $angka = array_map('floatval', $bagian);
+            $kondisi[] = 'geom && ST_MakeEnvelope(?, ?, ?, ?, 4326)';
+            array_push($nilai, $angka[0], $angka[1], $angka[2], $angka[3]);
         }
 
         if ($layerId === 'mesin_waktu' && $request->filled('tahun')) {
@@ -72,7 +75,10 @@ class LayerController extends Controller
                 $nilai,
             );
         } catch (\Throwable $e) {
-            $baris = [];
+            // Jangan membalas koleksi kosong: itu menyembunyikan galat SQL seolah layer memang tidak berisi data.
+            Log::error(__METHOD__.": layer {$layerId}: ".$e->getMessage());
+
+            return response()->json(['message' => 'Data layer gagal dimuat.'], 500);
         }
 
         if (! empty($baris)) {

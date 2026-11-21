@@ -21,6 +21,10 @@ class ApiTest extends TestCase
     {
         parent::setUp();
 
+        // Tes tidak boleh memanggil server publik (Valhalla, OSRM, Commute Data API): setiap permintaan luar
+        // yang tidak di-Http::fake gagal, sehingga hasil tes tidak bergantung pada internet.
+        Http::preventStrayRequests();
+
         // Empat kelurahan berbentuk kotak 0,01 derajat (+-1,1 km) berjajar ke timur.
         foreach (['Kebon Uji', 'Pasar Uji', 'Taman Uji', 'Kali Uji'] as $i => $nama) {
             $x = 106.80 + $i * 0.01;
@@ -181,6 +185,47 @@ class ApiTest extends TestCase
 
         $teks = array_column($this->getJson('/api/inspect?lat=-6.2049&lng=106.8049')->assertOk()->json('ringkasan_layer'), 'teks', 'jenis');
         $this->assertSame('Indeks bahaya banjir InaRISK di bawah 0,50', $teks['banjir']);
+    }
+
+    public function test_inspect_titik_membentuk_poligon_isochrone_dari_ruas_jalan_valhalla(): void
+    {
+        // Regresi: query penghalusan poligon pernah ditolak PostgreSQL (ST_Dump di dalam agregat), galatnya
+        // tertelan, dan peta selalu jatuh ke cadangan. Ruas jalan palsu membentuk cincin di sekitar titik uji.
+        Http::fake([
+            'valhalla1.openstreetmap.de/expansion' => Http::response(['type' => 'FeatureCollection', 'features' => [[
+                'type' => 'Feature',
+                'properties' => [],
+                'geometry' => ['type' => 'LineString', 'coordinates' => [
+                    [106.8040, -6.2040], [106.8060, -6.2040], [106.8060, -6.2060], [106.8040, -6.2060], [106.8040, -6.2040],
+                ]],
+            ]]]),
+        ]);
+
+        $r = $this->getJson('/api/inspect?lat=-6.2050&lng=106.8050&persona[]=commuter')->assertOk();
+
+        $r->assertJsonPath('isochrone_meta.aktif', true)
+            ->assertJsonPath('isochrone_meta.mode', 'pedestrian')
+            ->assertJsonPath('isochrone_meta.minutes', 10)
+            ->assertJsonPath('isochrone.type', 'FeatureCollection');
+        $this->assertContains($r->json('isochrone.features.0.geometry.type'), ['Polygon', 'MultiPolygon']);
+    }
+
+    public function test_inspect_titik_tanpa_valhalla_memakai_jarak_garis_lurus(): void
+    {
+        // Tanpa Http::fake, permintaan ke Valhalla gagal; /api/inspect harus tetap menjawab dari jarak garis lurus.
+        $this->getJson('/api/inspect?lat=-6.2050&lng=106.8050&persona[]=commuter')
+            ->assertOk()
+            ->assertJsonPath('isochrone_meta.aktif', false)
+            ->assertJsonPath('isochrone', null)
+            ->assertJsonPath('stars.commuter', 3);
+    }
+
+    public function test_bbox_layer_yang_salah_format_ditolak_422(): void
+    {
+        $this->getJson('/api/layers/mobilitas?bbox=106.8,-6.2')->assertStatus(422)->assertJsonStructure(['message']);
+        $this->getJson('/api/layers/mobilitas?bbox=a,b,c,d')->assertStatus(422);
+        $this->getJson('/api/layers/mobilitas?bbox=106.79,-6.22,106.85,-6.19')
+            ->assertOk()->assertJsonPath('type', 'FeatureCollection');
     }
 
     public function test_tahun_mesin_waktu_divalidasi(): void

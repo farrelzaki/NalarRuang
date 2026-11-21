@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 /**
@@ -93,7 +94,8 @@ class CommuteController extends Controller
                 $rute = $r->json('routes.0');
 
                 return $r->ok() && $rute ? $rute : null;
-            } catch (Throwable) {
+            } catch (Throwable $e) {
+                Log::warning(__METHOD__.': '.$e->getMessage());
                 return null;
             }
         });
@@ -181,7 +183,8 @@ class CommuteController extends Controller
                     'bentuk' => $leg['shape'],
                     'geometri' => ['type' => 'LineString', 'coordinates' => $titik],
                 ];
-            } catch (Throwable) {
+            } catch (Throwable $e) {
+                Log::warning(__METHOD__.': '.$e->getMessage());
                 return null;
             }
         });
@@ -207,7 +210,8 @@ class CommuteController extends Controller
                 ]);
 
                 return $r->ok() ? $r->json('edges') : null;
-            } catch (Throwable) {
+            } catch (Throwable $e) {
+                Log::warning(__METHOD__.': '.$e->getMessage());
                 return null;
             }
         });
@@ -405,7 +409,8 @@ class CommuteController extends Controller
                         Cache::put($kunci[$i], $hasil[$i], now()->addDay());
                     }
                 }
-            } catch (Throwable) {
+            } catch (Throwable $e) {
+                Log::warning(__METHOD__.': '.$e->getMessage());
                 // Tanpa tarif, pasangan itu dilewati.
             }
         }
@@ -426,7 +431,8 @@ class CommuteController extends Controller
                     $hasil["{$op['code']}:{$l['lineCode']}"] = $l['name'];
                 }
             }
-        } catch (Throwable) {
+        } catch (Throwable $e) {
+            Log::warning(__METHOD__.': '.$e->getMessage());
             $hasil = [];
         }
         // Hasil kosong (API sedang gagal) tidak di-cache, agar label "KRL Bogor" tidak tertahan jadi "KRL B" seharian.

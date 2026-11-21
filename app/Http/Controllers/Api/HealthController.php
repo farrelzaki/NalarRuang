@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Throwable;
 
 /**
@@ -23,7 +24,8 @@ class HealthController extends Controller
                 'database' => DB::connection()->getDriverName(),
                 'postgis' => $postgis,
             ]);
-        } catch (Throwable) {
+        } catch (Throwable $e) {
+            Log::warning(__METHOD__.': '.$e->getMessage());
             return response()->json([
                 'status' => 'error',
                 'database' => DB::connection()->getDriverName(),

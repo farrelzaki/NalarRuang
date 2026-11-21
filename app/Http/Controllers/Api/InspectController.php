@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
 use Throwable;
 
@@ -301,7 +302,8 @@ class InspectController extends Controller
                         return $poligon;
                     }
                 }
-            } catch (Throwable) {
+            } catch (Throwable $e) {
+                Log::warning(__METHOD__.': '.$e->getMessage());
                 // Lanjut ke fallback /isochrone tanpa penyederhanaan garis jika /expansion timeout
             }
 
@@ -321,7 +323,8 @@ class InspectController extends Controller
                 if ($r->ok() && ! empty($json['features'][0]['geometry'])) {
                     return $json;
                 }
-            } catch (Throwable) {
+            } catch (Throwable $e) {
+                Log::warning(__METHOD__.': '.$e->getMessage());
                 // Jika server Valhalla publik timeout, fallback ke null agar tidak error 500
             }
 
