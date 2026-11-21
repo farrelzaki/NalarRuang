@@ -28,6 +28,41 @@ Gunakan file ini untuk mencatat pekerjaan proyek. Satu task harus memiliki tujua
 
 ## Task Aktif
 
+### [~] Uji Lahan ala TestFit (FR-23)
+
+- Status: [~] Implementasi selesai di branch `fitur/uji-lahan`, menunggu uji lokal (PostGIS + browser) oleh Galih
+- Mode: competition · Scope, Plan, dan Approval disetujui Galih 16 Nov 2026 (fitur disetujui PM; kontrak API disepakati tim)
+- Prioritas: Tinggi (target sebelum Sprint Review 3, 20 Nov 2026)
+- Tujuan: Pengguna menggambar lahan (kotak tarik sudut atau poligon), lalu melihat luas, zona RDTR + KDB/KLB, banjir, kecocokan persona, dan estimasi kapasitas rumah tapak (kavling digambar), kos, atau apartemen.
+- Scope termasuk: `KapasitasLahan` + tes unit, `POST /api/lahan` + tes fitur, `kdb_teks`/`klb_teks` di `DataNyataSeeder`, `Map/GambarLahan.ts`, `PanelLahan`, integrasi `Peta.tsx`, kontrak di `docs/SISTEM.md` + `types/`, draf FR-23 di SRS.
+- Non-goals: biaya/keuntungan, harga tanah, listing properti, layout AI per unit seperti TestFit.
+
+Kriteria selesai:
+
+- [x] Rumus kapasitas murni dan teruji (`tests/Unit/KapasitasLahanTest.php`, 13 tes).
+- [ ] `php artisan test` lulus di mesin dengan PostGIS (termasuk `tests/Feature/LahanTest.php`).
+- [ ] `npm run typecheck` dan `npm run build` lulus.
+- [ ] Uji manual di peta: kotak, poligon, tiga tipe, slider, lahan di DKI dan di luar DKI.
+- [ ] PM meninjau draf FR-23 di SRS.
+
+Tahap 2 (17 Nov 2026, disetujui Galih): pola tata letak (rumah grid/cluster, kos keliling/koridor, apartemen
+keliling/wrap/tower), zona bangunan/parkir/taman yang bisa ditarik/ditambah/dihapus sendiri (`Map/ZonaLahan.ts`),
+parkir motor untuk kos, ringkasan KDB/KLB/KDH/tinggi/parkir yang merah bila lewat batas RDTR, dan pratinjau 3D
+three.js yang dimuat malas (`Map/Lahan3D.ts`, `Components/Pratinjau3D.tsx`; dependensi baru `three` + `@types/three`).
+
+- [x] Logika murni baru teruji (`tests/Unit/KapasitasLahanTest.php`, 23 tes).
+- [ ] `npm install`, `npm run typecheck`, `php artisan test --filter=Lahan` lulus di mesin Galih.
+- [ ] Uji manual: ganti pola, tarik/tambah/hapus zona, 3D ikut berubah saat lahan/zona ditarik.
+- [ ] Tim diberi tahu soal dependensi `three` (CLAUDE.md: jangan menambah dependensi diam-diam).
+
+Tahap 3 (18 Nov 2026, permintaan PM lewat Galih): gerbang kendaraan (mobil/motor, menempel tepi lahan) dan pintu gedung
+(menempel tepi zona bangunan) yang bisa ditambah/digeser/dihapus sendiri (`Map/AksesLahan.ts`); gerbang membuka jalan
+akses ke jalan lingkungan/parkir dan memindahkan parkir bawaan ke sisinya, pintu menjadi lobi + jalur pejalan.
+
+- [x] Logika murni akses teruji (`tests/Unit/KapasitasLahanTest.php`, 25 tes).
+- [ ] `php artisan test --filter=Lahan` dan `npm run typecheck` lulus di mesin Galih.
+- [ ] Uji manual: tambah/geser/hapus gerbang dan pintu, isi ikut berubah, tampil di 3D.
+
 ### [~] Penyelarasan dokumen dan artifact ke desain final + masukan Izdihar (Tahap A–C)
 
 - Status: [~] Tahap A, B, C selesai, menunggu tinjauan pengguna

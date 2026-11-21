@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\CommuteController;
 use App\Http\Controllers\Api\HealthController;
 use App\Http\Controllers\Api\InspectController;
+use App\Http\Controllers\Api\LahanController;
 use App\Http\Controllers\Api\LayerController;
 use App\Http\Controllers\Api\LokasiController;
 use App\Http\Controllers\Api\SearchController;
@@ -16,3 +17,4 @@ Route::get('/search', SearchController::class);
 Route::get('/inspect', InspectController::class);
 Route::get('/commute', CommuteController::class);
 Route::get('/lokasi', LokasiController::class);
+Route::post('/lahan', LahanController::class);

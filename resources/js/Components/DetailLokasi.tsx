@@ -13,7 +13,7 @@ function BadgeProfil() {
     );
 }
 
-function BarisSkor({ persona, score, match, sesi }: { persona: Persona; score?: number | null; match?: boolean; sesi: boolean }) {
+export function BarisSkor({ persona, score, match, sesi }: { persona: Persona; score?: number | null; match?: boolean; sesi: boolean }) {
     const { t } = useBahasa();
     const info = PERSONA[persona];
     const wilayah = match !== undefined;
@@ -142,7 +142,7 @@ function kalimatTitik(p: Persona, s: number, f: FaktaFasilitas, bahasa: Bahasa):
 }
 
 /** Kesimpulan wilayah dengan jumlah fasilitas utama di dalamnya. */
-function kalimatWilayah(p: Persona, cocok: boolean, n: number, bahasa: Bahasa, dekat: { nama: string; meter: number } | null = null): string {
+export function kalimatWilayah(p: Persona, cocok: boolean, n: number, bahasa: Bahasa, dekat: { nama: string; meter: number } | null = null): string {
     const en = bahasa === 'en';
     const label = PERSONA[p].label;
     const benda: Record<Persona, [string, string, string]> = {
