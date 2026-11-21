@@ -124,6 +124,7 @@ export function SimbolPeta({ kind, size = 16 }: { kind: Simbol; size?: number })
         ),
         waktu: garis('var(--map-mrt)', '4 3'),
         'waktu-tol': garis('#e892a2', '4 3'),
+        'waktu-stasiun': <circle cx={8} cy={8} r={5} style={{ fill: '#fbf9f6', stroke: 'var(--map-mrt)', strokeWidth: 2.5 }} />,
         stasiun: <circle cx={8} cy={8} r={5} style={{ fill: 'var(--map-stasiun)', stroke: 'var(--navy-900)', strokeWidth: 2 }} />,
         rute: (
             <g>

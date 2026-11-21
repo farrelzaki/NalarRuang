@@ -15,9 +15,17 @@ class DemoPetaSeeder extends Seeder
 {
     private const FOLDER = 'data/geojson/demo';
 
+    /**
+     * Layer yang dimuat langsung ke basis data di luar repo (bukan dari data/), jadi tidak boleh ikut dihapus
+     * saat data peta dimuat ulang. persil: hak tanah terdaftar DKI, diimpor dari basis data anggota tim
+     * (lihat docs/RENCANA.md, "Memuat data persil").
+     */
+    public const LAYER_LUAR_REPO = ['persil'];
+
     public function run(): void
     {
-        DB::table('fitur_peta')->truncate();
+        // Bukan truncate: baris layer di luar repo (persil) harus tetap ada.
+        DB::table('fitur_peta')->whereNotIn('layer_id', self::LAYER_LUAR_REPO)->delete();
         DB::table('wilayah')->truncate();
 
         $this->imporWilayah();
@@ -27,7 +35,7 @@ class DemoPetaSeeder extends Seeder
         }
 
         // Poligon hasil vektorisasi raster kadang bersilangan sendiri; perbaiki agar ST_Intersects/ST_Area andal.
-        DB::statement('UPDATE fitur_peta SET geom = ST_CollectionExtract(ST_MakeValid(geom), ST_Dimension(geom) + 1) WHERE NOT ST_IsValid(geom)');
+        DB::statement("UPDATE fitur_peta SET geom = ST_CollectionExtract(ST_MakeValid(geom), ST_Dimension(geom) + 1) WHERE layer_id <> 'persil' AND NOT ST_IsValid(geom)");
         DB::statement('UPDATE wilayah SET geom = ST_Multi(ST_CollectionExtract(ST_MakeValid(geom), 3)) WHERE NOT ST_IsValid(geom)');
         // Data nyata (udara, zonasi, Mesin Waktu, genangan, dst.) menimpa nilai contoh, lalu metrik wilayah dihitung.
         $this->call(DataNyataSeeder::class);

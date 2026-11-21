@@ -44,7 +44,12 @@ tim di atas bunyi SRS. Blade + Alpine dan SPA terpisah dipertimbangkan dan
 tidak dipilih.
 
 **Sengaja tidak dipakai:** MongoDB, pipeline NLP/scraping, cron job Python
-(tidak punya work package di WBS), dan Mapbox (SRS menetapkan Leaflet).
+(tidak punya work package di WBS).
+
+**Perubahan 12–13 Nov 2026 (disetujui Farrel):** peta dipindah ke MapLibre GL JS + peta dasar OpenFreeMap
+(gratis, tanpa token; 13 Nov menggantikan rencana Mapbox karena Mapbox tanpa kartu kredit dibatasi 5.000 muat
+peta per bulan). 2D dulu, mode miring/3D paling akhir. Leaflet tetap sebagai cadangan otomatis sampai MapLibre stabil. SRS B01/SW02 masih menyebut Leaflet dan perlu
+diperbarui tim sebelum Review 3. Rencana: dokumen "Rencana Migrasi Peta NalarRuang" (Claude Docs).
 
 ## 2a. Sumber data per layer
 
@@ -58,10 +63,34 @@ unduhan resmi; sisanya diolah manual oleh tim data (Adzkia, Galih).
 | 2 Ekosistem & Gaya Hidup | POI kafe/resto/mal, ruang hijau dari OSM | Google Places (berbayar, cadangan saja) | Overpass API → GeoJSON | — |
 | 3 Inklusivitas | Fasilitas ramah disabilitas OSM (tag jarang; tampilkan apa adanya); halte TransJakarta ramah kursi roda | — | Overpass API; GTFS TransJakarta (`wheelchair_boarding`) | — |
 | 4 Mobilitas & Transit | Stasiun, lin, transfer, tarif KRL/MRT/LRT Jakarta/LRT Jabodebek + TransJakarta; Biskita | Scraping Google Maps | Commute Data API (`api.commute.shiorilabs.id`, ODbL: cantumkan sumber); GTFS resmi TransJakarta (`gtfs.transjakarta.co.id`, juga di Mobility Database mdb-1909); JSON Biskita (opentransum); geometri rel dari OSM | — |
-| 5 Mesin Waktu | Rencana tata ruang/proyek 2026–2040 | GISTARU | — | Dari video rujukan tim (bukan GISTARU) |
+| 5 Mesin Waktu | Proyek 2026–2045: kurasi tim (tahun dari berita resmi) + jaringan JUTPI3 2045 | GISTARU | Garis JUTPI3 dari ModaHub (`data/mesin_waktu/jutpi3_modahub.geojson`, CC BY-NC 4.0) | Fase dan tahun dari video rujukan https://youtu.be/DNarc_hZMXY; `python data/scripts/gabung_jutpi3.py` |
 | 6 Legalitas Lahan | Batas persil BHUMI ATR/BPN | — | — (BHUMI tidak membuka layanan unduh/WMS publik) | Keputusan tim: cari endpoint JSON BHUMI. Belum dikerjakan: perlu dipastikan tidak melanggar ketentuan ATR/BPN |
 | Pencarian & grading | Batas desa/kelurahan (1.503 se-Jabodetabek, kode Kemendagri) | Batas OSM (tidak lengkap di Bekasi dan Kab. Tangerang) | Layanan ArcGIS REST BIG `BATAS_DESAKEL_AR` | — |
 | Commute Simulator | Mobil: Valhalla (utamakan tol, cadangan OSRM) + perkiraan tarif tol, opsi hindari 23 ruas ganjil-genap (webmap ArcGIS Dishub DKI; Pintu Besar Selatan & Balikpapan belum ada di sumber); umum: tarif & rute Commute Data API + jalan kaki OSRM | Google Distance Matrix | Ya | — |
+
+### Memuat data persil (Legalitas) ke Heroku
+
+Data hak tanah DKI (`layer_id = 'persil'`) tidak ada di repo dan tidak dimuat oleh seeder; isinya diimpor langsung
+ke basis data. `DemoPetaSeeder` tidak menghapus layer ini (`LAYER_LUAR_REPO`), jadi deploy berikutnya tidak
+menimpanya, dan impor persil juga tidak menyentuh layer lain. **Syarat:** asal dan izin sumber data sudah dipastikan
+(lihat `PROJECT_STATE.md`, "Perlu ditinjau" no. 1).
+
+Di laptop yang punya basis data lengkap (sesuaikan nama tabel bila persil tidak di `fitur_peta`):
+
+```bash
+# 0. Cek jumlah dan ukuran dulu
+psql -U postgres -d nalarruang -c "SELECT count(*), pg_size_pretty(sum(pg_column_size(geom))) FROM fitur_peta WHERE layer_id = 'persil'"
+# 1. Ekspor hanya persil (geometri disederhanakan ~0,5 m, hex EWKB)
+psql -U postgres -d nalarruang -c "\copy (SELECT layer_id, jenis, nama, atribut, tahun, sumber, encode(ST_AsEWKB(ST_SimplifyPreserveTopology(geom, 0.000005)), 'hex') FROM fitur_peta WHERE layer_id = 'persil') TO 'persil.csv' WITH CSV HEADER"
+# 2. Pastikan muat di paket Heroku Postgres
+heroku pg:info -a <nama-app>
+# 3. Ganti persil lama (hanya persil) lalu impor
+heroku pg:psql -a <nama-app> -c "DELETE FROM fitur_peta WHERE layer_id = 'persil'"
+heroku pg:psql -a <nama-app> -c "\copy fitur_peta (layer_id, jenis, nama, atribut, tahun, sumber, geom) FROM 'persil.csv' WITH CSV HEADER"
+heroku pg:psql -a <nama-app> -c "ANALYZE fitur_peta"
+```
+
+Jangan me-restore `backup_nalarruang.sql` utuh ke Heroku: itu menimpa semua tabel.
 
 ## 3. Kalender sprint
 

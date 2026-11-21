@@ -54,7 +54,7 @@ class DataNyataSeeder extends Seeder
         $this->halteBodetabek();
         $this->gazetteer();
 
-        DB::statement('UPDATE fitur_peta SET geom = ST_CollectionExtract(ST_MakeValid(geom), ST_Dimension(geom) + 1) WHERE NOT ST_IsValid(geom)');
+        DB::statement("UPDATE fitur_peta SET geom = ST_CollectionExtract(ST_MakeValid(geom), ST_Dimension(geom) + 1) WHERE layer_id <> 'persil' AND NOT ST_IsValid(geom)");
         // Luas RTH untuk syarat Zen (taman >= 1.000 m²); dihitung sekali di sini.
         DB::statement("UPDATE fitur_peta SET atribut = atribut || jsonb_build_object('luas_m2', round(ST_Area(geom::geography))) WHERE jenis = 'rth'");
         DB::statement('ANALYZE fitur_peta');
@@ -198,27 +198,48 @@ class DataNyataSeeder extends Seeder
         SQL);
     }
 
-    /** Proyek Mesin Waktu dengan tahun target dari berita resmi (data/mesin_waktu/proyek.csv), bukan perkiraan. */
+    /**
+     * Proyek Mesin Waktu. proyek.geojson: kurasi tim, tahun dari berita resmi, garis OSM.
+     * proyek_jutpi3.geojson: fase jaringan JUTPI3 2045 (garis ModaHub, tahun dari proyek.csv atau video rujukan,
+     * 2045 bila belum ada tahun); dibuat oleh data/scripts/gabung_jutpi3.py.
+     */
     private function mesinWaktu(): void
     {
         DB::table('fitur_peta')->where('layer_id', 'mesin_waktu')->delete();
-        $fitur = array_filter($this->geojson(base_path('data/mesin_waktu/proyek.geojson')), fn ($f) => $f['geometry'] !== null);
+        $fitur = [];
+        $jutpi = is_file(base_path('data/mesin_waktu/proyek_jutpi3.geojson'))
+            ? $this->geojson(base_path('data/mesin_waktu/proyek_jutpi3.geojson')) : [];
+        // Garis OSM proyek rel yang tidak pas diganti garis fase JUTPI3 (lihat data/scripts/gabung_jutpi3.py).
+        $diganti = array_filter(array_map(fn ($f) => $f['properties']['menggantikan'] ?? null, $jutpi));
+        foreach ($this->geojson(base_path('data/mesin_waktu/proyek.geojson')) as $f) {
+            if ($f['geometry'] !== null && ! in_array($f['properties']['id'] ?? null, $diganti, true)) {
+                $fitur[] = $f;
+            }
+        }
+        array_push($fitur, ...$jutpi);
         $this->sisip(array_map(function ($f) {
             $p = $f['properties'];
             $situs = parse_url((string) ($p['sumber'] ?? ''), PHP_URL_HOST);
+            $situs = $situs ? preg_replace('/^www\./', '', $situs) : 'berita';
+            $jutpi = str_contains((string) ($p['geometri'] ?? ''), 'JUTPI3');
+            $asalTahun = $jutpi && ($p['asal_tahun'] ?? '') !== 'proyek.csv (berita resmi)'
+                ? ($p['asal_tahun'] === 'video JUTPI3' ? 'video JUTPI3 (youtu.be/DNarc_hZMXY)' : 'rencana JUTPI3 2045')
+                : trim($situs.' '.($p['tanggal_sumber'] ?? ''));
 
             return [
                 'layer_id' => 'mesin_waktu',
-                'jenis' => 'proyek',
+                // Garis proyek, atau titik stasiun rencana (stasiun_rencana) dari fase JUTPI3.
+                'jenis' => $p['jenis'] ?? 'proyek',
                 'nama' => $p['nama'],
                 'atribut' => array_filter([
                     'status' => $p['status_okt_2026'] ?? null,
                     'moda' => $p['moda'] ?? null,
+                    'lin' => $p['lin'] ?? null,
                     'tautan' => $p['sumber'] ?? null,
                     'catatan' => $p['catatan'] ?? null,
                 ]),
                 'tahun' => isset($p['tahun']) ? (int) $p['tahun'] : null,
-                'sumber' => 'OSM (geometri); '.trim(($situs ? preg_replace('/^www\./', '', $situs) : 'berita').' '.($p['tanggal_sumber'] ?? '')).' (status, target)',
+                'sumber' => ($jutpi ? 'JUTPI3 2045 via ModaHub, CC BY-NC 4.0' : 'OSM').' (geometri); '.$asalTahun.' (status, target)',
                 'geometry' => $f['geometry'],
             ];
         }, array_values($fitur)));

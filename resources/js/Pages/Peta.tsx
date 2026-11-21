@@ -1,27 +1,24 @@
 /**
  * Visual Explorer (UI01–UI05). Tata letak design-system.md bagian 5: search + satu panel di kolom kiri,
- * tombol merek kanan atas, LAYER/PERSONA + panel kanan di kanan bawah, slider tahun tengah bawah.
+ * tombol merek kanan atas, LAYER/PERSONA + panel kanan di kanan bawah; tengah bawah: slider tahun di atas bilah alat
+ * (Jelajah / Titik / Area, mode tampilan 2D / Miring / 3D, zoom).
  */
 import { Head, Link } from '@inertiajs/react';
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { FeatureCollection, Geometry, Polygon } from 'geojson';
 import type { AksesLahanMasuk, AsumsiLahan, CommuteResponse, JenisAkses, JenisZona, LahanRequest, PolaLahan, ZonaLahanMasuk, HasilSearch, InspectResponse, LahanResponse, LayerKey, LayerResponse, Persona, TipeLahan } from '@/types';
 import { api } from '@/lib/api';
-import { useBahasa } from '@/lib/bahasa';
-import {
-    bacaPersonaSesi,
-    PERSONA,
-    simpanPersonaSesi,
-    SUBFITUR,
-    type IsochroneMode,
-    type Simbol,
-} from '@/lib/nalar';
-import PetaExplorer, { type TitikPeta } from '@/Map/PetaExplorer';
+import { teksServer, useBahasa } from '@/lib/bahasa';
+import { bacaPersonaSesi, PERSONA, simpanPersonaSesi, SUBFITUR, type IsochroneMode, type Simbol } from '@/lib/nalar';
+import type { ModeKamera, TitikPeta } from '@/Map/PetaExplorer';
+import PetaPilihan, { type MesinPeta } from '@/Map/PetaPilihan';
+import { luasPoligonM2, teksLuas } from '@/Map/isiPeta';
+import { BilahAlat, type Alat } from '@/Components/BilahAlat';
 import { Toast, type NadaToast } from '@/Components/Dasar';
 import { PanelFilter, PanelTop3, SearchBar } from '@/Components/Pencarian';
 import { DetailLokasi } from '@/Components/DetailLokasi';
 import { SimulatorRute, type Moda, type TitikRute } from '@/Components/SimulatorRute';
-import { PanelIsochrone, PanelLayer, PanelProfilPersona, SliderTahun, TombolLayerPersona, TombolMerek, type PanelKananKey, type StatusLayer } from '@/Components/PanelKananPeta';
+import { PanelLayer, PanelProfilPersona, SliderTahun, TombolLayerPersona, TombolMerek, type PanelKananKey, type StatusLayer } from '@/Components/PanelKananPeta';
 import { DialogPersona, DrawerMenu, type TabMenu } from '@/Components/MenuPersona';
 import { Panduan, sudahLihatPanduan } from '@/Components/Panduan';
 import { PanelLahan, type ModeGambar } from '@/Components/PanelLahan';
@@ -41,6 +38,20 @@ type InspectDenganIsochrone = InspectResponse & {
 
 const LAYER_AWAL: LayerKey[] = ['mobilitas'];
 
+const LUAS_AREA_MAKS = 25_000_000;
+const SUDUT_MAKS = 60;
+const KUNCI_KAMERA = 'nr-mode-kamera';
+
+function kameraTersimpan(): ModeKamera {
+    try {
+        const v = sessionStorage.getItem(KUNCI_KAMERA);
+        return v === 'miring' || v === '3d' ? v : 'atas';
+    } catch {
+        return 'atas';
+    }
+}
+
+/** Moda jangkauan bawaan alat Titik: mobil untuk Driver saja, selain itu jalan kaki. */
 function modeDefaultPersona(p: Persona[]): IsochroneMode {
     return p.includes('driver') && !p.includes('commuter') ? 'auto' : 'pedestrian';
 }
@@ -105,6 +116,15 @@ export default function Peta() {
             setLewatTol(false);
         }
     };
+
+    // Bilah alat: Jelajah / Titik / Area, mode kamera, zoom
+    const [alat, setAlat] = useState<Alat>('titik');
+    const [sudutArea, setSudutArea] = useState<TitikPeta[]>([]);
+    const [memuatArea, setMemuatArea] = useState(false);
+    const areaTerakhir = useRef<TitikPeta[] | null>(null);
+    const [modeKamera, setModeKamera] = useState<ModeKamera>(kameraTersimpan);
+    const [mesin, setMesin] = useState<MesinPeta>('leaflet');
+    const [perintahZoom, setPerintahZoom] = useState<{ arah: 1 | -1; kunci: number } | null>(null);
 
     // Uji Lahan (FR-23)
     const [alatLahan, setAlatLahan] = useState<{ mode: ModeGambar; kunci: number } | null>(null);
@@ -194,6 +214,7 @@ export default function Peta() {
     useEffect(() => {
         if (!detail) return;
         if (detail.jenis_geometri === 'titik') muatTitik({ lat: detail.lat, lng: detail.lng }, false, isoMode, isoMinutes);
+        else if (detail.jenis_geometri === 'area') areaTerakhir.current && muatArea(areaTerakhir.current);
         else muatWilayah(detail.wilayah_id, false);
     }, [persona]);
 
@@ -309,23 +330,7 @@ export default function Peta() {
         if (terbang) setTerbangKe({ titik: lokasi, kunci: Date.now() });
 
         try {
-            const params = new URLSearchParams({
-                lat: String(lokasi.lat),
-                lng: String(lokasi.lng),
-                mode: modeParam,
-                minutes: String(minutesParam),
-            });
-            persona.forEach((p) => params.append('persona[]', p));
-
-            const res = await fetch(`/api/inspect?${params.toString()}`, {
-                signal: ctrl.signal,
-                headers: { Accept: 'application/json' },
-            });
-            if (!res.ok) {
-                throw new Error('Gagal memuat detail lokasi');
-            }
-            const hasilTitik: InspectDenganIsochrone = await res.json();
-            setDetail(hasilTitik);
+            setDetail(await api.titik(lokasi.lat, lokasi.lng, persona, ctrl.signal, { mode: modeParam, minutes: minutesParam }));
         } catch (e) {
             if ((e as Error).name !== 'AbortError') {
                 setGalatDetail(t('Layer ini belum punya data untuk lokasi yang kamu pilih.', 'This layer has no data for the location you picked yet.'));
@@ -335,18 +340,16 @@ export default function Peta() {
         }
     }
 
+    // Ganti moda/menit jangkauan: titik yang sedang dibuka dihitung ulang.
+    const titikTerbuka = panelKiri === 'detail' && pin && detail?.jenis_geometri !== 'area' && !wilayahTerpilih ? pin : null;
     const ubahIsoMode = (modeBaru: IsochroneMode) => {
         setIsoMode(modeBaru);
-        if (pin) {
-            muatTitik(pin, false, modeBaru, isoMinutes);
-        }
+        if (titikTerbuka) muatTitik(titikTerbuka, false, modeBaru, isoMinutes);
     };
 
     const ubahIsoMinutes = (menitBaru: number) => {
         setIsoMinutes(menitBaru);
-        if (pin) {
-            muatTitik(pin, false, isoMode, menitBaru);
-        }
+        if (titikTerbuka) muatTitik(titikTerbuka, false, isoMode, menitBaru);
     };
 
     async function muatWilayah(id: number | null, tampilkanPanel = true) {
@@ -375,6 +378,60 @@ export default function Peta() {
             setMemuatDetail(false);
         }
     }
+
+    /** Nilai area yang digambar lewat GET /api/inspect?area=... */
+    async function muatArea(sudut: TitikPeta[]) {
+        batalDetail.current?.abort();
+        const ctrl = new AbortController();
+        batalDetail.current = ctrl;
+        setMemuatArea(true);
+        try {
+            const d = await api.area(sudut, persona, ctrl.signal);
+            areaTerakhir.current = sudut;
+            setHasil(null);
+            setKueri('');
+            setPesanCari(undefined);
+            setTop3Aktif(null);
+            setPin(null);
+            setGalatDetail(null);
+            setDetail(d);
+            if (d.jenis_geometri !== 'titik') setWilayahTerpilih(d.geometri);
+            setSudutArea([]);
+            setPanelKiri('detail');
+        } catch (e) {
+            if ((e as Error).name !== 'AbortError') kabar(teksServer((e as Error).message), 'danger');
+        } finally {
+            setMemuatArea(false);
+        }
+    }
+
+    const luasGambar = useMemo(() => (sudutArea.length >= 3 ? luasPoligonM2(sudutArea) : 0), [sudutArea]);
+
+    const selesaiArea = () => {
+        if (sudutArea.length < 3) {
+            kabar(t('Area butuh minimal 3 titik sudut.', 'An area needs at least 3 corner points.'), 'warning');
+            return;
+        }
+        if (luasGambar > LUAS_AREA_MAKS) {
+            kabar(t('Area terlalu luas (maksimal 25 km²). Urungkan beberapa titik.', 'The area is too large (at most 25 km²). Undo some points.'), 'warning');
+            return;
+        }
+        muatArea(sudutArea);
+    };
+
+    const gantiAlat = (a: Alat) => {
+        setAlat(a);
+        if (a !== 'area') setSudutArea([]);
+    };
+
+    const gantiKamera = (m: ModeKamera) => {
+        setModeKamera(m);
+        try {
+            sessionStorage.setItem(KUNCI_KAMERA, m);
+        } catch {
+            /* tanpa sessionStorage: mode tidak diingat */
+        }
+    };
 
     // Rute
     const labelTitik = (t: TitikPeta) => `${t.lat.toFixed(4)}, ${t.lng.toFixed(4)}`;
@@ -538,24 +595,36 @@ export default function Peta() {
     };
 
     // Klik peta
-    const klikPeta = (t: TitikPeta) => {
+    const klikPeta = (titik: TitikPeta) => {
         // Saat Uji Lahan aktif, klik peta dipakai alat gambar (Map/GambarLahan.ts).
         if (panelKiri === 'lahan') return;
         if (panelKiri === 'rute') {
             if (menunggu === 'a' || (!ruteA && menunggu !== 'b')) {
-                setelTitikRute(t, 'a');
+                setelTitikRute(titik, 'a');
                 setMenunggu('b');
             } else if (menunggu === 'b' || !ruteB) {
-                setelTitikRute(t, 'b');
+                setelTitikRute(titik, 'b');
                 setMenunggu(null);
             }
             return;
         }
+        if (alat === 'jelajah') return;
+        if (alat === 'area') {
+            if (memuatArea) return;
+            if (sudutArea.length === 0 && detail?.jenis_geometri === 'area') setWilayahTerpilih(null);
+            if (sudutArea.length >= SUDUT_MAKS) {
+                kabar(t(`Maksimal ${SUDUT_MAKS} titik sudut. Tekan Selesai.`, `At most ${SUDUT_MAKS} corner points. Press Done.`), 'warning');
+                return;
+            }
+            setSudutArea((s) => [...s, titik]);
+            return;
+        }
         setTop3Aktif(null);
-        muatTitik(t);
+        muatTitik(titik);
     };
 
     const tutupPanelKiri = () => {
+        areaTerakhir.current = null;
         if (panelKiri === 'lahan') resetLahan();
         setPanelKiri(null);
         setPin(null);
@@ -573,32 +642,42 @@ export default function Peta() {
     const labelPersona = persona.map((p) => PERSONA[p].label).join(' & ') || 'Commuter';
     const mesinWaktuAktif = !!layerAktif.mesin_waktu;
     const proyekDiTahun = (layerData.mesin_waktu?.features ?? []).filter((f) => !f.properties?.tahun || f.properties.tahun <= tahun).length;
+    const modeRute = panelKiri === 'rute';
+    const gambarArea = !modeRute && alat === 'area';
+    const pinTampil = panelKiri === 'detail' ? pin : null;
 
     return (
         <>
             <Head title={t('Peta', 'Map')} />
-            <main className="nr-app" data-mode={panelKiri === 'rute' ? 'rute' : undefined}>
+            <main className="nr-app" data-mode={modeRute ? 'rute' : undefined} data-alat={modeRute || panelKiri === 'lahan' ? undefined : alat}>
                 {panelKiri === 'lahan' && tampil3D && hasilLahan && (
                     // three.js baru diunduh saat pratinjau 3D dibuka, jadi halaman peta tidak bertambah berat.
                     <Suspense fallback={<div className="nr-3d nr-3d--muat">{t('Menyiapkan tampilan 3D…', 'Preparing 3D view…')}</div>}>
                         <Pratinjau3D data={hasilLahan} lahan={geomLahan} onTutup={() => setTampil3D(false)} />
                     </Suspense>
                 )}
-                <PetaExplorer
+                <PetaPilihan
+                    // Uji Lahan (FR-23) hanya ada di Leaflet: selama panelnya terbuka peta memakai Leaflet.
+                    paksaLeaflet={panelKiri === 'lahan'}
                     className="nr-app__peta"
                     layer={layerTampil}
                     aktif={layerAktif}
                     tahun={tahun}
-                    top3={panelKiri === 'top3' ? hasil : null}
+                    top3={panelKiri === 'top3' && !gambarArea ? hasil : null}
                     top3Aktif={top3Aktif}
                     wilayahTerpilih={wilayahTerpilih}
-                    pin={panelKiri === 'detail' ? pin : null}
-                    isochrone={panelKiri === 'detail' && pin ? (detail?.isochrone ?? null) : null}
+                    pin={pinTampil}
+                    isochrone={pinTampil && detail?.jenis_geometri === 'titik' ? (detail.isochrone ?? null) : null}
+                    sudutArea={gambarArea ? sudutArea : undefined}
+                    modeKamera={modeKamera}
+                    perintahZoom={perintahZoom}
+                    onMesin={setMesin}
                     rute={panelKiri === 'rute' ? rute : null}
                     ruteA={panelKiri === 'rute' ? ruteA : null}
                     ruteB={panelKiri === 'rute' ? ruteB : null}
                     moda={moda}
-                    modeRute={panelKiri === 'rute'}
+                    // Popup fitur dan klik wilayah Top 3 hanya di alat Jelajah; alat Titik/Area dan mode rute memakai klik untuk menaruh titik.
+                    modeRute={modeRute || alat !== 'jelajah' || panelKiri === 'lahan'}
                     bahasa={bahasa}
                     terbangKe={terbangKe}
                     onKlikPeta={klikPeta}
@@ -631,7 +710,7 @@ export default function Peta() {
                 />
 
                 <div className="nr-app__kiri">
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%' }}>
+                    <div className="nr-app__atas" style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%' }}>
                         <Link
                             href="/"
                             style={{
@@ -758,17 +837,6 @@ export default function Peta() {
                     )}
                 </div>
 
-                {/* Kontrol Travel-Time Isochrone (T-056) */}
-                {panelKiri === 'detail' && pin && (
-                    <PanelIsochrone
-                        mode={isoMode}
-                        minutes={isoMinutes}
-                        memuat={memuatDetail}
-                        onUbahMode={ubahIsoMode}
-                        onUbahMinutes={ubahIsoMinutes}
-                    />
-                )}
-
                 <div className="nr-app__merek">
                     <TombolMerek terbuka={!!drawer} onKlik={() => setDrawer('persona')} />
                 </div>
@@ -801,13 +869,32 @@ export default function Peta() {
                     </div>
                 )}
 
+                <div className="nr-app__bilah">
+                    <BilahAlat
+                        alat={alat}
+                        onAlat={gantiAlat}
+                        alatTersedia={!modeRute && panelKiri !== 'lahan'}
+                        modeKamera={modeKamera}
+                        onModeKamera={gantiKamera}
+                        kameraTersedia={mesin === 'maplibre'}
+                        onZoom={(arah) => setPerintahZoom({ arah, kunci: Date.now() })}
+                        jumlahSudut={sudutArea.length}
+                        teksLuas={luasGambar ? teksLuas(luasGambar) : null}
+                        memuatArea={memuatArea}
+                        onUrungkan={() => setSudutArea((s) => s.slice(0, -1))}
+                        onHapus={() => setSudutArea([])}
+                        onSelesai={selesaiArea}
+                        jangkauan={{ mode: isoMode, menit: isoMinutes, memuat: memuatDetail && detail?.jenis_geometri !== 'area', onMode: ubahIsoMode, onMenit: ubahIsoMinutes }}
+                    />
+                </div>
+
                 <aside className="nr-app__catatan nr-float" aria-label={t('Keterangan data', 'Data notice')}>
                     <span className="nr-app__catatan-dot" aria-hidden="true" />
                     <span>
                         <b>{t('Versi demo', 'Demo version')}</b>
                         <span className="nr-app__catatan-pendek">{t(' · data sekunder publik', ' · public secondary data')}</span>
                         <span className="nr-app__catatan-panjang">{t(
-                            ' · Semua layer dari data publik (OSM, InaRISK, BNPB, RDTR DKI, satelit PM2.5). Udara adalah rata-rata tahunan satelit; zona lahan baru untuk DKI; status kepemilikan tidak ditampilkan.',
+                            ' · Semua layer dari data publik (OSM, InaRISK, BNPB, RDTR DKI, satelit PM2.5, rencana JUTPI3 via ModaHub). Udara adalah rata-rata tahunan satelit; zona lahan baru untuk DKI; status kepemilikan tidak ditampilkan.',
                             ' · All layers come from public data (OSM, InaRISK, BNPB, Jakarta RDTR, satellite PM2.5). Air is a satellite annual average; zoning covers Jakarta only; ownership status is not shown.',
                         )}</span>
                     </span>

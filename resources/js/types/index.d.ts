@@ -83,7 +83,17 @@ export type InspectWilayah = {
     penduduk?: { jumlah: number; kepadatan_per_km2: number; sumber: string } | null;
 };
 
-export type InspectResponse = InspectTitik | InspectWilayah;
+/** Area yang digambar pengguna (alat Area): dinilai seperti wilayah, ditambah luas dan kelurahan yang tercakup. */
+export type InspectArea = Omit<InspectWilayah, 'jenis_geometri' | 'penduduk'> & {
+    jenis_geometri: 'area';
+    luas_m2: number;
+    /** Kelurahan yang tercakup, urut dari irisan terbesar (maks. 5); porsi = bagian luas area (0–1). */
+    kelurahan: { id: number; nama: string; kecamatan: string | null; kota: string | null; porsi: number }[];
+    /** Bagian luas area yang masuk tampilan rawan banjir InaRISK (indeks >= 0,50), 0–1. */
+    banjir: { porsi_rawan: number; sumber: string };
+};
+
+export type InspectResponse = InspectTitik | InspectWilayah | InspectArea;
 
 /** Respons GET /api/lokasi (saran kolom titik A/B, FR-10). */
 export type SaranLokasi = { nama: string; keterangan: string; jenis: 'wilayah' | 'stasiun' | 'halte' | 'poi'; lat: number; lng: number };

@@ -1,0 +1,29 @@
+urut,lin,fase,dari,ke,moda,tahun_video,status_video,padanan_modahub,padanan_proyek_csv,catatan
+1,MRT North-South,Phase 1,Lebak Bulus,Bundaran HI,mrt,2019,beroperasi,MRT NS,,
+2,LRT Jakarta,Phase 1A,Pegangsaan Dua,Velodrome,lrt,2019,beroperasi,LRT JL,,penghitung tahun di video bergerak sampai 2021 saat fase ini digambar
+3,LRT Jabodebek,Bekasi Line,Dukuh Atas,Jatimulya,lrt,2023,beroperasi,LRT BK,,
+4,LRT Jabodebek,Cibubur Line,Dukuh Atas,Harjamukti,lrt,2023,beroperasi,LRT CB,,
+5,LRT Jakarta,Phase 1B,Velodrome,Manggarai,lrt,2026,dalam pembangunan,LRT JL,lrtj-1b,
+6,MRT North-South,Phase 2A,Bundaran HI,Kota,mrt,2029,dalam pembangunan,MRT NS,mrt-2a-1; mrt-2a-2,proyek.csv memisah jadi 2027 (s.d. Harmoni) dan 2029 (s.d. Kota)
+7,LRT Jakarta,Phase 1C,Manggarai,Dukuh Atas,lrt,2030,rencana,LRT JL,lrtj-manggarai-dukuhatas,proyek.csv: 2028 (berita Agustus 2026)
+8,LRT Jabodebek,Bogor Extension,Harjamukti,Baranangsiang,lrt,2030,rencana,LRT CB,,
+9,LRT Jakarta,Halim Extension Phase 2A,Velodrome,Klender,lrt,2030,rencana,LRT JH,,
+10,MRT East-West,Phase 1A,Tomang,Medan Satria,mrt,2032,rencana,MRT EW,mrt-ew-1,proyek.csv: 2031
+11,MRT North-South,Phase 2B,Kota,Ancol Marina,mrt,2033,rencana (tahun belum final),MRT NS,mrt-2b,proyek.csv belum punya tahun
+12,LRT Jakarta,Halim Extension Phase 2B,Klender,Halim,lrt,2033,rencana (tahun belum final),LRT JH,,
+13,MRT Outer Ring,Phase 1,Fatmawati,Taman Mini,mrt,2034,rencana (tahun belum final),MRT OR,,
+14,MRT East-West,Phase 1B,Tomang,Kembangan,mrt,2035,rencana (tahun belum final),MRT EW,mrt-ew-2,proyek.csv: 2033 untuk seluruh fase 2
+15,MRT East-West,Phase 2A,Kembangan,Balaraja,mrt,2040,rencana (tahun belum final),MRT EW,mrt-ew-2,
+16,MRT East-West,Phase 2B,Medan Satria,Cikarang,mrt,2040,rencana (tahun belum final),MRT EW,mrt-ew-2,
+17,MRT North-South,Extension,Lebak Bulus,Pondok Cabe,mrt,,rencana tanpa tahun (20XX),MRT NS,,
+18,LRT Jakarta,Pesing Extension,,Pesing,lrt,,rencana tanpa tahun (20XX),LRT JL,,ujung fase dibaca dari label kecil
+19,MRT Outer Ring,West,,Pantai Indah Kapuk,mrt,,rencana tanpa tahun (20XX),MRT OR,,
+20,MRT Outer Ring,East,Taman Mini,Tanjung Priok,mrt,,rencana tanpa tahun (20XX),MRT OR,,
+21,LRT Jakarta,North Extension,Pesing,Pegangsaan Dua,lrt,,rencana tanpa tahun (20XX),LRT JL,,menutup lingkar LRT Jakarta lewat Kota
+22,LRT,Pulo Gebang Line,Hasyim Asyari,Pulo Gebang,lrt,,rencana tanpa tahun (20XX),LRT PT,,
+23,MRT,Depok - Airport Line,Citayam,Bandara Soekarno-Hatta,mrt,,rencana tanpa tahun (20XX),MRT AD,,
+24,LRT,Depok - Cileungsi Line,Depok Baru,Cileungsi,lrt,,rencana tanpa tahun (20XX),LRT DC,,
+25,LRT,Depok - Tangerang Line,Depok Baru,Bandara Soekarno-Hatta,lrt,,rencana tanpa tahun (20XX),LRT DT,,
+26,LRT,Bekasi - Bantar Gebang Line,Kaliabang,Bantar Gebang,lrt,,rencana tanpa tahun (20XX),LRT BB,,
+27,LRT,Bogor Loop Line,Bubulak,Semplak,lrt,,rencana tanpa tahun (20XX),LRT BC,,
+28,LRT,Tangerang - Ciputat Line,,,lrt,,rencana tanpa tahun (20XX),LRT TS,,padanan ModaHub perlu dicek (LRT TS: UIN - Kebon Nanas)

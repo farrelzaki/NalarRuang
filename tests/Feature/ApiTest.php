@@ -97,6 +97,34 @@ class ApiTest extends TestCase
             ->assertJsonStructure(['match' => ['commuter', 'driver', 'social_vibe', 'zen'], 'geometri']);
     }
 
+    public function test_inspect_area_gambar(): void
+    {
+        // Kotak +-660 m di dalam Kebon Uji, berisi Stasiun A dan Kopi Uji.
+        $area = '106.802,-6.208;106.808,-6.208;106.808,-6.202;106.802,-6.202';
+        $r = $this->getJson("/api/inspect?area={$area}&persona[]=commuter&persona[]=zen")->assertOk();
+
+        $r->assertJsonPath('jenis_geometri', 'area')
+            ->assertJsonPath('kelurahan.0.nama', 'Kebon Uji')
+            ->assertJsonPath('match.commuter', true)
+            ->assertJsonPath('jumlah_fasilitas.commuter', 1)
+            ->assertJsonPath('jumlah_fasilitas.social_vibe', 1)
+            ->assertJsonPath('terdekat.commuter.meter', 0)
+            ->assertJsonPath('match.zen', true)
+            ->assertJsonCount(2, 'kesimpulan')
+            ->assertJsonStructure(['nama', 'wilayah', 'wilayah_id', 'geometri', 'luas_m2', 'kelurahan', 'match', 'terdekat', 'udara', 'banjir' => ['porsi_rawan']]);
+        $this->assertEqualsWithDelta(440_000, $r->json('luas_m2'), 30_000);
+    }
+
+    public function test_inspect_area_ditolak_bila_tidak_layak(): void
+    {
+        $this->getJson('/api/inspect?area=106.802,-6.208;106.808,-6.208')->assertStatus(422);
+        $this->getJson('/api/inspect?area=106.80,-6.25;106.86,-6.25;106.86,-6.19;106.80,-6.19')
+            ->assertStatus(422)->assertJsonPath('message', 'Area terlalu luas (maksimal 25 km²). Perkecil areanya.');
+        $this->getJson('/api/inspect?area=106.20,-6.80;106.21,-6.80;106.21,-6.79')
+            ->assertStatus(422)->assertJsonPath('message', 'Sebagian besar area berada di luar Jabodetabek. Gambar area di dalam batas peta.');
+        $this->getJson('/api/inspect?area=100,-6;100.1,-6;100.1,-6.1')->assertStatus(422);
+    }
+
     public function test_saran_lokasi(): void
     {
         $this->getJson('/api/lokasi?q=kebon')->assertOk()->assertJsonPath('hasil.0.nama', 'Kebon Uji');

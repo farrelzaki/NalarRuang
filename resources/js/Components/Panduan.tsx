@@ -69,11 +69,12 @@ const LANGKAH: Langkah[] = [
         ],
     },
     {
+        target: 'alat',
         ikon: 'star',
-        judul: ['Periksa titik mana pun', 'Inspect any point'],
+        judul: ['Nilai titik atau area', 'Rate a point or an area'],
         isi: [
-            'Klik di mana saja pada peta untuk melihat skor bintang 0–3 per persona, beserta stasiun, gerbang tol, ruang hijau, dan risiko banjir di sekitarnya.',
-            'Click anywhere on the map to see a 0–3 star score per persona, plus nearby stations, toll gates, green space, and flood risk.',
+            'Pilih alat di bawah peta. Titik: klik sekali untuk skor bintang 0–3 per persona dalam radius 1,2 km. Area: klik sudut-sudut lahan lalu Selesai untuk menilai lahan itu. Jelajah: geser peta tanpa menilai.',
+            'Pick a tool below the map. Point: click once for a 0–3 star score per persona within 1.2 km. Area: click the corners of a plot, then Done, to rate it. Explore: pan the map without rating.',
         ],
     },
     {
