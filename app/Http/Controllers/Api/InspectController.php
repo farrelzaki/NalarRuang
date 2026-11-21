@@ -275,7 +275,7 @@ class InspectController extends Controller
      */
     private function hitungIsochrone(float $lat, float $lng, string $mode, int $minutes): ?array
     {
-        $kunci = sprintf('isochrone_boundary_v2:%.4f:%.4f:%s:%d', $lat, $lng, $mode, $minutes);
+        $kunci = sprintf('isochrone_boundary_v3:%.4f:%.4f:%s:%d', $lat, $lng, $mode, $minutes);
 
         return Cache::remember($kunci, now()->addDay(), function () use ($lat, $lng, $mode, $minutes) {
             // Parameter morphological closing (dalam meter, EPSG:3857):
@@ -380,9 +380,9 @@ class InspectController extends Controller
                 FROM raw_lines
             ),
             filled AS (
-                SELECT ST_Union(ST_MakePolygon(ST_ExteriorRing((ST_Dump(geom)).geom))) AS geom
-                FROM closed
-                WHERE NOT ST_IsEmpty(geom)
+                SELECT ST_Union(ST_MakePolygon(ST_ExteriorRing(d.geom))) AS geom
+                FROM closed, LATERAL ST_Dump(closed.geom) AS d
+                WHERE NOT ST_IsEmpty(closed.geom)
             )
             SELECT ST_AsGeoJSON(
                 ST_SimplifyPreserveTopology(ST_Transform(geom, 4326), 0.00004),
