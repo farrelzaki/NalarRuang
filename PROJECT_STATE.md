@@ -6,7 +6,7 @@ Perbarui saat memulai sesi, melewati checkpoint, membuat keputusan penting, mene
 
 ## Metadata
 
-- Terakhir diperbarui: 2026-11-13 (branch `fitur/peta-mapbox`, PR #3)
+- Terakhir diperbarui: 2026-11-21 (gabung `fitur/peta-mapbox` PR #3 dengan `main`: Uji Lahan, isochrone)
 - Mode kerja: `competition`
 - Status sesi: Berjalan — pindah ke akun Claude baru (handoff 11 Nov)
 - Sprint aktif: Sprint 3 (9–20 Nov). Review 3: **20 Nov**. Final: **27 Nov**. Lomba BTN Housingpreneur tutup **30 Nov**
@@ -163,6 +163,7 @@ di kode (`97d610b`), rumus final belum dipastikan sama.
 - Hosting: Heroku (perbandingan hosting 8 Okt).
 - Bila prompt tugas bertabrakan dengan `docs/RENCANA.md`, RENCANA yang dipakai (27 Sep).
 - Git: branch per fitur + PR ke `main`. Agen tidak commit/push tanpa diminta.
+- **Uji Lahan / FR-23 (16 Nov 2026):** fitur ala TestFit disetujui PM, dikerjakan Galih bersama agen di branch `fitur/uji-lahan` (menyentuh folder backend dan frontend dengan izin tim). Endpoint baru `POST /api/lahan`. Rumah tapak = jumlah kavling geometris (UTM 48S); kos/apartemen = KDB/KLB RDTR (Alternatif 1/2) atau asumsi di luar DKI. Biaya dan harga properti tidak termasuk.
 - Yang coding bersama agen: Farrel, Adzkia, Nur'Afia. Izdihar dan Galih tidak.
 
 ## Mesin Waktu sampai 2045 (14 Nov 2026)
@@ -178,3 +179,16 @@ desain; SRS perlu disesuaikan). Data baru `data/mesin_waktu/proyek_jutpi3.geojso
 - Seeder `DataNyataSeeder::mesinWaktu()` kini membaca kedua berkas; kontrak API tidak berubah. Slider 2026–2045
   (tanda 2026/2030/2035/2040/2045), atribusi ditambahkan di peta, Legenda, dan Sumber Data landing.
 - Perlu dicek di laptop: `php artisan db:seed --class=DataNyataSeeder`, lalu geser slider Mesin Waktu.
+
+## Gabung PR #3 dengan `main` (21 Nov 2026)
+
+`fitur/peta-mapbox` (MapLibre, bilah alat, Mesin Waktu 2045, animasi landing) digabung dengan `main` (Uji Lahan
+FR-23 dan isochrone T-056 dari Adzkia). Keputusan Galih: alat **Titik** tidak lagi menggambar lingkaran 1,2 km,
+melainkan poligon jangkauan waktu tempuh dari server (isochrone). Pilihan moda (jalan kaki/sepeda/mobil) dan menit
+(5/10/15) dipindah dari panel melayang kanan atas ke baris petunjuk bilah alat, dan berlaku di MapLibre maupun Leaflet.
+- Uji Lahan hanya ada di Leaflet (GambarLahan/ZonaLahan/AksesLahan memakai `L`): selama panel Uji Lahan terbuka,
+  `PetaPilihan` memakai Leaflet (`paksaLeaflet`) lalu kembali ke MapLibre; pusat dan zoom dibawa (`Map/tampilan.ts`).
+  Selama Uji Lahan, alat Jelajah/Titik/Area disembunyikan dan popup fitur tidak dibuka.
+- `api.titik` kini mengirim `mode`/`minutes`; kontrak tertulis di `docs/SISTEM.md` (catatan `inspect`).
+- Belum diuji di mesin dengan PostGIS dan npm: `php artisan test`, `npm run typecheck`, `npm run build`, dan
+  coba isochrone sungguhan (Valhalla publik) di MapLibre dan Leaflet.

@@ -92,6 +92,7 @@ Persetujuan Dokumen (Sign-off)
 | **Farrel Muhammad Zaki (Backend)** | 29 September 2026 | Diselaraskan dengan desain UI final di Figma `ui-nalar-ruang` (section "putih kayak bhumi yang udah di revisi") dan keputusan tim: tata letak antarmuka (UI00–UI06), ikon toggle Commute, persentase kecocokan Top 3, estimasi biaya perjalanan, menu utama berbentuk drawer, landing page (FR-22), tipografi, ambang bintang Persona Grading berbasis titik (TBD-10), daftar sumber data, dan stack frontend. | 1.1 |
 | **Farrel Muhammad Zaki (Backend)** | 29 September 2026 | Persona Grading disesuaikan dengan konfirmasi PM: skor Zen pada titik berbasis kualitas udara dengan pengurang jarak ke ruang terbuka hijau; wilayah (poligon) dinilai dengan centang kecocokan per persona, bukan bintang (TBD-09 selesai). | 1.2 |
 | **Farrel Muhammad Zaki (Backend)** | 23 Oktober 2026 | Kecocokan wilayah (TBD-09) diperluas sesuai keputusan tim: fasilitas utama di dalam wilayah atau paling jauh 2,5 km dari batasnya. | 1.3 |
+| **Raden Mas Galih Pradityo (SA)** | 16 November 2026 | **Draf, menunggu tinjauan PM.** Penambahan fitur Uji Lahan (FR-23) yang disetujui PM: gambar batas lahan, lalu estimasi kapasitas rumah tapak, kos, atau apartemen dengan intensitas RDTR DKI 2022 bila tersedia. | 1.4 (draf) |
 
 # **1\. Pendahuluan**
 
@@ -207,6 +208,7 @@ Produk NalarRuang memiliki fungsi utama sebagai berikut:
 | **FR-20** | Menu Utama | Sub-menu Legenda harus menampilkan legenda simbol/warna tiap layer pada peta sesuai simbol yang benar-benar digambar. | Rendah |
 | **FR-21** | Menu Utama | Sub-menu Deskripsi Aplikasi (tab Tentang) harus menampilkan informasi umum mengenai NalarRuang sebagai platform WebGIS, penjelasan istilah teknis/asing yang digunakan aplikasi, sumber data, dan disclaimer estimasi. | Rendah |
 | **FR-22** | Landing Page | Sistem harus menyediakan landing page yang menjelaskan visi, misi, persona, fitur utama, enam layer, sumber data terbuka, cara kerja, dan pertanyaan umum NalarRuang, dengan tombol yang membuka Visual Explorer. | Rendah |
+| **FR-23** | Uji Lahan | Sistem harus memungkinkan pengguna menggambar batas lahan di peta, berupa kotak yang sudutnya dapat ditarik atau poligon bebas, seluas 30 m² sampai 20 ha di dalam Jabodetabek, lalu menampilkan luas lahan, zona dan intensitas (KDB/KLB) bila tersedia, kecocokan empat persona, porsi rawan banjir, serta estimasi kapasitas untuk tipe rumah tapak (jumlah kavling yang digambar di peta), kos (jumlah lantai dan kamar), atau apartemen (jumlah lantai dan unit), dengan asumsi yang dapat diubah pengguna. Estimasi bersifat indikatif dan tidak mencakup biaya atau harga properti. | Sedang |
 
 ## **2.4 Klasifikasi dan Karakteristik Pengguna**
 
@@ -216,7 +218,7 @@ Sesuai kesepakatan tim, NalarRuang belum memiliki sponsor eksternal maupun kebut
 
 | ID | Jenis Pengguna | Deskripsi Peran | Kebutuhan Utama |
 | :---: | ----- | ----- | ----- |
-| **U01** | Pengguna Akhir (End User) | Calon pencari hunian ideal di Jabodetabek yang mengoperasikan seluruh fitur NalarRuang secara langsung tanpa akun/login. Pada awal sesi, pengguna mencentang minimal satu dari empat persona gaya hidup (checkbox, boleh lebih dari satu): Commuter (mengutamakan akses transit), Driver (mengutamakan akses jalan/tol), Social & Vibe (mengutamakan hiburan/kafe/restoran), dan Zen (mengutamakan keamanan, minim polusi, RTH). | FR-01 s.d. FR-22 |
+| **U01** | Pengguna Akhir (End User) | Calon pencari hunian ideal di Jabodetabek yang mengoperasikan seluruh fitur NalarRuang secara langsung tanpa akun/login. Pada awal sesi, pengguna mencentang minimal satu dari empat persona gaya hidup (checkbox, boleh lebih dari satu): Commuter (mengutamakan akses transit), Driver (mengutamakan akses jalan/tol), Social & Vibe (mengutamakan hiburan/kafe/restoran), dan Zen (mengutamakan keamanan, minim polusi, RTH). | FR-01 s.d. FR-23 |
 
 ## **2.5 Lingkungan Operasional Sistem**
 
@@ -462,6 +464,20 @@ Seorang calon pengguna membuka alamat utama NalarRuang, membaca penjelasan perso
 ***Functional Requirements Terkait***
 
 * FR-22: Landing page dengan tombol menuju Visual Explorer.
+
+## **Fitur Uji Lahan**
+
+***Deskripsi dan Prioritas***
+
+Fitur analisis lahan yang terinspirasi platform *real estate feasibility* (TestFit). Pengguna menggambar batas lahan di peta, berupa kotak yang sudutnya dapat ditarik atau poligon bebas, lalu sistem menghitung luas, zona RDTR dominan beserta KDB/KLB (hanya DKI Jakarta; di luar DKI memakai angka asumsi yang ditandai jelas), porsi rawan banjir, kecocokan empat persona dengan aturan wilayah (fasilitas utama di dalam lahan atau paling jauh 2,5 km dari batasnya), serta estimasi kapasitas. Rumah tapak dihitung dari jumlah kavling yang benar-benar muat di lahan dan digambar di peta; kos dan apartemen dihitung dari tapak bangunan (KDB) dan total luas lantai (KLB), dengan jumlah lantai, luas kamar/unit, efisiensi, dan sempadan yang dapat diubah. Estimasi bersifat indikatif, bukan rancangan tapak atau izin bangunan, dan tidak mencakup biaya maupun harga properti (listing dan transaksi properti tetap di luar cakupan). Prioritas: Sedang.
+
+***Skenario Interaksi Pengguna dan Sistem***
+
+Seorang juragan kos membuka Visual Explorer, menekan tombol Uji Lahan, lalu menarik sudut kotak di atas lahan kosong di Tebet. Panel menampilkan luas 480 m², Zona Perumahan dengan KDB/KLB dari RDTR DKI 2022, dan kecocokan persona. Ia memilih tab Kos; sistem menampilkan tapak bangunan di peta beserta estimasi jumlah lantai dan kamar. Ia menggeser luas kamar dari 12 m² ke 15 m², dan estimasi jumlah kamar diperbarui.
+
+***Functional Requirements Terkait***
+
+* FR-23: Uji Lahan (gambar lahan, estimasi kapasitas rumah tapak, kos, dan apartemen).
 
 ## **4.7 System Model**
 

@@ -159,6 +159,9 @@ class DataNyataSeeder extends Seeder
                            'kdb', CASE WHEN trim(p->>'kdb') ~ '^[0-9]+(\.[0-9]+)?$' THEN trim(p->>'kdb')::float END,
                            'klb', CASE WHEN trim(p->>'klb') ~ '^[0-9]+(\.[0-9]+)?$' THEN trim(p->>'klb')::float END,
                            'kdh', CASE WHEN trim(p->>'kdh') ~ '^[0-9]+(\.[0-9]+)?$' THEN trim(p->>'kdh')::float END,
+                           -- Teks bertingkat menurut luas persil (zona perumahan); dibaca KapasitasLahan untuk Uji Lahan (FR-23).
+                           'kdb_teks', CASE WHEN trim(coalesce(p->>'kdb', '')) !~ '^([0-9]+(\.[0-9]+)?|null)?$' THEN trim(p->>'kdb') END,
+                           'klb_teks', CASE WHEN trim(coalesce(p->>'klb', '')) !~ '^([0-9]+(\.[0-9]+)?|null)?$' THEN trim(p->>'klb') END,
                            'kelurahan', nullif(regexp_replace(coalesce(p->>'kelurahan', ''), '^Kelurahan\s+', '', 'i'), ''))),
                        2022, 'RDTR DKI Jakarta 2022 (Pergub 31/2022)',
                        ST_SetSRID(ST_GeomFromGeoJSON(f->'geometry'), 4326), now(), now()

@@ -9,7 +9,8 @@ import { useEffect, useRef, useState } from 'react';
 import type { Feature, FeatureCollection, Geometry, LineString, MultiLineString, Polygon, Position } from 'geojson';
 import type { LayerKey } from '@/types';
 import * as gaya from './gaya';
-import { ATRIBUSI_DATA, isiPopup, lingkaranCincin, popupHtml, ponsel, tr, warnaEkosistem } from './isiPeta';
+import { simpanTampilan, tampilanTerakhir } from './tampilan';
+import { ATRIBUSI_DATA, isiPopup, popupHtml, ponsel, tr, warnaEkosistem } from './isiPeta';
 import { GAYA_PETA, muatMapLibre, type MapLibreGL } from './maplibre';
 import type { ModeKamera, PropsPeta, TitikPeta } from './PetaExplorer';
 
@@ -356,8 +357,8 @@ export default function PetaMapLibre(props: Props) {
                 m = new maplibregl.Map({
                     container: wadah.current,
                     style: GAYA_PETA,
-                    center: PUSAT,
-                    zoom: ZOOM_AWAL,
+                    center: tampilanTerakhir() ? [tampilanTerakhir()!.lng, tampilanTerakhir()!.lat] : PUSAT,
+                    zoom: tampilanTerakhir() ? tampilanTerakhir()!.zoomLeaflet - 1 : ZOOM_AWAL,
                     minZoom: ponsel() ? 8 : 9,
                     maxZoom: 18,
                     maxBounds: BATAS_PETA,
@@ -433,6 +434,10 @@ export default function PetaMapLibre(props: Props) {
                 kelasZoom();
 
                 m.on('click', (e: Apa) => klik(m, e));
+                m.on('moveend', () => {
+                    const c = m.getCenter();
+                    simpanTampilan({ lat: c.lat, lng: c.lng, zoomLeaflet: m.getZoom() + 1 });
+                });
                 m.on('mousemove', (e: Apa) => {
                     const ids = layerInteraktifAda(m);
                     const kena = ids.length ? m.queryRenderedFeatures(e.point, { layers: ids }).length > 0 : false;
@@ -577,8 +582,11 @@ export default function PetaMapLibre(props: Props) {
             props.top3.forEach((r, i) => fitur.push({ type: 'Feature', properties: { peran: 'top3', urutan: i, aktif: props.top3Aktif === i }, geometry: r.geometri as Geometry }));
         }
         if (props.wilayahTerpilih) fitur.push({ type: 'Feature', properties: { peran: 'terpilih' }, geometry: props.wilayahTerpilih });
-        if (props.lingkaran) {
-            fitur.push({ type: 'Feature', properties: { peran: 'lingkaran' }, geometry: { type: 'Polygon', coordinates: [lingkaranCincin(props.lingkaran.pusat, props.lingkaran.meter)] } });
+        // Alat Titik: poligon jangkauan waktu tempuh (isochrone, T-056) menggantikan lingkaran radius tetap.
+        if (props.pin) {
+            for (const f of props.isochrone?.features ?? []) {
+                if (f.geometry) fitur.push({ type: 'Feature', properties: { peran: 'jangkauan' }, geometry: f.geometry });
+            }
         }
         const sudut = props.sudutArea ?? [];
         if (sudut.length) {
@@ -603,7 +611,22 @@ export default function PetaMapLibre(props: Props) {
             const el = elemen(`<div class="nr-pin-maplibre" aria-hidden="true">${PIN_SVG}</div>`);
             penandaSeleksi.current.push(new mb.current.Marker({ element: el, anchor: 'bottom', offset: [0, 2] }).setLngLat([props.pin.lng, props.pin.lat]).addTo(m));
         }
-    }, [props.top3, props.top3Aktif, props.wilayahTerpilih, props.pin, props.lingkaran, props.sudutArea, siap]);
+    }, [props.top3, props.top3Aktif, props.wilayahTerpilih, props.pin, props.isochrone, props.sudutArea, siap]);
+
+    // Isochrone baru: peta menyesuaikan agar seluruh jangkauan terlihat (sama seperti Leaflet).
+    useEffect(() => {
+        const m = peta.current;
+        if (!m || !siap || !props.isochrone?.features?.length) return;
+        let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+        const jalan = (c: unknown): void => {
+            if (Array.isArray(c) && typeof c[0] === 'number') {
+                x0 = Math.min(x0, c[0] as number); x1 = Math.max(x1, c[0] as number);
+                y0 = Math.min(y0, c[1] as number); y1 = Math.max(y1, c[1] as number);
+            } else if (Array.isArray(c)) c.forEach(jalan);
+        };
+        props.isochrone.features.forEach((f) => f.geometry && 'coordinates' in f.geometry && jalan(f.geometry.coordinates));
+        if (Number.isFinite(x0)) m.fitBounds([[x0, y0], [x1, y1]], { padding: padding(), maxZoom: 15 });
+    }, [props.isochrone, siap]);
 
     // Rute A→B: rel berwarna per lin, ojol, jalan kaki, mobil, stasiun, panah arah, titik A/B.
     useEffect(() => {
@@ -687,8 +710,8 @@ function pasangSeleksi(m: Apa): void {
     tambah({ id: 'nr-seleksi-top3-garis', type: 'line', filter: peran('top3'), paint: { 'line-color': NAVY, 'line-width': ['case', ['to-boolean', ['get', 'aktif']], 3.5, 2.5] } });
     tambah({ id: 'nr-seleksi-terpilih-isi', type: 'fill', filter: peran('terpilih'), paint: { 'fill-color': NAVY, 'fill-opacity': 0.08 } });
     tambah({ id: 'nr-seleksi-terpilih-garis', type: 'line', filter: peran('terpilih'), paint: { 'line-color': NAVY, 'line-width': 2.5 } });
-    tambah({ id: 'nr-seleksi-lingkaran-isi', type: 'fill', filter: peran('lingkaran'), paint: { 'fill-color': NAVY, 'fill-opacity': 0.06 } });
-    tambah({ id: 'nr-seleksi-lingkaran-garis', type: 'line', filter: peran('lingkaran'), paint: { 'line-color': NAVY, 'line-width': 1.5, 'line-dasharray': [3, 3] } });
+    tambah({ id: 'nr-seleksi-jangkauan-isi', type: 'fill', filter: peran('jangkauan'), paint: { 'fill-color': gaya.isochrone.fillColor, 'fill-opacity': gaya.isochrone.fillOpacity } });
+    tambah({ id: 'nr-seleksi-jangkauan-garis', type: 'line', filter: peran('jangkauan'), layout: { 'line-join': 'round' }, paint: { 'line-color': gaya.isochrone.color, 'line-width': gaya.isochrone.weight, 'line-opacity': gaya.isochrone.opacity } });
     tambah({ id: 'nr-seleksi-area-isi', type: 'fill', filter: ['all', peran('area'), ['==', ['geometry-type'], 'Polygon']], paint: { 'fill-color': NAVY, 'fill-opacity': 0.12 } });
     tambah({ id: 'nr-seleksi-area-garis', type: 'line', filter: peran('area'), layout: { 'line-join': 'round' }, paint: { 'line-color': NAVY, 'line-width': 2, 'line-dasharray': [3, 2] } });
     tambah({

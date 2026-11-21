@@ -258,3 +258,14 @@
 .nr-langkah__judul { font: 600 12px/17px var(--font-sans); color: var(--navy-900); }
 .nr-langkah__ket { font: 400 11px/16px var(--font-sans); color: var(--ink-60); }
 .nr-langkah__biaya { margin-top: 2px; padding: 6px 10px; border-radius: var(--radius-xs); background: var(--ink-05); font: 500 11px/16px var(--font-sans); color: var(--ink-70); }
+/* Alat Titik: pilihan jangkauan waktu tempuh (isochrone) di baris petunjuk bilah alat. */
+.nr-bilah__jangkauan { align-items: center; gap: 8px; }
+.nr-bilah__pilih { display: inline-flex; gap: 2px; padding: 2px; border-radius: var(--radius-pill); background: rgba(255, 255, 255, 0.1); }
+.nr-bilah__aksi .nr-bilah__pilih button { height: 24px; padding: 0 9px; border: 0; }
+.nr-bilah__aksi .nr-bilah__pilih button.aktif { background: var(--white); color: var(--navy-900); }
+@media (max-width: 1023px) { .nr-bilah__jangkauan .nr-bilah__label { display: none; } }
+/* HP: tombol kembali, kotak cari, dan tombol Uji Lahan berbagi satu baris (kotak cari tidak selebar layar). */
+@media (max-width: 640px) {
+  .nr-app__atas .nr-search { width: auto !important; flex: 1 1 auto; min-width: 0; }
+  .nr-app__atas .nr-lahan-tombol { width: 44px; height: 44px; }
+}

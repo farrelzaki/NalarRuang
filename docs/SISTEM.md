@@ -52,6 +52,7 @@ Mengikuti SRS 5.5.
 | Persona Grading | `PersonaScoringService` | bintang 0–3 (titik), centang (wilayah), auto-summary | 1.4.5 |
 | Commute Simulator | `CommuteService` | toggle di search bar, Pin A/B | 1.4.5 |
 | Backend & API | skema, endpoint, optimasi query | — | 1.4.6 |
+| Uji Lahan (FR-23) | `POST /api/lahan`, `KapasitasLahan` | tombol Uji Lahan, alat gambar `Map/GambarLahan.ts`, penyunting zona `Map/ZonaLahan.ts`, 3D `Map/Lahan3D.ts` (three.js, dimuat malas), `PanelLahan`, `Pratinjau3D` | — (tambahan 16–17 Nov 2026) |
 
 ### Preferensi persona
 
@@ -130,7 +131,13 @@ Waktu, Legalitas Lahan.
 | `GET /api/inspect` | FR-08, FR-09, FR-17 | `lat`,`lng` **atau** `wilayah_id` **atau** `area`; `persona[]` dari sesi | Nama lokasi, wilayah, jenis geometri, skor 4 persona (`stars` titik / `match` wilayah), auto-summary persona terpilih. Titik juga mengirim `ringkasan_layer[]` (`jenis`: `stasiun`, `tol`, `hijau`, `banjir`; `teks`) dan `fakta` per persona (`nama`, `meter`; Social `jumlah_1km`; Zen `kualitas_udara`, `banjir`) untuk kalimat kesimpulan. Wilayah juga mengirim `terdekat` per persona (`nama`, `meter` dari batas, 0 bila di dalam); centang cocok bila fasilitas di dalam atau ≤ 2,5 km dari batas (TBD-09, 23 Okt 2026) |
 | `GET /api/commute` | FR-10, FR-11 | `dari`, `ke` (koordinat `lat,lng`); opsional `tol=0` (hindari tol), `gg=1` (hindari ruas ganjil-genap DKI), `bbm` (harga BBM Rp/liter, 5.000–30.000, bawaan 10.000) | Per moda `pribadi` dan `publik`: jarak, waktu, biaya, dan geometri rute (`LineString`/`MultiLineString` searah A→B); masing-masing boleh `null`. `pribadi` juga mengirim `biaya_bbm`, `biaya_tol`, `lewat_tol`, `ganjil_genap` (`hindari`, `ruas[]` = ruas ganjil-genap yang masih disusuri); `publik` mengirim `rincian`, `stasiun[]`, `langkah[]` (`tipe`: `jalan`, `ojol`, `naik`, `pindah`), `biaya_transum`, `biaya_ojol`, dan `geometri.ojol[]`; first/last mile > 1 km memakai ojol Rp15.000 |
 | `GET /api/lokasi` | FR-10 | `q` (min. 3 huruf) | Saran lokasi untuk kolom titik A/B: `hasil[]` berisi `nama`, `keterangan`, `jenis` (`wilayah`, `stasiun`, `halte`, `poi`), `lat`, `lng`. Dicari dari data sendiri, tanpa geocoding luar |
+| `POST /api/lahan` | FR-23 | JSON: `geometri` (GeoJSON `Polygon`, cincin luar saja, 4–200 titik), `tipe` (`rumah`, `kos`, `apartemen`), opsional `asumsi` (`lebar_kavling`, `panjang_kavling`, `lebar_jalan`, `luas_kamar`, `porsi_studio`, `porsi_2br`, `sempadan`, `lantai`, `rasio_parkir` (mobil, apartemen), `rasio_motor` (kos); dijepit ke rentang aman), opsional `pola` (rumah `grid`/`cluster`, kos `keliling`/`koridor`, apartemen `keliling`/`wrap`/`tower`; tidak dikenal = bawaan), opsional `zona[]` (≤ 12, tiap `{jenis: bangunan/parkir/taman, geometri: Polygon}`; tanpa ini zona dibuat dari pola), opsional `akses[]` (≤ 6, tiap `{jenis: gerbang/pintu, titik: [lng, lat], lebar?, panjang?}`; gerbang: `panjang` jalan masuk 2–300 m (kosong = otomatis sampai jalan/parkir), `lebar` 2,5–30 m; pintu: `lebar` bukaan 1,5–20 m (bawaan 3), `panjang` kedalaman lobi 2–40 m (kosong = sedalam satu unit); gerbang `lebar` bawaan bawaan rumah = lebar jalan, kos 3 m, apartemen 6 m; pintu diabaikan untuk rumah tapak), `persona[]` dari sesi | `luas_m2`, `keliling_m`, `pusat`, `wilayah`, `wilayah_id`, `zonasi` (zona RDTR paling luas + `porsi`, hanya DKI; `null` di luar DKI), `intensitas` (`kdb` %, `klb`, `kdh` % atau `null`, `sumber` `RDTR DKI 2022`/`asumsi`, `alternatif` 1/2, `luas_persil_m2`), `banjir` (`porsi_rawan`, `tingkat_maks`, `genangan_2020`), `match`/`terdekat`/`jumlah_fasilitas` per persona (aturan wilayah TBD-09), `kesimpulan`, `pola`, `pola_tersedia[]`, `asumsi` yang dipakai, `kapasitas` (`jumlah`, `satuan` `rumah`/`kamar`/`unit`, `lantai`, `lantai_maks`, `luas_tapak_m2`, `luas_lantai_m2`, `kepadatan_per_ha`, kos/apartemen juga `unit_per_lantai`, `komposisi` per tipe `studio`/`1br`/`2br`/`kamar`, `parkir` {`butuh`, `muat`, `jenis` motor/mobil, `lantai`}), `ringkasan` (`kdb_terpakai`/`kdb_batas`, `klb_terpakai`/`klb_batas`, `kdh_terpakai`/`kdh_batas`, `tinggi_lantai_m`, `tinggi_m`, `pelanggaran[]` dari `kdb`/`klb`/`kdh`/`parkir`), `zona` (`FeatureCollection` zona yang dipakai, properti `id`, `jenis`, `luas_m2`, `lantai`), `zona_manual`, `akses` (`FeatureCollection` titik yang sudah ditempelkan: gerbang ke tepi lahan, pintu ke tepi zona bangunan; properti `id`, `jenis`, `lebar`, `panjang` yang dipakai, `otomatis`), `geometri_kapasitas` (`FeatureCollection`: `kavling` (`varian` 0–2) + `jalan` termasuk jalan lingkar untuk rumah tapak; `unit` (`tipe`) + `koridor` + `inti`/`void` + `taman` + `parkir` (`lantai`) + `slot` + `lobi` + `jalur` untuk kos/apartemen, `akses` (jalan dari gerbang) untuk semua tipe, `tapak` bila lahan terlalu sempit; isi zona membawa `zona` = id zona, akses/lobi/jalur membawa `akses` = id akses), `catatan[]`. Galat 422: lahan menyilang, < 30 m², > 20 ha, di luar Jabodetabek, atau zona/akses tidak sah |
 
+- `inspect` titik menerima opsional `mode` (`pedestrian`, `bicycle`, `auto`; bawaan `auto` bila persona hanya Driver,
+  selain itu `pedestrian`) dan `minutes` (1–60, bawaan 10) untuk jangkauan waktu tempuh (T-056, Adzkia, 14 Nov 2026).
+  Respons titik menambah `isochrone` (`FeatureCollection` poligon Valhalla, atau `null` bila server rute gagal) dan
+  `isochrone_meta` (`mode`, `minutes`, `aktif`); fasilitas terdekat dicari di dalam poligon itu. Di peta, poligon ini
+  menggantikan lingkaran radius 1,2 km alat Titik.
 - `inspect` dengan `area=lng,lat;lng,lat;...` (alat Area di bilah alat; ditambahkan 13 Nov 2026, disetujui tim):
   3–60 titik sudut, luas 500 m²–25 km², minimal 90% di dalam kelurahan Jabodetabek; selain itu 422 dengan
   `message`. Respons berbentuk seperti wilayah (`jenis_geometri: "area"`, `match`, `jumlah_fasilitas`, `terdekat`,
@@ -142,7 +149,16 @@ Waktu, Legalitas Lahan.
   umum lewat Commute Data API; tarif tol dan waktu tempuh adalah perkiraan.
 - Metrik wilayah untuk `search` (jarak ke stasiun/tol/POI/RTH, jumlah POI, porsi banjir)
   dihitung sekali oleh `DemoPetaSeeder` dan disimpan di `wilayah.atribut`.
-- Bentuk respons semua endpoint di atas dites di `tests/Feature/ApiTest.php`.
+- `lahan` memakai POST karena koordinat poligon bisa terlalu panjang untuk query string. Rumus kapasitas ada di
+  `app/Services/KapasitasLahan.php` (dites tanpa basis data); KDB/KLB bertingkat menurut luas persil dibaca dari
+  `atribut.kdb_teks`/`klb_teks` zona RDTR (Alternatif 1 untuk rumah tapak dan kos, Alternatif 2 untuk apartemen).
+  Grid kavling dibuat di UTM 48S dan diputar searah sisi terpanjang lahan.
+- Zona pengguna dipotong ke lahan (bangunan ke lahan dikurangi sempadan) dan tumpang tindih diselesaikan dengan prioritas
+  bangunan > parkir > taman. `id` zona = urutan di `zona[]` permintaan, jadi klien bisa mencocokkan isinya.
+- Gerbang membuka jalan akses (rumah: lebar jalan lingkungan, kos 3 m, apartemen 6 m) ke jalan lingkungan (rumah) atau
+  ke zona parkir terdekat (kos/apartemen); kavling, unit, dan slot yang dilewati dibuang. Zona parkir bawaan diletakkan
+  di sisi gerbang pertama. Pintu membuka lobi selebar dan sedalam yang diatur (unit yang terkena menjadi lobi) dan menarik jalur pejalan 1,5 m ke gerbang terdekat.
+- Bentuk respons semua endpoint di atas dites di `tests/Feature/ApiTest.php` (Uji Lahan: `tests/Feature/LahanTest.php`).
 
 ## 3. Antarmuka
 
@@ -159,6 +175,7 @@ yang udah di revisi". Nilai visual, komponen, dan aturan kartografi ada di
 | UI04 | Simulator Rute | Titik A/B, kotak MOBIL dan TRANSIT (waktu + biaya) |
 | UI05 | Menu utama | Drawer kiri: tab Persona, Legenda, Tentang |
 | UI06 | Landing page | Halaman editorial pengantar peta |
+| UI07 | Uji Lahan | Tombol di sebelah kanan search; panel kiri: mode Kotak/Poligon, tab Rumah tapak/Kos/Apartemen, slider asumsi; peta: lahan oranye dengan pegangan sudut, kavling/tapak bangunan |
 
 Perilaku yang sudah pasti:
 

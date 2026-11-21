@@ -82,3 +82,5 @@ export const gayaPersil: PathOptions = {
     weight: 1.2,
     opacity: 0.85,
 };
+/** Jangkauan waktu tempuh titik (isochrone, T-056): biru, beda dari seleksi wilayah navy. */
+export const isochrone = { color: '#2563eb', weight: 2.25, opacity: 0.9, fillColor: '#3b82f6', fillOpacity: 0.2 };

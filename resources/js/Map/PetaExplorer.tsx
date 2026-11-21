@@ -1,14 +1,18 @@
 /**
  * Peta Visual Explorer (UI01). Satu-satunya tempat yang menyentuh `L` (CLAUDE.md).
- * Basemap OSM standar; layer dari /api/layers; seleksi, Top 3, dan rute mengikuti kartografi design-system.md bagian 9.
+ * Basemap OSM standar; layer dari /api/layers; seleksi, Top 3, isochrone, dan rute mengikuti kartografi design-system.md bagian 9.
  */
 import { useEffect, useRef } from 'react';
 import L from 'leaflet';
-import type { Feature, FeatureCollection, Geometry, LineString, Point } from 'geojson';
-import type { CommuteResponse, HasilSearch, LayerKey } from '@/types';
+import type { Feature, FeatureCollection, Geometry, LineString, MultiPolygon, Point, Polygon } from 'geojson';
+import type { AksesLahanMasuk, AksesLahanProps, CommuteResponse, HasilSearch, JenisAkses, JenisZona, LayerKey, ZonaLahanMasuk, ZonaLahanProps } from '@/types';
 import type { Bahasa } from '@/lib/bahasa';
 import * as gaya from './gaya';
+import { simpanTampilan, tampilanTerakhir } from './tampilan';
 import { ATRIBUSI_DATA, isiPopupLegal, isiPopupRdtr, isiPopupUmum, popupHtml, ponsel, tr, warnaEkosistem, type IsiPopup } from './isiPeta';
+import { AlatLahan, LapisanKapasitas, type ModeLahan } from './GambarLahan';
+import { AlatZona, type TeksZona } from './ZonaLahan';
+import { AlatAkses, type TeksAkses } from './AksesLahan';
 
 export type TitikPeta = { lat: number; lng: number };
 
@@ -24,6 +28,7 @@ export type PropsPeta = {
     top3Aktif: number | null;
     wilayahTerpilih: Geometry | null;
     pin: TitikPeta | null;
+    isochrone?: FeatureCollection | null;
     rute: CommuteResponse | null;
     ruteA: TitikPeta | null;
     ruteB: TitikPeta | null;
@@ -31,8 +36,6 @@ export type PropsPeta = {
     /** True saat klik peta dipakai untuk menaruh titik (alat Titik/Area atau rute A/B): popup fitur dan klik Top 3 tidak dibuka, klik diteruskan ke peta. */
     modeRute: boolean;
     bahasa: Bahasa;
-    /** Alat Titik: lingkaran radius di sekitar pin (meter). */
-    lingkaran?: { pusat: TitikPeta; meter: number } | null;
     /** Alat Area: titik sudut yang sedang digambar (belum selesai). */
     sudutArea?: TitikPeta[];
     modeKamera?: ModeKamera;
@@ -44,6 +47,27 @@ export type PropsPeta = {
     onPilihTop3: (i: number) => void;
     onBatasPeta?: () => void;
     onBboxChange?: (layerKey: LayerKey, bbox: string) => void;
+    /** Uji Lahan (FR-23): mode alat gambar; kunci baru = mulai ulang gambar. null = alat mati. */
+    alatLahan?: { mode: ModeLahan; kunci: number } | null;
+    /** Ubah angka ini untuk menutup poligon yang sedang digambar (tombol Selesai). */
+    selesaiLahan?: number;
+    /** Kavling/jalan/tapak dari POST /api/lahan. */
+    kapasitasLahan?: FeatureCollection | null;
+    onLahanBerubah?: (g: Polygon | null, tarik?: boolean) => void;
+    /** Zona dari respons /api/lahan (bawaan pola atau hasil potong zona pengguna). */
+    zonaLahan?: FeatureCollection<Polygon | MultiPolygon, ZonaLahanProps> | null;
+    /** Zona pengguna (belum dipotong); null = zona bawaan pola. */
+    zonaManual?: ZonaLahanMasuk[] | null;
+    onZonaBerubah?: (zona: ZonaLahanMasuk[], tarik: boolean) => void;
+    /** Kunci baru = tambahkan satu zona berjenis ini di tengah lahan. */
+    tambahZona?: { jenis: JenisZona; kunci: number } | null;
+    /** Gerbang kendaraan dan pintu gedung yang ditaruh pengguna. */
+    akses?: AksesLahanMasuk[];
+    aksesServer?: FeatureCollection<Point, AksesLahanProps> | null;
+    /** Lebar gerbang baru sebelum ada jawaban server (m). */
+    lebarGerbang?: number;
+    onAksesBerubah?: (akses: AksesLahanMasuk[], tarik: boolean) => void;
+    tambahAkses?: { jenis: JenisAkses; kunci: number } | null;
     className?: string;
 };
 
@@ -119,6 +143,8 @@ export default function PetaExplorer(props: Props) {
     const grupLayer = useRef<Partial<Record<LayerKey, L.LayerGroup>>>({});
     const grupSeleksi = useRef<L.LayerGroup | null>(null);
     const grupRute = useRef<L.LayerGroup | null>(null);
+    const grupKapasitas = useRef<L.LayerGroup | null>(null);
+    const alat = useRef<AlatLahan | null>(null);
     const tergambar = useRef<Partial<Record<LayerKey, FeatureCollection>>>({});
     const panggil = useRef(props);
     panggil.current = props;
@@ -138,7 +164,11 @@ export default function PetaExplorer(props: Props) {
             maxBounds: BATAS_PETA,
             maxBoundsViscosity: 1,
             preferCanvas: false,
-        }).setView(PUSAT, 13);
+        }).setView(tampilanTerakhir() ? [tampilanTerakhir()!.lat, tampilanTerakhir()!.lng] : PUSAT, tampilanTerakhir() ? Math.round(tampilanTerakhir()!.zoomLeaflet) : 13);
+        m.on('moveend', () => {
+            const c = m.getCenter();
+            simpanTampilan({ lat: c.lat, lng: c.lng, zoomLeaflet: m.getZoom() });
+        });
         let terakhirBatas = 0;
         m.on('drag', () => {
             const v = m.getBounds();
@@ -161,10 +191,13 @@ export default function PetaExplorer(props: Props) {
         m.createPane('nrGaris').style.zIndex = '420';
         m.createPane('nrTitik').style.zIndex = '430';
         m.createPane('nrStasiun').style.zIndex = '440';
+        m.createPane('nrLahanIsi').style.zIndex = '445';
+        m.createPane('nrZona').style.zIndex = '448';
         m.createPane('nrSeleksi').style.zIndex = '450';
         m.createPane('nrRute').style.zIndex = '460';
         grupSeleksi.current = L.layerGroup().addTo(m);
         grupRute.current = L.layerGroup().addTo(m);
+        grupKapasitas.current = L.layerGroup().addTo(m);
 
         const muatBboxFitur = () => {
             const m = peta.current;
@@ -201,6 +234,10 @@ export default function PetaExplorer(props: Props) {
         m.fire('zoomend');
         peta.current = m;
         return () => {
+            alat.current = null;
+            alatZona.current = null;
+            alatAkses.current = null;
+            lapisan.current = null;
             m.remove();
             peta.current = null;
         };
@@ -232,7 +269,7 @@ export default function PetaExplorer(props: Props) {
 
         for (const [k, fc] of Object.entries(props.layer) as [LayerKey, FeatureCollection][]) {
             if (!fc || !fc.features || fc.features.length === 0) continue;
-            
+
             if (grupLayer.current[k] && tergambar.current[k] !== fc) {
                 grupLayer.current[k]?.remove();
                 delete grupLayer.current[k];
@@ -280,11 +317,9 @@ export default function PetaExplorer(props: Props) {
         if (props.wilayahTerpilih) {
             L.geoJSON(props.wilayahTerpilih, { pane: 'nrSeleksi', style: gaya.terpilih, interactive: false }).addTo(g);
         }
-        if (props.lingkaran) {
-            L.circle([props.lingkaran.pusat.lat, props.lingkaran.pusat.lng], {
-                pane: 'nrSeleksi', radius: props.lingkaran.meter, interactive: false,
-                color: '#0f1b3d', weight: 1.5, dashArray: '6 6', fillColor: '#0f1b3d', fillOpacity: 0.06,
-            }).addTo(g);
+        // Alat Titik: poligon jangkauan waktu tempuh (isochrone, T-056) menggantikan lingkaran radius tetap.
+        if (props.pin && props.isochrone?.features?.length) {
+            L.geoJSON(props.isochrone, { pane: 'nrSeleksi', interactive: false, style: gaya.isochrone }).addTo(g);
         }
         const sudut = props.sudutArea ?? [];
         if (sudut.length) {
@@ -305,7 +340,7 @@ export default function PetaExplorer(props: Props) {
                 }),
             }).addTo(g);
         }
-    }, [props.top3, props.top3Aktif, props.wilayahTerpilih, props.pin, props.lingkaran, props.sudutArea]);
+    }, [props.top3, props.top3Aktif, props.wilayahTerpilih, props.pin, props.isochrone, props.sudutArea]);
 
     // Zoom dari bilah alat.
     useEffect(() => {
@@ -315,6 +350,14 @@ export default function PetaExplorer(props: Props) {
         if (z.arah > 0) m.zoomIn();
         else m.zoomOut();
     }, [props.perintahZoom?.kunci]);
+
+    // Isochrone baru: peta menyesuaikan agar seluruh jangkauan terlihat.
+    useEffect(() => {
+        const m = peta.current;
+        if (!m || !props.isochrone?.features?.length) return;
+        const b = L.geoJSON(props.isochrone).getBounds();
+        if (b.isValid()) m.fitBounds(b, { ...padding(), maxZoom: 16, animate: true });
+    }, [props.isochrone]);
 
     useEffect(() => {
         const g = grupRute.current;
@@ -383,6 +426,107 @@ export default function PetaExplorer(props: Props) {
             m.setView([t.titik.lat, t.titik.lng], m.getZoom(), { animate: false });
         }
     }, [props.terbangKe?.kunci]);
+
+    // Uji Lahan (FR-23): lapisan isi yang berganti halus; dibuat sekali bersama peta.
+    const lapisan = useRef<LapisanKapasitas | null>(null);
+    const labelIsi = (p: Record<string, unknown>): string | null => {
+        if (p.jenis !== 'tapak' && p.jenis !== 'taman') return null;
+        // Taman rumah tapak (dan taman kedua dst.) tidak membawa angka gedung: tanpa label.
+        if (p.lantai == null || p.jumlah == null) return null;
+        const satuan = String(p.satuan) === 'kamar' ? tr('kamar', 'rooms') : tr('unit', 'units');
+        return `${p.lantai} ${tr('lantai', 'floors')} · ${p.jumlah} ${satuan}`;
+    };
+
+    const alatZona = useRef<AlatZona | null>(null);
+    const alatAkses = useRef<AlatAkses | null>(null);
+    const teksAkses = (): TeksAkses => ({
+        label: { gerbang: tr('Gerbang', 'Gate'), pintu: tr('Pintu', 'Door') },
+        hapus: tr('Hapus', 'Remove'),
+    });
+    /** Cincin zona bangunan dari hasil terakhir (tempat pintu menempel). */
+    const cincinGedung = (): L.LatLng[][] =>
+        (panggil.current.zonaLahan?.features ?? [])
+            .filter((f) => f.properties.jenis === 'bangunan')
+            .flatMap((f) => (f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates))
+            .flatMap((poli) => poli.map((r) => r.slice(0, -1).map(([lng, lat]) => L.latLng(lat, lng))));
+    const teksZona = (): TeksZona => ({
+        label: { bangunan: tr('Gedung', 'Building'), parkir: tr('Parkir', 'Parking'), taman: tr('Taman', 'Park') },
+        hapus: tr('Hapus zona', 'Remove zone'),
+    });
+
+    // Uji Lahan (FR-23)
+    useEffect(() => {
+        const m = peta.current;
+        if (!m) return;
+        if (!alatAkses.current) {
+            alatAkses.current = new AlatAkses(m, (a, tarik) => panggil.current.onAksesBerubah?.(a, tarik), teksAkses());
+        }
+        if (!alatZona.current) {
+            alatZona.current = new AlatZona(
+                m,
+                (zona, tarik) => panggil.current.onZonaBerubah?.(zona, tarik),
+                (id, cincin) => lapisan.current?.saringZona(id, cincin),
+                teksZona(),
+            );
+        }
+        if (!lapisan.current && grupKapasitas.current) lapisan.current = new LapisanKapasitas(m, grupKapasitas.current, labelIsi);
+        if (!alat.current) {
+            alat.current = new AlatLahan(
+                m,
+                (g, tarik) => {
+                    // Batas lahan terbaru: isi dipotong ke batas ini dan unit/kavling di luar batas langsung memudar.
+                    lapisan.current?.saring(g ? g.coordinates[0].slice(0, -1).map(([lng, lat]) => L.latLng(lat, lng)) : null);
+                    panggil.current.onLahanBerubah?.(g, tarik);
+                },
+                (titik) => lapisan.current?.saring(titik),
+            );
+        }
+        alat.current.mulai(props.alatLahan?.mode ?? null);
+        if (!props.alatLahan) {
+            alatZona.current?.kosongkan();
+            alatAkses.current?.kosongkan();
+        }
+    }, [props.alatLahan?.mode, props.alatLahan?.kunci]);
+
+    // Zona: tampil hanya bila lahan sudah punya hasil; pegangan zona pengguna tetap di tempat yang ditarik.
+    useEffect(() => {
+        const z = alatZona.current;
+        if (!z) return;
+        z.setTeks(teksZona());
+        if (!props.alatLahan || !props.zonaLahan) z.kosongkan();
+        else z.tampilkan(props.zonaLahan, props.zonaManual ?? null);
+    }, [props.zonaLahan, props.zonaManual, props.alatLahan, props.bahasa]);
+
+    useEffect(() => {
+        if (props.tambahZona && alat.current) alatZona.current?.tambah(props.tambahZona.jenis, alat.current.titikSekarang());
+    }, [props.tambahZona?.kunci]);
+
+    // Gerbang & pintu: tampil bila lahan sudah punya hasil; posisi dari server (sudah menempel tepi) bila ada.
+    useEffect(() => {
+        const a = alatAkses.current;
+        if (!a) return;
+        a.setTeks(teksAkses());
+        a.setLebarBawaan(props.lebarGerbang ?? 6);
+        if (!props.alatLahan || !props.zonaLahan) a.kosongkan();
+        else a.tampilkan(props.akses ?? [], props.aksesServer, alat.current?.titikSekarang() ?? [], cincinGedung());
+    }, [props.akses, props.aksesServer, props.zonaLahan, props.alatLahan, props.bahasa, props.lebarGerbang]);
+
+    useEffect(() => {
+        if (props.tambahAkses && alat.current) alatAkses.current?.tambah(props.tambahAkses.jenis, alat.current.titikSekarang(), cincinGedung());
+    }, [props.tambahAkses?.kunci]);
+
+    useEffect(() => {
+        if (props.selesaiLahan) alat.current?.selesai();
+    }, [props.selesaiLahan]);
+
+    useEffect(() => {
+        const l = lapisan.current;
+        if (!l) return;
+        l.setLabel(labelIsi);
+        l.perbarui(props.kapasitasLahan);
+        // Hasil baru sudah memuat zona terbaru: lepas penyamaran per zona, kecuali zona masih ditarik.
+        if (!alatZona.current?.ditarik) l.saringZona(null);
+    }, [props.kapasitasLahan, props.bahasa]);
 
     return <div ref={wadah} className={props.className} role="region" aria-label="Peta Jabodetabek, klik untuk melihat detail lokasi" />;
 }
@@ -499,7 +643,7 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
                     color: '#fff',
                     weight: 2,
                     fillColor: warnaEkosistem(f),
-                    fillOpacity: 0.9
+                    fillOpacity: 0.9,
                 }),
                 onEachFeature: popup,
             }),
