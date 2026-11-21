@@ -59,10 +59,10 @@ Kriteria selesai:
 Kriteria selesai:
 
 - [x] Rumus kapasitas murni dan teruji (`tests/Unit/KapasitasLahanTest.php`, 13 tes).
-- [ ] `php artisan test` lulus di mesin dengan PostGIS (termasuk `tests/Feature/LahanTest.php`).
-- [ ] `npm run typecheck` dan `npm run build` lulus.
+- [x] `php artisan test --filter=Lahan` lulus di mesin dengan PostGIS (35 tes, 21 Nov 2026). Suite penuh: 77 tes, 72 lulus, 2 gagal di `ApiTest` (`test_inspect_zonasi_dan_bukan_hunian`, `test_ringkasan_banjir_memakai_tingkat_tampilan`); penyebabnya di isochrone `/api/inspect`, bukan Uji Lahan (lihat Catatan di bawah).
+- [x] `npm run typecheck` dan `npm run build` lulus (21 Nov 2026, Node 26.13.1; build memberi peringatan chunk `Pratinjau3D` 566 kB > 500 kB).
 - [ ] Uji manual di peta: kotak, poligon, tiga tipe, slider, lahan di DKI dan di luar DKI.
-- [ ] PM meninjau draf FR-23 di SRS.
+- [x] PM meninjau draf FR-23 di SRS (disetujui; SRS v1.5, konfirmasi Galih 21 Nov 2026).
 
 Tahap 2 (17 Nov 2026, disetujui Galih): pola tata letak (rumah grid/cluster, kos keliling/koridor, apartemen
 keliling/wrap/tower), zona bangunan/parkir/taman yang bisa ditarik/ditambah/dihapus sendiri (`Map/ZonaLahan.ts`),
@@ -70,7 +70,7 @@ parkir motor untuk kos, ringkasan KDB/KLB/KDH/tinggi/parkir yang merah bila lewa
 three.js yang dimuat malas (`Map/Lahan3D.ts`, `Components/Pratinjau3D.tsx`; dependensi baru `three` + `@types/three`).
 
 - [x] Logika murni baru teruji (`tests/Unit/KapasitasLahanTest.php`, 23 tes).
-- [ ] `npm install`, `npm run typecheck`, `php artisan test --filter=Lahan` lulus di mesin Galih.
+- [x] `npm run typecheck` dan `php artisan test --filter=Lahan` lulus (21 Nov 2026).
 - [ ] Uji manual: ganti pola, tarik/tambah/hapus zona, 3D ikut berubah saat lahan/zona ditarik.
 - [ ] Tim diberi tahu soal dependensi `three` (CLAUDE.md: jangan menambah dependensi diam-diam).
 
@@ -79,8 +79,10 @@ Tahap 3 (18 Nov 2026, permintaan PM lewat Galih): gerbang kendaraan (mobil/motor
 akses ke jalan lingkungan/parkir dan memindahkan parkir bawaan ke sisinya, pintu menjadi lobi + jalur pejalan.
 
 - [x] Logika murni akses teruji (`tests/Unit/KapasitasLahanTest.php`, 25 tes).
-- [ ] `php artisan test --filter=Lahan` dan `npm run typecheck` lulus di mesin Galih.
+- [x] `php artisan test --filter=Lahan` dan `npm run typecheck` lulus (21 Nov 2026).
 - [ ] Uji manual: tambah/geser/hapus gerbang dan pintu, isi ikut berubah, tampil di 3D.
+
+**Diperbaiki 21 Nov 2026 atas persetujuan Galih** (`ST_Dump` dipindah ke `LATERAL`, kunci cache jadi `isochrone_boundary_v3` agar hasil cadangan lama tidak terpakai; poligon `/expansion` nyata kini terbentuk, `ApiTest` inspect lulus; tes `test_daftar_layer_dan_data_layer` disesuaikan dari 6 ke 8 layer sesuai `LayerController`; suite penuh 76 dari 77 tes lulus, 0 gagal). Catatan asli temuan: di `InspectController::bangunPoligonBatasJalan` query `ST_Union(ST_MakePolygon(ST_ExteriorRing((ST_Dump(geom)).geom)))` ditolak PostgreSQL ("aggregate function calls cannot contain set-returning function calls"; diuji pada PG 17 dengan respons Valhalla `/expansion` nyata). `hitungIsochrone` menelan galatnya dan jatuh ke `/isochrone`, jadi di produksi tampak normal, tetapi penghalusan "garis tepi mengikuti jalan terluar" tidak pernah berjalan. Di tes, galat itu membuat transaksi terhenti dan dua tes `ApiTest` di atas gagal; tes itu juga memanggil Valhalla publik tanpa `Http::fake`.
 
 ### [~] Penyelarasan dokumen dan artifact ke desain final + masukan Izdihar (Tahap A–C)
 
@@ -198,12 +200,6 @@ Catatan:
 
 ## Backlog
 
-### [ ] Tahap 2 dokumentasi setelah UI/UX masuk
-
-- Prioritas: Sedang
-- Pemicu: prototipe Figma (TBD-02) tersedia
-- Tujuan: Melengkapi `docs/SISTEM.md` (arsitektur, kontrak API, antarmuka) sesuai desain.
-
 ### [ ] Konfirmasi peran QGIS ke dosen (TBD-QGIS)
 
 - Prioritas: Tinggi
@@ -215,35 +211,6 @@ Catatan:
 - Prioritas: Tinggi
 - Tujuan: ERD dan DDL PostGIS untuk enam layer. Menutup TBD-04. Status Sprint 0 belum diketahui.
 
-### [ ] 1.2.4 Boilerplate Laravel + Inertia + React + PostGIS
-
-- Prioritas: Tinggi
-- Tujuan: Proyek berjalan lokal dan tersambung ke PostGIS. Isi *Perintah* dan *Versi yang dikunci* di `CLAUDE.md`, versi diverifikasi ke Packagist/npm.
-
-### [ ] 1.2.5 Staging gratis
-
-- Prioritas: Tinggi
-- Tujuan: Staging bisa menerima deploy Sprint 1.
-
-### [ ] 1.4.6.1 Migrasi skema PostGIS
-
-- Prioritas: Tinggi · Sprint 1
-- Tujuan: Semua tabel dan indeks GIST terbentuk tanpa error migrasi.
-
-### [ ] 1.4.1 dan 1.4.3 Core Map dan multi-layer (bersama Nur'Afia, Adzkia)
-
-- Prioritas: Tinggi · Sprint 1–3
-
-### [ ] 1.4.6.2 RESTful API dan 1.4.6.3 optimasi query (bersama Adzkia)
-
-- Prioritas: Tinggi · Sprint 2
-- Catatan: pembagian endpoint masih usulan di `docs/RENCANA.md` bagian 4.
-
-### [ ] 1.4.5 Persona Grading dan Commute Simulator (bersama Galih, Nur'Afia)
-
-- Prioritas: Sedang · Sprint 3
-- Dependensi: TBD-05, TBD-09, TBD-ROUTE.
-
 ### [ ] 1.5.3–1.5.5 Debugging, deployment produksi, dokumentasi
 
 - Prioritas: Sedang · Release Sprint
@@ -253,6 +220,19 @@ Catatan:
 ## Selesai
 
 <!-- Pindahkan task selesai ke sini jika riwayatnya masih berguna. Sertakan hasil dan verifikasi terakhir. -->
+
+### [x] Pekerjaan inti Sprint 0–3 (dipindah dari Backlog, 21 Nov 2026)
+
+- Hasil, dengan bukti di repo:
+  - 1.2.4 Boilerplate Laravel + Inertia + React + PostGIS (7 Okt 2026); perintah dan versi di `CLAUDE.md`.
+  - 1.2.5 Staging/deploy: `Procfile` Heroku dengan fase release `php artisan migrate --force && php artisan nalar:muat-data`.
+  - 1.4.6.1 Migrasi skema PostGIS: `database/migrations/` (tabel `wilayah`, `fitur_peta`, `versi_data`); terbentuk di setiap `php artisan test`.
+  - 1.4.1 dan 1.4.3 Core Map dan multi-layer: `resources/js/Map/PetaExplorer.tsx`, `GET /api/layers`.
+  - 1.4.6.2 dan 1.4.6.3 RESTful API: `routes/api.php` (layers, search, inspect, commute, lokasi, lahan, health), indeks GIST.
+  - 1.4.5 Persona Grading dan Commute Simulator: `PersonaScoring`, `InspectController`, `CommuteController`.
+  - "Tahap 2 dokumentasi" (`docs/SISTEM.md`): terisi dan diselaraskan dengan kode pada 21 Nov 2026.
+- Verifikasi: `php artisan test` 21 Nov 2026 → 72 dari 77 lulus, 2 gagal (bug isochrone, lihat Catatan Uji Lahan), `npm run typecheck` dan `npm run build` lulus. Belum diuji manual di browser pada tanggal ini.
+- Masih terbuka: 1.2.2 ERD/DDL (TBD-04; skema di migrasi masih ditandai sementara), TBD-QGIS, TBD-ROUTE, TBD-05 (lihat `docs/RENCANA.md` bagian 5).
 
 ### [x] Restrukturisasi dokumentasi NalarRuang (tahap 1)
 

@@ -59,7 +59,7 @@ unduhan resmi; sisanya diolah manual oleh tim data (Adzkia, Galih).
 
 | Layer | Dipakai | Tidak dipakai | Ditarik otomatis | Diolah manual |
 | --- | --- | --- | --- | --- |
-| 1 Historis & Risiko | Bahaya banjir InaRISK (seluruh Jabodetabek); AQI | Elevasi DEMNAS, kriminalitas, kebisingan | InaRISK (ArcGIS REST); AQI Bodetabek lewat IQAir API (butuh kunci di `.env`) | Genangan detail Jakarta (pantaubanjir.jakarta.go.id); AQI historis Jakarta |
+| 1 Historis & Risiko | Bahaya banjir InaRISK (seluruh Jabodetabek); AQI | Elevasi DEMNAS, kriminalitas, kebisingan | InaRISK (ArcGIS REST); AQI Bodetabek lewat IQAir API (butuh kunci di `.env`). Catatan 21 Nov 2026: IQAir sudah dilepas dari UI (T-027); skor udara memakai PM2.5 satelit (ACAG SatPM) di `DataNyataSeeder` | Genangan detail Jakarta (pantaubanjir.jakarta.go.id); AQI historis Jakarta |
 | 2 Ekosistem & Gaya Hidup | POI kafe/resto/mal, ruang hijau dari OSM | Google Places (berbayar, cadangan saja) | Overpass API → GeoJSON | — |
 | 3 Inklusivitas | Fasilitas ramah disabilitas OSM (tag jarang; tampilkan apa adanya); halte TransJakarta ramah kursi roda | — | Overpass API; GTFS TransJakarta (`wheelchair_boarding`) | — |
 | 4 Mobilitas & Transit | Stasiun, lin, transfer, tarif KRL/MRT/LRT Jakarta/LRT Jabodebek + TransJakarta; Biskita | Scraping Google Maps | Commute Data API (`api.commute.shiorilabs.id`, ODbL: cantumkan sumber); GTFS resmi TransJakarta (`gtfs.transjakarta.co.id`, juga di Mobility Database mdb-1909); JSON Biskita (opentransum); geometri rel dari OSM | — |
@@ -109,7 +109,7 @@ Di tiap review, pertanyaannya satu: **apa yang bisa didemokan di staging?**
 | Review 1 | Peta pan/zoom, 2 layer bisa di-toggle, data dari PostGIS lewat API |
 | Review 2 | Requirement Search mengembalikan tepat 3 hasil, fly-to, 4 layer |
 | Review 3 | Point Inspector + skor 4 persona, Commute Simulator, 6 layer |
-| Final | Semua FR-01..FR-22, test plan lulus, domain produksi aktif |
+| Final | Semua FR-01..FR-23, test plan lulus, domain produksi aktif |
 
 ## 4. Siapa mengerjakan apa
 
@@ -121,7 +121,7 @@ tabel ini ikut berubah.
 | Farrel Muhammad Zaki | Backend Developer | Ya |
 | Adzkia Nifa Adha | Backend/GIS Developer | Ya |
 | Nur'Afia Avanza | UI/UX Designer, frontend | Ya |
-| Raden Mas Galih Pradityo | System Analyst | Tidak — analisis, QGIS, rancangan data |
+| Raden Mas Galih Pradityo | System Analyst | Ya, sejak 16 Nov 2026 — analisis, QGIS, rancangan data, dan ikut memegang backend atas izin tim. Perubahan yang menyentuh kode anggota lain ditanyakan ke Galih dulu |
 | Izdihar Izzan Wibowo | Project Manager, Scrum Master | Tidak — backlog, review, serah terima |
 
 | Sprint | WBS | Pekerjaan | PIC |

@@ -47,7 +47,7 @@ disunting. Project Charter sudah usang; alasannya di `docs/RENCANA.md` bagian 1.
 
 ## Empat aturan yang tidak boleh dilanggar
 
-1. **Tetap di cakupan SRS.** Yang dibangun hanya FR-01 sampai FR-22 di
+1. **Tetap di cakupan SRS.** Yang dibangun hanya FR-01 sampai FR-23 di
    `docs/sumber/SRS.md`. Aplikasi mobile native, listing/transaksi properti,
    pengumpulan data primer, dan analisis di luar Jabodetabek **di luar cakupan**.
    Fitur di luar daftar itu ditolak, sebagus apa pun idenya.

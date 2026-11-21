@@ -31,6 +31,7 @@ struktur foldernya nyata.
 | `database/migrations/`, `app/Models/` | **Farrel** |
 | `app/Http/Controllers/Api/`, `app/Services/` | **Farrel** dan **Adzkia**, dibagi per endpoint (lihat `docs/RENCANA.md` bagian 4) |
 | `database/seeders/`, `data/` | **Adzkia** (bersama Galih untuk isi QGIS) |
+| Uji Lahan FR-23: `LahanController`, `app/Services/KapasitasLahan.php`, `Map/GambarLahan.ts`, `ZonaLahan.ts`, `AksesLahan.ts`, `Lahan3D.ts`, `Components/PanelLahan.tsx`, `Pratinjau3D.tsx` | **Galih** (dikerjakan dengan agen atas izin tim, 16–18 Nov 2026) |
 | `resources/js/Pages/`, `Components/`, `Map/`, `resources/css/` | **Nur'Afia** (Farrel membantu di Core Map) |
 | `composer.json`, `package.json`, `.env.example`, konfigurasi | **Farrel** |
 | `docs/` selain kontrak API | Siapa saja, umumkan di grup dulu |

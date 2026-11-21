@@ -155,7 +155,9 @@ di kode (`97d610b`), rumus final belum dipastikan sama.
 4. Outline deck BTN Housingpreneur (maks. 7 slide).
 5. Buat ulang tugas terjadwal "Rekam ISPU KLH Jabodetabek" di akun baru, lalu matikan yang di akun lama.
 6. Selaraskan dokumen basi: `docs/RENCANA.md` (masih SRS v1.0, IQAir), `docs/SISTEM.md` (rumus Zen lama,
-   layer `rdtr`/`persil`), `TASK.md`.
+   layer `rdtr`/`persil`), `TASK.md`. (21 Nov: README, PROJECT_STATE, TASK, RENCANA, KOLABORASI sudah disegarkan; SISTEM belum memuat layer `rdtr`/`persil`.)
+7. Farrel memuat data layer `rdtr` dan `persil` (`LayerController` mencari `layer_id` itu, seeder menyimpan RDTR sebagai `zonasi`); lalu catat keduanya di kontrak API bila disetujui.
+8. Release Sprint 23–27 Nov: debugging, deployment produksi, dokumentasi (WBS 1.5.3–1.5.5).
 
 ## Keputusan penting (riwayat)
 
@@ -168,7 +170,10 @@ di kode (`97d610b`), rumus final belum dipastikan sama.
 - Bila prompt tugas bertabrakan dengan `docs/RENCANA.md`, RENCANA yang dipakai (27 Sep).
 - Git: branch per fitur + PR ke `main`. Agen tidak commit/push tanpa diminta.
 - **Uji Lahan / FR-23 (16 Nov 2026):** fitur ala TestFit disetujui PM, dikerjakan Galih bersama agen di branch `fitur/uji-lahan` (menyentuh folder backend dan frontend dengan izin tim). Endpoint baru `POST /api/lahan`. Rumah tapak = jumlah kavling geometris (UTM 48S); kos/apartemen = KDB/KLB RDTR (Alternatif 1/2) atau asumsi di luar DKI. Biaya dan harga properti tidak termasuk.
-- Yang coding bersama agen: Farrel, Adzkia, Nur'Afia. Izdihar dan Galih tidak.
+- Yang coding bersama agen: Farrel, Adzkia, Nur'Afia, dan sejak 16 Nov 2026 **Galih** (System Analyst yang kini ikut memegang backend atas izin seluruh tim). Izdihar tidak.
+- Aturan untuk agen yang membantu Galih: izin menyentuh folder tim sudah diberikan, tidak perlu ditanyakan lagi; tetapi **bila perubahan menyentuh kode anggota lain, tanya Galih dulu**.
+- **Revisi SRS v1.5 (21 Nov 2026, disetujui PM):** FR-23 diselaraskan dengan implementasi (pola, zona, gerbang/pintu, ringkasan KDB/KLB/KDH, 3D), UI07 ditambah; isochrone digabung ke FR-08/FR-09 (tanpa FR-24); batas cakupan FR-01 sampai FR-23; FR-03 tetap enam layer. Rentang Mesin Waktu 2026–2045 tidak disebut di SRS, jadi FR-04 tidak perlu diubah.
+- **Perbaikan isochrone (21 Nov 2026):** query `ST_Dump` di dalam agregat di `InspectController::bangunPoligonBatasJalan` ditolak PostgreSQL sehingga garis tepi "mengikuti jalan terluar" tidak pernah terbentuk (selalu jatuh ke `/isochrone`); dipindah ke `LATERAL`, kunci cache jadi `isochrone_boundary_v3`. Tes `test_daftar_layer_dan_data_layer` disesuaikan dari 6 ke 8 layer.
 
 ## Mesin Waktu sampai 2045 (14 Nov 2026)
 

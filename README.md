@@ -24,6 +24,11 @@ Tanpa akun dan tanpa login. Preferensi persona hanya hidup selama sesi.
   skor 0–3 bintang untuk keempat persona.
 - **Commute Simulator** — estimasi jarak dan waktu tempuh Pin A ke Pin B untuk
   kendaraan pribadi dan transportasi publik.
+- **Area jangkauan (isochrone)** — di Point Inspector, fasilitas utama persona
+  dicari di dalam jangkauan jalan 10 menit (jalan kaki, sepeda, atau mobil).
+- **Uji Lahan (FR-23)** — gambar batas lahan, lalu lihat zona RDTR, KDB/KLB/KDH,
+  risiko banjir, kecocokan persona, dan estimasi kapasitas rumah tapak, kos, atau
+  apartemen, lengkap dengan zona yang bisa disunting, gerbang/pintu, dan 3D.
 
 ## Tim
 
@@ -33,7 +38,7 @@ Mata kuliah Sistem Informasi Geografis dan Manajemen Proyek Teknologi Informasi.
 | Nama | Peran |
 | --- | --- |
 | Izdihar Izzan Wibowo | Project Manager |
-| Raden Mas Galih Pradityo | System Analyst |
+| Raden Mas Galih Pradityo | System Analyst, backend |
 | Nur'Afia Avanza | UI/UX Designer, frontend |
 | Farrel Muhammad Zaki | Backend Developer |
 | Adzkia Nifa Adha | Backend/GIS Developer |
@@ -41,7 +46,7 @@ Mata kuliah Sistem Informasi Geografis dan Manajemen Proyek Teknologi Informasi.
 ## Stack
 
 Laravel · Inertia.js · React · Leaflet · Tailwind CSS · PostgreSQL + PostGIS ·
-QGIS (pengolahan data) · font Plus Jakarta Sans, Fraunces, Georgia, Inter (lihat `design-system.md`)
+three.js (pratinjau 3D Uji Lahan) · QGIS (pengolahan data) · font Plus Jakarta Sans dan Fraunces (lihat `design-system.md`)
 
 Alasan tiap pilihan ada di [`docs/RENCANA.md`](docs/RENCANA.md). Versi yang dikunci
 ditulis di [`CLAUDE.md`](CLAUDE.md) setelah scaffolding.
@@ -61,10 +66,13 @@ manusia maupun agen AI, yang baru masuk ke repo ini.
 
 ## Menjalankan
 
-Belum ada kode. Perintah ditulis di [`CLAUDE.md`](CLAUDE.md) setelah
-scaffolding (WBS 1.2.4).
+Butuh PHP 8.3 (ekstensi `pdo_pgsql`), Composer, Node, dan PostgreSQL dengan
+PostGIS. Langkah lengkap (install, `.env`, migrasi, seeder data demo, `php artisan
+serve`, `npm run dev`, tes) ada di bagian *Perintah* [`CLAUDE.md`](CLAUDE.md).
+Pintasan demo: `/peta?persona=commuter,zen` mengisi persona sesi tanpa dialog.
 
 ## Status
 
-Sprint 0 (Discovery & Design). Lihat [`PROJECT_STATE.md`](PROJECT_STATE.md)
-untuk kondisi terkini.
+Sprint 3 selesai dan fitur sudah dibekukan (20 Nov 2026); pekan 23–27 Nov adalah
+Release Sprint, serah terima final 27 November 2026. Lihat
+[`PROJECT_STATE.md`](PROJECT_STATE.md) untuk kondisi terkini.
