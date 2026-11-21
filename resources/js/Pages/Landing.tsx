@@ -265,7 +265,7 @@ export default function Landing() {
 
                             Mesin Waktu (Future Planning): Memungkinkan Anda melihat proyeksi pembangunan tata ruang dan infrastruktur masa depan melalui fitur timeline slider.
 
-                            Legalitas Lahan: Memberi gambaran status kepemilikan dan peruntukan lahan. Data batas persil ATR/BPN masih dalam proses pengumpulan.`,
+                            Legalitas Lahan: Memberi gambaran peruntukan lahan dari data batas persil Jakarta (hasil pencarian manual tim); Bodetabek masih memakai batas permukiman OSM.`,
 
                                     `Our interactive map uses 6 spatial data layers that you can adjust dynamically to evaluate an area holistically:
 
@@ -279,7 +279,7 @@ export default function Landing() {
 
                             Time Machine (Future Planning): Allows you to view spatial development projects and future infrastructure via a timeline slider feature.
 
-                            Land Legality: Gives an overview of land ownership status and land use. ATR/BPN parcel boundary data is still being collected.`
+                            Land Legality: Gives an overview of land use from Jakarta parcel boundary data (manually compiled by the team); Bodetabek still uses OSM settlement boundaries.`
                                 )
                             }
                         ]}

@@ -108,7 +108,11 @@ Commit `c143594`, `61a1ed3` (25 Okt), `2ed7280` (26 Okt), `69cae69` (31 Okt), `e
    `data/geojson/hak_tanah_DKI_Jakarta/...` hanya di laptop anggota. Di Heroku layer Legalitas masih
    menampilkan poligon permukiman OSM + zona RDTR, tetapi dengan judul "Hak Tanah Terdaftar" dan nilai
    bawaan **"Hak Milik / Terdaftar"** bila atribut hak kosong → menampilkan status hak yang tidak ada di data.
-   Asal dan izin sumber "DKI-Siap" juga perlu dipastikan (aturan: repo publik, jangan commit dataset terbatas).
+   **14 Nov:** 109.002 baris `layer_id='persil'` (DKI, dari `backup_nalarruang.sql`) sudah diimpor ke DB
+   lokal lewat resep `docs/RENCANA.md` §"Memuat data persil"; belum ke Heroku. Izin sumber dikonfirmasi tim
+   (hasil pencarian manual, gabungan beberapa sumber terpisah — bukan satu portal spesifik); kolom `sumber`
+   dan popup (`isiPopupLegal`) sudah diperbarui jadi "Hasil pencarian manual tim" alih-alih label portal
+   tunggal yang keliru. Status hak kosong (nilai bawaan "Hak Milik / Terdaftar") masih belum diperbaiki.
 2. **Kontrak API berubah tanpa catatan kesepakatan:** `LayerKey` dan `LayerController::LAYER` ditambah
    `rdtr` dan `persil`. Perlu disetujui Farrel, Adzkia, Nur'Afia lalu dicatat di `docs/SISTEM.md` bagian 2.
 3. **`/api/layers/{id}`:** `bbox` yang salah format kini diabaikan diam-diam (dulu 422); galat SQL ditelan

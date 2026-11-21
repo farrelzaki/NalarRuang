@@ -122,7 +122,9 @@ export function isiPopupLegal(p: Record<string, any>, idFitur?: unknown): IsiPop
     const lokasi = [kelurahan, kecamatan, kota].filter(Boolean).map((x) => String(x).trim()).filter(Boolean).join(', ');
     if (lokasi) rincian.push(`Lokasi: ${lokasi}`);
 
-    return [tr('Bidang Tanah (ATR/BPN)', 'Land Parcel (ATR/BPN)'), judulText, rincian.join('\n'), `${tr('Sumber', 'Source')}: Satu Data DKI Jakarta`];
+    const sumberText = p.sumber ?? p.SUMBER ?? tr('Hasil pencarian manual tim', 'Manually compiled by team');
+
+    return [tr('Bidang Tanah (ATR/BPN)', 'Land Parcel (ATR/BPN)'), judulText, rincian.join('\n'), `${tr('Sumber', 'Source')}: ${sumberText}`];
 }
 
 /** Isi popup sesuai layer asal fitur. */
