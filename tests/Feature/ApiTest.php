@@ -245,20 +245,20 @@ class ApiTest extends TestCase
 
         $r = $this->getJson('/api/commute?dari=-6.2049,106.8049&ke=-6.2049,106.8349')->assertOk();
         $r->assertJsonStructure([
-            'pribadi' => ['jarak_km', 'waktu_menit', 'biaya', 'biaya_bbm', 'biaya_tol', 'lewat_tol', 'ganjil_genap' => ['hindari', 'ruas'], 'geometri'],
-            'publik' => ['jarak_km', 'waktu_menit', 'biaya', 'biaya_transum', 'biaya_ojol', 'rincian', 'langkah', 'stasiun', 'geometri' => ['jalan_kaki', 'ojol', 'rel']],
+            'pribadi' => [['jarak_km', 'waktu_menit', 'biaya', 'biaya_bbm', 'biaya_tol', 'lewat_tol', 'ganjil_genap' => ['hindari', 'ruas'], 'geometri']],
+            'publik' => [['jarak_km', 'waktu_menit', 'biaya', 'biaya_transum', 'biaya_ojol', 'rincian', 'langkah', 'stasiun', 'geometri' => ['jalan_kaki', 'ojol', 'rel']]],
             'catatan',
         ]);
-        $this->assertSame($r->json('pribadi.biaya_bbm') + $r->json('pribadi.biaya_tol'), $r->json('pribadi.biaya'));
-        $this->assertGreaterThan(0, $r->json('pribadi.biaya_tol'));
-        $this->assertSame(3000, $r->json('publik.biaya'));
-        $this->assertSame(['jalan', 'naik', 'jalan'], array_column($r->json('publik.langkah'), 'tipe'));
+        $this->assertSame($r->json('pribadi.0.biaya_bbm') + $r->json('pribadi.0.biaya_tol'), $r->json('pribadi.0.biaya'));
+        $this->assertGreaterThan(0, $r->json('pribadi.0.biaya_tol'));
+        $this->assertSame(3000, $r->json('publik.0.biaya'));
+        $this->assertSame(['jalan', 'naik', 'jalan'], array_column($r->json('publik.0.langkah'), 'tipe'));
 
         // Titik 2,5 km dari stasiun: ke stasiun naik ojol (T-042), biaya ojol ikut dijumlah.
         $jauh = $this->getJson('/api/commute?dari=-6.2275,106.8049&ke=-6.2049,106.8349')->assertOk();
-        $this->assertSame('ojol', $jauh->json('publik.langkah.0.tipe'));
-        $this->assertSame(15000, $jauh->json('publik.biaya_ojol'));
-        $this->assertSame(18000, $jauh->json('publik.biaya'));
+        $this->assertSame('ojol', $jauh->json('publik.0.langkah.0.tipe'));
+        $this->assertSame(15000, $jauh->json('publik.0.biaya_ojol'));
+        $this->assertSame(18000, $jauh->json('publik.0.biaya'));
 
         $this->getJson('/api/commute?dari=-6.2049,106.8049&ke=-6.2049,106.8349&tol=0&bbm=12000')->assertOk();
         Http::assertSent(fn (PermintaanHttp $q) => str_contains($q->url(), 'valhalla') && ($q['costing_options']['auto']['use_tolls'] ?? null) === 0.0);
@@ -277,9 +277,9 @@ class ApiTest extends TestCase
             && ($q['costing_options']['motorcycle']['use_tolls'] ?? null) === 0.0
             && ($q['costing_options']['motorcycle']['use_highways'] ?? null) === 0.0);
         // Parameter tol=1 diabaikan untuk motor (tidak boleh lewat tol di Indonesia).
-        $this->assertFalse($r->json('pribadi.lewat_tol'));
+        $this->assertFalse($r->json('pribadi.0.lewat_tol'));
         // Konsumsi motor 40 km/liter (bukan 12 km/liter mobil): 3,3 km / 40 * Rp10.000, dibulatkan ke ratusan.
-        $this->assertSame(800, $r->json('pribadi.biaya_bbm'));
+        $this->assertSame(800, $r->json('pribadi.0.biaya_bbm'));
     }
 
     public function test_commute_mobil_memutar_tawarkan_jalan_kaki(): void
@@ -290,12 +290,44 @@ class ApiTest extends TestCase
         // kemungkinan titik hanya terjangkau lewat gang, jadi jalan kaki langsung ditawarkan sebagai alternatif.
         $r = $this->getJson('/api/commute?dari=-6.2000,106.8000&ke=-6.2005,106.8005')->assertOk();
 
-        $r->assertJsonPath('pribadi.jalan_kaki_alternatif.meter', 100)
-            ->assertJsonPath('pribadi.jalan_kaki_alternatif.menit', 1);
+        $r->assertJsonPath('pribadi.0.jalan_kaki_alternatif.meter', 100)
+            ->assertJsonPath('pribadi.0.jalan_kaki_alternatif.menit', 1);
 
         // Titik jauh (3,3 km garis lurus dari test lain) tidak memicu saran ini: rute mobil wajar untuk jarak segitu.
         $jauh = $this->getJson('/api/commute?dari=-6.2049,106.8049&ke=-6.2049,106.8349')->assertOk();
-        $jauh->assertJsonPath('pribadi.jalan_kaki_alternatif', null);
+        $jauh->assertJsonPath('pribadi.0.jalan_kaki_alternatif', null);
+    }
+
+    public function test_commute_mobil_sampai_3_alternatif(): void
+    {
+        $shape = 'f}uyJgizujE?oh\\?oh\\';
+        Http::fake([
+            'valhalla1.openstreetmap.de/*' => Http::response(['trip' => [
+                'summary' => ['length' => 3.3, 'time' => 600],
+                'legs' => [['shape' => $shape, 'maneuvers' => []]],
+            ], 'alternates' => [
+                ['trip' => ['summary' => ['length' => 4.0, 'time' => 650], 'legs' => [['shape' => $shape, 'maneuvers' => []]]]],
+                ['trip' => ['summary' => ['length' => 4.5, 'time' => 700], 'legs' => [['shape' => $shape, 'maneuvers' => []]]]],
+            ]]),
+            'api.commute.shiorilabs.id/*' => Http::response(['data' => []], 404),
+        ]);
+
+        $r = $this->getJson('/api/commute?dari=-6.2049,106.8049&ke=-6.2049,106.8349')->assertOk();
+
+        $r->assertJsonCount(3, 'pribadi');
+        $this->assertSame([3.3, 4, 4.5], array_column($r->json('pribadi'), 'jarak_km'));
+    }
+
+    public function test_commute_publik_array_terurut_dari_tercepat(): void
+    {
+        $this->palsukanLayananLuar();
+
+        $r = $this->getJson('/api/commute?dari=-6.2049,106.8049&ke=-6.2049,106.8349')->assertOk();
+
+        $menit = array_column($r->json('publik'), 'waktu_menit');
+        $this->assertNotEmpty($menit);
+        $this->assertLessThanOrEqual(3, count($menit));
+        $this->assertSame($menit, collect($menit)->sort()->values()->all(), 'publik harus terurut dari waktu tempuh tercepat.');
     }
 
     public function test_commute_hindari_ganjil_genap(): void
@@ -306,13 +338,13 @@ class ApiTest extends TestCase
 
         $this->getJson('/api/commute?dari=-6.2049,106.8049&ke=-6.2049,106.8349')
             ->assertOk()
-            ->assertJsonPath('pribadi.ganjil_genap', ['hindari' => false, 'ruas' => ['Jl. Uji']]);
+            ->assertJsonPath('pribadi.0.ganjil_genap', ['hindari' => false, 'ruas' => ['Jl. Uji']]);
         Http::assertNotSent(fn (PermintaanHttp $q) => isset($q['exclude_polygons']));
 
         // Server palsu selalu memberi rute yang sama, jadi ruas tetap dilaporkan tidak bisa dihindari.
         $this->getJson('/api/commute?dari=-6.2049,106.8049&ke=-6.2049,106.8349&gg=1')
             ->assertOk()
-            ->assertJsonPath('pribadi.ganjil_genap', ['hindari' => true, 'ruas' => ['Jl. Uji']]);
+            ->assertJsonPath('pribadi.0.ganjil_genap', ['hindari' => true, 'ruas' => ['Jl. Uji']]);
         Http::assertSent(fn (PermintaanHttp $q) => str_ends_with($q->url(), '/route') && count($q['exclude_polygons'] ?? []) === 1
             && count($q['exclude_polygons'][0]) === 3);
     }

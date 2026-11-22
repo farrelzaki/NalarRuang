@@ -135,7 +135,7 @@ input { font: inherit; }
 .nr-route__field { flex: 1; min-width: 0; display: flex; align-items: center; gap: 8px; padding: 6px 0 6.8px; border-bottom: 0.8px solid var(--line); }
 .nr-route__input { flex: 1; min-width: 0; border: 0; background: transparent; padding: 0; font: 400 12px/16px var(--font-sans); color: var(--navy-900); outline: none; }
 .nr-route__input::placeholder { color: var(--ink-40); }
-.nr-route__modes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding-top: 8px; }
+.nr-route__modes { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; padding-top: 8px; }
 .nr-mode { min-height: 96px; padding: 11.8px; background: var(--slate-50); border: 1px solid var(--line); border-radius: var(--radius-none); text-align: left; display: flex; flex-direction: column; gap: 2px; }
 .nr-mode[aria-pressed="true"] { border: 1.5px solid var(--navy-900); padding: 11.3px; }
 .nr-mode__label { display: flex; align-items: center; gap: 6px; font: 700 9px/13.5px var(--font-sans); letter-spacing: 0.9px; text-transform: uppercase; color: var(--ink-60); margin-bottom: 4px; }
@@ -144,6 +144,13 @@ input { font: inherit; }
 .nr-mode__cost { font: 500 10px/15px var(--font-sans); color: var(--ink-70); font-variant-numeric: tabular-nums; }
 .nr-mode__na { font: 700 11px/16px var(--font-sans); color: var(--amber-600); }
 .nr-route__foot { margin: 0; font: 400 10px/16.25px var(--font-sans); color: var(--ink-50); }
+/* Rute alternatif (maks 3 per moda, ala Google Maps) */
+.nr-route__alt { display: flex; flex-direction: column; gap: 6px; padding-top: 8px; }
+.nr-route__altitem { display: flex; align-items: baseline; gap: 8px; padding: 8px 10px; background: var(--white); border: 1px solid var(--line); border-radius: var(--radius-md); text-align: left; cursor: pointer; }
+.nr-route__altitem--aktif { border: 1.5px solid var(--navy-900); background: var(--slate-50); }
+.nr-route__alt-label { flex: 1; font: 600 11px/16px var(--font-sans); color: var(--ink-60); }
+.nr-route__alt-menit { font: 700 12px/18px var(--font-sans); color: var(--navy-900); font-variant-numeric: tabular-nums; }
+.nr-route__alt-biaya { font: 500 11px/16px var(--font-sans); color: var(--ink-70); font-variant-numeric: tabular-nums; }
 
 /* Panel kanan: Layer Spasial dan Profil Persona */
 .nr-rpanel { width: 340.4px; max-width: 100%; border-radius: var(--radius-lg); box-shadow: var(--shadow-2xl); overflow: hidden; background: var(--white); border: 1px solid var(--line); }

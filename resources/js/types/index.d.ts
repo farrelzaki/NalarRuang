@@ -110,26 +110,34 @@ export type LangkahRute =
     | { tipe: 'naik'; moda: string; jenis: string; lin: string; dari: string; ke: string; henti: number; menit: number; meter: number; garis?: number | null }
     | { tipe: 'pindah'; di: string; ke: string; menit: number; meter: number };
 
+export type RutePribadi = RuteModa & {
+    geometri: LineString;
+    biaya_bbm?: number;
+    biaya_tol?: number;
+    lewat_tol?: boolean;
+    ganjil_genap?: { hindari: boolean; ruas: string[] };
+    /** Titik dekat garis lurus tapi rute mobil memutar jauh (kemungkinan hanya terjangkau lewat gang): tawaran jalan kaki langsung. */
+    jalan_kaki_alternatif?: { menit: number; meter: number } | null;
+};
+
+export type RutePublik = RuteModa & {
+    rincian: string;
+    biaya_transum?: number;
+    biaya_ojol?: number;
+    langkah?: LangkahRute[];
+    stasiun: { nama: string; lat: number; lng: number }[];
+    geometri: { jalan_kaki: LineString[]; ojol?: LineString[]; rel: LineString | MultiLineString };
+};
+
+/** Maks 3 rute, terurut dari yang terbaik (tercepat/termurah), ala Google Maps. */
 export type CommuteResponse = {
-    pribadi: (RuteModa & {
-        geometri: LineString;
-        biaya_bbm?: number;
-        biaya_tol?: number;
-        lewat_tol?: boolean;
-        ganjil_genap?: { hindari: boolean; ruas: string[] };
-        /** Titik dekat garis lurus tapi rute mobil memutar jauh (kemungkinan hanya terjangkau lewat gang): tawaran jalan kaki langsung. */
-        jalan_kaki_alternatif?: { menit: number; meter: number } | null;
-    }) | null;
-    publik: (RuteModa & {
-        rincian: string;
-        biaya_transum?: number;
-        biaya_ojol?: number;
-        langkah?: LangkahRute[];
-        stasiun: { nama: string; lat: number; lng: number }[];
-        geometri: { jalan_kaki: LineString[]; ojol?: LineString[]; rel: LineString | MultiLineString };
-    }) | null;
+    pribadi: RutePribadi[] | null;
+    publik: RutePublik[] | null;
     catatan: string;
 };
+
+/** Satu rute pribadi + satu rute publik yang sedang ditampilkan di peta (hasil pilih alternatif). */
+export type RuteTampil = { pribadi: RutePribadi | null; publik: RutePublik | null };
 /** Uji Lahan (FR-23): tipe bangunan yang diestimasi. */
 export type TipeLahan = 'rumah' | 'kos' | 'apartemen';
 
