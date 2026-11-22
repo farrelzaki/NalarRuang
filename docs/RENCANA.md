@@ -172,11 +172,24 @@ Jangan putuskan sendiri; tanyakan ke pemiliknya.
 | TBD-11 | Parsing query teks bebas. Rekomendasi: keyword matching dengan kamus kecil; NLP tidak punya work package. | Tim |
 | **TBD-12** | Fitur listing properti (draf FR-24 di bawah) — perlu persetujuan PM tertulis sebelum dikerjakan. | PM |
 
-### Draf FR-24: Listing Properti (menunggu tinjauan PM tertulis, 22 Nov 2026)
+### Draf FR-24: Listing Properti (menunggu tinjauan PM tertulis, 22–23 Nov 2026)
 
 **Belum disetujui.** Ditulis atas permintaan tim untuk dibahas dengan PM, bukan keputusan final.
-Jangan mulai migration/endpoint sebelum baris ini dihapus dan FR-24 dipindah (oleh PM) ke
-`docs/sumber/SRS.md` seperti pola FR-23 (Uji Lahan).
+FR-24 baru dipindah ke `docs/sumber/SRS.md` (oleh PM) seperti pola FR-23 (Uji Lahan) setelah PM
+benar-benar menyetujui; sampai itu terjadi, endpoint di bawah **tidak termasuk cakupan yang
+dijamin stabil** dan jangan dipakai sebagai acuan integrasi oleh modul lain.
+
+**Status 23 Nov 2026 (Farrel):** prototipe backend sudah dibangun di branch
+`fitur/listing-perumahan-fr24` (migration `listing_perumahan`, `App\Http\Controllers\Api\PerumahanController`,
+rute `POST/GET /api/perumahan*`, `DELETE /api/perumahan/{id}`, tes `tests/Feature/PerumahanTest.php`,
+6/6 lulus) — dibuat untuk didemokan ke PM, **belum ada UI/peta**, dan belum tentu dipertahankan
+bila PM minta arah berbeda. Jawaban sementara (dipilih Farrel, bisa diubah PM) untuk lima pertanyaan
+di bawah: (1) siapa saja boleh upload, kelola lewat `token_kelola` acak (tanpa verifikasi WA/OTP);
+(2) tampil langsung, tanpa moderasi; (3) kedaluwarsa otomatis 90 hari; (4) boleh isi harga, tapi
+indikatif — sistem tidak memproses pembayaran; (5) ya, tabel `listing_perumahan` terpisah dari
+`fitur_peta`/`wilayah`. Cara coba: `php artisan migrate`, lalu `POST /api/perumahan` dengan
+`nama`, `tipe` (`rumah`/`kos`/`apartemen`), `kontak_wa`, `lat`, `lng`, opsional `harga`+`harga_satuan`;
+respons berisi `token_kelola` yang dipakai untuk `DELETE /api/perumahan/{id}`.
 
 **Mengapa ini bukan sekadar tambahan fitur biasa:**
 - SRS Business Rule 4 — *"sistem tidak melakukan pengumpulan data primer"* — penjual yang
@@ -210,8 +223,10 @@ Jangan mulai migration/endpoint sebelum baris ini dihapus dan FR-24 dipindah (ol
 | `GET /api/perumahan/cari` | `bbox` atau `wilayah_id`, opsional `tipe`, `persona[]` (skor seperti titik/wilayah biasa) | `FeatureCollection` listing yang masih berlaku, dengan skor persona seperti titik lain |
 | `DELETE /api/perumahan/{id}` | `token_kelola` | 204, atau 403 bila token salah |
 
-**Yang belum ada di draf ini sama sekali:** skema migration, aturan moderasi, format verifikasi
-kontak, kebijakan retensi/kedaluwarsa, dan bagaimana menyambung ke Top 3/Point Inspector yang ada.
+**Yang masih belum ada sama sekali:** UI (form upload, pin di peta, popup), aturan moderasi
+sungguhan (spam/listing palsu belum ditangani — "tampil langsung" di atas cuma pilihan sementara
+untuk demo), format verifikasi kontak (WA belum diverifikasi, cuma format nomor), dan bagaimana
+menyambung ke Top 3/Point Inspector yang ada (skor persona belum dihitung untuk listing).
 Semua ini sengaja ditunda sampai lima pertanyaan di atas terjawab.
 
 ## 6. Tes
