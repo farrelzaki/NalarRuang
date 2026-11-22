@@ -66,8 +66,12 @@ export class AlatLahan {
         this.gerak = this.gerak.bind(this);
     }
 
-    /** Mulai mode baru dari awal. null = matikan alat dan hapus gambar. */
-    mulai(mode: ModeLahan | null): void {
+    /**
+     * Mulai mode baru dari awal. null = matikan alat dan hapus gambar.
+     * `awal`: bentuk lahan yang sudah ada (peta dibuat ulang setelah tampilan 3D); dipulihkan tanpa memanggil `onUbah`,
+     * jadi lahan di proyek tidak tertimpa kotak baru.
+     */
+    mulai(mode: ModeLahan | null, awal?: Polygon | null): void {
         this.bersihkan();
         this.mode = mode;
         const wadah = this.peta.getContainer();
@@ -78,7 +82,9 @@ export class AlatLahan {
         }
         this.zoomGandaAwal = this.peta.doubleClickZoom.enabled();
         this.peta.doubleClickZoom.disable();
-        if (mode === 'kotak') {
+        if (awal && (awal.coordinates[0]?.length ?? 0) >= 4) {
+            this.pulihkan(awal);
+        } else if (mode === 'kotak') {
             this.kotakAwal();
         } else {
             this.peta.on('click', this.klik);

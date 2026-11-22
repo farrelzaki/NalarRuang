@@ -53,6 +53,10 @@ export type PropsPeta = {
     selesaiLahan?: number;
     /** Kavling/jalan/tapak dari POST /api/lahan. */
     kapasitasLahan?: FeatureCollection | null;
+    /** Bentuk lahan yang sudah ada saat alat gambar dimulai (kembali dari 3D di peta): dipulihkan, bukan kotak baru. Hanya Leaflet. */
+    lahanAwal?: Polygon | null;
+    /** Hasil Uji Lahan sebagai fitur ekstrusi 3D (lib/ekstrusi3d.ts); non-null = tampil 3D di peta. Hanya MapLibre. */
+    ekstrusiLahan?: FeatureCollection | null;
     onLahanBerubah?: (g: Polygon | null, tarik?: boolean) => void;
     /** Bentuk lahan tertahan di batas ukuran maksimum (20 ha); dipakai untuk menampilkan notifikasi. */
     onLahanBatas?: () => void;
@@ -493,7 +497,7 @@ export default function PetaExplorer(props: Props) {
                 () => panggil.current.onLahanBatas?.(),
             );
         }
-        alat.current.mulai(props.alatLahan?.mode ?? null);
+        alat.current.mulai(props.alatLahan?.mode ?? null, props.alatLahan ? props.lahanAwal : null);
         if (!props.alatLahan) {
             alatZona.current?.kosongkan();
             alatAkses.current?.kosongkan();

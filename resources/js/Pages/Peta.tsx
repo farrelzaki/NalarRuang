@@ -17,6 +17,8 @@ import { bacaPersonaSesi, PERSONA, simpanPersonaSesi, SUBFITUR, type IsochroneMo
 import type { ModeKamera, TitikPeta } from '@/Map/PetaExplorer';
 import PetaPilihan, { type MesinPeta } from '@/Map/PetaPilihan';
 import { luasPoligonM2, teksLuas } from '@/Map/isiPeta';
+import { mapLibreBolehDipakai } from '@/Map/maplibre';
+import { bangunEkstrusi } from '@/lib/ekstrusi3d';
 import { BilahAlat, type Alat } from '@/Components/BilahAlat';
 import { Toast, type NadaToast } from '@/Components/Dasar';
 import { PanelFilter, PanelLokasi, PanelTop3, SearchBar, type ModeCari } from '@/Components/Pencarian';
@@ -193,6 +195,11 @@ export default function Peta() {
     const zonaSembunyi = useMemo(() => (zonaLahan ?? []).flatMap((z, i) => (z.sembunyi ? [i] : [])), [zonaLahan]);
     const [tambahAkses, setTambahAkses] = useState<{ jenis: JenisAkses; kunci: number } | null>(null);
     const [tampil3D, setTampil3D] = useState(false);
+    // Hasil Uji Lahan 3D langsung di peta (MapLibre). Kamera sebelumnya diingat supaya kembali ke 2D memulihkannya.
+    const [lahan3DPeta, setLahan3DPeta] = useState(false);
+    const [bisa3DPeta] = useState(mapLibreBolehDipakai);
+    const kameraSebelum3D = useRef<ModeKamera | null>(null);
+    const [layarPenuh, setLayarPenuh] = useState(false);
     const [memuatLahan, setMemuatLahan] = useState(false);
     const [galatLahan, setGalatLahan] = useState<string | null>(null);
     /** True bila perubahan terakhir datang dari menggambar/menarik lahan (dikirim tanpa jeda). */
@@ -648,8 +655,23 @@ export default function Peta() {
 
     useEffect(() => batalLahan, []);
 
+    const keluar3DPeta = () => {
+        setLahan3DPeta(false);
+        if (kameraSebelum3D.current) {
+            setModeKamera(kameraSebelum3D.current);
+            kameraSebelum3D.current = null;
+        }
+    };
+    const masuk3DPeta = () => {
+        if (!hasilLahan || !geomLahan) return;
+        kameraSebelum3D.current = modeKamera;
+        setModeKamera('miring');
+        setLahan3DPeta(true);
+    };
+
     const resetLahan = () => {
         batalLahan();
+        keluar3DPeta();
         setAlatLahan(null);
         setHasilLahan(null);
         setGalatLahan(null);
@@ -664,6 +686,7 @@ export default function Peta() {
 
     const mulaiLahan = (mode: ModeGambar) => {
         batalLahan();
+        keluar3DPeta();
         // Gambar ulang: lahan, zona, dan akses dikosongkan; tipe, asumsi, dan pola dipertahankan.
         proyekLahan.mulaiBaru({ ...proyekLahan.snap, geom: null, zona: null, akses: [] });
         setPulihLahan(null);
@@ -681,6 +704,10 @@ export default function Peta() {
      */
     const tambahkanZona = (jenis: JenisZona) => {
         if (!geomLahan) return;
+        if (lahan3DPeta) {
+            kabar(t('Kembali ke 2D dulu untuk menambah zona.', 'Go back to 2D first to add a zone.'), 'warning');
+            return;
+        }
         const luasLahan = hasilLahan?.luas_m2 ?? luasM2(geomLahan.coordinates[0].map(([lng, lat]) => ({ lat, lng })));
         const parkir = hasilLahan?.kapasitas?.parkir;
         const kebutuhan = kebutuhanLuas(jenis, {
@@ -824,6 +851,27 @@ export default function Peta() {
         setMenunggu(null);
     };
 
+    // Tampilan 3D di peta hanya berlaku selama panel Uji Lahan terbuka.
+    useEffect(() => {
+        if (panelKiri !== 'lahan' && lahan3DPeta) keluar3DPeta();
+    }, [panelKiri]);
+    const ekstrusiLahan = useMemo(
+        () => (panelKiri === 'lahan' && lahan3DPeta && hasilLahan && geomLahan ? bangunEkstrusi(hasilLahan, geomLahan) : null),
+        [panelKiri, lahan3DPeta, hasilLahan, geomLahan],
+    );
+
+    // Layar penuh: seluruh halaman peta (panel dan bilah ikut), bukan hanya kanvas. Tidak ada di peramban tanpa Fullscreen API (mis. iPhone).
+    useEffect(() => {
+        const ubah = () => setLayarPenuh(!!document.fullscreenElement);
+        document.addEventListener('fullscreenchange', ubah);
+        return () => document.removeEventListener('fullscreenchange', ubah);
+    }, []);
+    const bisaLayarPenuh = typeof document !== 'undefined' && !!document.documentElement.requestFullscreen;
+    const toggleLayarPenuh = () => {
+        const aksi = document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+        aksi.catch(() => kabar(t('Layar penuh tidak bisa dibuka di peramban ini.', 'Full screen is not available in this browser.'), 'warning'));
+    };
+
     const labelPersona = persona.map((p) => PERSONA[p].label).join(' & ') || 'Commuter';
     const mesinWaktuAktif = !!layerAktif.mesin_waktu;
     const proyekDiTahun = (layerData.mesin_waktu?.features ?? []).filter((f) => !f.properties?.tahun || f.properties.tahun <= tahun).length;
@@ -842,8 +890,17 @@ export default function Peta() {
                     </Suspense>
                 )}
                 <PetaPilihan
-                    // Uji Lahan (FR-23) hanya ada di Leaflet: selama panelnya terbuka peta memakai Leaflet.
-                    paksaLeaflet={panelKiri === 'lahan'}
+                    // Menggambar dan mengedit Uji Lahan (FR-23) hanya ada di Leaflet: selama panelnya terbuka peta memakai Leaflet,
+                    // kecuali saat hasilnya dilihat 3D di peta (MapLibre).
+                    paksaLeaflet={panelKiri === 'lahan' && !(lahan3DPeta && bisa3DPeta)}
+                    onMapLibreGagal={() => {
+                        if (lahan3DPeta) {
+                            keluar3DPeta();
+                            kabar(t('Peta 3D tidak bisa dimuat. Kembali ke tampilan 2D.', 'The 3D map could not be loaded. Back to the 2D view.'), 'warning');
+                        }
+                    }}
+                    lahanAwal={panelKiri === 'lahan' ? geomLahan : null}
+                    ekstrusiLahan={ekstrusiLahan}
                     className="nr-app__peta"
                     layer={layerTampil}
                     aktif={layerAktif}
@@ -1032,7 +1089,11 @@ export default function Peta() {
                             }}
                             akses={aksesLahan}
                             onAkses={setAksesLahan}
-                            onTambahAkses={(jenis) => setTambahAkses({ jenis, kunci: Date.now() })}
+                            onTambahAkses={(jenis) =>
+                                lahan3DPeta
+                                    ? kabar(t('Kembali ke 2D dulu untuk menaruh gerbang atau pintu.', 'Go back to 2D first to place a gate or door.'), 'warning')
+                                    : setTambahAkses({ jenis, kunci: Date.now() })
+                            }
                             on3D={() => setTampil3D(true)}
                             asumsi={asumsiLahan}
                             onAsumsi={setAsumsiLahan}
@@ -1127,6 +1188,8 @@ export default function Peta() {
                         onModeKamera={gantiKamera}
                         kameraTersedia={mesin === 'maplibre'}
                         onZoom={(arah) => setPerintahZoom({ arah, kunci: Date.now() })}
+                        layarPenuh={bisaLayarPenuh ? { aktif: layarPenuh, onToggle: toggleLayarPenuh } : null}
+                        lahan3D={panelKiri === 'lahan' && bisa3DPeta && hasilLahan && geomLahan ? { aktif: lahan3DPeta, onToggle: lahan3DPeta ? keluar3DPeta : masuk3DPeta } : null}
                         jumlahSudut={sudutArea.length}
                         teksLuas={luasGambar ? teksLuas(luasGambar) : null}
                         memuatArea={memuatArea}
