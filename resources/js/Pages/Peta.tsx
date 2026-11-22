@@ -101,22 +101,19 @@ export default function Peta() {
     const [ruteB, setRuteB] = useState<TitikRute>(null);
     const [menunggu, setMenunggu] = useState<'a' | 'b' | null>(null);
     const [rute, setRute] = useState<CommuteResponse | null>(null);
+    const [ruteMotor, setRuteMotor] = useState<CommuteResponse | null>(null);
     const [memuatRute, setMemuatRute] = useState(false);
     const [moda, setModa] = useState<Moda>('mobil');
     const [lewatTol, setLewatTol] = useState(true);
     const [hargaBbm, setHargaBbm] = useState(10000);
     const [hindariGg, setHindariGg] = useState(false);
-    const [jenisKendaraan, setJenisKendaraan] = useState<'mobil' | 'motor'>('mobil');
     const [konsumsiBbm, setKonsumsiBbm] = useState(12);
 
-    const handleUbahJenisKendaraan = (jenis: 'mobil' | 'motor') => {
-        setJenisKendaraan(jenis);
-        setKonsumsiBbm(jenis === 'motor' ? 40 : 12);
-
-        // Motor wajib NON-TOL
-        if (jenis === 'motor') {
-            setLewatTol(false);
-        }
+    // Mobil dan motor di-fetch paralel agar 3 kotak moda (Mobil/Motor/Transit) tampil sekaligus;
+    // ganti konsumsi BBM bawaan saat beralih moda supaya estimasi liter langsung masuk akal.
+    const ubahModa = (m: Moda) => {
+        setModa(m);
+        setKonsumsiBbm(m === 'motor' ? 40 : 12);
     };
 
     // Bilah alat: Jelajah / Titik / Area, mode kamera, zoom
@@ -498,26 +495,38 @@ export default function Peta() {
         const ctrl = new AbortController();
         setMemuatRute(true);
         setRute(null);
+        setRuteMotor(null);
 
-        // Jika jenis kendaraan adalah motor, paksa lewatTol menjadi false
-        const tolAktif = jenisKendaraan === 'motor' ? false : lewatTol;
-
-        api.rute(ruteA, ruteB, ctrl.signal, tolAktif, hargaBbm, hindariGg, jenisKendaraan)
-            .then((r) => {
-                setRute(r);
-                setModa((m) => (m === 'transit' && r.publik ? 'transit' : r.pribadi ? 'mobil' : 'transit'));
-                if (!r.pribadi && !r.publik) kabar(t('Estimasi tidak tersedia untuk titik ini. Coba titik yang lebih dekat ke jalan.', 'No estimate for this point. Try a point closer to a road.'), 'warning');
+        // Mobil dan motor di-fetch paralel (motor selalu tanpa tol: dilarang di jalan tol Indonesia)
+        // agar kotak Mobil/Motor/Transit tampil bersamaan tanpa menunggu pengguna beralih moda.
+        Promise.all([
+            api.rute(ruteA, ruteB, ctrl.signal, lewatTol, hargaBbm, hindariGg, 'mobil'),
+            api.rute(ruteA, ruteB, ctrl.signal, false, hargaBbm, hindariGg, 'motor'),
+        ])
+            .then(([rMobil, rMotor]) => {
+                setRute(rMobil);
+                setRuteMotor(rMotor);
+                const publikTersedia = rMobil.publik ?? rMotor.publik;
+                setModa((m) => {
+                    if (m === 'transit' && publikTersedia) return 'transit';
+                    if (m === 'motor' && rMotor.pribadi) return 'motor';
+                    if (rMobil.pribadi) return 'mobil';
+                    if (rMotor.pribadi) return 'motor';
+                    return 'transit';
+                });
+                if (!rMobil.pribadi && !rMotor.pribadi && !publikTersedia) kabar(t('Estimasi tidak tersedia untuk titik ini. Coba titik yang lebih dekat ke jalan.', 'No estimate for this point. Try a point closer to a road.'), 'warning');
             })
             .catch((e) => e.name !== 'AbortError' && kabar(t('Estimasi tidak tersedia. Coba lagi sebentar.', 'Estimate unavailable. Please try again shortly.'), 'danger'))
             .finally(() => setMemuatRute(false));
 
         return () => ctrl.abort();
-    }, [ruteA?.lat, ruteA?.lng, ruteB?.lat, ruteB?.lng, lewatTol, hargaBbm, hindariGg, jenisKendaraan]);
+    }, [ruteA?.lat, ruteA?.lng, ruteB?.lat, ruteB?.lng, lewatTol, hargaBbm, hindariGg]);
 
     const resetRute = () => {
         setRuteA(null);
         setRuteB(null);
         setRute(null);
+        setRuteMotor(null);
         setMenunggu('a');
     };
 
@@ -526,6 +535,7 @@ export default function Peta() {
             setPanelKiri(null);
             setMenunggu(null);
             setRute(null);
+            setRuteMotor(null);
             setRuteA(null);
             setRuteB(null);
         } else {
@@ -628,6 +638,7 @@ export default function Peta() {
         }
         if (panelKiri === 'rute') {
             setRute(null);
+            setRuteMotor(null);
             setRuteA(null);
             setRuteB(null);
             setMenunggu(null);
@@ -681,6 +692,7 @@ export default function Peta() {
         setTop3Aktif(null);
         if (panelKiri === 'rute') {
             setRute(null);
+            setRuteMotor(null);
             setRuteA(null);
             setRuteB(null);
             setMenunggu(null);
@@ -704,6 +716,7 @@ export default function Peta() {
         setTop3Aktif(null);
         setKueri('');
         setRute(null);
+        setRuteMotor(null);
         setRuteA(null);
         setRuteB(null);
         setMenunggu(null);
@@ -742,7 +755,7 @@ export default function Peta() {
                     modeKamera={modeKamera}
                     perintahZoom={perintahZoom}
                     onMesin={setMesin}
-                    rute={panelKiri === 'rute' ? rute : null}
+                    rute={panelKiri === 'rute' ? (moda === 'motor' ? ruteMotor : rute) : null}
                     ruteA={panelKiri === 'rute' ? ruteA : null}
                     ruteB={panelKiri === 'rute' ? ruteB : null}
                     moda={moda}
@@ -890,12 +903,11 @@ export default function Peta() {
                             a={ruteA}
                             b={ruteB}
                             menunggu={menunggu}
-                            hasil={rute}
+                            hasilMobil={rute}
+                            hasilMotor={ruteMotor}
                             memuat={memuatRute}
                             moda={moda}
-                            onModa={setModa}
-                            jenisKendaraan={jenisKendaraan}
-                            onUbahJenisKendaraan={handleUbahJenisKendaraan}
+                            onModa={ubahModa}
                             konsumsiBbm={konsumsiBbm}
                             onUbahKonsumsiBbm={setKonsumsiBbm}
                             lewatTol={lewatTol}

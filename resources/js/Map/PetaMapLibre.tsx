@@ -672,7 +672,7 @@ export default function PetaMapLibre(props: Props) {
             );
         }
         if (r?.pribadi) {
-            const kuat = props.moda === 'mobil';
+            const kuat = props.moda === 'mobil' || props.moda === 'motor';
             const tebal = kuat ? 5 : 3.5;
             const op = kuat ? 1 : 0.4;
             garis(r.pribadi.geometri, { peran: 'casing', _tebal: tebal + 3, _opasitas: op });
