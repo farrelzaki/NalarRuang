@@ -6,7 +6,8 @@ Perbarui saat memulai sesi, melewati checkpoint, membuat keputusan penting, mene
 
 ## Metadata
 
-- Terakhir diperbarui: 2026-11-22 (spesifikasi mode Newbie/Pro disepakati; lihat bagian di bawah)
+- Terakhir diperbarui: 2026-11-23 (rute alternatif `/api/commute`, `pribadi`/`publik` jadi array; lihat bagian di bawah)
+- 2026-11-22 (spesifikasi mode Newbie/Pro disepakati; lihat bagian di bawah)
 - 2026-11-21 (gabung `fitur/peta-mapbox` PR #3 dengan `main`: Uji Lahan, isochrone)
 - Mode kerja: `competition`
 - Status sesi: Berjalan — pindah ke akun Claude baru (handoff 11 Nov)
@@ -238,3 +239,22 @@ sesi ini (bukan prioritas tinggi lagi seperti catatan lama di bagian "Belum sele
 - Belum didesain: di mana tepatnya pertanyaan ini muncul relatif ke dialog persona (sebelum/sesudah/
   digabung), dan apakah "isi sistem disesuaikan" untuk Newbie berarti UI disederhanakan juga (sembunyikan
   opsi lanjutan seperti tol/ganjil-genap/BBM) atau hanya tutorialnya yang berbeda.
+
+## Rute alternatif maks 3, ala Google Maps (23 Nov 2026)
+
+Ide PM, disetujui Farrel/Adzkia/Nur'Afia secara lisan dalam sesi ini. `/api/commute` `pribadi`/`publik`
+sekarang array (maks 3, terurut terbaik dulu) — **perubahan kontrak yang tidak aditif**, lihat
+`docs/SISTEM.md` bagian 2 untuk detail lengkap. Frontend (`SimulatorRute.tsx`, `Pages/Peta.tsx`,
+`types/index.d.ts`) sudah disesuaikan dalam commit yang sama; `Map/` dipisah lewat tipe baru `RuteTampil`
+(satu rute terpilih) jadi tidak perlu tahu soal array.
+
+- Kotak Mobil/Motor/Transit tetap menampilkan rute **terbaik** (indeks 0); daftar alternatif muncul di
+  bawah kotak moda yang aktif, hanya bila moda itu punya > 1 pilihan.
+- Mobil: Valhalla `alternates: 2` (OSRM `alternatives=true` sebagai cadangan). Hanya rute pertama yang
+  diproses hindari-ganjil-genap (T-024); alternatif dilaporkan apa adanya.
+- Umum: 3 kombinasi stasiun/halte naik-turun terbaik (bukan hanya satu), diurutkan dari total menit
+  (jalan kaki + perjalanan) tercepat.
+- Tes baru: `test_commute_mobil_sampai_3_alternatif`, `test_commute_publik_array_terurut_dari_tercepat`
+  di `tests/Feature/ApiTest.php`. Test lama diperbarui ke path `pribadi.0.*`/`publik.0.*`.
+- Belum diuji manual di browser (agen tidak bisa menjalankan `npm run dev` + klik peta): cek tampilan
+  daftar alternatif di Simulator Rute dan pastikan highlight peta ikut berubah saat alternatif dipilih.

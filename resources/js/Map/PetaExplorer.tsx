@@ -5,7 +5,7 @@
 import { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import type { Feature, FeatureCollection, Geometry, LineString, MultiPolygon, Point, Polygon } from 'geojson';
-import type { AksesLahanMasuk, AksesLahanProps, CommuteResponse, HasilSearch, JenisAkses, JenisZona, LayerKey, ZonaLahanMasuk, ZonaLahanProps } from '@/types';
+import type { AksesLahanMasuk, AksesLahanProps, HasilSearch, JenisAkses, JenisZona, LayerKey, RuteTampil, ZonaLahanMasuk, ZonaLahanProps } from '@/types';
 import type { Bahasa } from '@/lib/bahasa';
 import * as gaya from './gaya';
 import { simpanTampilan, tampilanTerakhir } from './tampilan';
@@ -29,7 +29,7 @@ export type PropsPeta = {
     wilayahTerpilih: Geometry | null;
     pin: TitikPeta | null;
     isochrone?: FeatureCollection | null;
-    rute: CommuteResponse | null;
+    rute: RuteTampil | null;
     ruteA: TitikPeta | null;
     ruteB: TitikPeta | null;
     moda: 'mobil' | 'motor' | 'transit';

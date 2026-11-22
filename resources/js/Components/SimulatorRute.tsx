@@ -1,6 +1,6 @@
 /** Simulator Rute (8.8, FR-10, FR-11, FR-16). Titik A/B dipilih di peta atau diketik (saran dari /api/lokasi). */
 import { useEffect, useState } from 'react';
-import type { CommuteResponse, LangkahRute, SaranLokasi } from '@/types';
+import type { CommuteResponse, LangkahRute, RutePribadi, RutePublik, SaranLokasi } from '@/types';
 import { api } from '@/lib/api';
 import { teksServer, useBahasa } from '@/lib/bahasa';
 import { cx, rupiah, WARNA_LIN } from '@/lib/nalar';
@@ -19,6 +19,9 @@ type Props = {
     memuat: boolean;
     moda: Moda;
     onModa: (m: Moda) => void;
+    /** Rute alternatif (maks 3 per moda, ala Google Maps): indeks terpilih per moda, 0 = tercepat/terbaik. */
+    altIndex: Record<Moda, number>;
+    onAltIndex: (m: Moda, i: number) => void;
 
     // Konsumsi BBM (bawaan 12 km/L mobil, 40 km/L motor; lihat Pages/Peta.tsx)
     konsumsiBbm?: number;
@@ -45,6 +48,8 @@ export function SimulatorRute({
     memuat,
     moda,
     onModa,
+    altIndex,
+    onAltIndex,
     konsumsiBbm = 12,
     onUbahKonsumsiBbm,
     lewatTol,
@@ -61,8 +66,11 @@ export function SimulatorRute({
     const { t, bahasa } = useBahasa();
     const kedua = !!(a && b);
     const isMotor = moda === 'motor';
-    const aktifPribadi = isMotor ? hasilMotor?.pribadi : hasilMobil?.pribadi;
-    const aktifPublik = hasilMobil?.publik ?? hasilMotor?.publik;
+    const daftarPribadi = isMotor ? hasilMotor?.pribadi : hasilMobil?.pribadi;
+    const daftarPublik = hasilMobil?.publik ?? hasilMotor?.publik;
+    const daftarAktif = moda === 'transit' ? daftarPublik : daftarPribadi;
+    const aktifPribadi = daftarPribadi?.[altIndex[moda] ?? 0];
+    const aktifPublik = daftarPublik?.[altIndex.transit ?? 0];
     const lengkap = kedua && !!(moda === 'transit' ? aktifPublik : aktifPribadi);
 
     const baris = (huruf: 'A' | 'B', titik: TitikRute, kunci: 'a' | 'b') => (
@@ -70,7 +78,8 @@ export function SimulatorRute({
     );
 
     const kotak = (kunci: Moda, ikon: string, label: string) => {
-        const m = kunci === 'mobil' ? hasilMobil?.pribadi : kunci === 'motor' ? hasilMotor?.pribadi : aktifPublik;
+        // Kotak selalu menampilkan rute TERBAIK (indeks 0); alternatif dipilih lewat DaftarAlternatif di bawah.
+        const m = (kunci === 'mobil' ? hasilMobil?.pribadi : kunci === 'motor' ? hasilMotor?.pribadi : daftarPublik)?.[0];
         const kosong = !kedua || (memuat && !m);
         const na = !kosong && !m;
         return (
@@ -140,6 +149,11 @@ export function SimulatorRute({
                 {kotak('transit', 'tram-front', t('Transit', 'Transit'))}
             </div>
 
+            {/* RUTE ALTERNATIF moda aktif (maks 3, ala Google Maps); hanya tampil bila ada >1 pilihan */}
+            {lengkap && daftarAktif && daftarAktif.length > 1 && (
+                <DaftarAlternatif daftar={daftarAktif} terpilih={altIndex[moda] ?? 0} onPilih={(i) => onAltIndex(moda, i)} />
+            )}
+
             {/* OPSI JALAN TOL (HANYA MUNCUL PADA MOBIL; MOTOR DILARANG LEWAT TOL DI INDONESIA) */}
             {lengkap && moda === 'mobil' && (
                 <div className="nr-route__opsi">
@@ -184,6 +198,30 @@ export function SimulatorRute({
                 </p>
             )}
         </section>
+    );
+}
+
+/** Daftar rute alternatif moda yang sedang aktif (maks 3, terurut dari terbaik), ala kartu rute Google Maps. */
+function DaftarAlternatif({ daftar, terpilih, onPilih }: { daftar: (RutePribadi | RutePublik)[]; terpilih: number; onPilih: (i: number) => void }) {
+    const { t } = useBahasa();
+    return (
+        <div className="nr-route__alt" role="group" aria-label={t('Rute alternatif', 'Alternative routes')}>
+            {daftar.map((r, i) => (
+                <button
+                    key={i}
+                    type="button"
+                    className={cx('nr-route__altitem', i === terpilih && 'nr-route__altitem--aktif')}
+                    aria-pressed={i === terpilih}
+                    onClick={() => onPilih(i)}
+                >
+                    <span className="nr-route__alt-label">{i === 0 ? t('Tercepat', 'Fastest') : t(`Alternatif ${i}`, `Alternative ${i}`)}</span>
+                    <span className="nr-route__alt-menit">
+                        {r.waktu_menit} {t('mnt', 'min')}
+                    </span>
+                    <span className="nr-route__alt-biaya">{rupiah(r.biaya)}</span>
+                </button>
+            ))}
+        </div>
     );
 }
 

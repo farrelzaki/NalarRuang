@@ -108,6 +108,8 @@ export default function Peta() {
     const [hargaBbm, setHargaBbm] = useState(10000);
     const [hindariGg, setHindariGg] = useState(false);
     const [konsumsiBbm, setKonsumsiBbm] = useState(12);
+    // Indeks rute alternatif terpilih per moda (0 = tercepat/terbaik; maks 3 per moda, ala Google Maps).
+    const [altIndex, setAltIndex] = useState<Record<Moda, number>>({ mobil: 0, motor: 0, transit: 0 });
 
     // Mobil dan motor di-fetch paralel agar 3 kotak moda (Mobil/Motor/Transit) tampil sekaligus;
     // ganti konsumsi BBM bawaan saat beralih moda supaya estimasi liter langsung masuk akal.
@@ -506,6 +508,7 @@ export default function Peta() {
             .then(([rMobil, rMotor]) => {
                 setRute(rMobil);
                 setRuteMotor(rMotor);
+                setAltIndex({ mobil: 0, motor: 0, transit: 0 });
                 const publikTersedia = rMobil.publik ?? rMotor.publik;
                 setModa((m) => {
                     if (m === 'transit' && publikTersedia) return 'transit';
@@ -755,7 +758,14 @@ export default function Peta() {
                     modeKamera={modeKamera}
                     perintahZoom={perintahZoom}
                     onMesin={setMesin}
-                    rute={panelKiri === 'rute' ? (moda === 'motor' ? ruteMotor : rute) : null}
+                    rute={
+                        panelKiri === 'rute'
+                            ? {
+                                  pribadi: (moda === 'motor' ? ruteMotor : rute)?.pribadi?.[altIndex[moda === 'motor' ? 'motor' : 'mobil']] ?? null,
+                                  publik: (rute ?? ruteMotor)?.publik?.[altIndex.transit] ?? null,
+                              }
+                            : null
+                    }
                     ruteA={panelKiri === 'rute' ? ruteA : null}
                     ruteB={panelKiri === 'rute' ? ruteB : null}
                     moda={moda}
@@ -908,6 +918,8 @@ export default function Peta() {
                             memuat={memuatRute}
                             moda={moda}
                             onModa={ubahModa}
+                            altIndex={altIndex}
+                            onAltIndex={(m, i) => setAltIndex((x) => ({ ...x, [m]: i }))}
                             konsumsiBbm={konsumsiBbm}
                             onUbahKonsumsiBbm={setKonsumsiBbm}
                             lewatTol={lewatTol}
