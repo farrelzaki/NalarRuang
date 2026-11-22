@@ -491,6 +491,9 @@ function didalam(t: L.LatLng, poli: L.LatLng[]): boolean {
  * (warnanya bertransisi), isi baru muncul memudar, isi yang tidak ada lagi memudar hilang. Selama lahan ditarik,
  * lapisan dipotong ke batas lahan dan unit/kavling yang keluar batas langsung memudar.
  */
+/** Label ringkasan di atas tepi utara lahan (di atas pegangan tengah tepi). */
+const OPSI_LABEL: L.TooltipOptions = { permanent: true, direction: 'top', offset: [0, -14], className: 'nr-lahan-label' };
+
 export class LapisanKapasitas {
     private peta: L.Map;
     private grup: L.LayerGroup;
@@ -556,16 +559,17 @@ export class LapisanKapasitas {
                 cocok.layer.getElement()?.classList.remove('nr-isi-luar', 'nr-isi-hilang');
                 if (teks) {
                     if (cocok.layer.getTooltip()) cocok.layer.setTooltipContent(teks);
-                    else cocok.layer.bindTooltip(teks, { permanent: true, direction: 'center', className: 'nr-lahan-label' });
-                    cocok.layer.getTooltip()?.setLatLng(cocok.layer.getBounds().getCenter());
+                    else cocok.layer.bindTooltip(teks, OPSI_LABEL);
+                    cocok.layer.getTooltip()?.setLatLng(this.posisiLabel(cocok.layer));
                 } else if (cocok.layer.getTooltip()) {
                     cocok.layer.unbindTooltip();
                 }
                 baru.push({ ...cocok, tipe, pusat: u.pusat, luas: u.luas, zona });
             } else {
                 const layer = L.polygon(latLngsDari(f.geometry), { ...gaya, pane: 'nrLahanIsi', interactive: false });
-                if (teks) layer.bindTooltip(teks, { permanent: true, direction: 'center', className: 'nr-lahan-label' });
+                if (teks) layer.bindTooltip(teks, OPSI_LABEL);
                 layer.addTo(this.grup);
+                layer.getTooltip()?.setLatLng(this.posisiLabel(layer));
                 layer.getElement()?.classList.add(SATUAN_ISI.has(jenis) ? 'nr-isi-muncul' : 'nr-isi-pudar-masuk');
                 baru.push({ layer, jenis, tipe, pusat: u.pusat, luas: u.luas, zona });
             }
@@ -605,11 +609,22 @@ export class LapisanKapasitas {
         this.saring(this.batas);
     }
 
+    /**
+     * Label ringkasan ("N lantai · M kamar") ditaruh di luar tepi atas lahan supaya tidak menutupi denah; tanpa batas lahan,
+     * di tengah bentuknya.
+     */
+    private posisiLabel(layer: L.Polygon): L.LatLng {
+        if (!this.batas) return layer.getBounds().getCenter();
+        const b = L.latLngBounds(this.batas);
+        return L.latLng(b.getNorth(), b.getCenter().lng);
+    }
+
     /** Batas lahan saat ini (atau null). Dipotong ke batas ini dan unit/kavling yang keluar batas dipudarkan. */
     saring(batas: L.LatLng[] | null): void {
         this.batas = batas && batas.length >= 3 ? batas.map((t) => L.latLng(t.lat, t.lng)) : null;
         this.pasangPotong();
         for (const it of this.item) {
+            it.layer.getTooltip()?.setLatLng(this.posisiLabel(it.layer));
             const el = it.layer.getElement();
             if (!el) continue;
             const zona = it.zona !== null ? this.zonaTarik.get(it.zona) : undefined;

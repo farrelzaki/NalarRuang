@@ -78,7 +78,7 @@ function ikon(jenis: JenisAkses, teks: TeksAkses): L.DivIcon {
         className: `nr-akses nr-akses--${jenis}`,
         iconSize: null as unknown as L.PointExpression,
         iconAnchor: [0, 0],
-        html: `<span class="nr-akses__isi"><span class="nr-akses__titik"></span><span class="nr-akses__label">${teks.label[jenis]}</span><button type="button" class="nr-akses__hapus" data-hapus title="${teks.hapus}" aria-label="${teks.hapus}">×</button></span>`,
+        html: `<span class="nr-akses__isi" title="${teks.label[jenis]}"><span class="nr-akses__titik"></span><span class="nr-akses__label">${teks.label[jenis]}</span><button type="button" class="nr-akses__hapus" data-hapus title="${teks.hapus}" aria-label="${teks.hapus}">×</button></span>`,
     });
 }
 

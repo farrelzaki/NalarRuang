@@ -86,7 +86,8 @@ function ikonGeser(jenis: JenisZona, label: string, judulHapus: string, kunci: b
         // Ukuran mengikuti isi (CSS); jangkar di tengah lewat transform di CSS.
         iconSize: null as unknown as L.PointExpression,
         iconAnchor: [0, 0],
-        html: `<span class="nr-zona-geser__isi"><span class="nr-zona-geser__label">${esc(label)}</span>${aksi}</span>`,
+        // Ringkas: titik berwarna; nama dan tombol hapus muncul saat kursor di atasnya atau zona dipilih di panel layer.
+        html: `<span class="nr-zona-geser__isi" title="${esc(label)}"><span class="nr-zona-geser__label">${esc(label)}</span>${aksi}</span>`,
     });
 }
 

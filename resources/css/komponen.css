@@ -703,6 +703,15 @@ input { font: inherit; }
 .nr-zona-geser--larangan .nr-zona-geser__isi { background: #dc2626; }
 .nr-zona-geser__hapus { display: grid; place-items: center; width: 16px; height: 16px; padding: 0; border: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.25); color: inherit; font: 700 12px/1 var(--font-sans); cursor: pointer; }
 .nr-zona-geser__hapus:hover { background: rgba(255, 255, 255, 0.45); }
+/* Pegangan ringkas supaya denah tidak tertutup: hanya titik berwarna, nama + hapus saat disorot/dipilih (atau di layar sentuh). */
+@media (hover: hover) {
+    .nr-zona-geser:not(:hover):not(.nr-zona-geser--sorot) .nr-zona-geser__isi,
+    .nr-akses:not(:hover) .nr-akses__isi { width: 14px; height: 14px; padding: 0; gap: 0; border: 2px solid var(--white); }
+    .nr-zona-geser:not(:hover):not(.nr-zona-geser--sorot) .nr-zona-geser__isi > :not(.nr-zona-geser__kunci),
+    .nr-akses:not(:hover) .nr-akses__label, .nr-akses:not(:hover) .nr-akses__hapus, .nr-akses:not(:hover) .nr-akses__titik { display: none; }
+    .nr-zona-geser:not(:hover):not(.nr-zona-geser--sorot) .nr-zona-geser__kunci { display: none; }
+    .nr-zona-geser:hover, .nr-akses:hover { z-index: 1000 !important; }
+}
 
 .nr-3d { position: absolute; right: 16px; bottom: 16px; z-index: 1100; display: flex; flex-direction: column; width: min(560px, calc(100% - 32px)); height: min(420px, 60vh); border-radius: var(--radius-md); background: var(--white); box-shadow: var(--shadow-lg); overflow: hidden; border: 1px solid var(--line); }
 .nr-3d--muat { display: grid; place-items: center; font: 500 13px/18px var(--font-sans); color: var(--navy-900); }
