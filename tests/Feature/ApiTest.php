@@ -266,6 +266,22 @@ class ApiTest extends TestCase
         $this->getJson('/api/commute?dari=-6.2,106.8&ke=-6.2,106.83&bbm=100')->assertStatus(422);
     }
 
+    public function test_commute_motor_memakai_costing_motorcycle_dan_tanpa_tol(): void
+    {
+        $this->palsukanLayananLuar();
+
+        $r = $this->getJson('/api/commute?dari=-6.2049,106.8049&ke=-6.2049,106.8349&kendaraan=motor&tol=1')->assertOk();
+
+        Http::assertSent(fn (PermintaanHttp $q) => str_ends_with($q->url(), '/route')
+            && $q['costing'] === 'motorcycle'
+            && ($q['costing_options']['motorcycle']['use_tolls'] ?? null) === 0.0
+            && ($q['costing_options']['motorcycle']['use_highways'] ?? null) === 0.0);
+        // Parameter tol=1 diabaikan untuk motor (tidak boleh lewat tol di Indonesia).
+        $this->assertFalse($r->json('pribadi.lewat_tol'));
+        // Konsumsi motor 40 km/liter (bukan 12 km/liter mobil): 3,3 km / 40 * Rp10.000, dibulatkan ke ratusan.
+        $this->assertSame(800, $r->json('pribadi.biaya_bbm'));
+    }
+
     public function test_commute_hindari_ganjil_genap(): void
     {
         $this->palsukanLayananLuar();

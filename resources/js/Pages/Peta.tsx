@@ -502,7 +502,7 @@ export default function Peta() {
         // Jika jenis kendaraan adalah motor, paksa lewatTol menjadi false
         const tolAktif = jenisKendaraan === 'motor' ? false : lewatTol;
 
-        api.rute(ruteA, ruteB, ctrl.signal, tolAktif, hargaBbm, hindariGg)
+        api.rute(ruteA, ruteB, ctrl.signal, tolAktif, hargaBbm, hindariGg, jenisKendaraan)
             .then((r) => {
                 setRute(r);
                 setModa((m) => (m === 'transit' && r.publik ? 'transit' : r.pribadi ? 'mobil' : 'transit'));
