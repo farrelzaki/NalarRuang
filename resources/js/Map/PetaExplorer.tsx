@@ -4,7 +4,7 @@
  */
 import { useEffect, useRef } from 'react';
 import L from 'leaflet';
-import type { Feature, FeatureCollection, Geometry, LineString, MultiPolygon, Point, Polygon } from 'geojson';
+import type { Feature, FeatureCollection, Geometry, MultiPolygon, Point, Polygon } from 'geojson';
 import type { AksesLahanMasuk, AksesLahanProps, CommuteResponse, HasilSearch, JenisAkses, JenisZona, LayerKey, ZonaLahan, ZonaLahanProps } from '@/types';
 import type { Bahasa } from '@/lib/bahasa';
 import * as gaya from './gaya';

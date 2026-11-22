@@ -6,7 +6,7 @@
 import { Head, Link } from '@inertiajs/react';
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { FeatureCollection, Geometry, Polygon } from 'geojson';
-import type { AksesLahanMasuk, AsumsiLahan, CommuteResponse, JenisAkses, JenisZona, LahanRequest, PolaLahan, ZonaLahanMasuk, HasilSearch, InspectResponse, LahanResponse, LayerKey, LayerResponse, Persona, SaranLokasi, TipeLahan } from '@/types';
+import type { CommuteResponse, JenisAkses, JenisZona, LahanRequest, HasilSearch, InspectResponse, LahanResponse, LayerKey, LayerResponse, Persona, SaranLokasi } from '@/types';
 import { api } from '@/lib/api';
 import { useProyekLahan } from '@/lib/proyekLahan';
 import { buatUid, dariServer, keZonaApi, rapikan } from '@/lib/layerLahan';
@@ -156,9 +156,7 @@ export default function Peta() {
         kunciUkuran: kunciUkuranLahan,
         laranganBanjir: laranganBanjirLahan,
         setGeom: setGeomLahan,
-        setTipe: setTipeLahan,
         setAsumsi: setAsumsiLahan,
-        setPola: setPolaLahan,
         setZona: setZonaLahan,
         setAkses: setAksesLahan,
     } = proyekLahan;

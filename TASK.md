@@ -82,6 +82,19 @@ akses ke jalan lingkungan/parkir dan memindahkan parkir bawaan ke sisinya, pintu
 - [x] `php artisan test --filter=Lahan` dan `npm run typecheck` lulus (21 Nov 2026).
 - [ ] Uji manual: tambah/geser/hapus gerbang dan pintu, isi ikut berubah, tampil di 3D.
 
+Tahap 4 (22 Nov 2026, revisi "ala TestFit", permintaan Galih; dikerjakan langsung di `main`, Fase 0–9):
+
+- Batas 20 ha dengan notifikasi dan lahan tertahan di batas; undo/redo desain; panel layer ala editor (nama, kunci, sembunyi, urutan, duplikat, sub-layer/masking dengan prioritas); adaptasi antar zona; penempatan pintar zona baru dan isi sisa lahan dengan taman.
+- Target jumlah (kamar/unit/rumah) dengan kunci ukuran; lantai lebih dulu, lalu ukuran unit.
+- 3D langsung di peta (MapLibre) dan layar penuh; unduh model `.glb`, data proyek `.nalarruang.json`, GeoJSON; impor memulihkan lokasi dan bentuk yang sama.
+- Sudut parkir 30–90°, padding dan Max Run, zona larangan bangun (manual dan otomatis dari area banjir InaRISK), simpan dan bandingkan skema, laporan CSV/PDF.
+- Di luar cakupan (SRS): biaya, pro forma, dan harga properti sengaja tidak dibuat.
+- [x] Logika murni di `resources/js/lib/` dites dengan `npm run test:js` (73 tes); `php artisan test` 105 tes; `npm run typecheck` dan `npm run build` lulus (22 Nov 2026).
+- [x] Kontrak `POST /api/lahan` bertambah (semua opsional): `zona[].induk/prioritas`, jenis zona `larangan`, `isi_sisa_taman`, `target`, `larangan_banjir`, asumsi `sudut_parkir/padding_parkir/maks_baris`, properti `otomatis`; terdokumentasi di `docs/SISTEM.md`.
+- [ ] Farrel, Adzkia, dan Nur'Afia diberi tahu soal tambahan kontrak dan berkas peta yang disentuh (`PetaExplorer`, `PetaMapLibre`, `PetaPilihan`, `BilahAlat`).
+- [ ] SRS FR-23 belum disesuaikan dengan Tahap 4 (butuh persetujuan PM; lihat PROJECT_STATE).
+- [ ] Uji manual: layar penuh, dialog cetak PDF, larangan banjir di lahan yang benar-benar rawan, impor lewat dialog berkas.
+
 **Diperbaiki 21 Nov 2026 atas persetujuan Galih** (`ST_Dump` dipindah ke `LATERAL`, kunci cache jadi `isochrone_boundary_v3` agar hasil cadangan lama tidak terpakai; poligon `/expansion` nyata kini terbentuk, `ApiTest` inspect lulus; tes `test_daftar_layer_dan_data_layer` disesuaikan dari 6 ke 8 layer sesuai `LayerController`; suite penuh 76 dari 77 tes lulus, 0 gagal). Catatan asli temuan: di `InspectController::bangunPoligonBatasJalan` query `ST_Union(ST_MakePolygon(ST_ExteriorRing((ST_Dump(geom)).geom)))` ditolak PostgreSQL ("aggregate function calls cannot contain set-returning function calls"; diuji pada PG 17 dengan respons Valhalla `/expansion` nyata). `hitungIsochrone` menelan galatnya dan jatuh ke `/isochrone`, jadi di produksi tampak normal, tetapi penghalusan "garis tepi mengikuti jalan terluar" tidak pernah berjalan. Di tes, galat itu membuat transaksi terhenti dan dua tes `ApiTest` di atas gagal; tes itu juga memanggil Valhalla publik tanpa `Http::fake`.
 
 ### [~] Penyelarasan dokumen dan artifact ke desain final + masukan Izdihar (Tahap A–C)

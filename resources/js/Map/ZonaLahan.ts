@@ -93,13 +93,11 @@ function ikonGeser(jenis: JenisZona, label: string, judulHapus: string, kunci: b
 export type TeksZona = { label: Record<JenisZona, string>; otomatis: string; hapus: string };
 
 export class AlatZona {
-    private peta: L.Map;
     private grup: L.LayerGroup;
     private zona: Zona[] = [];
     private manual = false;
     private poligon: L.Polygon[] = [];
     private terakhirKirim = 0;
-    private tertunda: (() => void) | null = null;
     private onUbah: (zona: ZonaLahan[], tarik: boolean) => void;
     /** uid zona yang disorot dari panel layer (garis lebih tebal). */
     private sorotUid: string | null = null;
@@ -114,7 +112,6 @@ export class AlatZona {
         onTarik: (idServer: number, cincin: L.LatLng[][]) => void,
         teks: TeksZona,
     ) {
-        this.peta = peta;
         this.onUbah = onUbah;
         this.onTarik = onTarik;
         this.teks = teks;
@@ -155,8 +152,8 @@ export class AlatZona {
             }
             this.gambar();
         };
-        if (this.ditarik) this.tertunda = jalankan;
-        else jalankan();
+        // Selama zona ditarik, tampilan dari server dilewati: keadaan di alat ini yang paling baru.
+        if (!this.ditarik) jalankan();
     }
 
     /**
@@ -290,8 +287,6 @@ export class AlatZona {
 
     private akhirTarik(): void {
         this.ditarik = false;
-        // Keadaan di alat ini yang paling baru; tampilan dari server yang tertunda sudah usang.
-        this.tertunda = null;
         this.kirim(false);
         this.gambar();
     }
