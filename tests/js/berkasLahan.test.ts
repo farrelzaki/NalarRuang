@@ -17,6 +17,7 @@ const snap = (tambahan = {}) => ({
     isiSisa: true,
     targetJumlah: 120,
     kunciUkuran: true,
+    laranganBanjir: 2,
     ...tambahan,
 });
 const tulis = (o: unknown) => JSON.stringify(o);
@@ -98,6 +99,25 @@ test('isi yang tidak sah dibersihkan dengan peringatan, bukan membuat impor gaga
     assert.notEqual(r.desain.zona?.[0].uid, r.desain.zona?.[1].uid, 'uid kembar dibedakan');
     assert.equal(r.desain.akses.length, 1);
     assert.ok(r.peringatan.length >= 3);
+});
+
+test('area larangan, pengaturan parkir, dan larangan banjir ikut tersimpan; nilai banjir tak sah menjadi mati', () => {
+    const s = snap({
+        asumsi: { sudut_parkir: 45, padding_parkir: 1.5, maks_baris: 8 },
+        zona: [{ uid: 'l', jenis: 'larangan' as const, geometri: kotak(106.8, -6.2, 0.0003), nama: 'Sempadan sungai' }],
+        laranganBanjir: 3,
+    });
+    const r = bacaBerkas(tulis(bungkusProyek(s, null)));
+    assert.ok(r.ok);
+    if (r.ok) {
+        assert.deepEqual(r.desain, s);
+        assert.equal(r.desain.zona?.[0].jenis, 'larangan');
+    }
+    for (const nilai of [0, 4, 1.5, '2', null]) {
+        const k = bacaBerkas(tulis({ ...bungkusProyek(snap(), null)!, laranganBanjir: nilai }));
+        assert.ok(k.ok);
+        if (k.ok) assert.equal(k.desain.laranganBanjir, null, String(nilai));
+    }
 });
 
 test('rantai induk melingkar dilepas', () => {

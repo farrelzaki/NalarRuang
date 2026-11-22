@@ -140,13 +140,17 @@ export type AsumsiLahan = {
     rasio_parkir?: number;
     /** Kos: slot parkir motor per kamar. */
     rasio_motor?: number;
+    /** Parkir kos/apartemen: sudut slot terhadap lorong (30–90°), jarak slot dari tepi zona parkir (0–3 m), dan Max Run (slot per deret, 0 = tanpa batas). */
+    sudut_parkir?: number;
+    padding_parkir?: number;
+    maks_baris?: number;
 };
 
 /** Pola tata letak (mirip preset TestFit). rumah: grid/cluster; kos: keliling/koridor; apartemen: keliling/wrap/tower. */
 export type PolaLahan = 'grid' | 'cluster' | 'keliling' | 'koridor' | 'wrap' | 'tower';
 
 /** Zona yang bisa ditarik sendiri-sendiri. */
-export type JenisZona = 'bangunan' | 'parkir' | 'taman';
+export type JenisZona = 'bangunan' | 'parkir' | 'taman' | 'larangan';
 
 /** Zona yang dikirim pengguna setelah menariknya; urutan = nomor zona (`id`). */
 export type ZonaLahanMasuk = {
@@ -178,7 +182,8 @@ export type ZonaLahan = {
 };
 
 /** Zona di respons: geometri yang sudah dipotong ke lahan; `lantai` untuk gedung parkir bertingkat. */
-export type ZonaLahanProps = { id: number; jenis: JenisZona; luas_m2: number; lantai?: number };
+/** `otomatis`: area larangan bangun dari area banjir (dihitung server, tidak bisa disunting). */
+export type ZonaLahanProps = { id: number; jenis: JenisZona; luas_m2: number; lantai?: number; otomatis?: boolean };
 
 /** Akses yang ditaruh sendiri: gerbang kendaraan (mobil/motor) di tepi lahan, pintu masuk/keluar gedung di tepi zona bangunan. */
 export type JenisAkses = 'gerbang' | 'pintu';
@@ -224,6 +229,8 @@ export type LahanRequest = {
     akses?: AksesLahanMasuk[];
     /** Sisa lahan di luar semua zona menjadi taman (hanya kos/apartemen dengan zona sendiri). */
     isi_sisa_taman?: boolean;
+    /** Area rawan banjir InaRISK bertingkat >= nilai ini (1–3) menjadi area larangan bangun otomatis. */
+    larangan_banjir?: number;
     /** Target jumlah (kamar/unit/rumah): lantai dan ukuran menyesuaikan. `kunci_ukuran` = ukuran tidak boleh berubah. */
     target?: { jumlah: number; kunci_ukuran?: boolean };
     persona?: Persona[];

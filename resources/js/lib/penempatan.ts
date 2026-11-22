@@ -14,7 +14,7 @@
  */
 import type { Polygon } from 'geojson';
 
-export type JenisZonaPenempatan = 'bangunan' | 'parkir' | 'taman';
+export type JenisZonaPenempatan = 'bangunan' | 'parkir' | 'taman' | 'larangan';
 
 const RAD = Math.PI / 180;
 const R_BUMI = 6_371_008.8;
@@ -221,6 +221,7 @@ const FAKTOR_LORONG = 1.6;
  * Luas yang sebaiknya dipakai zona baru, menurut kebutuhan:
  * - taman: kekurangan KDH bila ada, selain itu 8% lahan;
  * - parkir: kekurangan slot x luas slot x faktor lorong bila ada, selain itu 8% lahan;
+ * - larangan bangun: 6% lahan;
  * - gedung: 15% lahan.
  * Selalu di antara batas bawah dan atas supaya hasilnya masuk akal.
  */
@@ -236,5 +237,6 @@ export function kebutuhanLuas(jenis: JenisZonaPenempatan, k: KonteksKebutuhan): 
         const perlu = (k.slotKurang ?? 0) > 0 ? (k.slotKurang as number) * luasSlot * FAKTOR_LORONG : 0;
         return jepit(perlu > 0 ? perlu : 0.08 * L, 0.03, 0.4);
     }
+    if (jenis === 'larangan') return jepit(0.06 * L, 0.02, 0.3);
     return jepit(0.15 * L, 0.05, 0.5);
 }

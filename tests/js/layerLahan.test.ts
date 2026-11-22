@@ -6,7 +6,7 @@ import {
 } from '../../resources/js/lib/layerLahan.ts';
 
 const kotak = (x: number, y: number, s = 0.001) => ({ type: 'Polygon' as const, coordinates: [[[x, y], [x + s, y], [x + s, y + s], [x, y + s], [x, y]]] });
-const z = (uid: string, jenis: 'bangunan' | 'parkir' | 'taman', tambahan = {}) => ({ uid, jenis, geometri: kotak(106.8, -6.2), ...tambahan });
+const z = (uid: string, jenis: 'bangunan' | 'parkir' | 'taman' | 'larangan', tambahan = {}) => ({ uid, jenis, geometri: kotak(106.8, -6.2), ...tambahan });
 const uids = (daftar: { uid: string }[]) => daftar.map((x) => x.uid);
 
 test('keZonaApi: induk berupa nomor urut, induk hilang dibuang, tanpa data klien', () => {
@@ -95,6 +95,20 @@ test('duplikatZona: disisipkan setelah asli, digeser, tanpa kunci dan sembunyi, 
     assert.equal(d[1].sembunyi, undefined);
     assert.equal(d[1].geometri.coordinates[0][0][0], 106.8002);
     assert.equal(asli[0].geometri.coordinates[0][0][0], 106.8, 'asli tidak berubah');
+});
+
+test('prioritasZona: area larangan selalu menang, bahkan atas zona terkunci dan yang baru ditarik', () => {
+    const d = [z('a', 'bangunan', { kunci: true, tarik: 99 }), z('b', 'larangan'), z('c', 'taman', { tarik: 5 })];
+    const p = prioritasZona(d);
+    assert.equal(p[1], 3, 'larangan = prioritas tertinggi');
+    assert.equal(p[0], 2);
+    assert.deepEqual(keZonaApi(d).map((x) => x.prioritas), p);
+});
+
+test('dariServer: larangan otomatis (banjir) tidak menjadi layer yang bisa disunting', () => {
+    const fitur = (id: number, jenis: string, otomatis?: boolean) => ({ type: 'Feature' as const, properties: { id, jenis, luas_m2: 100, ...(otomatis ? { otomatis } : {}) }, geometry: kotak(106.8, -6.2) });
+    const fc = { type: 'FeatureCollection' as const, features: [fitur(0, 'bangunan'), fitur(1, 'larangan', true)] } as never;
+    assert.deepEqual(uids(dariServer(fc)), ['srv-0']);
 });
 
 test('dariServer: zona bawaan menjadi layer dengan uid srv-id', () => {

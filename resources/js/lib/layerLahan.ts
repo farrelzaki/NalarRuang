@@ -10,7 +10,7 @@ import type { FeatureCollection, MultiPolygon, Polygon } from 'geojson';
 import type { JenisZona, ZonaLahan, ZonaLahanMasuk, ZonaLahanProps } from '@/types';
 
 /** Warna garis dan label tiap jenis zona (dipakai peta dan panel layer). */
-export const WARNA_ZONA: Record<JenisZona, string> = { bangunan: '#3b6fd8', parkir: '#4b5563', taman: '#22a35a' };
+export const WARNA_ZONA: Record<JenisZona, string> = { bangunan: '#3b6fd8', parkir: '#4b5563', taman: '#22a35a', larangan: '#dc2626' };
 
 let hitung = 0;
 
@@ -24,6 +24,8 @@ export function buatUid(): string {
 /** Zona bawaan pola dari server menjadi daftar layer (uid tetap `srv-<id>`), sebelum pengguna mengubahnya. */
 export function dariServer(fc: FeatureCollection<Polygon | MultiPolygon, ZonaLahanProps> | null | undefined): ZonaLahan[] {
     return (fc?.features ?? []).flatMap((f) => {
+        // Larangan otomatis (banjir) dihitung server dari pengaturan, bukan zona yang bisa disunting.
+        if (f.properties.otomatis) return [];
         const g = f.geometry;
         // Zona bawaan selalu Polygon; MultiPolygon (jarang) diambil bagian pertamanya, sama seperti penyunting di peta.
         const koordinat = g.type === 'Polygon' ? g.coordinates : g.coordinates[0];
@@ -58,13 +60,13 @@ export function adalahKeturunan(zona: ZonaLahan[], uid: string, leluhur: string)
 
 /**
  * Prioritas tiap zona saat bertumpuk (angka lebih besar menang, zona lain menyesuaikan diri), searah dengan `zona`:
- * 1) zona terkunci selalu menang, 2) lalu yang terakhir ditarik/ditambah, 3) lalu yang lebih atas di daftar.
+ * 0) area larangan bangun selalu menang, 1) lalu zona terkunci, 2) lalu yang terakhir ditarik/ditambah, 3) lalu yang lebih atas di daftar.
  * Hasilnya 1..n tanpa kembar, sehingga urutannya pasti.
  */
 export function prioritasZona(zona: ZonaLahan[]): number[] {
     const urut = zona
-        .map((z, i) => ({ i, kunci: z.kunci ? 1 : 0, tarik: z.tarik ?? 0 }))
-        .sort((a, b) => b.kunci - a.kunci || b.tarik - a.tarik || a.i - b.i);
+        .map((z, i) => ({ i, larangan: z.jenis === 'larangan' ? 1 : 0, kunci: z.kunci ? 1 : 0, tarik: z.tarik ?? 0 }))
+        .sort((a, b) => b.larangan - a.larangan || b.kunci - a.kunci || b.tarik - a.tarik || a.i - b.i);
     const hasil = new Array<number>(zona.length).fill(0);
     urut.forEach((x, posisi) => {
         hasil[x.i] = zona.length - posisi;

@@ -18,7 +18,7 @@ export { WARNA_ZONA };
 /** Data layer yang ikut zona (nama, kunci, sembunyi, induk); dikirim balik apa adanya saat zona berubah. */
 type MetaZona = Omit<ZonaLahan, 'jenis' | 'geometri'>;
 
-type Zona = { jenis: JenisZona; cincin: L.LatLng[][]; idServer: number; meta: MetaZona };
+type Zona = { jenis: JenisZona; cincin: L.LatLng[][]; idServer: number; meta: MetaZona; /** Larangan otomatis dari area banjir: dihitung server, hanya digambar. */ otomatis?: boolean };
 
 const esc = (t: string): string => t.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c] as string);
 
@@ -90,7 +90,7 @@ function ikonGeser(jenis: JenisZona, label: string, judulHapus: string, kunci: b
     });
 }
 
-export type TeksZona = { label: Record<JenisZona, string>; hapus: string };
+export type TeksZona = { label: Record<JenisZona, string>; otomatis: string; hapus: string };
 
 export class AlatZona {
     private peta: L.Map;
@@ -136,13 +136,20 @@ export class AlatZona {
                     const { jenis, geometri, ...meta } = z;
                     return { jenis, cincin: keLatLng(geometri.coordinates), idServer: i, meta };
                 });
+                // Larangan otomatis (banjir) ada di hasil server saja; digambar tanpa pegangan dan tidak ikut dikirim balik.
+                for (const f of fc?.features ?? []) {
+                    if (!f.properties.otomatis) continue;
+                    const g = f.geometry;
+                    const c = g.type === 'Polygon' ? g.coordinates : g.coordinates[0];
+                    if (c?.length) this.zona.push({ jenis: f.properties.jenis, cincin: keLatLng(c), idServer: f.properties.id, meta: { uid: `otomatis-${f.properties.id}`, nama: this.teks.otomatis }, otomatis: true });
+                }
                 this.manual = true;
             } else {
                 this.zona = (fc?.features ?? []).flatMap((f) => {
                     const g = f.geometry;
                     // Zona bawaan selalu Polygon; MultiPolygon (jarang) diambil bagian pertamanya.
                     const c = g.type === 'Polygon' ? g.coordinates : g.coordinates[0];
-                    return c?.length ? [{ jenis: f.properties.jenis, cincin: keLatLng(c), idServer: f.properties.id, meta: { uid: `srv-${f.properties.id}` } }] : [];
+                    return c?.length ? [{ jenis: f.properties.jenis, cincin: keLatLng(c), idServer: f.properties.id, meta: { uid: `srv-${f.properties.id}`, ...(f.properties.otomatis ? { nama: this.teks.otomatis } : {}) }, ...(f.properties.otomatis ? { otomatis: true } : {}) }] : [];
                 });
                 this.manual = false;
             }
@@ -203,7 +210,7 @@ export class AlatZona {
         this.zona.forEach((z, i) => {
             // Layer disembunyikan dari peta (hitungan tetap memakainya); layer terkunci hanya digambar, tanpa pegangan.
             if (z.meta.sembunyi) return;
-            const kunci = !!z.meta.kunci;
+            const kunci = !!z.meta.kunci || !!z.otomatis;
             const sorot = this.sorotUid === z.meta.uid;
             const warna = WARNA_ZONA[z.jenis];
             const pol = L.polygon(z.cincin, {
@@ -211,8 +218,11 @@ export class AlatZona {
                 interactive: false,
                 color: warna,
                 weight: sorot ? 4 : 2,
-                dashArray: kunci ? undefined : '6 4',
-                fill: false,
+                dashArray: kunci && !z.otomatis ? undefined : '6 4',
+                // Larangan bangun diarsir merah tipis supaya jelas bahwa tidak ada yang dibangun di sana.
+                fill: z.jenis === 'larangan',
+                fillColor: warna,
+                fillOpacity: 0.14,
             }).addTo(this.grup);
             this.poligon[i] = pol;
 
@@ -289,7 +299,7 @@ export class AlatZona {
     private kirim(tarik: boolean): void {
         if (!this.manual) return;
         this.onUbah(
-            this.zona.map((z) => ({ ...z.meta, jenis: z.jenis, geometri: { type: 'Polygon' as const, coordinates: keCincin(z.cincin) } })),
+            this.zona.filter((z) => !z.otomatis).map((z) => ({ ...z.meta, jenis: z.jenis, geometri: { type: 'Polygon' as const, coordinates: keCincin(z.cincin) } })),
             tarik,
         );
     }

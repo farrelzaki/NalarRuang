@@ -31,9 +31,9 @@ const UKURAN_MAKS = 2_000_000;
 
 const TIPE: TipeLahan[] = ['rumah', 'kos', 'apartemen'];
 const POLA: Record<TipeLahan, PolaLahan[]> = { rumah: ['grid', 'cluster'], kos: ['keliling', 'koridor'], apartemen: ['keliling', 'wrap', 'tower'] };
-const JENIS_ZONA: JenisZona[] = ['bangunan', 'parkir', 'taman'];
+const JENIS_ZONA: JenisZona[] = ['bangunan', 'parkir', 'taman', 'larangan'];
 const JENIS_AKSES: JenisAkses[] = ['gerbang', 'pintu'];
-const KUNCI_ASUMSI: (keyof AsumsiLahan)[] = ['lebar_kavling', 'panjang_kavling', 'lebar_jalan', 'luas_kamar', 'porsi_studio', 'porsi_2br', 'sempadan', 'lantai', 'rasio_parkir', 'rasio_motor'];
+const KUNCI_ASUMSI: (keyof AsumsiLahan)[] = ['lebar_kavling', 'panjang_kavling', 'lebar_jalan', 'luas_kamar', 'porsi_studio', 'porsi_2br', 'sempadan', 'lantai', 'rasio_parkir', 'rasio_motor', 'sudut_parkir', 'padding_parkir', 'maks_baris'];
 
 /** Isi berkas proyek. `ringkasan` hanya keterangan untuk dibaca manusia; saat dibuka, hasil dihitung ulang oleh server. */
 export type BerkasProyek = {
@@ -50,6 +50,7 @@ export type BerkasProyek = {
     isiSisa: boolean;
     targetJumlah: number | null;
     kunciUkuran: boolean;
+    laranganBanjir: number | null;
     ringkasan?: { luas_m2: number; wilayah: string; lantai: number; jumlah: number; satuan: string } | null;
 };
 
@@ -104,6 +105,7 @@ export function bungkusProyek(s: SnapLahan, hasil: LahanResponse | null, waktu: 
         isiSisa: s.isiSisa,
         targetJumlah: s.targetJumlah,
         kunciUkuran: s.kunciUkuran,
+        laranganBanjir: s.laranganBanjir,
         ringkasan: hasil ? { luas_m2: hasil.luas_m2, wilayah: hasil.wilayah, lantai: hasil.kapasitas.lantai, jumlah: hasil.kapasitas.jumlah, satuan: hasil.kapasitas.satuan } : null,
     };
 }
@@ -243,6 +245,7 @@ export function bacaBerkas(teks: string): HasilBaca {
                 isiSisa: j.isiSisa === true,
                 targetJumlah: target,
                 kunciUkuran: target !== null && j.kunciUkuran === true,
+                laranganBanjir: j.laranganBanjir === 1 || j.laranganBanjir === 2 || j.laranganBanjir === 3 ? j.laranganBanjir : null,
             },
         };
     }
@@ -259,7 +262,7 @@ export function bacaBerkas(teks: string): HasilBaca {
             ok: true,
             sumber: 'geojson',
             peringatan,
-            desain: { geom: lahan.poligon, tipe: 'rumah', asumsi: {}, pola: null, zona: null, akses: [], isiSisa: false, targetJumlah: null, kunciUkuran: false },
+            desain: { geom: lahan.poligon, tipe: 'rumah', asumsi: {}, pola: null, zona: null, akses: [], isiSisa: false, targetJumlah: null, kunciUkuran: false, laranganBanjir: null },
         };
     }
     return { ok: false, galat: 'Berkas ini bukan berkas Uji Lahan NalarRuang dan bukan GeoJSON.' };

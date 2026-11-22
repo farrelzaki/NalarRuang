@@ -17,6 +17,9 @@ export type JenisUnduhan = 'glb' | 'proyek' | 'geojson';
 
 type Props = {
     /** Unduh berkas dan buka berkas desain (lib/berkasLahan.ts); `mengunduh` = berkas sedang dibuat. */
+    /** Area banjir InaRISK bertingkat >= nilai ini (1–3) menjadi area larangan bangun otomatis; null = mati. */
+    laranganBanjir: number | null;
+    onLaranganBanjir: (tingkat: number | null) => void;
     onUnduh: (jenis: JenisUnduhan) => void;
     onImpor: (berkas: File) => void;
     mengunduh: boolean;
@@ -68,6 +71,13 @@ const TIPE: { kunci: TipeLahan; label: [string, string] }[] = [
 
 type Slider = { kunci: keyof AsumsiLahan; label: [string, string]; min: number; max: number; step: number; satuan: string; persen?: boolean };
 
+/** Pengaturan parkir kos/apartemen: sudut slot, jarak dari tepi zona, dan Max Run (0 = tanpa batas). Rentang sama dengan server. */
+const PARKIR_LANJUT: Slider[] = [
+    { kunci: 'sudut_parkir', label: ['Sudut parkir', 'Parking angle'], min: 30, max: 90, step: 5, satuan: '°' },
+    { kunci: 'padding_parkir', label: ['Jarak parkir dari tepi', 'Parking padding'], min: 0, max: 3, step: 0.5, satuan: 'm' },
+    { kunci: 'maks_baris', label: ['Max Run (slot per deret)', 'Max run (stalls per row)'], min: 0, max: 40, step: 1, satuan: '' },
+];
+
 /** Rentang mengikuti KapasitasLahan::RENTANG di server. */
 const SLIDER: Record<TipeLahan, Slider[]> = {
     rumah: [
@@ -79,12 +89,14 @@ const SLIDER: Record<TipeLahan, Slider[]> = {
         { kunci: 'luas_kamar', label: ['Luas kamar', 'Room size'], min: 6, max: 30, step: 1, satuan: 'm²' },
         { kunci: 'sempadan', label: ['Sempadan bangunan', 'Building setback'], min: 0, max: 15, step: 0.5, satuan: 'm' },
         { kunci: 'rasio_motor', label: ['Parkir motor per kamar', 'Motorbike parking per room'], min: 0, max: 3, step: 0.1, satuan: '' },
+        ...PARKIR_LANJUT,
     ],
     apartemen: [
         { kunci: 'porsi_studio', label: ['Porsi studio (24 m²)', 'Studio share (24 m²)'], min: 0, max: 1, step: 0.05, satuan: '%', persen: true },
         { kunci: 'porsi_2br', label: ['Porsi 2 kamar (54 m²)', '2-bedroom share (54 m²)'], min: 0, max: 1, step: 0.05, satuan: '%', persen: true },
         { kunci: 'sempadan', label: ['Sempadan bangunan', 'Building setback'], min: 0, max: 15, step: 0.5, satuan: 'm' },
         { kunci: 'rasio_parkir', label: ['Parkir mobil per unit', 'Car parking per unit'], min: 0, max: 2, step: 0.1, satuan: '' },
+        ...PARKIR_LANJUT,
     ],
 };
 
@@ -109,6 +121,7 @@ const ZONA_TAMBAH: { kunci: JenisZona; label: [string, string] }[] = [
     { kunci: 'bangunan', label: ['Gedung', 'Building'] },
     { kunci: 'parkir', label: ['Parkir', 'Parking'] },
     { kunci: 'taman', label: ['Taman', 'Park'] },
+    { kunci: 'larangan', label: ['Larangan', 'No-build'] },
 ];
 
 const TIPE_UNIT: { kunci: TipeUnit; label: [string, string] }[] = [
@@ -292,6 +305,18 @@ export function PanelLahan(props: Props) {
                                 </button>
                             ))}
                         </div>
+                        <label className="nr-lahan__banjir">
+                            {t('Larang bangun di area banjir (InaRISK)', 'No-build in flood-prone areas (InaRISK)')}
+                            <select value={props.laranganBanjir ?? ''} onChange={(e) => props.onLaranganBanjir(e.target.value === '' ? null : Number(e.target.value))}>
+                                <option value="">{t('Mati', 'Off')}</option>
+                                <option value="1">{t('Semua tingkat rawan', 'All risk levels')}</option>
+                                <option value="2">{t('Sedang dan tinggi', 'Medium and high')}</option>
+                                <option value="3">{t('Hanya tinggi', 'High only')}</option>
+                            </select>
+                            {props.laranganBanjir != null && data && (data.zona?.features ?? []).every((f) => !f.properties.otomatis) && (
+                                <small>{t('Tidak ada area banjir pada tingkat ini di lahan.', 'No flood-prone area at this level on the site.')}</small>
+                            )}
+                        </label>
                         <PanelLayerLahan {...props.layer} />
                     </section>
 
@@ -404,7 +429,7 @@ function IsiLahan({ data, memuat, tipe, asumsi, onAsumsi, sesi, targetJumlah, ku
                 <div className="nr-eyebrow">{t('Asumsi (geser untuk mengubah)', 'Assumptions (drag to change)')}</div>
                 {SLIDER[tipe].map((s) => {
                     const nilai = Number((otomatis(s.kunci) ? data.asumsi[s.kunci] : asumsi[s.kunci]) ?? data.asumsi[s.kunci] ?? s.min);
-                    const tampil = s.persen ? `${Math.round(nilai * 100)}%` : `${angka(nilai, bahasa, 1)} ${s.satuan}`;
+                    const tampil = s.persen ? `${Math.round(nilai * 100)}%` : s.kunci === 'maks_baris' && nilai < 2 ? t('tanpa batas', 'unlimited') : `${angka(nilai, bahasa, 1)}${s.satuan === '°' ? '' : ' '}${s.satuan}`;
                     return (
                         <label key={s.kunci} className="nr-lahan__slider">
                             <span className="nr-lahan__slider-atas">

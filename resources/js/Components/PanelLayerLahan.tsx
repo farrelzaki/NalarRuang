@@ -39,7 +39,7 @@ export type PropsLayerLahan = {
     onIsi: (jenis: string, tampil: boolean) => void;
 };
 
-const LABEL_JENIS: Record<JenisZona, [string, string]> = { bangunan: ['Gedung', 'Building'], parkir: ['Parkir', 'Parking'], taman: ['Taman', 'Park'] };
+const LABEL_JENIS: Record<JenisZona, [string, string]> = { bangunan: ['Gedung', 'Building'], parkir: ['Parkir', 'Parking'], taman: ['Taman', 'Park'], larangan: ['Larangan bangun', 'No-build'] };
 
 const LABEL_ISI: Record<string, [string, string]> = {
     unit: ['Unit', 'Units'],

@@ -468,7 +468,8 @@ export default function PetaExplorer(props: Props) {
             .flatMap((f) => (f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates))
             .flatMap((poli) => poli.map((r) => r.slice(0, -1).map(([lng, lat]) => L.latLng(lat, lng))));
     const teksZona = (): TeksZona => ({
-        label: { bangunan: tr('Gedung', 'Building'), parkir: tr('Parkir', 'Parking'), taman: tr('Taman', 'Park') },
+        label: { bangunan: tr('Gedung', 'Building'), parkir: tr('Parkir', 'Parking'), taman: tr('Taman', 'Park'), larangan: tr('Larangan bangun', 'No-build') },
+        otomatis: tr('Larangan (banjir)', 'No-build (flood)'),
         hapus: tr('Hapus zona', 'Remove zone'),
     });
 

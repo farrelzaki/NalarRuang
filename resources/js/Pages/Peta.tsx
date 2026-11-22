@@ -152,6 +152,7 @@ export default function Peta() {
         isiSisa: isiSisaLahan,
         targetJumlah: targetLahan,
         kunciUkuran: kunciUkuranLahan,
+        laranganBanjir: laranganBanjirLahan,
         setGeom: setGeomLahan,
         setTipe: setTipeLahan,
         setAsumsi: setAsumsiLahan,
@@ -649,12 +650,13 @@ export default function Peta() {
             ...(zonaLahan ? { zona: keZonaApi(zonaLahan) } : {}),
             ...(zonaLahan && isiSisaLahan && tipeLahan !== 'rumah' ? { isi_sisa_taman: true } : {}),
             ...(targetLahan ? { target: { jumlah: targetLahan, kunci_ukuran: kunciUkuranLahan } } : {}),
+            ...(laranganBanjirLahan ? { larangan_banjir: laranganBanjirLahan } : {}),
             ...(aksesLahan.length ? { akses: aksesLahan } : {}),
         };
         const jeda = setTimeout(() => kirimLahan.current(badan), lahanDariPeta.current ? 0 : 350);
         lahanDariPeta.current = false;
         return () => clearTimeout(jeda);
-    }, [panelKiri, geomLahan, tipeLahan, asumsiLahan, persona, polaLahan, zonaLahan, aksesLahan, isiSisaLahan, targetLahan, kunciUkuranLahan]);
+    }, [panelKiri, geomLahan, tipeLahan, asumsiLahan, persona, polaLahan, zonaLahan, aksesLahan, isiSisaLahan, targetLahan, kunciUkuranLahan, laranganBanjirLahan]);
 
     useEffect(() => batalLahan, []);
 
@@ -679,7 +681,7 @@ export default function Peta() {
         setHasilLahan(null);
         setGalatLahan(null);
         // Tipe bangunan dipertahankan; yang lain kembali ke awal dan riwayat undo dibuang.
-        proyekLahan.mulaiBaru({ geom: null, tipe: tipeLahan, asumsi: {}, pola: null, zona: null, akses: [], isiSisa: false, targetJumlah: null, kunciUkuran: false });
+        proyekLahan.mulaiBaru({ geom: null, tipe: tipeLahan, asumsi: {}, pola: null, zona: null, akses: [], isiSisa: false, targetJumlah: null, kunciUkuran: false, laranganBanjir: null });
         setPulihLahan(null);
         setZonaDipilih(null);
         setLahanTerkunci(false);
@@ -1178,6 +1180,11 @@ export default function Peta() {
                             onAsumsi={setAsumsiLahan}
                             targetJumlah={targetLahan}
                             kunciUkuran={kunciUkuranLahan}
+                            laranganBanjir={laranganBanjirLahan}
+                            onLaranganBanjir={(n) => {
+                                lahanDariPeta.current = true;
+                                proyekLahan.ubah({ laranganBanjir: n }, 'laranganBanjir');
+                            }}
                             // Satu langkah undo: target, kunci ukuran, dan (saat target dilepas) asumsi hasil pencarian ikut berubah bersama.
                             onTarget={(p) => {
                                 lahanDariPeta.current = true;

@@ -28,9 +28,11 @@ export type SnapLahan = {
     targetJumlah: number | null;
     /** Dengan target aktif: ukuran (kamar/unit/kavling) tidak boleh berubah, hanya lantai yang menyesuaikan. */
     kunciUkuran: boolean;
+    /** Area banjir InaRISK bertingkat >= nilai ini (1–3) menjadi area larangan bangun otomatis; null = mati. */
+    laranganBanjir: number | null;
 };
 
-export const SNAP_AWAL: SnapLahan = { geom: null, tipe: 'rumah', asumsi: {}, pola: null, zona: null, akses: [], isiSisa: false, targetJumlah: null, kunciUkuran: false };
+export const SNAP_AWAL: SnapLahan = { geom: null, tipe: 'rumah', asumsi: {}, pola: null, zona: null, akses: [], isiSisa: false, targetJumlah: null, kunciUkuran: false, laranganBanjir: null };
 
 type Bidang = keyof SnapLahan;
 type Pembaruan<T> = T | ((lama: T) => T);
@@ -110,6 +112,7 @@ export function useProyekLahan() {
         isiSisa: s.isiSisa,
         targetJumlah: s.targetJumlah,
         kunciUkuran: s.kunciUkuran,
+        laranganBanjir: s.laranganBanjir,
         ...setters,
         ubah,
         mulaiBaru,
