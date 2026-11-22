@@ -169,6 +169,40 @@ class LahanTest extends TestCase
             ->assertStatus(422);
     }
 
+    public function test_sub_layer_dipotong_ke_induk_dan_induk_kehilangan_bagiannya(): void
+    {
+        $kotak = fn (float $x0, float $y0, float $x1, float $y1) => ['type' => 'Polygon', 'coordinates' => [[[$x0, $y0], [$x1, $y0], [$x1, $y1], [$x0, $y1], [$x0, $y0]]]];
+        $gedung = $kotak(106.8021, -6.2079, 106.8027, -6.2073);
+        // Taman (sekitar 61 x 22 m = 1.347 m²) separuh lebih di dalam gedung dan menjulur ke luar di kanan gedung (± 16 m).
+        $taman = $kotak(106.8023, -6.2077, 106.80285, -6.2075);
+        $luas = fn (array $r, int $id) => collect($r['zona']['features'])->firstWhere('properties.id', $id)['properties']['luas_m2'] ?? 0.0;
+
+        // Tanpa induk: bangunan didahulukan, jadi taman hanya tersisa di luar gedung (± 367 m²).
+        $biasa = $this->lahan(['tipe' => 'apartemen', 'zona' => [['jenis' => 'bangunan', 'geometri' => $gedung], ['jenis' => 'taman', 'geometri' => $taman]]])->assertOk()->json();
+        $gedungAsli = $luas($biasa, 0);
+        $this->assertGreaterThan(2000, $gedungAsli);
+        $this->assertEqualsWithDelta(367.0, $luas($biasa, 1), 10.0);
+
+        // Sub-layer: taman menang di dalam gedung (jadi halaman) dan gedung kehilangan bagian itu (± 980 m²);
+        // bagian taman di luar gedung terpotong oleh masking, jadi taman tidak pernah lebih luas dari gedung asli.
+        $sub = $this->lahan(['tipe' => 'apartemen', 'zona' => [['jenis' => 'bangunan', 'geometri' => $gedung], ['jenis' => 'taman', 'geometri' => $taman, 'induk' => 0]]])->assertOk()->json();
+        $tamanSub = $luas($sub, 1);
+        $this->assertEqualsWithDelta(980.0, $tamanSub, 30.0);
+        $this->assertGreaterThan($luas($biasa, 1), $tamanSub);
+        $this->assertEqualsWithDelta($gedungAsli - $tamanSub, $luas($sub, 0), 2.0, 'gedung = gedung asli dikurangi taman');
+    }
+
+    public function test_induk_zona_tidak_sah_ditolak(): void
+    {
+        $kotak = fn (float $x0, float $y0, float $x1, float $y1) => ['type' => 'Polygon', 'coordinates' => [[[$x0, $y0], [$x1, $y0], [$x1, $y1], [$x0, $y1], [$x0, $y0]]]];
+        $z = fn (?int $induk) => ['jenis' => 'taman', 'geometri' => $kotak(106.8021, -6.2079, 106.8026, -6.2074), 'induk' => $induk];
+
+        $this->lahan(['tipe' => 'apartemen', 'zona' => [$z(0)]])->assertStatus(422);              // diri sendiri
+        $this->lahan(['tipe' => 'apartemen', 'zona' => [$z(null), $z(5)]])->assertStatus(422);    // tidak ada
+        $this->lahan(['tipe' => 'apartemen', 'zona' => [$z(1), $z(0)]])->assertStatus(422);       // berputar
+        $this->lahan(['tipe' => 'apartemen', 'zona' => [$z(null), $z(0)]])->assertOk();           // sah
+    }
+
     public function test_gerbang_dan_pintu_mengubah_tata_letak(): void
     {
         $tanpa = $this->lahan(['tipe' => 'apartemen'])->assertOk()->json();

@@ -55,6 +55,8 @@ class LahanController extends Controller
             // Zona yang ditarik sendiri oleh pengguna (bangunan/parkir/taman); tanpa ini zona dibuat dari pola.
             'zona' => 'nullable|array|max:'.self::ZONA_MAKS,
             'zona.*.jenis' => 'required|in:'.implode(',', KapasitasLahan::JENIS_ZONA),
+            // Sub-layer: nomor zona induk (urutan di larik ini). Zona ini dipotong ke bentuk induknya dan induk kehilangan bagian ini.
+            'zona.*.induk' => 'nullable|integer|min:0',
             'zona.*.geometri' => 'required|array',
             'zona.*.geometri.type' => 'required|in:Polygon',
             'zona.*.geometri.coordinates' => 'required|array|min:1|max:5',
@@ -78,7 +80,14 @@ class LahanController extends Controller
         if (is_array($request->input('zona')) && $request->input('zona') !== []) {
             $manual = [];
             foreach (array_values((array) $request->input('zona')) as $z) {
-                $manual[] = ['jenis' => (string) $z['jenis'], 'geojson' => (string) json_encode(['type' => 'Polygon', 'coordinates' => $z['geometri']['coordinates']])];
+                $manual[] = [
+                    'jenis' => (string) $z['jenis'],
+                    'geojson' => (string) json_encode(['type' => 'Polygon', 'coordinates' => $z['geometri']['coordinates']]),
+                    'induk' => isset($z['induk']) ? (int) $z['induk'] : null,
+                ];
+            }
+            if (! self::indukSah($manual)) {
+                return response()->json(['message' => 'Sub-layer zona tidak sah: induk harus zona lain di daftar yang sama dan tidak boleh berputar.'], 422);
             }
         }
         $persona = array_values(array_intersect((array) $request->input('persona', []), PersonaScoring::PERSONA));
@@ -514,25 +523,86 @@ class LahanController extends Controller
     /**
      * Zona yang ditarik pengguna: dibuat sah, dipotong ke lahan (bangunan ke lahan dikurangi sempadan), lalu tumpang tindih
      * diselesaikan dengan prioritas bangunan > parkir > taman. Nomor zona dari pengguna dipertahankan.
+     * Sub-layer (`induk`) dipotong ke bentuk induknya dan menang atas induknya di dalam bentuk itu (masking).
      *
-     * @param  list<array{jenis: string, geojson: string}>  $masuk
+     * @param  list<array{jenis: string, geojson: string, induk: ?int}>  $masuk
      * @return array<int, array{jenis: string, ewkt: string}>
      */
     private function potongManual(array $masuk, string $lahan, string $lahanSempadan): array
     {
+        $kedalaman = self::kedalamanInduk($masuk);
+        $rank = fn (int $id) => array_search($masuk[$id]['jenis'], KapasitasLahan::JENIS_ZONA, true);
+        // Anak diproses lebih dulu (kedalaman terbesar dahulu), jadi anak menang atas induknya di dalam bentuk induk;
+        // di antara yang sekaliber tetap bangunan > parkir > taman, lalu urutan di daftar.
         $urut = array_keys($masuk);
-        usort($urut, fn ($a, $b) => array_search($masuk[$a]['jenis'], KapasitasLahan::JENIS_ZONA, true) <=> array_search($masuk[$b]['jenis'], KapasitasLahan::JENIS_ZONA, true) ?: $a <=> $b);
+        usort($urut, fn ($a, $b) => $kedalaman[$b] <=> $kedalaman[$a] ?: $rank($a) <=> $rank($b) ?: $a <=> $b);
+
+        // Bentuk tiap zona dipotong ke lahan (gedung ke lahan dikurangi sempadan) dan, bila sub-layer, ke bentuk induknya (masking).
+        $asli = [];
+        $bentuk = function (int $id) use (&$bentuk, &$asli, $masuk, $lahan, $lahanSempadan): string {
+            if (isset($asli[$id])) {
+                return $asli[$id];
+            }
+            $z = $masuk[$id];
+            $g = $this->op('ST_Intersection', $this->keUtm($z['geojson']), $z['jenis'] === 'bangunan' ? $lahanSempadan : $lahan);
+            if ($z['induk'] !== null) {
+                $g = $this->op('ST_Intersection', $g, $bentuk($z['induk']));
+            }
+
+            return $asli[$id] = $g;
+        };
 
         $terisi = self::KOSONG;
         $hasil = [];
         foreach ($urut as $id) {
             $z = $masuk[$id];
-            $g = $this->op('ST_Intersection', $this->keUtm($z['geojson']), $z['jenis'] === 'bangunan' ? $lahanSempadan : $lahan);
+            $g = $bentuk($id);
             $g = $this->op('ST_Difference', $g, $terisi);
             $terisi = $this->op('ST_Union', $terisi, $g);
             $hasil[$id] = ['jenis' => $z['jenis'], 'ewkt' => $g];
         }
         ksort($hasil);
+
+        return $hasil;
+    }
+
+    /**
+     * Induk tiap zona sah: nomor zona lain yang ada di daftar, bukan diri sendiri, dan rantainya tidak berputar.
+     *
+     * @param  list<array{induk?: ?int}>  $zona
+     */
+    private static function indukSah(array $zona): bool
+    {
+        $n = count($zona);
+        foreach ($zona as $i => $z) {
+            $p = $z['induk'] ?? null;
+            for ($langkah = 0; $p !== null; $langkah++) {
+                if ($p === $i || $p >= $n || $langkah > $n) {
+                    return false;
+                }
+                $p = $zona[$p]['induk'] ?? null;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Kedalaman tiap zona di pohon sub-layer (0 = tanpa induk). Hanya dipanggil setelah indukSah.
+     *
+     * @param  list<array{induk?: ?int}>  $zona
+     * @return array<int, int>
+     */
+    private static function kedalamanInduk(array $zona): array
+    {
+        $hasil = [];
+        foreach ($zona as $i => $z) {
+            $d = 0;
+            for ($p = $z['induk'] ?? null; $p !== null; $p = $zona[$p]['induk'] ?? null) {
+                $d++;
+            }
+            $hasil[$i] = $d;
+        }
 
         return $hasil;
     }
