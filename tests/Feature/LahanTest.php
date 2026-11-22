@@ -192,6 +192,34 @@ class LahanTest extends TestCase
         $this->assertEqualsWithDelta($gedungAsli - $tamanSub, $luas($sub, 0), 2.0, 'gedung = gedung asli dikurangi taman');
     }
 
+    public function test_prioritas_menentukan_zona_mana_yang_menyesuaikan_diri_saat_bertumpuk(): void
+    {
+        $kotak = fn (float $x0, float $y0, float $x1, float $y1) => ['type' => 'Polygon', 'coordinates' => [[[$x0, $y0], [$x1, $y0], [$x1, $y1], [$x0, $y1], [$x0, $y0]]]];
+        $gedung = $kotak(106.8021, -6.2079, 106.8025, -6.2073);
+        // Taman menumpuk gedung di separuh kanan gedung (± 22 m x 66 m).
+        $taman = $kotak(106.8023, -6.2079, 106.8027, -6.2073);
+        $luas = fn (array $r, int $id) => collect($r['zona']['features'])->firstWhere('properties.id', $id)['properties']['luas_m2'] ?? 0.0;
+        $zona = fn (?int $pGedung, ?int $pTaman) => [
+            ['jenis' => 'bangunan', 'geometri' => $gedung, 'prioritas' => $pGedung],
+            ['jenis' => 'taman', 'geometri' => $taman, 'prioritas' => $pTaman],
+        ];
+
+        // Tanpa prioritas (perilaku lama): bangunan menang, taman menyesuaikan diri (dipotong).
+        $lama = $this->lahan(['tipe' => 'apartemen', 'zona' => $zona(null, null)])->assertOk()->json();
+        // Taman diberi prioritas lebih tinggi (mis. terakhir ditarik): gedung yang menyesuaikan diri.
+        $baru = $this->lahan(['tipe' => 'apartemen', 'zona' => $zona(1, 2)])->assertOk()->json();
+        // Prioritas sama dengan perilaku lama bila gedung lebih tinggi.
+        $sama = $this->lahan(['tipe' => 'apartemen', 'zona' => $zona(2, 1)])->assertOk()->json();
+
+        $this->assertEqualsWithDelta($luas($lama, 0), $luas($sama, 0), 0.5);
+        $this->assertEqualsWithDelta($luas($lama, 1), $luas($sama, 1), 0.5);
+        // Yang menang menyimpan bentuk utuhnya: taman utuh di $baru lebih luas dari taman terpotong di $lama, dan gedung sebaliknya.
+        $this->assertGreaterThan($luas($lama, 1) + 500, $luas($baru, 1));
+        $this->assertLessThan($luas($lama, 0) - 500, $luas($baru, 0));
+        // Daerah tumpang tindih berpindah tangan, jumlah luas gedung + taman tetap sama.
+        $this->assertEqualsWithDelta($luas($lama, 0) + $luas($lama, 1), $luas($baru, 0) + $luas($baru, 1), 1.0);
+    }
+
     public function test_induk_zona_tidak_sah_ditolak(): void
     {
         $kotak = fn (float $x0, float $y0, float $x1, float $y1) => ['type' => 'Polygon', 'coordinates' => [[[$x0, $y0], [$x1, $y0], [$x1, $y1], [$x0, $y1], [$x0, $y0]]]];

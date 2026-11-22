@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-    aturInduk, bisaJadiInduk, dariServer, duplikatZona, hapusZona, keZonaApi, pindahUrutan, rapikan, serupa, setKunci, setKunciBanyak, setSembunyi, ubahNama, urutanTampil,
+    aturInduk, bisaJadiInduk, dariServer, duplikatZona, hapusZona, keZonaApi, pindahUrutan, prioritasZona, rapikan, resetTarik, serupa, setKunci, setKunciBanyak, setSembunyi, ubahNama, urutanTampil,
 } from '../../resources/js/lib/layerLahan.ts';
 
 const kotak = (x: number, y: number, s = 0.001) => ({ type: 'Polygon' as const, coordinates: [[[x, y], [x + s, y], [x + s, y + s], [x, y + s], [x, y]]] });
@@ -13,7 +13,7 @@ test('keZonaApi: induk berupa nomor urut, induk hilang dibuang, tanpa data klien
     const daftar = [z('a', 'bangunan', { nama: 'Menara', kunci: true }), z('b', 'taman', { induk: 'a' }), z('c', 'parkir', { induk: 'tidak-ada' })];
     const api = keZonaApi(daftar);
     assert.deepEqual(api.map((x) => x.induk), [undefined, 0, undefined]);
-    assert.deepEqual(Object.keys(api[0]).sort(), ['geometri', 'jenis']);
+    assert.deepEqual(Object.keys(api[0]).sort(), ['geometri', 'jenis', 'prioritas']);
 });
 
 test('keZonaApi mengikuti urutan setelah dipindah', () => {
@@ -109,4 +109,30 @@ test('dariServer: zona bawaan menjadi layer dengan uid srv-id', () => {
     assert.deepEqual(uids(d), ['srv-0', 'srv-2']);
     assert.equal(d[1].geometri.type, 'Polygon');
     assert.deepEqual(dariServer(null), []);
+});
+
+test("prioritasZona: terkunci menang, lalu yang terakhir ditarik, lalu urutan di daftar", () => {
+    const d = [z("a", "bangunan"), z("b", "parkir", { tarik: 100 }), z("c", "taman", { tarik: 200 }), z("d", "taman", { kunci: true, tarik: 50 })];
+    // d terkunci (menang), lalu c (tarik 200), lalu b (tarik 100), lalu a (belum pernah ditarik).
+    assert.deepEqual(prioritasZona(d), [1, 2, 3, 4]);
+});
+
+test("prioritasZona: tanpa tarik, urutan di daftar menentukan (yang lebih atas menang) dan nilainya 1..n tanpa kembar", () => {
+    const d = [z("a", "bangunan"), z("b", "parkir"), z("c", "taman")];
+    assert.deepEqual(prioritasZona(d), [3, 2, 1]);
+    assert.deepEqual(prioritasZona([]), []);
+});
+
+test("resetTarik: setelah urutan diubah, urutan di daftar kembali menentukan", () => {
+    const d = [z("a", "bangunan"), z("b", "taman", { tarik: 500 })];
+    assert.deepEqual(prioritasZona(d), [1, 2]);
+    const ulang = resetTarik(d);
+    assert.equal(ulang[1].tarik, undefined);
+    assert.deepEqual(prioritasZona(ulang), [2, 1]);
+    assert.equal(resetTarik(ulang), ulang, "tidak membuat salinan bila tak ada yang perlu direset");
+});
+
+test("keZonaApi mengirim prioritas searah daftar", () => {
+    const d = [z("a", "bangunan"), z("b", "taman", { tarik: 9 })];
+    assert.deepEqual(keZonaApi(d).map((x) => x.prioritas), [1, 2]);
 });

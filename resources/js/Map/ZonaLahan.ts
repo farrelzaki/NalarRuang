@@ -163,7 +163,7 @@ export class AlatZona {
             jenis,
             cincin: [[L.latLng(c.lat + dLat, c.lng - dLng), L.latLng(c.lat + dLat, c.lng + dLng), L.latLng(c.lat - dLat, c.lng + dLng), L.latLng(c.lat - dLat, c.lng - dLng)]],
             idServer: -1,
-            meta: { uid: buatUid() },
+            meta: { uid: buatUid(), tarik: Date.now() },
         });
         this.manual = true;
         this.gambar();
@@ -210,6 +210,9 @@ export class AlatZona {
             if (!kunci) z.cincin.forEach((cincin, r) => {
                 cincin.forEach((t, k) => {
                     const m = L.marker(t, { icon: ikonSudut(z.jenis), draggable: true, keyboard: false, zIndexOffset: 800, pane: 'markerPane' }).addTo(this.grup);
+                    m.on('dragstart', () => {
+                        z.meta.tarik = Date.now();
+                    });
                     m.on('drag', () => {
                         z.cincin[r][k] = m.getLatLng();
                         pol.setLatLngs(z.cincin);
@@ -228,6 +231,7 @@ export class AlatZona {
             let awal = g.getLatLng();
             let asal: L.LatLng[][] = [];
             g.on('dragstart', () => {
+                z.meta.tarik = Date.now();
                 awal = g.getLatLng();
                 asal = z.cincin.map((r) => r.map((t) => L.latLng(t.lat, t.lng)));
             });

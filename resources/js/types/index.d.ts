@@ -154,6 +154,8 @@ export type ZonaLahanMasuk = {
     geometri: Polygon;
     /** Sub-layer: nomor zona induk (urutan di larik `zona`). Dipotong ke bentuk induknya dan induk kehilangan bagian ini. */
     induk?: number;
+    /** Prioritas saat bertumpuk: angka lebih besar menang dan zona lain menyesuaikan diri (kosong = bangunan > parkir > taman). */
+    prioritas?: number;
 };
 
 /**
@@ -171,6 +173,8 @@ export type ZonaLahan = {
     sembunyi?: boolean;
     /** uid zona induk (sub-layer). */
     induk?: string;
+    /** Waktu (ms) zona ini terakhir ditarik atau ditambah; yang lebih baru menang saat bertumpuk (setelah kunci). */
+    tarik?: number;
 };
 
 /** Zona di respons: geometri yang sudah dipotong ke lahan; `lantai` untuk gedung parkir bertingkat. */

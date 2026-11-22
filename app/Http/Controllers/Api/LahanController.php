@@ -57,6 +57,8 @@ class LahanController extends Controller
             'zona.*.jenis' => 'required|in:'.implode(',', KapasitasLahan::JENIS_ZONA),
             // Sub-layer: nomor zona induk (urutan di larik ini). Zona ini dipotong ke bentuk induknya dan induk kehilangan bagian ini.
             'zona.*.induk' => 'nullable|integer|min:0',
+            // Prioritas saat zona bertumpuk: angka lebih besar menang dan zona lain menyesuaikan diri. Kosong = bangunan > parkir > taman.
+            'zona.*.prioritas' => 'nullable|integer|min:0|max:1000',
             'zona.*.geometri' => 'required|array',
             'zona.*.geometri.type' => 'required|in:Polygon',
             'zona.*.geometri.coordinates' => 'required|array|min:1|max:5',
@@ -84,6 +86,7 @@ class LahanController extends Controller
                     'jenis' => (string) $z['jenis'],
                     'geojson' => (string) json_encode(['type' => 'Polygon', 'coordinates' => $z['geometri']['coordinates']]),
                     'induk' => isset($z['induk']) ? (int) $z['induk'] : null,
+                    'prioritas' => isset($z['prioritas']) ? (int) $z['prioritas'] : null,
                 ];
             }
             if (! self::indukSah($manual)) {
@@ -531,11 +534,13 @@ class LahanController extends Controller
     private function potongManual(array $masuk, string $lahan, string $lahanSempadan): array
     {
         $kedalaman = self::kedalamanInduk($masuk);
-        $rank = fn (int $id) => array_search($masuk[$id]['jenis'], KapasitasLahan::JENIS_ZONA, true);
+        // Prioritas zona: yang dikirim klien; bila kosong, bangunan (3) > parkir (2) > taman (1) seperti semula.
+        $prioritas = fn (int $id): int => $masuk[$id]['prioritas'] ?? (count(KapasitasLahan::JENIS_ZONA) - (int) array_search($masuk[$id]['jenis'], KapasitasLahan::JENIS_ZONA, true));
         // Anak diproses lebih dulu (kedalaman terbesar dahulu), jadi anak menang atas induknya di dalam bentuk induk;
-        // di antara yang sekaliber tetap bangunan > parkir > taman, lalu urutan di daftar.
+        // di antara yang sekaliber, prioritas terbesar diproses dulu (yang diproses dulu memegang daerahnya, yang lain
+        // dipotong di sekelilingnya), lalu urutan di daftar.
         $urut = array_keys($masuk);
-        usort($urut, fn ($a, $b) => $kedalaman[$b] <=> $kedalaman[$a] ?: $rank($a) <=> $rank($b) ?: $a <=> $b);
+        usort($urut, fn ($a, $b) => $kedalaman[$b] <=> $kedalaman[$a] ?: $prioritas($b) <=> $prioritas($a) ?: $a <=> $b);
 
         // Bentuk tiap zona dipotong ke lahan (gedung ke lahan dikurangi sempadan) dan, bila sub-layer, ke bentuk induknya (masking).
         $asli = [];

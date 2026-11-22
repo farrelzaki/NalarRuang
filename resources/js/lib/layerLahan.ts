@@ -56,12 +56,39 @@ export function adalahKeturunan(zona: ZonaLahan[], uid: string, leluhur: string)
     return false;
 }
 
-/** Bentuk yang dikirim ke POST /api/lahan: induk berupa nomor urut di daftar yang sama. Induk yang tak ada dibuang. */
+/**
+ * Prioritas tiap zona saat bertumpuk (angka lebih besar menang, zona lain menyesuaikan diri), searah dengan `zona`:
+ * 1) zona terkunci selalu menang, 2) lalu yang terakhir ditarik/ditambah, 3) lalu yang lebih atas di daftar.
+ * Hasilnya 1..n tanpa kembar, sehingga urutannya pasti.
+ */
+export function prioritasZona(zona: ZonaLahan[]): number[] {
+    const urut = zona
+        .map((z, i) => ({ i, kunci: z.kunci ? 1 : 0, tarik: z.tarik ?? 0 }))
+        .sort((a, b) => b.kunci - a.kunci || b.tarik - a.tarik || a.i - b.i);
+    const hasil = new Array<number>(zona.length).fill(0);
+    urut.forEach((x, posisi) => {
+        hasil[x.i] = zona.length - posisi;
+    });
+    return hasil;
+}
+
+/** Lupakan siapa yang terakhir ditarik: setelah itu urutan di daftar yang menentukan (mis. setelah pengguna mengubah urutan). */
+export const resetTarik = (zona: ZonaLahan[]): ZonaLahan[] =>
+    !zona.some((z) => z.tarik !== undefined)
+        ? zona
+        : zona.map((z) => {
+              if (z.tarik === undefined) return z;
+              const { tarik: _lama, ...sisa } = z;
+              return sisa;
+          });
+
+/** Bentuk yang dikirim ke POST /api/lahan: induk berupa nomor urut di daftar yang sama (induk yang tak ada dibuang), plus prioritas. */
 export function keZonaApi(zona: ZonaLahan[]): ZonaLahanMasuk[] {
     const nomor = new Map(zona.map((z, i) => [z.uid, i]));
-    return zona.map((z) => {
+    const prioritas = prioritasZona(zona);
+    return zona.map((z, i) => {
         const induk = z.induk !== undefined && z.induk !== z.uid ? nomor.get(z.induk) : undefined;
-        return { jenis: z.jenis, geometri: z.geometri, ...(induk !== undefined ? { induk } : {}) };
+        return { jenis: z.jenis, geometri: z.geometri, prioritas: prioritas[i], ...(induk !== undefined ? { induk } : {}) };
     });
 }
 

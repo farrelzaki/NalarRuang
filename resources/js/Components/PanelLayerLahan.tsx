@@ -10,7 +10,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import type { JenisZona, ZonaLahan } from '@/types';
 import { useBahasa } from '@/lib/bahasa';
 import {
-    aturInduk, bisaJadiInduk, buatUid, duplikatZona, hapusZona, pindahUrutan, serupa, setKunci, setKunciBanyak, setSembunyi, setSembunyiBanyak, ubahNama, urutanTampil, WARNA_ZONA,
+    aturInduk, bisaJadiInduk, buatUid, duplikatZona, hapusZona, pindahUrutan, resetTarik, serupa, setKunci, setKunciBanyak, setSembunyi, setSembunyiBanyak, ubahNama, urutanTampil, WARNA_ZONA,
 } from '@/lib/layerLahan';
 import { Ikon } from './Dasar';
 
@@ -83,6 +83,13 @@ export function PanelLayerLahan(props: PropsLayerLahan) {
 
     const terapkan = (baru: ZonaLahan[]) => {
         if (baru !== zona) props.onUbah(baru);
+    };
+
+    /** Ubah urutan: setelahnya urutan di daftar yang menentukan siapa menang saat bertumpuk (bukan siapa terakhir ditarik). */
+    const geser = (arah: -1 | 1) => {
+        if (!terpilih) return;
+        const pindah = pindahUrutan(zona, terpilih.uid, arah);
+        if (pindah !== zona) terapkan(resetTarik(pindah));
     };
 
     const kandidatInduk = terpilih ? zona.filter((z) => bisaJadiInduk(zona, terpilih.uid, z.uid)) : [];
@@ -174,13 +181,19 @@ export function PanelLayerLahan(props: PropsLayerLahan) {
                 <p className="nr-layer__catatan">{t('Zona bawaan pola. Mengubah apa pun di sini menjadikannya zona sendiri.', 'Default pattern zones. Changing anything here turns them into your own zones.')}</p>
             )}
 
+            {zona.length > 1 && (
+                <p className="nr-layer__catatan">
+                    {t('Saat layer bertumpuk, yang lain menyesuaikan diri: layer terkunci menang, lalu yang terakhir ditarik, lalu yang lebih atas di daftar.', 'When layers overlap, the others adapt: locked layers win, then the one dragged last, then the one higher in the list.')}
+                </p>
+            )}
+
             {terpilih && (
                 <div className="nr-layer__alat" role="group" aria-label={t('Aksi layer terpilih', 'Selected layer actions')}>
                     <div className="nr-layer__tombol">
-                        <button type="button" className="nr-layer__aksi" title={t('Naikkan urutan', 'Move up')} onClick={() => terapkan(pindahUrutan(zona, terpilih.uid, -1))}>
+                        <button type="button" className="nr-layer__aksi" title={t('Naikkan urutan (lebih diutamakan saat bertumpuk)', 'Move up (wins when layers overlap)')} onClick={() => geser(-1)}>
                             <Ikon name="arrow-up" size={13} />
                         </button>
-                        <button type="button" className="nr-layer__aksi" title={t('Turunkan urutan', 'Move down')} onClick={() => terapkan(pindahUrutan(zona, terpilih.uid, 1))}>
+                        <button type="button" className="nr-layer__aksi" title={t('Turunkan urutan (kurang diutamakan saat bertumpuk)', 'Move down (loses when layers overlap)')} onClick={() => geser(1)}>
                             <Ikon name="arrow-down" size={13} />
                         </button>
                         <button type="button" className="nr-layer__aksi" title={t('Ganti nama', 'Rename')} onClick={() => setGanti(terpilih.uid)}>
