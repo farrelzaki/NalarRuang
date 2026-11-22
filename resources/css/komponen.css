@@ -666,6 +666,19 @@ input { font: inherit; }
 .nr-lahan__zonabtn--parkir { border-color: #4b5563; color: #374151; }
 .nr-lahan__zonabtn--taman { border-color: #22a35a; color: #17803f; }
 .nr-lahan__zonabtn--larangan { border-color: #dc2626; color: #b42318; }
+.nr-skema__daftar { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.nr-skema__daftar li { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--white); font: 500 11.5px/16px var(--font-sans); color: var(--ink-70); }
+.nr-skema__daftar b { color: var(--navy-900); font-weight: 700; }
+.nr-skema__daftar span { flex: 1; min-width: 0; }
+.nr-skema__daftar button { padding: 2px 8px; border: 1px solid var(--line); border-radius: var(--radius-pill); background: var(--white); font: 700 10.5px/16px var(--font-sans); color: var(--navy-900); cursor: pointer; }
+.nr-skema__daftar button:hover { background: var(--ink-05); }
+.nr-skema__tabelwrap { overflow-x: auto; }
+.nr-skema__tabel { width: 100%; border-collapse: collapse; font: 500 11px/15px var(--font-sans); color: var(--navy-900); font-variant-numeric: tabular-nums; }
+.nr-skema__tabel th, .nr-skema__tabel td { padding: 4px 6px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+.nr-skema__tabel th:first-child { text-align: left; font-weight: 600; white-space: normal; }
+.nr-skema__tabel thead th { font-weight: 700; }
+.nr-skema__terbaik { background: #e3f5ea; color: #17803f; font-weight: 700; }
+.nr-skema__melanggar { background: #fdecec; color: #b42318; font-weight: 700; }
 .nr-lahan__banjir { display: flex; flex-direction: column; gap: 4px; font: 600 11.5px/16px var(--font-sans); color: var(--ink-70); }
 .nr-lahan__banjir select { padding: 7px 8px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--white); font: 500 12px/16px var(--font-sans); color: var(--navy-900); }
 .nr-lahan__banjir small { font: 500 11px/15px var(--font-sans); color: var(--ink-60); }

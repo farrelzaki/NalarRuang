@@ -8,6 +8,7 @@ import { teksServer, useBahasa, type Bahasa } from '@/lib/bahasa';
 import { cx, PERSONA_IDS } from '@/lib/nalar';
 import { Ikon, Keadaan } from './Dasar';
 import { PanelLayerLahan, type PropsLayerLahan } from './PanelLayerLahan';
+import { bandingkan, SKEMA_MAKS, type SkemaLahan } from '@/lib/skemaLahan';
 import { BarisSkor, KartuKesimpulan, kalimatWilayah } from './DetailLokasi';
 
 export type ModeGambar = 'kotak' | 'poligon';
@@ -15,11 +16,20 @@ export type ModeGambar = 'kotak' | 'poligon';
 /** Jenis unduhan: model 3D saja, data proyek (bisa dibuka lagi), atau GeoJSON untuk QGIS. */
 export type JenisUnduhan = 'glb' | 'proyek' | 'geojson';
 
+/** Laporan: CSV untuk spreadsheet, PDF lewat dialog cetak peramban. */
+export type JenisLaporan = 'csv' | 'pdf';
+
 type Props = {
     /** Unduh berkas dan buka berkas desain (lib/berkasLahan.ts); `mengunduh` = berkas sedang dibuat. */
     /** Area banjir InaRISK bertingkat >= nilai ini (1–3) menjadi area larangan bangun otomatis; null = mati. */
     laranganBanjir: number | null;
     onLaranganBanjir: (tingkat: number | null) => void;
+    /** Skema tersimpan (sesi ini) untuk dibandingkan, dan laporan hasil. */
+    skema: SkemaLahan[];
+    onSimpanSkema: () => void;
+    onBukaSkema: (id: string) => void;
+    onHapusSkema: (id: string) => void;
+    onLaporan: (jenis: JenisLaporan) => void;
     onUnduh: (jenis: JenisUnduhan) => void;
     onImpor: (berkas: File) => void;
     mengunduh: boolean;
@@ -148,6 +158,68 @@ function IkonMode({ mode }: { mode: ModeGambar }) {
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinejoin="round" aria-hidden="true">
             <path d="M4 9 11 4l9 5-3 11H7z" />
         </svg>
+    );
+}
+
+/** Simpan beberapa skema lalu bandingkan angkanya; laporan CSV/PDF dari hasil yang sedang tampil. */
+function SkemaLaporan({ skema, hasilSiap, onSimpan, onBuka, onHapus, onLaporan }: { skema: SkemaLahan[]; hasilSiap: boolean; onSimpan: () => void; onBuka: (id: string) => void; onHapus: (id: string) => void; onLaporan: (j: JenisLaporan) => void }) {
+    const { t, bahasa } = useBahasa();
+    const baris = skema.length >= 2 ? bandingkan(skema) : [];
+    const fmt = (v: number | null) => (v === null ? '–' : angka(v, bahasa, 1));
+    return (
+        <section className="nr-lahan__grup" aria-labelledby="nr-lahan-skema">
+            <div className="nr-lahan__grupkepala">
+                <h3 id="nr-lahan-skema">{t('Skema dan laporan', 'Schemes and report')}</h3>
+                <span className="nr-lahan__grupjumlah">{skema.length}/{SKEMA_MAKS}</span>
+            </div>
+            <p className="nr-lahan__zona-teks">{t('Simpan desain yang sedang tampil sebagai skema, ubah pengaturan, simpan lagi, lalu bandingkan angkanya.', 'Save the current design as a scheme, change the settings, save again, then compare the numbers.')}</p>
+            <div className="nr-lahan__tambah">
+                <button type="button" className="nr-lahan__zonabtn" disabled={!hasilSiap || skema.length >= SKEMA_MAKS} onClick={onSimpan}>
+                    + {t('Simpan skema ini', 'Save this scheme')}
+                </button>
+                <button type="button" className="nr-lahan__zonabtn" disabled={!hasilSiap} onClick={() => onLaporan('csv')}>
+                    {t('Laporan CSV', 'CSV report')}
+                </button>
+                <button type="button" className="nr-lahan__zonabtn" disabled={!hasilSiap} onClick={() => onLaporan('pdf')}>
+                    {t('Laporan PDF', 'PDF report')}
+                </button>
+            </div>
+            {skema.length > 0 && (
+                <ul className="nr-skema__daftar">
+                    {skema.map((s) => (
+                        <li key={s.id}>
+                            <b>{s.nama}</b>
+                            <span>{angka(s.metrik.jumlah, bahasa)} {s.metrik.satuan} · {s.metrik.lantai} {t('lantai', 'floors')}</span>
+                            <button type="button" onClick={() => onBuka(s.id)}>{t('Buka', 'Open')}</button>
+                            <button type="button" onClick={() => onHapus(s.id)} aria-label={t(`Hapus ${s.nama}`, `Delete ${s.nama}`)}>×</button>
+                        </li>
+                    ))}
+                </ul>
+            )}
+            {baris.length > 0 && (
+                <div className="nr-skema__tabelwrap">
+                    <table className="nr-skema__tabel">
+                        <thead>
+                            <tr>
+                                <th />
+                                {skema.map((s) => <th key={s.id}>{s.nama}</th>)}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {baris.map((b) => (
+                                <tr key={b.kunci}>
+                                    <th>{t(b.label[0], b.label[1])}{b.satuan ? ` (${b.satuan})` : ''}</th>
+                                    {b.nilai.map((v, i) => (
+                                        <td key={skema[i].id} className={b.terbaik[i] ? 'nr-skema__terbaik' : b.melanggar[i] ? 'nr-skema__melanggar' : undefined}>{fmt(v)}</td>
+                                    ))}
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    <p className="nr-lahan__zona-teks">{t('Hijau = terbaik, merah = melebihi batas. Angka adalah hasil saat skema disimpan.', 'Green = best, red = over the limit. Numbers are from when each scheme was saved.')}</p>
+                </div>
+            )}
+        </section>
     );
 }
 
@@ -342,6 +414,8 @@ export function PanelLahan(props: Props) {
                         </div>
                         {props.akses.length > 0 && <DaftarAkses akses={props.akses} server={data?.akses?.features.map((f) => f.properties) ?? []} onAkses={props.onAkses} />}
                     </section>
+
+                    <SkemaLaporan skema={props.skema} hasilSiap={!!data && !props.memuat && data.tipe === props.tipe} onSimpan={props.onSimpanSkema} onBuka={props.onBukaSkema} onHapus={props.onHapusSkema} onLaporan={props.onLaporan} />
 
                     <button type="button" className="nr-lahan__btn3d" onClick={props.on3D}>
                         <Ikon name="layers" size={15} /> {t('Lihat 3D', 'View 3D')}
