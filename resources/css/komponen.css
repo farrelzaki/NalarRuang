@@ -733,3 +733,41 @@ input { font: inherit; }
 .nr-lahan__tambah .nr-lahan__zonabtn:disabled { opacity: 0.45; cursor: not-allowed; }
 .nr-lahan__btn3d { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 10px 14px; border: 0; border-radius: var(--radius-pill); background: var(--navy-900); color: var(--white); cursor: pointer; font: 700 13px/18px var(--font-sans); }
 .nr-lahan__btn3d:hover { filter: brightness(1.15); }
+
+/* Uji Lahan: layer yang disembunyikan/terkunci/disorot di peta. */
+.leaflet-nrLahanIsi-pane path.nr-isi-sembunyi { display: none; }
+.leaflet-tooltip.nr-isi-sembunyi { display: none; }
+.nr-zona-geser--kunci .nr-zona-geser__isi { padding-right: 8px; opacity: 0.92; }
+.nr-zona-geser__kunci { flex: none; }
+.nr-zona-geser--sorot .nr-zona-geser__isi { box-shadow: 0 0 0 3px rgba(228, 87, 46, 0.6); }
+
+/* Uji Lahan: panel layer (daftar, mata, kunci, sub-layer). */
+.nr-layer { display: flex; flex-direction: column; gap: 8px; }
+.nr-layer__daftar { display: flex; flex-direction: column; gap: 2px; margin: 0; padding: 0; list-style: none; }
+.nr-layer__baris { display: flex; align-items: center; gap: 6px; min-height: 30px; padding: 2px 4px 2px 8px; border-radius: var(--radius-sm, 6px); border: 1px solid transparent; }
+.nr-layer__baris:hover { background: var(--ink-05); }
+.nr-layer__baris.is-terpilih { background: rgba(228, 87, 46, 0.09); border-color: rgba(228, 87, 46, 0.45); }
+.nr-layer__baris.is-sembunyi .nr-layer__nama, .nr-layer__baris.is-sembunyi .nr-layer__luas { opacity: 0.45; }
+.nr-layer__warna { flex: none; width: 10px; height: 10px; border-radius: 3px; }
+.nr-layer__nama { flex: 1 1 auto; min-width: 0; padding: 4px 2px; border: 0; background: none; text-align: left; font: 600 12px/16px var(--font-sans); color: var(--navy-900); cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nr-layer__nama--tetap { cursor: default; }
+.nr-layer__ubah { flex: 1 1 auto; min-width: 0; padding: 3px 6px; border: 1px solid var(--navy-900); border-radius: 6px; font: 600 12px/16px var(--font-sans); color: var(--navy-900); background: var(--white); }
+.nr-layer__luas { flex: none; font: 500 11px/16px var(--font-sans); color: var(--stone-500, #6b7280); }
+.nr-layer__ikon { flex: none; display: grid; place-items: center; width: 24px; height: 24px; padding: 0; border: 0; border-radius: 6px; background: none; color: var(--stone-500, #6b7280); cursor: pointer; }
+.nr-layer__ikon:hover { background: var(--ink-05); color: var(--navy-900); }
+.nr-layer__ikon.is-aktif { color: #e4572e; }
+.nr-layer__alat { display: flex; flex-direction: column; gap: 8px; padding: 8px; border: 1px solid var(--line); border-radius: var(--radius-md, 10px); background: var(--white); }
+.nr-layer__tombol { display: flex; gap: 4px; }
+.nr-layer__aksi { display: grid; place-items: center; flex: 1; height: 28px; padding: 0; border: 1px solid var(--line); border-radius: 6px; background: var(--white); color: var(--navy-900); cursor: pointer; }
+.nr-layer__aksi:hover:not(:disabled) { background: var(--ink-05); }
+.nr-layer__aksi:disabled { opacity: 0.4; cursor: not-allowed; }
+.nr-layer__aksi--hapus:hover:not(:disabled) { background: #fdecec; color: #b42318; }
+.nr-layer__induk { display: flex; align-items: center; gap: 8px; font: 500 12px/16px var(--font-sans); color: var(--navy-900); }
+.nr-layer__induk select { flex: 1; min-width: 0; padding: 4px 6px; border: 1px solid var(--line); border-radius: 6px; font: 500 12px/16px var(--font-sans); color: var(--navy-900); background: var(--white); }
+.nr-layer__serupa { display: flex; flex-wrap: wrap; gap: 4px 12px; }
+.nr-layer__catatan, .nr-layer__kosong { margin: 0; font: 400 11px/15px var(--font-sans); color: var(--stone-500, #6b7280); }
+.nr-layer__isi { font: 500 12px/16px var(--font-sans); color: var(--navy-900); }
+.nr-layer__isi summary { cursor: pointer; padding: 4px 0; font-weight: 600; }
+.nr-layer__isi ul { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 10px; margin: 4px 0 0; padding: 0; list-style: none; }
+.nr-layer__isi label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+.nr-layer__isi small { margin-left: auto; color: var(--stone-500, #6b7280); }

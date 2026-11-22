@@ -10,7 +10,7 @@
  */
 import { useCallback, useRef, useState } from 'react';
 import type { Polygon } from 'geojson';
-import type { AksesLahanMasuk, AsumsiLahan, PolaLahan, TipeLahan, ZonaLahanMasuk } from '@/types';
+import type { AksesLahanMasuk, AsumsiLahan, PolaLahan, TipeLahan, ZonaLahan } from '@/types';
 import { atur, bisaRedo, bisaUndo, buatRiwayat, catat, redo as ulangi, undo as urungkan, type Riwayat } from './riwayat';
 
 export type SnapLahan = {
@@ -20,7 +20,7 @@ export type SnapLahan = {
     /** null = pola bawaan tipe. */
     pola: PolaLahan | null;
     /** Zona yang ditarik pengguna; null = zona bawaan pola dari server. */
-    zona: ZonaLahanMasuk[] | null;
+    zona: ZonaLahan[] | null;
     akses: AksesLahanMasuk[];
 };
 

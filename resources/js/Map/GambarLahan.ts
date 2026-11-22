@@ -39,6 +39,8 @@ export class AlatLahan {
     private onBatas?: () => void;
     private terakhirKirim = 0;
     private terakhirBatas = 0;
+    /** Lahan terkunci: bentuknya digambar tanpa pegangan dan tidak bisa diubah dari peta. */
+    private terkunci = false;
     /** True selama sudut, titik tengah, atau pegangan geser sedang ditarik. */
     ditarik = false;
     private mode: ModeLahan | null = null;
@@ -83,6 +85,13 @@ export class AlatLahan {
             this.peta.on('mousemove', this.gerak);
             wadah.classList.add('nr-gambar-lahan--titik');
         }
+    }
+
+    /** Kunci/buka lahan (layer "Lahan" di panel layer). Mengunci menghapus semua pegangan dari peta. */
+    kunci(nilai: boolean): void {
+        if (this.terkunci === nilai) return;
+        this.terkunci = nilai;
+        if (this.tertutup) this.gambar();
     }
 
     /** Tutup poligon yang sedang digambar (tombol Selesai di panel). */
@@ -222,6 +231,9 @@ export class AlatLahan {
             this.draf = L.polyline(this.titik, { ...gayaDraf, pane: 'nrSeleksi' }).addTo(this.grup);
         }
 
+        // Lahan terkunci: hanya garis batas, tanpa pegangan sudut, titik tengah, maupun pegangan geser.
+        if (this.tertutup && this.terkunci) return;
+
         this.titik.forEach((ll, i) => {
             const awal = !this.tertutup && i === 0 && this.titik.length >= 3;
             const m = L.marker(ll, { icon: ikonPegangan(awal ? 'awal' : 'sudut'), draggable: this.tertutup, keyboard: false, zIndexOffset: 1000 }).addTo(this.grup);
@@ -304,6 +316,7 @@ export class AlatLahan {
 
     /** Sisipkan titik sudut di sisi poligon terdekat dari `ll` (hanya bila klik dalam 18 px dari sebuah sisi). Luas tidak berubah. */
     private sisipTitik(ll: L.LatLng): void {
+        if (this.terkunci) return;
         const p = this.peta.latLngToLayerPoint(ll);
         let terbaik = { i: -1, x: 0, y: 0, jarak: Infinity };
         this.titik.forEach((a, i) => {
@@ -479,6 +492,8 @@ export class LapisanKapasitas {
     private item: ItemIsi[] = [];
     private batas: L.LatLng[] | null = null;
     private zonaTarik = new Map<number, L.LatLng[][]>();
+    private sembunyiJenis = new Set<string>();
+    private sembunyiZona = new Set<number>();
 
     constructor(peta: L.Map, grup: L.LayerGroup, label: (p: Record<string, unknown>) => string | null) {
         this.peta = peta;
@@ -553,6 +568,25 @@ export class LapisanKapasitas {
         for (const it of sisa) this.hapus(it.layer);
         this.item = baru;
         this.saring(this.batas);
+        this.terapkanSembunyi();
+    }
+
+    /**
+     * Sembunyikan isi hasil menurut jenis (mis. 'slot') dan menurut nomor zona (id server); hanya tampilan, hitungan tidak berubah.
+     * Berlaku juga untuk isi yang datang kemudian.
+     */
+    setSembunyi(jenis: Iterable<string>, zona: Iterable<number>): void {
+        this.sembunyiJenis = new Set(jenis);
+        this.sembunyiZona = new Set(zona);
+        this.terapkanSembunyi();
+    }
+
+    private terapkanSembunyi(): void {
+        for (const it of this.item) {
+            const sembunyi = this.sembunyiJenis.has(it.jenis) || (it.zona !== null && this.sembunyiZona.has(it.zona));
+            it.layer.getElement()?.classList.toggle('nr-isi-sembunyi', sembunyi);
+            it.layer.getTooltip()?.getElement()?.classList.toggle('nr-isi-sembunyi', sembunyi);
+        }
     }
 
     /**

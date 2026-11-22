@@ -9,6 +9,7 @@ import type { FeatureCollection, Geometry, Polygon } from 'geojson';
 import type { AksesLahanMasuk, AsumsiLahan, CommuteResponse, JenisAkses, JenisZona, LahanRequest, PolaLahan, ZonaLahanMasuk, HasilSearch, InspectResponse, LahanResponse, LayerKey, LayerResponse, Persona, SaranLokasi, TipeLahan } from '@/types';
 import { api } from '@/lib/api';
 import { useProyekLahan } from '@/lib/proyekLahan';
+import { dariServer, keZonaApi, rapikan } from '@/lib/layerLahan';
 import { teksServer, useBahasa } from '@/lib/bahasa';
 import { bacaPersonaSesi, PERSONA, simpanPersonaSesi, SUBFITUR, type IsochroneMode, type Simbol } from '@/lib/nalar';
 import type { ModeKamera, TitikPeta } from '@/Map/PetaExplorer';
@@ -153,6 +154,33 @@ export default function Peta() {
     const [tambahZona, setTambahZona] = useState<{ jenis: JenisZona; kunci: number } | null>(null);
     /** Kunci baru = peta diminta menggambar ulang bentuk lahan dari `geom` (setelah undo/redo). */
     const [pulihLahan, setPulihLahan] = useState<{ geom: Polygon; kunci: number } | null>(null);
+    // Panel layer Uji Lahan: layer terpilih, lahan terkunci, dan jenis isi hasil yang disembunyikan (hanya tampilan, tanpa undo).
+    const [zonaDipilih, setZonaDipilih] = useState<string | null>(null);
+    const [lahanTerkunci, setLahanTerkunci] = useState(false);
+    const [isiSembunyi, setIsiSembunyi] = useState<string[]>([]);
+    /** Zona yang tampil di panel layer: zona pengguna, atau zona bawaan pola dari server bila belum ada. */
+    const daftarZona = useMemo(() => zonaLahan ?? dariServer(hasilLahan?.zona), [zonaLahan, hasilLahan?.zona]);
+    const luasZona = useMemo(() => {
+        const m = new Map<string, number>();
+        const fitur = hasilLahan?.zona?.features ?? [];
+        if (zonaLahan) zonaLahan.forEach((z, i) => {
+            const f = fitur.find((x) => x.properties.id === i);
+            if (f) m.set(z.uid, f.properties.luas_m2);
+        });
+        else fitur.forEach((f) => m.set(`srv-${f.properties.id}`, f.properties.luas_m2));
+        return m;
+    }, [zonaLahan, hasilLahan?.zona]);
+    /** Jenis isi hasil hitungan yang ada sekarang (unit, kavling, slot, ...) beserta jumlahnya. */
+    const isiLahan = useMemo(() => {
+        const hitung = new Map<string, number>();
+        for (const f of hasilLahan?.geometri_kapasitas?.features ?? []) {
+            const j = String((f.properties as { jenis?: unknown } | null)?.jenis ?? '');
+            if (j) hitung.set(j, (hitung.get(j) ?? 0) + 1);
+        }
+        const urutan = ['unit', 'kavling', 'jalan', 'koridor', 'taman', 'parkir', 'slot', 'lobi', 'jalur', 'inti', 'void', 'tapak', 'akses'];
+        return [...hitung.keys()].sort((a, b) => (urutan.indexOf(a) + 100) % 100 - (urutan.indexOf(b) + 100) % 100).map((jenis) => ({ jenis, jumlah: hitung.get(jenis) ?? 0 }));
+    }, [hasilLahan?.geometri_kapasitas]);
+    const zonaSembunyi = useMemo(() => (zonaLahan ?? []).flatMap((z, i) => (z.sembunyi ? [i] : [])), [zonaLahan]);
     const [tambahAkses, setTambahAkses] = useState<{ jenis: JenisAkses; kunci: number } | null>(null);
     const [tampil3D, setTampil3D] = useState(false);
     const [memuatLahan, setMemuatLahan] = useState(false);
@@ -598,7 +626,7 @@ export default function Peta() {
             asumsi: asumsiLahan,
             persona,
             ...(polaLahan ? { pola: polaLahan } : {}),
-            ...(zonaLahan ? { zona: zonaLahan } : {}),
+            ...(zonaLahan ? { zona: keZonaApi(zonaLahan) } : {}),
             ...(aksesLahan.length ? { akses: aksesLahan } : {}),
         };
         const jeda = setTimeout(() => kirimLahan.current(badan), lahanDariPeta.current ? 0 : 350);
@@ -616,6 +644,9 @@ export default function Peta() {
         // Tipe bangunan dipertahankan; yang lain kembali ke awal dan riwayat undo dibuang.
         proyekLahan.mulaiBaru({ geom: null, tipe: tipeLahan, asumsi: {}, pola: null, zona: null, akses: [] });
         setPulihLahan(null);
+        setZonaDipilih(null);
+        setLahanTerkunci(false);
+        setIsiSembunyi([]);
         setTampil3D(false);
     };
 
@@ -624,6 +655,9 @@ export default function Peta() {
         // Gambar ulang: lahan, zona, dan akses dikosongkan; tipe, asumsi, dan pola dipertahankan.
         proyekLahan.mulaiBaru({ ...proyekLahan.snap, geom: null, zona: null, akses: [] });
         setPulihLahan(null);
+        setZonaDipilih(null);
+        setLahanTerkunci(false);
+        setIsiSembunyi([]);
         setHasilLahan(null);
         setGalatLahan(null);
         setAlatLahan({ mode, kunci: Date.now() });
@@ -811,9 +845,13 @@ export default function Peta() {
                     }}
                     zonaLahan={panelKiri === 'lahan' && geomLahan ? (hasilLahan?.zona ?? null) : null}
                     zonaManual={zonaLahan}
+                    zonaDipilih={zonaDipilih}
+                    kunciLahan={lahanTerkunci}
+                    isiSembunyi={isiSembunyi}
+                    zonaSembunyi={zonaSembunyi}
                     onZonaBerubah={(z) => {
                         lahanDariPeta.current = true;
-                        setZonaLahan(z);
+                        setZonaLahan(rapikan(z));
                     }}
                     tambahZona={tambahZona}
                     akses={aksesLahan}
@@ -924,8 +962,27 @@ export default function Peta() {
                             onUndo={urungLahan}
                             onRedo={ulangLahan}
                             zonaManual={!!zonaLahan}
-                            onAturUlangZona={() => setZonaLahan(null)}
+                            onAturUlangZona={() => {
+                                setZonaLahan(null);
+                                setZonaDipilih(null);
+                            }}
                             onTambahZona={(jenis) => setTambahZona({ jenis, kunci: Date.now() })}
+                            layer={{
+                                zona: daftarZona,
+                                luas: luasZona,
+                                manual: !!zonaLahan,
+                                dipilih: zonaDipilih,
+                                onPilih: setZonaDipilih,
+                                onUbah: (z) => {
+                                    lahanDariPeta.current = true;
+                                    setZonaLahan(rapikan(z));
+                                },
+                                lahanTerkunci,
+                                onKunciLahan: setLahanTerkunci,
+                                isi: isiLahan,
+                                isiSembunyi,
+                                onIsi: (jenis, tampil) => setIsiSembunyi((s) => (tampil ? s.filter((j) => j !== jenis) : [...s.filter((j) => j !== jenis), jenis])),
+                            }}
                             akses={aksesLahan}
                             onAkses={setAksesLahan}
                             onTambahAkses={(jenis) => setTambahAkses({ jenis, kunci: Date.now() })}

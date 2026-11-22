@@ -5,7 +5,7 @@
 import { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import type { Feature, FeatureCollection, Geometry, LineString, MultiPolygon, Point, Polygon } from 'geojson';
-import type { AksesLahanMasuk, AksesLahanProps, CommuteResponse, HasilSearch, JenisAkses, JenisZona, LayerKey, ZonaLahanMasuk, ZonaLahanProps } from '@/types';
+import type { AksesLahanMasuk, AksesLahanProps, CommuteResponse, HasilSearch, JenisAkses, JenisZona, LayerKey, ZonaLahan, ZonaLahanProps } from '@/types';
 import type { Bahasa } from '@/lib/bahasa';
 import * as gaya from './gaya';
 import { simpanTampilan, tampilanTerakhir } from './tampilan';
@@ -61,8 +61,15 @@ export type PropsPeta = {
     /** Zona dari respons /api/lahan (bawaan pola atau hasil potong zona pengguna). */
     zonaLahan?: FeatureCollection<Polygon | MultiPolygon, ZonaLahanProps> | null;
     /** Zona pengguna (belum dipotong); null = zona bawaan pola. */
-    zonaManual?: ZonaLahanMasuk[] | null;
-    onZonaBerubah?: (zona: ZonaLahanMasuk[], tarik: boolean) => void;
+    zonaManual?: ZonaLahan[] | null;
+    onZonaBerubah?: (zona: ZonaLahan[], tarik: boolean) => void;
+    /** uid zona yang dipilih di panel layer (disorot di peta). */
+    zonaDipilih?: string | null;
+    /** Lahan terkunci: digambar tanpa pegangan dan tidak bisa diubah dari peta. */
+    kunciLahan?: boolean;
+    /** Jenis isi hasil (mis. 'slot') dan nomor zona (id server) yang disembunyikan dari peta; hanya tampilan. */
+    isiSembunyi?: string[];
+    zonaSembunyi?: number[];
     /** Kunci baru = tambahkan satu zona berjenis ini di tengah lahan. */
     tambahZona?: { jenis: JenisZona; kunci: number } | null;
     /** Gerbang kendaraan dan pintu gedung yang ditaruh pengguna. */
@@ -527,6 +534,20 @@ export default function PetaExplorer(props: Props) {
     useEffect(() => {
         if (props.pulihLahan) alat.current?.pulihkan(props.pulihLahan.geom);
     }, [props.pulihLahan?.kunci]);
+
+    // Panel layer: kunci lahan, sorot zona terpilih, sembunyikan isi hasil.
+    useEffect(() => {
+        alat.current?.kunci(!!props.kunciLahan);
+    }, [props.kunciLahan, props.alatLahan?.kunci]);
+
+    useEffect(() => {
+        alatZona.current?.sorot(props.zonaDipilih ?? null);
+    }, [props.zonaDipilih]);
+
+    const kunciSembunyi = `${(props.isiSembunyi ?? []).join(',')}|${(props.zonaSembunyi ?? []).join(',')}`;
+    useEffect(() => {
+        lapisan.current?.setSembunyi(props.isiSembunyi ?? [], props.zonaSembunyi ?? []);
+    }, [kunciSembunyi, props.kapasitasLahan]);
 
     useEffect(() => {
         const l = lapisan.current;

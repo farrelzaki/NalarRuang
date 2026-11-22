@@ -149,7 +149,29 @@ export type PolaLahan = 'grid' | 'cluster' | 'keliling' | 'koridor' | 'wrap' | '
 export type JenisZona = 'bangunan' | 'parkir' | 'taman';
 
 /** Zona yang dikirim pengguna setelah menariknya; urutan = nomor zona (`id`). */
-export type ZonaLahanMasuk = { jenis: JenisZona; geometri: Polygon };
+export type ZonaLahanMasuk = {
+    jenis: JenisZona;
+    geometri: Polygon;
+    /** Sub-layer: nomor zona induk (urutan di larik `zona`). Dipotong ke bentuk induknya dan induk kehilangan bagian ini. */
+    induk?: number;
+};
+
+/**
+ * Zona di klien (panel layer Uji Lahan): `ZonaLahanMasuk` ditambah data yang hanya dipakai klien.
+ * Hanya `jenis`, `geometri`, dan `induk` (diubah dari uid menjadi nomor urut) yang dikirim ke server (`keZonaApi`).
+ */
+export type ZonaLahan = {
+    uid: string;
+    jenis: JenisZona;
+    geometri: Polygon;
+    nama?: string;
+    /** Terkunci: bentuknya tidak bisa ditarik, dipindah, atau dihapus dari peta dan panel. */
+    kunci?: boolean;
+    /** Disembunyikan dari peta (hitungan tetap memakainya). */
+    sembunyi?: boolean;
+    /** uid zona induk (sub-layer). */
+    induk?: string;
+};
 
 /** Zona di respons: geometri yang sudah dipotong ke lahan; `lantai` untuk gedung parkir bertingkat. */
 export type ZonaLahanProps = { id: number; jenis: JenisZona; luas_m2: number; lantai?: number };

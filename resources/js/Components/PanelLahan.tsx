@@ -6,6 +6,7 @@ import type { AksesLahanMasuk, AsumsiLahan, JenisAkses, JenisZona, LahanResponse
 import { teksServer, useBahasa, type Bahasa } from '@/lib/bahasa';
 import { cx, PERSONA_IDS } from '@/lib/nalar';
 import { Ikon, Keadaan } from './Dasar';
+import { PanelLayerLahan, type PropsLayerLahan } from './PanelLayerLahan';
 import { BarisSkor, KartuKesimpulan, kalimatWilayah } from './DetailLokasi';
 
 export type ModeGambar = 'kotak' | 'poligon';
@@ -33,6 +34,8 @@ type Props = {
     zonaManual: boolean;
     onAturUlangZona: () => void;
     onTambahZona: (j: JenisZona) => void;
+    /** Panel layer (daftar zona, kunci, sembunyi, sub-layer, isi hasil). */
+    layer: PropsLayerLahan;
     /** Gerbang dan pintu yang sudah ditaruh (paling banyak 6), bisa diubah angkanya dari panel. */
     akses: AksesLahanMasuk[];
     onAkses: (a: AksesLahanMasuk[]) => void;
@@ -199,7 +202,7 @@ export function PanelLahan(props: Props) {
                 <div className="nr-lahan__zona">
                     <section className="nr-lahan__grup" aria-labelledby="nr-lahan-zona">
                         <div className="nr-lahan__grupkepala">
-                            <h3 id="nr-lahan-zona">{t('Zona', 'Zones')}</h3>
+                            <h3 id="nr-lahan-zona">{t('Layer', 'Layers')}</h3>
                             {props.zonaManual && (
                                 <button type="button" className="nr-lahan__tautan" onClick={props.onAturUlangZona}>
                                     <Ikon name="rotate-ccw" size={12} /> {t('Kembalikan bawaan', 'Reset to default')}
@@ -214,6 +217,7 @@ export function PanelLahan(props: Props) {
                                 </button>
                             ))}
                         </div>
+                        <PanelLayerLahan {...props.layer} />
                     </section>
 
                     <section className="nr-lahan__grup" aria-labelledby="nr-lahan-akses">
