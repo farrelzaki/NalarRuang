@@ -1,5 +1,6 @@
 /** Klien endpoint docs/SISTEM.md bagian 2. */
 import type { CommuteResponse, InspectResponse, LahanRequest, LahanResponse, LayerKey, LayerResponse, Persona, SaranLokasi, SearchResponse } from '@/types';
+import type { PerumahanFeatureCollection, PerumahanRequest, PerumahanUnggahResponse } from '@/types/perumahan';
 import type { FeatureCollection } from 'geojson';
 
 async function ambil<T>(url: string, signal?: AbortSignal): Promise<T> {
@@ -9,6 +10,21 @@ async function ambil<T>(url: string, signal?: AbortSignal): Promise<T> {
         throw new Error(isi.message ?? `Permintaan gagal (${r.status}).`);
     }
     return r.json() as Promise<T>;
+}
+
+/** DELETE JSON; dipakai hanya oleh perumahan.hapus() (FR-24 draf). */
+async function hapusJson<T>(url: string, badan: unknown, signal?: AbortSignal): Promise<T> {
+    const r = await fetch(url, {
+        method: 'DELETE',
+        headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify(badan),
+        signal,
+    });
+    if (!r.ok) {
+        const isi = await r.json().catch(() => ({}));
+        throw new Error(isi.message ?? `Permintaan gagal (${r.status}).`);
+    }
+    return (r.status === 204 ? null : r.json()) as Promise<T>;
 }
 
 /** POST JSON; galat 422 membawa pesan yang bisa langsung ditampilkan. */
@@ -51,4 +67,13 @@ export const api = {
         ambil<CommuteResponse>(`/api/commute?${qs({ dari: `${a.lat},${a.lng}`, ke: `${b.lat},${b.lng}`, tol: lewatTol ? undefined : 0, gg: hindariGg ? 1 : undefined, bbm: hargaBbm, kendaraan: kendaraan === 'motor' ? 'motor' : undefined })}`, signal),
     /** Uji Lahan (FR-23). */
     lahan: (badan: LahanRequest, signal?: AbortSignal) => kirim<LahanResponse>('/api/lahan', badan, signal),
+    /** FR-24 DRAF (listing properti) — belum bagian kontrak resmi, lihat docs/RENCANA.md TBD-12. */
+    perumahan: {
+        cari: (bbox: [number, number, number, number], tipe?: TipePerumahanQs, signal?: AbortSignal) =>
+            ambil<PerumahanFeatureCollection>(`/api/perumahan/cari?${qs({ bbox: bbox.join(','), tipe })}`, signal),
+        unggah: (badan: PerumahanRequest, signal?: AbortSignal) => kirim<PerumahanUnggahResponse>('/api/perumahan', badan, signal),
+        hapus: (id: number, tokenKelola: string, signal?: AbortSignal) => hapusJson<null>(`/api/perumahan/${id}`, { token_kelola: tokenKelola }, signal),
+    },
 };
+
+type TipePerumahanQs = PerumahanRequest['tipe'] | undefined;
