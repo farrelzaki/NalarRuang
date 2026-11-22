@@ -59,6 +59,34 @@ class RuteTransitTest extends TestCase
         $this->assertSame(['tj', 'tj', 1], [$rute['langkah'][2]['jenis'], $rute['langkah'][2]['lin'], $rute['langkah'][2]['garis']]);
     }
 
+    public function test_koridor_tj_pakai_warna_sungguhan_bila_tersedia(): void
+    {
+        $diminta = [];
+        $rute = (new RuteTransit())->rakit(
+            $this->tarif(),
+            $this->koordinat(),
+            ['KCI:B' => 'Lin Bogor'],
+            fn (string $jenis, array $p, array $q) => [$p, $q],
+            function (string $koridor) use (&$diminta) {
+                $diminta[] = $koridor;
+
+                return $koridor === '9' ? '#ff6600' : null;
+            },
+        );
+
+        $this->assertSame(['9'], $diminta, 'Hanya ruas naik TransJakarta yang meminta warna koridor.');
+        $this->assertSame('#ff6600', $rute['langkah'][2]['lin']);
+        // jenis tetap "tj" polos (dipakai frontend untuk pilih ikon bus, bukan warna).
+        $this->assertSame('tj', $rute['langkah'][2]['jenis']);
+    }
+
+    public function test_koridor_tj_tanpa_warna_data_tetap_navy_generik(): void
+    {
+        $rute = (new RuteTransit())->rakit($this->tarif(), $this->koordinat(), ['KCI:B' => 'Lin Bogor'], fn () => null, fn () => null);
+
+        $this->assertSame('tj', $rute['langkah'][2]['lin']);
+    }
+
     public function test_tarif_kosong_dijumlah_dari_segmen(): void
     {
         $tarif = $this->tarif();

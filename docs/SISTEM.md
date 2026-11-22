@@ -147,6 +147,10 @@ Waktu, Legalitas Lahan.
   yang memenuhi, kembalikan daftar kosong dengan `message` (UC-03).
 - `commute` bergantung pada TBD-ROUTE. Sementara: mobil lewat Valhalla (cadangan OSRM),
   umum lewat Commute Data API; tarif tol dan waktu tempuh adalah perkiraan.
+- `commute` publik, ruas naik TransJakarta (22 Nov 2026): `langkah[].lin` memakai warna koridor
+  sungguhan dari `fitur_peta` (`layer_id = 'jaringan_tj'`, atribut `warna`, sama sumber dengan layer
+  Mobilitas) bila tersedia di data, selain itu tetap kunci generik `tj` (navy) seperti sebelumnya.
+  Tidak mengubah bentuk field (`lin` tetap string), jadi aditif.
 - Metrik wilayah untuk `search` (jarak ke stasiun/tol/POI/RTH, jumlah POI, porsi banjir)
   dihitung sekali oleh `DemoPetaSeeder` dan disimpan di `wilayah.atribut`.
 - `lahan` memakai POST karena koordinat poligon bisa terlalu panjang untuk query string. Rumus kapasitas ada di

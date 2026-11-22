@@ -331,9 +331,15 @@ class CommuteController extends Controller
             if (! ($tarif = $semuaTarif[$i])) {
                 continue;
             }
-            $rute = (new RuteTransit())->rakit($tarif, $this->koordinatStasiun(), $this->namaLin(), function (string $jenis, array $p, array $q) {
-                return $this->grafRel($jenis)->jalur($p, $q)['koordinat'] ?? null;
-            });
+            $rute = (new RuteTransit())->rakit(
+                $tarif,
+                $this->koordinatStasiun(),
+                $this->namaLin(),
+                function (string $jenis, array $p, array $q) {
+                    return $this->grafRel($jenis)->jalur($p, $q)['koordinat'] ?? null;
+                },
+                fn (string $koridor) => $koridor !== '' ? $this->warnaKoridorTj($koridor) : null,
+            );
             if (! $rute) {
                 continue;
             }
@@ -455,6 +461,15 @@ class CommuteController extends Controller
 
             return $hasil;
         });
+    }
+
+    /** Warna koridor TransJakarta sungguhan dari data (sama sumber dengan layer Mobilitas), bila atribut 'warna' ada. */
+    private function warnaKoridorTj(string $koridor): ?string
+    {
+        return Cache::rememberForever("commute:warna-tj:{$koridor}", fn () => DB::selectOne(
+            "SELECT atribut->>'warna' AS warna FROM fitur_peta WHERE layer_id = 'jaringan_tj' AND atribut->>'koridor' = ? AND atribut->>'warna' IS NOT NULL LIMIT 1",
+            [$koridor],
+        )?->warna);
     }
 
     /** Graf jalur per jenis (krl, mrt, lrt, atau koridor TransJakarta "tj:13B") dari PostGIS, disimpan di cache. */
