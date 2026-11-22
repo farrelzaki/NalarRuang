@@ -10,6 +10,7 @@
  */
 import L from 'leaflet';
 import type { FeatureCollection, Geometry, Polygon, Position } from 'geojson';
+import { batasiKotak, batasiTitik, bolehTambahTitik, skalaKotakAwal, titikTerdekatRuas } from '@/lib/batasLahan';
 
 export type ModeLahan = 'kotak' | 'poligon';
 
@@ -35,7 +36,9 @@ export class AlatLahan {
     private grup: L.LayerGroup;
     private onUbah: (g: Polygon | null, tarik?: boolean) => void;
     private onTarik?: (titik: L.LatLng[], kotak: boolean) => void;
+    private onBatas?: () => void;
     private terakhirKirim = 0;
+    private terakhirBatas = 0;
     /** True selama sudut, titik tengah, atau pegangan geser sedang ditarik. */
     ditarik = false;
     private mode: ModeLahan | null = null;
@@ -49,11 +52,13 @@ export class AlatLahan {
     /**
      * onUbah: lahan berubah (tarik = true selama masih ditarik, dikirim paling sering tiap 100 ms).
      * onTarik: dipanggil tiap gerakan tarik, untuk memotong dan memudarkan isi kapasitas tanpa menunggu server.
+     * onBatas: bentuk lahan tertahan di batas ukuran maksimum (paling sering sekali tiap 2,5 detik), untuk notifikasi.
      */
-    constructor(peta: L.Map, onUbah: (g: Polygon | null, tarik?: boolean) => void, onTarik?: (titik: L.LatLng[], kotak: boolean) => void) {
+    constructor(peta: L.Map, onUbah: (g: Polygon | null, tarik?: boolean) => void, onTarik?: (titik: L.LatLng[], kotak: boolean) => void, onBatas?: () => void) {
         this.peta = peta;
         this.onUbah = onUbah;
         this.onTarik = onTarik;
+        this.onBatas = onBatas;
         this.grup = L.layerGroup().addTo(peta);
         this.klik = this.klik.bind(this);
         this.gerak = this.gerak.bind(this);
@@ -116,8 +121,12 @@ export class AlatLahan {
         const b = this.peta.getBounds();
         const pusat = b.getCenter();
         // Sekitar seperlima lebar layar, dengan rasio 4:3.
-        const dLng = (b.getEast() - b.getWest()) / 10;
-        const dLat = dLng * 0.75 * Math.cos((pusat.lat * Math.PI) / 180);
+        let dLng = (b.getEast() - b.getWest()) / 10;
+        let dLat = dLng * 0.75 * Math.cos((pusat.lat * Math.PI) / 180);
+        // Zoom jauh membuat seperlima layar jauh di atas batas ukuran: kecilkan supaya kotak awal selalu sah.
+        const skala = skalaKotakAwal(dLng, dLat, pusat.lat);
+        dLng *= skala;
+        dLat *= skala;
         this.titik = [
             L.latLng(pusat.lat + dLat, pusat.lng - dLng),
             L.latLng(pusat.lat + dLat, pusat.lng + dLng),
@@ -130,13 +139,24 @@ export class AlatLahan {
     }
 
     /** Sudut i ditarik: sudut seberangnya tetap, dua sudut lain mengikuti supaya tetap kotak. */
-    private tarikSudutKotak(i: number, ll: L.LatLng): void {
+    private tarikSudutKotak(i: number, ll: L.LatLng): boolean {
         const seberang = this.titik[(i + 2) % 4];
-        const utara = Math.max(ll.lat, seberang.lat);
-        const selatan = Math.min(ll.lat, seberang.lat);
-        const barat = Math.min(ll.lng, seberang.lng);
-        const timur = Math.max(ll.lng, seberang.lng);
+        // Kotak yang melewati batas ukuran berhenti di batas (rasio tarikan tetap).
+        const h = batasiKotak(seberang, ll);
+        const utara = Math.max(h.titik.lat, seberang.lat);
+        const selatan = Math.min(h.titik.lat, seberang.lat);
+        const barat = Math.min(h.titik.lng, seberang.lng);
+        const timur = Math.max(h.titik.lng, seberang.lng);
         this.titik = [L.latLng(utara, barat), L.latLng(utara, timur), L.latLng(selatan, timur), L.latLng(selatan, barat)];
+        return h.terbatas;
+    }
+
+    /** Beri tahu bahwa bentuk tertahan di batas ukuran (dibatasi supaya notifikasi tidak menumpuk). */
+    private kabarBatas(): void {
+        const kini = performance.now();
+        if (kini - this.terakhirBatas < 2500) return;
+        this.terakhirBatas = kini;
+        this.onBatas?.();
     }
 
     // ---- Poligon ----
@@ -151,6 +171,11 @@ export class AlatLahan {
                 this.tutupPoligon();
                 return;
             }
+        }
+        // Titik yang membuat poligon melewati batas ukuran ditolak.
+        if (this.titik.length >= 2 && !bolehTambahTitik(this.titik, e.latlng)) {
+            this.kabarBatas();
+            return;
         }
         this.titik.push(e.latlng);
         this.gambar();
@@ -187,6 +212,12 @@ export class AlatLahan {
 
         if (this.tertutup) {
             this.poligon = L.polygon(this.titik, { ...gayaLahan, pane: 'nrSeleksi', className: 'nr-lahan', bubblingMouseEvents: false }).addTo(this.grup);
+            // Shift + klik di dekat sisi poligon menyisipkan titik sudut baru di sisi itu (seperti TestFit).
+            if (this.mode === 'poligon') {
+                this.poligon.on('click', (e) => {
+                    if ((e.originalEvent as MouseEvent).shiftKey) this.sisipTitik(e.latlng);
+                });
+            }
         } else if (this.titik.length >= 2) {
             this.draf = L.polyline(this.titik, { ...gayaDraf, pane: 'nrSeleksi' }).addTo(this.grup);
         }
@@ -197,12 +228,22 @@ export class AlatLahan {
             if (awal) m.on('click', () => this.tutupPoligon());
             if (this.tertutup) {
                 m.on('drag', (e) => {
-                    const baru = (e.target as L.Marker).getLatLng();
+                    const penanda = e.target as L.Marker;
+                    const baru = penanda.getLatLng();
                     if (this.mode === 'kotak') {
-                        this.tarikSudutKotak(i, baru);
+                        if (this.tarikSudutKotak(i, baru)) {
+                            penanda.setLatLng(this.titik[i]);
+                            this.kabarBatas();
+                        }
                         this.perbaruiPosisi(i);
                     } else {
-                        this.titik[i] = baru;
+                        // Titik berhenti di batas ukuran maksimum alih-alih mengikuti kursor.
+                        const h = batasiTitik(this.titik, i, baru);
+                        this.titik[i] = L.latLng(h.titik.lat, h.titik.lng);
+                        if (h.terbatas) {
+                            penanda.setLatLng(this.titik[i]);
+                            this.kabarBatas();
+                        }
                         this.poligon?.setLatLngs(this.titik);
                         this.perbaruiPosisi(i);
                     }
@@ -225,7 +266,13 @@ export class AlatLahan {
                     this.titik.splice(i + 1, 0, tengah);
                 });
                 m.on('drag', (e) => {
-                    this.titik[i + 1] = (e.target as L.Marker).getLatLng();
+                    const penanda = e.target as L.Marker;
+                    const h = batasiTitik(this.titik, i + 1, penanda.getLatLng());
+                    this.titik[i + 1] = L.latLng(h.titik.lat, h.titik.lng);
+                    if (h.terbatas) {
+                        penanda.setLatLng(this.titik[i + 1]);
+                        this.kabarBatas();
+                    }
                     this.poligon?.setLatLngs(this.titik);
                     this.saatTarik();
                 });
@@ -253,6 +300,21 @@ export class AlatLahan {
         });
         geser.on('dragend', () => this.akhirTarik());
         this.pegangan.push(geser);
+    }
+
+    /** Sisipkan titik sudut di sisi poligon terdekat dari `ll` (hanya bila klik dalam 18 px dari sebuah sisi). Luas tidak berubah. */
+    private sisipTitik(ll: L.LatLng): void {
+        const p = this.peta.latLngToLayerPoint(ll);
+        let terbaik = { i: -1, x: 0, y: 0, jarak: Infinity };
+        this.titik.forEach((a, i) => {
+            const b = this.titik[(i + 1) % this.titik.length];
+            const r = titikTerdekatRuas(p, this.peta.latLngToLayerPoint(a), this.peta.latLngToLayerPoint(b));
+            if (r.jarak < terbaik.jarak) terbaik = { i, x: r.x, y: r.y, jarak: r.jarak };
+        });
+        if (terbaik.i < 0 || terbaik.jarak > 18) return;
+        this.titik.splice(terbaik.i + 1, 0, this.peta.layerPointToLatLng(L.point(terbaik.x, terbaik.y)));
+        this.gambar();
+        this.kirim();
     }
 
     /** Titik lahan saat ini (salinan). */

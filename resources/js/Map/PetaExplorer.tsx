@@ -54,6 +54,8 @@ export type PropsPeta = {
     /** Kavling/jalan/tapak dari POST /api/lahan. */
     kapasitasLahan?: FeatureCollection | null;
     onLahanBerubah?: (g: Polygon | null, tarik?: boolean) => void;
+    /** Bentuk lahan tertahan di batas ukuran maksimum (20 ha); dipakai untuk menampilkan notifikasi. */
+    onLahanBatas?: () => void;
     /** Kunci baru = pulihkan bentuk lahan ke `geom` (undo/redo); tidak memicu onLahanBerubah. */
     pulihLahan?: { geom: Polygon; kunci: number } | null;
     /** Zona dari respons /api/lahan (bawaan pola atau hasil potong zona pengguna). */
@@ -481,6 +483,7 @@ export default function PetaExplorer(props: Props) {
                     panggil.current.onLahanBerubah?.(g, tarik);
                 },
                 (titik) => lapisan.current?.saring(titik),
+                () => panggil.current.onLahanBatas?.(),
             );
         }
         alat.current.mulai(props.alatLahan?.mode ?? null);

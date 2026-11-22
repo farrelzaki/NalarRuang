@@ -803,6 +803,7 @@ export default function Peta() {
                     alatLahan={panelKiri === 'lahan' ? alatLahan : null}
                     selesaiLahan={selesaiLahan}
                     pulihLahan={pulihLahan}
+                    onLahanBatas={() => kabar(t('Batas maksimum Uji Lahan 20 hektare tercapai. Lahan tidak bisa diperbesar lagi.', 'The 20-hectare Site Test limit is reached. The site cannot grow any further.'), 'warning')}
                     kapasitasLahan={panelKiri === 'lahan' && geomLahan ? (hasilLahan?.geometri_kapasitas ?? null) : null}
                     onLahanBerubah={(g) => {
                         lahanDariPeta.current = true;
