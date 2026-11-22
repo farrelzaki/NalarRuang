@@ -36,6 +36,9 @@ class LahanController extends Controller
     /** Paling banyak zona yang bisa ditarik sendiri. */
     private const ZONA_MAKS = 12;
 
+    /** Isi sisa lahan yang tidak tertutup zona mana pun dengan taman (hanya kos dan apartemen; rumah tapak memakai sisa sebagai jalan). */
+    private bool $isiSisaTaman = false;
+
     public function __construct(private PersonaScoring $skor, private KapasitasLahan $kapasitas)
     {
     }
@@ -72,11 +75,14 @@ class LahanController extends Controller
             'akses.*.titik.*' => 'required|numeric',
             'akses.*.lebar' => 'nullable|numeric',
             'akses.*.panjang' => 'nullable|numeric',
+            // Sisa lahan di luar semua zona (termasuk sempadan) menjadi taman; hanya berlaku untuk zona yang ditarik sendiri pada kos/apartemen.
+            'isi_sisa_taman' => 'nullable|boolean',
             'persona' => 'nullable|array',
             'persona.*' => 'string',
         ]);
 
         $tipe = (string) $request->input('tipe');
+        $this->isiSisaTaman = $tipe !== 'rumah' && $request->boolean('isi_sisa_taman');
         $pola = KapasitasLahan::polaSah($tipe, $request->input('pola'));
         $manual = null;
         if (is_array($request->input('zona')) && $request->input('zona') !== []) {
@@ -565,6 +571,14 @@ class LahanController extends Controller
             $g = $this->op('ST_Difference', $g, $terisi);
             $terisi = $this->op('ST_Union', $terisi, $g);
             $hasil[$id] = ['jenis' => $z['jenis'], 'ewkt' => $g];
+        }
+
+        // Isi sisa dengan taman: zona tambahan bernomor setelah zona pengguna (tidak ada di daftar klien).
+        if ($this->isiSisaTaman) {
+            $sisa = $this->op('ST_Difference', $lahan, $terisi);
+            if ($this->luasUtm($sisa) >= 1) {
+                $hasil[count($masuk)] = ['jenis' => 'taman', 'ewkt' => $sisa];
+            }
         }
         ksort($hasil);
 

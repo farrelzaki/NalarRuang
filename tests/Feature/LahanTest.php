@@ -220,6 +220,29 @@ class LahanTest extends TestCase
         $this->assertEqualsWithDelta($luas($lama, 0) + $luas($lama, 1), $luas($baru, 0) + $luas($baru, 1), 1.0);
     }
 
+    public function test_isi_sisa_lahan_dengan_taman(): void
+    {
+        $kotak = fn (float $x0, float $y0, float $x1, float $y1) => ['type' => 'Polygon', 'coordinates' => [[[$x0, $y0], [$x1, $y0], [$x1, $y1], [$x0, $y1], [$x0, $y0]]]];
+        // Satu gedung kecil di sudut lahan; sisanya kosong.
+        $badan = ['tipe' => 'apartemen', 'zona' => [['jenis' => 'bangunan', 'geometri' => $kotak(106.8021, -6.2079, 106.8025, -6.2075)]]];
+
+        $kosong = $this->lahan($badan)->assertOk()->json();
+        $isi = $this->lahan($badan + ['isi_sisa_taman' => true])->assertOk()->json();
+
+        $this->assertCount(1, $kosong['zona']['features']);
+        $this->assertCount(2, $isi['zona']['features']);
+        $sisa = collect($isi['zona']['features'])->firstWhere('properties.id', 1);
+        $this->assertSame('taman', $sisa['properties']['jenis']);
+        // Sisa = lahan (± 12.100 m²) dikurangi gedung; bersama gedung menutup seluruh lahan.
+        $gedung = collect($isi['zona']['features'])->firstWhere('properties.id', 0)['properties']['luas_m2'];
+        $this->assertEqualsWithDelta($isi['luas_m2'], $gedung + $sisa['properties']['luas_m2'], 5.0);
+        $this->assertGreaterThan($kosong['ringkasan']['kdh_terpakai'], $isi['ringkasan']['kdh_terpakai']);
+
+        // Rumah tapak memakai sisa sebagai jalan: opsi diabaikan.
+        $rumah = $this->lahan(['tipe' => 'rumah', 'zona' => [['jenis' => 'bangunan', 'geometri' => $kotak(106.8021, -6.2079, 106.8025, -6.2075)]], 'isi_sisa_taman' => true])->assertOk()->json();
+        $this->assertCount(1, $rumah['zona']['features']);
+    }
+
     public function test_induk_zona_tidak_sah_ditolak(): void
     {
         $kotak = fn (float $x0, float $y0, float $x1, float $y1) => ['type' => 'Polygon', 'coordinates' => [[[$x0, $y0], [$x1, $y0], [$x1, $y1], [$x0, $y1], [$x0, $y0]]]];
