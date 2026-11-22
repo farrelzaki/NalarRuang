@@ -46,6 +46,11 @@ class CommuteController extends Controller
     private const MAKS_RUTE_JALAN = 1500;    // meter menurut rute pejalan kaki
     private const TARIF_OJOL = 15000;        // Rp per perjalanan
     private const KECEPATAN_OJOL = 350;      // m/menit (+-21 km/jam di jalan kota)
+    // Rute mobil kadang memutar jauh karena titik hanya terjangkau lewat gang/jalan khusus pejalan (bukan bug
+    // Valhalla: akses mobil memang harus lewat jalan ber-mobil). Bila jarak lurus dekat tapi rute mobil jauh
+    // lebih panjang, tawarkan jalan kaki langsung sebagai alternatif, jangan diam-diam biarkan pengguna memutar.
+    private const JARAK_PENDEK_JALAN_KAKI = 2000; // meter garis lurus A-B; di atas ini jalan kaki tidak relevan
+    private const RASIO_MOBIL_MEMUTAR = 2.0;      // rute mobil dianggap "memutar" bila > garis lurus x rasio ini
     private const TUNGGU_OJOL = 4;           // menit menunggu pengemudi
     // Ganjil-genap. Server Valhalla publik membatasi exclude_polygons: total 100 titik sudut, keliling 10 km.
     private const GG_PUTARAN = 5;
@@ -145,7 +150,28 @@ class CommuteController extends Controller
             // ruas: ruas ganjil-genap yang masih dilewati rute (kosong bila berhasil dihindari atau memang tidak lewat).
             'ganjil_genap' => ['hindari' => $hindariGg, 'ruas' => array_keys($ruasGg)],
             'geometri' => $r['geometri'],
+            'jalan_kaki_alternatif' => $this->jalanKakiAlternatif($a, $b, $r['meter']),
         ];
+    }
+
+    /**
+     * Bila A-B dekat garis lurus tapi rute mobil memutar jauh (titik kemungkinan hanya terjangkau lewat
+     * gang/jalan khusus pejalan), tawarkan rute jalan kaki langsung sebagai alternatif.
+     *
+     * @return array{menit: int, meter: int}|null
+     */
+    private function jalanKakiAlternatif(array $a, array $b, float $meterMobil): ?array
+    {
+        $lurus = RailGraph::meter([$a[1], $a[0]], [$b[1], $b[0]]);
+        if ($lurus > self::JARAK_PENDEK_JALAN_KAKI || $meterMobil <= $lurus * self::RASIO_MOBIL_MEMUTAR) {
+            return null;
+        }
+        $jalan = $this->osrm(self::OSRM_KAKI, $a, $b);
+        if (! $jalan) {
+            return null;
+        }
+
+        return ['menit' => (int) max(1, round($jalan['duration'] / 60)), 'meter' => (int) round($jalan['distance'])];
     }
 
     /**
