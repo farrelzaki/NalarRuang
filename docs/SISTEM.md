@@ -150,6 +150,10 @@ Waktu, Legalitas Lahan.
 - `commute` dengan `kendaraan=motor` (22 Nov 2026): rute Valhalla costing `motorcycle` (bukan `auto`), bukan
   reuse rute mobil; `tol` diabaikan dan dipaksa tidak lewat tol (motor dilarang di jalan tol Indonesia), konsumsi
   BBM memakai 40 km/liter (bukan 12 km/liter mobil). Tidak mengubah bentuk field, jadi aditif terhadap kontrak lama.
+- `commute` publik, ruas naik TransJakarta (22 Nov 2026): `langkah[].lin` memakai warna koridor
+  sungguhan dari `fitur_peta` (`layer_id = 'jaringan_tj'`, atribut `warna`, sama sumber dengan layer
+  Mobilitas) bila tersedia di data, selain itu tetap kunci generik `tj` (navy) seperti sebelumnya.
+  Tidak mengubah bentuk field (`lin` tetap string), jadi aditif.
 - Metrik wilayah untuk `search` (jarak ke stasiun/tol/POI/RTH, jumlah POI, porsi banjir)
   dihitung sekali oleh `DemoPetaSeeder` dan disimpan di `wilayah.atribut`.
 - `lahan` memakai POST karena koordinat poligon bisa terlalu panjang untuk query string. Rumus kapasitas ada di
