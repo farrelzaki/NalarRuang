@@ -1198,7 +1198,7 @@ class LahanController extends Controller
 
     /**
      * Kos/apartemen bergaya TestFit. Zona bangunan diisi gedung berkoridor tengah (dua deret unit di kiri-kanan koridor,
-     * dibagi dengan Voronoi supaya ikut berbelok di sudut, sisa di tengah gedung = inti lift/tangga). Zona parkir diisi
+     * berupa persegi panjang tetap di sepanjang tiap tepi lurus; yang tidak muat utuh dibuang; sisa di tengah gedung = inti lift/tangga). Zona parkir diisi
      * slot (motor untuk kos, mobil untuk apartemen); pola wrap menjadikannya gedung parkir bertingkat. Zona taman = ruang
      * tengah/RTH. Tanpa zona dari pengguna, zona dibuat dari pola.
      *
@@ -1479,8 +1479,11 @@ class LahanController extends Controller
     }
 
     /**
-     * Isi satu zona bangunan: dua deret unit di kiri-kanan koridor, mengikuti semua tepi zona (termasuk tepi dalam bila
-     * zona berlubang). Benih Voronoi dikunci ke kelipatan lebar unit per ruas supaya unit stabil saat zona ditarik.
+     * Isi satu zona bangunan dengan kamar/unit berbentuk persegi panjang tetap (lebar x kedalaman unit), seperti grid kavling
+     * rumah tapak: di sepanjang tiap tepi lurus zona (termasuk tepi dalam bila zona berlubang) dipasang deret luar, koridor,
+     * dan deret dalam. Unit yang tidak muat utuh di zona dibuang, tidak dipotong, jadi tidak ada unit berbentuk rusak; di sudut,
+     * unit dari tepi yang lebih panjang didahulukan dan unit lain yang menumpuk dibuang. Unit berurutan per tepi (terpanjang
+     * dulu), deret, lalu posisi, sehingga potongan gedung yang tersisa saat target dipangkas tetap utuh.
      *
      * @return array{unit: list<object>, fitur: list<array<string, mixed>>, luas: float}
      */
@@ -1489,67 +1492,105 @@ class LahanController extends Controller
         $du = KapasitasLahan::KEDALAMAN_UNIT[$tipe];
         $c = KapasitasLahan::LEBAR_KORIDOR[$tipe];
         $w = $this->kapasitas->lebarUnit($tipe, $asumsi);
-        [$ndu, $nduc, $ntebal, $nw] = array_map([self::class, 'n'], [$du, $du + $c, 2 * $du + $c, $w]);
-        $tengah1 = self::n($du / 2);
-        $tengah2 = self::n($du + $c + $du / 2);
-        $minLuas = self::n(0.35 * $w * $du);
+        $utm = self::UTM;
 
-        $unit = DB::select(
-            "WITH z AS (SELECT ST_GeomFromEWKT(?) AS g),
-             p AS (SELECT ST_Centroid(g) AS pusat FROM z),
-             pita AS (
-                 SELECT 1 AS deret, ST_Difference(g, ST_Buffer(g, -{$ndu}, 'join=mitre')) AS band, {$tengah1}::float8 AS tengah FROM z
-                 UNION ALL
-                 SELECT 2, ST_Difference(ST_Buffer(g, -{$nduc}, 'join=mitre'), ST_Buffer(g, -{$ntebal}, 'join=mitre')), {$tengah2}::float8 FROM z
-             ),
-             garis AS (SELECT pita.deret, (ST_Dump(ST_Boundary(ST_Buffer(z.g, -pita.tengah, 'join=mitre')))).geom AS ln FROM pita, z),
-             ruas AS (
-                 SELECT garis.deret, ST_StartPoint(d.geom) AS a, ST_Length(d.geom) AS pjg,
-                        sin(ST_Azimuth(ST_StartPoint(d.geom), ST_EndPoint(d.geom))) AS ux,
-                        cos(ST_Azimuth(ST_StartPoint(d.geom), ST_EndPoint(d.geom))) AS uy
-                 FROM garis, LATERAL ST_DumpSegments(garis.ln) AS d
-                 WHERE ST_Length(d.geom) > 0.01
-             ),
-             ruas2 AS (SELECT ruas.*, ST_X(a) * ux + ST_Y(a) * uy AS proj FROM ruas),
-             benih0 AS (
-                 SELECT deret, a, ux, uy, (ceil((proj - {$nw} / 2) / {$nw}) + k) * {$nw} + {$nw} / 2 - proj AS t, pjg
-                 FROM ruas2, LATERAL generate_series(0, ceil(pjg / {$nw})::int) AS k
-             ),
-             benih AS (SELECT deret, ST_Translate(a, t * ux, t * uy) AS t FROM benih0 WHERE t >= 0 AND t < pjg),
-             sel AS (
-                 SELECT deret, (ST_Dump(ST_VoronoiPolygons(ST_Collect(t), 0, (SELECT ST_Expand(g, 200) FROM z)))).geom AS v
-                 FROM benih GROUP BY deret
-             ),
-             u AS (
-                 SELECT sel.deret, ST_CollectionExtract(ST_Intersection(sel.v, pita.band), 3) AS g
-                 FROM sel JOIN pita USING (deret) WHERE ST_Intersects(sel.v, pita.band)
-             )
-             SELECT u.deret, ST_Area(u.g) AS luas, ST_Azimuth(p.pusat, ST_PointOnSurface(u.g)) AS az,
-                    ST_AsGeoJSON(ST_Transform(u.g, 4326), 6) AS geo, ST_AsEWKT(u.g) AS ewkt
-             FROM u, p WHERE NOT ST_IsEmpty(u.g) AND ST_Area(u.g) >= {$minLuas}
-             ORDER BY az",
+        // Titik sudut semua cincin, berlawanan jarum jam untuk cincin luar (dan searah untuk lubang): sisi kiri tiap ruas = ke dalam zona.
+        $titik = DB::select(
+            "WITH z AS (SELECT ST_ForcePolygonCCW(ST_CollectionExtract(ST_MakeValid(ST_GeomFromEWKT(?)), 3)) AS g),
+                  b AS (SELECT (ST_Dump(g)).path[1] AS bagian, (ST_Dump(g)).geom AS p FROM z),
+                  r AS (SELECT bagian, (ST_DumpRings(p)).path[1] AS cincin, (ST_DumpRings(p)).geom AS g FROM b)
+             SELECT bagian, cincin, (d).path[2] AS urut, ST_X((d).geom) AS x, ST_Y((d).geom) AS y
+             FROM r, LATERAL ST_DumpPoints(r.g) AS d
+             ORDER BY bagian, cincin, urut",
             [$ewkt],
         );
 
+        // Calon unit dan pita koridor per ruas.
+        $ruas = [];
+        $cincin = [];
+        foreach ($titik as $t) {
+            $cincin["{$t->bagian}-{$t->cincin}"][] = [(float) $t->x, (float) $t->y];
+        }
+        foreach ($cincin as $kunci => $p) {
+            for ($i = 0; $i + 1 < count($p); $i++) {
+                [$ax, $ay] = $p[$i];
+                [$bx, $by] = $p[$i + 1];
+                $pjg = hypot($bx - $ax, $by - $ay);
+                if ($pjg >= $w) {
+                    $ruas[] = ['a' => [$ax, $ay], 'u' => [($bx - $ax) / $pjg, ($by - $ay) / $pjg], 'pjg' => $pjg, 'kunci' => "{$kunci}-{$i}"];
+                }
+            }
+        }
+        // Tepi terpanjang dulu: unitnya menang di sudut.
+        usort($ruas, fn ($a, $b) => $b['pjg'] <=> $a['pjg'] ?: strcmp($a['kunci'], $b['kunci']));
+
+        $wkt = fn (array $q) => 'POLYGON(('.implode(',', array_map(fn ($t) => sprintf('%.3F %.3F', $t[0], $t[1]), [...$q, $q[0]])).'))';
+        $calon = [];
+        $pita = [];
+        foreach ($ruas as $r) {
+            [$ux, $uy] = $r['u'];
+            [$nx, $ny] = [-$uy, $ux];
+            $n = (int) floor($r['pjg'] / $w + 1e-9);
+            $awal = ($r['pjg'] - $n * $w) / 2;
+            $titikDi = fn (float $s, float $d) => [$r['a'][0] + $ux * $s + $nx * $d, $r['a'][1] + $uy * $s + $ny * $d];
+            foreach ([0.0, $du + $c] as $d0) {
+                for ($k = 0; $k < $n; $k++) {
+                    $s0 = $awal + $k * $w;
+                    $calon[] = $wkt([$titikDi($s0, $d0), $titikDi($s0 + $w, $d0), $titikDi($s0 + $w, $d0 + $du), $titikDi($s0, $d0 + $du)]);
+                }
+            }
+            $pita[] = $wkt([$titikDi(0, $du), $titikDi($r['pjg'], $du), $titikDi($r['pjg'], $du + $c), $titikDi(0, $du + $c)]);
+        }
+        if ($calon === []) {
+            return ['unit' => [], 'fitur' => [], 'luas' => 0.0];
+        }
+        $larik = fn (array $daftar) => '{'.implode(',', array_map(fn ($x) => '"'.$x.'"', $daftar)).'}';
+        $minLuas = self::n(0.98 * $w * $du);
+
+        // Unit yang utuh di dalam zona dan tidak menumpuk unit yang didahulukan.
+        $unit = DB::select(
+            "WITH z AS (SELECT ST_Buffer(ST_GeomFromEWKT(?), 0.05) AS g),
+                  c AS (SELECT i, ST_SetSRID(ST_GeomFromText(t), {$utm}) AS g FROM unnest(?::text[]) WITH ORDINALITY AS x(t, i)),
+                  ok AS (SELECT c.i, c.g FROM c, z WHERE ST_CoveredBy(c.g, z.g) AND ST_Area(c.g) >= {$minLuas}),
+                  pilih AS (SELECT a.i, a.g FROM ok a
+                            WHERE NOT EXISTS (SELECT 1 FROM ok b WHERE b.i < a.i AND a.g && b.g AND ST_Area(ST_Intersection(a.g, b.g)) > 0.05))
+             SELECT i, ST_AsGeoJSON(ST_Transform(g, 4326), 6) AS geo, ST_AsEWKT(g) AS ewkt FROM pilih ORDER BY i",
+            [$ewkt, $larik($calon)],
+        );
+        if ($unit === []) {
+            return ['unit' => [], 'fitur' => [], 'luas' => 0.0];
+        }
+
+        // Koridor = pita di depan unit yang tersisa (dipotong ke zona, tanpa unit); inti/halaman dalam = sisa di tengah gedung.
+        $tebal = self::n(2 * $du + $c);
+        $dekat = self::n($c + 0.5);
         $sisa = DB::selectOne(
             "WITH z AS (SELECT ST_GeomFromEWKT(?) AS g),
-             k AS (SELECT ST_CollectionExtract(ST_Difference(ST_Buffer(g, -{$ndu}, 'join=mitre'), ST_Buffer(g, -{$nduc}, 'join=mitre')), 3) AS kor,
-                          ST_CollectionExtract(ST_Buffer(g, -{$ntebal}, 'join=mitre'), 3) AS inti, ST_Area(g) AS luas FROM z)
+                  u AS (SELECT ST_Union(ST_GeomFromEWKT(e)) AS g FROM unnest(?::text[]) AS e),
+                  p AS (SELECT ST_Union(ST_SetSRID(ST_GeomFromText(t), {$utm})) AS g FROM unnest(?::text[]) AS t),
+                  k AS (SELECT ST_CollectionExtract(ST_Intersection(ST_Difference(ST_Intersection(p.g, z.g), u.g), ST_Buffer(u.g, {$dekat})), 3) AS kor,
+                               ST_CollectionExtract(ST_Buffer(z.g, -{$tebal}, 'join=mitre'), 3) AS inti, u.g AS ug FROM z, u, p)
              SELECT ST_AsGeoJSON(ST_Transform(kor, 4326), 6) AS koridor, ST_Area(kor) AS luas_koridor,
-                    ST_AsGeoJSON(ST_Transform(inti, 4326), 6) AS inti, ST_Area(inti) AS luas_inti, luas FROM k",
-            [$ewkt],
+                    ST_AsGeoJSON(ST_Transform(inti, 4326), 6) AS inti, ST_Area(inti) AS luas_inti,
+                    ST_Area(ST_Union(ug, kor)) AS luas_gedung FROM k",
+            [$ewkt, $larik(array_map(fn ($u) => (string) $u->ewkt, $unit)), $larik($pita)],
         );
 
         $fitur = [];
         if ((float) $sisa->luas_koridor > 1) {
             $fitur[] = self::fitur($sisa->koridor, ['jenis' => 'koridor']);
         }
+        $luasGedung = (float) $sisa->luas_gedung;
         if ((float) $sisa->luas_inti > 4) {
-            // Sisa kecil di tengah gedung = inti lift/tangga; sisa besar = halaman dalam (void) di tengah gedung.
-            $fitur[] = self::fitur($sisa->inti, ['jenis' => (float) $sisa->luas_inti <= 400 ? 'inti' : 'void']);
+            // Sisa kecil di tengah gedung = inti lift/tangga (ikut tapak); sisa besar = halaman dalam (void), bukan tapak.
+            $inti = (float) $sisa->luas_inti <= 400;
+            $fitur[] = self::fitur($sisa->inti, ['jenis' => $inti ? 'inti' : 'void']);
+            if ($inti) {
+                $luasGedung += (float) $sisa->luas_inti;
+            }
         }
 
-        return ['unit' => $unit, 'fitur' => $fitur, 'luas' => (float) $sisa->luas];
+        return ['unit' => $unit, 'fitur' => $fitur, 'luas' => $luasGedung];
     }
 
     /**

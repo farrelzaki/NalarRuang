@@ -387,13 +387,41 @@ class LahanTest extends TestCase
             }
         }
 
-        // Pada lahan uji KLB hanya mengizinkan satu lantai, jadi target di atas kapasitas satu lantai hanya bisa dicapai dengan
-        // mengecilkan kamar; jumlahnya tetap persis bila muat.
-        $lebih = $perLantai + 40;
+        // Target di atas kapasitas penuh (semua lantai yang diizinkan KLB) hanya bisa dicapai dengan mengecilkan kamar;
+        // jumlahnya tetap persis bila muat.
+        $lebih = $dasar['kapasitas']['jumlah'] + 10;
         $kecilkan = $this->lahan(['tipe' => 'kos', 'target' => ['jumlah' => $lebih]])->assertOk()->json();
         $this->assertSame($lebih, $kecilkan['kapasitas']['jumlah']);
         $this->assertTrue($kecilkan['target']['tercapai']);
         $this->assertLessThan(12.0, $kecilkan['asumsi']['luas_kamar']);
+    }
+
+    public function test_kamar_kos_dan_unit_apartemen_berbentuk_persegi_panjang_tetap(): void
+    {
+        // Zona miring (trapesium) dan pola keliling: unit yang tidak muat utuh dibuang, bukan dipotong menjadi bentuk lain.
+        $zona = [['jenis' => 'bangunan', 'geometri' => ['type' => 'Polygon', 'coordinates' => [[[106.8021, -6.2079], [106.8029, -6.2078], [106.8028, -6.2072], [106.8022, -6.2073], [106.8021, -6.2079]]]]]];
+        foreach ([['kos', 12.0], ['apartemen', null]] as [$tipe, $luasKamar]) {
+            foreach ([[], ['zona' => $zona]] as $tambahan) {
+                $r = $this->lahan(['tipe' => $tipe, ...$tambahan])->assertOk()->json();
+                $unit = array_values(array_filter($r['geometri_kapasitas']['features'], fn ($f) => $f['properties']['jenis'] === 'unit'));
+                $this->assertNotEmpty($unit, $tipe);
+                foreach ($unit as $f) {
+                    $this->assertCount(5, $f['geometry']['coordinates'][0], "{$tipe}: unit bersudut empat");
+                }
+                // Di PostGIS (meter UTM): luas unit hampir sama dengan persegi panjang pembungkusnya (Voronoi lama jauh di bawah),
+                // dan semua unit seukuran. Selisih kecil berasal dari pembulatan koordinat GeoJSON (6 desimal, kira-kira 0,1 m).
+                $u = DB::selectOne(
+                    "WITH g AS (SELECT ST_Transform(ST_SetSRID(ST_GeomFromGeoJSON(j::text), 4326), 32748) AS g FROM json_array_elements(?::json) AS j)
+                     SELECT min(ST_Area(g) / ST_Area(ST_OrientedEnvelope(g))) AS isi, min(ST_Area(g)) AS kecil, max(ST_Area(g)) AS besar FROM g",
+                    [json_encode(array_column($unit, 'geometry'))],
+                );
+                $this->assertGreaterThan(0.93, (float) $u->isi, "{$tipe}: unit persegi panjang");
+                $this->assertLessThan(0.06 * (float) $u->besar, (float) $u->besar - (float) $u->kecil, "{$tipe}: ukuran unit sama");
+                if ($luasKamar !== null) {
+                    $this->assertEqualsWithDelta($luasKamar, (float) $u->besar, 0.6);
+                }
+            }
+        }
     }
 
     public function test_target_jumlah_apartemen_memakai_lantai_paling_sedikit_yang_cukup(): void
