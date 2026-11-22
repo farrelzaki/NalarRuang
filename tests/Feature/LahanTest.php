@@ -243,6 +243,103 @@ class LahanTest extends TestCase
         $this->assertCount(1, $rumah['zona']['features']);
     }
 
+    public function test_target_jumlah_kos_mengatur_lantai_dan_memotong_tepat(): void
+    {
+        $dasar = $this->lahan(['tipe' => 'kos'])->assertOk()->json();
+        $perLantai = $dasar['kapasitas']['unit_per_lantai'];
+        $this->assertGreaterThan(4, $perLantai);
+
+        // Target kecil: cukup satu lantai, jumlahnya persis, ukuran kamar tidak berubah.
+        $kecil = $this->lahan(['tipe' => 'kos', 'target' => ['jumlah' => 5]])->assertOk()->json();
+        $this->assertSame(5, $kecil['kapasitas']['jumlah']);
+        $this->assertSame(1, $kecil['kapasitas']['lantai']);
+        $this->assertTrue($kecil['target']['tercapai']);
+        $this->assertEqualsWithDelta(12.0, $kecil['asumsi']['luas_kamar'], 0.01);
+        $this->assertSame(5, array_sum($kecil['kapasitas']['komposisi']));
+        $this->assertSame(5, $kecil['kapasitas']['parkir']['butuh'], 'satu motor per kamar (rasio_motor 1)');
+
+        // Pada lahan uji KLB hanya mengizinkan satu lantai, jadi target di atas kapasitas satu lantai hanya bisa dicapai dengan
+        // mengecilkan kamar; jumlahnya tetap persis bila muat.
+        $lebih = $perLantai + 40;
+        $kecilkan = $this->lahan(['tipe' => 'kos', 'target' => ['jumlah' => $lebih]])->assertOk()->json();
+        $this->assertSame($lebih, $kecilkan['kapasitas']['jumlah']);
+        $this->assertTrue($kecilkan['target']['tercapai']);
+        $this->assertLessThan(12.0, $kecilkan['asumsi']['luas_kamar']);
+    }
+
+    public function test_target_jumlah_apartemen_memakai_lantai_paling_sedikit_yang_cukup(): void
+    {
+        $dasar = $this->lahan(['tipe' => 'apartemen'])->assertOk()->json();
+        $this->assertGreaterThan(1, $dasar['kapasitas']['lantai_maks']);
+
+        // Target di bawah kapasitas penuh: jumlah persis, tercapai, komposisi ikut dipotong, lantai paling sedikit yang cukup.
+        $target = (int) floor($dasar['kapasitas']['jumlah'] / 3);
+        $r = $this->lahan(['tipe' => 'apartemen', 'target' => ['jumlah' => $target]])->assertOk()->json();
+        $this->assertTrue($r['target']['tercapai']);
+        $this->assertSame($target, $r['kapasitas']['jumlah']);
+        $this->assertSame($target, array_sum($r['kapasitas']['komposisi']));
+        $this->assertSame((int) ceil($target / $r['kapasitas']['unit_per_lantai']), $r['kapasitas']['lantai']);
+        $this->assertLessThan($dasar['kapasitas']['lantai'], $r['kapasitas']['lantai']);
+        // Kebutuhan parkir mengikuti jumlah yang diminta.
+        $this->assertLessThan($dasar['kapasitas']['parkir']['butuh'], $r['kapasitas']['parkir']['butuh']);
+        $this->assertSame($target, $r['target']['jumlah']);
+    }
+
+    public function test_target_jumlah_kos_mengecilkan_kamar_atau_berhenti_bila_ukuran_dikunci(): void
+    {
+        $dasar = $this->lahan(['tipe' => 'kos'])->assertOk()->json();
+        $maks = $dasar['kapasitas']['jumlah'];
+
+        // Ukuran bebas: kamar dikecilkan supaya target lebih besar dari kapasitas biasa bisa muat.
+        $besar = $this->lahan(['tipe' => 'kos', 'target' => ['jumlah' => (int) ceil($maks * 1.6)]])->assertOk()->json();
+        $this->assertLessThan(12.0, $besar['asumsi']['luas_kamar']);
+        $this->assertGreaterThanOrEqual(6.0, $besar['asumsi']['luas_kamar']);
+        $this->assertGreaterThan($maks, $besar['kapasitas']['jumlah']);
+        $this->assertSame($besar['kapasitas']['lantai_maks'], $besar['kapasitas']['lantai']);
+
+        // Ukuran dikunci: kamar tetap, target tidak muat, hasilnya jumlah maksimum dan ada catatan.
+        $kunci = $this->lahan(['tipe' => 'kos', 'target' => ['jumlah' => $maks * 3, 'kunci_ukuran' => true]])->assertOk()->json();
+        $this->assertEqualsWithDelta(12.0, $kunci['asumsi']['luas_kamar'], 0.01);
+        $this->assertFalse($kunci['target']['tercapai']);
+        $this->assertSame($kunci['target']['maks'], $kunci['kapasitas']['jumlah']);
+        $this->assertStringContainsString('tidak muat', implode(' ', $kunci['catatan']));
+    }
+
+    public function test_target_jumlah_rumah_menyesuaikan_lebar_kavling(): void
+    {
+        $dasar = $this->lahan()->assertOk()->json();
+        $ada = $dasar['kapasitas']['jumlah'];
+        $this->assertGreaterThan(8, $ada);
+
+        // Lebih sedikit: kavling dilebarkan dan jumlahnya persis.
+        $sedikit = $this->lahan(['target' => ['jumlah' => (int) floor($ada / 2)]])->assertOk()->json();
+        $this->assertGreaterThan(6.0, $sedikit['asumsi']['lebar_kavling']);
+        $this->assertSame((int) floor($ada / 2), $sedikit['kapasitas']['jumlah']);
+        $kavling = array_filter($sedikit['geometri_kapasitas']['features'], fn ($f) => $f['properties']['jenis'] === 'kavling');
+        $this->assertCount($sedikit['kapasitas']['jumlah'], $kavling);
+
+        // Lebih banyak: kavling dipersempit (tidak lebih kecil dari 4 m).
+        $banyak = $this->lahan(['target' => ['jumlah' => $ada + 10]])->assertOk()->json();
+        $this->assertLessThan(6.0, $banyak['asumsi']['lebar_kavling']);
+        $this->assertGreaterThanOrEqual(4.0, $banyak['asumsi']['lebar_kavling']);
+        $this->assertGreaterThan($ada, $banyak['kapasitas']['jumlah']);
+
+        // Ukuran dikunci: kavling tetap 6 m.
+        $kunci = $this->lahan(['target' => ['jumlah' => $ada + 10, 'kunci_ukuran' => true]])->assertOk()->json();
+        $this->assertEqualsWithDelta(6.0, $kunci['asumsi']['lebar_kavling'], 0.01);
+        $this->assertFalse($kunci['target']['tercapai']);
+    }
+
+    public function test_target_jumlah_tidak_sah_ditolak(): void
+    {
+        $this->lahan(['tipe' => 'kos', 'target' => ['jumlah' => 0]])->assertStatus(422);
+        $this->lahan(['tipe' => 'kos', 'target' => ['jumlah' => 50001]])->assertStatus(422);
+        $this->lahan(['tipe' => 'kos', 'target' => ['jumlah' => 'banyak']])->assertStatus(422);
+        $this->lahan(['tipe' => 'kos', 'target' => ['kunci_ukuran' => true]])->assertStatus(422);
+        // Tanpa target: tidak ada info target.
+        $this->assertNull($this->lahan(['tipe' => 'kos'])->assertOk()->json('target'));
+    }
+
     public function test_induk_zona_tidak_sah_ditolak(): void
     {
         $kotak = fn (float $x0, float $y0, float $x1, float $y1) => ['type' => 'Polygon', 'coordinates' => [[[$x0, $y0], [$x1, $y0], [$x1, $y1], [$x0, $y1], [$x0, $y0]]]];

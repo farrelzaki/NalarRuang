@@ -577,6 +577,151 @@ class KapasitasLahan
     }
 
     /** @return array<string, mixed> */
+    /** Batas target jumlah yang diterima (kamar, unit, atau rumah). */
+    public const TARGET_MAKS = 50000;
+
+    /**
+     * Satu langkah pencarian TARGET JUMLAH (kebalikan dari hitungan biasa: pengguna mengetik jumlah, ukuran menyesuaikan).
+     * Logika murni; controller menjalankannya berulang (paling banyak 3 kali) di atas hasil tata letak yang sebenarnya.
+     *
+     * Kos dan apartemen: jumlah = unit per lantai x lantai. Lantai didahulukan: lantai paling sedikit yang cukup dipakai (lantai
+     * teratas boleh terisi sebagian, jadi jumlahnya persis). Bila lantai maksimum (KLB/tinggi) pun tidak cukup dan ukuran tidak
+     * dikunci, unit dikecilkan (kos: luas kamar; apartemen: komposisi bergeser ke studio) sampai muat atau mentok di ukuran terkecil.
+     * Rumah tapak tidak punya lantai: lihat lebarKavlingBerikut().
+     *
+     * @param  array<string, mixed>  $asumsi  asumsi yang sedang dipakai (sudah dijepit)
+     * @param  array{per_lantai?: int, lantai_maks?: int, ukuran?: float}  $ukur  hasil ukur tata letak sekarang (kos/apartemen)
+     * @return array{asumsi: array<string, mixed>, ubah: bool}  ubah = asumsi berubah, jadi tata letak perlu dihitung ulang
+     */
+    public static function langkahTarget(string $tipe, int $target, bool $kunciUkuran, array $asumsi, array $ukur): array
+    {
+        $tetap = ['asumsi' => $asumsi, 'ubah' => false];
+        if ($target < 1) {
+            return $tetap;
+        }
+        $baru = $asumsi;
+
+        $p = (int) ($ukur['per_lantai'] ?? 0);
+        $lMaks = max(1, (int) ($ukur['lantai_maks'] ?? 1));
+        $s0 = (float) ($ukur['ukuran'] ?? 0);
+        if ($p < 1) {
+            return $tetap;
+        }
+
+        $perlu = (int) ceil($target / $p);
+        if ($perlu <= $lMaks) {
+            // Cukup pada ukuran sekarang: lantai paling sedikit yang memuat target.
+            $baru['lantai'] = $perlu;
+
+            return ['asumsi' => $baru, 'ubah' => ($asumsi['lantai'] ?? null) !== $perlu];
+        }
+
+        // Lantai maksimum pun tidak cukup pada ukuran sekarang.
+        $baru['lantai'] = $lMaks;
+        $ubahLantai = ($asumsi['lantai'] ?? null) !== $lMaks;
+        if ($kunciUkuran || $s0 <= 0) {
+            return ['asumsi' => $baru, 'ubah' => $ubahLantai];
+        }
+
+        $butuhPerLantai = (int) ceil($target / $lMaks);
+        // Margin 3% karena parkir ikut bertambah bersama jumlah (gedung menyempit); kelebihannya dipotong lagi sampai jumlah persis.
+        $s1 = $s0 * $p / ($butuhPerLantai * 1.03);
+        if ($tipe === 'kos') {
+            $min = (float) self::RENTANG['luas_kamar'][0];
+            // Paling sedikit turun 0,1 m² supaya selalu ada kemajuan (luas kamar dibulatkan ke 0,1).
+            $s1 = max($min, min($s0 - 0.1, $s1));
+            $baru['luas_kamar'] = round($s1, 1);
+
+            return ['asumsi' => $baru, 'ubah' => $ubahLantai || abs($baru['luas_kamar'] - (float) $asumsi['luas_kamar']) >= 0.05];
+        }
+
+        // Apartemen: ukuran rata-rata unit turun dengan menggeser komposisi ke studio (unit terkecil).
+        $min = self::LUAS_TIPE['studio'];
+        if ($s0 <= $min + 0.05) {
+            return ['asumsi' => $baru, 'ubah' => $ubahLantai];
+        }
+        $s1 = max($min, min($s0, $s1));
+        $t = ($s0 - $s1) / ($s0 - $min);
+        $studio = (float) $asumsi['porsi_studio'];
+        $dua = (float) $asumsi['porsi_2br'];
+        $baru['porsi_studio'] = round($studio + $t * (1 - $studio), 4);
+        $baru['porsi_2br'] = round($dua * (1 - $t), 4);
+
+        return ['asumsi' => $baru, 'ubah' => $ubahLantai || $t > 0.005];
+    }
+
+    /**
+     * Rumah tapak: lebar kavling berikutnya yang dicoba untuk mencapai TARGET jumlah rumah. Jumlah kavling turun bila kavling dilebarkan,
+     * tetapi melompat-lompat, jadi dipakai pencarian dengan batas: lo = lebar terbesar yang jumlahnya masih memenuhi target,
+     * hi = lebar terkecil yang jumlahnya kurang. Sebelum kedua batas diketahui, ditebak dengan perbandingan jumlah (dilebarkan bila
+     * jumlah sekarang lebih dari target, dipersempit bila kurang); setelah keduanya diketahui, diambil titik tengahnya.
+     *
+     * @param  float  $w  lebar kavling yang baru diukur
+     * @param  int  $c  jumlah kavling pada lebar itu
+     * @return array{0: ?float, 1: ?float, 2: ?float}  [lebar berikutnya atau null bila selesai, lo baru, hi baru]
+     */
+    public static function lebarKavlingBerikut(int $target, float $w, int $c, ?float $lo, ?float $hi): array
+    {
+        [$min, $max] = self::RENTANG['lebar_kavling'];
+        if ($c >= $target) {
+            $lo = max($lo ?? $w, $w);
+        } else {
+            $hi = min($hi ?? $w, $w);
+        }
+
+        if ($lo !== null && $hi !== null) {
+            // Bila hi <= lo (jumlah tidak monoton karena pembulatan geometri), lo yang dipertahankan dan pencarian selesai.
+            if ($hi - $lo < 0.25) {
+                return [null, $lo, $hi];
+            }
+
+            return [round(($lo + $hi) / 2, 1), $lo, $hi];
+        }
+        if ($lo !== null) {
+            // Semua yang dicoba memenuhi target: lebarkan (kavling lebih lega) sampai batas atas.
+            $p = round(min((float) $max, $lo * max($c, 1) / $target), 1);
+
+            return [$p > $lo + 0.1 ? $p : null, $lo, $hi];
+        }
+        // Belum ada yang memenuhi: sempitkan sampai batas bawah.
+        $p = round(max((float) $min, ($hi ?? $w) * ($c > 0 ? $c / $target : 0)), 1);
+
+        return [$p < ($hi ?? $w) - 0.1 ? $p : null, $lo, $hi];
+    }
+
+    /**
+     * Kurangi komposisi unit per tipe sampai jumlahnya tepat $total, sebanding dengan porsi tiap tipe (sisa pembulatan diberikan ke
+     * tipe dengan sisa pecahan terbesar). Komposisi yang sudah tidak lebih banyak dari $total dikembalikan apa adanya.
+     *
+     * @param  array<string, int>  $komposisi
+     * @return array<string, int>
+     */
+    public static function skalaKomposisi(array $komposisi, int $total): array
+    {
+        $jumlah = array_sum($komposisi);
+        if ($jumlah <= $total || $jumlah <= 0) {
+            return $komposisi;
+        }
+        $hasil = [];
+        $sisa = [];
+        foreach ($komposisi as $tipe => $n) {
+            $ideal = $n * $total / $jumlah;
+            $hasil[$tipe] = (int) floor($ideal);
+            $sisa[$tipe] = $ideal - $hasil[$tipe];
+        }
+        $kurang = $total - array_sum($hasil);
+        arsort($sisa);
+        foreach (array_keys($sisa) as $tipe) {
+            if ($kurang <= 0) {
+                break;
+            }
+            $hasil[$tipe]++;
+            $kurang--;
+        }
+
+        return $hasil;
+    }
+
     private function kosong(string $tipe, float $tapak): array
     {
         return [

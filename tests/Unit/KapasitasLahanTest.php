@@ -304,4 +304,105 @@ class KapasitasLahanTest extends TestCase
         $this->assertSame(40.0, KapasitasLahan::panjangPintu(99));
         $this->assertSame(12.0, KapasitasLahan::panjangPintu('12'));
     }
+
+    public function test_target_kos_memakai_lantai_paling_sedikit_yang_cukup(): void
+    {
+        $asumsi = $this->k->asumsi('kos', []);
+        // 12 kamar per lantai, lantai maksimum 4: target 30 kamar butuh 3 lantai pada ukuran kamar sekarang.
+        $r = KapasitasLahan::langkahTarget('kos', 30, false, $asumsi, ['per_lantai' => 12, 'lantai_maks' => 4, 'ukuran' => 12.0]);
+        $this->assertSame(3, $r['asumsi']['lantai']);
+        $this->assertSame(12.0, (float) $r['asumsi']['luas_kamar'], 'ukuran tidak berubah bila lantai cukup');
+        $this->assertTrue($r['ubah']);
+
+        // Sudah 3 lantai: tidak perlu hitung ulang.
+        $lagi = KapasitasLahan::langkahTarget('kos', 30, false, $r['asumsi'], ['per_lantai' => 12, 'lantai_maks' => 4, 'ukuran' => 12.0]);
+        $this->assertFalse($lagi['ubah']);
+    }
+
+    public function test_target_kos_mengecilkan_kamar_bila_lantai_maksimum_tidak_cukup(): void
+    {
+        $asumsi = $this->k->asumsi('kos', []);
+        // Kapasitas 12 x 4 = 48 kamar; target 96 kamar butuh 24 kamar per lantai: kamar harus setengah ukuran (6 m2, batas bawah).
+        $r = KapasitasLahan::langkahTarget('kos', 96, false, $asumsi, ['per_lantai' => 12, 'lantai_maks' => 4, 'ukuran' => 12.0]);
+        $this->assertSame(4, $r['asumsi']['lantai']);
+        $this->assertEqualsWithDelta(6.0, $r['asumsi']['luas_kamar'], 0.01);
+
+        // Target lebih besar dari yang mungkin: ukuran berhenti di batas bawah rentang.
+        $mentok = KapasitasLahan::langkahTarget('kos', 500, false, $asumsi, ['per_lantai' => 12, 'lantai_maks' => 4, 'ukuran' => 12.0]);
+        $this->assertSame(KapasitasLahan::RENTANG['luas_kamar'][0], (int) $mentok['asumsi']['luas_kamar']);
+
+        // Ukuran dikunci: kamar tidak berubah, hanya lantai ke maksimum.
+        $kunci = KapasitasLahan::langkahTarget('kos', 96, true, $asumsi, ['per_lantai' => 12, 'lantai_maks' => 4, 'ukuran' => 12.0]);
+        $this->assertSame(4, $kunci['asumsi']['lantai']);
+        $this->assertSame(12.0, (float) $kunci['asumsi']['luas_kamar']);
+    }
+
+    public function test_target_apartemen_menggeser_komposisi_ke_studio(): void
+    {
+        $asumsi = $this->k->asumsi('apartemen', []);
+        $s0 = $this->k->luasRataUnit($asumsi);
+        $r = KapasitasLahan::langkahTarget('apartemen', 400, false, $asumsi, ['per_lantai' => 5, 'lantai_maks' => 40, 'ukuran' => $s0]);
+        // 5 x 40 = 200 < 400: unit harus setengah ukuran, tetapi tidak bisa lebih kecil dari studio (24 m2).
+        $this->assertSame(40, $r['asumsi']['lantai']);
+        $this->assertGreaterThan($asumsi['porsi_studio'], $r['asumsi']['porsi_studio']);
+        $this->assertLessThan($asumsi['porsi_2br'], $r['asumsi']['porsi_2br']);
+        $this->assertEqualsWithDelta(1.0, array_sum($this->k->porsiTipe($r['asumsi'])), 1e-6);
+        $baru = $this->k->luasRataUnit($r['asumsi']);
+        $this->assertLessThan($s0, $baru);
+        $this->assertGreaterThanOrEqual(KapasitasLahan::LUAS_TIPE['studio'] - 1e-6, $baru);
+
+        // Sudah semua studio: tidak bisa lebih kecil.
+        $studio = $asumsi;
+        $studio['porsi_studio'] = 1.0;
+        $studio['porsi_2br'] = 0.0;
+        $mentok = KapasitasLahan::langkahTarget('apartemen', 400, false, $studio, ['per_lantai' => 5, 'lantai_maks' => 40, 'ukuran' => 24.0]);
+        $this->assertSame(1.0, (float) $mentok['asumsi']['porsi_studio']);
+    }
+
+    public function test_lebar_kavling_berikut_mencari_dengan_batas(): void
+    {
+        // Mulai 6 m dengan 20 kavling, target 10: semua memenuhi (lo = 6), lebarkan sebanding (12 m).
+        [$p, $lo, $hi] = KapasitasLahan::lebarKavlingBerikut(10, 6.0, 20, null, null);
+        $this->assertEqualsWithDelta(12.0, $p, 0.01);
+        $this->assertSame(6.0, $lo);
+        $this->assertNull($hi);
+
+        // 12 m menghasilkan 8 kavling (< 10): hi = 12, titik tengah 9 m.
+        [$p2, $lo2, $hi2] = KapasitasLahan::lebarKavlingBerikut(10, 12.0, 8, $lo, $hi);
+        $this->assertEqualsWithDelta(9.0, $p2, 0.01);
+        $this->assertSame(6.0, $lo2);
+        $this->assertSame(12.0, $hi2);
+
+        // Batas sudah rapat (selisih < 0,25 m): selesai.
+        [$selesai] = KapasitasLahan::lebarKavlingBerikut(10, 9.1, 8, 9.0, 9.2);
+        $this->assertNull($selesai);
+
+        // Target lebih banyak dari yang muat: dipersempit sebanding, dijepit ke 4 m.
+        [$sempit] = KapasitasLahan::lebarKavlingBerikut(40, 6.0, 20, null, null);
+        $this->assertEqualsWithDelta(4.0, $sempit, 0.01);
+
+        // Sudah di batas bawah dan tetap kurang: berhenti.
+        [$henti] = KapasitasLahan::lebarKavlingBerikut(40, 4.0, 30, null, 4.0);
+        $this->assertNull($henti);
+
+        // Sudah di batas atas dan masih memenuhi: berhenti (tidak bisa lebih lega).
+        [$atas] = KapasitasLahan::lebarKavlingBerikut(2, 20.0, 5, 20.0, null);
+        $this->assertNull($atas);
+
+        // Tidak ada kavling sama sekali: coba selebar paling sempit.
+        [$nol] = KapasitasLahan::lebarKavlingBerikut(10, 6.0, 0, null, null);
+        $this->assertEqualsWithDelta(4.0, $nol, 0.01);
+    }
+
+    public function test_skala_komposisi_memotong_sampai_tepat_total(): void
+    {
+        $k = ['studio' => 60, '1br' => 30, '2br' => 10];
+        $r = KapasitasLahan::skalaKomposisi($k, 50);
+        $this->assertSame(50, array_sum($r));
+        $this->assertSame(['studio' => 30, '1br' => 15, '2br' => 5], $r);
+        // Pembulatan: 7 -> 3,3,1 (sisa pecahan terbesar dapat tambahan).
+        $this->assertSame(7, array_sum(KapasitasLahan::skalaKomposisi(['studio' => 4, '1br' => 4, '2br' => 4], 7)));
+        // Tidak lebih banyak dari total: apa adanya.
+        $this->assertSame($k, KapasitasLahan::skalaKomposisi($k, 100));
+    }
 }

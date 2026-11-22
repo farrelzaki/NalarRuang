@@ -77,6 +77,10 @@ class LahanController extends Controller
             'akses.*.panjang' => 'nullable|numeric',
             // Sisa lahan di luar semua zona (termasuk sempadan) menjadi taman; hanya berlaku untuk zona yang ditarik sendiri pada kos/apartemen.
             'isi_sisa_taman' => 'nullable|boolean',
+            // Target jumlah (kamar/unit/rumah): lantai dan ukuran menyesuaikan. kunci_ukuran = ukuran tidak boleh berubah (hanya lantai).
+            'target' => 'nullable|array',
+            'target.jumlah' => 'required_with:target|integer|min:1|max:'.KapasitasLahan::TARGET_MAKS,
+            'target.kunci_ukuran' => 'nullable|boolean',
             'persona' => 'nullable|array',
             'persona.*' => 'string',
         ]);
@@ -158,9 +162,10 @@ class LahanController extends Controller
                 ];
             }
         }
-        [$kapasitas, $geometri, $zona, $luasTaman, $aksesFc] = $tipe === 'rumah'
-            ? $this->rumah($lahanUtm, $luas, $asumsi, $intensitas, $pola, $manual, $akses)
-            : $this->bangunan($tipe, $lahanUtm, $luas, $asumsi, $intensitas, $pola, $manual, $akses);
+        $target = $request->filled('target.jumlah')
+            ? ['jumlah' => (int) $request->input('target.jumlah'), 'kunci_ukuran' => $request->boolean('target.kunci_ukuran')]
+            : null;
+        [$kapasitas, $geometri, $zona, $luasTaman, $aksesFc, $asumsi, $infoTarget] = $this->hitungDenganTarget($tipe, $lahanUtm, $luas, $asumsi, $intensitas, $pola, $manual, $akses, $target);
         $ringkasan = KapasitasLahan::ringkasan(
             $tipe, $luas, (float) $kapasitas['luas_tapak_m2'], (float) $kapasitas['luas_lantai_m2'], $luasTaman,
             (int) $kapasitas['lantai'], (float) $intensitas['kdb'], (float) $intensitas['klb'], $intensitas['kdh'], $kapasitas['parkir'] ?? null,
@@ -184,6 +189,10 @@ class LahanController extends Controller
         }
         if ($banjir['porsi_rawan'] >= 0.25) {
             $catatan[] = 'Sekitar '.(int) round($banjir['porsi_rawan'] * 100).'% lahan berada di area rawan tergenang (InaRISK).';
+        }
+        if ($infoTarget !== null && ! $infoTarget['tercapai']) {
+            $satuan = $kapasitas['satuan'];
+            $catatan[] = "Target {$infoTarget['diminta']} {$satuan} tidak muat; maksimum {$infoTarget['maks']} {$satuan} pada pengaturan ini.";
         }
         $catatan[] = 'Estimasi indikatif dari aturan sederhana, bukan rancangan tapak atau izin bangunan.';
 
@@ -209,6 +218,7 @@ class LahanController extends Controller
             'pola' => $pola,
             'pola_tersedia' => KapasitasLahan::POLA[$tipe],
             'asumsi' => $asumsi,
+            'target' => $infoTarget,
             'kapasitas' => $kapasitas,
             'ringkasan' => $ringkasan,
             'geometri_kapasitas' => $geometri,
@@ -217,6 +227,117 @@ class LahanController extends Controller
             'akses' => $aksesFc,
             'catatan' => $catatan,
         ]);
+    }
+
+    /**
+     * Hitung tata letak; bila ada target jumlah, ulangi dengan asumsi yang disesuaikan (paling banyak 3 kali tambahan) sampai jumlahnya
+     * muat, lalu potong kelebihannya supaya jumlahnya persis. Tanpa target, satu kali hitung seperti biasa.
+     *
+     * @param  array<string, mixed>  $asumsi
+     * @param  ?array{jumlah: int, kunci_ukuran: bool}  $target
+     * @return array{0: array<string, mixed>, 1: array<string, mixed>, 2: array<string, mixed>, 3: float, 4: array<string, mixed>, 5: array<string, mixed>, 6: ?array<string, mixed>}
+     *         [kapasitas, geometri kapasitas, zona, luas taman, akses, asumsi yang dipakai, info target]
+     */
+    private function hitungDenganTarget(string $tipe, string $lahanUtm, float $luas, array $asumsi, array $intensitas, string $pola, ?array $manual, array $akses, ?array $target): array
+    {
+        $hitung = fn (array $a): array => $tipe === 'rumah'
+            ? $this->rumah($lahanUtm, $luas, $a, $intensitas, $pola, $manual, $akses)
+            : $this->bangunan($tipe, $lahanUtm, $luas, $a, $intensitas, $pola, $manual, $akses);
+
+        $hasil = $hitung($asumsi);
+        if ($target === null) {
+            return [...$hasil, $asumsi, null];
+        }
+
+        $diminta = $target['jumlah'];
+        // Hasil terbaik yang memenuhi target: yang jumlahnya paling dekat di atas target (ukuran paling lega).
+        $terbaik = null;
+        $catat = function () use (&$terbaik, &$hasil, &$asumsi, $diminta): void {
+            $n = (int) $hasil[0]['jumlah'];
+            if ($n >= $diminta && ($terbaik === null || $n < (int) $terbaik[0][0]['jumlah'])) {
+                $terbaik = [$hasil, $asumsi];
+            }
+        };
+        $catat();
+
+        if ($tipe === 'rumah') {
+            if (! $target['kunci_ukuran']) {
+                $lo = $hi = null;
+                for ($i = 0; $i < 5; $i++) {
+                    [$berikut, $lo, $hi] = KapasitasLahan::lebarKavlingBerikut($diminta, (float) $asumsi['lebar_kavling'], (int) $hasil[0]['jumlah'], $lo, $hi);
+                    if ($berikut === null) {
+                        break;
+                    }
+                    $asumsi['lebar_kavling'] = $berikut;
+                    $hasil = $hitung($asumsi);
+                    $catat();
+                }
+            }
+        } else {
+            // Parkir ikut berubah bersama jumlah (lebih banyak kamar = lebih banyak parkir = gedung lebih sempit), jadi bisa perlu
+            // beberapa putaran sampai lantai dan unit per lantai cocok.
+            for ($i = 0; $i < 5; $i++) {
+                $kap = $hasil[0];
+                $ukur = ['per_lantai' => (int) ($kap['unit_per_lantai'] ?? 0), 'lantai_maks' => (int) ($kap['lantai_maks'] ?? 1), 'ukuran' => (float) ($kap['luas_per_unit_m2'] ?? 0)];
+                $langkah = KapasitasLahan::langkahTarget($tipe, $diminta, $target['kunci_ukuran'], $asumsi, $ukur);
+                if (! $langkah['ubah']) {
+                    break;
+                }
+                $asumsi = $langkah['asumsi'];
+                $hasil = $hitung($asumsi);
+                $catat();
+            }
+        }
+        if ($terbaik !== null) {
+            [$hasil, $asumsi] = $terbaik;
+        }
+
+        [$kapasitas, $geometri, $zona, $luasTaman, $aksesFc] = $hasil;
+        $ada = (int) $kapasitas['jumlah'];
+        $tercapai = $ada >= $diminta;
+        $maks = $ada;
+
+        if ($tipe !== 'rumah') {
+            $maks = (int) ($kapasitas['unit_per_lantai'] ?? 0) * (int) ($kapasitas['lantai_maks'] ?? 0);
+        }
+
+        // Kelebihan dipotong supaya jumlahnya persis: rumah = kavling terakhir dibuang, kos/apartemen = lantai teratas terisi sebagian.
+        if ($tercapai && $ada > $diminta) {
+            if ($tipe === 'rumah') {
+                $sisa = $diminta;
+                $geometri['features'] = array_values(array_filter($geometri['features'], function ($f) use (&$sisa) {
+                    if (($f['properties']['jenis'] ?? null) !== 'kavling') {
+                        return true;
+                    }
+
+                    return $sisa-- > 0;
+                }));
+                $kapasitas = $this->kapasitas->rumah($luas, $diminta, $asumsi, $intensitas['kdb'], $intensitas['klb']);
+            } else {
+                $kapasitas['jumlah'] = $diminta;
+                $kapasitas['komposisi'] = KapasitasLahan::skalaKomposisi($kapasitas['komposisi'] ?? [], $diminta);
+                if (isset($kapasitas['parkir'])) {
+                    $kapasitas['parkir']['butuh'] = $this->kapasitas->butuhParkir($tipe, $diminta, $asumsi);
+                }
+                $kapasitas['kepadatan_per_ha'] = $luas > 0 ? round($diminta / ($luas / 10000), 1) : null;
+            }
+        }
+
+        $ukuran = match ($tipe) {
+            'rumah' => ['nama' => 'lebar_kavling', 'nilai' => (float) $asumsi['lebar_kavling']],
+            'kos' => ['nama' => 'luas_kamar', 'nilai' => (float) $asumsi['luas_kamar']],
+            default => ['nama' => 'luas_rata_unit', 'nilai' => round($this->kapasitas->luasRataUnit($asumsi), 1)],
+        };
+
+        return [$kapasitas, $geometri, $zona, $luasTaman, $aksesFc, $asumsi, [
+            'diminta' => $diminta,
+            'tercapai' => $tercapai,
+            'jumlah' => (int) $kapasitas['jumlah'],
+            'maks' => $maks,
+            'kunci_ukuran' => $target['kunci_ukuran'],
+            'lantai' => $tipe === 'rumah' ? null : (int) ($kapasitas['lantai'] ?? 0),
+            'ukuran' => $ukuran,
+        ]];
     }
 
     /**
