@@ -73,6 +73,8 @@ function siapkanData(k: LayerKey, fc: FeatureCollection): FeatureCollection {
                 const g = p(f).jenis === 'genangan' ? gaya.genangan : gaya.banjirTingkat(Number(p(f).tingkat));
                 return { _warna: g.fillColor ?? g.color, _isi: g.fillOpacity ?? 0.3, _garis: g.opacity ?? 0.6, _tebal: g.weight ?? 0.5 };
             });
+        case 'kualitas_udara':
+            return denganProperti(fc, (f) => ({ _warna: gaya.udaraKelas(p(f).kategori).fillColor }));
         case 'ekosistem':
             return denganProperti(fc, (f) => ({ _warna: warnaEkosistem(f) }));
         case 'mobilitas':
@@ -81,11 +83,11 @@ function siapkanData(k: LayerKey, fc: FeatureCollection): FeatureCollection {
                 if (j === 'mrt') return { _warna: gaya.warna.mrt() };
                 if (j === 'lrt') return { _warna: gaya.warna.lrtLin(p(f).lin ?? '') };
                 if (j === 'krl') return { _warna: gaya.warna.krl(p(f).lin ?? 'lain') };
-                if (j === 'brt') return { _warna: p(f).warna ?? NAVY };
+                if (j === 'brt' || j === 'bus') return { _warna: p(f).warna ?? NAVY };
                 return {};
             });
         case 'mesin_waktu':
-            return denganProperti(fc, (f) => ({ _warna: gaya.mesinWaktu(p(f).moda).color }));
+            return denganProperti(fc, (f) => ({ _warna: gaya.mesinWaktu(p(f)).color }));
         case 'rdtr':
             return denganProperti(fc, (f) => ({ _warna: gaya.gayaRdtr(p(f).NAMOBJ ?? p(f).NAMZON_1 ?? p(f).ZONA ?? p(f).peruntukan).fillColor }));
         default:
@@ -110,6 +112,11 @@ function definisiLayer(k: LayerKey): DefLayer[] {
                 L('isi', 'poligon', true, { type: 'fill', filter: poligon, paint: { 'fill-color': ['get', '_warna'], 'fill-opacity': ['get', '_isi'] } }),
                 L('tepi', 'poligon', false, { type: 'line', paint: { 'line-color': ['get', '_warna'], 'line-width': ['get', '_tebal'], 'line-opacity': ['get', '_garis'] } }),
             ];
+        case 'kualitas_udara':
+            return [
+                L('isi', 'poligon', true, { type: 'fill', filter: poligon, paint: { 'fill-color': ['get', '_warna'], 'fill-opacity': 0.45 } }),
+                L('tepi', 'poligon', false, { type: 'line', paint: { 'line-color': '#475569', 'line-width': 0.5, 'line-opacity': 0.5 } }),
+            ];
         case 'ekosistem':
             return [
                 L('rth', 'poligon', true, { type: 'fill', filter: ['all', jenis('rth'), poligon], paint: { 'fill-color': '#22c55e', 'fill-opacity': 0.25 } }),
@@ -132,9 +139,11 @@ function definisiLayer(k: LayerKey): DefLayer[] {
                 L('gg', 'poligon', true, { type: 'fill', minzoom: 12, filter: ['all', jenis('ganjil_genap'), poligon], paint: { 'fill-color': '#9f1239', 'fill-opacity': 0.45 } }),
                 L('gg-garis', 'poligon', true, { type: 'line', minzoom: 12, filter: jenis('ganjil_genap'), paint: { 'line-color': '#9f1239', 'line-width': 1, 'line-opacity': 0.7 } }),
                 L('brt', 'garis', true, { type: 'line', filter: jenis('brt'), layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': ['get', '_warna'], 'line-width': 3, 'line-opacity': 0.85 } }),
+                L('bus', 'garis', true, { type: 'line', filter: jenis('bus'), layout: { 'line-cap': 'round', 'line-join': 'round' }, paint: { 'line-color': ['get', '_warna'], 'line-width': 3, 'line-opacity': 0.85 } }),
                 L('rel-casing', 'garis', false, { type: 'line', filter: jenis('krl', 'mrt', 'lrt'), layout: { 'line-join': 'round' }, paint: { 'line-color': '#ffffff', 'line-width': 6 } }),
+                // Semua rute eksisting tak putus; garis putus-putus hanya untuk proyek masa depan (T-059).
                 L('rel', 'garis', true, { type: 'line', filter: jenis('mrt', 'lrt'), layout: { 'line-join': 'round' }, paint: { 'line-color': ['get', '_warna'], 'line-width': 5 } }),
-                L('krl', 'garis', true, { type: 'line', filter: jenis('krl'), layout: { 'line-join': 'round' }, paint: { 'line-color': ['get', '_warna'], 'line-width': 4, 'line-dasharray': [2.5, 1.5] } }),
+                L('krl', 'garis', true, { type: 'line', filter: jenis('krl'), layout: { 'line-join': 'round' }, paint: { 'line-color': ['get', '_warna'], 'line-width': 4 } }),
                 L('halte', 'titik', true, {
                     type: 'symbol', minzoom: 14, filter: jenis('halte'),
                     layout: { 'icon-image': ['case', ['to-boolean', ['get', 'brt']], 'nr-halte-brt', 'nr-halte'], 'icon-allow-overlap': true, 'icon-ignore-placement': true },
@@ -697,7 +706,7 @@ export default function PetaMapLibre(props: Props) {
         }
     }, [props.terbangKe?.kunci, siap]);
 
-    return <div ref={wadah} className={`${props.className ?? ''} nr-peta-maplibre`} role="region" aria-label="Peta Jabodetabek, klik untuk melihat detail lokasi" />;
+    return <div ref={wadah} data-tur="peta" className={`${props.className ?? ''} nr-peta-maplibre`} role="region" aria-label="Peta Jabodetabek, klik untuk melihat detail lokasi" />;
 }
 
 /** Sumber dan layer seleksi (di atas data, di bawah rute). */

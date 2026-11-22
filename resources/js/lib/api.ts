@@ -37,7 +37,7 @@ const qs = (o: Record<string, string | string[] | number | undefined>) => {
 };
 
 export const api = {
-    lokasi: (q: string, signal?: AbortSignal) => ambil<{ hasil: SaranLokasi[] }>(`/api/lokasi?${qs({ q })}`, signal),
+    lokasi: (q: string, signal?: AbortSignal) => ambil<{ hasil: SaranLokasi[]; message?: string }>(`/api/lokasi?${qs({ q })}`, signal),
     layer: (k: LayerKey) => ambil<LayerResponse>(`/api/layers/${k}`),
     cari: (q: { q?: string; kota?: string[]; persona: Persona[] }, signal?: AbortSignal) => ambil<SearchResponse>(`/api/search?${qs(q)}`, signal),
     /** Titik + jangkauan waktu tempuh (isochrone, T-056): `mode` pedestrian/bicycle/auto, `minutes` 1–60. */

@@ -46,10 +46,74 @@ export const rth: PathOptions = { color: '#22c55e', weight: 1, opacity: 0.9, fil
 export const legal: PathOptions = { color: '#6d28d9', weight: 1.2, opacity: 0.85, fillColor: '#8b5cf6', fillOpacity: 0.35 };
 export const terpilih: PathOptions = { color: '#0f1b3d', weight: 2.5, opacity: 1, fillColor: '#0f1b3d', fillOpacity: 0.08 };
 export const top3: PathOptions = { color: '#0f1b3d', weight: 2.5, opacity: 1, fillColor: '#0f1b3d', fillOpacity: 0.08 };
+/** Kualitas udara per kelurahan (T-057): hijau relatif bersih, kuning sedang, oranye relatif tercemar, merah berbahaya. */
+const WARNA_UDARA: Record<string, string> = { sehat: '#4ade80', kurang_sehat: '#facc15', tidak_sehat: '#f97316', berbahaya: '#b91c1c' };
+export const udaraKelas = (kategori?: string): PathOptions => ({
+    color: '#ffffff',
+    weight: 0.6,
+    opacity: 0.8,
+    fillColor: WARNA_UDARA[String(kategori)] ?? '#94a3b8',
+    fillOpacity: 0.45,
+});
 export const casing: PathOptions = { color: '#ffffff', weight: 6, opacity: 1 };
 export const trotoar: PathOptions = { color: '#0ea5e9', weight: 2, opacity: 0.9, dashArray: '4 4' };
-/** Infrastruktur masa depan: putus-putus; MRT warna lin MRT, tol merah jalan tol peta dasar OSM (T-040). */
-export const mesinWaktu = (moda?: string): PathOptions => ({ color: moda === 'tol' ? '#e892a2' : warna.mrt(), weight: 5, opacity: 1, dashArray: '10 8' });
+
+/** Menyamakan warna proyek masa depan dengan warna lin eksistingnya berdasarkan atribut/nama proyek. */
+function warnaProyek(p?: Record<string, any> | null): string {
+    if (!p) return warna.mrt();
+    const moda = String(p.moda ?? '').toLowerCase();
+    const lin = String(p.lin ?? '').toLowerCase();
+    const nama = String(p.nama ?? '').toLowerCase();
+    const gabung = `${moda} ${lin} ${nama}`;
+
+    if (moda === 'tol' || /\btol\b/.test(nama)) return '#e892a2';
+    if (lin) return warna.lin(lin);
+    if (gabung.includes('mrt')) return warna.mrt();
+
+    if (gabung.includes('lrt')) {
+        if (gabung.includes('bekasi')) return warna.lrtLin('lrt-bekasi');
+        if (gabung.includes('cibubur')) return warna.lrtLin('lrt-cibubur');
+        if (gabung.includes('kalayang')) return warna.lrtLin('kalayang');
+        return warna.lrtLin('lrt');
+    }
+
+    if (gabung.includes('brt') || gabung.includes('transjakarta')) {
+        return String(p.warna ?? warna.navy());
+    }
+
+    if (gabung.includes('manggarai') || gabung.includes('jatinegara') || gabung.includes('cikarang') || gabung.includes('bekasi')) {
+        return warna.krl('cikarang');
+    }
+    if (gabung.includes('bogor') || gabung.includes('nambo') || gabung.includes('citayam') || gabung.includes('depok')) {
+        return warna.krl('bogor');
+    }
+    if (gabung.includes('rangkas') || gabung.includes('serpong') || gabung.includes('parung') || gabung.includes('maja')) {
+        return warna.krl('rangkas');
+    }
+    if (gabung.includes('tangerang') || gabung.includes('duri')) {
+        return warna.krl('tangerang');
+    }
+    if (gabung.includes('priok') || gabung.includes('ancol')) {
+        return warna.krl('priok');
+    }
+    if (gabung.includes('bandara') || gabung.includes('soekarno')) {
+        return warna.krl('bandara');
+    }
+
+    return warna.krl('lain');
+}
+
+/** Infrastruktur masa depan: garis putus-putus dengan warna sama seperti lin eksisting (T-059). */
+export const mesinWaktu = (propertiAtauModa?: string | Record<string, any> | null): PathOptions => {
+    const color =
+        typeof propertiAtauModa === 'string'
+            ? propertiAtauModa === 'tol'
+                ? '#e892a2'
+                : warna.mrt()
+            : warnaProyek(propertiAtauModa);
+    return { color, weight: 5, opacity: 1, dashArray: '10 8' };
+};
+
 export const ruteMobil = { casing: { color: '#ffffff', weight: 8, opacity: 1 } as PathOptions, garis: { color: '#0f1b3d', weight: 5, opacity: 1 } as PathOptions };
 export const ruteOjol: PathOptions = { color: '#16a34a', weight: 4, opacity: 1, dashArray: '1 8', lineCap: 'round' };
 export const ruteJalanKaki: PathOptions = { color: '#0f1b3d', weight: 3, opacity: 1, dashArray: '0.1 7', lineCap: 'round' };
@@ -58,12 +122,12 @@ export const ruteJalanKaki: PathOptions = { color: '#0f1b3d', weight: 3, opacity
 export function gayaRdtr(zona?: string): PathOptions {
     const z = String(zona ?? '').toLowerCase();
 
-    let fillColor = '#cbd5e1'; // Warna default (abu-abu)
-    if (z.includes('perumahan') || z.includes('permukiman') || z.includes('r-')) fillColor = '#fef08a'; // Kuning
-    else if (z.includes('perdagangan') || z.includes('jasa') || z.includes('k-')) fillColor = '#f87171'; // Merah
-    else if (z.includes('hijau') || z.includes('rth') || z.includes('h-')) fillColor = '#4ade80'; // Hijau
-    else if (z.includes('industri') || z.includes('i-')) fillColor = '#c084fc'; // Ungu
-    else if (z.includes('sarana') || z.includes('spu')) fillColor = '#60a5fa'; // Biru
+    let fillColor = '#cbd5e1';
+    if (z.includes('perumahan') || z.includes('permukiman') || z.includes('r-')) fillColor = '#fef08a';
+    else if (z.includes('perdagangan') || z.includes('jasa') || z.includes('k-')) fillColor = '#f87171';
+    else if (z.includes('hijau') || z.includes('rth') || z.includes('h-')) fillColor = '#4ade80';
+    else if (z.includes('industri') || z.includes('i-')) fillColor = '#c084fc';
+    else if (z.includes('sarana') || z.includes('spu')) fillColor = '#60a5fa';
 
     return {
         fillColor,

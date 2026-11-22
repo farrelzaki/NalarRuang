@@ -1,11 +1,16 @@
 /** Search bar (8.1) dan panel Top 3 / mode checkbox (8.2, FR-05, FR-06, FR-15). */
 import { useState, type FormEvent } from 'react';
-import type { HasilSearch, Persona } from '@/types';
+import type { HasilSearch, Persona, SaranLokasi } from '@/types';
 import { teksServer, useBahasa } from '@/lib/bahasa';
 import { cx, PERSONA, PERSONA_IDS } from '@/lib/nalar';
 import { Ikon, Keadaan } from './Dasar';
 
+/** Mode pencarian (T-060): 'lokasi' mencari tempat saja, 'rekomendasi' mencari kawasan sesuai persona (Top 3). */
+export type ModeCari = 'lokasi' | 'rekomendasi';
+
 type SearchBarProps = {
+    mode: ModeCari;
+    onMode: (m: ModeCari) => void;
     nilai: string;
     onUbah: (v: string) => void;
     onCari: (v: string) => void;
@@ -16,7 +21,7 @@ type SearchBarProps = {
     onToggleFilter: () => void;
 };
 
-export function SearchBar({ nilai, onUbah, onCari, memuat, commute, onToggleCommute, filterTerbuka, onToggleFilter }: SearchBarProps) {
+export function SearchBar({ mode, onMode, nilai, onUbah, onCari, memuat, commute, onToggleCommute, filterTerbuka, onToggleFilter }: SearchBarProps) {
     const { t } = useBahasa();
     const kirim = (e: FormEvent) => {
         e.preventDefault();
@@ -27,16 +32,38 @@ export function SearchBar({ nilai, onUbah, onCari, memuat, commute, onToggleComm
             <Ikon name={memuat ? 'loader-circle' : 'search'} size={16} className={memuat ? 'nr-spin' : undefined} />
             <input
                 className="nr-search__input"
-                placeholder={t('Telusuri kawasan atau alamat...', 'Search an area or address...')}
+                placeholder={mode === 'lokasi' ? t('Cari nama tempat atau daerah...', 'Search a place or area...') : t('Cari kawasan ideal untukmu...', 'Find areas that suit you...')}
                 value={nilai}
                 onChange={(e) => onUbah(e.target.value)}
-                aria-label={t('Cari kawasan hunian', 'Search residential areas')}
+                aria-label={mode === 'lokasi' ? t('Cari lokasi', 'Search a location') : t('Cari rekomendasi kawasan hunian', 'Search residential area recommendations')}
                 role="combobox"
                 aria-expanded={false}
                 aria-autocomplete="list"
                 disabled={commute}
             />
             <span className="nr-search__tools">
+                <span className="nr-search__mode" role="group" aria-label={t('Mode pencarian', 'Search mode')} data-tur="mode">
+                    <button
+                        type="button"
+                        className="nr-search__btn"
+                        aria-pressed={mode === 'lokasi'}
+                        aria-label={t('Cari lokasi saja', 'Search locations only')}
+                        title={t('Cari lokasi: tampilkan tempat atau daerah yang kamu ketik', 'Location search: show the place or area you type')}
+                        onClick={() => onMode('lokasi')}
+                    >
+                        <Ikon name="map-pin" size={16} />
+                    </button>
+                    <button
+                        type="button"
+                        className="nr-search__btn"
+                        aria-pressed={mode === 'rekomendasi'}
+                        aria-label={t('Cari rekomendasi sesuai persona', 'Search persona-based recommendations')}
+                        title={t('Rekomendasi: Top 3 kawasan yang cocok dengan persona', 'Recommendations: Top 3 areas matching your persona')}
+                        onClick={() => onMode('rekomendasi')}
+                    >
+                        <Ikon name="star" size={16} />
+                    </button>
+                </span>
                 {(
                     <button type="button" data-tur="filter" className="nr-search__btn" aria-pressed={filterTerbuka} aria-label={t('Pilih kota dan persona', 'Choose city and persona')} title={t('Pilih kota dan persona', 'Choose city and persona')} onClick={onToggleFilter}>
                         <Ikon name="sliders-horizontal" size={16} />
@@ -91,6 +118,46 @@ export function PanelTop3({ personaLabel, hasil, memuat, pesan, aktif, onPilih }
                             <span className="nr-top3__match">
                                 <span className={cx('nr-top3__pct', r.match < 50 && 'nr-top3__pct--low')}>{r.match}%</span>
                                 <span className="nr-top3__lbl">Match</span>
+                            </span>
+                        </button>
+                    ))
+                )}
+            </div>
+        </section>
+    );
+}
+
+type LokasiProps = {
+    hasil: SaranLokasi[] | null;
+    memuat: boolean;
+    pesan?: string;
+    onPilih: (s: SaranLokasi) => void;
+};
+
+/** Hasil pencarian lokasi (T-060): daftar tempat/daerah yang cocok; memilih salah satu menaruh pin dan membuka detailnya. */
+export function PanelLokasi({ hasil, memuat, pesan, onPilih }: LokasiProps) {
+    const { t } = useBahasa();
+    const jenis = { wilayah: t('Kelurahan', 'Area'), stasiun: t('Stasiun', 'Station'), halte: t('Halte', 'Stop'), poi: t('Tempat', 'Place') };
+    return (
+        <section className="nr-top3 nr-float" aria-label={t('Hasil pencarian lokasi', 'Location search results')}>
+            <div className="nr-top3__head">
+                <span className="nr-label">{t('Hasil Lokasi', 'Location Results')}</span>
+                <span className="nr-desc">{t('Pilih tempat untuk melihatnya di peta.', 'Pick a place to see it on the map.')}</span>
+            </div>
+            <div className="nr-top3__list" role={hasil?.length ? 'listbox' : undefined}>
+                {memuat ? (
+                    <Keadaan kind="memuat" title={t('Mencari lokasi', 'Searching locations')} />
+                ) : !hasil?.length ? (
+                    <Keadaan kind="kosong" title={pesan ? teksServer(pesan) : t('Lokasi tidak ditemukan', 'No location found')} text={t('Coba nama lain, atau beralih ke mode rekomendasi (ikon bintang).', 'Try another name, or switch to recommendation mode (star icon).')} />
+                ) : (
+                    hasil.map((s, i) => (
+                        <button key={`${s.jenis}-${s.nama}-${i}`} type="button" className="nr-top3__item" role="option" aria-selected={false} onClick={() => onPilih(s)}>
+                            <span className="nr-top3__num">
+                                <Ikon name="map-pin" size={14} />
+                            </span>
+                            <span className="nr-top3__text">
+                                <span className="nr-top3__name">{s.nama}</span>
+                                <span className="nr-top3__type">{s.jenis === 'wilayah' ? s.keterangan : `${jenis[s.jenis]}${s.keterangan ? ` · ${s.keterangan}` : ''}`}</span>
                             </span>
                         </button>
                     ))

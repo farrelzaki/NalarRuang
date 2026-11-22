@@ -201,3 +201,21 @@ melainkan poligon jangkauan waktu tempuh dari server (isochrone). Pilihan moda (
 - `api.titik` kini mengirim `mode`/`minutes`; kontrak tertulis di `docs/SISTEM.md` (catatan `inspect`).
 - Belum diuji di mesin dengan PostGIS dan npm: `php artisan test`, `npm run typecheck`, `npm run build`, dan
   coba isochrone sungguhan (Valhalla publik) di MapLibre dan Leaflet.
+
+## Improvement V2 (T-046, T-057, T-059, T-060, T-061) diterapkan ulang di atas MapLibre (22 Nov 2026)
+
+Setelah `main` berubah besar (MapLibre, bilah alat, Uji Lahan), perbaikan dari lembar Improvement V2 dipasang ulang dan
+berlaku di MapLibre maupun Leaflet. T-054 dan T-055 sudah dipenuhi bilah alat dan Uji Lahan, jadi tidak dikerjakan lagi.
+- **T-057 Kualitas Udara:** layer baru `kualitas_udara` (poligon kelurahan, kelas relatif sehat/kurang sehat/tidak sehat,
+  popup PM2.5 dan kelipatan baku mutu). Data dari tabel `wilayah` (SatPM V6.GL.03 2024, ACAG WashU, CC BY 4.0), tanpa skema baru.
+  **Menambah id layer ke-9 di `GET /api/layers`** (hanya penambahan); perlu persetujuan Farrel, Adzkia, dan Nur'Afia
+  (CLAUDE.md aturan 4). Teks "enam layer" di Landing/SRS belum diubah.
+- **T-059:** `status_jalur` (`eksisting`/`masa_depan`) di layer mobilitas dan mesin_waktu; rute eksisting (KRL, MRT, LRT, bus)
+  tak putus, proyek masa depan putus-putus dengan warna lin yang sama.
+- **T-046:** rute Biskita Trans Pakuan, Trans Tangerang Tayo, dan Bus Bekasi Keren (24 rute, Opentransum CC BY-NC; lisensi
+  menunggu keputusan K9) dimuat `DataNyataSeeder::ruteBodetabek()` sebagai `jenis: bus`, dengan toggle sendiri. NBRT dan Mikrotrans belum ada datanya.
+- **T-060:** saklar mode pencarian (ikon lokasi = cari tempat lewat `/api/lokasi`, ikon bintang = rekomendasi persona).
+- **T-061:** onboarding terkunci: tiap langkah menunggu pengguna benar-benar mencoba fiturnya; melewati tur memunculkan peringatan.
+- Perlu dijalankan di laptop: `php artisan db:seed --class=DataNyataSeeder` (rute bus, PM2.5), `npm run typecheck`, `npm run build`,
+  dan uji tur serta geser/klik peta di browser.
+- Tidak dikerjakan: T-058 (ModaHub; menunggu keputusan lisensi/izin), T-051 (segera hadir, di luar SRS), T-041 (data BHUMI terhalang), T-045 (menunggu keputusan PM).

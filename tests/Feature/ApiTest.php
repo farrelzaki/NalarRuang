@@ -57,7 +57,7 @@ class ApiTest extends TestCase
 
     public function test_daftar_layer_dan_data_layer(): void
     {
-        $this->getJson('/api/layers')->assertOk()->assertJsonCount(8)->assertJsonStructure([['layer_id', 'nama', 'warna']]);
+        $this->getJson('/api/layers')->assertOk()->assertJsonCount(9)->assertJsonStructure([['layer_id', 'nama', 'warna']]);
 
         $this->getJson('/api/layers/mobilitas')
             ->assertOk()

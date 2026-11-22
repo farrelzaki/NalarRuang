@@ -52,6 +52,7 @@ class DataNyataSeeder extends Seeder
         $this->nonHunian();
         $this->hiburan();
         $this->halteBodetabek();
+        $this->ruteBodetabek();
         $this->gazetteer();
 
         DB::statement("UPDATE fitur_peta SET geom = ST_CollectionExtract(ST_MakeValid(geom), ST_Dimension(geom) + 1) WHERE layer_id <> 'persil' AND NOT ST_IsValid(geom)");
@@ -333,6 +334,40 @@ class DataNyataSeeder extends Seeder
             'jenis' => 'halte',
             'nama' => $f['properties']['nama'],
             'atribut' => ['brt' => false, 'moda' => 'bus', 'operator' => $f['properties']['operator'], 'koridor' => $f['properties']['koridor'] ?? []],
+            'tahun' => null,
+            'sumber' => 'Opentransum ('.$f['properties']['operator'].')',
+            'geometry' => $f['geometry'],
+        ], array_values($fitur)));
+    }
+
+    /** Warna garis rute bus kota per operator: pembeda antaroperator di peta, bukan warna resmi. */
+    private const WARNA_BUS = [
+        'Biskita Trans Pakuan' => '#0d9488',
+        'Trans Tangerang Tayo' => '#d97706',
+        'Bus Bekasi Keren' => '#65a30d',
+    ];
+
+    /** Rute Biskita Trans Pakuan, Trans Tangerang Tayo, dan Bus Bekasi Keren (T-046), dari Opentransum. */
+    private function ruteBodetabek(): void
+    {
+        $fitur = array_filter(
+            $this->geojson(base_path('data/geojson/transit_bodetabek/rute.geojson')),
+            fn ($f) => isset(self::WARNA_BUS[$f['properties']['operator'] ?? '']),
+        );
+        DB::table('fitur_peta')->where('jenis', 'bus')->delete();
+        $this->sisip(array_map(fn ($f) => [
+            'layer_id' => 'mobilitas',
+            'jenis' => 'bus',
+            'nama' => $f['properties']['nama'],
+            'atribut' => array_filter([
+                'operator' => $f['properties']['operator'],
+                'kota' => $f['properties']['kota'] ?? null,
+                'koridor' => $f['properties']['koridor'] ?? null,
+                'asal' => $f['properties']['asal'] ?? null,
+                'tujuan' => $f['properties']['tujuan'] ?? null,
+                'jam_operasi' => $f['properties']['jam_operasi'] ?? null,
+                'warna' => self::WARNA_BUS[$f['properties']['operator']],
+            ], fn ($v) => $v !== null && $v !== ''),
             'tahun' => null,
             'sumber' => 'Opentransum ('.$f['properties']['operator'].')',
             'geometry' => $f['geometry'],

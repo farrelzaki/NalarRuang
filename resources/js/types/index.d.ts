@@ -6,7 +6,7 @@ import type { FeatureCollection, Geometry, LineString, MultiLineString, MultiPol
 
 export type Persona = 'commuter' | 'driver' | 'social_vibe' | 'zen';
 
-export type LayerKey = 'historis_risiko' | 'ekosistem' | 'inklusivitas' | 'mobilitas' | 'mesin_waktu' | 'legalitas' | 'rdtr' | 'persil';
+export type LayerKey = 'historis_risiko' | 'ekosistem' | 'kualitas_udara' | 'inklusivitas' | 'mobilitas' | 'mesin_waktu' | 'legalitas' | 'rdtr' | 'persil';
 
 /** Respons GET /api/health (setup; bukan bagian kontrak fitur). */
 export type HealthResponse = {

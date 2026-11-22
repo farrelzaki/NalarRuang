@@ -30,7 +30,8 @@ export const FRASA: Dwi[] = [
 
 export type Simbol =
     | 'banjir' | 'banjir-1' | 'banjir-2' | 'banjir-3' | 'genangan' | 'hijau' | 'rth' | 'perpus' | 'kuliner' | 'komersial' | 'akses' | 'trotoar' | 'mrt' | 'lrt' | 'krl-bogor' | 'krl-rangkas'
-    | 'krl-cikarang' | 'krl-lain' | 'krl-tangerang' | 'krl-priok' | 'krl-bandara' | 'lrt-jabodebek' | 'brt' | 'stasiun' | 'halte' | 'halte-brt' | 'tol' | 'gg' | 'waktu' | 'waktu-tol' | 'waktu-stasiun' | 'legal' | 'rute' | 'jalan-kaki' | 'terpilih' | 'isochrone';
+    | 'udara-bersih' | 'udara-sedang' | 'udara-tercemar' | 'udara-berbahaya'
+    | 'krl-cikarang' | 'krl-lain' | 'krl-tangerang' | 'krl-priok' | 'krl-bandara' | 'lrt-jabodebek' | 'brt' | 'bus-kota' | 'stasiun' | 'halte' | 'halte-brt' | 'tol' | 'gg' | 'waktu' | 'waktu-tol' | 'waktu-stasiun' | 'legal' | 'rute' | 'jalan-kaki' | 'terpilih' | 'isochrone';
 
 export const LAYERS: { key: LayerKey; title: Dwi; desc: Dwi; grid?: boolean; legend: [Simbol, Dwi][] }[] = [
     { key: 'historis_risiko', title: ['Historis & Risiko', 'History & Risk'], desc: ['Merah: kerawanan banjir menurut bentuk lahan (indeks InaRISK 0–1, bukan persen peluang dan bukan riwayat). Biru: banjir yang benar-benar terjadi.', 'Red: flood susceptibility from landform (InaRISK index 0–1, not a probability or history). Blue: floods that actually happened.'],
@@ -46,12 +47,18 @@ export const LAYERS: { key: LayerKey; title: Dwi; desc: Dwi; grid?: boolean; leg
           ['kuliner', ['Kafe & Restoran (Oranye Amber)', 'Cafés & Restaurants (Amber Orange)']],
           ['komersial', ['Mall & Belanja (Biru Sky)', 'Malls & Shopping (Sky Blue)']],
       ] },
+    { key: 'kualitas_udara', title: ['Kualitas Udara', 'Air Quality'], desc: ['Rata-rata tahunan PM2.5 per kelurahan (satelit 2024), untuk persona Zen. Kelas relatif antarkelurahan Jabodetabek; semuanya masih di atas baku mutu tahunan 15 µg/m³.', 'Annual average PM2.5 per neighbourhood (2024 satellite), for the Zen persona. Classes are relative across Greater Jakarta; all are still above the 15 µg/m³ annual standard.'],
+      legend: [
+          ['udara-bersih', ['Relatif bersih: 40% kelurahan dengan PM2.5 terendah (hijau).', 'Relatively clean: the 40% of neighbourhoods with the lowest PM2.5 (green).']],
+          ['udara-sedang', ['Sedang: 40% berikutnya (kuning).', 'Moderate: the next 40% (yellow).']],
+          ['udara-tercemar', ['Relatif tercemar: 20% dengan PM2.5 tertinggi (oranye).', 'Relatively polluted: the 20% with the highest PM2.5 (orange).']],
+      ] },
     { key: 'inklusivitas', title: ['Inklusivitas', 'Inclusivity'], desc: ['Aksesibilitas pedestrian dan fasilitas umum.', 'Pedestrian accessibility and public facilities.'],
       legend: [['trotoar', ['Trotoar dan akses pedestrian layak.', 'Proper sidewalks and pedestrian access.']], ['akses', ['Titik akses dan halte ramah kursi roda.', 'Wheelchair-friendly access points and stops.']]] },
-    { key: 'mobilitas', title: ['Mobilitas & Transit', 'Mobility & Transit'], desc: ['Halte, stasiun KRL/MRT, dan jalur arteri.', 'Bus stops, KRL/MRT stations, and arterial roads.'], grid: true,
-      legend: [['mrt', ['MRT Lin Utara-Selatan (merah).', 'MRT North-South Line (red).']], ['krl-bogor', ['KRL Lin Bogor (merah).', 'KRL Bogor Line (red).']], ['krl-rangkas', ['KRL Lin Rangkasbitung (hijau).', 'KRL Rangkasbitung Line (green).']], ['krl-cikarang', ['KRL Lin Cikarang (biru muda).', 'KRL Cikarang Line (light blue).']], ['krl-tangerang', ['KRL Lin Tangerang (cokelat).', 'KRL Tangerang Line (brown).']], ['krl-priok', ['KRL Lin Tanjung Priok (merah muda).', 'KRL Tanjung Priok Line (pink).']], ['krl-bandara', ['KA Bandara Soekarno-Hatta (biru tua).', 'Soekarno-Hatta Airport Rail (navy).']], ['lrt', ['LRT Jakarta (oranye).', 'LRT Jakarta (orange).']], ['lrt-jabodebek', ['LRT Jabodebek Bekasi (hijau tua) & Cibubur (biru tua).', 'LRT Jabodebek Bekasi (dark green) & Cibubur (dark blue).']], ['brt', ['Rute BRT TransJakarta (warna koridor).', 'TransJakarta BRT routes (corridor colours).']], ['stasiun', ['Stasiun transit.', 'Transit station.']], ['halte-brt', ['Halte BRT TransJakarta (perbesar peta).', 'TransJakarta BRT stop (zoom in).']], ['halte', ['Halte bus lain, termasuk Biskita (perbesar peta).', 'Other bus stops, incl. Biskita (zoom in).']], ['tol', ['Gerbang tol.', 'Toll gate.']], ['gg', ['Ruas ganjil-genap DKI (perbesar peta).', 'Jakarta odd-even roads (zoom in).']]] },
-    { key: 'mesin_waktu', title: ['Mesin Waktu', 'Time Machine'], desc: ['Proyek infrastruktur dan tata ruang masa depan.', 'Future infrastructure and spatial planning projects.'],
-      legend: [['waktu', ['Proyek MRT, LRT, dan kereta, tampil mulai tahun targetnya. Rencana JUTPI3 tanpa tahun tampil di 2045.', 'MRT, LRT, and rail projects, shown from their target year. JUTPI3 plans without a year appear at 2045.']], ['waktu-tol', ['Proyek jalan tol, tampil mulai tahun targetnya.', 'Toll road projects, shown from their target year.']], ['waktu-stasiun', ['Stasiun rencana (perbesar peta).', 'Planned station (zoom in).']]] },
+    { key: 'mobilitas', title: ['Mobilitas & Transit', 'Mobility & Transit'], desc: ['Halte, stasiun KRL/MRT/LRT, dan rute eksisting (garis tak putus).', 'Bus stops, KRL/MRT/LRT stations, and existing routes (solid lines).'], grid: true,
+      legend: [['mrt', ['MRT Lin Utara-Selatan (merah).', 'MRT North-South Line (red).']], ['krl-bogor', ['KRL Lin Bogor (merah).', 'KRL Bogor Line (red).']], ['krl-rangkas', ['KRL Lin Rangkasbitung (hijau).', 'KRL Rangkasbitung Line (green).']], ['krl-cikarang', ['KRL Lin Cikarang (biru muda).', 'KRL Cikarang Line (light blue).']], ['krl-tangerang', ['KRL Lin Tangerang (cokelat).', 'KRL Tangerang Line (brown).']], ['krl-priok', ['KRL Lin Tanjung Priok (merah muda).', 'KRL Tanjung Priok Line (pink).']], ['krl-bandara', ['KA Bandara Soekarno-Hatta (biru tua).', 'Soekarno-Hatta Airport Rail (navy).']], ['lrt', ['LRT Jakarta (oranye).', 'LRT Jakarta (orange).']], ['lrt-jabodebek', ['LRT Jabodebek Bekasi (hijau tua) & Cibubur (biru tua).', 'LRT Jabodebek Bekasi (dark green) & Cibubur (dark blue).']], ['brt', ['Rute BRT TransJakarta (warna koridor).', 'TransJakarta BRT routes (corridor colours).']], ['bus-kota', ['Bus kota Bodetabek: Biskita Trans Pakuan (hijau tosca), Trans Tangerang Tayo (oranye tua), Bus Bekasi Keren (hijau limau).', 'Bodetabek city buses: Biskita Trans Pakuan (teal), Trans Tangerang Tayo (amber), Bus Bekasi Keren (lime).']], ['stasiun', ['Stasiun transit.', 'Transit station.']], ['halte-brt', ['Halte BRT TransJakarta (perbesar peta).', 'TransJakarta BRT stop (zoom in).']], ['halte', ['Halte bus lain, termasuk Biskita (perbesar peta).', 'Other bus stops, incl. Biskita (zoom in).']], ['tol', ['Gerbang tol.', 'Toll gate.']], ['gg', ['Ruas ganjil-genap DKI (perbesar peta).', 'Jakarta odd-even roads (zoom in).']]] },
+    { key: 'mesin_waktu', title: ['Mesin Waktu', 'Time Machine'], desc: ['Proyek infrastruktur dan tata ruang masa depan (garis putus-putus).', 'Future infrastructure and spatial planning projects (dashed lines).'],
+      legend: [['waktu', ['Proyek MRT, LRT, dan kereta (garis putus-putus sesuai warna lin), tampil mulai tahun targetnya. Rencana JUTPI3 tanpa tahun tampil di 2045.', 'MRT, LRT, and rail projects (dashed in matching line colour), shown from their target year. JUTPI3 plans without a year appear at 2045.']], ['waktu-tol', ['Proyek jalan tol, tampil mulai tahun targetnya.', 'Toll road projects, shown from their target year.']], ['waktu-stasiun', ['Stasiun rencana (perbesar peta).', 'Planned station (zoom in).']]] },
     { key: 'legalitas', title: ['Legalitas Lahan', 'Land Legality'], desc: ['Hak tanah terdaftar daerah DKI Jakarta.', 'Registered Land Rights in DKI Jakarta.'],
       legend: [['legal', ['Hak Tanah Terdaftar daerah DKI Jakarta.', 'Registered Land Rights in DKI Jakarta.']]] },
 ];
@@ -78,6 +85,10 @@ type Prop = Record<string, unknown>;
 const KRL_UTAMA = ['bogor', 'rangkas', 'cikarang', 'tangerang', 'priok', 'bandara'];
 
 export const SUBFITUR: Partial<Record<Simbol, (p: Prop) => boolean>> = {
+    'udara-bersih': (p) => p.jenis === 'udara' && p.kategori === 'sehat',
+    'udara-sedang': (p) => p.jenis === 'udara' && p.kategori === 'kurang_sehat',
+    'udara-tercemar': (p) => p.jenis === 'udara' && p.kategori === 'tidak_sehat',
+    'udara-berbahaya': (p) => p.jenis === 'udara' && p.kategori === 'berbahaya',
     banjir: (p) => p.jenis === 'banjir_tampil',
     'banjir-1': (p) => p.jenis === 'banjir_tampil' && p.tingkat === 1,
     'banjir-2': (p) => p.jenis === 'banjir_tampil' && p.tingkat === 2,
@@ -95,6 +106,7 @@ export const SUBFITUR: Partial<Record<Simbol, (p: Prop) => boolean>> = {
     'krl-priok': (p) => p.jenis === 'krl' && p.lin === 'priok',
     'krl-bandara': (p) => p.jenis === 'krl' && p.lin === 'bandara',
     brt: (p) => p.jenis === 'brt',
+    'bus-kota': (p) => p.jenis === 'bus',
     'krl-bogor': (p) => p.jenis === 'krl' && p.lin === 'bogor',
     'krl-rangkas': (p) => p.jenis === 'krl' && p.lin === 'rangkas',
     'krl-cikarang': (p) => p.jenis === 'krl' && p.lin === 'cikarang',

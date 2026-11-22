@@ -528,7 +528,7 @@ export default function PetaExplorer(props: Props) {
         if (!alatZona.current?.ditarik) l.saringZona(null);
     }, [props.kapasitasLahan, props.bahasa]);
 
-    return <div ref={wadah} className={props.className} role="region" aria-label="Peta Jabodetabek, klik untuk melihat detail lokasi" />;
+    return <div ref={wadah} data-tur="peta" className={props.className} role="region" aria-label="Peta Jabodetabek, klik untuk melihat detail lokasi" />;
 }
 
 const IKON_TOL = L.icon({ iconUrl: '/images/peta/tol.png', iconSize: [15, 19], className: 'nr-rambu' });
@@ -624,6 +624,14 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
             style: (f) => (f?.properties?.jenis === 'genangan' ? gaya.genangan : gaya.banjirTingkat(Number(f?.properties?.tingkat))),
             onEachFeature: popup,
         }).addTo(g);
+    } else if (k === 'kualitas_udara') {
+        // Kualitas Udara (T-057): poligon kelurahan berwarna menurut kelas PM2.5 relatif.
+        L.geoJSON(fc, {
+            pane: 'nrPoligon',
+            ...diKanvas,
+            style: (f) => gaya.udaraKelas(f?.properties?.kategori),
+            onEachFeature: popup,
+        }).addTo(g);
     } else if (k === 'ekosistem') {
         L.geoJSON(fc, {
             pane: 'nrPoligon',
@@ -681,6 +689,14 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
             style: (f) => ({ color: f?.properties?.warna ?? '#0f1b3d', weight: 3, opacity: 0.85 }),
             onEachFeature: popup,
         } as L.GeoJSONOptions).addTo(g);
+        // Bus kota Bodetabek (T-046): rute eksisting tak putus, warna per operator.
+        L.geoJSON({ type: 'FeatureCollection', features: fc.features.filter((f) => f.properties?.jenis === 'bus') } as FeatureCollection, {
+            pane: 'nrGaris',
+            ...diKanvas,
+            style: (f) => ({ color: f?.properties?.warna ?? '#0d9488', weight: 3, opacity: 0.85 }),
+            onEachFeature: popup,
+        } as L.GeoJSONOptions).addTo(g);
+        // Semua rute eksisting (KRL, MRT, LRT) digambar tak putus; garis putus-putus hanya untuk proyek masa depan (T-059).
         const garis = fc.features.filter((f) => ['krl', 'mrt', 'lrt'].includes(f.properties?.jenis));
         L.geoJSON({ type: 'FeatureCollection', features: garis } as FeatureCollection, { pane: 'nrGaris', style: gaya.casing, interactive: false }).addTo(g);
         L.geoJSON({ type: 'FeatureCollection', features: garis } as FeatureCollection, {
@@ -689,7 +705,7 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
                 const j = f?.properties?.jenis;
                 if (j === 'mrt') return { color: gaya.warna.mrt(), weight: 5, opacity: 1 };
                 if (j === 'lrt') return { color: gaya.warna.lrtLin(f?.properties?.lin ?? ''), weight: 5, opacity: 1 };
-                return { color: gaya.warna.krl(f?.properties?.lin ?? 'lain'), weight: 4, opacity: 1, dashArray: '10 6' };
+                return { color: gaya.warna.krl(f?.properties?.lin ?? 'lain'), weight: 4, opacity: 1 };
             },
             onEachFeature: popup,
         }).addTo(g);
@@ -722,10 +738,10 @@ function gambarLayer(k: LayerKey, fc: FeatureCollection, tahun: number): L.Layer
         L.geoJSON(fc, {
             pane: 'nrGaris',
             filter: (f) => !f.properties?.tahun || f.properties.tahun <= tahun,
-            style: (f) => gaya.mesinWaktu(f?.properties?.moda),
+            style: (f) => gaya.mesinWaktu(f?.properties),
             // Stasiun rencana JUTPI3: lingkaran putih bertepi warna proyek, nama saat disorot.
             pointToLayer: (f, ll) =>
-                L.circleMarker(ll, { pane: 'nrStasiun', radius: 5, color: gaya.mesinWaktu(f.properties?.moda).color, weight: 2.5, fillColor: '#fbf9f6', fillOpacity: 1 }).bindTooltip(
+                L.circleMarker(ll, { pane: 'nrStasiun', radius: 5, color: gaya.mesinWaktu(f.properties).color, weight: 2.5, fillColor: '#fbf9f6', fillOpacity: 1 }).bindTooltip(
                     String(f.properties?.nama ?? ''),
                     { direction: 'top', offset: [0, -6], className: 'nr-maplabel nr-label-stasiun' },
                 ),

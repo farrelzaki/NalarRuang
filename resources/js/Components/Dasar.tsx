@@ -93,6 +93,10 @@ export function SimbolPeta({ kind, size = 16 }: { kind: Simbol; size?: number })
         'banjir-3': kotak('#7f1d1d', 0.55),
         genangan: kotak('#1d4ed8', 0.35),
         legal: kotak('var(--map-legal)', 0.2),
+        'udara-bersih': kotak('#4ade80', 0.45),
+        'udara-sedang': kotak('#facc15', 0.45),
+        'udara-tercemar': kotak('#f97316', 0.45),
+        'udara-berbahaya': kotak('#b91c1c', 0.5),
         rth: kotak('#22c55e', 0.25), // <-- DITAMBAHKAN KEMBALI: Kotak poligon hijau untuk Taman & RTH
         hijau: <circle cx={8} cy={8} r={6} style={{ fill: 'var(--map-hijau)', fillOpacity: 0.8, stroke: 'var(--white)', strokeWidth: 2 }} />,
         akses: <circle cx={8} cy={8} r={6} style={{ fill: 'var(--map-akses)', stroke: 'var(--white)', strokeWidth: 2 }} />,
@@ -120,6 +124,13 @@ export function SimbolPeta({ kind, size = 16 }: { kind: Simbol; size?: number })
             <>
                 <line x1={1} x2={15} y1={5} y2={5} style={{ stroke: '#d62126', strokeWidth: 2.5 }} />
                 <line x1={1} x2={15} y1={11} y2={11} style={{ stroke: '#2f489c', strokeWidth: 2.5 }} />
+            </>
+        ),
+        'bus-kota': (
+            <>
+                <line x1={1} x2={15} y1={3.5} y2={3.5} style={{ stroke: '#0d9488', strokeWidth: 2.5 }} />
+                <line x1={1} x2={15} y1={8} y2={8} style={{ stroke: '#d97706', strokeWidth: 2.5 }} />
+                <line x1={1} x2={15} y1={12.5} y2={12.5} style={{ stroke: '#65a30d', strokeWidth: 2.5 }} />
             </>
         ),
         waktu: garis('var(--map-mrt)', '4 3'),

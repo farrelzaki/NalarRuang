@@ -6,7 +6,7 @@
 import { Head, Link } from '@inertiajs/react';
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { FeatureCollection, Geometry, Polygon } from 'geojson';
-import type { AksesLahanMasuk, AsumsiLahan, CommuteResponse, JenisAkses, JenisZona, LahanRequest, PolaLahan, ZonaLahanMasuk, HasilSearch, InspectResponse, LahanResponse, LayerKey, LayerResponse, Persona, TipeLahan } from '@/types';
+import type { AksesLahanMasuk, AsumsiLahan, CommuteResponse, JenisAkses, JenisZona, LahanRequest, PolaLahan, ZonaLahanMasuk, HasilSearch, InspectResponse, LahanResponse, LayerKey, LayerResponse, Persona, SaranLokasi, TipeLahan } from '@/types';
 import { api } from '@/lib/api';
 import { teksServer, useBahasa } from '@/lib/bahasa';
 import { bacaPersonaSesi, PERSONA, simpanPersonaSesi, SUBFITUR, type IsochroneMode, type Simbol } from '@/lib/nalar';
@@ -15,7 +15,7 @@ import PetaPilihan, { type MesinPeta } from '@/Map/PetaPilihan';
 import { luasPoligonM2, teksLuas } from '@/Map/isiPeta';
 import { BilahAlat, type Alat } from '@/Components/BilahAlat';
 import { Toast, type NadaToast } from '@/Components/Dasar';
-import { PanelFilter, PanelTop3, SearchBar } from '@/Components/Pencarian';
+import { PanelFilter, PanelLokasi, PanelTop3, SearchBar, type ModeCari } from '@/Components/Pencarian';
 import { DetailLokasi } from '@/Components/DetailLokasi';
 import { SimulatorRute, type Moda, type TitikRute } from '@/Components/SimulatorRute';
 import { PanelLayer, PanelProfilPersona, SliderTahun, TombolLayerPersona, TombolMerek, type PanelKananKey, type StatusLayer } from '@/Components/PanelKananPeta';
@@ -25,7 +25,7 @@ import { PanelLahan, type ModeGambar } from '@/Components/PanelLahan';
 
 const Pratinjau3D = lazy(() => import('@/Components/Pratinjau3D'));
 
-type PanelKiri = 'top3' | 'filter' | 'detail' | 'rute' | 'lahan' | null;
+type PanelKiri = 'top3' | 'lokasi' | 'filter' | 'detail' | 'rute' | 'lahan' | null;
 
 type InspectDenganIsochrone = InspectResponse & {
     isochrone?: FeatureCollection | null;
@@ -82,6 +82,8 @@ export default function Peta() {
     const [pesanCari, setPesanCari] = useState<string | undefined>();
     const [mencari, setMencari] = useState(false);
     const [top3Aktif, setTop3Aktif] = useState<number | null>(null);
+    const [modeCari, setModeCari] = useState<ModeCari>('rekomendasi');
+    const [hasilLokasi, setHasilLokasi] = useState<SaranLokasi[] | null>(null);
 
     // Detail & Isochrone
     const [detail, setDetail] = useState<InspectDenganIsochrone | null>(null);
@@ -298,6 +300,51 @@ export default function Peta() {
         }
     };
 
+    // Pencarian lokasi saja (T-060): hanya mencari tempat/daerah yang diketik, tanpa penilaian persona.
+    const jalankanLokasi = async (q: string) => {
+        setDetail(null);
+        setPin(null);
+        setWilayahTerpilih(null);
+        setHasil(null);
+        setTop3Aktif(null);
+        setPanelKiri('lokasi');
+        setMencari(true);
+        setHasilLokasi(null);
+        setPesanCari(undefined);
+        try {
+            if (q.length < 3) {
+                setHasilLokasi([]);
+                setPesanCari(t('Ketik minimal 3 huruf.', 'Type at least 3 letters.'));
+                return;
+            }
+            const r = await api.lokasi(q);
+            setHasilLokasi(r.hasil);
+            setPesanCari(r.message);
+            if (r.hasil.length === 1) pilihLokasi(r.hasil[0]);
+        } catch (e) {
+            setHasilLokasi([]);
+            setPesanCari((e as Error).message);
+        } finally {
+            setMencari(false);
+        }
+    };
+
+    const pilihLokasi = (s: SaranLokasi) => {
+        setHasilLokasi(null);
+        muatTitik({ lat: s.lat, lng: s.lng }, true);
+    };
+
+    const ubahModeCari = (m: ModeCari) => {
+        if (m === modeCari) return;
+        setModeCari(m);
+        if (panelKiri === 'top3' || panelKiri === 'lokasi') {
+            setPanelKiri(null);
+            setHasil(null);
+            setHasilLokasi(null);
+            setTop3Aktif(null);
+        }
+    };
+
     const pilihTop3 = (i: number) => {
         const r = hasil?.[i];
         if (!r) return;
@@ -318,6 +365,7 @@ export default function Peta() {
         batalDetail.current = ctrl;
 
         setHasil(null);
+        setHasilLokasi(null);
         setKueri('');
         setPesanCari(undefined);
         setTop3Aktif(null);
@@ -639,6 +687,28 @@ export default function Peta() {
         }
     };
 
+    // Dipakai tur panduan: tutup panel/mode yang dibuka langkah sebelumnya agar target langkah berikutnya tidak tertutup.
+    const bersihkanUntukPanduan = () => {
+        if (panelKiri === 'lahan') resetLahan();
+        areaTerakhir.current = null;
+        setAlat('titik');
+        setSudutArea([]);
+        setDrawer(null);
+        setPanelKanan(null);
+        setPanelKiri(null);
+        setPin(null);
+        setWilayahTerpilih(null);
+        setDetail(null);
+        setHasil(null);
+        setHasilLokasi(null);
+        setTop3Aktif(null);
+        setKueri('');
+        setRute(null);
+        setRuteA(null);
+        setRuteB(null);
+        setMenunggu(null);
+    };
+
     const labelPersona = persona.map((p) => PERSONA[p].label).join(' & ') || 'Commuter';
     const mesinWaktuAktif = !!layerAktif.mesin_waktu;
     const proyekDiTahun = (layerData.mesin_waktu?.features ?? []).filter((f) => !f.properties?.tahun || f.properties.tahun <= tahun).length;
@@ -734,14 +804,21 @@ export default function Peta() {
                         </Link>
 
                         <SearchBar
+                            mode={modeCari}
+                            onMode={ubahModeCari}
                             nilai={kueri}
                             onUbah={setKueri}
-                            onCari={(q) => jalankanCari({ q, persona })}
+                            onCari={(q) => (modeCari === 'lokasi' ? jalankanLokasi(q) : jalankanCari({ q, persona }))}
                             memuat={mencari}
                             commute={panelKiri === 'rute'}
                             onToggleCommute={toggleCommute}
                             filterTerbuka={panelKiri === 'filter'}
-                            onToggleFilter={() => setPanelKiri(panelKiri === 'filter' ? null : 'filter')}
+                            onToggleFilter={() => {
+                                // Filter kota & persona hanya untuk rekomendasi: dari mode lokasi, otomatis pindah ke rekomendasi.
+                                setModeCari('rekomendasi');
+                                setHasilLokasi(null);
+                                setPanelKiri(panelKiri === 'filter' ? null : 'filter');
+                            }}
                         />
 
                         <button
@@ -760,6 +837,7 @@ export default function Peta() {
                     </div>
 
                     {panelKiri === 'top3' && <PanelTop3 personaLabel={labelPersona} hasil={hasil} memuat={mencari} pesan={pesanCari} aktif={top3Aktif} onPilih={pilihTop3} />}
+                    {panelKiri === 'lokasi' && <PanelLokasi hasil={hasilLokasi} memuat={mencari} pesan={pesanCari} onPilih={pilihLokasi} />}
                     {panelKiri === 'filter' && (
                         <PanelFilter
                             personaSesi={persona}
@@ -939,7 +1017,15 @@ export default function Peta() {
                     </div>
                 )}
 
-                {panduan && <Panduan onSelesai={() => setPanduan(false)} />}
+                {panduan && (
+                    <Panduan
+                        onBersihkan={bersihkanUntukPanduan}
+                        onSelesai={(dilewati) => {
+                            setPanduan(false);
+                            if (dilewati) kabar(t('Panduan dilewati. Buka lagi kapan saja lewat Menu > Panduan.', 'Guide skipped. Reopen it anytime from Menu > Guide.'), 'warning');
+                        }}
+                    />
+                )}
             </main>
         </>
     );

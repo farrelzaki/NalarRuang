@@ -29,7 +29,7 @@ const JENIS_LABEL: Record<string, [string, string]> = {
     banjir: ['Bahaya banjir', 'Flood hazard'], banjir_tampil: ['Kerawanan banjir', 'Flood susceptibility'], genangan: ['Genangan banjir 2020', '2020 flooding'], rth: ['Ruang terbuka hijau', 'Green open space'], poi: ['Tempat aktivitas', 'Activity spot'],
     akses: ['Akses disabilitas', 'Disability access'], trotoar: ['Trotoar', 'Sidewalk'], krl: ['Jalur KRL', 'KRL line'], mrt: ['Jalur MRT', 'MRT line'],
     lrt: ['Jalur LRT', 'LRT line'], stasiun: ['Stasiun', 'Station'], halte: ['Halte', 'Bus stop'], tol: ['Gerbang tol', 'Toll gate'],
-    ganjil_genap: ['Ruas ganjil-genap', 'Odd-even road'],
+    ganjil_genap: ['Ruas ganjil-genap', 'Odd-even road'], bus: ['Rute bus kota', 'City bus route'], udara: ['Kualitas udara', 'Air quality'],
     proyek: ['Proyek infrastruktur', 'Infrastructure project'], stasiun_rencana: ['Stasiun rencana', 'Planned station'], legal: ['Bidang Tanah BPN', 'BPN Land Parcel'],
     rdtr: ['Rencana Detail Tata Ruang', 'Detailed Spatial Plan'], persil: ['Bidang Tanah (ATR/BPN)', 'Land Parcel (ATR/BPN)'],
     legalitas: ['Bidang Tanah (ATR/BPN)', 'Land Parcel (ATR/BPN)'],
@@ -53,6 +53,24 @@ export function deskripsi(p: Record<string, any>): string {
         case 'poi': return p.kategori ? `${istilah(p.kategori)}.` : tr('Tempat makan dan nongkrong.', 'A place to eat and hang out.');
         case 'stasiun': return `${p.moda ? String(p.moda).toUpperCase() : tr('Stasiun', 'Station')}${p.lin ? ` · ${tr('Lin', 'Line')} ${p.lin}` : ''}.`;
         case 'krl': case 'mrt': case 'lrt': return p.nama ?? tr('Jalur kereta.', 'Railway line.');
+        case 'udara': {
+            const kelas: Record<string, [string, string]> = {
+                sehat: ['relatif bersih', 'relatively clean'], kurang_sehat: ['sedang', 'moderate'], tidak_sehat: ['relatif tercemar', 'relatively polluted'], berbahaya: ['berbahaya', 'hazardous'],
+            };
+            const k = kelas[String(p.kategori)] ?? ['—', '—'];
+            const pm = p.pm25 != null ? `PM2.5 ${Math.round(Number(p.pm25))} µg/m³ (${p.kali_baku_mutu}× ${tr('baku mutu tahunan', 'annual standard')} 15 µg/m³), ${p.tahun}` : '';
+            const wilayah = [p.kecamatan, p.kota].filter(Boolean).join(', ');
+            return `${tr('Udara', 'Air')} ${tr(k[0], k[1])}.${pm ? `
+${pm}.` : ''}${wilayah ? `
+${wilayah}.` : ''}`;
+        }
+        case 'bus': {
+            const rute = [p.asal, p.tujuan].filter(Boolean).join(' – ');
+            return `${p.operator ?? tr('Bus kota', 'City bus')}${p.koridor ? ` · ${tr('Koridor', 'Corridor')} ${p.koridor}` : ''}${rute ? `
+${rute}` : ''}${p.jam_operasi ? `
+${tr('Jam operasi', 'Operating hours')} ${p.jam_operasi}` : ''}${p.kota ? `
+${p.kota}` : ''}`;
+        }
         case 'brt': return `${tr('Koridor', 'Corridor')} ${p.koridor ?? ''}${p.nama ? ` · ${p.nama}` : ''}.`;
         case 'stasiun_rencana': return `${p.lin ? `${p.lin}. ` : ''}${Number(p.tahun) >= 2045 ? tr('Rencana jangka panjang JUTPI3 (2045).', 'Long-term JUTPI3 plan (2045).') : tr(`Rencana mulai ${p.tahun}.`, `Planned from ${p.tahun}.`)}`;
         case 'proyek': return `${p.status ? istilah(p.status) : tr('Proyek', 'Project')}${Number(p.tahun) >= 2045 ? tr(', rencana jangka panjang JUTPI3 (2045)', ', long-term JUTPI3 plan (2045)') : p.tahun ? `, target ${p.tahun}` : tr(', belum ada target tahun', ', no target year yet')}.`;
