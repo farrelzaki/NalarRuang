@@ -169,6 +169,124 @@ class LahanTest extends TestCase
             ->assertStatus(422);
     }
 
+    /** Apartemen dengan satu zona bangunan dan satu zona parkir lebar, untuk menguji pengaturan parkir. */
+    private function parkirUji(array $asumsi = [], array $tambahan = []): array
+    {
+        $kotak = fn (float $x0, float $y0, float $x1, float $y1) => ['type' => 'Polygon', 'coordinates' => [[[$x0, $y0], [$x1, $y0], [$x1, $y1], [$x0, $y1], [$x0, $y0]]]];
+
+        return $this->lahan(array_merge(['tipe' => 'apartemen', 'asumsi' => $asumsi, 'zona' => [
+            ['jenis' => 'bangunan', 'geometri' => $kotak(106.8021, -6.2079, 106.8026, -6.2074)],
+            ['jenis' => 'parkir', 'geometri' => $kotak(106.8027, -6.2079, 106.80298, -6.2072)],
+        ]], $tambahan))->assertOk()->json();
+    }
+
+    private static function slot(array $r): array
+    {
+        return array_values(array_filter($r['geometri_kapasitas']['features'], fn ($f) => $f['properties']['jenis'] === 'slot'));
+    }
+
+    public function test_sudut_parkir_membuat_slot_miring_dan_mengubah_jumlahnya(): void
+    {
+        $tegak = $this->parkirUji();
+        $miring = $this->parkirUji(['sudut_parkir' => 45]);
+
+        $this->assertSame(90.0, (float) $tegak['asumsi']['sudut_parkir']);
+        $this->assertSame(45.0, (float) $miring['asumsi']['sudut_parkir']);
+        $this->assertNotEmpty(self::slot($miring));
+        $this->assertNotSame(count(self::slot($tegak)), count(self::slot($miring)), 'sudut mengubah jumlah slot');
+
+        // Slot tegak berupa persegi panjang (4 sudut siku); slot miring jajar genjang: sisi atas bergeser, bukan siku.
+        $sudutSiku = function (array $f): bool {
+            [$a, $b, , $d] = $f['geometry']['coordinates'][0];
+            $v1 = [$b[0] - $a[0], $b[1] - $a[1]];
+            $v2 = [$d[0] - $a[0], $d[1] - $a[1]];
+
+            return abs($v1[0] * $v2[0] + $v1[1] * $v2[1]) < 1e-12;
+        };
+        $this->assertTrue($sudutSiku(self::slot($tegak)[0]));
+        $this->assertFalse($sudutSiku(self::slot($miring)[0]));
+
+        // Di luar rentang dijepit ke 30–90.
+        $this->assertSame(30.0, (float) $this->parkirUji(['sudut_parkir' => 5])['asumsi']['sudut_parkir']);
+        $this->assertSame(90.0, (float) $this->parkirUji(['sudut_parkir' => 200])['asumsi']['sudut_parkir']);
+    }
+
+    public function test_max_run_menyela_deret_slot_dan_padding_menjauhkan_dari_tepi(): void
+    {
+        $biasa = count(self::slot($this->parkirUji()));
+        $this->assertGreaterThan(8, $biasa);
+
+        $this->assertLessThan($biasa, count(self::slot($this->parkirUji(['maks_baris' => 4]))), 'Max Run 4 menyisakan kolom kosong');
+        $this->assertSame($biasa, count(self::slot($this->parkirUji(['maks_baris' => 0]))), '0 = tanpa batas');
+        $this->assertLessThan($biasa, count(self::slot($this->parkirUji(['padding_parkir' => 3]))), 'padding mengecilkan ruang slot');
+    }
+
+    public function test_zona_larangan_tidak_berisi_gedung_parkir_atau_taman(): void
+    {
+        $kotak = fn (float $x0, float $y0, float $x1, float $y1) => ['type' => 'Polygon', 'coordinates' => [[[$x0, $y0], [$x1, $y0], [$x1, $y1], [$x0, $y1], [$x0, $y0]]]];
+        $tanpa = $this->lahan(['tipe' => 'apartemen', 'zona' => [
+            ['jenis' => 'bangunan', 'geometri' => $kotak(106.8021, -6.2079, 106.8028, -6.2073)],
+        ]])->assertOk()->json();
+        $dengan = $this->lahan(['tipe' => 'apartemen', 'zona' => [
+            ['jenis' => 'bangunan', 'geometri' => $kotak(106.8021, -6.2079, 106.8028, -6.2073)],
+            // Larangan menimpa bagian tengah gedung dan menang atas bangunan.
+            ['jenis' => 'larangan', 'geometri' => $kotak(106.8024, -6.2080, 106.8026, -6.2072)],
+        ]])->assertOk()->json();
+
+        $zona = array_column($dengan['zona']['features'], 'properties');
+        $larangan = array_values(array_filter($zona, fn ($p) => $p['jenis'] === 'larangan'));
+        $this->assertCount(1, $larangan);
+        $this->assertSame(1, $larangan[0]['id']);
+        $bangunan = array_values(array_filter($zona, fn ($p) => $p['jenis'] === 'bangunan'));
+        $luasAsal = array_values(array_filter(array_column($tanpa['zona']['features'], 'properties'), fn ($p) => $p['jenis'] === 'bangunan'))[0]['luas_m2'];
+        $this->assertLessThan($luasAsal - 100, $bangunan[0]['luas_m2'], 'bangunan kehilangan bagian yang dilarang');
+
+        // Tidak ada unit di dalam kotak larangan.
+        foreach ($dengan['geometri_kapasitas']['features'] as $f) {
+            if ($f['properties']['jenis'] !== 'unit') {
+                continue;
+            }
+            $x = array_column($f['geometry']['coordinates'][0], 0);
+            $this->assertFalse(min($x) > 106.80241 && max($x) < 106.80259, 'unit tidak boleh di area larangan');
+        }
+    }
+
+    public function test_larangan_banjir_otomatis_menjadi_zona_dan_memotong_pola(): void
+    {
+        // Area uji rawan banjir tingkat 2 menutup separuh barat lahan (lihat setUp).
+        foreach (['rumah', 'apartemen'] as $tipe) {
+            $tanpa = $this->lahan(['tipe' => $tipe])->assertOk()->json();
+            $dengan = $this->lahan(['tipe' => $tipe, 'larangan_banjir' => 2])->assertOk()->json();
+
+            $larangan = array_values(array_filter(array_column($dengan['zona']['features'], 'properties'), fn ($p) => $p['jenis'] === 'larangan'));
+            $this->assertCount(1, $larangan, $tipe);
+            $this->assertTrue($larangan[0]['otomatis']);
+            $this->assertEqualsWithDelta(0.5 * $dengan['luas_m2'], $larangan[0]['luas_m2'], 0.08 * $dengan['luas_m2'], $tipe);
+            if ($tipe === 'rumah') {
+                $this->assertLessThan($tanpa['kapasitas']['jumlah'], $dengan['kapasitas']['jumlah'], 'rumah: kavling di area banjir hilang');
+            }
+            $this->assertEmpty(array_filter(array_column($tanpa['zona']['features'], 'properties'), fn ($p) => $p['jenis'] === 'larangan'));
+        }
+
+        // Tingkat 3 (tinggi) tidak ada di lahan uji: tidak ada zona larangan.
+        $r = $this->lahan(['larangan_banjir' => 3])->assertOk()->json();
+        $this->assertEmpty(array_filter(array_column($r['zona']['features'], 'properties'), fn ($p) => $p['jenis'] === 'larangan'));
+        $this->lahan(['larangan_banjir' => 9])->assertStatus(422);
+
+        // Bersama zona pengguna dan isi sisa taman: larangan otomatis diberi nomor terakhir, sisa taman tidak menimpanya.
+        $kotak = fn (float $x0, float $y0, float $x1, float $y1) => ['type' => 'Polygon', 'coordinates' => [[[$x0, $y0], [$x1, $y0], [$x1, $y1], [$x0, $y1], [$x0, $y0]]]];
+        $m = $this->lahan(['tipe' => 'apartemen', 'larangan_banjir' => 2, 'isi_sisa_taman' => true, 'zona' => [
+            ['jenis' => 'bangunan', 'geometri' => $kotak(106.8026, -6.2079, 106.8029, -6.2074)],
+        ]])->assertOk()->json();
+        $jenisPerId = [];
+        foreach ($m['zona']['features'] as $f) {
+            $jenisPerId[$f['properties']['id']] = $f['properties']['jenis'];
+        }
+        $this->assertSame('bangunan', $jenisPerId[0]);
+        $this->assertSame('taman', $jenisPerId[1], 'sisa taman bernomor setelah zona pengguna');
+        $this->assertSame('larangan', $jenisPerId[2]);
+    }
+
     public function test_sub_layer_dipotong_ke_induk_dan_induk_kehilangan_bagiannya(): void
     {
         $kotak = fn (float $x0, float $y0, float $x1, float $y1) => ['type' => 'Polygon', 'coordinates' => [[[$x0, $y0], [$x1, $y0], [$x1, $y1], [$x0, $y1], [$x0, $y0]]]];

@@ -405,4 +405,34 @@ class KapasitasLahanTest extends TestCase
         // Tidak lebih banyak dari total: apa adanya.
         $this->assertSame($k, KapasitasLahan::skalaKomposisi($k, 100));
     }
+
+    public function test_slot_miring_menghitung_pitch_kedalaman_dan_lorong(): void
+    {
+        // 90 derajat = ukuran semula.
+        $t = KapasitasLahan::slotMiring(2.5, 5.0, 6.0, 90);
+        $this->assertSame(['pitch' => 2.5, 'kedalaman' => 5.0, 'lorong' => 6.0, 'geser' => 0.0], $t);
+
+        // 45 derajat: pitch = 2,5 / sin45, kedalaman = (5 + 2,5) sin45, lorong menyempit, sisi atas bergeser sama dengan kedalaman.
+        $m = KapasitasLahan::slotMiring(2.5, 5.0, 6.0, 45);
+        $this->assertEqualsWithDelta(3.5355, $m['pitch'], 0.001);
+        $this->assertEqualsWithDelta(5.3033, $m['kedalaman'], 0.001);
+        $this->assertEqualsWithDelta(5.21, $m['lorong'], 0.01);
+        $this->assertEqualsWithDelta(5.3033, $m['geser'], 0.001);
+
+        // Makin miring makin sempit lorongnya dan makin jarang slotnya; di luar rentang dijepit ke 30-90.
+        $this->assertLessThan($m['lorong'], KapasitasLahan::slotMiring(2.5, 5.0, 6.0, 30)['lorong']);
+        $this->assertSame(KapasitasLahan::slotMiring(2.5, 5.0, 6.0, 30), KapasitasLahan::slotMiring(2.5, 5.0, 6.0, 1));
+        $this->assertSame($t, KapasitasLahan::slotMiring(2.5, 5.0, 6.0, 500));
+    }
+
+    public function test_asumsi_parkir_dijepit_dan_hanya_untuk_kos_dan_apartemen(): void
+    {
+        $a = $this->k->asumsi('apartemen', ['sudut_parkir' => 10, 'padding_parkir' => 9, 'maks_baris' => 99.6]);
+        $this->assertSame(30.0, $a['sudut_parkir']);
+        $this->assertSame(3.0, $a['padding_parkir']);
+        $this->assertSame(40, $a['maks_baris']);
+        $this->assertSame(90.0, $this->k->asumsi('kos', [])['sudut_parkir']);
+        $this->assertArrayNotHasKey('sudut_parkir', $this->k->asumsi('rumah', ['sudut_parkir' => 45]));
+        $this->assertSame(['larangan' => 4, 'bangunan' => 3, 'parkir' => 2, 'taman' => 1], KapasitasLahan::PRIORITAS_BAWAAN);
+    }
 }

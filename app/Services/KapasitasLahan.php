@@ -21,8 +21,8 @@ class KapasitasLahan
     /** Asumsi bawaan per tipe; bisa diubah pengguna dalam rentang RENTANG. */
     public const BAWAAN = [
         'rumah' => ['lebar_kavling' => 6.0, 'panjang_kavling' => 15.0, 'lebar_jalan' => 8.0],
-        'kos' => ['luas_kamar' => 12.0, 'sempadan' => 2.0, 'lantai' => null, 'rasio_motor' => 1.0],
-        'apartemen' => ['porsi_studio' => 0.3, 'porsi_2br' => 0.2, 'sempadan' => 5.0, 'lantai' => null, 'rasio_parkir' => 0.5],
+        'kos' => ['luas_kamar' => 12.0, 'sempadan' => 2.0, 'lantai' => null, 'rasio_motor' => 1.0, 'sudut_parkir' => 90.0, 'padding_parkir' => 0.0, 'maks_baris' => 0],
+        'apartemen' => ['porsi_studio' => 0.3, 'porsi_2br' => 0.2, 'sempadan' => 5.0, 'lantai' => null, 'rasio_parkir' => 0.5, 'sudut_parkir' => 90.0, 'padding_parkir' => 0.0, 'maks_baris' => 0],
     ];
 
     /** Rentang masukan asumsi [min, max]. */
@@ -37,6 +37,11 @@ class KapasitasLahan
         'lantai' => [1, 60],
         'rasio_parkir' => [0, 2],
         'rasio_motor' => [0, 3],
+        // Parkir: sudut slot terhadap lorong (derajat), jarak parkir dari tepi zona (m), dan Max Run = jumlah slot paling banyak dalam satu
+        // deret sebelum disela ruang kosong (0 = tanpa batas; 1 dianggap 2).
+        'sudut_parkir' => [30, 90],
+        'padding_parkir' => [0, 3],
+        'maks_baris' => [0, 40],
     ];
 
     /**
@@ -53,7 +58,13 @@ class KapasitasLahan
     ];
 
     /** Jenis zona yang bisa ditarik sendiri-sendiri di peta. */
-    public const JENIS_ZONA = ['bangunan', 'parkir', 'taman'];
+    public const JENIS_ZONA = ['bangunan', 'parkir', 'taman', 'larangan'];
+
+    /**
+     * Prioritas bawaan saat zona bertumpuk (angka lebih besar menang). `larangan` = area larangan bangun: selalu menang, dan
+     * zona lain menyesuaikan diri di sekelilingnya sehingga tidak ada gedung, parkir, atau taman di dalamnya.
+     */
+    public const PRIORITAS_BAWAAN = ['larangan' => 4, 'bangunan' => 3, 'parkir' => 2, 'taman' => 1];
 
     /** Slot parkir motor 0,8 x 2 m dengan lorong 2 m (kos). */
     public const SLOT_MOTOR = ['lebar' => 0.8, 'panjang' => 2.0, 'lorong' => 2.0];
@@ -127,7 +138,7 @@ class KapasitasLahan
             }
             [$min, $max] = self::RENTANG[$kunci];
             $nilai = (float) max($min, min($max, (float) $masukan[$kunci]));
-            $hasil[$kunci] = $kunci === 'lantai' ? (int) round($nilai) : $nilai;
+            $hasil[$kunci] = in_array($kunci, ['lantai', 'maks_baris'], true) ? (int) round($nilai) : $nilai;
         }
 
         // Porsi studio + 2 kamar paling banyak 100 %; sisanya 1 kamar.
@@ -448,6 +459,32 @@ class KapasitasLahan
     public static function ukuranSlot(string $jenis): array
     {
         return $jenis === 'motor' ? self::SLOT_MOTOR : self::SLOT_PARKIR;
+    }
+
+    /**
+     * Ukuran efektif slot parkir yang miring `$sudut` derajat terhadap lorong (30–90; 90 = tegak lurus seperti semula).
+     * - pitch: jarak antar slot sepanjang lorong = lebar / sin(sudut)
+     * - kedalaman: tebal satu deret tegak lurus lorong = panjang × sin + lebar × cos
+     * - lorong: makin miring makin sempit (lalu lintas searah), 55–100 % dari lorong tegak lurus
+     * - geser: pergeseran sisi atas jajar genjang terhadap sisi bawahnya = kedalaman × cot(sudut)
+     *
+     * @return array{pitch: float, kedalaman: float, lorong: float, geser: float}
+     */
+    public static function slotMiring(float $lebar, float $panjang, float $lorong, float $sudut): array
+    {
+        $sudut = max(30.0, min(90.0, $sudut));
+        if ($sudut >= 89.5) {
+            return ['pitch' => $lebar, 'kedalaman' => $panjang, 'lorong' => $lorong, 'geser' => 0.0];
+        }
+        $r = deg2rad($sudut);
+        $kedalaman = $panjang * sin($r) + $lebar * cos($r);
+
+        return [
+            'pitch' => $lebar / sin($r),
+            'kedalaman' => $kedalaman,
+            'lorong' => round($lorong * (0.55 + 0.45 * sin($r)), 2),
+            'geser' => $kedalaman * cos($r) / sin($r),
+        ];
     }
 
     /**
