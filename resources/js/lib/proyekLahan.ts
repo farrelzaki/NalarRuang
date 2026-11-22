@@ -22,9 +22,11 @@ export type SnapLahan = {
     /** Zona yang ditarik pengguna; null = zona bawaan pola dari server. */
     zona: ZonaLahan[] | null;
     akses: AksesLahanMasuk[];
+    /** Isi sisa lahan di luar zona dengan taman (kos/apartemen). */
+    isiSisa: boolean;
 };
 
-export const SNAP_AWAL: SnapLahan = { geom: null, tipe: 'rumah', asumsi: {}, pola: null, zona: null, akses: [] };
+export const SNAP_AWAL: SnapLahan = { geom: null, tipe: 'rumah', asumsi: {}, pola: null, zona: null, akses: [], isiSisa: false };
 
 type Bidang = keyof SnapLahan;
 type Pembaruan<T> = T | ((lama: T) => T);
@@ -73,6 +75,7 @@ export function useProyekLahan() {
         setPola: bidang('pola'),
         setZona: bidang('zona'),
         setAkses: bidang('akses'),
+        setIsiSisa: bidang('isiSisa'),
     }).current;
 
     /** Mulai proyek baru dari `awal` (riwayat dibuang). */
@@ -100,6 +103,7 @@ export function useProyekLahan() {
         pola: s.pola,
         zona: s.zona,
         akses: s.akses,
+        isiSisa: s.isiSisa,
         ...setters,
         ubah,
         mulaiBaru,

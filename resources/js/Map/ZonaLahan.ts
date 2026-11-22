@@ -152,16 +152,25 @@ export class AlatZona {
         else jalankan();
     }
 
-    /** Tambah zona baru berbentuk kotak seluas kira-kira 15 % lahan di tengah lahan. */
-    tambah(jenis: JenisZona, lahan: L.LatLng[]): void {
-        if (lahan.length < 3) return;
-        const b = L.latLngBounds(lahan);
-        const c = b.getCenter();
-        const dLat = (b.getNorth() - b.getSouth()) * 0.2;
-        const dLng = (b.getEast() - b.getWest()) * 0.2;
+    /**
+     * Tambah zona baru. Dengan `geometri` (hasil penempatan pintar) zona dibuat di bentuk itu; tanpa itu berbentuk kotak seluas
+     * kira-kira 15 % lahan di tengah lahan.
+     */
+    tambah(jenis: JenisZona, lahan: L.LatLng[], geometri?: Polygon | null): void {
+        let cincin: L.LatLng[][];
+        if (geometri) {
+            cincin = keLatLng(geometri.coordinates);
+        } else {
+            if (lahan.length < 3) return;
+            const b = L.latLngBounds(lahan);
+            const c = b.getCenter();
+            const dLat = (b.getNorth() - b.getSouth()) * 0.2;
+            const dLng = (b.getEast() - b.getWest()) * 0.2;
+            cincin = [[L.latLng(c.lat + dLat, c.lng - dLng), L.latLng(c.lat + dLat, c.lng + dLng), L.latLng(c.lat - dLat, c.lng + dLng), L.latLng(c.lat - dLat, c.lng - dLng)]];
+        }
         this.zona.push({
             jenis,
-            cincin: [[L.latLng(c.lat + dLat, c.lng - dLng), L.latLng(c.lat + dLat, c.lng + dLng), L.latLng(c.lat - dLat, c.lng + dLng), L.latLng(c.lat - dLat, c.lng - dLng)]],
+            cincin,
             idServer: -1,
             meta: { uid: buatUid(), tarik: Date.now() },
         });

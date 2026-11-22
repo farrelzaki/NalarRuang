@@ -222,6 +222,8 @@ export type LahanRequest = {
     zona?: ZonaLahanMasuk[];
     /** Gerbang dan pintu (≤ 6). */
     akses?: AksesLahanMasuk[];
+    /** Sisa lahan di luar semua zona menjadi taman (hanya kos/apartemen dengan zona sendiri). */
+    isi_sisa_taman?: boolean;
     persona?: Persona[];
 };
 

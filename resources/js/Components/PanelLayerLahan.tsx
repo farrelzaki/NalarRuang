@@ -27,6 +27,12 @@ export type PropsLayerLahan = {
     onUbah: (zona: ZonaLahan[]) => void;
     lahanTerkunci: boolean;
     onKunciLahan: (kunci: boolean) => void;
+    /** Isi sisa lahan di luar semua zona dengan taman (hanya kos/apartemen). */
+    isiSisa: boolean;
+    bolehIsiSisa: boolean;
+    onIsiSisa: (v: boolean) => void;
+    /** Luas taman dari sisa lahan (m²) menurut hasil server, bila ada. */
+    luasSisaTaman?: number;
     /** Isi hasil hitungan (unit, kavling, slot, ...) yang ada sekarang, dan jenis yang disembunyikan. */
     isi: IsiLayer[];
     isiSembunyi: string[];
@@ -179,6 +185,16 @@ export function PanelLayerLahan(props: PropsLayerLahan) {
             {zona.length === 0 && <p className="nr-layer__kosong">{t('Belum ada zona. Tambahkan lewat tombol di atas.', 'No zones yet. Add one with the buttons above.')}</p>}
             {!props.manual && zona.length > 0 && (
                 <p className="nr-layer__catatan">{t('Zona bawaan pola. Mengubah apa pun di sini menjadikannya zona sendiri.', 'Default pattern zones. Changing anything here turns them into your own zones.')}</p>
+            )}
+
+            {props.bolehIsiSisa && (
+                <label className="nr-layer__sisa">
+                    <input type="checkbox" checked={props.isiSisa} onChange={(e) => props.onIsiSisa(e.target.checked)} />
+                    <span>
+                        {t('Isi sisa lahan dengan taman', 'Fill leftover land with greenery')}
+                        {props.isiSisa && props.luasSisaTaman !== undefined && <small> · {angka(props.luasSisaTaman, bahasa)} m²</small>}
+                    </span>
+                </label>
             )}
 
             {zona.length > 1 && (

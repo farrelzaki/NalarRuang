@@ -10,6 +10,8 @@ import type { AksesLahanMasuk, AsumsiLahan, CommuteResponse, JenisAkses, JenisZo
 import { api } from '@/lib/api';
 import { useProyekLahan } from '@/lib/proyekLahan';
 import { dariServer, keZonaApi, rapikan } from '@/lib/layerLahan';
+import { luasM2 } from '@/lib/batasLahan';
+import { kebutuhanLuas, tempatkanZona } from '@/lib/penempatan';
 import { teksServer, useBahasa } from '@/lib/bahasa';
 import { bacaPersonaSesi, PERSONA, simpanPersonaSesi, SUBFITUR, type IsochroneMode, type Simbol } from '@/lib/nalar';
 import type { ModeKamera, TitikPeta } from '@/Map/PetaExplorer';
@@ -143,6 +145,7 @@ export default function Peta() {
         pola: polaLahan,
         zona: zonaLahan,
         akses: aksesLahan,
+        isiSisa: isiSisaLahan,
         setGeom: setGeomLahan,
         setTipe: setTipeLahan,
         setAsumsi: setAsumsiLahan,
@@ -151,7 +154,7 @@ export default function Peta() {
         setAkses: setAksesLahan,
     } = proyekLahan;
     const [hasilLahan, setHasilLahan] = useState<LahanResponse | null>(null);
-    const [tambahZona, setTambahZona] = useState<{ jenis: JenisZona; kunci: number } | null>(null);
+    const [tambahZona, setTambahZona] = useState<{ jenis: JenisZona; kunci: number; geometri?: Polygon | null } | null>(null);
     /** Kunci baru = peta diminta menggambar ulang bentuk lahan dari `geom` (setelah undo/redo). */
     const [pulihLahan, setPulihLahan] = useState<{ geom: Polygon; kunci: number } | null>(null);
     // Panel layer Uji Lahan: layer terpilih, lahan terkunci, dan jenis isi hasil yang disembunyikan (hanya tampilan, tanpa undo).
@@ -180,6 +183,11 @@ export default function Peta() {
         const urutan = ['unit', 'kavling', 'jalan', 'koridor', 'taman', 'parkir', 'slot', 'lobi', 'jalur', 'inti', 'void', 'tapak', 'akses'];
         return [...hitung.keys()].sort((a, b) => (urutan.indexOf(a) + 100) % 100 - (urutan.indexOf(b) + 100) % 100).map((jenis) => ({ jenis, jumlah: hitung.get(jenis) ?? 0 }));
     }, [hasilLahan?.geometri_kapasitas]);
+    /** Luas taman dari sisa lahan (zona tambahan dari server, tidak ada di daftar layer), bila opsinya aktif. */
+    const sisaTaman = useMemo(() => {
+        if (!zonaLahan || !isiSisaLahan) return undefined;
+        return hasilLahan?.zona?.features.find((f) => f.properties.id === zonaLahan.length)?.properties.luas_m2;
+    }, [zonaLahan, isiSisaLahan, hasilLahan?.zona]);
     const zonaSembunyi = useMemo(() => (zonaLahan ?? []).flatMap((z, i) => (z.sembunyi ? [i] : [])), [zonaLahan]);
     const [tambahAkses, setTambahAkses] = useState<{ jenis: JenisAkses; kunci: number } | null>(null);
     const [tampil3D, setTampil3D] = useState(false);
@@ -627,12 +635,13 @@ export default function Peta() {
             persona,
             ...(polaLahan ? { pola: polaLahan } : {}),
             ...(zonaLahan ? { zona: keZonaApi(zonaLahan) } : {}),
+            ...(zonaLahan && isiSisaLahan && tipeLahan !== 'rumah' ? { isi_sisa_taman: true } : {}),
             ...(aksesLahan.length ? { akses: aksesLahan } : {}),
         };
         const jeda = setTimeout(() => kirimLahan.current(badan), lahanDariPeta.current ? 0 : 350);
         lahanDariPeta.current = false;
         return () => clearTimeout(jeda);
-    }, [panelKiri, geomLahan, tipeLahan, asumsiLahan, persona, polaLahan, zonaLahan, aksesLahan]);
+    }, [panelKiri, geomLahan, tipeLahan, asumsiLahan, persona, polaLahan, zonaLahan, aksesLahan, isiSisaLahan]);
 
     useEffect(() => batalLahan, []);
 
@@ -642,7 +651,7 @@ export default function Peta() {
         setHasilLahan(null);
         setGalatLahan(null);
         // Tipe bangunan dipertahankan; yang lain kembali ke awal dan riwayat undo dibuang.
-        proyekLahan.mulaiBaru({ geom: null, tipe: tipeLahan, asumsi: {}, pola: null, zona: null, akses: [] });
+        proyekLahan.mulaiBaru({ geom: null, tipe: tipeLahan, asumsi: {}, pola: null, zona: null, akses: [], isiSisa: false });
         setPulihLahan(null);
         setZonaDipilih(null);
         setLahanTerkunci(false);
@@ -661,6 +670,30 @@ export default function Peta() {
         setHasilLahan(null);
         setGalatLahan(null);
         setAlatLahan({ mode, kunci: Date.now() });
+    };
+
+    /**
+     * Penempatan pintar: zona baru ditaruh di ruang kosong terbesar, seluas kebutuhan (kekurangan KDH untuk taman, kekurangan slot untuk
+     * parkir), tidak menabrak layer terkunci. Bila ruang kosong habis, zona baru menimpa layer yang tidak terkunci.
+     */
+    const tambahkanZona = (jenis: JenisZona) => {
+        if (!geomLahan) return;
+        const luasLahan = hasilLahan?.luas_m2 ?? luasM2(geomLahan.coordinates[0].map(([lng, lat]) => ({ lat, lng })));
+        const parkir = hasilLahan?.kapasitas?.parkir;
+        const kebutuhan = kebutuhanLuas(jenis, {
+            luasLahanM2: luasLahan,
+            kdhTerpakai: hasilLahan?.ringkasan?.kdh_terpakai,
+            kdhBatas: hasilLahan?.ringkasan?.kdh_batas,
+            slotKurang: parkir ? Math.max(0, parkir.butuh - parkir.muat) : 0,
+            jenisParkir: parkir?.jenis ?? null,
+        });
+        const hasil = tempatkanZona(geomLahan, daftarZona.map((z) => ({ geometri: z.geometri, kunci: z.kunci })), kebutuhan);
+        if (!hasil) {
+            kabar(t('Tidak ada ruang untuk zona baru: seluruh lahan tertutup layer terkunci.', 'No room for a new zone: the whole site is covered by locked layers.'), 'warning');
+            return;
+        }
+        if (!hasil.bebas) kabar(t('Ruang kosong habis, jadi zona baru menimpa layer yang tidak terkunci.', 'No free space left, so the new zone overlaps unlocked layers.'));
+        setTambahZona({ jenis, kunci: Date.now(), geometri: hasil.geometri });
     };
 
     // Undo/redo desain lahan. Zona dan akses digambar dari props, jadi cukup bentuk lahan yang diminta digambar ulang
@@ -966,7 +999,7 @@ export default function Peta() {
                                 setZonaLahan(null);
                                 setZonaDipilih(null);
                             }}
-                            onTambahZona={(jenis) => setTambahZona({ jenis, kunci: Date.now() })}
+                            onTambahZona={tambahkanZona}
                             layer={{
                                 zona: daftarZona,
                                 luas: luasZona,
@@ -979,6 +1012,14 @@ export default function Peta() {
                                 },
                                 lahanTerkunci,
                                 onKunciLahan: setLahanTerkunci,
+                                isiSisa: isiSisaLahan,
+                                bolehIsiSisa: tipeLahan !== 'rumah',
+                                luasSisaTaman: sisaTaman,
+                                // Mengaktifkan menjadikan zona bawaan sebagai zona sendiri (opsi hanya berlaku untuk zona sendiri).
+                                onIsiSisa: (v) => {
+                                    lahanDariPeta.current = true;
+                                    proyekLahan.ubah((lama) => ({ isiSisa: v, zona: lama.zona ?? dariServer(hasilLahan?.zona) }), 'isiSisa');
+                                },
                                 isi: isiLahan,
                                 isiSembunyi,
                                 onIsi: (jenis, tampil) => setIsiSembunyi((s) => (tampil ? s.filter((j) => j !== jenis) : [...s.filter((j) => j !== jenis), jenis])),

@@ -71,7 +71,7 @@ export type PropsPeta = {
     isiSembunyi?: string[];
     zonaSembunyi?: number[];
     /** Kunci baru = tambahkan satu zona berjenis ini di tengah lahan. */
-    tambahZona?: { jenis: JenisZona; kunci: number } | null;
+    tambahZona?: { jenis: JenisZona; kunci: number; geometri?: Polygon | null } | null;
     /** Gerbang kendaraan dan pintu gedung yang ditaruh pengguna. */
     akses?: AksesLahanMasuk[];
     aksesServer?: FeatureCollection<Point, AksesLahanProps> | null;
@@ -510,7 +510,7 @@ export default function PetaExplorer(props: Props) {
     }, [props.zonaLahan, props.zonaManual, props.alatLahan, props.bahasa]);
 
     useEffect(() => {
-        if (props.tambahZona && alat.current) alatZona.current?.tambah(props.tambahZona.jenis, alat.current.titikSekarang());
+        if (props.tambahZona && alat.current) alatZona.current?.tambah(props.tambahZona.jenis, alat.current.titikSekarang(), props.tambahZona.geometri);
     }, [props.tambahZona?.kunci]);
 
     // Gerbang & pintu: tampil bila lahan sudah punya hasil; posisi dari server (sudah menempel tepi) bila ada.
