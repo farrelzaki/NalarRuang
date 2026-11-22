@@ -206,6 +206,7 @@ export function SimulatorRute({
             )}
 
             {lengkap && moda === 'mobil' && <InfoGanjilGenap gg={hasil?.pribadi?.ganjil_genap} />}
+            {lengkap && moda === 'mobil' && <SaranJalanKaki alternatif={hasil?.pribadi?.jalan_kaki_alternatif} />}
             {lengkap && moda === 'mobil' && <IsianBbm nilai={hargaBbm} onSimpan={onHargaBbm} />}
             {lengkap && moda === 'mobil' && <IsianKonsumsiBbm nilai={konsumsiBbm} onSimpan={(val) => onUbahKonsumsiBbm?.(val)} />}
                 
@@ -232,6 +233,24 @@ export function SimulatorRute({
                 </p>
             )}
         </section>
+    );
+}
+
+/** Titik dekat garis lurus tapi rute mobil memutar jauh (kemungkinan hanya terjangkau lewat gang): tawarkan jalan kaki langsung. */
+function SaranJalanKaki({ alternatif }: { alternatif?: { menit: number; meter: number } | null }) {
+    const { t } = useBahasa();
+    if (!alternatif) return null;
+    const jarak = alternatif.meter < 1000 ? `${Math.round(alternatif.meter / 10) * 10} m` : `${(alternatif.meter / 1000).toFixed(1)} km`;
+    return (
+        <p className="nr-route__gg" role="status">
+            <Ikon name="footprints" size={12} />
+            <span>
+                {t(
+                    `Rute mobil memutar; titik ini mungkin lebih cepat dicapai jalan kaki langsung (±${alternatif.menit} mnt, ${jarak}).`,
+                    `The car route loops around; this point may be faster on foot directly (±${alternatif.menit} min, ${jarak}).`,
+                )}
+            </span>
+        </p>
     );
 }
 

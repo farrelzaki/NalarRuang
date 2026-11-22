@@ -111,7 +111,15 @@ export type LangkahRute =
     | { tipe: 'pindah'; di: string; ke: string; menit: number; meter: number };
 
 export type CommuteResponse = {
-    pribadi: (RuteModa & { geometri: LineString; biaya_bbm?: number; biaya_tol?: number; lewat_tol?: boolean; ganjil_genap?: { hindari: boolean; ruas: string[] } }) | null;
+    pribadi: (RuteModa & {
+        geometri: LineString;
+        biaya_bbm?: number;
+        biaya_tol?: number;
+        lewat_tol?: boolean;
+        ganjil_genap?: { hindari: boolean; ruas: string[] };
+        /** Titik dekat garis lurus tapi rute mobil memutar jauh (kemungkinan hanya terjangkau lewat gang): tawaran jalan kaki langsung. */
+        jalan_kaki_alternatif?: { menit: number; meter: number } | null;
+    }) | null;
     publik: (RuteModa & {
         rincian: string;
         biaya_transum?: number;

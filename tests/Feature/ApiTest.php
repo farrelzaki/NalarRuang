@@ -266,6 +266,22 @@ class ApiTest extends TestCase
         $this->getJson('/api/commute?dari=-6.2,106.8&ke=-6.2,106.83&bbm=100')->assertStatus(422);
     }
 
+    public function test_commute_mobil_memutar_tawarkan_jalan_kaki(): void
+    {
+        $this->palsukanLayananLuar();
+
+        // A dan B hanya +-80 m garis lurus, tapi mock Valhalla selalu memberi rute 3,3 km (jauh lebih panjang):
+        // kemungkinan titik hanya terjangkau lewat gang, jadi jalan kaki langsung ditawarkan sebagai alternatif.
+        $r = $this->getJson('/api/commute?dari=-6.2000,106.8000&ke=-6.2005,106.8005')->assertOk();
+
+        $r->assertJsonPath('pribadi.jalan_kaki_alternatif.meter', 100)
+            ->assertJsonPath('pribadi.jalan_kaki_alternatif.menit', 1);
+
+        // Titik jauh (3,3 km garis lurus dari test lain) tidak memicu saran ini: rute mobil wajar untuk jarak segitu.
+        $jauh = $this->getJson('/api/commute?dari=-6.2049,106.8049&ke=-6.2049,106.8349')->assertOk();
+        $jauh->assertJsonPath('pribadi.jalan_kaki_alternatif', null);
+    }
+
     public function test_commute_hindari_ganjil_genap(): void
     {
         $this->palsukanLayananLuar();

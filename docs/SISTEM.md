@@ -147,6 +147,10 @@ Waktu, Legalitas Lahan.
   yang memenuhi, kembalikan daftar kosong dengan `message` (UC-03).
 - `commute` bergantung pada TBD-ROUTE. Sementara: mobil lewat Valhalla (cadangan OSRM),
   umum lewat Commute Data API; tarif tol dan waktu tempuh adalah perkiraan.
+- `commute` `pribadi` (22 Nov 2026): tambahan `jalan_kaki_alternatif` (`menit`, `meter`) atau `null`.
+  Terisi bila jarak lurus A-B ≤ 2 km tapi rute mobil lebih dari 2x jarak lurus itu (titik kemungkinan
+  hanya terjangkau lewat gang, bukan rute mobil yang salah) — rute jalan kaki langsung ditawarkan
+  sebagai alternatif alih-alih diam-diam membiarkan pengguna memutar. Aditif, tidak mengubah field lain.
 - Metrik wilayah untuk `search` (jarak ke stasiun/tol/POI/RTH, jumlah POI, porsi banjir)
   dihitung sekali oleh `DemoPetaSeeder` dan disimpan di `wilayah.atribut`.
 - `lahan` memakai POST karena koordinat poligon bisa terlalu panjang untuk query string. Rumus kapasitas ada di
