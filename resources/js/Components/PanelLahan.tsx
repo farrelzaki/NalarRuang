@@ -2,7 +2,7 @@
  * Panel Uji Lahan (FR-23): gambar lahan → luas, zona, banjir, kecocokan persona, dan estimasi kapasitas
  * rumah tapak / kos / apartemen dengan asumsi yang bisa digeser. Terinspirasi TestFit.
  */
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { AksesLahanMasuk, AsumsiLahan, JenisAkses, JenisZona, LahanResponse, Persona, PolaLahan, RingkasanLahan, TipeLahan, TipeUnit } from '@/types';
 import { teksServer, useBahasa, type Bahasa } from '@/lib/bahasa';
 import { cx, PERSONA_IDS } from '@/lib/nalar';
@@ -12,7 +12,14 @@ import { BarisSkor, KartuKesimpulan, kalimatWilayah } from './DetailLokasi';
 
 export type ModeGambar = 'kotak' | 'poligon';
 
+/** Jenis unduhan: model 3D saja, data proyek (bisa dibuka lagi), atau GeoJSON untuk QGIS. */
+export type JenisUnduhan = 'glb' | 'proyek' | 'geojson';
+
 type Props = {
+    /** Unduh berkas dan buka berkas desain (lib/berkasLahan.ts); `mengunduh` = berkas sedang dibuat. */
+    onUnduh: (jenis: JenisUnduhan) => void;
+    onImpor: (berkas: File) => void;
+    mengunduh: boolean;
     mode: ModeGambar;
     onMode: (m: ModeGambar) => void;
     adaLahan: boolean;
@@ -131,6 +138,66 @@ function IkonMode({ mode }: { mode: ModeGambar }) {
     );
 }
 
+/** Unduh (pilih jenis) dan Impor. Model 3D dan GeoJSON butuh hasil hitungan yang sudah siap; data proyek cukup lahan. */
+function BerkasLahan({ adaLahan, hasilSiap, mengunduh, onUnduh, onImpor }: { adaLahan: boolean; hasilSiap: boolean; mengunduh: boolean; onUnduh: (j: JenisUnduhan) => void; onImpor: (f: File) => void }) {
+    const { t } = useBahasa();
+    const [buka, setBuka] = useState(false);
+    const input = useRef<HTMLInputElement>(null);
+    const pilihan: [JenisUnduhan, string, string, string, boolean][] = [
+        ['glb', t('Model 3D (.glb)', '3D model (.glb)'), t('Bentuk 3D saja, untuk Blender atau SketchUp', '3D shape only, for Blender or SketchUp'), 'box', hasilSiap],
+        ['proyek', t('Data proyek (.nalarruang.json)', 'Project data (.nalarruang.json)'), t('Bisa dibuka lagi di sini: lokasi, bentuk, zona, asumsi', 'Can be reopened here: location, shape, zones, assumptions'), 'file-json', adaLahan],
+        ['geojson', t('GeoJSON (.geojson)', 'GeoJSON (.geojson)'), t('Lahan, zona, dan isi hasil untuk QGIS', 'Site, zones, and result for QGIS'), 'map', hasilSiap],
+    ];
+    return (
+        <div className="nr-lahan__berkas">
+            <div className="nr-lahan__berkasbaris">
+                <button type="button" className="nr-lahan__ulang" aria-expanded={buka} disabled={!adaLahan || mengunduh} onClick={() => setBuka((b) => !b)} title={t('Unduh desain lahan', 'Download the site design')}>
+                    <Ikon name={mengunduh ? 'loader-circle' : 'download'} size={14} className={mengunduh ? 'nr-spin' : undefined} />
+                    <span>{t('Unduh', 'Download')}</span>
+                </button>
+                <button type="button" className="nr-lahan__ulang" onClick={() => input.current?.click()} title={t('Buka berkas desain lahan (.nalarruang.json) atau GeoJSON', 'Open a site design file (.nalarruang.json) or GeoJSON')}>
+                    <Ikon name="upload" size={14} />
+                    <span>{t('Impor', 'Import')}</span>
+                </button>
+                <input
+                    ref={input}
+                    type="file"
+                    hidden
+                    accept=".json,.geojson,application/json,application/geo+json"
+                    onChange={(e) => {
+                        const f = e.target.files?.[0];
+                        e.target.value = ''; // berkas yang sama bisa dipilih lagi
+                        if (f) onImpor(f);
+                    }}
+                />
+            </div>
+            {buka && (
+                <ul className="nr-lahan__berkasmenu" role="menu" aria-label={t('Jenis berkas unduhan', 'Download file type')}>
+                    {pilihan.map(([k, judul, ket, ikon, boleh]) => (
+                        <li key={k} role="none">
+                            <button
+                                type="button"
+                                role="menuitem"
+                                disabled={!boleh}
+                                onClick={() => {
+                                    setBuka(false);
+                                    onUnduh(k);
+                                }}
+                            >
+                                <Ikon name={ikon} size={16} />
+                                <span>
+                                    <b>{judul}</b>
+                                    <small>{boleh ? ket : t('Menunggu hasil hitungan…', 'Waiting for the calculation…')}</small>
+                                </span>
+                            </button>
+                        </li>
+                    ))}
+                </ul>
+            )}
+        </div>
+    );
+}
+
 export function PanelLahan(props: Props) {
     const { t } = useBahasa();
     const { data, mode } = props;
@@ -164,6 +231,8 @@ export function PanelLahan(props: Props) {
                     <span>{t('Ulang', 'Reset')}</span>
                 </button>
             </div>
+
+            <BerkasLahan adaLahan={props.adaLahan} hasilSiap={!!data && !props.memuat && data.tipe === props.tipe} mengunduh={props.mengunduh} onUnduh={props.onUnduh} onImpor={props.onImpor} />
 
             {!props.adaLahan && (
                 <div className="nr-lahan__petunjuk" role="status">

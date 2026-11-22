@@ -79,6 +79,144 @@ function garisCincin(cincin: Position[], p: Proyeksi, y: number): THREE.Vector3[
 
 export type Adegan3D = { perbarui(data: LahanResponse, lahan: Polygon | null): void; hancurkan(): void };
 
+/** Model 3D isi hasil (tanpa tanah, lampu, kamera): dipakai pratinjau dan ekspor .glb. Meter; x ke timur, z ke selatan, y ke atas. */
+export function buatModel(d: LahanResponse, lahanGeo: Polygon | null): THREE.Group {
+    const isi = new THREE.Group();
+    const p = proyeksi(d.pusat.lat, d.pusat.lng);
+    const tinggiLantai = d.ringkasan?.tinggi_lantai_m ?? 3.2;
+    const lantai = Math.max(1, d.kapasitas.lantai || 1);
+    const tinggiGedung = lantai * tinggiLantai;
+
+    // Kumpulkan geometri per warna lalu gabungkan: ratusan unit tetap ringan digambar.
+    const ember = new Map<string, { warna: number; transparan?: number; geo: THREE.BufferGeometry[] }>();
+    const masuk = (kunci: string, warna: number, geo: THREE.BufferGeometry, transparan?: number) => {
+        const e = ember.get(kunci) ?? { warna, transparan, geo: [] };
+        if (geo.index) {
+            const tanpaIndeks = geo.toNonIndexed();
+            geo.dispose();
+            e.geo.push(tanpaIndeks);
+        } else {
+            e.geo.push(geo);
+        }
+        ember.set(kunci, e);
+    };
+    const garis: THREE.Vector3[] = [];
+
+    if (lahanGeo) {
+        const s = bentuk(lahanGeo.coordinates, p);
+        if (s) masuk('lahan', 0xf6f3ec, datar(s, 0));
+        garis.push(...garisCincin(lahanGeo.coordinates[0], p, 0.15));
+    }
+
+    const fitur = (d.geometri_kapasitas?.features ?? []) as Feature<Geometry, Record<string, unknown>>[];
+    const kdb = Math.min(0.9, Math.max(0.3, (d.intensitas?.kdb ?? 60) / 100));
+    for (const f of fitur) {
+        const pr = f.properties ?? {};
+        const jenis = String(pr.jenis ?? '');
+        for (const c of poligon(f.geometry)) {
+            const s = bentuk(c, p, jenis === 'kavling' ? Math.sqrt(kdb) : 1);
+            if (!s) continue;
+            switch (jenis) {
+                case 'unit':
+                    masuk(`unit-${pr.tipe}`, WARNA_UNIT[String(pr.tipe)] ?? 0x4a90e2, ekstrusi(s, tinggiGedung - 0.3));
+                    break;
+                case 'koridor':
+                    masuk('koridor', 0x59606e, ekstrusi(s, tinggiGedung - 0.6));
+                    break;
+                case 'inti':
+                    masuk('inti', 0x9aa3b2, ekstrusi(s, tinggiGedung + 3));
+                    break;
+                case 'tapak':
+                    masuk('tapak', 0x3b6fd8, ekstrusi(s, tinggiGedung));
+                    break;
+                case 'kavling': {
+                    masuk(`atap-${Number(pr.varian ?? 0) % 3}`, WARNA_ATAP[Number(pr.varian ?? 0) % 3], ekstrusi(s, tinggiGedung));
+                    const kav = bentuk(c, p);
+                    if (kav) masuk('pekarangan', 0xd9e7cf, datar(kav, 0.06));
+                    break;
+                }
+                case 'parkir': {
+                    const lp = Number(pr.lantai ?? 1);
+                    if (lp > 1) masuk('gedung-parkir', 0x8a919c, ekstrusi(s, lp * 3), 0.85);
+                    else masuk('aspal', 0x7b818b, datar(s, 0.08));
+                    break;
+                }
+                case 'slot':
+                    masuk('slot', 0xc9d1db, datar(s, 0.12));
+                    break;
+                case 'jalan':
+                    masuk('jalan', 0x6b7280, datar(s, 0.07));
+                    break;
+                case 'akses':
+                    masuk('akses', 0x4b5160, datar(s, 0.14));
+                    break;
+                case 'jalur':
+                    masuk('jalur', 0xd9c48f, datar(s, 0.13));
+                    break;
+                case 'lobi':
+                    // Lobi dua lantai berwarna kuning, di atasnya lanjut massa gedung.
+                    masuk('lobi', 0xf2b544, ekstrusi(s, Math.min(tinggiGedung, tinggiLantai * 2) - 0.3));
+                    if (tinggiGedung > tinggiLantai * 2) masuk('koridor', 0x59606e, ekstrusi(s, tinggiGedung - tinggiLantai * 2 - 0.3, tinggiLantai * 2));
+                    break;
+                case 'taman':
+                case 'void':
+                    masuk('taman', 0x9fd3a6, datar(s, 0.09));
+                    break;
+            }
+        }
+    }
+
+    // Gerbang: dua tiang di titik gerbang; pintu: kanopi kecil.
+    for (const a of d.akses?.features ?? []) {
+        const [x, n] = p(a.geometry.coordinates);
+        if (a.properties.jenis === 'gerbang') {
+            const setengah = Number(a.properties.lebar ?? 6) / 2 + 0.3;
+            for (const dx of [-setengah, setengah]) {
+                const tiang = new THREE.BoxGeometry(0.6, 3, 0.6);
+                tiang.translate(x + dx, 1.5, -n);
+                masuk('gerbang', 0xb45309, tiang);
+            }
+        } else {
+            const kanopi = new THREE.BoxGeometry(4, 0.3, 4);
+            kanopi.translate(x, 3.2, -n);
+            masuk('pintu', 0x7c3aed, kanopi);
+        }
+    }
+
+    // Garis tiap lantai di sekeliling zona gedung, supaya jumlah lantai terbaca seperti di TestFit.
+    if (d.tipe !== 'rumah') {
+        for (const z of d.zona?.features ?? []) {
+            if (z.properties.jenis !== 'bangunan') continue;
+            for (const c of poligon(z.geometry)) {
+                for (let i = 1; i <= lantai; i++) {
+                    for (const r of c) garis.push(...garisCincin(r, p, i * tinggiLantai));
+                }
+            }
+        }
+    }
+
+    for (const [kunci, e] of ember) {
+        const g = mergeGeometries(e.geo, false);
+        e.geo.forEach((x) => x.dispose());
+        if (!g) continue;
+        g.computeVertexNormals();
+        const mat = new THREE.MeshLambertMaterial({
+            color: e.warna,
+            transparent: e.transparan !== undefined,
+            opacity: e.transparan ?? 1,
+            side: ['lahan', 'taman', 'jalan', 'aspal', 'slot', 'pekarangan', 'akses', 'jalur'].includes(kunci) ? THREE.DoubleSide : THREE.FrontSide,
+        });
+        const mesh = new THREE.Mesh(g, mat);
+        mesh.name = kunci; // nama terbaca di Blender saat model .glb dibuka
+        isi.add(mesh);
+    }
+    if (garis.length) {
+        const g = new THREE.BufferGeometry().setFromPoints(garis);
+        isi.add(new THREE.LineSegments(g, new THREE.LineBasicMaterial({ color: 0x1d2433, transparent: true, opacity: 0.35 })));
+    }
+    return isi;
+}
+
 export function buatAdegan(wadah: HTMLElement, data: LahanResponse, lahan: Polygon | null): Adegan3D {
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -121,139 +259,8 @@ export function buatAdegan(wadah: HTMLElement, data: LahanResponse, lahan: Polyg
     const bangun = (d: LahanResponse, lahanGeo: Polygon | null) => {
         scene.remove(isi);
         bersihkan(isi);
-        isi = new THREE.Group();
+        isi = buatModel(d, lahanGeo);
         scene.add(isi);
-
-        const p = proyeksi(d.pusat.lat, d.pusat.lng);
-        const tinggiLantai = d.ringkasan?.tinggi_lantai_m ?? 3.2;
-        const lantai = Math.max(1, d.kapasitas.lantai || 1);
-        const tinggiGedung = lantai * tinggiLantai;
-
-        // Kumpulkan geometri per warna lalu gabungkan: ratusan unit tetap ringan digambar.
-        const ember = new Map<string, { warna: number; transparan?: number; geo: THREE.BufferGeometry[] }>();
-        const masuk = (kunci: string, warna: number, geo: THREE.BufferGeometry, transparan?: number) => {
-            const e = ember.get(kunci) ?? { warna, transparan, geo: [] };
-            if (geo.index) {
-                const tanpaIndeks = geo.toNonIndexed();
-                geo.dispose();
-                e.geo.push(tanpaIndeks);
-            } else {
-                e.geo.push(geo);
-            }
-            ember.set(kunci, e);
-        };
-        const garis: THREE.Vector3[] = [];
-
-        if (lahanGeo) {
-            const s = bentuk(lahanGeo.coordinates, p);
-            if (s) masuk('lahan', 0xf6f3ec, datar(s, 0));
-            garis.push(...garisCincin(lahanGeo.coordinates[0], p, 0.15));
-        }
-
-        const fitur = (d.geometri_kapasitas?.features ?? []) as Feature<Geometry, Record<string, unknown>>[];
-        const kdb = Math.min(0.9, Math.max(0.3, (d.intensitas?.kdb ?? 60) / 100));
-        for (const f of fitur) {
-            const pr = f.properties ?? {};
-            const jenis = String(pr.jenis ?? '');
-            for (const c of poligon(f.geometry)) {
-                const s = bentuk(c, p, jenis === 'kavling' ? Math.sqrt(kdb) : 1);
-                if (!s) continue;
-                switch (jenis) {
-                    case 'unit':
-                        masuk(`unit-${pr.tipe}`, WARNA_UNIT[String(pr.tipe)] ?? 0x4a90e2, ekstrusi(s, tinggiGedung - 0.3));
-                        break;
-                    case 'koridor':
-                        masuk('koridor', 0x59606e, ekstrusi(s, tinggiGedung - 0.6));
-                        break;
-                    case 'inti':
-                        masuk('inti', 0x9aa3b2, ekstrusi(s, tinggiGedung + 3));
-                        break;
-                    case 'tapak':
-                        masuk('tapak', 0x3b6fd8, ekstrusi(s, tinggiGedung));
-                        break;
-                    case 'kavling': {
-                        masuk(`atap-${Number(pr.varian ?? 0) % 3}`, WARNA_ATAP[Number(pr.varian ?? 0) % 3], ekstrusi(s, tinggiGedung));
-                        const kav = bentuk(c, p);
-                        if (kav) masuk('pekarangan', 0xd9e7cf, datar(kav, 0.06));
-                        break;
-                    }
-                    case 'parkir': {
-                        const lp = Number(pr.lantai ?? 1);
-                        if (lp > 1) masuk('gedung-parkir', 0x8a919c, ekstrusi(s, lp * 3), 0.85);
-                        else masuk('aspal', 0x7b818b, datar(s, 0.08));
-                        break;
-                    }
-                    case 'slot':
-                        masuk('slot', 0xc9d1db, datar(s, 0.12));
-                        break;
-                    case 'jalan':
-                        masuk('jalan', 0x6b7280, datar(s, 0.07));
-                        break;
-                    case 'akses':
-                        masuk('akses', 0x4b5160, datar(s, 0.14));
-                        break;
-                    case 'jalur':
-                        masuk('jalur', 0xd9c48f, datar(s, 0.13));
-                        break;
-                    case 'lobi':
-                        // Lobi dua lantai berwarna kuning, di atasnya lanjut massa gedung.
-                        masuk('lobi', 0xf2b544, ekstrusi(s, Math.min(tinggiGedung, tinggiLantai * 2) - 0.3));
-                        if (tinggiGedung > tinggiLantai * 2) masuk('koridor', 0x59606e, ekstrusi(s, tinggiGedung - tinggiLantai * 2 - 0.3, tinggiLantai * 2));
-                        break;
-                    case 'taman':
-                    case 'void':
-                        masuk('taman', 0x9fd3a6, datar(s, 0.09));
-                        break;
-                }
-            }
-        }
-
-        // Gerbang: dua tiang di titik gerbang; pintu: kanopi kecil.
-        for (const a of d.akses?.features ?? []) {
-            const [x, n] = p(a.geometry.coordinates);
-            if (a.properties.jenis === 'gerbang') {
-                const setengah = Number(a.properties.lebar ?? 6) / 2 + 0.3;
-                for (const dx of [-setengah, setengah]) {
-                    const tiang = new THREE.BoxGeometry(0.6, 3, 0.6);
-                    tiang.translate(x + dx, 1.5, -n);
-                    masuk('gerbang', 0xb45309, tiang);
-                }
-            } else {
-                const kanopi = new THREE.BoxGeometry(4, 0.3, 4);
-                kanopi.translate(x, 3.2, -n);
-                masuk('pintu', 0x7c3aed, kanopi);
-            }
-        }
-
-        // Garis tiap lantai di sekeliling zona gedung, supaya jumlah lantai terbaca seperti di TestFit.
-        if (d.tipe !== 'rumah') {
-            for (const z of d.zona?.features ?? []) {
-                if (z.properties.jenis !== 'bangunan') continue;
-                for (const c of poligon(z.geometry)) {
-                    for (let i = 1; i <= lantai; i++) {
-                        for (const r of c) garis.push(...garisCincin(r, p, i * tinggiLantai));
-                    }
-                }
-            }
-        }
-
-        for (const [kunci, e] of ember) {
-            const g = mergeGeometries(e.geo, false);
-            e.geo.forEach((x) => x.dispose());
-            if (!g) continue;
-            g.computeVertexNormals();
-            const mat = new THREE.MeshLambertMaterial({
-                color: e.warna,
-                transparent: e.transparan !== undefined,
-                opacity: e.transparan ?? 1,
-                side: ['lahan', 'taman', 'jalan', 'aspal', 'slot', 'pekarangan', 'akses', 'jalur'].includes(kunci) ? THREE.DoubleSide : THREE.FrontSide,
-            });
-            isi.add(new THREE.Mesh(g, mat));
-        }
-        if (garis.length) {
-            const g = new THREE.BufferGeometry().setFromPoints(garis);
-            isi.add(new THREE.LineSegments(g, new THREE.LineBasicMaterial({ color: 0x1d2433, transparent: true, opacity: 0.35 })));
-        }
 
         if (pertama) {
             // Kamera pertama kali: pandangan miring dari tenggara, cukup jauh untuk seluruh lahan dan tinggi gedung.

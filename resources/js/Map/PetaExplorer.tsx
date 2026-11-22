@@ -41,7 +41,8 @@ export type PropsPeta = {
     modeKamera?: ModeKamera;
     /** Perintah zoom dari bilah alat; `kunci` berubah tiap klik. */
     perintahZoom?: { arah: 1 | -1; kunci: number } | null;
-    terbangKe: { geometri?: Geometry; titik?: TitikPeta; kunci: number } | null;
+    /** `paskan`: zoom disesuaikan supaya geometri pas di layar (mis. lahan yang baru diimpor); tanpa itu hanya pusat peta yang dipindah. */
+    terbangKe: { geometri?: Geometry; titik?: TitikPeta; kunci: number; paskan?: boolean } | null;
     onKlikPeta: (t: TitikPeta) => void;
     onLihatDetail: (t: TitikPeta) => void;
     onPilihTop3: (i: number) => void;
@@ -435,7 +436,9 @@ export default function PetaExplorer(props: Props) {
         if (t.geometri) {
             const b = L.geoJSON(t.geometri).getBounds();
             if (b.isValid()) {
-                m.setView(b.getCenter(), m.getZoom(), { animate: false });
+                // Ruang kiri untuk panel di desktop (392 px), bawah untuk panel di ponsel dan bilah alat.
+                if (t.paskan) m.fitBounds(b, ponsel() ? { paddingTopLeft: [16, 110], paddingBottomRight: [16, Math.round(window.innerHeight * 0.55) + 16], maxZoom: 19, animate: false } : { paddingTopLeft: [392, 80], paddingBottomRight: [80, 90], maxZoom: 19, animate: false });
+                else m.setView(b.getCenter(), m.getZoom(), { animate: false });
             }
         } else if (t.titik) {
             m.setView([t.titik.lat, t.titik.lng], m.getZoom(), { animate: false });
