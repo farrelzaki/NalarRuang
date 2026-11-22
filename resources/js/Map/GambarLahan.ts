@@ -24,7 +24,8 @@ function ikonPegangan(jenis: 'sudut' | 'tengah' | 'geser' | 'awal'): L.DivIcon {
     return L.divIcon({
         className: `nr-lahan-pegangan nr-lahan-pegangan--${jenis}`,
         iconSize: [ukuran, ukuran],
-        iconAnchor: [ukuran / 2, ukuran / 2],
+        // Pegangan geser duduk di luar lahan, kira-kira 26 px di atas tepi atasnya (titiknya = tengah tepi atas), jadi tidak menutupi isi.
+        iconAnchor: jenis === 'geser' ? [ukuran / 2, ukuran / 2 + 26] : [ukuran / 2, ukuran / 2],
         html: jenis === 'geser'
             ? '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20M12 2l-3 3M12 2l3 3M12 22l-3-3M12 22l3-3M2 12l3-3M2 12l3 3M22 12l-3-3M22 12l-3 3"/></svg>'
             : '',
@@ -299,8 +300,8 @@ export class AlatLahan {
             });
         }
 
-        // Pegangan tengah untuk memindahkan seluruh lahan.
-        const pusat = this.pusat();
+        // Pegangan untuk memindahkan seluruh lahan, di atas tepi atas lahan (bukan di tengah, supaya denah tidak tertutup).
+        const pusat = this.titikGeser();
         let awalGeser = pusat;
         let titikAwal: L.LatLng[] = [];
         const geser = L.marker(pusat, { icon: ikonPegangan('geser'), draggable: true, keyboard: false, zIndexOffset: 1100, title: 'Geser lahan' }).addTo(this.grup);
@@ -370,11 +371,10 @@ export class AlatLahan {
         });
     }
 
-    private pusat(): L.LatLng {
-        const n = this.titik.length;
-        const lat = this.titik.reduce((s, t) => s + t.lat, 0) / n;
-        const lng = this.titik.reduce((s, t) => s + t.lng, 0) / n;
-        return L.latLng(lat, lng);
+    /** Tengah tepi atas kotak batas lahan; ikon pegangan geser digeser ke atas dari titik ini. */
+    private titikGeser(): L.LatLng {
+        const b = L.latLngBounds(this.titik);
+        return L.latLng(b.getNorth(), b.getCenter().lng);
     }
 
     private kirim(tarik = false): void {
@@ -491,8 +491,8 @@ function didalam(t: L.LatLng, poli: L.LatLng[]): boolean {
  * (warnanya bertransisi), isi baru muncul memudar, isi yang tidak ada lagi memudar hilang. Selama lahan ditarik,
  * lapisan dipotong ke batas lahan dan unit/kavling yang keluar batas langsung memudar.
  */
-/** Label ringkasan di atas tepi utara lahan (di atas pegangan tengah tepi). */
-const OPSI_LABEL: L.TooltipOptions = { permanent: true, direction: 'top', offset: [0, -14], className: 'nr-lahan-label' };
+/** Label ringkasan di bawah tepi selatan lahan (di bawah pegangan tengah tepi); tepi atas dipakai pegangan geser lahan. */
+const OPSI_LABEL: L.TooltipOptions = { permanent: true, direction: 'bottom', offset: [0, 14], className: 'nr-lahan-label' };
 
 export class LapisanKapasitas {
     private peta: L.Map;
@@ -610,13 +610,13 @@ export class LapisanKapasitas {
     }
 
     /**
-     * Label ringkasan ("N lantai · M kamar") ditaruh di luar tepi atas lahan supaya tidak menutupi denah; tanpa batas lahan,
+     * Label ringkasan ("N lantai · M kamar") ditaruh di luar tepi bawah lahan supaya tidak menutupi denah; tanpa batas lahan,
      * di tengah bentuknya.
      */
     private posisiLabel(layer: L.Polygon): L.LatLng {
         if (!this.batas) return layer.getBounds().getCenter();
         const b = L.latLngBounds(this.batas);
-        return L.latLng(b.getNorth(), b.getCenter().lng);
+        return L.latLng(b.getSouth(), b.getCenter().lng);
     }
 
     /** Batas lahan saat ini (atau null). Dipotong ke batas ini dan unit/kavling yang keluar batas dipudarkan. */
