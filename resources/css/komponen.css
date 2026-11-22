@@ -696,6 +696,7 @@ input { font: inherit; }
 .nr-zona-sudut--parkir { border-color: #4b5563; }
 .nr-zona-sudut--taman { border-color: #22a35a; }
 .nr-zona-sudut--larangan { border-color: #dc2626; }
+.nr-zona-sudut--pilih { width: 13px !important; height: 13px !important; border-width: 2.5px; box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85), 0 1px 4px rgba(0, 0, 0, 0.35); }
 .nr-zona-geser { width: auto !important; height: auto !important; }
 .nr-zona-geser__isi { display: inline-flex; align-items: center; gap: 4px; transform: translate(-50%, -50%); padding: 2px 4px 2px 9px; border-radius: var(--radius-pill); background: #3b6fd8; color: var(--white); font: 700 10px/16px var(--font-sans); letter-spacing: 0.4px; white-space: nowrap; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); cursor: move; }
 .nr-zona-geser--parkir .nr-zona-geser__isi { background: #4b5563; }

@@ -68,8 +68,10 @@ export type PropsPeta = {
     /** Zona pengguna (belum dipotong); null = zona bawaan pola. */
     zonaManual?: ZonaLahan[] | null;
     onZonaBerubah?: (zona: ZonaLahan[], tarik: boolean) => void;
-    /** uid zona yang dipilih di panel layer (disorot di peta). */
+    /** uid zona yang dipilih di panel layer (disorot di peta; hanya zona ini yang menampilkan titik sudut). */
     zonaDipilih?: string | null;
+    /** Zona dipilih/dilepas dari peta (klik pegangannya, klik peta kosong). */
+    onPilihZona?: (uid: string | null) => void;
     /** Lahan terkunci: digambar tanpa pegangan dan tidak bisa diubah dari peta. */
     kunciLahan?: boolean;
     /** Jenis isi hasil (mis. 'slot') dan nomor zona (id server) yang disembunyikan dari peta; hanya tampilan. */
@@ -486,6 +488,7 @@ export default function PetaExplorer(props: Props) {
                 (zona, tarik) => panggil.current.onZonaBerubah?.(zona, tarik),
                 (id, cincin) => lapisan.current?.saringZona(id, cincin),
                 teksZona(),
+                (uid) => panggil.current.onPilihZona?.(uid),
             );
         }
         if (!lapisan.current && grupKapasitas.current) lapisan.current = new LapisanKapasitas(m, grupKapasitas.current, labelIsi);

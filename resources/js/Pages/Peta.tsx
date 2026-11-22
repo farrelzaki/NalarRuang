@@ -865,10 +865,15 @@ export default function Peta() {
     urungLahanRef.current = urungLahan;
     ulangLahanRef.current = ulangLahan;
 
-    // Ctrl+Z / Ctrl+Y (atau Ctrl+Shift+Z) selama panel Uji Lahan terbuka; tidak mengganggu pengetikan di kolom isian.
+    // Ctrl+Z / Ctrl+Y (atau Ctrl+Shift+Z) dan Esc selama panel Uji Lahan terbuka; tidak mengganggu pengetikan di kolom isian.
     useEffect(() => {
         if (panelKiri !== 'lahan') return;
         const tekan = (e: KeyboardEvent) => {
+            // Esc melepas zona yang dipilih (titik sudutnya ikut hilang).
+            if (e.key === 'Escape' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+                setZonaDipilih(null);
+                return;
+            }
             if (!(e.ctrlKey || e.metaKey) || e.altKey) return;
             const el = e.target as HTMLElement | null;
             const mengetik =
@@ -1064,6 +1069,7 @@ export default function Peta() {
                     zonaLahan={panelKiri === 'lahan' && geomLahan ? (hasilLahan?.zona ?? null) : null}
                     zonaManual={zonaLahan}
                     zonaDipilih={zonaDipilih}
+                    onPilihZona={setZonaDipilih}
                     kunciLahan={lahanTerkunci}
                     isiSembunyi={isiSembunyi}
                     zonaSembunyi={zonaSembunyi}
