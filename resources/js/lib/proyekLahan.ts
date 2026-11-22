@@ -24,9 +24,13 @@ export type SnapLahan = {
     akses: AksesLahanMasuk[];
     /** Isi sisa lahan di luar zona dengan taman (kos/apartemen). */
     isiSisa: boolean;
+    /** Target jumlah (kamar/unit/rumah) yang dikunci; null = jumlah dihitung biasa dari ukuran. */
+    targetJumlah: number | null;
+    /** Dengan target aktif: ukuran (kamar/unit/kavling) tidak boleh berubah, hanya lantai yang menyesuaikan. */
+    kunciUkuran: boolean;
 };
 
-export const SNAP_AWAL: SnapLahan = { geom: null, tipe: 'rumah', asumsi: {}, pola: null, zona: null, akses: [], isiSisa: false };
+export const SNAP_AWAL: SnapLahan = { geom: null, tipe: 'rumah', asumsi: {}, pola: null, zona: null, akses: [], isiSisa: false, targetJumlah: null, kunciUkuran: false };
 
 type Bidang = keyof SnapLahan;
 type Pembaruan<T> = T | ((lama: T) => T);
@@ -104,6 +108,8 @@ export function useProyekLahan() {
         zona: s.zona,
         akses: s.akses,
         isiSisa: s.isiSisa,
+        targetJumlah: s.targetJumlah,
+        kunciUkuran: s.kunciUkuran,
         ...setters,
         ubah,
         mulaiBaru,

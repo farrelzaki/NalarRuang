@@ -2,6 +2,7 @@
  * Panel Uji Lahan (FR-23): gambar lahan → luas, zona, banjir, kecocokan persona, dan estimasi kapasitas
  * rumah tapak / kos / apartemen dengan asumsi yang bisa digeser. Terinspirasi TestFit.
  */
+import { useEffect, useState } from 'react';
 import type { AksesLahanMasuk, AsumsiLahan, JenisAkses, JenisZona, LahanResponse, Persona, PolaLahan, RingkasanLahan, TipeLahan, TipeUnit } from '@/types';
 import { teksServer, useBahasa, type Bahasa } from '@/lib/bahasa';
 import { cx, PERSONA_IDS } from '@/lib/nalar';
@@ -22,6 +23,11 @@ type Props = {
     onTipe: (t: TipeLahan) => void;
     asumsi: AsumsiLahan;
     onAsumsi: (a: AsumsiLahan) => void;
+    /** Target jumlah yang dikunci (null = jumlah dihitung dari ukuran) dan kunci ukuran. */
+    targetJumlah: number | null;
+    kunciUkuran: boolean;
+    /** Ubah target/kunci ukuran; `asumsi` dikirim bersama saat target dilepas (nilai hasil pencarian disalin supaya desain tidak melompat). */
+    onTarget: (p: { jumlah?: number | null; kunciUkuran?: boolean; asumsi?: AsumsiLahan }) => void;
     /** Pola tata letak; null = bawaan tipe. */
     pola: PolaLahan | null;
     onPola: (p: PolaLahan) => void;
@@ -256,7 +262,7 @@ export function PanelLahan(props: Props) {
     );
 }
 
-function IsiLahan({ data, memuat, tipe, asumsi, onAsumsi, sesi }: Props & { data: LahanResponse }) {
+function IsiLahan({ data, memuat, tipe, asumsi, onAsumsi, sesi, targetJumlah, kunciUkuran, onTarget }: Props & { data: LahanResponse }) {
     const { t, bahasa } = useBahasa();
     const k = data.kapasitas;
     const satuan: Record<string, [string, string]> = { rumah: ['rumah', 'houses'], kamar: ['kamar', 'rooms'], unit: ['unit', 'units'] };
@@ -264,6 +270,10 @@ function IsiLahan({ data, memuat, tipe, asumsi, onAsumsi, sesi }: Props & { data
     const asumsiZona = data.intensitas.sumber === 'asumsi';
     // Hasil dari server boleh tertinggal sebentar dari tab yang dipilih; jangan menampilkan angka tipe lain.
     const sesuai = data.tipe === tipe;
+    const targetAktif = targetJumlah != null;
+    // Dengan target aktif: lantai selalu otomatis; ukuran (kavling, kamar, komposisi unit) otomatis kecuali dikunci.
+    const UKURAN_OTOMATIS: (keyof AsumsiLahan)[] = ['lebar_kavling', 'luas_kamar', 'porsi_studio', 'porsi_2br'];
+    const otomatis = (kunci: keyof AsumsiLahan) => targetAktif && !kunciUkuran && UKURAN_OTOMATIS.includes(kunci);
     const lebar = data.asumsi.lebar_kavling ?? 6;
     const panjang = data.asumsi.panjang_kavling ?? 15;
 
@@ -321,9 +331,10 @@ function IsiLahan({ data, memuat, tipe, asumsi, onAsumsi, sesi }: Props & { data
             {sesuai && data.ringkasan && <Ringkasan r={data.ringkasan} parkir={k.parkir} />}
 
             <div className="nr-lahan__asumsi">
+                <BlokTarget data={data} tipe={tipe} asumsi={asumsi} targetJumlah={targetJumlah} kunciUkuran={kunciUkuran} onTarget={onTarget} />
                 <div className="nr-eyebrow">{t('Asumsi (geser untuk mengubah)', 'Assumptions (drag to change)')}</div>
                 {SLIDER[tipe].map((s) => {
-                    const nilai = Number(asumsi[s.kunci] ?? data.asumsi[s.kunci] ?? s.min);
+                    const nilai = Number((otomatis(s.kunci) ? data.asumsi[s.kunci] : asumsi[s.kunci]) ?? data.asumsi[s.kunci] ?? s.min);
                     const tampil = s.persen ? `${Math.round(nilai * 100)}%` : `${angka(nilai, bahasa, 1)} ${s.satuan}`;
                     return (
                         <label key={s.kunci} className="nr-lahan__slider">
@@ -331,7 +342,7 @@ function IsiLahan({ data, memuat, tipe, asumsi, onAsumsi, sesi }: Props & { data
                                 <span>{t(s.label[0], s.label[1])}</span>
                                 <b>{tampil}</b>
                             </span>
-                            <input type="range" min={s.min} max={s.max} step={s.step} value={nilai} onChange={(e) => onAsumsi({ ...asumsi, [s.kunci]: Number(e.target.value) })} aria-valuetext={tampil} />
+                            <input type="range" min={s.min} max={s.max} step={s.step} value={nilai} disabled={otomatis(s.kunci)} onChange={(e) => onAsumsi({ ...asumsi, [s.kunci]: Number(e.target.value) })} aria-valuetext={tampil} />
                         </label>
                     );
                 })}
@@ -339,9 +350,9 @@ function IsiLahan({ data, memuat, tipe, asumsi, onAsumsi, sesi }: Props & { data
                     <label className="nr-lahan__slider">
                         <span className="nr-lahan__slider-atas">
                             <span>{t('Jumlah lantai', 'Number of floors')}</span>
-                            <b>{asumsi.lantai ?? k.lantai_maks}{asumsi.lantai == null ? t(' (maks.)', ' (max)') : ''}</b>
+                            <b>{targetAktif ? k.lantai : (asumsi.lantai ?? k.lantai_maks)}{!targetAktif && asumsi.lantai == null ? t(' (maks.)', ' (max)') : ''}{targetAktif ? t(' (otomatis)', ' (auto)') : ''}</b>
                         </span>
-                        <input type="range" min={1} max={k.lantai_maks} step={1} value={Math.min(asumsi.lantai ?? k.lantai_maks, k.lantai_maks)} onChange={(e) => onAsumsi({ ...asumsi, lantai: Number(e.target.value) })} />
+                        <input type="range" min={1} max={k.lantai_maks} step={1} value={Math.min(targetAktif ? k.lantai : (asumsi.lantai ?? k.lantai_maks), k.lantai_maks)} disabled={targetAktif} onChange={(e) => onAsumsi({ ...asumsi, lantai: Number(e.target.value) })} />
                     </label>
                 )}
             </div>
@@ -495,5 +506,93 @@ function DaftarAkses({ akses, server, onAkses }: { akses: AksesLahanMasuk[]; ser
                 );
             })}
         </ul>
+    );
+}
+
+/**
+ * Target jumlah (kebalikan dari hitungan biasa): pengguna mengetik jumlah kamar/unit/rumah yang diinginkan, lalu lantai dan ukuran
+ * menyesuaikan. "Kunci jumlah" menjaga jumlah itu walau lahan atau zona diubah; "kunci ukuran" menahan ukurannya (hanya lantai yang
+ * menyesuaikan). Melepas kunci jumlah menyalin nilai hasil pencarian ke asumsi supaya desain tidak melompat.
+ */
+function BlokTarget({ data, tipe, asumsi, targetJumlah, kunciUkuran, onTarget }: Pick<Props, 'tipe' | 'asumsi' | 'targetJumlah' | 'kunciUkuran' | 'onTarget'> & { data: LahanResponse }) {
+    const { t, bahasa } = useBahasa();
+    const k = data.kapasitas;
+    const aktif = targetJumlah != null;
+    const [teks, setTeks] = useState(aktif ? String(targetJumlah) : '');
+    // Ikuti perubahan dari luar (urungkan/ulangi, ganti tipe).
+    useEffect(() => {
+        setTeks(targetJumlah != null ? String(targetJumlah) : '');
+    }, [targetJumlah]);
+
+    const satuan: [string, string] = k.satuan === 'rumah' ? ['rumah', 'houses'] : k.satuan === 'kamar' ? ['kamar', 'rooms'] : ['unit', 'units'];
+    const labelUkuran: [string, string] = tipe === 'rumah' ? ['Kunci ukuran kavling', 'Lock plot size'] : tipe === 'kos' ? ['Kunci ukuran kamar', 'Lock room size'] : ['Kunci komposisi unit', 'Lock unit mix'];
+    const info = data.target;
+
+    const lepas = () => {
+        const hasil: AsumsiLahan = { ...asumsi };
+        const d = data.asumsi;
+        for (const kunci of ['lebar_kavling', 'luas_kamar', 'porsi_studio', 'porsi_2br', 'lantai'] as const) {
+            const nilai = d[kunci];
+            if (nilai !== undefined && nilai !== null) (hasil as Record<string, number | null | undefined>)[kunci] = nilai;
+        }
+        onTarget({ jumlah: null, asumsi: hasil });
+    };
+
+    const ukuranTeks = (u: NonNullable<LahanResponse['target']>['ukuran']): string => {
+        if (u.nama === 'lebar_kavling') return t(`kavling lebar ${angka(u.nilai, bahasa, 1)} m`, `plot width ${angka(u.nilai, bahasa, 1)} m`);
+        if (u.nama === 'luas_kamar') return t(`kamar ${angka(u.nilai, bahasa, 1)} m²`, `rooms ${angka(u.nilai, bahasa, 1)} m²`);
+        return t(`rata-rata unit ${angka(u.nilai, bahasa, 1)} m²`, `average unit ${angka(u.nilai, bahasa, 1)} m²`);
+    };
+
+    return (
+        <div className="nr-lahan__target">
+            <div className="nr-eyebrow">{t('Target jumlah', 'Target count')}</div>
+            <div className="nr-lahan__targetbaris">
+                <input
+                    type="number"
+                    inputMode="numeric"
+                    min={1}
+                    max={50000}
+                    value={teks}
+                    placeholder={String(k.jumlah)}
+                    aria-label={t(`Target jumlah ${satuan[0]}`, `Target number of ${satuan[1]}`)}
+                    onChange={(e) => {
+                        setTeks(e.target.value);
+                        const n = parseInt(e.target.value, 10);
+                        // Kolom kosong tidak melepas target (supaya bisa menghapus lalu mengetik ulang); melepas saat meninggalkan kolom.
+                        if (Number.isFinite(n) && n >= 1) onTarget({ jumlah: Math.min(50000, n) });
+                    }}
+                    onBlur={() => {
+                        if (teks.trim() === '' && aktif) lepas();
+                    }}
+                />
+                <span>{t(satuan[0], satuan[1])}</span>
+            </div>
+            <label className="nr-layer__sisa">
+                <input type="checkbox" checked={aktif} onChange={(e) => (e.target.checked ? onTarget({ jumlah: Math.max(1, k.jumlah) }) : lepas())} />
+                <span>{t('Kunci jumlah (lantai dan ukuran menyesuaikan)', 'Lock count (floors and size adapt)')}</span>
+            </label>
+            <label className="nr-layer__sisa">
+                <input type="checkbox" checked={kunciUkuran} onChange={(e) => onTarget({ kunciUkuran: e.target.checked })} />
+                <span>{t(labelUkuran[0], labelUkuran[1])}</span>
+            </label>
+            {aktif && info && info.tercapai && (
+                <p className="nr-layer__catatan">
+                    {t(`Tercapai: ${angka(info.jumlah, bahasa)} ${satuan[0]}`, `Reached: ${angka(info.jumlah, bahasa)} ${satuan[1]}`)}
+                    {info.lantai ? t(`, ${info.lantai} lantai`, `, ${info.lantai} floors`) : ''}, {ukuranTeks(info.ukuran)}
+                </p>
+            )}
+            {aktif && info && !info.tercapai && (
+                <p className="nr-lahan__targetgagal" role="alert">
+                    {t(`Target ${angka(info.diminta, bahasa)} ${satuan[0]} tidak muat. Terbanyak ${angka(info.maks, bahasa)} ${satuan[0]}`, `Target of ${angka(info.diminta, bahasa)} ${satuan[1]} does not fit. At most ${angka(info.maks, bahasa)} ${satuan[1]}`)}
+                    {kunciUkuran ? t(' (ukuran dikunci).', ' (size locked).') : '.'}{' '}
+                    {info.maks > 0 && (
+                        <button type="button" className="nr-lahan__tautan" onClick={() => onTarget({ jumlah: info.maks })}>
+                            {t('Pakai maksimum', 'Use the maximum')}
+                        </button>
+                    )}
+                </p>
+            )}
+        </div>
     );
 }

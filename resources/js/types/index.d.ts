@@ -224,6 +224,8 @@ export type LahanRequest = {
     akses?: AksesLahanMasuk[];
     /** Sisa lahan di luar semua zona menjadi taman (hanya kos/apartemen dengan zona sendiri). */
     isi_sisa_taman?: boolean;
+    /** Target jumlah (kamar/unit/rumah): lantai dan ukuran menyesuaikan. `kunci_ukuran` = ukuran tidak boleh berubah. */
+    target?: { jumlah: number; kunci_ukuran?: boolean };
     persona?: Persona[];
 };
 
@@ -251,6 +253,22 @@ export type KapasitasLahan = {
 };
 
 /** Respons POST /api/lahan (FR-23). */
+/** Hasil pencarian target jumlah (null bila tidak ada target). */
+export type TargetLahan = {
+    diminta: number;
+    /** Jumlah yang diminta muat pada pengaturan ini. */
+    tercapai: boolean;
+    /** Jumlah yang dihasilkan (sama dengan diminta bila tercapai, selain itu jumlah maksimum yang muat). */
+    jumlah: number;
+    /** Jumlah terbanyak yang muat pada pengaturan ini (lantai maksimum, ukuran terkecil bila tidak dikunci). */
+    maks: number;
+    kunci_ukuran: boolean;
+    /** Lantai yang dipakai (null untuk rumah tapak). */
+    lantai: number | null;
+    /** Ukuran yang menyesuaikan: lebar kavling (m), luas kamar (m²), atau luas rata-rata unit (m²). */
+    ukuran: { nama: 'lebar_kavling' | 'luas_kamar' | 'luas_rata_unit'; nilai: number };
+};
+
 export type LahanResponse = {
     luas_m2: number;
     keliling_m: number;
@@ -270,6 +288,7 @@ export type LahanResponse = {
     pola: PolaLahan;
     pola_tersedia: PolaLahan[];
     asumsi: AsumsiLahan;
+    target: TargetLahan | null;
     kapasitas: KapasitasLahan;
     ringkasan: RingkasanLahan;
     zona: FeatureCollection<Polygon | MultiPolygon, ZonaLahanProps>;
