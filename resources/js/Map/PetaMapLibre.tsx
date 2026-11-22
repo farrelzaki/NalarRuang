@@ -42,6 +42,7 @@ function fontDariGaya(m: Apa): string[] {
     return daftar.find((f) => f.some((x) => /bold/i.test(x))) ?? daftar[0] ?? FONT;
 }
 const NAVY = '#0f1b3d';
+const BIRU_RUTE_MOBIL = '#2563eb';
 
 let modeRuteAktif = false;
 
@@ -401,6 +402,10 @@ export default function PetaMapLibre(props: Props) {
                     dimuat = true;
                     window.clearTimeout(waktuHabis);
                     FONT = fontDariGaya(m);
+                    // Sungai dan badan air gaya OpenFreeMap positron bawaan abu-abu; biruin agar jelas sebagai air.
+                    const airBiru = getComputedStyle(document.documentElement).getPropertyValue('--osm-water').trim() || '#aad3df';
+                    if (m.getLayer('water')) m.setPaintProperty('water', 'fill-color', airBiru);
+                    if (m.getLayer('waterway')) m.setPaintProperty('waterway', 'line-color', airBiru);
                     for (const s of SLOT) m.addLayer({ id: idSlot(s), type: 'background', layout: { visibility: 'none' } });
                     pasang3D(m);
                     pasangSeleksi(m);
@@ -665,7 +670,7 @@ export default function PetaMapLibre(props: Props) {
             const tebal = kuat ? 5 : 3.5;
             const op = kuat ? 1 : 0.4;
             garis(r.pribadi.geometri, { peran: 'casing', _tebal: tebal + 3, _opasitas: op });
-            garis(r.pribadi.geometri, { peran: 'garis', _warna: NAVY, _tebal: tebal, _opasitas: op, _panah: kuat });
+            garis(r.pribadi.geometri, { peran: 'garis', _warna: BIRU_RUTE_MOBIL, _tebal: tebal, _opasitas: op, _panah: kuat });
         }
         m.getSource('nr-rute')?.setData({ type: 'FeatureCollection', features: fitur });
 

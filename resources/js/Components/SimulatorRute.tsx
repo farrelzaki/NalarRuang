@@ -157,7 +157,7 @@ export function SimulatorRute({
                     onClick={() => onUbahJenisKendaraan?.('mobil')}
                 >
                     <Ikon name="car" size={14} />
-                    <span>Mobil</span>
+                    <span>{t('Mobil', 'Car')}</span>
                 </button>
                 <button
                     type="button"
@@ -179,14 +179,14 @@ export function SimulatorRute({
                     onClick={() => onUbahJenisKendaraan?.('motor')}
                 >
                     <Ikon name="bike" size={14} />
-                    <span>Motor</span>
+                    <span>{t('Motor', 'Motorcycle')}</span>
                 </button>
             </div>
 
             {/* KOTAK MODA (BERUBAH DINAMIS KETIKA PILIH MOTOR / MOBIL) */}
             <div className="nr-route__modes" role="group" aria-label={t('Moda', 'Mode')}>
                 {kotak('mobil', ikonPribadi, labelPribadi)}
-                {kotak('transit', 'tram-front', 'Transit')}
+                {kotak('transit', 'tram-front', t('Transit', 'Transit'))}
             </div>
 
             {/* OPSI JALAN TOL (HANYA MUNCUL PADA MOBIL) */}
