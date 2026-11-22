@@ -32,7 +32,7 @@ export type PropsPeta = {
     rute: CommuteResponse | null;
     ruteA: TitikPeta | null;
     ruteB: TitikPeta | null;
-    moda: 'mobil' | 'transit';
+    moda: 'mobil' | 'motor' | 'transit';
     /** True saat klik peta dipakai untuk menaruh titik (alat Titik/Area atau rute A/B): popup fitur dan klik Top 3 tidak dibuka, klik diteruskan ke peta. */
     modeRute: boolean;
     bahasa: Bahasa;
@@ -393,7 +393,7 @@ export default function PetaExplorer(props: Props) {
             }
         }
         if (r?.pribadi) {
-            const kuat = props.moda === 'mobil';
+            const kuat = props.moda === 'mobil' || props.moda === 'motor';
             const tebal = kuat ? 5 : 3.5;
             L.geoJSON(r.pribadi.geometri, { pane: 'nrRute', interactive: false, style: { ...gaya.ruteMobil.casing, weight: tebal + 3, opacity: kuat ? 1 : 0.4 } }).addTo(g);
             L.geoJSON(r.pribadi.geometri, { pane: 'nrRute', interactive: false, style: { ...gaya.ruteMobil.garis, weight: tebal, opacity: kuat ? 1 : 0.4 } }).addTo(g);

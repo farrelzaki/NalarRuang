@@ -109,9 +109,20 @@ function definisiLayer(k: LayerKey): DefLayer[] {
 
     switch (k) {
         case 'historis_risiko':
+            // Bahaya banjir "fluid": isi datar per kelas (warna tetap beda per kelas, bukan kotak/tegas),
+            // dikelilingi garis tepi yang di-blur jadi gradasi lembut ke luar poligon, bukan garis keras.
             return [
                 L('isi', 'poligon', true, { type: 'fill', filter: poligon, paint: { 'fill-color': ['get', '_warna'], 'fill-opacity': ['get', '_isi'] } }),
-                L('tepi', 'poligon', false, { type: 'line', paint: { 'line-color': ['get', '_warna'], 'line-width': ['get', '_tebal'], 'line-opacity': ['get', '_garis'] } }),
+                L('tepi-gradasi', 'poligon', false, {
+                    type: 'line',
+                    layout: { 'line-join': 'round', 'line-cap': 'round' },
+                    paint: { 'line-color': ['get', '_warna'], 'line-width': ['*', ['get', '_tebal'], 10], 'line-opacity': ['*', ['get', '_garis'], 0.35], 'line-blur': 3 },
+                }),
+                L('tepi', 'poligon', false, {
+                    type: 'line',
+                    layout: { 'line-join': 'round', 'line-cap': 'round' },
+                    paint: { 'line-color': ['get', '_warna'], 'line-width': ['get', '_tebal'], 'line-opacity': ['get', '_garis'], 'line-blur': 1 },
+                }),
             ];
         case 'kualitas_udara':
             return [
@@ -666,7 +677,7 @@ export default function PetaMapLibre(props: Props) {
             );
         }
         if (r?.pribadi) {
-            const kuat = props.moda === 'mobil';
+            const kuat = props.moda === 'mobil' || props.moda === 'motor';
             const tebal = kuat ? 5 : 3.5;
             const op = kuat ? 1 : 0.4;
             garis(r.pribadi.geometri, { peran: 'casing', _tebal: tebal + 3, _opasitas: op });

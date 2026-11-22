@@ -34,6 +34,7 @@ class CommuteController extends Controller
     private const FAKTOR_JAM_SIBUK = 1.4;
     private const HARGA_BBM = 10000;         // Rp per liter, bisa diubah pengguna lewat parameter bbm
     private const KM_PER_LITER = 12;         // konsumsi rata-rata mobil pribadi
+    private const KM_PER_LITER_MOTOR = 40;   // konsumsi rata-rata motor
     // Perkiraan tarif tol Golongan I, dikalibrasi ke Jagorawi + Tol Dalam Kota (Bogor-Jakarta +-Rp18.500).
     private const TOL_PER_KM = 350;
     private const TOL_MINIMUM = 7000;
@@ -56,8 +57,10 @@ class CommuteController extends Controller
 
     public function __invoke(Request $request): JsonResponse
     {
-        $request->validate(['dari' => 'required|string', 'ke' => 'required|string', 'tol' => 'nullable|in:0,1', 'gg' => 'nullable|in:0,1', 'bbm' => 'nullable|integer|min:5000|max:30000']);
-        $lewatTol = $request->query('tol', '1') !== '0';
+        $request->validate(['dari' => 'required|string', 'ke' => 'required|string', 'tol' => 'nullable|in:0,1', 'gg' => 'nullable|in:0,1', 'bbm' => 'nullable|integer|min:5000|max:30000', 'kendaraan' => 'nullable|in:mobil,motor']);
+        $kendaraan = $request->query('kendaraan', 'mobil') === 'motor' ? 'motor' : 'mobil';
+        // Motor tidak boleh lewat jalan tol di Indonesia, jadi parameter tol diabaikan untuk motor.
+        $lewatTol = $kendaraan === 'motor' ? false : $request->query('tol', '1') !== '0';
         $hargaBbm = (int) $request->query('bbm', self::HARGA_BBM);
         $hindariGg = $request->query('gg', '0') === '1';
         $a = $this->koordinat($request->query('dari'));
@@ -67,7 +70,7 @@ class CommuteController extends Controller
         }
 
         return response()->json([
-            'pribadi' => $this->mobil($a, $b, $lewatTol, $hargaBbm, $hindariGg),
+            'pribadi' => $this->mobil($a, $b, $kendaraan, $lewatTol, $hargaBbm, $hindariGg),
             'publik' => $this->transit($a, $b),
             'catatan' => 'Estimasi tanpa lalu lintas real-time.',
         ]);
@@ -101,9 +104,9 @@ class CommuteController extends Controller
         });
     }
 
-    private function mobil(array $a, array $b, bool $lewatTol = true, int $hargaBbm = self::HARGA_BBM, bool $hindariGg = false): ?array
+    private function mobil(array $a, array $b, string $kendaraan = 'mobil', bool $lewatTol = true, int $hargaBbm = self::HARGA_BBM, bool $hindariGg = false): ?array
     {
-        $r = $this->valhalla($a, $b, $lewatTol) ?? $this->mobilOsrm($a, $b, $lewatTol);
+        $r = $this->valhalla($a, $b, $kendaraan, $lewatTol) ?? ($kendaraan === 'mobil' ? $this->mobilOsrm($a, $b, $lewatTol) : null);
         if (! $r) {
             return null;
         }
@@ -117,7 +120,7 @@ class CommuteController extends Controller
                 break;
             }
             $palang = array_slice(array_merge($palang, $baru), 0, self::GG_MAKS_PALANG);
-            $sekarang = $this->valhalla($a, $b, $lewatTol, $palang);
+            $sekarang = $this->valhalla($a, $b, $kendaraan, $lewatTol, $palang);
             if (! $sekarang) {
                 break;
             }
@@ -129,7 +132,8 @@ class CommuteController extends Controller
         $km = $r['meter'] / 1000;
         $tol = $r['meter_tol'] > 0 ? (int) max(self::TOL_MINIMUM, round($r['meter_tol'] / 1000 * self::TOL_PER_KM / 500) * 500) : 0;
 
-        $bbm = (int) (round($km / self::KM_PER_LITER * $hargaBbm / 100) * 100);
+        $kmPerLiter = $kendaraan === 'motor' ? self::KM_PER_LITER_MOTOR : self::KM_PER_LITER;
+        $bbm = (int) (round($km / $kmPerLiter * $hargaBbm / 100) * 100);
 
         return [
             'jarak_km' => round($km, 1),
@@ -145,17 +149,23 @@ class CommuteController extends Controller
     }
 
     /**
-     * Rute mobil Valhalla: lebih memilih jalan tol seperti pengemudi pada umumnya
-     * (OSRM publik cenderung keluar tol lebih awal karena tidak memperhitungkan kemacetan jalan arteri).
+     * Rute Valhalla: mobil lebih memilih jalan tol seperti pengemudi pada umumnya (OSRM publik cenderung
+     * keluar tol lebih awal karena tidak memperhitungkan kemacetan jalan arteri); motor memakai costing
+     * "motorcycle" dan tidak boleh lewat jalan tol/jalan bebas hambatan (SRS: motor dilarang di tol Indonesia).
      */
-    private function valhalla(array $a, array $b, bool $lewatTol = true, array $palang = []): ?array
+    private function valhalla(array $a, array $b, string $kendaraan = 'mobil', bool $lewatTol = true, array $palang = []): ?array
     {
-        return Cache::remember('valhalla:'.md5(json_encode([$a, $b, $lewatTol, $palang])), now()->addDay(), function () use ($a, $b, $lewatTol, $palang) {
+        $costing = $kendaraan === 'motor' ? 'motorcycle' : 'auto';
+
+        return Cache::remember('valhalla:'.md5(json_encode([$a, $b, $kendaraan, $lewatTol, $palang])), now()->addDay(), function () use ($a, $b, $costing, $kendaraan, $lewatTol, $palang) {
             try {
+                $opsi = $kendaraan === 'motor'
+                    ? ['use_highways' => 0.0, 'use_tolls' => 0.0]
+                    : ($lewatTol ? ['use_highways' => 1.0, 'use_tolls' => 1.0] : ['use_tolls' => 0.0]);
                 $r = Http::timeout(12)->withHeaders(['User-Agent' => 'NalarRuang/0.1 (proyek mahasiswa IPB)'])->post(self::VALHALLA, array_filter([
                     'locations' => [['lat' => $a[0], 'lon' => $a[1]], ['lat' => $b[0], 'lon' => $b[1]]],
-                    'costing' => 'auto',
-                    'costing_options' => ['auto' => $lewatTol ? ['use_highways' => 1.0, 'use_tolls' => 1.0] : ['use_tolls' => 0.0]],
+                    'costing' => $costing,
+                    'costing_options' => [$costing => $opsi],
                     'exclude_polygons' => $palang,
                     'units' => 'kilometers',
                 ]));
