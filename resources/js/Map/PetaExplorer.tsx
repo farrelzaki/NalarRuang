@@ -54,6 +54,8 @@ export type PropsPeta = {
     /** Kavling/jalan/tapak dari POST /api/lahan. */
     kapasitasLahan?: FeatureCollection | null;
     onLahanBerubah?: (g: Polygon | null, tarik?: boolean) => void;
+    /** Kunci baru = pulihkan bentuk lahan ke `geom` (undo/redo); tidak memicu onLahanBerubah. */
+    pulihLahan?: { geom: Polygon; kunci: number } | null;
     /** Zona dari respons /api/lahan (bawaan pola atau hasil potong zona pengguna). */
     zonaLahan?: FeatureCollection<Polygon | MultiPolygon, ZonaLahanProps> | null;
     /** Zona pengguna (belum dipotong); null = zona bawaan pola. */
@@ -518,6 +520,10 @@ export default function PetaExplorer(props: Props) {
     useEffect(() => {
         if (props.selesaiLahan) alat.current?.selesai();
     }, [props.selesaiLahan]);
+
+    useEffect(() => {
+        if (props.pulihLahan) alat.current?.pulihkan(props.pulihLahan.geom);
+    }, [props.pulihLahan?.kunci]);
 
     useEffect(() => {
         const l = lapisan.current;

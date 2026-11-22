@@ -8,6 +8,7 @@ import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } fro
 import type { FeatureCollection, Geometry, Polygon } from 'geojson';
 import type { AksesLahanMasuk, AsumsiLahan, CommuteResponse, JenisAkses, JenisZona, LahanRequest, PolaLahan, ZonaLahanMasuk, HasilSearch, InspectResponse, LahanResponse, LayerKey, LayerResponse, Persona, SaranLokasi, TipeLahan } from '@/types';
 import { api } from '@/lib/api';
+import { useProyekLahan } from '@/lib/proyekLahan';
 import { teksServer, useBahasa } from '@/lib/bahasa';
 import { bacaPersonaSesi, PERSONA, simpanPersonaSesi, SUBFITUR, type IsochroneMode, type Simbol } from '@/lib/nalar';
 import type { ModeKamera, TitikPeta } from '@/Map/PetaExplorer';
@@ -131,17 +132,27 @@ export default function Peta() {
     // Uji Lahan (FR-23)
     const [alatLahan, setAlatLahan] = useState<{ mode: ModeGambar; kunci: number } | null>(null);
     const [selesaiLahan, setSelesaiLahan] = useState(0);
-    const [geomLahan, setGeomLahan] = useState<Polygon | null>(null);
-    const [tipeLahan, setTipeLahan] = useState<TipeLahan>('rumah');
-    const [asumsiLahan, setAsumsiLahan] = useState<AsumsiLahan>({});
+    // Desain lahan (lahan, tipe, asumsi, pola, zona, akses) hidup di satu proyek dengan riwayat undo/redo (lib/proyekLahan.ts).
+    // Nama dan bentuk setternya sama dengan useState, jadi pemakai di bawah tidak berubah.
+    const proyekLahan = useProyekLahan();
+    const {
+        geom: geomLahan,
+        tipe: tipeLahan,
+        asumsi: asumsiLahan,
+        pola: polaLahan,
+        zona: zonaLahan,
+        akses: aksesLahan,
+        setGeom: setGeomLahan,
+        setTipe: setTipeLahan,
+        setAsumsi: setAsumsiLahan,
+        setPola: setPolaLahan,
+        setZona: setZonaLahan,
+        setAkses: setAksesLahan,
+    } = proyekLahan;
     const [hasilLahan, setHasilLahan] = useState<LahanResponse | null>(null);
-    /** Pola tata letak; null = pola bawaan tipe. */
-    const [polaLahan, setPolaLahan] = useState<PolaLahan | null>(null);
-    /** Zona yang ditarik pengguna; null = zona bawaan pola dari server. */
-    const [zonaLahan, setZonaLahan] = useState<ZonaLahanMasuk[] | null>(null);
     const [tambahZona, setTambahZona] = useState<{ jenis: JenisZona; kunci: number } | null>(null);
-    /** Gerbang kendaraan dan pintu gedung yang ditaruh pengguna. */
-    const [aksesLahan, setAksesLahan] = useState<AksesLahanMasuk[]>([]);
+    /** Kunci baru = peta diminta menggambar ulang bentuk lahan dari `geom` (setelah undo/redo). */
+    const [pulihLahan, setPulihLahan] = useState<{ geom: Polygon; kunci: number } | null>(null);
     const [tambahAkses, setTambahAkses] = useState<{ jenis: JenisAkses; kunci: number } | null>(null);
     const [tampil3D, setTampil3D] = useState(false);
     const [memuatLahan, setMemuatLahan] = useState(false);
@@ -600,25 +611,59 @@ export default function Peta() {
     const resetLahan = () => {
         batalLahan();
         setAlatLahan(null);
-        setGeomLahan(null);
         setHasilLahan(null);
         setGalatLahan(null);
-        setAsumsiLahan({});
-        setPolaLahan(null);
-        setZonaLahan(null);
-        setAksesLahan([]);
+        // Tipe bangunan dipertahankan; yang lain kembali ke awal dan riwayat undo dibuang.
+        proyekLahan.mulaiBaru({ geom: null, tipe: tipeLahan, asumsi: {}, pola: null, zona: null, akses: [] });
+        setPulihLahan(null);
         setTampil3D(false);
     };
 
     const mulaiLahan = (mode: ModeGambar) => {
         batalLahan();
-        setZonaLahan(null);
-        setAksesLahan([]);
-        setGeomLahan(null);
+        // Gambar ulang: lahan, zona, dan akses dikosongkan; tipe, asumsi, dan pola dipertahankan.
+        proyekLahan.mulaiBaru({ ...proyekLahan.snap, geom: null, zona: null, akses: [] });
+        setPulihLahan(null);
         setHasilLahan(null);
         setGalatLahan(null);
         setAlatLahan({ mode, kunci: Date.now() });
     };
+
+    // Undo/redo desain lahan. Zona dan akses digambar dari props, jadi cukup bentuk lahan yang diminta digambar ulang
+    // (alat gambar menyimpan bentuknya sendiri); hasil server dihitung ulang tanpa jeda.
+    const terapkanSnapLahan = (s: ReturnType<typeof proyekLahan.undo>) => {
+        if (!s) return;
+        lahanDariPeta.current = true;
+        if (s.geom) setPulihLahan({ geom: s.geom, kunci: Date.now() });
+    };
+    const urungLahan = () => terapkanSnapLahan(proyekLahan.undo());
+    const ulangLahan = () => terapkanSnapLahan(proyekLahan.redo());
+    const urungLahanRef = useRef(urungLahan);
+    const ulangLahanRef = useRef(ulangLahan);
+    urungLahanRef.current = urungLahan;
+    ulangLahanRef.current = ulangLahan;
+
+    // Ctrl+Z / Ctrl+Y (atau Ctrl+Shift+Z) selama panel Uji Lahan terbuka; tidak mengganggu pengetikan di kolom isian.
+    useEffect(() => {
+        if (panelKiri !== 'lahan') return;
+        const tekan = (e: KeyboardEvent) => {
+            if (!(e.ctrlKey || e.metaKey) || e.altKey) return;
+            const el = e.target as HTMLElement | null;
+            const mengetik =
+                !!el && (el.tagName === 'TEXTAREA' || el.isContentEditable || (el.tagName === 'INPUT' && !['range', 'checkbox', 'radio', 'button'].includes((el as HTMLInputElement).type)));
+            if (mengetik) return;
+            const k = e.key.toLowerCase();
+            if (k === 'z' && !e.shiftKey) {
+                e.preventDefault();
+                urungLahanRef.current();
+            } else if (k === 'y' || (k === 'z' && e.shiftKey)) {
+                e.preventDefault();
+                ulangLahanRef.current();
+            }
+        };
+        window.addEventListener('keydown', tekan);
+        return () => window.removeEventListener('keydown', tekan);
+    }, [panelKiri]);
 
     const toggleLahan = () => {
         if (panelKiri === 'lahan') {
@@ -757,6 +802,7 @@ export default function Peta() {
                     onBboxChange={handleBboxChange}
                     alatLahan={panelKiri === 'lahan' ? alatLahan : null}
                     selesaiLahan={selesaiLahan}
+                    pulihLahan={pulihLahan}
                     kapasitasLahan={panelKiri === 'lahan' && geomLahan ? (hasilLahan?.geometri_kapasitas ?? null) : null}
                     onLahanBerubah={(g) => {
                         lahanDariPeta.current = true;
@@ -857,19 +903,25 @@ export default function Peta() {
                             memuat={memuatLahan}
                             galat={galatLahan}
                             tipe={tipeLahan}
-                            onTipe={(x) => {
-                                setTipeLahan(x);
-                                setAsumsiLahan({});
-                                setPolaLahan(null);
-                                setZonaLahan(null);
-                                // Rumah tapak tidak punya pintu gedung bersama.
-                                if (x === 'rumah') setAksesLahan((a) => a.filter((y) => y.jenis === 'gerbang'));
-                            }}
+                            onTipe={(x) =>
+                                // Satu langkah undo: ganti tipe mengosongkan asumsi, pola, dan zona; rumah tapak tidak punya pintu gedung bersama.
+                                proyekLahan.ubah(
+                                    (lama) => ({
+                                        tipe: x,
+                                        asumsi: {},
+                                        pola: null,
+                                        zona: null,
+                                        akses: x === 'rumah' ? lama.akses.filter((y) => y.jenis === 'gerbang') : lama.akses,
+                                    }),
+                                    'tipe',
+                                )
+                            }
                             pola={polaLahan}
-                            onPola={(x) => {
-                                setPolaLahan(x);
-                                setZonaLahan(null);
-                            }}
+                            onPola={(x) => proyekLahan.ubah({ pola: x, zona: null }, 'pola')}
+                            bisaUndo={proyekLahan.bisaUndo}
+                            bisaRedo={proyekLahan.bisaRedo}
+                            onUndo={urungLahan}
+                            onRedo={ulangLahan}
                             zonaManual={!!zonaLahan}
                             onAturUlangZona={() => setZonaLahan(null)}
                             onTambahZona={(jenis) => setTambahZona({ jenis, kunci: Date.now() })}

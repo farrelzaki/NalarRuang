@@ -24,6 +24,11 @@ type Props = {
     /** Pola tata letak; null = bawaan tipe. */
     pola: PolaLahan | null;
     onPola: (p: PolaLahan) => void;
+    /** Undo/redo desain lahan (Ctrl+Z / Ctrl+Y). */
+    bisaUndo: boolean;
+    bisaRedo: boolean;
+    onUndo: () => void;
+    onRedo: () => void;
     /** True bila zona sudah ditarik/ditambah pengguna. */
     zonaManual: boolean;
     onAturUlangZona: () => void;
@@ -125,6 +130,12 @@ export function PanelLahan(props: Props) {
         <aside className="nr-inspector nr-lahan nr-float" aria-labelledby="nr-lahan-judul">
             <div className="nr-inspector__head">
                 <h2 className="nr-inspector__title" id="nr-lahan-judul">{t('Uji Lahan', 'Site Test')}</h2>
+                <button type="button" className="nr-iconbtn" disabled={!props.bisaUndo} onClick={props.onUndo} title={t('Urungkan (Ctrl+Z)', 'Undo (Ctrl+Z)')} aria-label={t('Urungkan', 'Undo')} style={{ color: 'var(--navy-900)', opacity: props.bisaUndo ? 1 : 0.35 }}>
+                    <Ikon name="undo-2" size={16} />
+                </button>
+                <button type="button" className="nr-iconbtn" disabled={!props.bisaRedo} onClick={props.onRedo} title={t('Ulangi (Ctrl+Y)', 'Redo (Ctrl+Y)')} aria-label={t('Ulangi', 'Redo')} style={{ color: 'var(--navy-900)', opacity: props.bisaRedo ? 1 : 0.35 }}>
+                    <Ikon name="undo-2" size={16} style={{ transform: 'scaleX(-1)' }} />
+                </button>
                 <button type="button" className="nr-iconbtn" aria-label={t('Tutup Uji Lahan', 'Close Site Test')} onClick={props.onTutup} style={{ color: 'var(--navy-900)' }}>
                     <Ikon name="x" size={18} />
                 </button>

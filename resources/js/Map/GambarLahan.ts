@@ -85,6 +85,26 @@ export class AlatLahan {
         if (this.mode === 'poligon' && !this.tertutup && this.titik.length >= 3) this.tutupPoligon();
     }
 
+    /**
+     * Pulihkan bentuk lahan dari luar (undo/redo). Tidak memanggil `onUbah`: pemanggil sudah memegang bentuk ini.
+     * Isi di luar batas langsung dipotong lewat `onTarik`. Diabaikan bila alat sedang mati.
+     */
+    pulihkan(g: Polygon): void {
+        if (!this.mode) return;
+        const cincin = g.coordinates[0] ?? [];
+        const titik = cincin.slice(0, -1).map(([lng, lat]) => L.latLng(lat, lng));
+        if (titik.length < 3) return;
+        // Bila poligon belum ditutup, hentikan penangkapan klik: bentuk yang dipulihkan sudah lengkap.
+        this.peta.off('click', this.klik);
+        this.peta.off('mousemove', this.gerak);
+        this.peta.getContainer().classList.remove('nr-gambar-lahan--titik');
+        this.titik = titik;
+        this.tertutup = true;
+        this.ditarik = false;
+        this.gambar();
+        this.onTarik?.(this.titik, this.mode === 'kotak');
+    }
+
     hapus(): void {
         this.mulai(null);
         this.grup.remove();
