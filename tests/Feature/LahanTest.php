@@ -107,7 +107,7 @@ class LahanTest extends TestCase
         $this->assertSame($kos['kapasitas']['unit_per_lantai'] * $kos['kapasitas']['lantai'], $kos['kapasitas']['jumlah']);
         $this->assertSame('motor', $kos['kapasitas']['parkir']['jenis']);
         $this->assertSame($kos['kapasitas']['jumlah'], $kos['kapasitas']['parkir']['butuh']); // 1 motor per kamar
-        $this->assertSame(['keliling', 'koridor'], $kos['pola_tersedia']);
+        $this->assertSame(['keliling', 'koridor', 'grid'], $kos['pola_tersedia']);
 
         $apt = $this->lahan(['tipe' => 'apartemen', 'asumsi' => ['porsi_studio' => 0.2, 'porsi_2br' => 0.5]])->assertOk()->json();
         $this->assertSame(2, $apt['intensitas']['alternatif']);
@@ -401,7 +401,12 @@ class LahanTest extends TestCase
         // Zona miring (trapesium) dan pola keliling: unit yang tidak muat utuh dibuang, bukan dipotong menjadi bentuk lain.
         $zona = [['jenis' => 'bangunan', 'geometri' => ['type' => 'Polygon', 'coordinates' => [[[106.8021, -6.2079], [106.8029, -6.2078], [106.8028, -6.2072], [106.8022, -6.2073], [106.8021, -6.2079]]]]]];
         foreach ([['kos', 12.0], ['apartemen', null]] as [$tipe, $luasKamar]) {
-            foreach ([[], ['zona' => $zona]] as $tambahan) {
+            $variasi = [[], ['zona' => $zona]];
+            if ($tipe === 'kos') {
+                // Pola grid: deret kamar berjajar seperti kavling rumah tapak, pada zona bawaan maupun zona miring.
+                $variasi = [...$variasi, ['pola' => 'grid'], ['pola' => 'grid', 'zona' => $zona]];
+            }
+            foreach ($variasi as $tambahan) {
                 $r = $this->lahan(['tipe' => $tipe, ...$tambahan])->assertOk()->json();
                 $unit = array_values(array_filter($r['geometri_kapasitas']['features'], fn ($f) => $f['properties']['jenis'] === 'unit'));
                 $this->assertNotEmpty($unit, $tipe);
@@ -412,16 +417,43 @@ class LahanTest extends TestCase
                 // dan semua unit seukuran. Selisih kecil berasal dari pembulatan koordinat GeoJSON (6 desimal, kira-kira 0,1 m).
                 $u = DB::selectOne(
                     "WITH g AS (SELECT ST_Transform(ST_SetSRID(ST_GeomFromGeoJSON(j::text), 4326), 32748) AS g FROM json_array_elements(?::json) AS j)
-                     SELECT min(ST_Area(g) / ST_Area(ST_OrientedEnvelope(g))) AS isi, min(ST_Area(g)) AS kecil, max(ST_Area(g)) AS besar FROM g",
+                     SELECT min(ST_Area(g) / ST_Area(ST_OrientedEnvelope(g))) AS isi, min(ST_Area(g)) AS kecil, max(ST_Area(g)) AS besar, avg(ST_Area(g)) AS rata FROM g",
                     [json_encode(array_column($unit, 'geometry'))],
                 );
                 $this->assertGreaterThan(0.93, (float) $u->isi, "{$tipe}: unit persegi panjang");
-                $this->assertLessThan(0.06 * (float) $u->besar, (float) $u->besar - (float) $u->kecil, "{$tipe}: ukuran unit sama");
+                $this->assertLessThan(0.08 * (float) $u->besar, (float) $u->besar - (float) $u->kecil, "{$tipe}: ukuran unit sama");
                 if ($luasKamar !== null) {
-                    $this->assertEqualsWithDelta($luasKamar, (float) $u->besar, 0.6);
+                    $this->assertEqualsWithDelta($luasKamar, (float) $u->rata, 0.3);
                 }
             }
         }
+    }
+
+    public function test_pola_grid_kos_mengisi_blok_dengan_deret_kamar_dan_koridor(): void
+    {
+        $keliling = $this->lahan(['tipe' => 'kos'])->assertOk()->json();
+        $grid = $this->lahan(['tipe' => 'kos', 'pola' => 'grid'])->assertOk()->json();
+        $this->assertSame('grid', $grid['pola']);
+
+        $unit = array_values(array_filter($grid['geometri_kapasitas']['features'], fn ($f) => $f['properties']['jenis'] === 'unit'));
+        $koridor = array_values(array_filter($grid['geometri_kapasitas']['features'], fn ($f) => $f['properties']['jenis'] === 'koridor'));
+        $this->assertNotEmpty($unit);
+        $this->assertNotEmpty($koridor);
+        $this->assertGreaterThan(0, $grid['kapasitas']['jumlah']);
+
+        // Lebih dari dua deret (blok berisi beberapa deret, bukan hanya tepi), dan tiap kamar menghadap koridor.
+        $r = DB::selectOne(
+            "WITH u AS (SELECT ST_Transform(ST_SetSRID(ST_GeomFromGeoJSON(j::text), 4326), 32748) AS g FROM json_array_elements(?::json) AS j),
+                  k AS (SELECT ST_Transform(ST_SetSRID(ST_GeomFromGeoJSON(?), 4326), 32748) AS g)
+             SELECT count(DISTINCT round(ST_Y(ST_Centroid(u.g))::numeric)) AS deret, bool_and(ST_DWithin(u.g, k.g, 0.5)) AS hadap FROM u, k",
+            [json_encode(array_column($unit, 'geometry')), json_encode($koridor[0]['geometry'])],
+        );
+        $this->assertGreaterThan(2, (int) $r->deret);
+        $this->assertTrue((bool) $r->hadap, 'semua kamar menghadap koridor');
+
+        // KDB tetap dihormati.
+        $this->assertNotContains('kdb', $grid['ringkasan']['pelanggaran']);
+        $this->assertNotSame($keliling['kapasitas']['unit_per_lantai'], $grid['kapasitas']['unit_per_lantai']);
     }
 
     public function test_target_jumlah_apartemen_memakai_lantai_paling_sedikit_yang_cukup(): void

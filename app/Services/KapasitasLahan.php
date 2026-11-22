@@ -47,13 +47,14 @@ class KapasitasLahan
     /**
      * Pola tata letak per tipe (mirip "preset" TestFit). Pola pertama adalah bawaan.
      * - rumah  grid: jalan lingkar + grid kavling + taman/fasum di satu ujung; cluster: kavling sampai tepi, taman di tengah.
-     * - kos    keliling: gedung mengikuti tepi + ruang tengah; koridor: satu blok memanjang di belakang, parkir motor di depan.
+     * - kos    keliling: gedung mengikuti tepi + ruang tengah; koridor: satu blok memanjang di belakang, parkir motor di depan;
+     *          grid: blok gedung berisi deret kamar berjajar dengan koridor di antaranya (seperti grid kavling rumah tapak).
      * - apartemen keliling: gedung keliling + taman + parkir permukaan; wrap: gedung keliling membungkus gedung parkir
      *   bertingkat; tower: satu menara ringkas + parkir permukaan.
      */
     public const POLA = [
         'rumah' => ['grid', 'cluster'],
-        'kos' => ['keliling', 'koridor'],
+        'kos' => ['keliling', 'koridor', 'grid'],
         'apartemen' => ['keliling', 'wrap', 'tower'],
     ];
 

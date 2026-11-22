@@ -119,6 +119,7 @@ const POLA: Record<TipeLahan, { kunci: PolaLahan; label: [string, string]; ket: 
     kos: [
         { kunci: 'keliling', label: ['Keliling', 'Perimeter'], ket: ['Kamar mengelilingi ruang tengah', 'Rooms around a courtyard'] },
         { kunci: 'koridor', label: ['Koridor', 'Corridor'], ket: ['Satu blok memanjang, parkir motor di depan', 'One long block, bike parking in front'] },
+        { kunci: 'grid', label: ['Grid', 'Grid'], ket: ['Deret kamar berjajar, koridor di antaranya', 'Rows of rooms with corridors between'] },
     ],
     apartemen: [
         { kunci: 'keliling', label: ['Keliling', 'Perimeter'], ket: ['Gedung di tepi, taman + parkir di tengah', 'Edge building, park + parking inside'] },

@@ -572,7 +572,7 @@ class LahanController extends Controller
      *
      * @return array{petak: list<object>, jalan: list<string>, jalan_ewkt: list<string>}
      */
-    private function petak(string $ewkt, float $lebar, float $panjang, float $lorong, float $sudut = 90.0, int $maksBaris = 0): array
+    private function petak(string $ewkt, float $lebar, float $panjang, float $lorong, float $sudut = 90.0, int $maksBaris = 0, bool $kunciDunia = true): array
     {
         // Slot miring: jarak antar slot, tebal deret, dan lorong berubah; tiap slot menjadi jajar genjang (geser = pergeseran sisi atasnya).
         $geser = 0.0;
@@ -588,6 +588,11 @@ class LahanController extends Controller
         $bentuk = $geser > 0.0
             ? "ST_SetSRID(ST_MakePolygon(ST_MakeLine(ARRAY[ST_MakePoint({$x} + s * {$sh}, {$y0}), ST_MakePoint({$x} + s * {$sh} + {$w}, {$y0}), ST_MakePoint({$x} + (1 - s) * {$sh} + {$w}, {$y0} + {$p}), ST_MakePoint({$x} + (1 - s) * {$sh}, {$y0} + {$p}), ST_MakePoint({$x} + s * {$sh}, {$y0})])), {$utm})"
             : "ST_MakeEnvelope({$x}, {$y0}, blok.x0 + (k + 1) * {$w}, {$y0} + {$p}, {$utm})";
+        // Grid dikunci ke kelipatan ukuran petak di koordinat dunia (petak tidak bergeser saat lahan ditarik), atau ke tepi zona
+        // sendiri (gedung kos pola grid: blok yang tebalnya pas beberapa deret terisi penuh, kamar ikut zona saat ditarik).
+        [$asalX, $asalY] = $kunciDunia
+            ? ["floor(ST_XMin(g) / {$w}) * {$w}", "floor(ST_YMin(g) / {$per}) * {$per}"]
+            : ['ST_XMin(g)', 'ST_YMin(g)'];
         // Max Run: setiap deret `maksBaris` slot disela satu kolom kosong.
         $selaan = $maksBaris >= 2 ? ' AND mod(k, '.($maksBaris + 1).') <> '.$maksBaris : '';
 
@@ -605,7 +610,7 @@ class LahanController extends Controller
              -- saat lahan ditarik, petak yang sudah ada tidak bergeser, hanya bertambah/berkurang di tepi.
              sudut AS (SELECT g, pusat, az - pi() * floor(az / pi()) AS az FROM sudut0),
              r AS (SELECT ST_Rotate(g, az - pi() / 2, pusat) AS g, az, pusat FROM sudut),
-             e AS (SELECT g, ST_Buffer(g, 0.05) AS gb, az, pusat, floor(ST_XMin(g) / {$w}) * {$w} AS x0, floor(ST_YMin(g) / {$per}) * {$per} AS y0, ST_XMax(g) AS x1, ST_YMax(g) AS y1 FROM r),
+             e AS (SELECT g, ST_Buffer(g, 0.05) AS gb, az, pusat, {$asalX} AS x0, {$asalY} AS y0, ST_XMax(g) AS x1, ST_YMax(g) AS y1 FROM r),
              blok AS (SELECT e.*, b FROM e, generate_series(0, ceil((e.y1 - e.y0) / {$per})::int) AS b),
              petak AS (
                  SELECT blok.gb, blok.az, blok.pusat, blok.b, k, s,
@@ -1235,7 +1240,7 @@ class LahanController extends Controller
         $unit = [];
         $tapak = 0.0;
         foreach (self::saring($zona, 'bangunan') as $id => $z) {
-            $isi = $this->isiGedung($tipe, $z['ewkt'], $asumsi);
+            $isi = $pola === 'grid' ? $this->isiGrid($tipe, $z['ewkt'], $asumsi) : $this->isiGedung($tipe, $z['ewkt'], $asumsi);
             if ($isi['unit'] === []) {
                 continue;
             }
@@ -1398,6 +1403,13 @@ class LahanController extends Controller
             $cx = ((float) $b->x0 + (float) $b->x1) / 2;
             $cy = ((float) $b->y0 + (float) $b->y1) / 2;
             $gedung = $this->op('ST_Intersection', $this->kotak($b, $cx - $lebar / 2, $cy - $tinggi / 2, $cx + $lebar / 2, $cy + $tinggi / 2), $ls);
+        } elseif ($pola === 'grid') {
+            // Blok gedung di sisi belakang selebar lahan, setebal beberapa deret (koridor + dua deret kamar) sebanyak yang diizinkan KDB,
+            // ditambah satu koridor penutup supaya deret teratas juga menghadap koridor.
+            $per = KapasitasLahan::LEBAR_KORIDOR[$tipe] + 2 * KapasitasLahan::KEDALAMAN_UNIT[$tipe];
+            $deret = $w > 0 ? max(1, (int) floor((($batasTapak / $w) - KapasitasLahan::LEBAR_KORIDOR[$tipe]) / $per)) : 1;
+            $tebalBlok = min($h, $deret * $per + KapasitasLahan::LEBAR_KORIDOR[$tipe]);
+            $gedung = $this->op('ST_Intersection', $this->kotak($b, (float) $b->x0, (float) $b->y1 - $tebalBlok, (float) $b->x1, (float) $b->y1), $ls);
         } elseif ($pola === 'koridor') {
             // Satu blok memanjang di sisi belakang; dipendekkan supaya tapak tidak melebihi KDB.
             $panjang = min($w, $batasTapak / $tebal);
@@ -1476,6 +1488,48 @@ class LahanController extends Controller
         }
 
         return $zona;
+    }
+
+    /**
+     * Pola grid: zona bangunan diisi deret kamar persegi panjang tetap seperti grid kavling rumah tapak (petak()): koridor, lalu dua
+     * deret kamar saling membelakangi, berulang. Grid dikunci ke tepi zona dan searah sisi terpanjangnya. Kamar yang tidak muat utuh
+     * atau tidak menghadap koridor dibuang; koridor dipotong ke depan kamar yang ada. Urutan unit per blok, deret, lalu kolom.
+     *
+     * @return array{unit: list<object>, fitur: list<array<string, mixed>>, luas: float}
+     */
+    private function isiGrid(string $tipe, string $ewkt, array $asumsi): array
+    {
+        $du = KapasitasLahan::KEDALAMAN_UNIT[$tipe];
+        $c = KapasitasLahan::LEBAR_KORIDOR[$tipe];
+        $w = $this->kapasitas->lebarUnit($tipe, $asumsi);
+        $p = $this->petak($ewkt, $w, $du, $c, 90.0, 0, false);
+        if ($p['petak'] === [] || $p['jalan_ewkt'] === []) {
+            return ['unit' => [], 'fitur' => [], 'luas' => 0.0];
+        }
+        $larik = fn (array $daftar) => '{'.implode(',', array_map(fn ($x) => '"'.$x.'"', $daftar)).'}';
+        $dekat = self::n($c + 0.5);
+
+        // Kamar yang menghadap koridor (bersentuhan dengan pita koridor) dipertahankan.
+        $hadap = DB::select(
+            'WITH j AS (SELECT ST_Union(ST_GeomFromEWKT(e)) AS g FROM unnest(?::text[]) AS e)
+             SELECT x.i FROM unnest(?::text[]) WITH ORDINALITY AS x(e, i), j WHERE ST_DWithin(ST_GeomFromEWKT(x.e), j.g, 0.3) ORDER BY x.i',
+            [$larik($p['jalan_ewkt']), $larik(array_map(fn ($u) => (string) $u->ewkt, $p['petak']))],
+        );
+        $unit = array_map(fn ($r) => $p['petak'][(int) $r->i - 1], $hadap);
+        if ($unit === []) {
+            return ['unit' => [], 'fitur' => [], 'luas' => 0.0];
+        }
+
+        $sisa = DB::selectOne(
+            "WITH u AS (SELECT ST_Union(ST_GeomFromEWKT(e)) AS g FROM unnest(?::text[]) AS e),
+                  j AS (SELECT ST_Union(ST_GeomFromEWKT(e)) AS g FROM unnest(?::text[]) AS e),
+                  k AS (SELECT ST_CollectionExtract(ST_Intersection(ST_Difference(j.g, u.g), ST_Buffer(u.g, {$dekat})), 3) AS kor, u.g AS ug FROM u, j)
+             SELECT ST_AsGeoJSON(ST_Transform(kor, 4326), 6) AS koridor, ST_Area(kor) AS luas_koridor, ST_Area(ST_Union(ug, kor)) AS luas_gedung FROM k",
+            [$larik(array_map(fn ($u) => (string) $u->ewkt, $unit)), $larik($p['jalan_ewkt'])],
+        );
+        $fitur = (float) $sisa->luas_koridor > 1 ? [self::fitur($sisa->koridor, ['jenis' => 'koridor'])] : [];
+
+        return ['unit' => $unit, 'fitur' => $fitur, 'luas' => (float) $sisa->luas_gedung];
     }
 
     /**
