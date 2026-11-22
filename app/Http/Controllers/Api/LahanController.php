@@ -323,6 +323,25 @@ class LahanController extends Controller
                 }));
                 $kapasitas = $this->kapasitas->rumah($luas, $diminta, $asumsi, $intensitas['kdb'], $intensitas['klb']);
             } else {
+                // Denah = satu lantai tipikal: unit per lantai dibagi rata (lantai lebih dulu), unit sisanya, koridor, dan inti
+                // yang tidak lagi melayani unit dihapus dari peta, lalu tapak dan luas lantai mengikuti gedung yang lebih pendek.
+                $lantai = max(1, (int) $kapasitas['lantai']);
+                $perLantai = (int) ceil($diminta / $lantai);
+                [$geometri, $berkurang] = $this->pangkasGedung($tipe, $geometri, $perLantai);
+                if ($berkurang > 0) {
+                    $tapakGedung = max(0.0, (float) $kapasitas['luas_lantai_m2'] / $lantai - $berkurang);
+                    $kapasitas['luas_tapak_m2'] = round(max(0.0, (float) $kapasitas['luas_tapak_m2'] - $berkurang), 1);
+                    $kapasitas['luas_lantai_m2'] = round($tapakGedung * $lantai, 1);
+                    $kapasitas['porsi_tapak'] = $luas > 0 ? round((float) $kapasitas['luas_tapak_m2'] / $luas, 3) : null;
+                }
+                $kapasitas['unit_per_lantai'] = min((int) ($kapasitas['unit_per_lantai'] ?? $perLantai), $perLantai);
+                // Label "N lantai · M unit" di peta mengikuti jumlah yang diminta.
+                foreach ($geometri['features'] as &$f) {
+                    if (isset($f['properties']['jumlah'])) {
+                        $f['properties']['jumlah'] = $diminta;
+                    }
+                }
+                unset($f);
                 $kapasitas['jumlah'] = $diminta;
                 $kapasitas['komposisi'] = KapasitasLahan::skalaKomposisi($kapasitas['komposisi'] ?? [], $diminta);
                 if (isset($kapasitas['parkir'])) {
@@ -347,6 +366,67 @@ class LahanController extends Controller
             'lantai' => $tipe === 'rumah' ? null : (int) ($kapasitas['lantai'] ?? 0),
             'ukuran' => $ukuran,
         ]];
+    }
+
+    /**
+     * Pangkas denah gedung kos/apartemen menjadi `$perLantai` unit: unit pertama (urut mengelilingi pusat zona, jadi yang tersisa
+     * berupa satu potongan gedung yang utuh) dipertahankan, sisanya dihapus. Koridor dipotong ke sekitar unit yang tersisa; inti
+     * (tangga/lift) dipertahankan bila masih menempel, halaman dalam (void) dihapus karena gedung tidak lagi melingkar.
+     *
+     * @param  array<string, mixed>  $geometri
+     * @return array{0: array<string, mixed>, 1: float} [geometri baru, luas tapak gedung yang hilang (m²)]
+     */
+    private function pangkasGedung(string $tipe, array $geometri, int $perLantai): array
+    {
+        $fitur = $geometri['features'];
+        $unit = array_keys(array_filter($fitur, fn ($f) => ($f['properties']['jenis'] ?? null) === 'unit'));
+        if ($perLantai <= 0 || count($unit) <= $perLantai) {
+            return [$geometri, 0.0];
+        }
+        $simpan = array_slice($unit, 0, $perLantai);
+        $buang = array_slice($unit, $perLantai);
+        $geo = fn (int $i): string => (string) json_encode($fitur[$i]['geometry']);
+        $utm = self::UTM;
+        $lebarKoridor = self::n(KapasitasLahan::LEBAR_KORIDOR[$tipe] + 0.5);
+        $jarakInti = self::n(KapasitasLahan::LEBAR_KORIDOR[$tipe] + 1.0);
+
+        // Luas unit yang dibuang dan gabungan unit yang disimpan (UTM), sekali jalan.
+        $tanda = fn (array $daftar) => implode(',', array_fill(0, count($daftar), 'ST_Transform(ST_SetSRID(ST_GeomFromGeoJSON(?), 4326), '.$utm.')'));
+        $r = DB::selectOne(
+            'SELECT (SELECT COALESCE(sum(ST_Area(g)), 0) FROM unnest(ARRAY['.$tanda($buang).']) AS g) AS luas_buang,
+                    ST_AsEWKT(ST_Union(ARRAY['.$tanda($simpan).'])) AS simpan',
+            [...array_map($geo, $buang), ...array_map($geo, $simpan)],
+        );
+        $berkurang = (float) $r->luas_buang;
+        $simpanEwkt = (string) $r->simpan;
+
+        foreach ($fitur as $i => $f) {
+            $jenis = $f['properties']['jenis'] ?? null;
+            if (! in_array($jenis, ['koridor', 'inti', 'void'], true)) {
+                continue;
+            }
+            $g = DB::selectOne(
+                "WITH a AS (SELECT ST_Transform(ST_SetSRID(ST_GeomFromGeoJSON(?), 4326), {$utm}) AS g),
+                      s AS (SELECT ST_GeomFromEWKT(?) AS g),
+                      b AS (SELECT CASE ? WHEN 'koridor' THEN ST_CollectionExtract(ST_Intersection(a.g, ST_Buffer(s.g, {$lebarKoridor})), 3)
+                                          WHEN 'inti' THEN CASE WHEN ST_DWithin(a.g, s.g, {$jarakInti}) THEN a.g ELSE ST_GeomFromText('POLYGON EMPTY', {$utm}) END
+                                          ELSE ST_GeomFromText('POLYGON EMPTY', {$utm}) END AS g FROM a, s)
+                 SELECT ST_Area(a.g) - ST_Area(b.g) AS hilang, ST_Area(b.g) AS luas, ST_AsGeoJSON(ST_Transform(b.g, 4326), 6) AS geo FROM a, b",
+                [$geo($i), $simpanEwkt, $jenis],
+            );
+            $berkurang += max(0.0, (float) $g->hilang);
+            if ((float) $g->luas < 1) {
+                unset($fitur[$i]);
+            } else {
+                $fitur[$i]['geometry'] = json_decode((string) $g->geo);
+            }
+        }
+        foreach ($buang as $i) {
+            unset($fitur[$i]);
+        }
+        $geometri['features'] = array_values($fitur);
+
+        return [$geometri, $berkurang];
     }
 
     /**

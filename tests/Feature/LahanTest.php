@@ -375,6 +375,17 @@ class LahanTest extends TestCase
         $this->assertEqualsWithDelta(12.0, $kecil['asumsi']['luas_kamar'], 0.01);
         $this->assertSame(5, array_sum($kecil['kapasitas']['komposisi']));
         $this->assertSame(5, $kecil['kapasitas']['parkir']['butuh'], 'satu motor per kamar (rasio_motor 1)');
+        // Denah ikut dipangkas: hanya 5 kamar digambar, koridor memendek, tapak dan label di peta mengikuti target.
+        $unitKecil = array_filter($kecil['geometri_kapasitas']['features'], fn ($f) => $f['properties']['jenis'] === 'unit');
+        $this->assertCount(5, $unitKecil);
+        $this->assertSame(5, $kecil['kapasitas']['unit_per_lantai']);
+        $this->assertLessThan($dasar['kapasitas']['luas_tapak_m2'], $kecil['kapasitas']['luas_tapak_m2']);
+        $this->assertLessThan($dasar['ringkasan']['kdb_terpakai'], $kecil['ringkasan']['kdb_terpakai']);
+        foreach ($kecil['geometri_kapasitas']['features'] as $f) {
+            if (isset($f['properties']['jumlah'])) {
+                $this->assertSame(5, $f['properties']['jumlah'], 'label peta');
+            }
+        }
 
         // Pada lahan uji KLB hanya mengizinkan satu lantai, jadi target di atas kapasitas satu lantai hanya bisa dicapai dengan
         // mengecilkan kamar; jumlahnya tetap persis bila muat.
@@ -401,6 +412,10 @@ class LahanTest extends TestCase
         // Kebutuhan parkir mengikuti jumlah yang diminta.
         $this->assertLessThan($dasar['kapasitas']['parkir']['butuh'], $r['kapasitas']['parkir']['butuh']);
         $this->assertSame($target, $r['target']['jumlah']);
+        // Denah satu lantai tipikal: unit per lantai dibagi rata ke lantai yang dipakai.
+        $unit = array_filter($r['geometri_kapasitas']['features'], fn ($f) => $f['properties']['jenis'] === 'unit');
+        $this->assertCount((int) ceil($target / $r['kapasitas']['lantai']), $unit);
+        $this->assertSame(count($unit), $r['kapasitas']['unit_per_lantai']);
     }
 
     public function test_target_jumlah_kos_mengecilkan_kamar_atau_berhenti_bila_ukuran_dikunci(): void

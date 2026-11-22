@@ -161,7 +161,9 @@ Waktu, Legalitas Lahan.
 - Slot parkir miring (`sudut_parkir` < 90°) berupa jajar genjang: jarak antar slot = lebar / sin θ, tebal deret = panjang·sin θ + lebar·cos θ,
   lorong menyempit 55–100 % (`KapasitasLahan::slotMiring`). Bentuk, `padding_parkir`, dan `maks_baris` hanya memengaruhi slot parkir.
 - `target`: rumah tapak mencari lebar kavling dengan bagi dua; kos/apartemen mengisi lantai lebih dulu, lalu mengecilkan kamar/menggeser komposisi unit
-  (sampai 5 putaran); kelebihan dipotong supaya jumlahnya persis. Bila tak muat, `target.tercapai` = false dan `target.maks` memberi batas.
+  (sampai 5 putaran); kelebihan dipotong supaya jumlahnya persis. Untuk kos/apartemen denah = satu lantai tipikal:
+  unit per lantai = ceil(target / lantai), unit sisanya, koridor yang tak lagi melayani unit, dan halaman dalam dihapus dari
+  `geometri_kapasitas`; `unit_per_lantai`, `luas_tapak_m2`, `luas_lantai_m2`, dan label `jumlah` di peta mengikuti target. Bila tak muat, `target.tercapai` = false dan `target.maks` memberi batas.
 - Gerbang membuka jalan akses (rumah: lebar jalan lingkungan, kos 3 m, apartemen 6 m) ke jalan lingkungan (rumah) atau
   ke zona parkir terdekat (kos/apartemen); kavling, unit, dan slot yang dilewati dibuang. Zona parkir bawaan diletakkan
   di sisi gerbang pertama. Pintu membuka lobi selebar dan sedalam yang diatur (unit yang terkena menjadi lobi) dan menarik jalur pejalan 1,5 m ke gerbang terdekat.
