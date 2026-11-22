@@ -6,7 +6,8 @@ Perbarui saat memulai sesi, melewati checkpoint, membuat keputusan penting, mene
 
 ## Metadata
 
-- Terakhir diperbarui: 2026-11-21 (gabung `fitur/peta-mapbox` PR #3 dengan `main`: Uji Lahan, isochrone)
+- Terakhir diperbarui: 2026-11-22 (spesifikasi mode Newbie/Pro disepakati; lihat bagian di bawah)
+- 2026-11-21 (gabung `fitur/peta-mapbox` PR #3 dengan `main`: Uji Lahan, isochrone)
 - Mode kerja: `competition`
 - Status sesi: Berjalan — pindah ke akun Claude baru (handoff 11 Nov)
 - Sprint aktif: Sprint 3 (9–20 Nov). Review 3: **20 Nov**. Final: **27 Nov**. Lomba BTN Housingpreneur tutup **30 Nov**
@@ -129,7 +130,7 @@ Commit `c143594`, `61a1ed3` (25 Okt), `2ed7280` (26 Okt), `69cae69` (31 Okt), `e
 `dokumen-claude/01`). Prioritas tinggi:
 
 - Bilah alat Jelajah / Titik / Area (butuh endpoint penilaian area baru → kesepakatan kontrak API).
-- Mode Newbie / Pro.
+- Mode Newbie / Pro — **diturunkan dari prioritas tinggi**; spesifikasi final & urutan kerja (terakhir) ada di bagian "Mode Newbie / Pro" di akhir berkas ini (22 Nov 2026).
 - Penilaian titik vs wilayah sejalan; "cocok" butuh fasilitas cukup.
 - Commute: asal = tujuan, jarak dekat cukup jalan kaki, penalti pindah moda, hindari ganjil-genap sungguhan.
 - Judul hasil pencarian menyebut persona yang benar-benar dipakai.
@@ -219,3 +220,21 @@ berlaku di MapLibre maupun Leaflet. T-054 dan T-055 sudah dipenuhi bilah alat da
 - Perlu dijalankan di laptop: `php artisan db:seed --class=DataNyataSeeder` (rute bus, PM2.5), `npm run typecheck`, `npm run build`,
   dan uji tur serta geser/klik peta di browser.
 - Tidak dikerjakan: T-058 (ModaHub; menunggu keputusan lisensi/izin), T-051 (segera hadir, di luar SRS), T-041 (data BHUMI terhalang), T-045 (menunggu keputusan PM).
+
+## Mode Newbie / Pro — spesifikasi disepakati, dikerjakan TERAKHIR (22 Nov 2026)
+
+Farrel menyepakati spesifikasi berikut; implementasi sengaja ditunda ke urutan paling akhir backlog
+sesi ini (bukan prioritas tinggi lagi seperti catatan lama di bagian "Belum selesai" di atas):
+
+- Saat masuk pertama kali (bagian awal onboarding/dialog persona), pengguna ditanya apakah sudah
+  terbiasa memakai NalarRuang atau masih baru.
+- **Newbie:** isi sistem disesuaikan agar lebih mudah dipahami, dengan bantuan tutorial yang
+  **lebih jelas** daripada `Panduan.tsx`/tur onboarding yang sudah ada sekarang (T-061 mengunci
+  tiap langkah tur agar dicoba — itu dasar yang sudah ada, bukan tutorial "lebih jelas" yang
+  dimaksud di sini; perlu didesain ulang kontennya, bukan cuma dikunci).
+- **Pro:** langsung masuk ke peta, tanpa tutorial/bantuan apa pun.
+- Pilihan ini kemungkinan perlu disimpan di sesi klien (sama seperti preferensi persona, SRS BR 6) —
+  bukan di database.
+- Belum didesain: di mana tepatnya pertanyaan ini muncul relatif ke dialog persona (sebelum/sesudah/
+  digabung), dan apakah "isi sistem disesuaikan" untuk Newbie berarti UI disederhanakan juga (sembunyikan
+  opsi lanjutan seperti tol/ganjil-genap/BBM) atau hanya tutorialnya yang berbeda.
