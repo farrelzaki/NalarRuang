@@ -72,3 +72,47 @@ export function muatMapLibre(batasMs = 15000): Promise<MapLibreGL> {
     });
     return janji;
 }
+
+/** Plugin @maplibre/maplibre-gl-leaflet: menggambar gaya vektor MapLibre sebagai layer dasar Leaflet (mode Uji Lahan). */
+export const VERSI_PLUGIN_LEAFLET = '0.1.4';
+const PLUGIN_LEAFLET = `https://cdn.jsdelivr.net/npm/@maplibre/maplibre-gl-leaflet@${VERSI_PLUGIN_LEAFLET}/leaflet-maplibre-gl.js`;
+
+let janjiPlugin: Promise<void> | null = null;
+
+/**
+ * Muat MapLibre lalu plugin Leaflet-nya dari CDN. Plugin memperluas objek Leaflet global, jadi objek Leaflet yang dipakai aplikasi
+ * dipasang ke `window.L` lebih dulu (Leaflet dari npm tidak memasangnya sendiri).
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function muatPluginLeaflet(leaflet: any, batasMs = 15000): Promise<void> {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const w = window as unknown as { L?: any };
+    if (typeof leaflet.maplibreGL === 'function') return Promise.resolve();
+    if (janjiPlugin) return janjiPlugin;
+    janjiPlugin = muatMapLibre(batasMs)
+        .then(
+            () =>
+                new Promise<void>((selesai, gagal) => {
+                    if (!w.L) w.L = leaflet;
+                    const js = document.createElement('script');
+                    js.src = PLUGIN_LEAFLET;
+                    js.async = true;
+                    const waktu = window.setTimeout(() => gagal(new Error('Plugin MapLibre untuk Leaflet terlalu lama dimuat.')), batasMs);
+                    js.onload = () => {
+                        window.clearTimeout(waktu);
+                        if (typeof leaflet.maplibreGL === 'function') selesai();
+                        else gagal(new Error('Plugin MapLibre untuk Leaflet dimuat, tetapi L.maplibreGL tidak ada.'));
+                    };
+                    js.onerror = () => {
+                        window.clearTimeout(waktu);
+                        gagal(new Error('Plugin MapLibre untuk Leaflet gagal dimuat dari CDN.'));
+                    };
+                    document.head.appendChild(js);
+                }),
+        )
+        .catch((e) => {
+            janjiPlugin = null;
+            throw e;
+        });
+    return janjiPlugin;
+}

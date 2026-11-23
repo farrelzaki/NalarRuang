@@ -13,6 +13,7 @@ import { ATRIBUSI_DATA, isiPopupLegal, isiPopupRdtr, isiPopupUmum, popupHtml, po
 import { AlatLahan, LapisanKapasitas, type ModeLahan } from './GambarLahan';
 import { AlatZona, type TeksZona } from './ZonaLahan';
 import { AlatAkses, type TeksAkses } from './AksesLahan';
+import { GAYA_PETA, mapLibreBolehDipakai, muatPluginLeaflet } from './maplibre';
 
 export type TitikPeta = { lat: number; lng: number };
 
@@ -206,11 +207,43 @@ export default function PetaExplorer(props: Props) {
         });
         // Tombol zoom ada di bilah alat tengah bawah (perintahZoom), bukan kontrol Leaflet.
         m.attributionControl.setPrefix('<a href="https://leafletjs.com">Leaflet</a>');
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution:
-                `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors · ${ATRIBUSI_DATA}`,
-        }).addTo(m);
+        // Peta dasar sama dengan peta MapLibre (OpenFreeMap Positron, vektor) lewat plugin MapLibre untuk Leaflet, supaya mode
+        // Uji Lahan tidak berganti warna peta. Tanpa WebGL, atau bila plugin/gaya gagal dimuat, kembali ke ubin OSM standar.
+        const pasangOsm = () => {
+            if (peta.current !== m && peta.current !== null) return;
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                attribution: `&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors · ${ATRIBUSI_DATA}`,
+            }).addTo(m);
+        };
+        if (mapLibreBolehDipakai()) {
+            muatPluginLeaflet(L)
+                .then(() => {
+                    // Peta sudah dilepas (komponen ditutup) selama memuat: tidak ada yang perlu dipasang.
+                    if (!m.getContainer().isConnected) return;
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    const dasar = (L as any).maplibreGL({ style: GAYA_PETA, interactive: false });
+                    dasar.addTo(m);
+                    // Plugin menampilkan atribusi OpenFreeMap dari gayanya sendiri; sumber data layer NalarRuang ditambahkan terpisah.
+                    const atribusiData = ATRIBUSI_DATA;
+                    m.attributionControl.addAttribution(atribusiData);
+                    const gl = dasar.getMaplibreMap?.();
+                    gl?.on?.('error', (e: { error?: { status?: number } }) => {
+                        // Gaya peta tidak bisa diambil: ganti ke ubin OSM sekali saja.
+                        if (Number(e?.error?.status) >= 400 && m.hasLayer(dasar)) {
+                            m.removeLayer(dasar);
+                            m.attributionControl.removeAttribution(atribusiData);
+                            pasangOsm();
+                        }
+                    });
+                })
+                .catch((e: Error) => {
+                    console.warn('[NalarRuang] Peta dasar Positron di Leaflet tidak tersedia, memakai OSM:', e.message);
+                    if (m.getContainer().isConnected) pasangOsm();
+                });
+        } else {
+            pasangOsm();
+        }
         m.createPane('nrPoligon').style.zIndex = '410';
         m.createPane('nrGaris').style.zIndex = '420';
         m.createPane('nrTitik').style.zIndex = '430';
