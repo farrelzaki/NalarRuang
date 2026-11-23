@@ -492,7 +492,7 @@ export default function PetaExplorer(props: Props) {
         if (p.jenis !== 'tapak' && p.jenis !== 'taman') return null;
         // Taman rumah tapak (dan taman kedua dst.) tidak membawa angka gedung: tanpa label.
         if (p.lantai == null || p.jumlah == null) return null;
-        const satuan = String(p.satuan) === 'kamar' ? tr('kamar', 'rooms') : tr('unit', 'units');
+        const satuan = String(p.satuan) === 'kamar' ? tr('kamar', 'rooms') : String(p.satuan) === 'rumah' ? (Number(p.jumlah) === 1 ? tr('rumah', 'house') : tr('rumah', 'houses')) : tr('unit', 'units');
         return `${p.lantai} ${tr('lantai', 'floors')} · ${p.jumlah} ${satuan}`;
     };
 
@@ -509,7 +509,7 @@ export default function PetaExplorer(props: Props) {
             .flatMap((f) => (f.geometry.type === 'Polygon' ? [f.geometry.coordinates] : f.geometry.coordinates))
             .flatMap((poli) => poli.map((r) => r.slice(0, -1).map(([lng, lat]) => L.latLng(lat, lng))));
     const teksZona = (): TeksZona => ({
-        label: { bangunan: tr('Gedung', 'Building'), parkir: tr('Parkir', 'Parking'), taman: tr('Taman', 'Park'), larangan: tr('Larangan bangun', 'No-build') },
+        label: { bangunan: tr('Gedung', 'Building'), parkir: tr('Parkir', 'Parking'), taman: tr('Taman', 'Park'), larangan: tr('Larangan bangun', 'No-build'), kolam: tr('Kolam', 'Pool') },
         otomatis: tr('Larangan (banjir)', 'No-build (flood)'),
         hapus: tr('Hapus zona', 'Remove zone'),
     });

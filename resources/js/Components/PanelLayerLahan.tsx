@@ -39,7 +39,7 @@ export type PropsLayerLahan = {
     onIsi: (jenis: string, tampil: boolean) => void;
 };
 
-const LABEL_JENIS: Record<JenisZona, [string, string]> = { bangunan: ['Gedung', 'Building'], parkir: ['Parkir', 'Parking'], taman: ['Taman', 'Park'], larangan: ['Larangan bangun', 'No-build'] };
+const LABEL_JENIS: Record<JenisZona, [string, string]> = { bangunan: ['Gedung', 'Building'], parkir: ['Parkir', 'Parking'], taman: ['Taman', 'Park'], larangan: ['Larangan bangun', 'No-build'], kolam: ['Kolam renang', 'Pool'] };
 
 const LABEL_ISI: Record<string, [string, string]> = {
     unit: ['Unit', 'Units'],
@@ -55,6 +55,9 @@ const LABEL_ISI: Record<string, [string, string]> = {
     void: ['Void', 'Voids'],
     tapak: ['Tapak', 'Footprint'],
     akses: ['Jalan masuk', 'Access roads'],
+    kolam: ['Kolam renang', 'Pool'],
+    halaman: ['Halaman', 'Yard'],
+    pagar: ['Pagar', 'Fence'],
 };
 
 const angka = (n: number, bahasa: string) => n.toLocaleString(bahasa === 'en' ? 'en-US' : 'id-ID', { maximumFractionDigits: 0 });

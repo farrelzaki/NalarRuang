@@ -10,7 +10,7 @@ import type { FeatureCollection, MultiPolygon, Polygon } from 'geojson';
 import type { JenisZona, ZonaLahan, ZonaLahanMasuk, ZonaLahanProps } from '@/types';
 
 /** Warna garis dan label tiap jenis zona (dipakai peta dan panel layer). */
-export const WARNA_ZONA: Record<JenisZona, string> = { bangunan: '#3b6fd8', parkir: '#4b5563', taman: '#22a35a', larangan: '#dc2626' };
+export const WARNA_ZONA: Record<JenisZona, string> = { bangunan: '#3b6fd8', parkir: '#4b5563', taman: '#22a35a', larangan: '#dc2626', kolam: '#1c8fd1' };
 
 let hitung = 0;
 

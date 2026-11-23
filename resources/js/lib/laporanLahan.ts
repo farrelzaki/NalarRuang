@@ -26,7 +26,7 @@ export type BahanLaporan = {
 
 type Sel = string | number | null | undefined;
 
-const TIPE: Record<string, [string, string]> = { rumah: ['Rumah tapak', 'Landed house'], kos: ['Kos', 'Boarding house'], apartemen: ['Apartemen', 'Apartment'] };
+const TIPE: Record<string, [string, string]> = { rumah: ['Rumah tapak', 'Landed house'], kos: ['Kos', 'Boarding house'], apartemen: ['Apartemen', 'Apartment'], pribadi: ['Rumah pribadi', 'Private house'] };
 const SATUAN: Record<string, [string, string]> = { rumah: ['rumah', 'houses'], kamar: ['kamar', 'rooms'], unit: ['unit', 'units'] };
 const ASUMSI_LABEL: Record<string, [string, string, string]> = {
     lebar_kavling: ['Lebar kavling', 'Plot width', 'm'],
@@ -121,6 +121,14 @@ export function bagianLaporan(b: BahanLaporan): { judul: string; baris: [string,
                 [t('Tapak bangunan', 'Building footprint'), `${angka(k.luas_tapak_m2, locale, 0)} m²`],
                 ...(k.kepadatan_per_ha !== null ? ([[t('Kepadatan per hektare', 'Density per hectare'), angka(k.kepadatan_per_ha, locale, 0)]] as [string, string][]) : []),
                 ...(k.parkir ? ([[t('Parkir (muat / butuh)', 'Parking (fit / need)'), parkir]] as [string, string][]) : []),
+                ...(k.pribadi
+                    ? ([
+                          [t('Luas bangunan diminta', 'Requested floor area'), `${angka(k.pribadi.luas_bangunan_diminta, locale, 0)} m²${k.pribadi.tidak_muat ? ` (${t('tidak muat', 'does not fit')})` : ''}`],
+                          [t('Rekomendasi luas bangunan', 'Recommended floor area'), `${angka(k.pribadi.rekomendasi_luas_bangunan, locale, 0)} m²`],
+                          [t('Perkiraan kamar (indikatif)', 'Estimated rooms (indicative)'), t(`${k.pribadi.kamar_tidur} kamar tidur, ${k.pribadi.kamar_mandi} kamar mandi`, `${k.pribadi.kamar_tidur} bedrooms, ${k.pribadi.kamar_mandi} bathrooms`)],
+                          [t('Kolam renang', 'Swimming pool'), k.pribadi.kolam_m2 > 0 ? `${angka(k.pribadi.kolam_m2, locale, 0)} m²` : t('tidak ada', 'none')],
+                      ] as [string, string][])
+                    : []),
             ],
         },
         {

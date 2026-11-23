@@ -669,7 +669,7 @@ export default function Peta() {
             persona,
             ...(polaLahan ? { pola: polaLahan } : {}),
             ...(zonaLahan ? { zona: keZonaApi(zonaLahan) } : {}),
-            ...(zonaLahan && isiSisaLahan && tipeLahan !== 'rumah' ? { isi_sisa: 'rekomendasi' as const } : {}),
+            ...(zonaLahan && isiSisaLahan && tipeLahan !== 'rumah' && tipeLahan !== 'pribadi' ? { isi_sisa: 'rekomendasi' as const } : {}),
             ...(targetLahan ? { target: { jumlah: targetLahan, kunci_ukuran: kunciUkuranLahan } } : {}),
             ...(laranganBanjirLahan ? { larangan_banjir: laranganBanjirLahan } : {}),
             ...(aksesLahan.length ? { akses: aksesLahan } : {}),
@@ -752,6 +752,7 @@ export default function Peta() {
             kdhBatas: hasilLahan?.ringkasan?.kdh_batas,
             slotKurang: parkir ? Math.max(0, parkir.butuh - parkir.muat) : 0,
             jenisParkir: parkir?.jenis ?? null,
+            kolamM2: asumsiLahan.kolam ?? hasilLahan?.kapasitas?.pribadi?.kolam_m2,
         });
         const hasil = tempatkanZona(geomLahan, daftarZona.map((z) => ({ geometri: z.geometri, kunci: z.kunci })), kebutuhan);
         if (!hasil) {
@@ -1169,7 +1170,7 @@ export default function Peta() {
                         setAksesLahan(a);
                     }}
                     tambahAkses={tambahAkses}
-                    lebarGerbang={tipeLahan === 'rumah' ? (asumsiLahan.lebar_jalan ?? 8) : tipeLahan === 'kos' ? 3 : 6}
+                    lebarGerbang={tipeLahan === 'rumah' ? (asumsiLahan.lebar_jalan ?? 8) : tipeLahan === 'kos' || tipeLahan === 'pribadi' ? 3 : 6}
                 />
 
                 <div className="nr-app__kiri">
@@ -1282,7 +1283,8 @@ export default function Peta() {
                                 lahanTerkunci,
                                 onKunciLahan: setLahanTerkunci,
                                 isiSisa: isiSisaLahan,
-                                bolehIsiSisa: tipeLahan !== 'rumah',
+                                // Rumah pribadi: sisa lahan selalu jadi halaman.
+                                bolehIsiSisa: tipeLahan !== 'rumah' && tipeLahan !== 'pribadi',
                                 luasSisaTaman: sisaTaman,
                                 // Mengaktifkan menjadikan zona bawaan sebagai zona sendiri (opsi hanya berlaku untuk zona sendiri).
                                 onIsiSisa: (v) => {

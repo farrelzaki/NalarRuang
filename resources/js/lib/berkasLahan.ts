@@ -29,11 +29,11 @@ const AKSES_MAKS = 6;
 const TARGET_MAKS = 50000;
 const UKURAN_MAKS = 2_000_000;
 
-const TIPE: TipeLahan[] = ['rumah', 'kos', 'apartemen'];
-const POLA: Record<TipeLahan, PolaLahan[]> = { rumah: ['grid', 'cluster'], kos: ['keliling', 'koridor', 'grid'], apartemen: ['keliling', 'wrap', 'tower'] };
-const JENIS_ZONA: JenisZona[] = ['bangunan', 'parkir', 'taman', 'larangan'];
+const TIPE: TipeLahan[] = ['rumah', 'kos', 'apartemen', 'pribadi'];
+const POLA: Record<TipeLahan, PolaLahan[]> = { rumah: ['grid', 'cluster'], kos: ['keliling', 'koridor', 'grid'], apartemen: ['keliling', 'wrap', 'tower'], pribadi: ['depan', 'tengah'] };
+const JENIS_ZONA: JenisZona[] = ['bangunan', 'parkir', 'taman', 'larangan', 'kolam'];
 const JENIS_AKSES: JenisAkses[] = ['gerbang', 'pintu'];
-const KUNCI_ASUMSI: (keyof AsumsiLahan)[] = ['lebar_kavling', 'panjang_kavling', 'lebar_jalan', 'luas_kamar', 'porsi_studio', 'porsi_2br', 'sempadan', 'lantai', 'rasio_parkir', 'rasio_motor', 'sudut_parkir', 'padding_parkir', 'maks_baris'];
+const KUNCI_ASUMSI: (keyof AsumsiLahan)[] = ['lebar_kavling', 'panjang_kavling', 'lebar_jalan', 'luas_kamar', 'porsi_studio', 'porsi_2br', 'sempadan', 'lantai', 'rasio_parkir', 'rasio_motor', 'sudut_parkir', 'padding_parkir', 'maks_baris', 'luas_bangunan', 'mobil', 'kolam'];
 
 /** Isi berkas proyek. `ringkasan` hanya keterangan untuk dibaca manusia; saat dibuka, hasil dihitung ulang oleh server. */
 export type BerkasProyek = {

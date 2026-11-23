@@ -81,7 +81,7 @@ test('isi yang tidak sah dibersihkan dengan peringatan, bukan membuat impor gaga
         zona: [
             { uid: 'a', jenis: 'bangunan', geometri: kotak(106.8, -6.2, 0.0006), induk: 'hilang' },
             { uid: 'a', jenis: 'parkir', geometri: kotak(106.8, -6.2, 0.0003) },
-            { uid: 'x', jenis: 'kolam', geometri: kotak() },
+            { uid: 'x', jenis: 'sungai', geometri: kotak() },
             { uid: 'y', jenis: 'taman', geometri: { type: 'Point' } },
         ],
         akses: [{ jenis: 'gerbang', titik: [0, 0] }, { jenis: 'pintu', titik: [106.8, -6.2], lebar: 3 }],

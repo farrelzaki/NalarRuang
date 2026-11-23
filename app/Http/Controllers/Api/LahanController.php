@@ -1457,10 +1457,13 @@ class LahanController extends Controller
         $rumah = $this->op('ST_Intersection', $kotak($d0, $d0 + $h, $l0, $l0 + $w), $ls);
 
         $zona = [['jenis' => 'bangunan', 'ewkt' => $rumah]];
-        // Carport di halaman depan, di sisi kiri: 3 m per mobil, sedalam 7 m (slot 5 m + ruang manuver).
+        // Carport di halaman depan, sejajar tepi kiri rumah (lahan lebar: tidak terpencil di pojok): 3 m per mobil, sedalam
+        // 7 m (slot 5 m + ruang manuver).
         $carport = self::KOSONG;
         if ($mobil > 0) {
-            $carport = $this->op('ST_Intersection', $kotak(0.3, 7.0, 0.5, min($lebar - 0.5, 0.5 + $mobil * 3.0 + 0.5)), $lahan);
+            $cw = $mobil * 3.0 + 0.5;
+            $cl0 = max(0.5, min($l0, $lebar - 0.5 - $cw));
+            $carport = $this->op('ST_Intersection', $kotak(0.3, 7.0, $cl0, min($lebar - 0.5, $cl0 + $cw)), $lahan);
             if ($this->luasUtm($carport) >= 10) {
                 $zona[] = ['jenis' => 'parkir', 'ewkt' => $carport];
             }

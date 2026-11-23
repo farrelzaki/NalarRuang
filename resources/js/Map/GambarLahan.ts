@@ -521,6 +521,13 @@ function gayaIsi(p: Record<string, unknown>): L.PathOptions {
                     return { color: '#e7a3a3', weight: 0.8, fillColor: '#f4b6b6', fillOpacity: 0.4 };
                 case 'tapak':
                     return { color: '#1f3b6e', weight: 1.5, fillColor: '#3b6fd8', fillOpacity: 0.45 };
+                // Rumah pribadi: kolam renang, halaman (perkerasan), pagar keliling.
+                case 'kolam':
+                    return { color: '#0f6fa8', weight: 1.2, fillColor: '#5cc8f0', fillOpacity: 0.9 };
+                case 'halaman':
+                    return { stroke: false, fillColor: '#d8ccb0', fillOpacity: 0.65 };
+                case 'pagar':
+                    return { stroke: false, fillColor: '#5a4632', fillOpacity: 0.95 };
                 default:
                     return { color: '#ffffff', weight: 0.8, fillColor: WARNA_ATAP[Number(p.varian ?? 0) % 3], fillOpacity: 0.85 };
             }

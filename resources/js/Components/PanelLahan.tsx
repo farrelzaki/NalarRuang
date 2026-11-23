@@ -77,6 +77,7 @@ const TIPE: { kunci: TipeLahan; label: [string, string] }[] = [
     { kunci: 'rumah', label: ['Rumah tapak', 'Landed house'] },
     { kunci: 'kos', label: ['Kos', 'Boarding house'] },
     { kunci: 'apartemen', label: ['Apartemen', 'Apartment'] },
+    { kunci: 'pribadi', label: ['Rumah pribadi', 'Private house'] },
 ];
 
 type Slider = { kunci: keyof AsumsiLahan; label: [string, string]; min: number; max: number; step: number; satuan: string; persen?: boolean };
@@ -108,6 +109,12 @@ const SLIDER: Record<TipeLahan, Slider[]> = {
         { kunci: 'rasio_parkir', label: ['Parkir mobil per unit', 'Car parking per unit'], min: 0, max: 2, step: 0.1, satuan: '' },
         ...PARKIR_LANJUT,
     ],
+    // Luas bangunan diisi lewat kotak angka (bisa kosong = rekomendasi); lantai lewat slider lantai di bawah.
+    pribadi: [
+        { kunci: 'mobil', label: ['Carport', 'Carport'], min: 0, max: 4, step: 1, satuan: '' },
+        { kunci: 'kolam', label: ['Kolam renang', 'Swimming pool'], min: 0, max: 300, step: 2, satuan: 'm²' },
+        { kunci: 'sempadan', label: ['Sempadan bangunan', 'Building setback'], min: 0, max: 15, step: 0.5, satuan: 'm' },
+    ],
 };
 
 /** Pola per tipe (urutan sama dengan KapasitasLahan::POLA; yang pertama bawaan). */
@@ -126,12 +133,17 @@ const POLA: Record<TipeLahan, { kunci: PolaLahan; label: [string, string]; ket: 
         { kunci: 'wrap', label: ['Wrap', 'Wrap'], ket: ['Gedung membungkus gedung parkir', 'Units wrap a parking garage'] },
         { kunci: 'tower', label: ['Tower', 'Tower'], ket: ['Satu menara tinggi, parkir permukaan', 'One tall tower, surface parking'] },
     ],
+    pribadi: [
+        { kunci: 'depan', label: ['Carport depan', 'Front carport'], ket: ['Carport di sisi gerbang, kolam & taman di belakang', 'Carport by the gate, pool & garden behind'] },
+        { kunci: 'tengah', label: ['Rumah tengah', 'Central house'], ket: ['Rumah di tengah, halaman mengelilingi', 'House in the middle, yard all around'] },
+    ],
 };
 
 const ZONA_TAMBAH: { kunci: JenisZona; label: [string, string] }[] = [
     { kunci: 'bangunan', label: ['Gedung', 'Building'] },
     { kunci: 'parkir', label: ['Parkir', 'Parking'] },
     { kunci: 'taman', label: ['Taman', 'Park'] },
+    { kunci: 'kolam', label: ['Kolam', 'Pool'] },
     { kunci: 'larangan', label: ['Larangan', 'No-build'] },
 ];
 
@@ -372,7 +384,7 @@ export function PanelLahan(props: Props) {
                         </div>
                         <p className="nr-lahan__zona-teks">{t('Tarik garis putus-putus di peta untuk mengubah tiap zona.', 'Drag the dashed outlines on the map to reshape each zone.')}</p>
                         <div className="nr-lahan__tambah">
-                            {ZONA_TAMBAH.filter((z) => z.kunci !== 'parkir' || props.tipe !== 'rumah').map((z) => (
+                            {ZONA_TAMBAH.filter((z) => (z.kunci !== 'parkir' || props.tipe !== 'rumah') && (z.kunci !== 'kolam' || props.tipe === 'pribadi')).map((z) => (
                                 <button key={z.kunci} type="button" className={`nr-lahan__zonabtn nr-lahan__zonabtn--${z.kunci}`} onClick={() => props.onTambahZona(z.kunci)}>
                                     + {t(z.label[0], z.label[1])}
                                 </button>
@@ -401,6 +413,8 @@ export function PanelLahan(props: Props) {
                         <p className="nr-lahan__zona-teks">
                             {props.tipe === 'rumah'
                                 ? t('Gerbang menempel di tepi lahan dan membuka jalan masuk ke jalan lingkungan.', 'Gates snap to the site edge and open an access road to the street network.')
+                                : props.tipe === 'pribadi'
+                                ? t('Gerbang membuka pagar ke carport (sisi gerbang jadi muka rumah); pintu menempel di tepi rumah dan tersambung jalur setapak.', 'The gate opens the fence to the carport (the gate side becomes the front); the door snaps to the house with a footpath.')
                                 : t('Gerbang membuka jalan masuk ke parkir; pintu menempel di tepi gedung dan menjadi lobi.', 'Gates open an access road to parking; doors snap to the building and become a lobby.')}
                         </p>
                         <div className="nr-lahan__tambah">
@@ -458,7 +472,9 @@ function IsiLahan({ data, memuat, tipe, asumsi, onAsumsi, sesi, targetJumlah, ku
                     {memuat && <Ikon name="loader-circle" size={16} className="nr-spin" label={t('Menghitung ulang', 'Recalculating')} />}
                 </div>
                 <ul className="nr-lahan__rinci">
-                    {data.tipe === 'rumah' ? (
+                    {data.tipe === 'pribadi' && k.pribadi ? (
+                        <RincianPribadi k={k} />
+                    ) : data.tipe === 'rumah' ? (
                         <>
                             <li>{t(`Kavling ${angka(lebar, bahasa, 1)} × ${angka(panjang, bahasa, 1)} m (${angka(k.luas_kavling_m2 ?? 0, bahasa)} m²)`, `Plots ${angka(lebar, bahasa, 1)} × ${angka(panjang, bahasa, 1)} m (${angka(k.luas_kavling_m2 ?? 0, bahasa)} m²)`)}</li>
                             <li>{t(`Bangunan ±${angka(k.luas_bangunan_per_unit_m2 ?? 0, bahasa)} m² per rumah, ${k.lantai} lantai`, `±${angka(k.luas_bangunan_per_unit_m2 ?? 0, bahasa)} m² per house, ${k.lantai} floor(s)`)}</li>
@@ -470,10 +486,19 @@ function IsiLahan({ data, memuat, tipe, asumsi, onAsumsi, sesi, targetJumlah, ku
                             <li>{t(`Total lantai ${luasTeks(k.luas_lantai_m2, bahasa)}, ${angka(k.luas_per_unit_m2 ?? 0, bahasa)} m² per ${satId}`, `Total floor area ${luasTeks(k.luas_lantai_m2, bahasa)}, ${angka(k.luas_per_unit_m2 ?? 0, bahasa)} m² per ${satEn.replace(/s$/, '')}`)}</li>
                         </>
                     )}
-                    {k.unit_per_lantai != null && k.unit_per_lantai > 0 && <li>{t(`${angka(k.unit_per_lantai, bahasa)} ${satId} per lantai`, `${angka(k.unit_per_lantai, bahasa)} ${satEn} per floor`)}</li>}
-                    {k.kepadatan_per_ha != null && <li>{t(`Kepadatan ${angka(k.kepadatan_per_ha, bahasa, 1)} ${satId}/ha`, `Density ${angka(k.kepadatan_per_ha, bahasa, 1)} ${satEn}/ha`)}</li>}
+                    {data.tipe !== 'pribadi' && k.unit_per_lantai != null && k.unit_per_lantai > 0 && <li>{t(`${angka(k.unit_per_lantai, bahasa)} ${satId} per lantai`, `${angka(k.unit_per_lantai, bahasa)} ${satEn} per floor`)}</li>}
+                    {data.tipe !== 'pribadi' && k.kepadatan_per_ha != null && <li>{t(`Kepadatan ${angka(k.kepadatan_per_ha, bahasa, 1)} ${satId}/ha`, `Density ${angka(k.kepadatan_per_ha, bahasa, 1)} ${satEn}/ha`)}</li>}
                 </ul>
-                {sesuai && data.tipe !== 'rumah' && (
+                {sesuai && data.tipe === 'pribadi' && (
+                    <ul className="nr-lahan__legenda" aria-label={t('Isi lahan', 'Site elements')}>
+                        <li><i className="nr-lahan__warna nr-lahan__warna--rumah" aria-hidden />{t('Rumah', 'House')}</li>
+                        {(k.pribadi?.mobil ?? 0) > 0 && <li><i className="nr-lahan__warna nr-lahan__warna--parkir" aria-hidden />{t('Carport', 'Carport')}</li>}
+                        {(k.pribadi?.kolam_m2 ?? 0) > 0 && <li><i className="nr-lahan__warna nr-lahan__warna--kolam" aria-hidden />{t('Kolam', 'Pool')}</li>}
+                        <li><i className="nr-lahan__warna nr-lahan__warna--taman" aria-hidden />{t('Taman', 'Garden')}</li>
+                        <li><i className="nr-lahan__warna nr-lahan__warna--halaman" aria-hidden />{t('Halaman', 'Yard')}</li>
+                    </ul>
+                )}
+                {sesuai && data.tipe !== 'rumah' && data.tipe !== 'pribadi' && (
                     <ul className="nr-lahan__legenda" aria-label={t('Komposisi unit', 'Unit mix')}>
                         {TIPE_UNIT.filter((u) => (k.komposisi?.[u.kunci] ?? 0) > 0).map((u) => (
                             <li key={u.kunci}>
@@ -500,11 +525,20 @@ function IsiLahan({ data, memuat, tipe, asumsi, onAsumsi, sesi, targetJumlah, ku
             {sesuai && data.ringkasan && <Ringkasan r={data.ringkasan} parkir={k.parkir} />}
 
             <div className="nr-lahan__asumsi">
-                <BlokTarget data={data} tipe={tipe} asumsi={asumsi} targetJumlah={targetJumlah} kunciUkuran={kunciUkuran} onTarget={onTarget} />
+                {tipe !== 'pribadi' && <BlokTarget data={data} tipe={tipe} asumsi={asumsi} targetJumlah={targetJumlah} kunciUkuran={kunciUkuran} onTarget={onTarget} />}
+                {tipe === 'pribadi' && sesuai && <IsianLuasBangunan k={k} asumsi={asumsi} onAsumsi={onAsumsi} />}
                 <div className="nr-eyebrow">{t('Asumsi (geser untuk mengubah)', 'Assumptions (drag to change)')}</div>
                 {SLIDER[tipe].map((s) => {
                     const nilai = Number((otomatis(s.kunci) ? data.asumsi[s.kunci] : asumsi[s.kunci]) ?? data.asumsi[s.kunci] ?? s.min);
-                    const tampil = s.persen ? `${Math.round(nilai * 100)}%` : s.kunci === 'maks_baris' && nilai < 2 ? t('tanpa batas', 'unlimited') : `${angka(nilai, bahasa, 1)}${s.satuan === '°' ? '' : ' '}${s.satuan}`;
+                    const tampil = s.persen
+                        ? `${Math.round(nilai * 100)}%`
+                        : s.kunci === 'maks_baris' && nilai < 2
+                          ? t('tanpa batas', 'unlimited')
+                          : s.kunci === 'mobil'
+                            ? nilai < 1 ? t('tanpa carport', 'no carport') : t(`${nilai} mobil`, `${nilai} car${nilai > 1 ? 's' : ''}`)
+                            : s.kunci === 'kolam' && nilai < 1
+                              ? t('tanpa kolam', 'no pool')
+                              : `${angka(nilai, bahasa, 1)}${s.satuan === '°' ? '' : ' '}${s.satuan}`;
                     return (
                         <label key={s.kunci} className="nr-lahan__slider">
                             <span className="nr-lahan__slider-atas">
@@ -515,7 +549,16 @@ function IsiLahan({ data, memuat, tipe, asumsi, onAsumsi, sesi, targetJumlah, ku
                         </label>
                     );
                 })}
-                {tipe !== 'rumah' && sesuai && k.lantai_maks > 0 && (
+                {tipe === 'pribadi' && sesuai && (
+                    <label className="nr-lahan__slider">
+                        <span className="nr-lahan__slider-atas">
+                            <span>{t('Jumlah lantai', 'Number of floors')}</span>
+                            <b>{asumsi.lantai ?? k.lantai}</b>
+                        </span>
+                        <input type="range" min={1} max={k.lantai_maks || 3} step={1} value={asumsi.lantai ?? k.lantai} onChange={(e) => onAsumsi({ ...asumsi, lantai: Number(e.target.value) })} />
+                    </label>
+                )}
+                {tipe !== 'rumah' && tipe !== 'pribadi' && sesuai && k.lantai_maks > 0 && (
                     <label className="nr-lahan__slider">
                         <span className="nr-lahan__slider-atas">
                             <span>{t('Jumlah lantai', 'Number of floors')}</span>
@@ -762,6 +805,97 @@ function BlokTarget({ data, tipe, asumsi, targetJumlah, kunciUkuran, onTarget }:
                     )}
                 </p>
             )}
+        </div>
+    );
+}
+
+/** Rincian kartu hasil rumah pribadi: luas bangunan, lantai, tapak, perkiraan kamar, carport, kolam. */
+function RincianPribadi({ k }: { k: LahanResponse['kapasitas'] }) {
+    const { t, bahasa } = useBahasa();
+    const p = k.pribadi!;
+    const muat = k.parkir?.muat ?? 0;
+    return (
+        <>
+            <li>{t(`Luas bangunan ${angka(p.luas_bangunan_m2, bahasa)} m², ${k.lantai} lantai`, `Floor area ${angka(p.luas_bangunan_m2, bahasa)} m², ${k.lantai} floor${k.lantai > 1 ? 's' : ''}`)}</li>
+            <li>{t(`Tapak rumah ${luasTeks(k.luas_tapak_m2, bahasa)}`, `House footprint ${luasTeks(k.luas_tapak_m2, bahasa)}`)}</li>
+            {p.tidak_muat && (
+                <li className="nr-lahan__kurang">
+                    {t(`Diminta ${angka(p.luas_bangunan_diminta, bahasa)} m², yang muat ${angka(p.luas_bangunan_m2, bahasa)} m²`, `Requested ${angka(p.luas_bangunan_diminta, bahasa)} m², fits ${angka(p.luas_bangunan_m2, bahasa)} m²`)}
+                </li>
+            )}
+            <li>{t(`Perkiraan ${p.kamar_tidur} kamar tidur, ${p.kamar_mandi} kamar mandi`, `About ${p.kamar_tidur} bedroom${p.kamar_tidur > 1 ? 's' : ''}, ${p.kamar_mandi} bathroom${p.kamar_mandi > 1 ? 's' : ''}`)}</li>
+            <li className={cx(p.mobil > 0 && muat < p.mobil && 'nr-lahan__kurang')}>
+                {p.mobil > 0 ? t(`Carport ${muat}/${p.mobil} mobil`, `Carport ${muat}/${p.mobil} car${p.mobil > 1 ? 's' : ''}`) : t('Tanpa carport', 'No carport')}
+            </li>
+            {p.kolam_m2 > 0 && <li>{t(`Kolam renang ${angka(p.kolam_m2, bahasa)} m²`, `Swimming pool ${angka(p.kolam_m2, bahasa)} m²`)}</li>}
+        </>
+    );
+}
+
+/**
+ * Luas bangunan rumah pribadi: ketik sendiri (total semua lantai) atau biarkan kosong untuk rekomendasi dari KDB, KLB,
+ * dan ukuran lahan. Nilai dikirim saat Enter atau saat kotak ditinggalkan; server menjepitnya ke 20–5.000 m².
+ */
+function IsianLuasBangunan({ k, asumsi, onAsumsi }: { k: LahanResponse['kapasitas']; asumsi: AsumsiLahan; onAsumsi: (a: AsumsiLahan) => void }) {
+    const { t, bahasa } = useBahasa();
+    const diisi = asumsi.luas_bangunan != null;
+    const [teks, setTeks] = useState(diisi ? String(asumsi.luas_bangunan) : '');
+    useEffect(() => {
+        setTeks(asumsi.luas_bangunan != null ? String(asumsi.luas_bangunan) : '');
+    }, [asumsi.luas_bangunan]);
+    const rekom = k.pribadi?.rekomendasi_luas_bangunan ?? 0;
+    const tanpaLuas = (): AsumsiLahan => {
+        const { luas_bangunan: _lama, ...sisa } = asumsi;
+        return sisa;
+    };
+
+    const kirim = () => {
+        const n = Number(teks.replace(',', '.'));
+        if (teks.trim() === '' || !Number.isFinite(n) || n <= 0) {
+            setTeks('');
+            if (diisi) onAsumsi(tanpaLuas());
+            return;
+        }
+        const bulat = Math.round(Math.min(5000, Math.max(20, n)));
+        setTeks(String(bulat));
+        if (bulat !== asumsi.luas_bangunan) onAsumsi({ ...tanpaLuas(), luas_bangunan: bulat });
+    };
+
+    return (
+        <div className="nr-lahan__luasbangun">
+            <label>
+                <span className="nr-eyebrow">{t('Luas bangunan (semua lantai)', 'Floor area (all floors)')}</span>
+                <span className="nr-lahan__luasbangun-isian">
+                    <input
+                        type="number"
+                        inputMode="numeric"
+                        min={20}
+                        max={5000}
+                        step={5}
+                        value={teks}
+                        placeholder={angka(rekom, bahasa)}
+                        onChange={(e) => setTeks(e.target.value)}
+                        onBlur={kirim}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter') (e.target as HTMLInputElement).blur();
+                        }}
+                    />
+                    <span>m²</span>
+                </span>
+            </label>
+            <small>
+                {diisi
+                    ? t(`Rekomendasi untuk lahan ini ±${angka(rekom, bahasa)} m².`, `Recommended for this site: about ${angka(rekom, bahasa)} m².`)
+                    : t(`Kosong = rekomendasi ±${angka(rekom, bahasa)} m² (dari KDB, KLB, dan ukuran lahan).`, `Empty = recommended about ${angka(rekom, bahasa)} m² (from site coverage, FAR, and size).`)}
+                {diisi && (
+                    <>
+                        {' '}
+                        <button type="button" className="nr-lahan__tautan" onClick={() => onAsumsi(tanpaLuas())}>
+                            {t('Pakai rekomendasi', 'Use recommendation')}
+                        </button>
+                    </>
+                )}
+            </small>
         </div>
     );
 }

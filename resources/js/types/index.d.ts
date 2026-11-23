@@ -138,8 +138,8 @@ export type CommuteResponse = {
 
 /** Satu rute pribadi + satu rute publik yang sedang ditampilkan di peta (hasil pilih alternatif). */
 export type RuteTampil = { pribadi: RutePribadi | null; publik: RutePublik | null };
-/** Uji Lahan (FR-23): tipe bangunan yang diestimasi. */
-export type TipeLahan = 'rumah' | 'kos' | 'apartemen';
+/** Uji Lahan (FR-23): tipe bangunan yang diestimasi. `pribadi` = satu rumah tinggal dengan carport, kolam, taman, halaman, pagar. */
+export type TipeLahan = 'rumah' | 'kos' | 'apartemen' | 'pribadi';
 
 /** Asumsi yang bisa diubah pengguna; server menjepitnya ke rentang aman dan mengembalikan nilai yang dipakai. */
 export type AsumsiLahan = {
@@ -160,13 +160,17 @@ export type AsumsiLahan = {
     sudut_parkir?: number;
     padding_parkir?: number;
     maks_baris?: number;
+    /** Rumah pribadi: total luas bangunan semua lantai (m², 20–5000; kosong = rekomendasi), mobil di carport (0–4), luas kolam renang (m², 0 = tanpa kolam, maks 300). */
+    luas_bangunan?: number | null;
+    mobil?: number;
+    kolam?: number;
 };
 
 /** Pola tata letak (mirip preset TestFit). rumah: grid/cluster; kos: keliling/koridor; apartemen: keliling/wrap/tower. */
-export type PolaLahan = 'grid' | 'cluster' | 'keliling' | 'koridor' | 'wrap' | 'tower';
+export type PolaLahan = 'grid' | 'cluster' | 'keliling' | 'koridor' | 'wrap' | 'tower' | 'depan' | 'tengah';
 
 /** Zona yang bisa ditarik sendiri-sendiri. */
-export type JenisZona = 'bangunan' | 'parkir' | 'taman' | 'larangan';
+export type JenisZona = 'bangunan' | 'parkir' | 'taman' | 'larangan' | 'kolam';
 
 /** Zona yang dikirim pengguna setelah menariknya; urutan = nomor zona (`id`). */
 export type ZonaLahanMasuk = {
@@ -279,6 +283,18 @@ export type KapasitasLahan = {
     komposisi?: Partial<Record<TipeUnit, number>>;
     /** Slot parkir yang dibutuhkan (rasio x unit) dan yang muat; motor untuk kos, mobil untuk apartemen. */
     parkir?: { butuh: number; muat: number; jenis: 'motor' | 'mobil' | null; lantai: number };
+    /** Rumah pribadi: luas bangunan yang dipakai/diminta/direkomendasikan, perkiraan kamar (indikatif), mobil carport, kolam. */
+    pribadi?: {
+        luas_bangunan_m2: number;
+        luas_bangunan_diminta: number;
+        rekomendasi_luas_bangunan: number;
+        /** Luas yang diminta tidak muat di zona bangunan; rumah digambar sebesar yang muat. */
+        tidak_muat: boolean;
+        kamar_tidur: number;
+        kamar_mandi: number;
+        mobil: number;
+        kolam_m2: number;
+    };
 };
 
 /** Respons POST /api/lahan (FR-23). */
@@ -327,7 +343,7 @@ export type LahanResponse = {
     /**
      * Fitur `jenis`: rumah tapak 'kavling' (varian 0–2) + 'jalan' + 'taman'; kos/apartemen 'unit' (`tipe`), 'koridor',
      * 'inti', 'void', 'taman', 'parkir' (`lantai`), 'slot', 'lobi', 'jalur'; semua tipe 'akses' (jalan dari gerbang);
-     * lahan sempit 'tapak'. Isi zona membawa `zona` (id zona); akses/lobi/jalur membawa `akses` (id akses).
+     * lahan sempit 'tapak'. Rumah pribadi: 'tapak' (rumah), 'parkir' + 'slot' (carport), 'kolam', 'taman', 'halaman', 'pagar'. Isi zona membawa `zona` (id zona); akses/lobi/jalur membawa `akses` (id akses).
      * 'taman'/'tapak' membawa `lantai`, `jumlah`, `satuan` untuk label.
      */
     geometri_kapasitas: FeatureCollection;

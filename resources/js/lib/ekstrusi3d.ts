@@ -42,7 +42,13 @@ const PELAT: Record<string, { tinggi: number; warna: string }> = {
     slot: { tinggi: 0.7, warna: '#c9d1db' },
     jalur: { tinggi: 0.6, warna: '#d9c48f' },
     akses: { tinggi: 0.8, warna: '#4b5160' },
+    // Rumah pribadi: halaman berupa perkerasan, kolam sedikit di atas halaman supaya terlihat.
+    halaman: { tinggi: 0.35, warna: '#d8ccb0' },
+    kolam: { tinggi: 0.45, warna: '#5cc8f0' },
 };
+
+/** Tinggi pagar rumah pribadi (m). */
+export const TINGGI_PAGAR = 1.6;
 
 /** Semua poligon (cincin luar + lubang) dari geometri; selain Polygon/MultiPolygon diabaikan. */
 export function poligonDari(g: Geometry | null | undefined): Position[][][] {
@@ -120,7 +126,12 @@ export function bangunEkstrusi(d: DataEkstrusi, lahan: Polygon | null): FeatureC
                 case 'jalan':
                 case 'akses':
                 case 'jalur':
+                case 'halaman':
+                case 'kolam':
                     datar(pelat, c, jenis);
+                    break;
+                case 'pagar':
+                    tambah(massa, c, 'pagar', TINGGI_PAGAR, '#5a4632');
                     break;
             }
         }

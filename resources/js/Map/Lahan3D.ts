@@ -15,6 +15,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import type { Feature, Geometry, Polygon, Position } from 'geojson';
 import type { LahanResponse } from '@/types';
+import { TINGGI_PAGAR } from '@/lib/ekstrusi3d';
 
 const WARNA_UNIT: Record<string, number> = { studio: 0x2fbf71, '1br': 0x4a90e2, '2br': 0x7b5cd6, kamar: 0x4a90e2 };
 const WARNA_ATAP = [0xf2994a, 0xe8833a, 0xf5b06b];
@@ -160,6 +161,16 @@ export function buatModel(d: LahanResponse, lahanGeo: Polygon | null): THREE.Gro
                 case 'void':
                     masuk('taman', 0x9fd3a6, datar(s, 0.09));
                     break;
+                // Rumah pribadi: halaman perkerasan, kolam renang (air sedikit di bawah tepi), pagar keliling.
+                case 'halaman':
+                    masuk('halaman', 0xd8ccb0, datar(s, 0.07));
+                    break;
+                case 'kolam':
+                    masuk('kolam', 0x5cc8f0, datar(s, 0.1));
+                    break;
+                case 'pagar':
+                    masuk('pagar', 0x5a4632, ekstrusi(s, TINGGI_PAGAR));
+                    break;
             }
         }
     }
@@ -182,7 +193,7 @@ export function buatModel(d: LahanResponse, lahanGeo: Polygon | null): THREE.Gro
     }
 
     // Garis tiap lantai di sekeliling zona gedung, supaya jumlah lantai terbaca seperti di TestFit.
-    if (d.tipe !== 'rumah') {
+    if (d.tipe !== 'rumah' && d.tipe !== 'pribadi') {
         for (const z of d.zona?.features ?? []) {
             if (z.properties.jenis !== 'bangunan') continue;
             for (const c of poligon(z.geometry)) {
@@ -202,7 +213,7 @@ export function buatModel(d: LahanResponse, lahanGeo: Polygon | null): THREE.Gro
             color: e.warna,
             transparent: e.transparan !== undefined,
             opacity: e.transparan ?? 1,
-            side: ['lahan', 'taman', 'jalan', 'aspal', 'slot', 'pekarangan', 'akses', 'jalur'].includes(kunci) ? THREE.DoubleSide : THREE.FrontSide,
+            side: ['lahan', 'taman', 'jalan', 'aspal', 'slot', 'pekarangan', 'akses', 'jalur', 'halaman', 'kolam'].includes(kunci) ? THREE.DoubleSide : THREE.FrontSide,
         });
         const mesh = new THREE.Mesh(g, mat);
         mesh.name = kunci; // nama terbaca di Blender saat model .glb dibuka

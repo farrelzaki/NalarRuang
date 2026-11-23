@@ -31,7 +31,7 @@ export type SimpananSesi = {
     skema: SkemaLahan[];
 };
 
-const TIPE: TipeLahan[] = ['rumah', 'kos', 'apartemen'];
+const TIPE: TipeLahan[] = ['rumah', 'kos', 'apartemen', 'pribadi'];
 
 export function ambilBagian(s: SnapLahan): BagianTipe {
     const { geom: _geom, tipe: _tipe, ...bagian } = s;
