@@ -5,6 +5,7 @@
  * - Tinggi gedung = jumlah lantai x tinggi lantai. Unit dan koridor sedikit lebih rendah, inti (tangga/lift) lebih tinggi,
  *   lobi dua lantai berwarna kuning, parkir bertingkat berupa balok setinggi lantainya, sisanya (aspal, slot, jalan, taman) pelat tipis.
  * - Rumah tapak: kavling menjadi atap berukuran sqrt(KDB) dari petaknya, di atas pekarangan datar.
+ * - Rumah pribadi: dinding krem setinggi lantainya dan atap limas genteng (bertingkat, karena fill-extrusion hanya balok tegak).
  *
  * Tinggi dalam meter. "Pelat tipis" diberi tinggi beberapa desimeter supaya terlihat di atas tanah dan tidak berebut lapisan.
  *
@@ -23,6 +24,8 @@ export type PropEkstrusi = {
 
 /** Bagian hasil /api/lahan yang dipakai (LahanResponse memenuhinya). */
 export type DataEkstrusi = {
+    /** Tipe bangunan; `pribadi` = rumah dengan atap limas. */
+    tipe?: string;
     kapasitas: { lantai: number };
     ringkasan?: { tinggi_lantai_m: number } | null;
     intensitas?: { kdb: number } | null;
@@ -49,6 +52,107 @@ const PELAT: Record<string, { tinggi: number; warna: string }> = {
 
 /** Tinggi pagar rumah pribadi (m). */
 export const TINGGI_PAGAR = 1.6;
+
+/** Warna rumah pribadi di 3D: dinding krem, atap genteng. */
+export const WARNA_DINDING = '#f3ead6';
+export const WARNA_GENTENG = '#c2553a';
+/** Atap menjorok keluar dinding (m). */
+const TRITISAN = 0.5;
+
+/**
+ * Persegi panjang terkecil yang memuat titik-titik [x, y] (meter), dicari dari arah tiap sisi. `sumbu` = vektor satuan sisi
+ * panjang; `panjang` >= `lebar`. Null bila titik kurang dari tiga atau luasnya nol.
+ */
+export function persegiMinimum(titik: [number, number][]): { pusat: [number, number]; sumbu: [number, number]; panjang: number; lebar: number } | null {
+    if (titik.length < 3) return null;
+    let terbaik: { pusat: [number, number]; sumbu: [number, number]; panjang: number; lebar: number; luas: number } | null = null;
+    for (let i = 0; i < titik.length; i++) {
+        const [ax, ay] = titik[i];
+        const [bx, by] = titik[(i + 1) % titik.length];
+        const pj = Math.hypot(bx - ax, by - ay);
+        if (pj < 1e-9) continue;
+        const u: [number, number] = [(bx - ax) / pj, (by - ay) / pj];
+        const v: [number, number] = [-u[1], u[0]];
+        let [u0, u1, v0, v1] = [Infinity, -Infinity, Infinity, -Infinity];
+        for (const [x, y] of titik) {
+            const a = x * u[0] + y * u[1];
+            const b = x * v[0] + y * v[1];
+            u0 = Math.min(u0, a);
+            u1 = Math.max(u1, a);
+            v0 = Math.min(v0, b);
+            v1 = Math.max(v1, b);
+        }
+        const luas = (u1 - u0) * (v1 - v0);
+        if (luas <= 1e-9 || (terbaik && luas >= terbaik.luas - 1e-9)) continue;
+        const [ac, bc] = [(u0 + u1) / 2, (v0 + v1) / 2];
+        const pusat: [number, number] = [u[0] * ac + v[0] * bc, u[1] * ac + v[1] * bc];
+        terbaik = u1 - u0 >= v1 - v0 ? { pusat, sumbu: u, panjang: u1 - u0, lebar: v1 - v0, luas } : { pusat, sumbu: v, panjang: v1 - v0, lebar: u1 - u0, luas };
+    }
+    if (!terbaik) return null;
+    const { luas: _l, ...hasil } = terbaik;
+    return hasil;
+}
+
+/** Tinggi atap limas dari lebar rumah: kemiringan 30°, 1,5–4 m. */
+export function tinggiAtap(lebar: number): number {
+    return Math.min(4, Math.max(1.5, (lebar / 2) * Math.tan(Math.PI / 6)));
+}
+
+/**
+ * Atap limas (perisai) di atas denah rumah, dalam meter: empat sudut tritisan (menjorok 0,5 m dari dinding) searah putaran,
+ * dua titik bubungan di tengah sisi panjang, dan tinggi atap. Kedua sisi panjang berupa trapesium, sisi pendek segitiga.
+ */
+export function atapLimas(titik: [number, number][]): { sudut: [number, number][]; bubungan: [[number, number], [number, number]]; tinggi: number; lebar: number } | null {
+    const r = persegiMinimum(titik);
+    if (!r) return null;
+    const u = r.sumbu;
+    const v: [number, number] = [-u[1], u[0]];
+    const hp = r.panjang / 2 + TRITISAN;
+    const hl = r.lebar / 2 + TRITISAN;
+    const titikDi = (a: number, b: number): [number, number] => [r.pusat[0] + u[0] * a + v[0] * b, r.pusat[1] + u[1] * a + v[1] * b];
+    const bub = hp - hl;
+    return {
+        sudut: [titikDi(-hp, -hl), titikDi(hp, -hl), titikDi(hp, hl), titikDi(-hp, hl)],
+        bubungan: [titikDi(-bub, 0), titikDi(bub, 0)],
+        tinggi: tinggiAtap(r.lebar + 2 * TRITISAN),
+        lebar: 2 * hl,
+    };
+}
+
+/**
+ * Atap limas untuk `fill-extrusion` MapLibre (hanya bisa balok tegak): disusun bertingkat, tiap tingkat persegi yang menyusut
+ * sama rata di keempat sisinya, dari `dasar` sampai puncak. Koordinat [lng, lat].
+ */
+export function irisanAtapLimas(cincin: Position[], dasar: number, langkah = 8): { cincin: Position[]; dasar: number; tinggi: number }[] {
+    const titik = cincin.slice(0, -1);
+    if (titik.length < 3) return [];
+    const [lng0, lat0] = titik[0];
+    const kx = 111320 * Math.cos((lat0 * Math.PI) / 180);
+    const ky = 110574;
+    const meter = titik.map(([lng, lat]): [number, number] => [(lng - lng0) * kx, (lat - lat0) * ky]);
+    const r = persegiMinimum(meter);
+    if (!r) return [];
+    const u = r.sumbu;
+    const v: [number, number] = [-u[1], u[0]];
+    const hp = r.panjang / 2 + TRITISAN;
+    const hl = r.lebar / 2 + TRITISAN;
+    const h = tinggiAtap(2 * hl);
+    const keLngLat = (a: number, b: number): Position => {
+        const x = r.pusat[0] + u[0] * a + v[0] * b;
+        const y = r.pusat[1] + u[1] * a + v[1] * b;
+        return [lng0 + x / kx, lat0 + y / ky];
+    };
+    const hasil: { cincin: Position[]; dasar: number; tinggi: number }[] = [];
+    for (let i = 0; i < langkah; i++) {
+        // Irisan diambil di dasar tiap tingkat: tingkat paling bawah selebar tritisan penuh.
+        const d = (hl * i) / langkah;
+        const [a, b] = [hp - d, hl - d];
+        const c = [keLngLat(-a, -b), keLngLat(a, -b), keLngLat(a, b), keLngLat(-a, b)];
+        hasil.push({ cincin: [...c, c[0]], dasar: dasar + (h * i) / langkah, tinggi: dasar + (h * (i + 1)) / langkah });
+    }
+    return hasil;
+}
+
 
 /** Semua poligon (cincin luar + lubang) dari geometri; selain Polygon/MultiPolygon diabaikan. */
 export function poligonDari(g: Geometry | null | undefined): Position[][][] {
@@ -103,7 +207,12 @@ export function bangunEkstrusi(d: DataEkstrusi, lahan: Polygon | null): FeatureC
                     tambah(massa, c, 'inti', tG + 3, '#9aa3b2');
                     break;
                 case 'tapak':
-                    tambah(massa, c, 'tapak', tG, '#3b6fd8');
+                    if (d.tipe === 'pribadi') {
+                        tambah(massa, c, 'dinding', tG, WARNA_DINDING);
+                        for (const t of irisanAtapLimas(c[0] ?? [], tG)) tambah(massa, [t.cincin], 'atap', t.tinggi, WARNA_GENTENG, t.dasar);
+                    } else {
+                        tambah(massa, c, 'tapak', tG, '#3b6fd8');
+                    }
                     break;
                 case 'kavling':
                     datar(pelat, c, 'pekarangan');

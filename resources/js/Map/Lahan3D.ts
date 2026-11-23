@@ -15,7 +15,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import type { Feature, Geometry, Polygon, Position } from 'geojson';
 import type { LahanResponse } from '@/types';
-import { TINGGI_PAGAR } from '@/lib/ekstrusi3d';
+import { atapLimas, TINGGI_PAGAR } from '@/lib/ekstrusi3d';
 
 const WARNA_UNIT: Record<string, number> = { studio: 0x2fbf71, '1br': 0x4a90e2, '2br': 0x7b5cd6, kamar: 0x4a90e2 };
 const WARNA_ATAP = [0xf2994a, 0xe8833a, 0xf5b06b];
@@ -67,6 +67,17 @@ function datar(s: THREE.Shape, y: number): THREE.BufferGeometry {
     const g = new THREE.ShapeGeometry(s);
     g.rotateX(-Math.PI / 2);
     g.translate(0, y, 0);
+    return g;
+}
+
+/** Atap limas dari `atapLimas` (meter, [x, utara]) setinggi y0 sampai puncak: dua trapesium, dua segitiga, dan plafon tritisan. */
+function geometriLimas(a: NonNullable<ReturnType<typeof atapLimas>>, y0: number): THREE.BufferGeometry {
+    const v = ([x, n]: [number, number], y: number) => [x, y, -n];
+    const [A, B, C, D] = a.sudut.map((t) => v(t, y0));
+    const [R1, R2] = a.bubungan.map((t) => v(t, y0 + a.tinggi));
+    const segitiga = [A, B, R2, A, R2, R1, C, D, R1, C, R1, R2, B, C, R2, D, A, R1, A, C, B, A, D, C];
+    const g = new THREE.BufferGeometry();
+    g.setAttribute('position', new THREE.Float32BufferAttribute(segitiga.flat(), 3));
     return g;
 }
 
@@ -128,7 +139,14 @@ export function buatModel(d: LahanResponse, lahanGeo: Polygon | null): THREE.Gro
                     masuk('inti', 0x9aa3b2, ekstrusi(s, tinggiGedung + 3));
                     break;
                 case 'tapak':
-                    masuk('tapak', 0x3b6fd8, ekstrusi(s, tinggiGedung));
+                    if (d.tipe === 'pribadi') {
+                        // Rumah pribadi: dinding krem dan atap limas genteng dengan tritisan.
+                        masuk('dinding', 0xf3ead6, ekstrusi(s, tinggiGedung));
+                        const atap = atapLimas(c[0].slice(0, -1).map(p));
+                        if (atap) masuk('atap', 0xc2553a, geometriLimas(atap, tinggiGedung));
+                    } else {
+                        masuk('tapak', 0x3b6fd8, ekstrusi(s, tinggiGedung));
+                    }
                     break;
                 case 'kavling': {
                     masuk(`atap-${Number(pr.varian ?? 0) % 3}`, WARNA_ATAP[Number(pr.varian ?? 0) % 3], ekstrusi(s, tinggiGedung));
@@ -213,7 +231,7 @@ export function buatModel(d: LahanResponse, lahanGeo: Polygon | null): THREE.Gro
             color: e.warna,
             transparent: e.transparan !== undefined,
             opacity: e.transparan ?? 1,
-            side: ['lahan', 'taman', 'jalan', 'aspal', 'slot', 'pekarangan', 'akses', 'jalur', 'halaman', 'kolam'].includes(kunci) ? THREE.DoubleSide : THREE.FrontSide,
+            side: ['lahan', 'taman', 'jalan', 'aspal', 'slot', 'pekarangan', 'akses', 'jalur', 'halaman', 'kolam', 'atap'].includes(kunci) ? THREE.DoubleSide : THREE.FrontSide,
         });
         const mesh = new THREE.Mesh(g, mat);
         mesh.name = kunci; // nama terbaca di Blender saat model .glb dibuka

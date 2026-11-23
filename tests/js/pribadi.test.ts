@@ -1,7 +1,7 @@
 // Tes logika murni tipe Rumah pribadi di klien (3D, berkas proyek, tab, penempatan kolam). Jalankan: npm run test:js
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { bangunEkstrusi, TINGGI_PAGAR } from '../../resources/js/lib/ekstrusi3d.ts';
+import { atapLimas, bangunEkstrusi, irisanAtapLimas, persegiMinimum, TINGGI_PAGAR, tinggiAtap } from '../../resources/js/lib/ekstrusi3d.ts';
 import { bacaBerkas, bungkusProyek } from '../../resources/js/lib/berkasLahan.ts';
 import { bacaSesi, gantiTipe, tulisSesi } from '../../resources/js/lib/simpanTab.ts';
 import { kebutuhanLuas } from '../../resources/js/lib/penempatan.ts';
@@ -75,4 +75,48 @@ test('penempatan: zona kolam baru seluas kolam yang diminta, selain itu 32 m², 
     assert.equal(kebutuhanLuas('kolam', { luasLahanM2: 1000 }), 32);
     assert.equal(kebutuhanLuas('kolam', { luasLahanM2: 1000, kolamM2: 300 }), 200, 'paling luas 20% lahan');
     assert.equal(kebutuhanLuas('kolam', { luasLahanM2: 1000, kolamM2: 0 }), 32);
+});
+
+test('persegiMinimum: persegi panjang miring 20 x 10 m ditemukan dengan sumbu sisi panjang', () => {
+    const sudut = Math.PI / 6;
+    const u = [Math.cos(sudut), Math.sin(sudut)];
+    const v = [-u[1], u[0]];
+    const titik = [[-10, -5], [10, -5], [10, 5], [-10, 5]].map(([a, b]) => [100 + u[0] * a + v[0] * b, 50 + u[1] * a + v[1] * b] as [number, number]);
+    const r = persegiMinimum(titik)!;
+    assert.ok(Math.abs(r.panjang - 20) < 1e-6 && Math.abs(r.lebar - 10) < 1e-6);
+    assert.ok(Math.abs(Math.abs(r.sumbu[0] * u[0] + r.sumbu[1] * u[1]) - 1) < 1e-9, 'sumbu searah sisi panjang');
+    assert.ok(Math.abs(r.pusat[0] - 100) < 1e-6 && Math.abs(r.pusat[1] - 50) < 1e-6);
+    assert.equal(persegiMinimum([[0, 0], [1, 1]]), null);
+});
+
+test('atap limas: tritisan 0,5 m, bubungan sepanjang selisih sisi, tinggi dari kemiringan 30° dijepit 1,5–4 m', () => {
+    const a = atapLimas([[0, 0], [20, 0], [20, 10], [0, 10]])!;
+    const jarak = (p: [number, number], q: [number, number]) => Math.hypot(p[0] - q[0], p[1] - q[1]);
+    assert.ok(Math.abs(jarak(a.sudut[0], a.sudut[1]) - 21) < 1e-6);
+    assert.ok(Math.abs(jarak(a.sudut[1], a.sudut[2]) - 11) < 1e-6);
+    assert.ok(Math.abs(jarak(a.bubungan[0], a.bubungan[1]) - 10) < 1e-6, 'bubungan = 21 - 11');
+    assert.equal(tinggiAtap(11), Math.min(4, Math.max(1.5, 5.5 * Math.tan(Math.PI / 6))));
+    assert.equal(tinggiAtap(2), 1.5);
+    assert.equal(tinggiAtap(40), 4);
+});
+
+test('3D peta: rumah pribadi jadi dinding krem + atap limas bertingkat yang menyusut ke atas', () => {
+    const fc = bangunEkstrusi(
+        { tipe: 'pribadi', kapasitas: { lantai: 2 }, ringkasan: { tinggi_lantai_m: 3.5 }, geometri_kapasitas: { features: [fitur('tapak')] } } as never,
+        null,
+    );
+    const dinding = fc.features.filter((f) => f.properties.jenis === 'dinding');
+    const atap = fc.features.filter((f) => f.properties.jenis === 'atap');
+    assert.equal(dinding.length, 1);
+    assert.equal(dinding[0].properties.tinggi, 7);
+    assert.equal(fc.features.filter((f) => f.properties.jenis === 'tapak').length, 0);
+    assert.equal(atap.length, 8);
+    assert.equal(atap[0].properties.dasar, 7, 'atap mulai di puncak dinding');
+    for (let i = 1; i < atap.length; i++) assert.equal(atap[i].properties.dasar, atap[i - 1].properties.tinggi, 'tingkat bersambung');
+    const lebarCincin = (c: number[][]) => Math.max(...c.map((t) => t[0])) - Math.min(...c.map((t) => t[0]));
+    assert.ok(lebarCincin(atap[7].geometry.coordinates[0]) < lebarCincin(atap[0].geometry.coordinates[0]));
+    assert.ok(lebarCincin(atap[0].geometry.coordinates[0]) > lebarCincin(dinding[0].geometry.coordinates[0]), 'tritisan menjorok keluar dinding');
+    // Tingkat paling bawah berupa persegi tertutup.
+    assert.deepEqual(atap[0].geometry.coordinates[0][0], atap[0].geometry.coordinates[0][4]);
+    assert.equal(irisanAtapLimas([[0, 0], [1, 1]], 0).length, 0);
 });
