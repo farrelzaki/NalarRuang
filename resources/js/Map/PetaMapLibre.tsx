@@ -42,6 +42,7 @@ function fontDariGaya(m: Apa): string[] {
     return daftar.find((f) => f.some((x) => /bold/i.test(x))) ?? daftar[0] ?? FONT;
 }
 const NAVY = '#0f1b3d';
+const BIRU_RUTE_MOBIL = '#2563eb';
 
 let modeRuteAktif = false;
 
@@ -108,9 +109,20 @@ function definisiLayer(k: LayerKey): DefLayer[] {
 
     switch (k) {
         case 'historis_risiko':
+            // Bahaya banjir "fluid": isi datar per kelas (warna tetap beda per kelas, bukan kotak/tegas),
+            // dikelilingi garis tepi yang di-blur jadi gradasi lembut ke luar poligon, bukan garis keras.
             return [
                 L('isi', 'poligon', true, { type: 'fill', filter: poligon, paint: { 'fill-color': ['get', '_warna'], 'fill-opacity': ['get', '_isi'] } }),
-                L('tepi', 'poligon', false, { type: 'line', paint: { 'line-color': ['get', '_warna'], 'line-width': ['get', '_tebal'], 'line-opacity': ['get', '_garis'] } }),
+                L('tepi-gradasi', 'poligon', false, {
+                    type: 'line',
+                    layout: { 'line-join': 'round', 'line-cap': 'round' },
+                    paint: { 'line-color': ['get', '_warna'], 'line-width': ['*', ['get', '_tebal'], 10], 'line-opacity': ['*', ['get', '_garis'], 0.35], 'line-blur': 3 },
+                }),
+                L('tepi', 'poligon', false, {
+                    type: 'line',
+                    layout: { 'line-join': 'round', 'line-cap': 'round' },
+                    paint: { 'line-color': ['get', '_warna'], 'line-width': ['get', '_tebal'], 'line-opacity': ['get', '_garis'], 'line-blur': 1 },
+                }),
             ];
         case 'kualitas_udara':
             return [
@@ -401,6 +413,10 @@ export default function PetaMapLibre(props: Props) {
                     dimuat = true;
                     window.clearTimeout(waktuHabis);
                     FONT = fontDariGaya(m);
+                    // Sungai dan badan air gaya OpenFreeMap positron bawaan abu-abu; biruin agar jelas sebagai air.
+                    const airBiru = getComputedStyle(document.documentElement).getPropertyValue('--osm-water').trim() || '#aad3df';
+                    if (m.getLayer('water')) m.setPaintProperty('water', 'fill-color', airBiru);
+                    if (m.getLayer('waterway')) m.setPaintProperty('waterway', 'line-color', airBiru);
                     for (const s of SLOT) m.addLayer({ id: idSlot(s), type: 'background', layout: { visibility: 'none' } });
                     pasang3D(m);
                     pasangSeleksi(m);
@@ -705,11 +721,11 @@ export default function PetaMapLibre(props: Props) {
             );
         }
         if (r?.pribadi) {
-            const kuat = props.moda === 'mobil';
+            const kuat = props.moda === 'mobil' || props.moda === 'motor';
             const tebal = kuat ? 5 : 3.5;
             const op = kuat ? 1 : 0.4;
             garis(r.pribadi.geometri, { peran: 'casing', _tebal: tebal + 3, _opasitas: op });
-            garis(r.pribadi.geometri, { peran: 'garis', _warna: NAVY, _tebal: tebal, _opasitas: op, _panah: kuat });
+            garis(r.pribadi.geometri, { peran: 'garis', _warna: BIRU_RUTE_MOBIL, _tebal: tebal, _opasitas: op, _panah: kuat });
         }
         m.getSource('nr-rute')?.setData({ type: 'FeatureCollection', features: fitur });
 

@@ -5,7 +5,7 @@
 import { useEffect, useRef } from 'react';
 import L from 'leaflet';
 import type { Feature, FeatureCollection, Geometry, MultiPolygon, Point, Polygon } from 'geojson';
-import type { AksesLahanMasuk, AksesLahanProps, CommuteResponse, HasilSearch, JenisAkses, JenisZona, LayerKey, ZonaLahan, ZonaLahanProps } from '@/types';
+import type { AksesLahanMasuk, AksesLahanProps, HasilSearch, JenisAkses, JenisZona, LayerKey, RuteTampil, ZonaLahan, ZonaLahanProps } from '@/types';
 import type { Bahasa } from '@/lib/bahasa';
 import * as gaya from './gaya';
 import { simpanTampilan, tampilanTerakhir } from './tampilan';
@@ -29,10 +29,10 @@ export type PropsPeta = {
     wilayahTerpilih: Geometry | null;
     pin: TitikPeta | null;
     isochrone?: FeatureCollection | null;
-    rute: CommuteResponse | null;
+    rute: RuteTampil | null;
     ruteA: TitikPeta | null;
     ruteB: TitikPeta | null;
-    moda: 'mobil' | 'transit';
+    moda: 'mobil' | 'motor' | 'transit';
     /** True saat klik peta dipakai untuk menaruh titik (alat Titik/Area atau rute A/B): popup fitur dan klik Top 3 tidak dibuka, klik diteruskan ke peta. */
     modeRute: boolean;
     bahasa: Bahasa;
@@ -417,7 +417,7 @@ export default function PetaExplorer(props: Props) {
             }
         }
         if (r?.pribadi) {
-            const kuat = props.moda === 'mobil';
+            const kuat = props.moda === 'mobil' || props.moda === 'motor';
             const tebal = kuat ? 5 : 3.5;
             L.geoJSON(r.pribadi.geometri, { pane: 'nrRute', interactive: false, style: { ...gaya.ruteMobil.casing, weight: tebal + 3, opacity: kuat ? 1 : 0.4 } }).addTo(g);
             L.geoJSON(r.pribadi.geometri, { pane: 'nrRute', interactive: false, style: { ...gaya.ruteMobil.garis, weight: tebal, opacity: kuat ? 1 : 0.4 } }).addTo(g);

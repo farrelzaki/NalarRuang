@@ -114,7 +114,7 @@ export const mesinWaktu = (propertiAtauModa?: string | Record<string, any> | nul
     return { color, weight: 5, opacity: 1, dashArray: '10 8' };
 };
 
-export const ruteMobil = { casing: { color: '#ffffff', weight: 8, opacity: 1 } as PathOptions, garis: { color: '#0f1b3d', weight: 5, opacity: 1 } as PathOptions };
+export const ruteMobil = { casing: { color: '#ffffff', weight: 8, opacity: 1 } as PathOptions, garis: { color: '#2563eb', weight: 5, opacity: 1 } as PathOptions };
 export const ruteOjol: PathOptions = { color: '#16a34a', weight: 4, opacity: 1, dashArray: '1 8', lineCap: 'round' };
 export const ruteJalanKaki: PathOptions = { color: '#0f1b3d', weight: 3, opacity: 1, dashArray: '0.1 7', lineCap: 'round' };
 

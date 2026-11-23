@@ -170,6 +170,64 @@ Jangan putuskan sendiri; tanyakan ke pemiliknya.
 | TBD-05 | Bobot formula skor persona (titik sudah ditetapkan: satu fasilitas utama per persona) | Galih |
 | TBD-06 | Target performa (render, respons API) | Tim |
 | TBD-11 | Parsing query teks bebas. Rekomendasi: keyword matching dengan kamus kecil; NLP tidak punya work package. | Tim |
+| **TBD-12** | Fitur listing properti (draf FR-24 di bawah) — perlu persetujuan PM tertulis sebelum dikerjakan. | PM |
+
+### Draf FR-24: Listing Properti (menunggu tinjauan PM tertulis, 22–23 Nov 2026)
+
+**Belum disetujui.** Ditulis atas permintaan tim untuk dibahas dengan PM, bukan keputusan final.
+FR-24 baru dipindah ke `docs/sumber/SRS.md` (oleh PM) seperti pola FR-23 (Uji Lahan) setelah PM
+benar-benar menyetujui; sampai itu terjadi, endpoint di bawah **tidak termasuk cakupan yang
+dijamin stabil** dan jangan dipakai sebagai acuan integrasi oleh modul lain.
+
+**Status 23 Nov 2026 (Farrel):** prototipe backend sudah dibangun di branch
+`fitur/listing-perumahan-fr24` (migration `listing_perumahan`, `App\Http\Controllers\Api\PerumahanController`,
+rute `POST/GET /api/perumahan*`, `DELETE /api/perumahan/{id}`, tes `tests/Feature/PerumahanTest.php`,
+6/6 lulus) — dibuat untuk didemokan ke PM, **belum ada UI/peta**, dan belum tentu dipertahankan
+bila PM minta arah berbeda. Jawaban sementara (dipilih Farrel, bisa diubah PM) untuk lima pertanyaan
+di bawah: (1) siapa saja boleh upload, kelola lewat `token_kelola` acak (tanpa verifikasi WA/OTP);
+(2) tampil langsung, tanpa moderasi; (3) kedaluwarsa otomatis 90 hari; (4) boleh isi harga, tapi
+indikatif — sistem tidak memproses pembayaran; (5) ya, tabel `listing_perumahan` terpisah dari
+`fitur_peta`/`wilayah`. Cara coba: `php artisan migrate`, lalu `POST /api/perumahan` dengan
+`nama`, `tipe` (`rumah`/`kos`/`apartemen`), `kontak_wa`, `lat`, `lng`, opsional `harga`+`harga_satuan`;
+respons berisi `token_kelola` yang dipakai untuk `DELETE /api/perumahan/{id}`.
+
+**Mengapa ini bukan sekadar tambahan fitur biasa:**
+- SRS Business Rule 4 — *"sistem tidak melakukan pengumpulan data primer"* — penjual yang
+  meng-upload lokasi perumahan berarti sistem mulai menerima dan menyimpan data primer dari
+  pengguna, bukan hanya data sekunder publik seperti semua fitur sekarang.
+- CLAUDE.md — *"Tanpa akun, tanpa login"* — agar penjual bisa diminta pertanggungjawaban atas
+  listingnya (hapus, koreksi, moderasi spam), kemungkinan perlu identitas minimal (nomor
+  WhatsApp terverifikasi OTP? token per-listing yang dikirim ke WA, bukan akun penuh?). Ini
+  mengubah posisi produk dari "tanpa akun" menjadi "tanpa akun pencari, tapi ada identitas
+  minimal penjual" — PM yang harus memutuskan apakah ini masih dalam koridor "tanpa akun".
+- Berpotensi bersinggungan dengan larangan WBS "listing/transaksi properti di luar cakupan"
+  (`docs/sumber/SRS.md` baris 135) — FR-23 (Uji Lahan) sengaja dibatasi "tidak mencakup biaya
+  maupun harga properti (listing dan transaksi properti tetap di luar cakupan)". FR-24 perlu
+  secara eksplisit dijelaskan ke PM sebagai perluasan cakupan itu, bukan penafsiran ulang.
+
+**Pertanyaan yang perlu dijawab PM sebelum draf ini bisa dirapikan jadi FR resmi:**
+1. Siapa yang boleh upload? Siapa saja (rawan spam/listing palsu) atau perlu verifikasi (WA OTP)?
+2. Perlu moderasi sebelum listing tampil di peta, atau tampil langsung?
+3. Listing disimpan permanen atau punya masa berlaku (kedaluwarsa otomatis)?
+4. Apakah ini tetap "estimasi/indikatif" seperti Uji Lahan, atau benar-benar listing transaksional
+   (harga jual/sewa asli)? Ini menentukan apakah masih bisa dibilang bukan "listing/transaksi
+   properti" dalam arti yang dilarang WBS.
+5. Data lokasi yang diupload disimpan di tabel terpisah dari data sekunder publik yang ada
+   (`fitur_peta`/`wilayah`), supaya jelas mana data primer pengguna vs data publik — setuju?
+
+**Draf kontrak API (sketsa, BELUM dibekukan, belum dibahas Farrel/Adzkia/Nur'Afia):**
+
+| Endpoint | Masukan (draf) | Keluaran (draf) |
+| --- | --- | --- |
+| `POST /api/perumahan` | `nama`, `geometri` (Point atau Polygon lahan), `tipe` (`rumah`/`kos`/`apartemen`), `kontak` (format TBD — nomor WA terverifikasi?), opsional `foto[]`, `deskripsi` | `id`, `token_kelola` (untuk hapus/edit tanpa akun, dikirim balik ke penjual) |
+| `GET /api/perumahan/cari` | `bbox` atau `wilayah_id`, opsional `tipe`, `persona[]` (skor seperti titik/wilayah biasa) | `FeatureCollection` listing yang masih berlaku, dengan skor persona seperti titik lain |
+| `DELETE /api/perumahan/{id}` | `token_kelola` | 204, atau 403 bila token salah |
+
+**Yang masih belum ada sama sekali:** UI (form upload, pin di peta, popup), aturan moderasi
+sungguhan (spam/listing palsu belum ditangani — "tampil langsung" di atas cuma pilihan sementara
+untuk demo), format verifikasi kontak (WA belum diverifikasi, cuma format nomor), dan bagaimana
+menyambung ke Top 3/Point Inspector yang ada (skor persona belum dihitung untuk listing).
+Semua ini sengaja ditunda sampai lima pertanyaan di atas terjawab.
 
 ## 6. Tes
 

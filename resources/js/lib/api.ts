@@ -1,5 +1,6 @@
 /** Klien endpoint docs/SISTEM.md bagian 2. */
 import type { CommuteResponse, InspectResponse, LahanRequest, LahanResponse, LayerKey, LayerResponse, Persona, SaranLokasi, SearchResponse } from '@/types';
+import type { PerumahanFeatureCollection, PerumahanRequest, PerumahanUnggahResponse } from '@/types/perumahan';
 import type { FeatureCollection } from 'geojson';
 
 async function ambil<T>(url: string, signal?: AbortSignal): Promise<T> {
@@ -9,6 +10,21 @@ async function ambil<T>(url: string, signal?: AbortSignal): Promise<T> {
         throw new Error(isi.message ?? `Permintaan gagal (${r.status}).`);
     }
     return r.json() as Promise<T>;
+}
+
+/** DELETE JSON; dipakai hanya oleh perumahan.hapus() (FR-24 draf). */
+async function hapusJson<T>(url: string, badan: unknown, signal?: AbortSignal): Promise<T> {
+    const r = await fetch(url, {
+        method: 'DELETE',
+        headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify(badan),
+        signal,
+    });
+    if (!r.ok) {
+        const isi = await r.json().catch(() => ({}));
+        throw new Error(isi.message ?? `Permintaan gagal (${r.status}).`);
+    }
+    return (r.status === 204 ? null : r.json()) as Promise<T>;
 }
 
 /** POST JSON; galat 422 membawa pesan yang bisa langsung ditampilkan. */
@@ -47,8 +63,17 @@ export const api = {
     /** Area gambar pengguna: titik sudut sebagai "lng,lat;lng,lat;...". */
     area: (sudut: { lat: number; lng: number }[], persona: Persona[], signal?: AbortSignal) =>
         ambil<InspectResponse>(`/api/inspect?${qs({ area: sudut.map((p) => `${p.lng.toFixed(6)},${p.lat.toFixed(6)}`).join(';'), persona })}`, signal),
-    rute: (a: { lat: number; lng: number }, b: { lat: number; lng: number }, signal?: AbortSignal, lewatTol = true, hargaBbm?: number, hindariGg = false) =>
-        ambil<CommuteResponse>(`/api/commute?${qs({ dari: `${a.lat},${a.lng}`, ke: `${b.lat},${b.lng}`, tol: lewatTol ? undefined : 0, gg: hindariGg ? 1 : undefined, bbm: hargaBbm })}`, signal),
+    rute: (a: { lat: number; lng: number }, b: { lat: number; lng: number }, signal?: AbortSignal, lewatTol = true, hargaBbm?: number, hindariGg = false, kendaraan: 'mobil' | 'motor' = 'mobil') =>
+        ambil<CommuteResponse>(`/api/commute?${qs({ dari: `${a.lat},${a.lng}`, ke: `${b.lat},${b.lng}`, tol: lewatTol ? undefined : 0, gg: hindariGg ? 1 : undefined, bbm: hargaBbm, kendaraan: kendaraan === 'motor' ? 'motor' : undefined })}`, signal),
     /** Uji Lahan (FR-23). */
     lahan: (badan: LahanRequest, signal?: AbortSignal) => kirim<LahanResponse>('/api/lahan', badan, signal),
+    /** FR-24 DRAF (listing properti) — belum bagian kontrak resmi, lihat docs/RENCANA.md TBD-12. */
+    perumahan: {
+        cari: (bbox: [number, number, number, number], tipe?: TipePerumahanQs, signal?: AbortSignal) =>
+            ambil<PerumahanFeatureCollection>(`/api/perumahan/cari?${qs({ bbox: bbox.join(','), tipe })}`, signal),
+        unggah: (badan: PerumahanRequest, signal?: AbortSignal) => kirim<PerumahanUnggahResponse>('/api/perumahan', badan, signal),
+        hapus: (id: number, tokenKelola: string, signal?: AbortSignal) => hapusJson<null>(`/api/perumahan/${id}`, { token_kelola: tokenKelola }, signal),
+    },
 };
+
+type TipePerumahanQs = PerumahanRequest['tipe'] | undefined;

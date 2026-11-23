@@ -28,9 +28,10 @@ class RuteTransit
      * @param  array<string, array{0: float, 1: float}>  $koordinat  id stasiun -> [lng, lat]
      * @param  array<string, string>  $namaLin  kunci lin "OPERATOR:KODE" -> nama lin
      * @param  callable(string, array, array): ?array  $jalurRel  (jenis, [lng,lat], [lng,lat]) -> koordinat sepanjang rel atau null
+     * @param  ?callable(string): ?string  $warnaTj  kode koridor TransJakarta -> warna heks sungguhan dari data, atau null bila tidak ada
      * @return array{garis: list<list<array{0: float, 1: float}>>, transfer: list<list<array{0: float, 1: float}>>, stasiun: list<array>, menit: int, meter: float, biaya: ?int, rincian: list<string>, langkah: list<array>}|null
      */
-    public function rakit(array $tarif, array $koordinat, array $namaLin, callable $jalurRel): ?array
+    public function rakit(array $tarif, array $koordinat, array $namaLin, callable $jalurRel, ?callable $warnaTj = null): ?array
     {
         $legs = $tarif['legs'] ?? [];
         if (! $legs) {
@@ -74,7 +75,11 @@ class RuteTransit
                 'tipe' => 'naik',
                 'moda' => trim($this->label($op, $leg['line'] ?? '', $namaLin)),
                 'jenis' => $jenis === null ? 'lain' : explode(':', $jenis)[0],
-                'lin' => $this->warnaLin($op, $leg['line'] ?? '', $namaLin),
+                // Koridor TransJakarta: warna sungguhan dari data bila tersedia (sama seperti layer Mobilitas),
+                // selain itu kunci generik "tj" (navy) seperti sebelumnya.
+                'lin' => $op === 'TJ' && $warnaTj && ($w = $warnaTj(explode(':', $leg['line'] ?? '')[1] ?? ''))
+                    ? $w
+                    : $this->warnaLin($op, $leg['line'] ?? '', $namaLin),
                 'dari' => $leg['from']['name'] ?? '',
                 'ke' => $leg['to']['name'] ?? '',
                 'henti' => max(1, count($leg['stops'] ?? []) - 1),
