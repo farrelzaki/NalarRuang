@@ -8,7 +8,7 @@
  * Berkas ini hanya mengimpor tipe, supaya bisa dites langsung oleh node.
  */
 import type { Polygon, Position } from 'geojson';
-import type { AksesLahanMasuk, ZonaLahan } from '@/types';
+import type { AksesLahanMasuk, IntiLahanMasuk, ZonaLahan } from '@/types';
 
 export type TitikLL = { lat: number; lng: number };
 
@@ -68,8 +68,15 @@ export function putarDesain(
     akses: AksesLahanMasuk[],
     pusat: TitikLL,
     derajat: number,
-): { zona: ZonaLahan[] | null; akses: AksesLahanMasuk[] } {
+    inti?: IntiLahanMasuk[] | null,
+): { zona: ZonaLahan[] | null; akses: AksesLahanMasuk[]; inti?: IntiLahanMasuk[] | null } {
+    const titikDiputar = (t: [number, number]): [number, number] => {
+        const r = putarTitik({ lat: t[1], lng: t[0] }, pusat, derajat);
+        return [Number(r.lng.toFixed(7)), Number(r.lat.toFixed(7))];
+    };
     return {
+        // Posisi lift/tangga yang digeser sendiri ikut diputar (null = otomatis, dibiarkan).
+        ...(inti !== undefined ? { inti: inti?.map((p) => ({ ...p, titik: titikDiputar(p.titik) })) ?? null } : {}),
         zona: zona?.map((z) => {
             const arah = (z as ZonaLahan & { arah?: number }).arah;
             return { ...z, geometri: putarPoligon(z.geometri, pusat, derajat), ...(typeof arah === 'number' ? { arah: putarArah(arah, derajat) } : {}) };

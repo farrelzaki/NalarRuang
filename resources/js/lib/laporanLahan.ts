@@ -126,6 +126,8 @@ export function bagianLaporan(b: BahanLaporan): { judul: string; baris: [string,
                           ...(k.inti.lift > 0 ? ([[t('Inti lift (lift + tangga)', 'Lift cores (lift + stairs)'), angka(k.inti.lift, locale, 0)]] as [string, string][]) : []),
                           [t('Tangga (semua inti)', 'Stairs (all cores)'), angka(k.inti.tangga, locale, 0)],
                           [t('Slot unit dipakai inti per lantai', 'Unit slots used by cores per floor'), angka(k.inti.slot, locale, 0)],
+                          [t('Posisi lift/tangga', 'Lift/stair positions'), k.inti.manual ? t('manual', 'manual') : t('otomatis', 'automatic')],
+                          ...((k.inti.jauh ?? 0) > 0 ? ([[t('Unit > 20 m dari tangga (per lantai)', 'Units > 20 m from stairs (per floor)'), angka(k.inti.jauh ?? 0, locale, 0)]] as [string, string][]) : []),
                       ] as [string, string][])
                     : []),
                 ...(k.pribadi

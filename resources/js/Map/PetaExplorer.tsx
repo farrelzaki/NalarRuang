@@ -90,6 +90,8 @@ export type PropsPeta = {
     /** Lebar gerbang baru sebelum ada jawaban server (m). */
     lebarGerbang?: number;
     onAksesBerubah?: (akses: AksesLahanMasuk[], tarik: boolean) => void;
+    /** Lift/tangga `id` (properti fitur inti) ditahan lalu digeser; `titik` = pusat baru [lng, lat]. */
+    onIntiDigeser?: (id: number, titik: [number, number]) => void;
     tambahAkses?: { jenis: JenisAkses; kunci: number } | null;
     className?: string;
 };
@@ -552,11 +554,12 @@ export default function PetaExplorer(props: Props) {
             );
             // Klik ruang tangga/lift di dalam lahan: keterangan singkat apa ruang itu.
             alat.current.setPeriksaIsi({
-                ada: (ll) => lapisan.current?.isiDi(ll) != null,
+                cari: (ll) => lapisan.current?.cariIsi(ll) ?? null,
                 buka: (ll) => {
-                    const p = lapisan.current?.isiDi(ll);
+                    const p = lapisan.current?.cariIsi(ll)?.prop;
                     if (p) L.popup({ className: 'nr-popup-leaflet', autoPan: false, minWidth: 220, maxWidth: 300 }).setLatLng(ll).setContent(popupInti(p, lapisan.current?.adaLift() ?? false)).openOn(m);
                 },
+                geser: (id, titik) => panggil.current.onIntiDigeser?.(id, titik),
             });
         }
         // Kotak yang berubah menjadi poligon dari peta: panel ikut berganti mode, alat tidak perlu dimulai ulang.
@@ -716,6 +719,13 @@ function popupInti(p: Record<string, unknown>, apartemen: boolean): HTMLElement 
     teks.style.cssText = 'line-height: 1.6; margin: 6px 0 0;';
     teks.textContent = isi;
     akar.append(atas, h, teks);
+    if (p.fungsi === 'lift' || p.fungsi === 'tangga') {
+        const petunjuk = document.createElement('p');
+        petunjuk.className = 'nr-popup__src';
+        petunjuk.style.cssText = 'margin: 6px 0 0;';
+        petunjuk.textContent = tr('Tahan lalu geser untuk memindahkan.', 'Press and drag to move it.');
+        akar.append(petunjuk);
+    }
     return akar;
 }
 

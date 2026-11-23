@@ -51,6 +51,8 @@ type Props = {
     /** Pola tata letak; null = bawaan tipe. */
     pola: PolaLahan | null;
     onPola: (p: PolaLahan) => void;
+    /** Kembali ke penempatan lift/tangga otomatis (posisi yang digeser sendiri dibuang). */
+    onIntiOtomatis?: () => void;
     /** Undo/redo desain lahan (Ctrl+Z / Ctrl+Y). */
     bisaUndo: boolean;
     bisaRedo: boolean;
@@ -445,7 +447,7 @@ export function PanelLahan(props: Props) {
     );
 }
 
-function IsiLahan({ data, memuat, tipe, asumsi, onAsumsi, sesi, targetJumlah, kunciUkuran, onTarget }: Props & { data: LahanResponse }) {
+function IsiLahan({ data, memuat, tipe, asumsi, onAsumsi, sesi, targetJumlah, kunciUkuran, onTarget, onIntiOtomatis }: Props & { data: LahanResponse }) {
     const { t, bahasa } = useBahasa();
     const k = data.kapasitas;
     const satuan: Record<string, [string, string]> = { rumah: ['rumah', 'houses'], kamar: ['kamar', 'rooms'], unit: ['unit', 'units'] };
@@ -487,7 +489,7 @@ function IsiLahan({ data, memuat, tipe, asumsi, onAsumsi, sesi, targetJumlah, ku
                         </>
                     )}
                     {data.tipe !== 'pribadi' && k.unit_per_lantai != null && k.unit_per_lantai > 0 && <li>{t(`${angka(k.unit_per_lantai, bahasa)} ${satId} per lantai`, `${angka(k.unit_per_lantai, bahasa)} ${satEn} per floor`)}</li>}
-                    {k.inti && k.inti.tangga > 0 && <RincianInti inti={k.inti} kos={data.tipe === 'kos'} />}
+                    {k.inti && k.inti.tangga > 0 && <RincianInti inti={k.inti} kos={data.tipe === 'kos'} onOtomatis={onIntiOtomatis} />}
                     {data.tipe !== 'pribadi' && k.kepadatan_per_ha != null && <li>{t(`Kepadatan ${angka(k.kepadatan_per_ha, bahasa, 1)} ${satId}/ha`, `Density ${angka(k.kepadatan_per_ha, bahasa, 1)} ${satEn}/ha`)}</li>}
                 </ul>
                 {sesuai && data.tipe === 'pribadi' && (
@@ -822,9 +824,40 @@ function BlokTarget({ data, tipe, asumsi, targetJumlah, kunciUkuran, onTarget }:
     );
 }
 
-/** Rincian kartu hasil rumah pribadi: luas bangunan, lantai, tapak, perkiraan kamar, carport, kolam. */
-/** Ruang lift/tangga gedung: jumlahnya dan slot unit per lantai yang dipakai (slot itu tidak dihitung sebagai unit). */
-function RincianInti({ inti, kos }: { inti: NonNullable<LahanResponse['kapasitas']['inti']>; kos: boolean }) {
+/**
+ * Ruang lift/tangga gedung: jumlahnya dan slot unit per lantai yang dipakai (slot itu tidak dihitung sebagai unit). Posisi yang
+ * digeser sendiri ditandai manual, dengan peringatan bila ada unit > 20 m dari tangga dan tombol kembali ke otomatis.
+ */
+function RincianInti({ inti, kos, onOtomatis }: { inti: NonNullable<LahanResponse['kapasitas']['inti']>; kos: boolean; onOtomatis?: () => void }) {
+    const { t, bahasa } = useBahasa();
+    const satuan = kos ? t('kamar', 'rooms') : t('unit', 'units');
+    const jauh = inti.jauh ?? 0;
+    const catatan = (
+        <>
+            {inti.manual ? (
+                <li>
+                    {t('Posisi lift/tangga diatur manual.', 'Lift/stair positions set manually.')}{' '}
+                    {onOtomatis && (
+                        <button type="button" className="nr-lahan__tautan" onClick={onOtomatis}>
+                            {t('Atur otomatis lagi', 'Place automatically again')}
+                        </button>
+                    )}
+                </li>
+            ) : (
+                <li>{t('Tahan lalu geser lift/tangga di peta untuk memindahkannya.', 'Press and drag a lift/stair on the map to move it.')}</li>
+            )}
+            {jauh > 0 && <li className="nr-lahan__kurang">{t(`${angka(jauh, bahasa)} ${satuan} per lantai lebih dari 20 m dari tangga.`, `${angka(jauh, bahasa)} ${satuan} per floor are more than 20 m from stairs.`)}</li>}
+        </>
+    );
+    return (
+        <>
+            <RincianJumlahInti inti={inti} kos={kos} />
+            {catatan}
+        </>
+    );
+}
+
+function RincianJumlahInti({ inti, kos }: { inti: NonNullable<LahanResponse['kapasitas']['inti']>; kos: boolean }) {
     const { t, bahasa } = useBahasa();
     const tangga = inti.tangga - inti.lift;
     const bagian = [
@@ -839,6 +872,7 @@ function RincianInti({ inti, kos }: { inti: NonNullable<LahanResponse['kapasitas
     );
 }
 
+/** Rincian kartu hasil rumah pribadi: luas bangunan, lantai, tapak, perkiraan kamar, carport, kolam. */
 function RincianPribadi({ k }: { k: LahanResponse['kapasitas'] }) {
     const { t, bahasa } = useBahasa();
     const p = k.pribadi!;

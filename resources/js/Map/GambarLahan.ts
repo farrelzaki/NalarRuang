@@ -61,8 +61,10 @@ export class AlatLahan {
     private titik: L.LatLng[] = [];
     private tertutup = false;
     private poligon: L.Polygon | null = null;
-    /** Pemeriksa isi di bawah kursor: lahan menutupi isi, jadi klik pada lahan diteruskan ke sini (mis. keterangan tangga/lift). */
-    private periksaIsi: { ada(ll: L.LatLng): boolean; buka(ll: L.LatLng): void } | null = null;
+    /** Pemeriksa isi di bawah kursor: lahan menutupi isi, jadi klik/tahan pada lahan diteruskan ke sini (keterangan dan geser tangga/lift). */
+    private periksaIsi: PeriksaIsi | null = null;
+    /** Klik yang menyusul akhir geseran inti diabaikan (bukan klik untuk popup). */
+    private abaikanKlik = false;
     private draf: L.Polyline | null = null;
     private pegangan: L.Marker[] = [];
     private zoomGandaAwal = true;
@@ -92,9 +94,71 @@ export class AlatLahan {
     }
 
     /** Pasang pemeriksa isi untuk klik di dalam lahan (keterangan tangga/lift). null = lepas. */
-    setPeriksaIsi(p: { ada(ll: L.LatLng): boolean; buka(ll: L.LatLng): void } | null): void {
+    setPeriksaIsi(p: PeriksaIsi | null): void {
         this.periksaIsi = p;
     }
+
+    /**
+     * Tahan lalu geser lift/tangga: bayangan kotak (bentuk sama) mengikuti kursor; saat dilepas `geser(id, pusat baru)` dipanggil
+     * dan server menaruh inti di slot unit terdekat. Geser peta dimatikan selama menahan. Gerak < 4 px dianggap klik (popup).
+     */
+    private tekanIsi = (ev: PointerEvent): void => {
+        if (ev.button !== 0 || ev.shiftKey || !this.periksaIsi) return;
+        const awal = this.peta.mouseEventToLatLng(ev);
+        const kena = this.periksaIsi.cari(awal);
+        const id = Number(kena?.prop.id);
+        if (!kena || (kena.prop.fungsi !== 'lift' && kena.prop.fungsi !== 'tangga') || !Number.isFinite(id)) return;
+        // Cegah seleksi teks halaman dan geser peta selama menahan inti (klik tetap dikirim browser).
+        ev.stopPropagation();
+        ev.preventDefault();
+        const petaBisaGeser = this.peta.dragging.enabled();
+        if (petaBisaGeser) this.peta.dragging.disable();
+        const titikAwal = this.peta.mouseEventToContainerPoint(ev);
+        const cincin = kena.latlngs;
+        let bayangan: L.Polygon | null = null;
+        let geser: [number, number] = [0, 0];
+        const wadah = this.peta.getContainer();
+
+        const gerak = (e: PointerEvent) => {
+            const ll = this.peta.mouseEventToLatLng(e);
+            geser = [ll.lat - awal.lat, ll.lng - awal.lng];
+            if (!bayangan) {
+                if (this.peta.mouseEventToContainerPoint(e).distanceTo(titikAwal) < 4) return;
+                this.peta.closePopup();
+                wadah.classList.add('nr-geser-inti');
+                bayangan = L.polygon(cincin, {
+                    pane: 'nrSeleksi',
+                    interactive: false,
+                    color: '#1d2433',
+                    weight: 1.5,
+                    dashArray: '4 3',
+                    fillColor: kena.prop.fungsi === 'lift' ? WARNA_INTI.lift : WARNA_INTI.tangga,
+                    fillOpacity: 0.75,
+                }).addTo(this.grup);
+            }
+            bayangan.setLatLngs(cincin.map((r) => r.map((p) => L.latLng(p.lat + geser[0], p.lng + geser[1]))));
+        };
+        const lepas = () => {
+            document.removeEventListener('pointermove', gerak);
+            document.removeEventListener('pointerup', lepas);
+            document.removeEventListener('pointercancel', lepas);
+            wadah.classList.remove('nr-geser-inti');
+            if (petaBisaGeser) this.peta.dragging.enable();
+            if (!bayangan) return;
+            bayangan.remove();
+            // Klik yang menyusul pointerup diabaikan, lalu bendera dilepas supaya klik berikutnya normal.
+            this.abaikanKlik = true;
+            setTimeout(() => (this.abaikanKlik = false), 60);
+            const luar = cincin[0] ?? [];
+            const n = Math.max(1, luar.length);
+            const lat = luar.reduce((s, p) => s + p.lat, 0) / n + geser[0];
+            const lng = luar.reduce((s, p) => s + p.lng, 0) / n + geser[1];
+            this.periksaIsi?.geser(id, [lng, lat]);
+        };
+        document.addEventListener('pointermove', gerak);
+        document.addEventListener('pointerup', lepas);
+        document.addEventListener('pointercancel', lepas);
+    };
 
     /**
      * Mulai mode baru dari awal. null = matikan alat dan hapus gambar.
@@ -260,15 +324,21 @@ export class AlatLahan {
             // Shift + klik di dekat sisi menyisipkan titik sudut baru di sisi itu (kotak ikut menjadi poligon).
             // Klik biasa di atas ruang tangga/lift membuka keterangannya; kursor jadi telunjuk di atasnya.
             this.poligon.on('click', (e) => {
+                if (this.abaikanKlik) return;
                 if ((e.originalEvent as MouseEvent).shiftKey) this.sisipTitik(e.latlng);
-                else if (this.periksaIsi?.ada(e.latlng)) this.periksaIsi.buka(e.latlng);
+                else if (this.periksaIsi?.cari(e.latlng)) this.periksaIsi.buka(e.latlng);
                 // Klik lahan tidak diteruskan ke peta, jadi popup yang terbuka ditutup di sini.
                 else this.peta.closePopup();
             });
+            // Tahan lalu geser lift/tangga (lihat tekanIsi); kursor tangan di atasnya.
+            (this.poligon.getElement() as HTMLElement | undefined)?.addEventListener('pointerdown', this.tekanIsi);
             this.poligon.on('mousemove', (e) => {
-                this.poligon?.getElement()?.classList.toggle('nr-lahan--tunjuk', !!this.periksaIsi?.ada(e.latlng));
+                const fungsi = this.periksaIsi?.cari(e.latlng)?.prop.fungsi;
+                const el = this.poligon?.getElement();
+                el?.classList.toggle('nr-lahan--tunjuk', fungsi === 'servis');
+                el?.classList.toggle('nr-lahan--pegang', fungsi === 'lift' || fungsi === 'tangga');
             });
-            this.poligon.on('mouseout', () => this.poligon?.getElement()?.classList.remove('nr-lahan--tunjuk'));
+            this.poligon.on('mouseout', () => this.poligon?.getElement()?.classList.remove('nr-lahan--tunjuk', 'nr-lahan--pegang'));
         } else if (this.titik.length >= 2) {
             this.draf = L.polyline(this.titik, { ...gayaDraf, pane: 'nrSeleksi' }).addTo(this.grup);
         }
@@ -559,6 +629,12 @@ const LAMA_HILANG = 280;
 
 type ItemIsi = { layer: L.Polygon; jenis: string; tipe: string; pusat: [number, number]; luas: number; zona: number | null; prop: Record<string, unknown> };
 
+/** Isi hasil yang kena kursor: properti dan bentuknya (untuk bayangan saat digeser). */
+export type IsiKena = { prop: Record<string, unknown>; latlngs: L.LatLng[][] };
+
+/** Penghubung alat lahan ke isi hasil: cari isi di titik, buka keterangannya, dan laporkan inti yang digeser. */
+export type PeriksaIsi = { cari(ll: L.LatLng): IsiKena | null; buka(ll: L.LatLng): void; geser(id: number, titik: [number, number]): void };
+
 /** Titik di dalam poligon (aturan genap-ganjil atas semua cincin: lubang dan bagian multipoligon ikut benar). */
 function titikDalam(ll: L.LatLng, latlngs: unknown): boolean {
     const cincin: L.LatLng[][] = [];
@@ -715,12 +791,16 @@ export class LapisanKapasitas {
         this.terapkanSembunyi();
     }
 
-    /** Properti isi `jenis` yang tampil di titik `ll` (mis. ruang tangga/lift yang diklik), atau null. */
-    isiDi(ll: L.LatLng, jenis = 'inti'): Record<string, unknown> | null {
+    /** Isi `jenis` yang tampil di titik `ll` (mis. ruang tangga/lift yang diklik): properti dan cincinnya, atau null. */
+    cariIsi(ll: L.LatLng, jenis = 'inti'): IsiKena | null {
         if (this.sembunyiJenis.has(jenis)) return null;
         for (const it of this.item) {
             if (it.jenis !== jenis || (it.zona !== null && this.sembunyiZona.has(it.zona))) continue;
-            if (titikDalam(ll, it.layer.getLatLngs())) return it.prop;
+            const latlngs = it.layer.getLatLngs();
+            if (!titikDalam(ll, latlngs)) continue;
+            // Polygon: LatLng[][]; MultiPolygon: LatLng[][][] (bagian pertama cukup untuk bayangan).
+            const cincin = (Array.isArray((latlngs as unknown[][])[0]?.[0]) ? (latlngs as unknown as L.LatLng[][][])[0] : latlngs) as L.LatLng[][];
+            return { prop: it.prop, latlngs: cincin };
         }
         return null;
     }

@@ -121,7 +121,9 @@ Ruang tangga dan lift (23 Nov 2026, permintaan PM lewat Galih):
   tambahan; kos: tangga. Tiap unit ≤ 20 m dari inti; kos 1 lantai tanpa tangga. Tampil di peta 2D, 3D (beton menyembul di atas
   dak), rincian panel, legenda, dan laporan.
 - [x] PHPUnit (termasuk `IntiGedungTest`), `npm run test:js`, typecheck dan build lulus.
-- [ ] Umumkan tambahan kontrak (aditif) ke Farrel, Adzkia, Nur'Afia: properti `fungsi`/`slot` pada fitur `inti`, `kapasitas.inti`.
+- [ ] Umumkan tambahan kontrak (aditif) ke Farrel, Adzkia, Nur'Afia: properti `fungsi`/`slot`/`id` pada fitur `inti`, `kapasitas.inti` (termasuk `manual`, `jauh`), masukan `inti[]`.
+- Lift/tangga bisa ditahan lalu digeser di peta 2D (posisi lain tetap; peringatan bila unit > 20 m dari tangga; tombol
+  "Atur otomatis lagi"); ikut undo/redo, simpanan tab, berkas proyek, skema, dan putar desain.
 
 **Diperbaiki 21 Nov 2026 atas persetujuan Galih** (`ST_Dump` dipindah ke `LATERAL`, kunci cache jadi `isochrone_boundary_v3` agar hasil cadangan lama tidak terpakai; poligon `/expansion` nyata kini terbentuk, `ApiTest` inspect lulus; tes `test_daftar_layer_dan_data_layer` disesuaikan dari 6 ke 8 layer sesuai `LayerController`; suite penuh 76 dari 77 tes lulus, 0 gagal). Catatan asli temuan: di `InspectController::bangunPoligonBatasJalan` query `ST_Union(ST_MakePolygon(ST_ExteriorRing((ST_Dump(geom)).geom)))` ditolak PostgreSQL ("aggregate function calls cannot contain set-returning function calls"; diuji pada PG 17 dengan respons Valhalla `/expansion` nyata). `hitungIsochrone` menelan galatnya dan jatuh ke `/isochrone`, jadi di produksi tampak normal, tetapi penghalusan "garis tepi mengikuti jalan terluar" tidak pernah berjalan. Di tes, galat itu membuat transaksi terhenti dan dua tes `ApiTest` di atas gagal; tes itu juga memanggil Valhalla publik tanpa `Http::fake`.
 

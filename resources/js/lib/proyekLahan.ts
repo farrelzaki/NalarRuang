@@ -10,7 +10,7 @@
  */
 import { useCallback, useRef, useState } from 'react';
 import type { Polygon } from 'geojson';
-import type { AksesLahanMasuk, AsumsiLahan, PolaLahan, TipeLahan, ZonaLahan } from '@/types';
+import type { AksesLahanMasuk, AsumsiLahan, IntiLahanMasuk, PolaLahan, TipeLahan, ZonaLahan } from '@/types';
 import { atur, bisaRedo, bisaUndo, buatRiwayat, catat, redo as ulangi, undo as urungkan, type Riwayat } from './riwayat';
 
 export type SnapLahan = {
@@ -30,9 +30,11 @@ export type SnapLahan = {
     kunciUkuran: boolean;
     /** Area banjir InaRISK bertingkat >= nilai ini (1–3) menjadi area larangan bangun otomatis; null = mati. */
     laranganBanjir: number | null;
+    /** Posisi lift/tangga yang digeser sendiri (kos/apartemen); null = otomatis dari server. */
+    inti: IntiLahanMasuk[] | null;
 };
 
-export const SNAP_AWAL: SnapLahan = { geom: null, tipe: 'rumah', asumsi: {}, pola: null, zona: null, akses: [], isiSisa: true, targetJumlah: null, kunciUkuran: false, laranganBanjir: null };
+export const SNAP_AWAL: SnapLahan = { geom: null, tipe: 'rumah', asumsi: {}, pola: null, zona: null, akses: [], isiSisa: true, targetJumlah: null, kunciUkuran: false, laranganBanjir: null, inti: null };
 
 type Bidang = keyof SnapLahan;
 type Pembaruan<T> = T | ((lama: T) => T);
@@ -82,6 +84,7 @@ export function useProyekLahan() {
         setZona: bidang('zona'),
         setAkses: bidang('akses'),
         setIsiSisa: bidang('isiSisa'),
+        setInti: bidang('inti'),
     }).current;
 
     /** Mulai proyek baru dari `awal` (riwayat dibuang). */
@@ -113,6 +116,7 @@ export function useProyekLahan() {
         targetJumlah: s.targetJumlah,
         kunciUkuran: s.kunciUkuran,
         laranganBanjir: s.laranganBanjir,
+        inti: s.inti,
         ...setters,
         ubah,
         mulaiBaru,

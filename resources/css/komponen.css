@@ -781,6 +781,10 @@ input { font: inherit; }
 .nr-lahan__warna--lift { background: #5b6474; }
 /* Kursor telunjuk saat berada di atas ruang tangga/lift (lahan menutupi isi; klik membuka keterangannya). */
 .leaflet-interactive.nr-lahan--tunjuk { cursor: pointer; }
+/* Lift/tangga bisa ditahan lalu digeser. */
+.leaflet-interactive.nr-lahan--pegang { cursor: grab; }
+.nr-geser-inti, .nr-geser-inti .leaflet-interactive { cursor: grabbing !important; }
+body:has(.nr-geser-inti) { user-select: none; -webkit-user-select: none; }
 .nr-lahan__warna--tangga { background: #a3a9b5; outline: 1px dashed #1d2433; outline-offset: -2px; }
 .nr-akses-ujung { width: 14px; height: 14px; border-radius: 2px; background: var(--white); border: 2px solid #b45309; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); cursor: ew-resize; }
 .nr-akses-dalam { width: 14px; height: 14px; border-radius: 50%; background: #b45309; border: 2px solid var(--white); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35); cursor: ns-resize; }

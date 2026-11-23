@@ -18,6 +18,7 @@ const snap = (tambahan = {}) => ({
     targetJumlah: 120,
     kunciUkuran: true,
     laranganBanjir: 2,
+    inti: null,
     ...tambahan,
 });
 const tulis = (o: unknown) => JSON.stringify(o);

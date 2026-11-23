@@ -134,6 +134,82 @@ class IntiGedung
         return $hasil;
     }
 
+    /** Paling banyak posisi inti manual dalam satu permintaan. */
+    public const PIN_MAKS = 100;
+
+    /** Pin manual yang lebih jauh dari ini (m) dari unit mana pun dilewati (bukan di gedung). */
+    public const JARAK_PIN_MAKS = 15.0;
+
+    /**
+     * Posisi inti yang ditentukan pengguna (digeser di peta). Tiap pin, berurutan, memakai unit terdekat yang belum dipakai
+     * sebagai benih lalu tetangga sederet sesuai ukuran fungsinya, jadi bentuk inti sama dengan penempatan otomatis. Tidak ada
+     * tangga yang ditambah otomatis; kos tanpa lift (`lift` diperlakukan `tangga`).
+     *
+     * @param  list<array{0: float, 1: float}>  $pusat  pusat tiap unit (meter)
+     * @param  list<array{fungsi: string, titik: array{0: float, 1: float}}>  $pin  titik pin (meter, proyeksi yang sama)
+     * @return list<array{fungsi: string, utama: bool, unit: list<int>, pin: int}>
+     */
+    public static function pasangManual(string $tipe, int $lantai, array $pusat, array $pin, float $lebarUnit, float $jarakSeberang): array
+    {
+        if (self::fungsiUtama($tipe) === null || $lantai < 2 || $pusat === []) {
+            return [];
+        }
+        $daftar = array_keys($pusat);
+        $terpakai = [];
+        $hasil = [];
+        foreach ($pin as $k => $p) {
+            $fungsi = $tipe === 'kos' || $p['fungsi'] !== 'lift' ? 'tangga' : 'lift';
+            $slot = self::slot($tipe, $fungsi, $lebarUnit);
+            $bebas = array_values(array_filter($daftar, fn ($i) => ! isset($terpakai[$i])));
+            if ($bebas === [] || count($bebas) <= $slot) {
+                break;
+            }
+            $benih = self::terdekat($bebas, $pusat, $p['titik']);
+            if (hypot($pusat[$benih][0] - $p['titik'][0], $pusat[$benih][1] - $p['titik'][1]) > self::JARAK_PIN_MAKS) {
+                continue;
+            }
+            $hasil[] = ['fungsi' => $fungsi, 'utama' => $hasil === [], 'unit' => self::kelompok($benih, $slot, $daftar, $pusat, $terpakai, $lebarUnit, $jarakSeberang), 'pin' => $k];
+        }
+
+        return $hasil;
+    }
+
+    /**
+     * Jumlah unit (bukan inti) yang berjarak lebih dari JARAK_MAKS dari inti terdekat: peringatan saat posisi inti diatur
+     * sendiri. Tanpa inti sama sekali = 0 (gedung satu lantai tidak butuh tangga).
+     *
+     * @param  list<array{0: float, 1: float}>  $pusat
+     * @param  list<array{unit: list<int>}>  $inti
+     */
+    public static function jauh(array $pusat, array $inti): int
+    {
+        $titikInti = [];
+        foreach ($inti as $g) {
+            foreach ($g['unit'] as $j) {
+                $titikInti[$j] = $pusat[$j];
+            }
+        }
+        if ($titikInti === []) {
+            return 0;
+        }
+        $n = 0;
+        foreach ($pusat as $i => $p) {
+            if (isset($titikInti[$i])) {
+                continue;
+            }
+            $dekat = false;
+            foreach ($titikInti as $q) {
+                if (hypot($p[0] - $q[0], $p[1] - $q[1]) <= self::JARAK_MAKS + 1e-9) {
+                    $dekat = true;
+                    break;
+                }
+            }
+            $n += $dekat ? 0 : 1;
+        }
+
+        return $n;
+    }
+
     /** Ringkasan untuk respons: jumlah inti lift, jumlah tangga (tiap inti punya tangga), dan slot unit per lantai yang dipakai. @param list<array{fungsi: string, unit: list<int>}> $inti */
     public static function ringkas(array $inti): array
     {

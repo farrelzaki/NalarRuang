@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { bandingkan, buatSkema, namaBerikut, SKEMA_MAKS } from '../../resources/js/lib/skemaLahan.ts';
 
 const poligon = { type: 'Polygon' as const, coordinates: [[[106.8, -6.2], [106.801, -6.2], [106.801, -6.199], [106.8, -6.2]]] };
-const snap = (tambahan = {}) => ({ geom: poligon, tipe: 'apartemen' as const, asumsi: {}, pola: null, zona: null, akses: [], isiSisa: false, targetJumlah: null, kunciUkuran: false, laranganBanjir: null, ...tambahan });
+const snap = (tambahan = {}) => ({ geom: poligon, tipe: 'apartemen' as const, asumsi: {}, pola: null, zona: null, akses: [], isiSisa: false, targetJumlah: null, kunciUkuran: false, laranganBanjir: null, inti: null, ...tambahan });
 const hasil = (o: { jumlah?: number; satuan?: string; lantai?: number; pelanggaran?: string[]; parkir?: { butuh: number; muat: number } | null; tipe?: string } = {}) =>
     ({
         tipe: o.tipe ?? 'apartemen',

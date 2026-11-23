@@ -26,6 +26,7 @@ const snapPribadi = () => ({
     targetJumlah: null,
     kunciUkuran: false,
     laranganBanjir: null,
+    inti: null,
 });
 
 test('3D: kolam dan halaman datar, pagar setinggi 1,6 m, rumah setinggi lantainya', () => {

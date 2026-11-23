@@ -49,6 +49,7 @@ export function bagianBawaan(tipe: TipeLahan, dari: BagianTipe): BagianTipe {
         targetJumlah: null,
         kunciUkuran: false,
         laranganBanjir: dari.laranganBanjir,
+        inti: null,
     };
 }
 

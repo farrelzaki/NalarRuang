@@ -648,6 +648,48 @@ class LahanTest extends TestCase
         $this->assertLessThan(25, hypot(($c[0] - $pintu[0]) * 110400, ($c[1] - $pintu[1]) * 110574), 'lift dekat lobi');
     }
 
+    public function test_lift_dan_tangga_bisa_dipindah_manual_tanpa_mengubah_yang_lain(): void
+    {
+        $dasar = $this->lahan(['tipe' => 'apartemen'])->assertOk()->json();
+        $this->assertFalse($dasar['kapasitas']['inti']['manual']);
+        $this->assertSame(0, $dasar['kapasitas']['inti']['jauh']);
+        $inti = array_values(array_filter($dasar['geometri_kapasitas']['features'], fn ($f) => in_array($f['properties']['fungsi'] ?? null, ['lift', 'tangga'], true)));
+        $this->assertSame(range(0, count($inti) - 1), array_map(fn ($f) => $f['properties']['id'], $inti));
+        $pusat = function (array $f): array {
+            $c = $f['geometry']['type'] === 'Polygon' ? $f['geometry']['coordinates'][0] : $f['geometry']['coordinates'][0][0];
+            $c = array_slice($c, 0, -1);
+
+            return [array_sum(array_column($c, 0)) / count($c), array_sum(array_column($c, 1)) / count($c)];
+        };
+        // Bekukan semua posisi, lalu pindah tangga terakhir ke dekat lift.
+        $pin = array_map(fn ($f) => ['fungsi' => $f['properties']['fungsi'], 'titik' => $pusat($f)], $inti);
+        $akhir = count($pin) - 1;
+        [$lx, $ly] = $pin[0]['titik'];
+        $pin[$akhir]['titik'] = [$lx + 0.00012, $ly];
+        $r = $this->lahan(['tipe' => 'apartemen', 'inti' => $pin])->assertOk()->json();
+        $this->assertTrue($r['kapasitas']['inti']['manual']);
+        $this->assertSame($dasar['kapasitas']['unit_per_lantai'], $r['kapasitas']['unit_per_lantai'], 'jumlah unit sama, inti hanya pindah');
+        $baru = array_values(array_filter($r['geometri_kapasitas']['features'], fn ($f) => in_array($f['properties']['fungsi'] ?? null, ['lift', 'tangga'], true)));
+        $this->assertCount(count($inti), $baru);
+        $perId = array_column(array_map(fn ($f) => ['id' => $f['properties']['id'], 'f' => $f], $baru), 'f', 'id');
+        foreach (range(0, $akhir - 1) as $i) {
+            $this->assertEqualsWithDelta($pusat($inti[$i]), $pusat($perId[$i]), 2e-5, "inti {$i} tetap di tempat");
+        }
+        [$bx, $by] = $pusat($perId[$akhir]);
+        $this->assertLessThan(15, hypot(($bx - $lx - 0.00012) * 110400, ($by - $ly) * 110574), 'tangga pindah ke dekat titik lepas');
+        // Tangga yang dipindah meninggalkan unit jauh dari tangga: diperingatkan.
+        $this->assertGreaterThan(0, $r['kapasitas']['inti']['jauh']);
+        $this->assertNotEmpty(preg_grep('/lebih dari 20 m dari tangga/', $r['catatan']));
+
+        // Pin di luar gedung dilewati; masukan rusak ditolak; rumah tapak mengabaikan inti.
+        $luar = $this->lahan(['tipe' => 'apartemen', 'inti' => [...$pin, ['fungsi' => 'tangga', 'titik' => [106.8100, -6.2000]]]])->assertOk()->json();
+        $this->assertNotEmpty(preg_grep('/di luar gedung dilewati/', $luar['catatan']));
+        $this->lahan(['tipe' => 'apartemen', 'inti' => [['fungsi' => 'eskalator', 'titik' => [106.8025, -6.2075]]]])->assertStatus(422);
+        $this->lahan(['tipe' => 'apartemen', 'inti' => [['fungsi' => 'tangga', 'titik' => [106.8025]]]])->assertStatus(422);
+        $this->lahan(['tipe' => 'apartemen', 'inti' => array_fill(0, 101, ['fungsi' => 'tangga', 'titik' => [106.8025, -6.2075]])])->assertStatus(422);
+        $this->lahan(['tipe' => 'rumah', 'inti' => $pin])->assertOk();
+    }
+
     public function test_target_unit_memangkas_gedung_tetapi_inti_utama_tetap_ada(): void
     {
         $dasar = $this->lahan(['tipe' => 'apartemen'])->assertOk()->json();

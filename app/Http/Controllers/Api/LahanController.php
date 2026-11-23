@@ -44,6 +44,12 @@ class LahanController extends Controller
     /** Isi lahan kosong di luar zona pengguna: 'rekomendasi' (parkir bila kurang, sisanya taman), 'taman', atau null. */
     private ?string $isiSisa = null;
 
+    /** Posisi lift/tangga yang digeser pengguna (`inti[]`, WGS84); null = penempatan otomatis. @var ?list<array{fungsi: string, lng: float, lat: float}> */
+    private ?array $intiManual = null;
+
+    /** Jumlah pin `inti[]` yang dilewati karena jauh dari gedung pada perhitungan terakhir. */
+    private int $intiLewat = 0;
+
     public function __construct(private PersonaScoring $skor, private KapasitasLahan $kapasitas)
     {
     }
@@ -83,6 +89,11 @@ class LahanController extends Controller
             'akses.*.titik.*' => 'required|numeric',
             'akses.*.lebar' => 'nullable|numeric',
             'akses.*.panjang' => 'nullable|numeric',
+            // Posisi lift/tangga yang digeser pengguna (kos/apartemen bertingkat). Tanpa ini inti ditempatkan otomatis.
+            'inti' => 'nullable|array|max:'.IntiGedung::PIN_MAKS,
+            'inti.*.fungsi' => 'required|in:lift,tangga',
+            'inti.*.titik' => 'required|array|size:2',
+            'inti.*.titik.*' => 'required|numeric',
             // Sisa lahan di luar semua zona (termasuk sempadan) menjadi taman; hanya berlaku untuk zona yang ditarik sendiri pada kos/apartemen.
             'isi_sisa_taman' => 'nullable|boolean',
             // Isi lahan kosong: 'rekomendasi' = bagian dekat gerbang/gedung jadi parkir seluas kekurangan slot, sisanya taman;
@@ -102,6 +113,10 @@ class LahanController extends Controller
         $isiSisa = $request->input('isi_sisa') ?? ($request->boolean('isi_sisa_taman') ? 'taman' : null);
         $this->isiSisa = $tipe !== 'rumah' && is_string($isiSisa) ? $isiSisa : null;
         $this->laranganOtomatis = null;
+        $this->intiLewat = 0;
+        $this->intiManual = is_array($request->input('inti')) && $tipe !== 'rumah' && $tipe !== 'pribadi'
+            ? array_map(fn ($p) => ['fungsi' => (string) $p['fungsi'], 'lng' => (float) $p['titik'][0], 'lat' => (float) $p['titik'][1]], array_values((array) $request->input('inti')))
+            : null;
         $pola = KapasitasLahan::polaSah($tipe, $request->input('pola'));
         $manual = null;
         if (is_array($request->input('zona')) && $request->input('zona') !== []) {
@@ -206,6 +221,12 @@ class LahanController extends Controller
         if (in_array('parkir', $ringkasan['pelanggaran'], true)) {
             $kurang = $kapasitas['parkir']['butuh'] - $kapasitas['parkir']['muat'];
             $catatan[] = "Parkir {$kapasitas['parkir']['jenis']} kurang {$kurang} slot; sisanya perlu basement atau zona parkir lebih luas.";
+        }
+        if (($kapasitas['inti']['jauh'] ?? 0) > 0) {
+            $catatan[] = "{$kapasitas['inti']['jauh']} {$kapasitas['satuan']} per lantai lebih dari 20 m dari tangga. Geser tangga atau atur otomatis lagi.";
+        }
+        if ($this->intiLewat > 0) {
+            $catatan[] = "{$this->intiLewat} posisi lift/tangga di luar gedung dilewati.";
         }
         if ($banjir['porsi_rawan'] >= 0.25) {
             $catatan[] = 'Sekitar '.(int) round($banjir['porsi_rawan'] * 100).'% lahan berada di area rawan tergenang (InaRISK).';
@@ -346,7 +367,7 @@ class LahanController extends Controller
                 $perLantai = (int) ceil($diminta / $lantai);
                 [$geometri, $berkurang] = $this->pangkasGedung($tipe, $geometri, $perLantai);
                 if (isset($kapasitas['inti'])) {
-                    $kapasitas['inti'] = self::hitungInti($geometri['features']);
+                    $kapasitas['inti'] = self::hitungInti($geometri['features']) + ['manual' => $kapasitas['inti']['manual'] ?? false, 'jauh' => $kapasitas['inti']['jauh'] ?? 0];
                 }
                 if ($berkurang > 0) {
                     $tapakGedung = max(0.0, (float) $kapasitas['luas_lantai_m2'] / $lantai - $berkurang);
@@ -1772,15 +1793,22 @@ class LahanController extends Controller
 
         // Pusat unit, unit lobi, dan gerbang pertama (meter UTM) dalam satu query.
         $lobiUnit = array_values(array_filter(array_keys($lobi), fn ($i) => isset($unit[$i]) && ! isset($buang[$i])));
-        $ewkt = [...array_column($sisa, 'ewkt'), ...array_map(fn ($i) => $unit[$i]['ewkt'], $lobiUnit)];
+        $pin = $this->intiManual ?? [];
+        $ewkt = [
+            ...array_column($sisa, 'ewkt'),
+            ...array_map(fn ($i) => $unit[$i]['ewkt'], $lobiUnit),
+            ...array_map(fn ($p) => sprintf('SRID=4326;POINT(%.8F %.8F)', $p['lng'], $p['lat']), $pin),
+        ];
         if ($gerbang !== []) {
             $ewkt[] = (string) reset($gerbang);
         }
+        $utm = self::UTM;
         $xy = array_map(
             fn ($t) => [(float) $t->x, (float) $t->y],
-            DB::select('SELECT ST_X(c) AS x, ST_Y(c) AS y FROM (SELECT i, ST_Centroid(ST_GeomFromEWKT(e)) AS c FROM unnest(?::text[]) WITH ORDINALITY AS x(e, i)) s ORDER BY i', [$larik($ewkt)]),
+            DB::select("SELECT ST_X(c) AS x, ST_Y(c) AS y FROM (SELECT i, ST_Centroid(ST_Transform(ST_GeomFromEWKT(e), {$utm})) AS c FROM unnest(?::text[]) WITH ORDINALITY AS x(e, i)) s ORDER BY i", [$larik($ewkt)]),
         );
         $n = count($sisa);
+        $titikPin = array_slice($xy, $n + count($lobiUnit), count($pin));
         $pusat = array_slice($xy, 0, $n);
         $zona = array_map(fn ($u) => $u['zona'], $sisa);
 
@@ -1795,7 +1823,14 @@ class LahanController extends Controller
             }
         }
 
-        $inti = IntiGedung::pilih($tipe, $lantai, $pusat, $zona, $acuan, $this->kapasitas->lebarUnit($tipe, $asumsi), KapasitasLahan::KEDALAMAN_UNIT[$tipe]);
+        $lebar = $this->kapasitas->lebarUnit($tipe, $asumsi);
+        $du = KapasitasLahan::KEDALAMAN_UNIT[$tipe];
+        if ($this->intiManual !== null) {
+            $inti = IntiGedung::pasangManual($tipe, $lantai, $pusat, array_map(fn ($p, $t) => ['fungsi' => $p['fungsi'], 'titik' => $t], $pin, $titikPin), $lebar, $du);
+            $this->intiLewat = count($pin) - count($inti);
+        } else {
+            $inti = IntiGedung::pilih($tipe, $lantai, $pusat, $zona, $acuan, $lebar, $du);
+        }
         if ($inti === []) {
             return [$sisa, [], null];
         }
@@ -1819,10 +1854,12 @@ class LahanController extends Controller
         $fitur = [];
         foreach ($geo as $r) {
             $g = $inti[(int) $r->k - 1];
-            $fitur[] = self::fitur((string) $r->geo, ['jenis' => 'inti', 'fungsi' => $g['fungsi'], 'slot' => count($g['unit']), 'zona' => $sisa[$g['unit'][0]]['zona']]);
+            // id = urutan pin `inti[]` (posisi manual) atau urutan inti (otomatis): klik-geser di peta memakai id ini.
+            $fitur[] = self::fitur((string) $r->geo, ['jenis' => 'inti', 'fungsi' => $g['fungsi'], 'slot' => count($g['unit']), 'id' => $g['pin'] ?? (int) $r->k - 1, 'zona' => $sisa[$g['unit'][0]]['zona']]);
         }
+        $ringkas = IntiGedung::ringkas($inti) + ['manual' => $this->intiManual !== null, 'jauh' => IntiGedung::jauh($pusat, $inti)];
 
-        return [array_values(array_filter($sisa, fn ($i) => ! isset($pakai[$i]), ARRAY_FILTER_USE_KEY)), $fitur, IntiGedung::ringkas($inti)];
+        return [array_values(array_filter($sisa, fn ($i) => ! isset($pakai[$i]), ARRAY_FILTER_USE_KEY)), $fitur, $ringkas];
     }
 
     /** Titik (EWKT) dari $titik-titik yang paling dekat ke $dari. @param list<string> $titik */

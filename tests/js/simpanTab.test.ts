@@ -18,6 +18,7 @@ const snapKos = () => ({
     targetJumlah: 40,
     kunciUkuran: false,
     laranganBanjir: 2,
+    inti: null,
 });
 
 test('ganti tab menyimpan tab lama dan tab baru mulai dari bawaan; kembali memulihkan persis', () => {

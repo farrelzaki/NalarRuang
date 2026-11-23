@@ -100,4 +100,43 @@ class IntiGedungTest extends TestCase
         $this->assertSame(1, $zona[$utama[0]['unit'][0]]);
         $this->assertSame(2, $zona[$utama[1]['unit'][0]]);
     }
+
+    public function test_posisi_manual_di_slot_terdekat_pin_dengan_ukuran_sama(): void
+    {
+        $pusat = $this->deret(60, 4.2, 10);
+        $inti = IntiGedung::pasangManual('apartemen', 5, $pusat, [
+            ['fungsi' => 'lift', 'titik' => [50.0, -2.0]],
+            ['fungsi' => 'tangga', 'titik' => [5.0, 12.0]],
+            ['fungsi' => 'tangga', 'titik' => [30.0, 80.0]], // jauh dari gedung: dilewati
+        ], 4.2, 8);
+
+        $this->assertCount(2, $inti);
+        $this->assertSame(['lift', 'tangga'], array_column($inti, 'fungsi'));
+        $this->assertSame([0, 1], array_column($inti, 'pin'));
+        $this->assertTrue($inti[0]['utama']);
+        $this->assertCount(2, $inti[0]['unit'], 'lift tetap dua slot');
+        $this->assertSame(0.0, $pusat[$inti[0]['unit'][0]][1], 'lift di deret dekat pin');
+        $this->assertLessThan(5, abs($pusat[$inti[0]['unit'][0]][0] - 50));
+        $this->assertSame(10.0, $pusat[$inti[1]['unit'][0]][1], 'tangga di deret seberang, dekat pin');
+        $this->assertLessThan(7, $pusat[$inti[1]['unit'][0]][0], 'unit terdekat ke pin (5, 12)');
+        $this->assertSame([], IntiGedung::pasangManual('apartemen', 1, $pusat, [['fungsi' => 'lift', 'titik' => [0.0, 0.0]]], 4.2, 8));
+        // Kos tanpa lift: pin lift jadi tangga satu kamar.
+        $kos = IntiGedung::pasangManual('kos', 3, $this->deret(30, 3.0, 5.5), [['fungsi' => 'lift', 'titik' => [10.0, 0.0]]], 3.0, 4);
+        $this->assertSame('tangga', $kos[0]['fungsi']);
+        $this->assertCount(1, $kos[0]['unit']);
+    }
+
+    public function test_jauh_menghitung_unit_lebih_dari_20_m_dari_inti(): void
+    {
+        $pusat = $this->deret(60, 4.2, 10);
+        $this->assertSame(0, IntiGedung::jauh($pusat, []));
+        $semua = IntiGedung::pilih('apartemen', 5, $pusat, array_fill(0, count($pusat), 0), [0 => [30.0, 0.0]], 4.2, 8);
+        $this->assertSame(0, IntiGedung::jauh($pusat, $semua));
+        // Satu tangga di ujung kiri saja: unit di sisi kanan (> 20 m) terhitung.
+        $kiri = IntiGedung::pasangManual('apartemen', 5, $pusat, [['fungsi' => 'tangga', 'titik' => [0.0, 0.0]]], 4.2, 8);
+        $jauh = IntiGedung::jauh($pusat, $kiri);
+        $harap = count(array_filter($pusat, fn ($p) => hypot($p[0] - $pusat[$kiri[0]['unit'][0]][0], $p[1]) > 20));
+        $this->assertSame($harap, $jauh);
+        $this->assertGreaterThan(10, $jauh);
+    }
 }

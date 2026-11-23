@@ -13,9 +13,10 @@
  * Berkas ini hanya mengimpor tipe, supaya bisa dites langsung oleh node.
  */
 import type { Feature, FeatureCollection, Geometry, Polygon } from 'geojson';
-import type { AksesLahanMasuk, AsumsiLahan, JenisAkses, JenisZona, LahanResponse, PolaLahan, TipeLahan, ZonaLahan } from '@/types';
+import type { AksesLahanMasuk, AsumsiLahan, IntiLahanMasuk, JenisAkses, JenisZona, LahanResponse, PolaLahan, TipeLahan, ZonaLahan } from '@/types';
 import type { SnapLahan } from './proyekLahan.ts';
 import { LUAS_MAKS_M2, luasM2 } from './batasLahan.ts';
+import { PIN_MAKS } from './intiLahan.ts';
 
 export const FORMAT = 'nalarruang-uji-lahan';
 export const VERSI = 1;
@@ -51,6 +52,8 @@ export type BerkasProyek = {
     targetJumlah: number | null;
     kunciUkuran: boolean;
     laranganBanjir: number | null;
+    /** Posisi lift/tangga yang digeser sendiri; null/tidak ada = otomatis. */
+    inti?: IntiLahanMasuk[] | null;
     ringkasan?: { luas_m2: number; wilayah: string; lantai: number; jumlah: number; satuan: string } | null;
 };
 
@@ -106,6 +109,7 @@ export function bungkusProyek(s: SnapLahan, hasil: LahanResponse | null, waktu: 
         targetJumlah: s.targetJumlah,
         kunciUkuran: s.kunciUkuran,
         laranganBanjir: s.laranganBanjir,
+        inti: s.inti ?? null,
         ringkasan: hasil ? { luas_m2: hasil.luas_m2, wilayah: hasil.wilayah, lantai: hasil.kapasitas.lantai, jumlah: hasil.kapasitas.jumlah, satuan: hasil.kapasitas.satuan } : null,
     };
 }
@@ -189,6 +193,25 @@ function bacaAkses(a: unknown, peringatan: string[]): AksesLahanMasuk[] {
     return hasil;
 }
 
+/** Posisi lift/tangga: null bila otomatis atau bukan larik; titik rusak atau di luar Jabodetabek dibuang. */
+function bacaInti(a: unknown, peringatan: string[]): IntiLahanMasuk[] | null {
+    if (!Array.isArray(a)) return null;
+    const hasil: IntiLahanMasuk[] = [];
+    for (const m of a) {
+        if (hasil.length >= PIN_MAKS) {
+            peringatan.push(`posisi lift/tangga di atas ${PIN_MAKS} dibuang`);
+            break;
+        }
+        const t = objek(m) ? m.titik : null;
+        if (!objek(m) || (m.fungsi !== 'lift' && m.fungsi !== 'tangga') || !Array.isArray(t) || !angka(t[0]) || !angka(t[1]) || !dalamBatas(t[0], t[1])) {
+            peringatan.push('satu posisi lift/tangga dibuang (data tidak valid)');
+            continue;
+        }
+        hasil.push({ fungsi: m.fungsi, titik: [t[0], t[1]] });
+    }
+    return hasil.length ? hasil : null;
+}
+
 /** Poligon pertama dari GeoJSON apa pun (Polygon, Feature, FeatureCollection; MultiPolygon diambil bagian terbesarnya). */
 function poligonPertama(j: unknown): unknown {
     if (!objek(j)) return null;
@@ -247,6 +270,7 @@ export function bacaBerkas(teks: string): HasilBaca {
                 targetJumlah: target,
                 kunciUkuran: target !== null && j.kunciUkuran === true,
                 laranganBanjir: j.laranganBanjir === 1 || j.laranganBanjir === 2 || j.laranganBanjir === 3 ? j.laranganBanjir : null,
+                inti: tipe === 'kos' || tipe === 'apartemen' ? bacaInti(j.inti, peringatan) : null,
             },
         };
     }
@@ -263,7 +287,7 @@ export function bacaBerkas(teks: string): HasilBaca {
             ok: true,
             sumber: 'geojson',
             peringatan,
-            desain: { geom: lahan.poligon, tipe: 'rumah', asumsi: {}, pola: null, zona: null, akses: [], isiSisa: false, targetJumlah: null, kunciUkuran: false, laranganBanjir: null },
+            desain: { geom: lahan.poligon, tipe: 'rumah', asumsi: {}, pola: null, zona: null, akses: [], isiSisa: false, targetJumlah: null, kunciUkuran: false, laranganBanjir: null, inti: null },
         };
     }
     return { ok: false, galat: 'Berkas ini bukan berkas Uji Lahan NalarRuang dan bukan GeoJSON.' };

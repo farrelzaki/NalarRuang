@@ -24,6 +24,7 @@ import { simpanBerkas } from '@/lib/simpanBerkas';
 import { buatSkema, namaBerikut, type SkemaLahan } from '@/lib/skemaLahan';
 import { bacaSesi, gantiTipe, KUNCI_SESI, tulisSesi, type SimpananTipe } from '@/lib/simpanTab';
 import { putarDesain } from '@/lib/putar';
+import { geserInti } from '@/lib/intiLahan';
 import { bangunCsv, bangunHtml, judul as judulLaporan } from '@/lib/laporanLahan';
 import { BilahAlat, type Alat } from '@/Components/BilahAlat';
 import { Toast, type NadaToast } from '@/Components/Dasar';
@@ -166,6 +167,7 @@ export default function Peta() {
         targetJumlah: targetLahan,
         kunciUkuran: kunciUkuranLahan,
         laranganBanjir: laranganBanjirLahan,
+        inti: intiLahan,
         setGeom: setGeomLahan,
         setAsumsi: setAsumsiLahan,
         setZona: setZonaLahan,
@@ -694,11 +696,12 @@ export default function Peta() {
             ...(targetLahan ? { target: { jumlah: targetLahan, kunci_ukuran: kunciUkuranLahan } } : {}),
             ...(laranganBanjirLahan ? { larangan_banjir: laranganBanjirLahan } : {}),
             ...(aksesLahan.length ? { akses: aksesLahan } : {}),
+            ...(intiLahan && (tipeLahan === 'kos' || tipeLahan === 'apartemen') ? { inti: intiLahan } : {}),
         };
         const jeda = setTimeout(() => kirimLahan.current(badan), lahanDariPeta.current ? 0 : 350);
         lahanDariPeta.current = false;
         return () => clearTimeout(jeda);
-    }, [panelKiri, geomLahan, tipeLahan, asumsiLahan, persona, polaLahan, zonaLahan, aksesLahan, isiSisaLahan, targetLahan, kunciUkuranLahan, laranganBanjirLahan]);
+    }, [panelKiri, geomLahan, tipeLahan, asumsiLahan, persona, polaLahan, zonaLahan, aksesLahan, isiSisaLahan, targetLahan, kunciUkuranLahan, laranganBanjirLahan, intiLahan]);
 
     useEffect(() => batalLahan, []);
 
@@ -745,7 +748,7 @@ export default function Peta() {
         }
         modeTerakhir.current = mode;
         // Gambar ulang: lahan, zona, dan akses dikosongkan; tipe, asumsi, dan pola dipertahankan.
-        proyekLahan.mulaiBaru({ ...proyekLahan.snap, geom: null, zona: null, akses: [] });
+        proyekLahan.mulaiBaru({ ...proyekLahan.snap, geom: null, zona: null, akses: [], inti: null });
         setPulihLahan(null);
         setZonaDipilih(null);
         setLahanTerkunci(false);
@@ -1161,7 +1164,7 @@ export default function Peta() {
                     onLahanPutar={(g, derajat, pusat) => {
                         // Satu langkah undo: lahan, zona yang ditarik sendiri (beserta arah parkirnya), dan gerbang/pintu berputar bersama.
                         lahanDariPeta.current = true;
-                        proyekLahan.ubah((lama) => ({ geom: g, ...putarDesain(lama.zona, lama.akses, pusat, derajat) }), 'putar');
+                        proyekLahan.ubah((lama) => ({ geom: g, ...putarDesain(lama.zona, lama.akses, pusat, derajat, lama.inti) }), 'putar');
                         kabar(t(`Lahan diputar ${Math.round(derajat)}°.`, `Site rotated ${Math.round(derajat)}°.`));
                     }}
                     onLahanMode={(mode) => {
@@ -1191,6 +1194,13 @@ export default function Peta() {
                         setAksesLahan(a);
                     }}
                     tambahAkses={tambahAkses}
+                    onIntiDigeser={(id, titik) => {
+                        // Geseran pertama membekukan posisi semua lift/tangga; yang lain tetap di tempat. Satu langkah undo.
+                        const baru = geserInti(intiLahan, hasilLahan?.geometri_kapasitas?.features ?? [], id, titik);
+                        if (!baru) return;
+                        lahanDariPeta.current = true;
+                        proyekLahan.ubah({ inti: baru }, 'inti');
+                    }}
                     lebarGerbang={tipeLahan === 'rumah' ? (asumsiLahan.lebar_jalan ?? 8) : tipeLahan === 'kos' || tipeLahan === 'pribadi' ? 3 : 6}
                 />
 
@@ -1280,7 +1290,8 @@ export default function Peta() {
                                 proyekLahan.ubah(() => r.snap, 'tipe');
                             }}
                             pola={polaLahan}
-                            onPola={(x) => proyekLahan.ubah({ pola: x, zona: null }, 'pola')}
+                            onPola={(x) => proyekLahan.ubah({ pola: x, zona: null, inti: null }, 'pola')}
+                            onIntiOtomatis={() => proyekLahan.ubah({ inti: null }, 'inti')}
                             bisaUndo={proyekLahan.bisaUndo}
                             bisaRedo={proyekLahan.bisaRedo}
                             onUndo={urungLahan}

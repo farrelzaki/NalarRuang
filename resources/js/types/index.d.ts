@@ -222,6 +222,9 @@ export type AksesLahanMasuk = {
     panjang?: number;
 };
 
+/** Posisi lift/tangga yang digeser sendiri [lng, lat]; urutan = `id` fitur inti di respons. Kos: `lift` dianggap tangga. */
+export type IntiLahanMasuk = { fungsi: 'lift' | 'tangga'; titik: [number, number] };
+
 /** Akses di respons: lebar dan panjang yang dipakai (gerbang: jalan masuk; pintu: lobi) dan apakah panjangnya otomatis. */
 export type AksesLahanProps = { id: number; jenis: JenisAkses; lebar: number; panjang?: number; otomatis?: boolean };
 
@@ -251,6 +254,8 @@ export type LahanRequest = {
     zona?: ZonaLahanMasuk[];
     /** Gerbang dan pintu (≤ 6). */
     akses?: AksesLahanMasuk[];
+    /** Posisi lift/tangga yang digeser sendiri (kos/apartemen, ≤ 100); tanpa ini inti ditempatkan otomatis. */
+    inti?: IntiLahanMasuk[];
     /** Sisa lahan di luar semua zona menjadi taman (hanya kos/apartemen dengan zona sendiri). */
     isi_sisa_taman?: boolean;
     /** Area rawan banjir InaRISK bertingkat >= nilai ini (1–3) menjadi area larangan bangun otomatis. */
@@ -287,7 +292,15 @@ export type KapasitasLahan = {
      * Kos/apartemen 2 lantai ke atas: ruang inti dari slot unit di tepi koridor. `lift` = inti lift (berisi lift + tangga),
      * `tangga` = semua inti (tiap inti punya tangga), `slot` = slot unit per lantai yang dipakai. Tidak ada = tanpa inti.
      */
-    inti?: { lift: number; tangga: number; slot: number };
+    inti?: {
+        lift: number;
+        tangga: number;
+        slot: number;
+        /** Posisi dari `inti[]` permintaan (digeser pengguna), bukan otomatis. */
+        manual?: boolean;
+        /** Unit/kamar per lantai yang lebih dari 20 m dari tangga terdekat (0 pada penempatan otomatis). */
+        jauh?: number;
+    };
     /** Rumah pribadi: luas bangunan yang dipakai/diminta/direkomendasikan, perkiraan kamar (indikatif), mobil carport, kolam. */
     pribadi?: {
         luas_bangunan_m2: number;
@@ -348,7 +361,7 @@ export type LahanResponse = {
     /**
      * Fitur `jenis`: rumah tapak 'kavling' (varian 0–2) + 'jalan' + 'taman'; kos/apartemen 'unit' (`tipe`), 'koridor',
      * 'inti' (`fungsi`: 'lift' = lift + tangga, 'tangga', 'servis' = sisa tengah gedung; lift/tangga membawa `slot` = slot unit
-     * yang dipakai), 'void', 'taman', 'parkir' (`lantai`), 'slot', 'lobi', 'jalur'; semua tipe 'akses' (jalan dari gerbang);
+     * yang dipakai; `id` = urutan inti, atau urutan pin `inti[]` bila posisinya manual), 'void', 'taman', 'parkir' (`lantai`), 'slot', 'lobi', 'jalur'; semua tipe 'akses' (jalan dari gerbang);
      * lahan sempit 'tapak'. Rumah pribadi: 'tapak' (rumah), 'parkir' + 'slot' (carport), 'kolam', 'taman', 'halaman', 'pagar'. Isi zona membawa `zona` (id zona); akses/lobi/jalur membawa `akses` (id akses).
      * 'taman'/'tapak' membawa `lantai`, `jumlah`, `satuan` untuk label.
      */
