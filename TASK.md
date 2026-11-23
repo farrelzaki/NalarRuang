@@ -96,6 +96,16 @@ Tahap 4 (22 Nov 2026, revisi "ala TestFit", permintaan Galih; dikerjakan langsun
 - [ ] Persetujuan PM atas SRS v1.6 (baris riwayat masih berstatus diajukan).
 - [ ] Uji manual: layar penuh, dialog cetak PDF, larangan banjir di lahan yang benar-benar rawan, impor lewat dialog berkas.
 
+Tahap 5 (23 Nov 2026, revisi TestFit tahap 2 atas permintaan Galih; rencana disetujui, satu fase satu commit):
+
+- Gedung parkir pola wrap tampil sebagai gedung di 3D; panjang gerbang/pintu bawaan 1 m; tiap tab Rumah/Kos/Apartemen mengingat
+  pengaturannya (sessionStorage, hilang saat tab browser ditutup; menutup panel tidak lagi menghapus desain); tambah/hapus titik
+  lahan dan zona; putar seluruh desain (Shift = 15°); kunci arah parkir per zona + samakan; rekomendasi isi lahan kosong.
+- [x] PHPUnit 109 tes, `npm run test:js` 84 tes, typecheck dan build lulus; tiap fase dicek di browser.
+- [x] Kontrak (opsional, terdokumentasi di `docs/SISTEM.md`): `zona[].arah`, `isi_sisa`, properti `gedung` dan `isi_otomatis`; perilaku bawaan panjang akses jadi 1 m.
+- [ ] Umumkan perubahan kontrak ke Farrel, Adzkia, Nur'Afia.
+- [ ] Uji manual oleh Galih: putar dengan Shift, klik ganda titik, refresh dan tutup tab browser.
+
 **Diperbaiki 21 Nov 2026 atas persetujuan Galih** (`ST_Dump` dipindah ke `LATERAL`, kunci cache jadi `isochrone_boundary_v3` agar hasil cadangan lama tidak terpakai; poligon `/expansion` nyata kini terbentuk, `ApiTest` inspect lulus; tes `test_daftar_layer_dan_data_layer` disesuaikan dari 6 ke 8 layer sesuai `LayerController`; suite penuh 76 dari 77 tes lulus, 0 gagal). Catatan asli temuan: di `InspectController::bangunPoligonBatasJalan` query `ST_Union(ST_MakePolygon(ST_ExteriorRing((ST_Dump(geom)).geom)))` ditolak PostgreSQL ("aggregate function calls cannot contain set-returning function calls"; diuji pada PG 17 dengan respons Valhalla `/expansion` nyata). `hitungIsochrone` menelan galatnya dan jatuh ke `/isochrone`, jadi di produksi tampak normal, tetapi penghalusan "garis tepi mengikuti jalan terluar" tidak pernah berjalan. Di tes, galat itu membuat transaksi terhenti dan dua tes `ApiTest` di atas gagal; tes itu juga memanggil Valhalla publik tanpa `Http::fake`.
 
 ### [~] Penyelarasan dokumen dan artifact ke desain final + masukan Izdihar (Tahap A–C)
