@@ -487,6 +487,7 @@ function IsiLahan({ data, memuat, tipe, asumsi, onAsumsi, sesi, targetJumlah, ku
                         </>
                     )}
                     {data.tipe !== 'pribadi' && k.unit_per_lantai != null && k.unit_per_lantai > 0 && <li>{t(`${angka(k.unit_per_lantai, bahasa)} ${satId} per lantai`, `${angka(k.unit_per_lantai, bahasa)} ${satEn} per floor`)}</li>}
+                    {k.inti && k.inti.tangga > 0 && <RincianInti inti={k.inti} kos={data.tipe === 'kos'} />}
                     {data.tipe !== 'pribadi' && k.kepadatan_per_ha != null && <li>{t(`Kepadatan ${angka(k.kepadatan_per_ha, bahasa, 1)} ${satId}/ha`, `Density ${angka(k.kepadatan_per_ha, bahasa, 1)} ${satEn}/ha`)}</li>}
                 </ul>
                 {sesuai && data.tipe === 'pribadi' && (
@@ -506,6 +507,18 @@ function IsiLahan({ data, memuat, tipe, asumsi, onAsumsi, sesi, targetJumlah, ku
                                 {t(u.label[0], u.label[1])} <b>{angka(k.komposisi?.[u.kunci] ?? 0, bahasa)}</b>
                             </li>
                         ))}
+                        {(k.inti?.lift ?? 0) > 0 && (
+                            <li>
+                                <i className="nr-lahan__warna nr-lahan__warna--lift" aria-hidden />
+                                {t('Lift + tangga', 'Lift + stairs')}
+                            </li>
+                        )}
+                        {(k.inti?.tangga ?? 0) > (k.inti?.lift ?? 0) && (
+                            <li>
+                                <i className="nr-lahan__warna nr-lahan__warna--tangga" aria-hidden />
+                                {data.tipe === 'apartemen' ? t('Tangga darurat', 'Emergency stairs') : t('Tangga', 'Stairs')}
+                            </li>
+                        )}
                         <li>
                             <i className="nr-lahan__warna nr-lahan__warna--taman" aria-hidden />
                             {t('Taman', 'Courtyard')}
@@ -810,6 +823,22 @@ function BlokTarget({ data, tipe, asumsi, targetJumlah, kunciUkuran, onTarget }:
 }
 
 /** Rincian kartu hasil rumah pribadi: luas bangunan, lantai, tapak, perkiraan kamar, carport, kolam. */
+/** Ruang lift/tangga gedung: jumlahnya dan slot unit per lantai yang dipakai (slot itu tidak dihitung sebagai unit). */
+function RincianInti({ inti, kos }: { inti: NonNullable<LahanResponse['kapasitas']['inti']>; kos: boolean }) {
+    const { t, bahasa } = useBahasa();
+    const tangga = inti.tangga - inti.lift;
+    const bagian = [
+        ...(inti.lift > 0 ? [t(`${angka(inti.lift, bahasa)} inti lift`, `${angka(inti.lift, bahasa)} lift core${inti.lift > 1 ? 's' : ''}`)] : []),
+        ...(tangga > 0 ? [kos ? t(`${angka(tangga, bahasa)} tangga`, `${angka(tangga, bahasa)} stair${tangga > 1 ? 's' : ''}`) : t(`${angka(tangga, bahasa)} tangga darurat`, `${angka(tangga, bahasa)} emergency stair${tangga > 1 ? 's' : ''}`)] : []),
+    ];
+    const slot = kos ? t(`${angka(inti.slot, bahasa)} kamar per lantai`, `${angka(inti.slot, bahasa)} rooms per floor`) : t(`${angka(inti.slot, bahasa)} unit per lantai`, `${angka(inti.slot, bahasa)} units per floor`);
+    return (
+        <li title={t('Slot di tepi koridor dipakai untuk lift dan tangga supaya lantai atas bisa dicapai; slot itu tidak dihitung.', 'Corridor slots used for lifts and stairs so upper floors are reachable; they are not counted.')}>
+            {bagian.join(' + ')} {t(`(memakai ${slot})`, `(uses ${slot})`)}
+        </li>
+    );
+}
+
 function RincianPribadi({ k }: { k: LahanResponse['kapasitas'] }) {
     const { t, bahasa } = useBahasa();
     const p = k.pribadi!;

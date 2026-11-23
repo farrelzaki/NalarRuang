@@ -2,7 +2,8 @@
  * Hasil Uji Lahan (FR-23) menjadi fitur ekstrusi 3D untuk lapisan `fill-extrusion` MapLibre: logika murni tanpa peta, dites dengan
  * `npm run test:js`. Aturan tinggi dan warna sama dengan kartu three.js (Map/Lahan3D.ts) supaya kedua tampilan 3D serupa:
  *
- * - Tinggi gedung = jumlah lantai x tinggi lantai. Unit dan koridor sedikit lebih rendah, inti (tangga/lift) lebih tinggi,
+ * - Tinggi gedung = jumlah lantai x tinggi lantai. Unit dan koridor sedikit lebih rendah, inti tangga/lift berupa beton yang
+ *   menyembul di atas atap (ruang mesin lift, rumah tangga), ruang servis setinggi gedung,
  *   lobi dua lantai berwarna kuning, parkir bertingkat berupa balok setinggi lantainya, sisanya (aspal, slot, jalan, taman) pelat tipis.
  * - Rumah tapak: kavling menjadi atap berukuran sqrt(KDB) dari petaknya, di atas pekarangan datar.
  * - Rumah pribadi dan rumah tapak: dinding krem setinggi lantainya dan atap limas genteng (bertingkat di MapLibre, karena
@@ -37,6 +38,10 @@ export type DataEkstrusi = {
 
 export const WARNA_UNIT: Record<string, string> = { studio: '#2fbf71', '1br': '#4a90e2', '2br': '#7b5cd6', kamar: '#4a90e2' };
 export const WARNA_ATAP = ['#f2994a', '#e8833a', '#f5b06b'];
+/** Warna ruang inti per fungsi (lift berisi tangga, tangga, ruang servis): peta 2D, legenda panel, dan gaya Warna unit 3D. */
+export const WARNA_INTI = { lift: '#5b6474', tangga: '#a3a9b5', servis: '#c9ced6' } as const;
+/** Tinggi bagian inti yang menyembul di atas dak (m): ruang mesin lift dan rumah tangga akses atap. */
+export const MENYEMBUL_INTI = { lift: 3.5, tangga: 3 } as const;
 
 /** Tinggi pelat tipis (m) per jenis datar. */
 const PELAT: Record<string, { tinggi: number; warna: string }> = {
@@ -200,6 +205,7 @@ const REALISTIS = {
     apartemen: { dinding: '#e6e9ec', kaca: '#6e93b1' },
     dak: '#d6d1c7',
     inti: '#cfcac1',
+    intiLift: '#b9b4ab',
     lobi: '#5f86a6',
     tandon: '#2f6fb3',
 };
@@ -270,9 +276,21 @@ export function bangunModelLahan(d: DataEkstrusi, lahan: Polygon | null, gaya: G
                         tambah(massa, c, 'koridor', tG - 0.6, '#59606e');
                     }
                     break;
-                case 'inti':
-                    tambah(massa, c, 'inti', tG + 3, realistis ? REALISTIS.inti : '#9aa3b2');
+                case 'inti': {
+                    // Lift dan tangga: balok beton tanpa jendela setinggi gedung, menyembul di atas dak (ruang mesin lift, rumah
+                    // tangga akses atap). Ruang servis di tengah gedung ikut bentuk gedung. Respons lama tanpa `fungsi`: seperti dulu.
+                    const fungsi = pr.fungsi;
+                    if (fungsi === 'lift' || fungsi === 'tangga') {
+                        const puncak = (realistis ? tG + DAK : tG) + MENYEMBUL_INTI[fungsi];
+                        tambah(massa, c, 'inti', puncak, realistis ? (fungsi === 'lift' ? REALISTIS.intiLift : REALISTIS.inti) : WARNA_INTI[fungsi]);
+                    } else if (fungsi === 'servis') {
+                        if (realistis) berlapis(c, 0, tG);
+                        else tambah(massa, c, 'inti', tG - 0.3, WARNA_INTI.servis);
+                    } else {
+                        tambah(massa, c, 'inti', tG + 3, realistis ? REALISTIS.inti : '#9aa3b2');
+                    }
                     break;
+                }
                 case 'tapak':
                     if (d.tipe === 'pribadi' || d.tipe === 'rumah') rumah(c, 0);
                     else if (realistis) berlapis(c, 0, tG);

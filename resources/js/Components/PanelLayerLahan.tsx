@@ -51,7 +51,7 @@ const LABEL_ISI: Record<string, [string, string]> = {
     slot: ['Slot parkir', 'Parking stalls'],
     lobi: ['Lobi', 'Lobbies'],
     jalur: ['Jalur pejalan', 'Walkways'],
-    inti: ['Inti', 'Cores'],
+    inti: ['Tangga & lift', 'Stairs & lifts'],
     void: ['Void', 'Voids'],
     tapak: ['Tapak', 'Footprint'],
     akses: ['Jalan masuk', 'Access roads'],

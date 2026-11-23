@@ -119,3 +119,17 @@ test('bangunModelLahan memisahkan atap limas (untuk three.js) dari balok; rumah 
     assert.equal(m.limas[0].dasar, 6.4);
     assert.ok(m.prisma.every((f) => f.properties.jenis !== 'atap'));
 });
+
+test('inti lift dan tangga: beton menyembul di atas dak (lift 3,5 m, tangga 3 m); ruang servis ikut bentuk gedung', () => {
+    const isi = [fitur('inti', kotak(106.8, -6.2), { fungsi: 'lift', slot: 2 }), fitur('inti', kotak(106.8003, -6.2), { fungsi: 'tangga', slot: 1 }), fitur('inti', kotak(106.8006, -6.2), { fungsi: 'servis' })];
+    const real = bangunEkstrusi({ ...data(isi, 4), tipe: 'apartemen' }, null);
+    const inti = cari(real, 'inti').map((f) => f.properties);
+    // 4 lantai x 3,2 m = 12,8; dak 0,6.
+    assert.deepEqual(inti.map((p) => p.tinggi), [16.9, 16.4]);
+    assert.ok(inti.every((p) => p.dasar === 0), 'beton dari tanah');
+    assert.notEqual(inti[0].warna, inti[1].warna, 'lift dan tangga dibedakan');
+    assert.ok(cari(real, 'kaca').length > 0, 'ruang servis berlapis seperti gedung');
+
+    const warna = cari(bangunEkstrusi({ ...data(isi, 4), tipe: 'apartemen' }, null, 'warna'), 'inti').map((f) => f.properties);
+    assert.deepEqual(warna.map((p) => [p.tinggi, p.warna]), [[16.3, '#5b6474'], [15.8, '#a3a9b5'], [12.5, '#c9ced6']]);
+});

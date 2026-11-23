@@ -12,6 +12,7 @@ import L from 'leaflet';
 import type { FeatureCollection, Geometry, Polygon, Position } from 'geojson';
 import { batasiKotak, batasiTitik, bolehTambahTitik, hapusTitik, skalaKotakAwal, titikTerdekatRuas } from '@/lib/batasLahan';
 import { arahKe, pusatTitik, putarTitik, sudutPutar, type TitikLL } from '@/lib/putar';
+import { WARNA_INTI } from '@/lib/ekstrusi3d';
 
 export type ModeLahan = 'kotak' | 'poligon';
 
@@ -516,7 +517,10 @@ function gayaIsi(p: Record<string, unknown>): L.PathOptions {
                 case 'jalur':
                     return { stroke: false, fillColor: '#e2cf9f', fillOpacity: 0.9 };
                 case 'inti':
-                    return { color: '#1d2433', weight: 0.6, fillColor: '#9aa3b2', fillOpacity: 0.9 };
+                    // Lift (berisi tangga) beton gelap, tangga abu bergaris putus, ruang servis abu pucat.
+                    if (p.fungsi === 'lift') return { color: '#1d2433', weight: 1, fillColor: WARNA_INTI.lift, fillOpacity: 0.95 };
+                    if (p.fungsi === 'tangga') return { color: '#1d2433', weight: 1, dashArray: '3 2', fillColor: WARNA_INTI.tangga, fillOpacity: 0.95 };
+                    return { color: '#1d2433', weight: 0.6, fillColor: WARNA_INTI.servis, fillOpacity: 0.9 };
                 case 'void':
                     return { color: '#e7a3a3', weight: 0.8, fillColor: '#f4b6b6', fillOpacity: 0.4 };
                 case 'tapak':

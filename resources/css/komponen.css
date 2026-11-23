@@ -777,6 +777,9 @@ input { font: inherit; }
 .nr-lahan__aksesbtn--pintu { border-color: #7c3aed; color: #6d28d9; }
 .nr-lahan__warna--akses { background: #5b6270; }
 .nr-lahan__warna--lobi { background: #f2b544; }
+/* Ruang inti (lib/ekstrusi3d WARNA_INTI): lift beton gelap, tangga abu bergaris putus seperti di peta. */
+.nr-lahan__warna--lift { background: #5b6474; }
+.nr-lahan__warna--tangga { background: #a3a9b5; outline: 1px dashed #1d2433; outline-offset: -2px; }
 .nr-akses-ujung { width: 14px; height: 14px; border-radius: 2px; background: var(--white); border: 2px solid #b45309; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); cursor: ew-resize; }
 .nr-akses-dalam { width: 14px; height: 14px; border-radius: 50%; background: #b45309; border: 2px solid var(--white); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35); cursor: ns-resize; }
 .nr-lahan__aksesdaftar { display: flex; flex-direction: column; gap: 8px; margin: 10px 0 0; padding: 0; list-style: none; }

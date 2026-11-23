@@ -121,6 +121,13 @@ export function bagianLaporan(b: BahanLaporan): { judul: string; baris: [string,
                 [t('Tapak bangunan', 'Building footprint'), `${angka(k.luas_tapak_m2, locale, 0)} m²`],
                 ...(k.kepadatan_per_ha !== null ? ([[t('Kepadatan per hektare', 'Density per hectare'), angka(k.kepadatan_per_ha, locale, 0)]] as [string, string][]) : []),
                 ...(k.parkir ? ([[t('Parkir (muat / butuh)', 'Parking (fit / need)'), parkir]] as [string, string][]) : []),
+                ...(k.inti && k.inti.tangga > 0
+                    ? ([
+                          ...(k.inti.lift > 0 ? ([[t('Inti lift (lift + tangga)', 'Lift cores (lift + stairs)'), angka(k.inti.lift, locale, 0)]] as [string, string][]) : []),
+                          [t('Tangga (semua inti)', 'Stairs (all cores)'), angka(k.inti.tangga, locale, 0)],
+                          [t('Slot unit dipakai inti per lantai', 'Unit slots used by cores per floor'), angka(k.inti.slot, locale, 0)],
+                      ] as [string, string][])
+                    : []),
                 ...(k.pribadi
                     ? ([
                           [t('Luas bangunan diminta', 'Requested floor area'), `${angka(k.pribadi.luas_bangunan_diminta, locale, 0)} m²${k.pribadi.tidak_muat ? ` (${t('tidak muat', 'does not fit')})` : ''}`],

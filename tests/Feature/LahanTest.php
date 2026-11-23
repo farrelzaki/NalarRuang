@@ -606,6 +606,59 @@ class LahanTest extends TestCase
         $this->lahan(['tipe' => 'apartemen', 'zona' => [$z(null), $z(0)]])->assertOk();           // sah
     }
 
+    /** @return list<array<string, mixed>> properti fitur inti tangga/lift */
+    private static function inti(array $r): array
+    {
+        return array_values(array_map(
+            fn ($f) => $f['properties'],
+            array_filter($r['geometri_kapasitas']['features'], fn ($f) => $f['properties']['jenis'] === 'inti' && in_array($f['properties']['fungsi'] ?? null, ['lift', 'tangga'], true)),
+        ));
+    }
+
+    public function test_gedung_bertingkat_punya_ruang_tangga_dan_lift_dari_slot_unit(): void
+    {
+        // Apartemen: inti utama lift + tangga, mengambil slot unit (tidak dihitung sebagai unit).
+        $apt = $this->lahan(['tipe' => 'apartemen'])->assertOk()->json();
+        $this->assertGreaterThan(1, $apt['kapasitas']['lantai']);
+        $inti = self::inti($apt);
+        $this->assertSame('lift', $inti[0]['fungsi']);
+        $this->assertSame($apt['kapasitas']['inti']['tangga'], count($inti));
+        $this->assertSame(1, $apt['kapasitas']['inti']['lift']);
+        $this->assertSame(array_sum(array_column($inti, 'slot')), $apt['kapasitas']['inti']['slot']);
+        $unit = array_filter($apt['geometri_kapasitas']['features'], fn ($f) => $f['properties']['jenis'] === 'unit');
+        $this->assertCount($apt['kapasitas']['unit_per_lantai'], $unit);
+
+        // Kos bertingkat: tangga saja; kos satu lantai tanpa tangga.
+        $kos = $this->lahan(['tipe' => 'kos'])->assertOk()->json();
+        $this->assertGreaterThan(1, $kos['kapasitas']['lantai']);
+        $tangga = self::inti($kos);
+        $this->assertNotEmpty($tangga);
+        $this->assertSame(['tangga'], array_values(array_unique(array_column($tangga, 'fungsi'))));
+        $this->assertSame(0, $kos['kapasitas']['inti']['lift']);
+        $satu = $this->lahan(['tipe' => 'kos', 'asumsi' => ['lantai' => 1]])->assertOk()->json();
+        $this->assertSame([], self::inti($satu));
+        $this->assertArrayNotHasKey('inti', $satu['kapasitas']);
+        $this->assertGreaterThan($kos['kapasitas']['unit_per_lantai'], $satu['kapasitas']['unit_per_lantai'], 'tanpa tangga, slotnya kembali jadi kamar');
+
+        // Inti utama di dekat lobi pintu.
+        $pintu = [106.8025, -6.20795];
+        $r = $this->lahan(['tipe' => 'apartemen', 'akses' => [['jenis' => 'pintu', 'titik' => $pintu]]])->assertOk()->json();
+        $lift = array_values(array_filter($r['geometri_kapasitas']['features'], fn ($f) => ($f['properties']['fungsi'] ?? null) === 'lift'))[0];
+        $c = $lift['geometry']['coordinates'][0][0];
+        $this->assertLessThan(25, hypot(($c[0] - $pintu[0]) * 110400, ($c[1] - $pintu[1]) * 110574), 'lift dekat lobi');
+    }
+
+    public function test_target_unit_memangkas_gedung_tetapi_inti_utama_tetap_ada(): void
+    {
+        $dasar = $this->lahan(['tipe' => 'apartemen'])->assertOk()->json();
+        $target = (int) floor($dasar['kapasitas']['unit_per_lantai'] * $dasar['kapasitas']['lantai'] * 0.3);
+        $r = $this->lahan(['tipe' => 'apartemen', 'target' => ['jumlah' => $target]])->assertOk()->json();
+        $this->assertSame($target, $r['kapasitas']['jumlah']);
+        $inti = self::inti($r);
+        $this->assertSame('lift', $inti[0]['fungsi'] ?? null, 'inti lift utama tidak ikut terpangkas');
+        $this->assertSame(count($inti), $r['kapasitas']['inti']['tangga']);
+    }
+
     public function test_gerbang_dan_pintu_mengubah_tata_letak(): void
     {
         $tanpa = $this->lahan(['tipe' => 'apartemen'])->assertOk()->json();

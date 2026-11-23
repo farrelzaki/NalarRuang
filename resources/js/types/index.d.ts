@@ -283,6 +283,11 @@ export type KapasitasLahan = {
     komposisi?: Partial<Record<TipeUnit, number>>;
     /** Slot parkir yang dibutuhkan (rasio x unit) dan yang muat; motor untuk kos, mobil untuk apartemen. */
     parkir?: { butuh: number; muat: number; jenis: 'motor' | 'mobil' | null; lantai: number };
+    /**
+     * Kos/apartemen 2 lantai ke atas: ruang inti dari slot unit di tepi koridor. `lift` = inti lift (berisi lift + tangga),
+     * `tangga` = semua inti (tiap inti punya tangga), `slot` = slot unit per lantai yang dipakai. Tidak ada = tanpa inti.
+     */
+    inti?: { lift: number; tangga: number; slot: number };
     /** Rumah pribadi: luas bangunan yang dipakai/diminta/direkomendasikan, perkiraan kamar (indikatif), mobil carport, kolam. */
     pribadi?: {
         luas_bangunan_m2: number;
@@ -342,7 +347,8 @@ export type LahanResponse = {
     akses: FeatureCollection<Point, AksesLahanProps>;
     /**
      * Fitur `jenis`: rumah tapak 'kavling' (varian 0–2) + 'jalan' + 'taman'; kos/apartemen 'unit' (`tipe`), 'koridor',
-     * 'inti', 'void', 'taman', 'parkir' (`lantai`), 'slot', 'lobi', 'jalur'; semua tipe 'akses' (jalan dari gerbang);
+     * 'inti' (`fungsi`: 'lift' = lift + tangga, 'tangga', 'servis' = sisa tengah gedung; lift/tangga membawa `slot` = slot unit
+     * yang dipakai), 'void', 'taman', 'parkir' (`lantai`), 'slot', 'lobi', 'jalur'; semua tipe 'akses' (jalan dari gerbang);
      * lahan sempit 'tapak'. Rumah pribadi: 'tapak' (rumah), 'parkir' + 'slot' (carport), 'kolam', 'taman', 'halaman', 'pagar'. Isi zona membawa `zona` (id zona); akses/lobi/jalur membawa `akses` (id akses).
      * 'taman'/'tapak' membawa `lantai`, `jumlah`, `satuan` untuk label.
      */

@@ -6,7 +6,7 @@ Perbarui saat memulai sesi, melewati checkpoint, membuat keputusan penting, mene
 
 ## Metadata
 
-- Terakhir diperbarui: 2026-11-23 (Uji Lahan: tipe Rumah pribadi selesai, commit lokal belum di-push; menunggu pengumuman kontrak dan persetujuan PM SRS v1.6)
+- Terakhir diperbarui: 2026-11-23 (Uji Lahan: ruang tangga/lift kos-apartemen dan tipe Rumah pribadi selesai, commit lokal belum di-push; menunggu pengumuman kontrak dan persetujuan PM SRS v1.6)
 - 2026-11-23 (rute alternatif `/api/commute`, `pribadi`/`publik` jadi array; lihat bagian di bawah)
 - 2026-11-22 (spesifikasi mode Newbie/Pro disepakati; lihat bagian di bawah)
 - 2026-11-21 (gabung `fitur/peta-mapbox` PR #3 dengan `main`: Uji Lahan, isochrone)

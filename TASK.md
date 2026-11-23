@@ -115,6 +115,14 @@ Tipe Rumah pribadi (23 Nov 2026, permintaan Galih; masuk SRS v1.6 yang masih dia
 - [ ] Umumkan tambahan kontrak (opsional/aditif) ke Farrel, Adzkia, Nur'Afia: `tipe: pribadi`, zona `kolam`, asumsi `luas_bangunan`/`mobil`/`kolam`, isi `kolam`/`halaman`/`pagar`, `kapasitas.pribadi`.
 - [ ] Persetujuan PM untuk SRS v1.6 (termasuk tambahan rumah pribadi).
 
+Ruang tangga dan lift (23 Nov 2026, permintaan PM lewat Galih):
+
+- Kos/apartemen 2 lantai ke atas: slot unit di tepi koridor jadi inti. Apartemen: inti lift + tangga dekat lobi, tangga darurat
+  tambahan; kos: tangga. Tiap unit ≤ 20 m dari inti; kos 1 lantai tanpa tangga. Tampil di peta 2D, 3D (beton menyembul di atas
+  dak), rincian panel, legenda, dan laporan.
+- [x] PHPUnit (termasuk `IntiGedungTest`), `npm run test:js`, typecheck dan build lulus.
+- [ ] Umumkan tambahan kontrak (aditif) ke Farrel, Adzkia, Nur'Afia: properti `fungsi`/`slot` pada fitur `inti`, `kapasitas.inti`.
+
 **Diperbaiki 21 Nov 2026 atas persetujuan Galih** (`ST_Dump` dipindah ke `LATERAL`, kunci cache jadi `isochrone_boundary_v3` agar hasil cadangan lama tidak terpakai; poligon `/expansion` nyata kini terbentuk, `ApiTest` inspect lulus; tes `test_daftar_layer_dan_data_layer` disesuaikan dari 6 ke 8 layer sesuai `LayerController`; suite penuh 76 dari 77 tes lulus, 0 gagal). Catatan asli temuan: di `InspectController::bangunPoligonBatasJalan` query `ST_Union(ST_MakePolygon(ST_ExteriorRing((ST_Dump(geom)).geom)))` ditolak PostgreSQL ("aggregate function calls cannot contain set-returning function calls"; diuji pada PG 17 dengan respons Valhalla `/expansion` nyata). `hitungIsochrone` menelan galatnya dan jatuh ke `/isochrone`, jadi di produksi tampak normal, tetapi penghalusan "garis tepi mengikuti jalan terluar" tidak pernah berjalan. Di tes, galat itu membuat transaksi terhenti dan dua tes `ApiTest` di atas gagal; tes itu juga memanggil Valhalla publik tanpa `Http::fake`.
 
 ### [~] Penyelarasan dokumen dan artifact ke desain final + masukan Izdihar (Tahap A–C)
