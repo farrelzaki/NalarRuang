@@ -167,7 +167,8 @@ class LahanController extends Controller
                     // Pintu: lebar bukaan + kedalaman lobi ke dalam gedung (null = otomatis sedalam satu unit).
                     'lebar' => $a['jenis'] === 'gerbang' ? KapasitasLahan::lebarGerbang($tipe, $asumsi, $a['lebar'] ?? null) : KapasitasLahan::lebarPintu($a['lebar'] ?? null),
                     'panjang' => $a['jenis'] === 'gerbang' ? KapasitasLahan::panjangGerbang($a['panjang'] ?? null) : KapasitasLahan::panjangPintu($a['panjang'] ?? null),
-                    'otomatis' => ! isset($a['panjang']) || ! is_numeric($a['panjang']),
+                    // Panjang tidak lagi otomatis: kosong = bawaan 1 m. Kunci `otomatis` tetap dikirim (selalu false) demi kontrak lama.
+                    'otomatis' => false,
                 ];
             }
         }

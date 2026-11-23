@@ -574,10 +574,13 @@ class KapasitasLahan
         return is_numeric($lebar) ? round(max(2.5, min(30.0, (float) $lebar)), 2) : self::lebarAkses($tipe, $asumsi);
     }
 
-    /** Panjang jalan masuk dari gerbang yang diatur pengguna, dijepit ke 2–300 m; null = otomatis sampai jalan/parkir. */
-    public static function panjangGerbang(mixed $panjang): ?float
+    /** Panjang bawaan jalan masuk gerbang dan kedalaman lobi pintu (m), dan batas bawahnya. */
+    public const PANJANG_AKSES_BAWAAN = 1.0;
+
+    /** Panjang jalan masuk dari gerbang, dijepit ke 1–300 m; kosong = bawaan 1 m (bisa diperpanjang pengguna). */
+    public static function panjangGerbang(mixed $panjang): float
     {
-        return is_numeric($panjang) ? round(max(2.0, min(300.0, (float) $panjang)), 1) : null;
+        return is_numeric($panjang) ? round(max(self::PANJANG_AKSES_BAWAAN, min(300.0, (float) $panjang)), 1) : self::PANJANG_AKSES_BAWAAN;
     }
 
     /** Lebar pintu gedung (bukaan lobi di tepi gedung) dijepit ke 1,5–20 m; bawaan 3 m. */
@@ -586,10 +589,10 @@ class KapasitasLahan
         return is_numeric($lebar) ? round(max(1.5, min(20.0, (float) $lebar)), 2) : 3.0;
     }
 
-    /** Kedalaman lobi dari pintu ke dalam gedung, dijepit ke 2–40 m; null = otomatis sedalam satu unit. */
-    public static function panjangPintu(mixed $panjang): ?float
+    /** Kedalaman lobi dari pintu ke dalam gedung, dijepit ke 1–40 m; kosong = bawaan 1 m. */
+    public static function panjangPintu(mixed $panjang): float
     {
-        return is_numeric($panjang) ? round(max(2.0, min(40.0, (float) $panjang)), 1) : null;
+        return is_numeric($panjang) ? round(max(self::PANJANG_AKSES_BAWAAN, min(40.0, (float) $panjang)), 1) : self::PANJANG_AKSES_BAWAAN;
     }
 
     /**

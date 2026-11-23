@@ -286,12 +286,12 @@ class KapasitasLahanTest extends TestCase
         $this->assertSame(30.0, KapasitasLahan::lebarGerbang('rumah', [], 99));
     }
 
-    public function test_panjang_gerbang_dijepit_atau_otomatis(): void
+    public function test_panjang_gerbang_dijepit_dengan_bawaan_1_m(): void
     {
-        $this->assertNull(KapasitasLahan::panjangGerbang(null));
-        $this->assertNull(KapasitasLahan::panjangGerbang(''));
+        $this->assertSame(1.0, KapasitasLahan::panjangGerbang(null));
+        $this->assertSame(1.0, KapasitasLahan::panjangGerbang(''));
         $this->assertSame(15.0, KapasitasLahan::panjangGerbang('15'));
-        $this->assertSame(2.0, KapasitasLahan::panjangGerbang(0));
+        $this->assertSame(1.0, KapasitasLahan::panjangGerbang(0));
         $this->assertSame(300.0, KapasitasLahan::panjangGerbang(900));
     }
 
@@ -300,7 +300,8 @@ class KapasitasLahanTest extends TestCase
         $this->assertSame(3.0, KapasitasLahan::lebarPintu(null));
         $this->assertSame(1.5, KapasitasLahan::lebarPintu(0.5));
         $this->assertSame(20.0, KapasitasLahan::lebarPintu(50));
-        $this->assertNull(KapasitasLahan::panjangPintu(''));
+        $this->assertSame(1.0, KapasitasLahan::panjangPintu(''));
+        $this->assertSame(1.0, KapasitasLahan::panjangPintu(0.2));
         $this->assertSame(40.0, KapasitasLahan::panjangPintu(99));
         $this->assertSame(12.0, KapasitasLahan::panjangPintu('12'));
     }

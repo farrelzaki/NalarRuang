@@ -596,7 +596,7 @@ function Ringkasan({ r, parkir }: { r: RingkasanLahan; parkir?: { butuh: number;
 /**
  * Daftar gerbang dan pintu dengan lebar dan panjang yang bisa diketik sendiri.
  * Gerbang: lebar gerbang + panjang jalan masuk. Pintu: lebar bukaan + kedalaman lobi ke dalam gedung.
- * Panjang kosong = otomatis (angka otomatis dari server tampil sebagai petunjuk).
+ * Panjang kosong = bawaan 1 m (bisa diperpanjang sendiri).
  */
 function DaftarAkses({ akses, server, onAkses }: { akses: AksesLahanMasuk[]; server: { id: number; jenis: string; lebar: number; panjang?: number; otomatis?: boolean }[]; onAkses: (a: AksesLahanMasuk[]) => void }) {
     const { t, bahasa } = useBahasa();
@@ -621,7 +621,7 @@ function DaftarAkses({ akses, server, onAkses }: { akses: AksesLahanMasuk[]; ser
                 const s = server.find((x) => x.id === i && x.jenis === a.jenis);
                 const gerbang = a.jenis === 'gerbang';
                 const nomor = gerbang ? ++nGerbang : ++nPintu;
-                const otomatis = a.panjang === undefined;
+                const bawaan = a.panjang === undefined;
                 return (
                     <li key={i} className={`nr-lahan__aksesbaris nr-lahan__aksesbaris--${a.jenis}`}>
                         <div className="nr-lahan__akseskepala">
@@ -653,19 +653,19 @@ function DaftarAkses({ akses, server, onAkses }: { akses: AksesLahanMasuk[]; ser
                             <label>
                                 <span>
                                     {gerbang ? t('Panjang', 'Length') : t('Kedalaman', 'Depth')}
-                                    {otomatis && <small>{t('otomatis', 'auto')}</small>}
+                                    {bawaan && <small>{t('bawaan 1 m', 'default 1 m')}</small>}
                                 </span>
                                 <span className="nr-lahan__aksesangka">
                                     <input
                                         type="number"
-                                        min={2}
+                                        min={1}
                                         max={gerbang ? 300 : 40}
                                         step={1}
                                         inputMode="decimal"
                                         value={a.panjang ?? ''}
                                         placeholder={s?.panjang != null ? angka(s.panjang, bahasa, 0) : ''}
                                         onChange={(e) => ubah(i, 'panjang', e.target.value)}
-                                        aria-label={gerbang ? t('Panjang jalan masuk (m), kosong = otomatis', 'Access road length (m), empty = automatic') : t('Kedalaman lobi (m), kosong = otomatis', 'Lobby depth (m), empty = automatic')}
+                                        aria-label={gerbang ? t('Panjang jalan masuk (m), kosong = 1 m', 'Access road length (m), empty = 1 m') : t('Kedalaman lobi (m), kosong = 1 m', 'Lobby depth (m), empty = 1 m')}
                                     />
                                     <em>m</em>
                                 </span>

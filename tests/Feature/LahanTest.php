@@ -555,8 +555,8 @@ class LahanTest extends TestCase
     {
         $tanpa = $this->lahan(['tipe' => 'apartemen'])->assertOk()->json();
         $r = $this->lahan(['tipe' => 'apartemen', 'akses' => [
-            // Sedikit di luar tepi barat: harus ditempelkan ke tepi lahan.
-            ['jenis' => 'gerbang', 'titik' => [106.80195, -6.2075]],
+            // Sedikit di luar tepi barat: harus ditempelkan ke tepi lahan. Jalan masuk diperpanjang sampai menembus gedung.
+            ['jenis' => 'gerbang', 'titik' => [106.80195, -6.2075], 'panjang' => 60],
             ['jenis' => 'pintu', 'titik' => [106.8025, -6.20795]],
         ]])->assertOk()->json();
 
@@ -577,17 +577,20 @@ class LahanTest extends TestCase
         $this->assertLessThanOrEqual($cluster['kapasitas']['jumlah'], $rumah['kapasitas']['jumlah']);
 
         // Gerbang yang dilebarkan memakan lebih banyak unit dan lebarnya dikembalikan.
-        $lebar = $this->lahan(['tipe' => 'apartemen', 'akses' => [['jenis' => 'gerbang', 'titik' => [106.80195, -6.2075], 'lebar' => 20]]])->assertOk()->json();
+        $lebar = $this->lahan(['tipe' => 'apartemen', 'akses' => [['jenis' => 'gerbang', 'titik' => [106.80195, -6.2075], 'lebar' => 20, 'panjang' => 60]]])->assertOk()->json();
         $this->assertSame(20.0, (float) $lebar['akses']['features'][0]['properties']['lebar']);
         $this->assertLessThanOrEqual($r['kapasitas']['unit_per_lantai'], $lebar['kapasitas']['unit_per_lantai']);
 
         // Pintu: lebar bukaan dan kedalaman lobi bisa diatur; lobi yang lebih lebar memakan lebih banyak unit.
         $pintu = $r['akses']['features'][1]['properties'];
         $this->assertSame(3.0, (float) $pintu['lebar']);
-        $this->assertSame(8.0, (float) $pintu['panjang']); // otomatis: kedalaman unit apartemen
-        $this->assertTrue($pintu['otomatis']);
+        $this->assertSame(1.0, (float) $pintu['panjang']); // bawaan 1 m
+        $this->assertFalse($pintu['otomatis']);
+        // Gerbang tanpa panjang: jalan masuk bawaan 1 m.
+        $pendekBawaan = $this->lahan(['tipe' => 'apartemen', 'akses' => [['jenis' => 'gerbang', 'titik' => [106.80195, -6.2075]]]])->assertOk()->json();
+        $this->assertSame(1.0, (float) $pendekBawaan['akses']['features'][0]['properties']['panjang']);
         $lebarPintu = $this->lahan(['tipe' => 'apartemen', 'akses' => [
-            ['jenis' => 'gerbang', 'titik' => [106.80195, -6.2075]],
+            ['jenis' => 'gerbang', 'titik' => [106.80195, -6.2075], 'panjang' => 60],
             ['jenis' => 'pintu', 'titik' => [106.8025, -6.20795], 'lebar' => 15, 'panjang' => 18],
         ]])->assertOk()->json();
         $this->assertSame(15.0, (float) $lebarPintu['akses']['features'][1]['properties']['lebar']);
@@ -598,7 +601,8 @@ class LahanTest extends TestCase
         $p = $pendek['akses']['features'][0]['properties'];
         $this->assertSame(5.0, (float) $p['panjang']);
         $this->assertFalse($p['otomatis']);
-        $this->assertTrue($r['akses']['features'][0]['properties']['otomatis']);
+        // Panjang tidak lagi otomatis: kunci tetap dikirim demi kontrak lama, selalu false.
+        $this->assertFalse($r['akses']['features'][0]['properties']['otomatis']);
 
         $this->lahan(['tipe' => 'kos', 'akses' => [['jenis' => 'jendela', 'titik' => [106.8025, -6.208]]]])->assertStatus(422);
     }
