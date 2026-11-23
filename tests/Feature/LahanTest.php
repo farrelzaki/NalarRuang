@@ -141,13 +141,8 @@ class LahanTest extends TestCase
         $this->assertGreaterThan($keliling['kapasitas']['lantai'], $tower['kapasitas']['lantai']);
         $this->assertSame(round($tower['kapasitas']['lantai'] * 3.2, 1), (float) $tower['ringkasan']['tinggi_m']);
         $this->assertGreaterThan(0, $koridor['kapasitas']['jumlah']);
-        // Wrap: zona parkir ditandai sebagai gedung parkir (untuk 3D), pola lain parkir permukaan.
         $parkir = fn (array $r) => array_values(array_filter($r['geometri_kapasitas']['features'], fn ($f) => $f['properties']['jenis'] === 'parkir'));
         $this->assertNotEmpty($parkir($wrap));
-        $this->assertTrue($parkir($wrap)[0]['properties']['gedung']);
-        foreach ($parkir($keliling) as $f) {
-            $this->assertArrayNotHasKey('gedung', $f['properties']);
-        }
 
         // Pola yang tidak dikenal jatuh ke bawaan.
         $this->assertSame('keliling', $this->lahan(['tipe' => 'apartemen', 'pola' => 'grid'])->assertOk()->json('pola'));

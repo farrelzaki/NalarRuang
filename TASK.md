@@ -98,7 +98,7 @@ Tahap 4 (22 Nov 2026, revisi "ala TestFit", permintaan Galih; dikerjakan langsun
 
 Tahap 5 (23 Nov 2026, revisi TestFit tahap 2 atas permintaan Galih; rencana disetujui, satu fase satu commit):
 
-- Gedung parkir pola wrap tampil sebagai gedung di 3D; panjang gerbang/pintu bawaan 1 m; tiap tab Rumah/Kos/Apartemen mengingat
+- Parkir pola wrap (dan semua parkir) datar di 3D seperti taman; panjang gerbang/pintu bawaan 1 m; tiap tab Rumah/Kos/Apartemen mengingat
   pengaturannya (sessionStorage, hilang saat tab browser ditutup; menutup panel tidak lagi menghapus desain); tambah/hapus titik
   lahan dan zona; putar seluruh desain (Shift = 15°); kunci arah parkir per zona + samakan; rekomendasi isi lahan kosong.
 - [x] PHPUnit 109 tes, `npm run test:js` 84 tes, typecheck dan build lulus; tiap fase dicek di browser.

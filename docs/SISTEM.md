@@ -188,7 +188,8 @@ Waktu, Legalitas Lahan.
   unit per lantai = ceil(target / lantai), unit sisanya, koridor yang tak lagi melayani unit, dan halaman dalam dihapus dari
   `geometri_kapasitas`; `unit_per_lantai`, `luas_tapak_m2`, `luas_lantai_m2`, dan label `jumlah` di peta mengikuti target. Bila tak muat, `target.tercapai` = false dan `target.maks` memberi batas.
 - Panjang jalan masuk gerbang dan kedalaman lobi pintu bawaan 1 m (batas 1–300 m / 1–40 m) sejak 23 Nov 2026; `otomatis` di respons akses
-  selalu false (dipertahankan demi kontrak lama). Fitur `parkir` pola wrap membawa `gedung: true` (gedung parkir di 3D).
+  selalu false (dipertahankan demi kontrak lama). Di 3D semua parkir (termasuk pola wrap) digambar datar; `lantai` parkir tetap
+  dipakai untuk menghitung slot yang muat.
 - Gerbang membuka jalan akses (rumah: lebar jalan lingkungan, kos 3 m, apartemen 6 m) ke jalan lingkungan (rumah) atau
   ke zona parkir terdekat (kos/apartemen); kavling, unit, dan slot yang dilewati dibuang. Zona parkir bawaan diletakkan
   di sisi gerbang pertama. Pintu membuka lobi selebar dan sedalam yang diatur (unit yang terkena menjadi lobi) dan menarik jalur pejalan 1,5 m ke gerbang terdekat.

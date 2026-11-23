@@ -35,20 +35,14 @@ test('jenis datar menjadi pelat tipis di bawah massa gedung, alas lahan paling b
     for (const j of ['taman', 'slot', 'jalan', 'lahan']) assert.ok(cari(fc, j)[0].properties.tinggi < 1, `${j} tipis`);
 });
 
-test('parkir bertingkat menjadi balok, parkir permukaan menjadi aspal', () => {
-    const fc = bangunEkstrusi(data([fitur('parkir', kotak(106.8, -6.2), { lantai: 4 }), fitur('parkir', kotak(106.8005, -6.2), { lantai: 1 })]), null);
-    assert.equal(cari(fc, 'gedung-parkir')[0].properties.tinggi, 12);
-    assert.equal(cari(fc, 'aspal').length, 1);
-});
-
-test('gedung parkir pola wrap satu lantai tetap berupa balok, slotnya di atap', () => {
-    const fc = bangunEkstrusi(data([fitur('parkir', kotak(106.8, -6.2), { lantai: 1, gedung: true, zona: 2 }), fitur('slot', kotak(106.8, -6.2, 0.00002), { zona: 2 }), fitur('slot', kotak(106.801, -6.2, 0.00002), { zona: 5 })]), null);
-    const gedung = cari(fc, 'gedung-parkir');
-    assert.equal(gedung.length, 1);
-    assert.equal(gedung[0].properties.tinggi, 3);
-    assert.equal(cari(fc, 'aspal').length, 0);
-    // Urutan gambar: pelat (slot permukaan) dulu, lalu massa (slot di atap gedung parkir).
-    assert.deepEqual(cari(fc, 'slot').map((f) => f.properties.dasar).sort(), [0, 3], 'satu slot di tanah, satu di atap');
+test('semua parkir datar seperti taman, termasuk pola wrap dan parkir bertingkat; slot di tanah', () => {
+    const fc = bangunEkstrusi(data([fitur('parkir', kotak(106.8, -6.2), { lantai: 4, zona: 1 }), fitur('parkir', kotak(106.8005, -6.2), { lantai: 1, gedung: true, zona: 2 }), fitur('slot', kotak(106.8, -6.2, 0.00002), { zona: 1 })]), null);
+    assert.equal(cari(fc, 'gedung-parkir').length, 0, 'tidak ada balok parkir');
+    assert.equal(cari(fc, 'aspal').length, 2);
+    for (const f of [...cari(fc, 'aspal'), ...cari(fc, 'slot')]) {
+        assert.equal(f.properties.dasar, 0);
+        assert.ok(f.properties.tinggi < 1, 'pelat tipis');
+    }
 });
 
 test('lobi dua lantai kuning dan massa di atasnya berlanjut sebagai koridor dengan dasar 2 lantai', () => {
