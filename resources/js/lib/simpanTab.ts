@@ -45,7 +45,7 @@ export function bagianBawaan(tipe: TipeLahan, dari: BagianTipe): BagianTipe {
         pola: null,
         zona: null,
         akses: dari.akses.filter((a) => a.jenis === 'gerbang' || tipe !== 'rumah'),
-        isiSisa: false,
+        isiSisa: true,
         targetJumlah: null,
         kunciUkuran: false,
         laranganBanjir: dari.laranganBanjir,

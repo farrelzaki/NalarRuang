@@ -22,7 +22,7 @@ export type SnapLahan = {
     /** Zona yang ditarik pengguna; null = zona bawaan pola dari server. */
     zona: ZonaLahan[] | null;
     akses: AksesLahanMasuk[];
-    /** Isi sisa lahan di luar zona dengan taman (kos/apartemen). */
+    /** Isi lahan kosong di luar zona sendiri secara otomatis (kos/apartemen): parkir bila kurang, sisanya taman. Bawaan aktif. */
     isiSisa: boolean;
     /** Target jumlah (kamar/unit/rumah) yang dikunci; null = jumlah dihitung biasa dari ukuran. */
     targetJumlah: number | null;
@@ -32,7 +32,7 @@ export type SnapLahan = {
     laranganBanjir: number | null;
 };
 
-export const SNAP_AWAL: SnapLahan = { geom: null, tipe: 'rumah', asumsi: {}, pola: null, zona: null, akses: [], isiSisa: false, targetJumlah: null, kunciUkuran: false, laranganBanjir: null };
+export const SNAP_AWAL: SnapLahan = { geom: null, tipe: 'rumah', asumsi: {}, pola: null, zona: null, akses: [], isiSisa: true, targetJumlah: null, kunciUkuran: false, laranganBanjir: null };
 
 type Bidang = keyof SnapLahan;
 type Pembaruan<T> = T | ((lama: T) => T);

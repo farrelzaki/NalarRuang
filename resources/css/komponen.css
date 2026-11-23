@@ -829,6 +829,7 @@ input { font: inherit; }
 /* Uji Lahan: opsi isi sisa lahan dengan taman di panel layer. */
 .nr-layer__sisa { display: flex; align-items: flex-start; gap: 8px; font: 500 12px/16px var(--font-sans); color: var(--navy-900); cursor: pointer; }
 .nr-layer__sisa small { font-weight: 600; color: #17803f; }
+.nr-layer__sisaket { display: block; margin-top: 2px; font: 500 11px/15px var(--font-sans); font-style: normal; color: var(--ink-60); }
 
 /* Uji Lahan: target jumlah (ketik jumlah, ukuran menyesuaikan). */
 .nr-lahan__target { display: flex; flex-direction: column; gap: 6px; margin: 0 0 12px; padding: 10px; border: 1px solid var(--line); border-radius: var(--radius-md, 10px); background: var(--white); }

@@ -656,7 +656,7 @@ export default function Peta() {
             persona,
             ...(polaLahan ? { pola: polaLahan } : {}),
             ...(zonaLahan ? { zona: keZonaApi(zonaLahan) } : {}),
-            ...(zonaLahan && isiSisaLahan && tipeLahan !== 'rumah' ? { isi_sisa_taman: true } : {}),
+            ...(zonaLahan && isiSisaLahan && tipeLahan !== 'rumah' ? { isi_sisa: 'rekomendasi' as const } : {}),
             ...(targetLahan ? { target: { jumlah: targetLahan, kunci_ukuran: kunciUkuranLahan } } : {}),
             ...(laranganBanjirLahan ? { larangan_banjir: laranganBanjirLahan } : {}),
             ...(aksesLahan.length ? { akses: aksesLahan } : {}),

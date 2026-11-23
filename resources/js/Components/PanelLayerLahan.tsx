@@ -27,7 +27,7 @@ export type PropsLayerLahan = {
     onUbah: (zona: ZonaLahan[]) => void;
     lahanTerkunci: boolean;
     onKunciLahan: (kunci: boolean) => void;
-    /** Isi sisa lahan di luar semua zona dengan taman (hanya kos/apartemen). */
+    /** Isi lahan kosong di luar semua zona otomatis: parkir bila kurang, sisanya taman (hanya kos/apartemen). */
     isiSisa: boolean;
     bolehIsiSisa: boolean;
     onIsiSisa: (v: boolean) => void;
@@ -191,8 +191,9 @@ export function PanelLayerLahan(props: PropsLayerLahan) {
                 <label className="nr-layer__sisa">
                     <input type="checkbox" checked={props.isiSisa} onChange={(e) => props.onIsiSisa(e.target.checked)} />
                     <span>
-                        {t('Isi sisa lahan dengan taman', 'Fill leftover land with greenery')}
-                        {props.isiSisa && props.luasSisaTaman !== undefined && <small> · {angka(props.luasSisaTaman, bahasa)} m²</small>}
+                        {t('Isi lahan kosong otomatis', 'Fill empty land automatically')}
+                        {props.isiSisa && props.luasSisaTaman !== undefined && <small> · {t('taman', 'park')} {angka(props.luasSisaTaman, bahasa)} m²</small>}
+                        <em className="nr-layer__sisaket">{t('Rekomendasi: bila parkir masih kurang, lahan kosong terdekat ke gerbang jadi parkir; sisanya taman.', 'Recommended: if parking is short, the empty land nearest the gate becomes parking; the rest becomes a park.')}</em>
                     </span>
                 </label>
             )}

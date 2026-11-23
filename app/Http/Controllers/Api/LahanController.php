@@ -40,7 +40,8 @@ class LahanController extends Controller
     private ?string $laranganOtomatis = null;
 
     /** Isi sisa lahan yang tidak tertutup zona mana pun dengan taman (hanya kos dan apartemen; rumah tapak memakai sisa sebagai jalan). */
-    private bool $isiSisaTaman = false;
+    /** Isi lahan kosong di luar zona pengguna: 'rekomendasi' (parkir bila kurang, sisanya taman), 'taman', atau null. */
+    private ?string $isiSisa = null;
 
     public function __construct(private PersonaScoring $skor, private KapasitasLahan $kapasitas)
     {
@@ -83,6 +84,9 @@ class LahanController extends Controller
             'akses.*.panjang' => 'nullable|numeric',
             // Sisa lahan di luar semua zona (termasuk sempadan) menjadi taman; hanya berlaku untuk zona yang ditarik sendiri pada kos/apartemen.
             'isi_sisa_taman' => 'nullable|boolean',
+            // Isi lahan kosong: 'rekomendasi' = bagian dekat gerbang/gedung jadi parkir seluas kekurangan slot, sisanya taman;
+            // 'taman' = semua jadi taman (sama dengan isi_sisa_taman). Hanya kos/apartemen dengan zona sendiri.
+            'isi_sisa' => 'nullable|in:rekomendasi,taman',
             // Area rawan banjir InaRISK dengan tingkat sekurang-kurangnya ini (1 rendah … 3 tinggi) menjadi area larangan bangun otomatis.
             'larangan_banjir' => 'nullable|integer|min:1|max:3',
             // Target jumlah (kamar/unit/rumah): lantai dan ukuran menyesuaikan. kunci_ukuran = ukuran tidak boleh berubah (hanya lantai).
@@ -94,7 +98,8 @@ class LahanController extends Controller
         ]);
 
         $tipe = (string) $request->input('tipe');
-        $this->isiSisaTaman = $tipe !== 'rumah' && $request->boolean('isi_sisa_taman');
+        $isiSisa = $request->input('isi_sisa') ?? ($request->boolean('isi_sisa_taman') ? 'taman' : null);
+        $this->isiSisa = $tipe !== 'rumah' && is_string($isiSisa) ? $isiSisa : null;
         $this->laranganOtomatis = null;
         $pola = KapasitasLahan::polaSah($tipe, $request->input('pola'));
         $manual = null;
@@ -810,7 +815,7 @@ class LahanController extends Controller
         }
 
         // Isi sisa dengan taman: zona tambahan bernomor setelah zona pengguna (tidak ada di daftar klien).
-        if ($this->isiSisaTaman) {
+        if ($this->isiSisa !== null) {
             $sisa = $this->op('ST_Difference', $lahan, $terisi);
             if ($this->luasUtm($sisa) >= 1) {
                 $hasil[count($masuk)] = ['jenis' => 'taman', 'ewkt' => $sisa];
@@ -822,6 +827,64 @@ class LahanController extends Controller
         }
 
         return $hasil;
+    }
+
+    /**
+     * Rekomendasi isi lahan kosong: bila zona parkir pengguna belum cukup untuk kebutuhan slot, bagian sisa lahan (zona taman sisa
+     * bernomor $idSisa) yang paling dekat ke $jangkar (gerbang pertama, atau gedung bila tanpa gerbang) dijadikan zona parkir seluas
+     * kekurangannya; sisanya tetap taman. Perkiraan slot dari luas (KapasitasLahan::LUAS_PER_SLOT, sudah termasuk lorong).
+     *
+     * @param  array<int, array{jenis: string, ewkt: string}>  $zona
+     * @return array<int, array{jenis: string, ewkt: string, isi_otomatis?: bool}>
+     */
+    private function rekomendasiParkir(array $zona, int $idSisa, int $butuh, string $jenisParkir, string $jangkar): array
+    {
+        if (($zona[$idSisa]['jenis'] ?? null) !== 'taman' || $butuh <= 0) {
+            return $zona;
+        }
+        $perSlot = KapasitasLahan::LUAS_PER_SLOT[$jenisParkir] ?? KapasitasLahan::LUAS_PER_SLOT['mobil'];
+        $ada = 0.0;
+        foreach (self::saring($zona, 'parkir') as $z) {
+            $ada += $this->luasUtm($z['ewkt']);
+        }
+        $kurang = $butuh - (int) floor($ada / $perSlot);
+        $sisa = $zona[$idSisa]['ewkt'];
+        $luasSisa = $this->luasUtm($sisa);
+        if ($kurang <= 0 || $luasSisa < 30) {
+            return $zona;
+        }
+        // Sedikit dilebihkan karena bentuk sisa jarang persegi panjang penuh; paling banyak seluruh sisa.
+        $target = min($luasSisa, $kurang * $perSlot * 1.15);
+
+        // Jarak dari jangkar dicari dengan bagi dua sampai luas potongannya kira-kira sama dengan target.
+        $bawah = 0.0;
+        $atas = 400.0;
+        for ($i = 0; $i < 14; $i++) {
+            $tengah = ($bawah + $atas) / 2;
+            $luas = $this->luasUtm($this->op('ST_Intersection', $sisa, $this->bufPersegi($jangkar, $tengah)));
+            if ($luas < $target) {
+                $bawah = $tengah;
+            } else {
+                $atas = $tengah;
+            }
+        }
+        $parkir = $this->op('ST_Intersection', $sisa, $this->bufPersegi($jangkar, $atas));
+        if ($this->luasUtm($parkir) < 30) {
+            return $zona;
+        }
+        $zona[$idSisa]['ewkt'] = $this->op('ST_Difference', $sisa, $parkir);
+        $zona[max(array_keys($zona)) + 1] = ['jenis' => 'parkir', 'ewkt' => $parkir, 'isi_otomatis' => true];
+
+        return $zona;
+    }
+
+    /** Penyangga bersudut tegas (titik jadi persegi, garis/poligon bersudut siku), supaya slot parkir muat utuh. */
+    private function bufPersegi(string $g, float $d): string
+    {
+        return (string) DB::selectOne(
+            "SELECT ST_AsEWKT(ST_Buffer(ST_GeomFromEWKT(?), ".self::n($d).", 'endcap=square join=mitre')) AS g",
+            [$g],
+        )->g;
     }
 
     /**
@@ -920,6 +983,7 @@ class LahanController extends Controller
                 'luas_m2' => round($luas, 1),
                 'lantai' => $z['lantai'] ?? null,
                 'otomatis' => ($z['otomatis'] ?? false) ? true : null,
+                'isi_otomatis' => ($z['isi_otomatis'] ?? false) ? true : null,
             ], fn ($v) => $v !== null));
         }
 
@@ -1324,6 +1388,9 @@ class LahanController extends Controller
         }
         $kapasitas = $this->kapasitas->gedung($tipe, $luas, $tapak, $urutan, $asumsi, $kdb, $intensitas['klb']);
         $butuh = $kapasitas['parkir']['butuh'];
+        if ($this->isiSisa === 'rekomendasi' && $manual !== null) {
+            $zona = $this->rekomendasiParkir($zona, count($manual), $butuh, $jenisParkir, $gerbang === [] ? $gedung : (string) reset($gerbang));
+        }
 
         // 6. Parkir: slot di tiap zona parkir (yang dilewati jalan akses dibuang); pola wrap menumpuk lantai.
         $slot = KapasitasLahan::ukuranSlot($jenisParkir);

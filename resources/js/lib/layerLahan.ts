@@ -25,7 +25,7 @@ export function buatUid(): string {
 export function dariServer(fc: FeatureCollection<Polygon | MultiPolygon, ZonaLahanProps> | null | undefined): ZonaLahan[] {
     return (fc?.features ?? []).flatMap((f) => {
         // Larangan otomatis (banjir) dihitung server dari pengaturan, bukan zona yang bisa disunting.
-        if (f.properties.otomatis) return [];
+        if (f.properties.otomatis || f.properties.isi_otomatis) return [];
         const g = f.geometry;
         // Zona bawaan selalu Polygon; MultiPolygon (jarang) diambil bagian pertamanya, sama seperti penyunting di peta.
         const koordinat = g.type === 'Polygon' ? g.coordinates : g.coordinates[0];

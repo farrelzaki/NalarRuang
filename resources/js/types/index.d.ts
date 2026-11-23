@@ -187,7 +187,7 @@ export type ZonaLahan = {
 
 /** Zona di respons: geometri yang sudah dipotong ke lahan; `lantai` untuk gedung parkir bertingkat. */
 /** `otomatis`: area larangan bangun dari area banjir (dihitung server, tidak bisa disunting). */
-export type ZonaLahanProps = { id: number; jenis: JenisZona; luas_m2: number; lantai?: number; otomatis?: boolean };
+export type ZonaLahanProps = { id: number; jenis: JenisZona; luas_m2: number; lantai?: number; otomatis?: boolean; /** Zona parkir dari rekomendasi isi lahan kosong. */ isi_otomatis?: boolean };
 
 /** Akses yang ditaruh sendiri: gerbang kendaraan (mobil/motor) di tepi lahan, pintu masuk/keluar gedung di tepi zona bangunan. */
 export type JenisAkses = 'gerbang' | 'pintu';
@@ -235,6 +235,8 @@ export type LahanRequest = {
     isi_sisa_taman?: boolean;
     /** Area rawan banjir InaRISK bertingkat >= nilai ini (1–3) menjadi area larangan bangun otomatis. */
     larangan_banjir?: number;
+    /** Isi lahan kosong di luar zona sendiri: 'rekomendasi' (parkir bila kurang, sisanya taman) atau 'taman'. */
+    isi_sisa?: 'rekomendasi' | 'taman';
     /** Target jumlah (kamar/unit/rumah): lantai dan ukuran menyesuaikan. `kunci_ukuran` = ukuran tidak boleh berubah. */
     target?: { jumlah: number; kunci_ukuran?: boolean };
     persona?: Persona[];

@@ -394,6 +394,40 @@ class LahanTest extends TestCase
         $this->assertCount(1, $rumah['zona']['features']);
     }
 
+    public function test_rekomendasi_isi_lahan_kosong_menjadi_parkir_bila_kurang_lalu_taman(): void
+    {
+        $kotak = fn (float $x0, float $y0, float $x1, float $y1) => ['type' => 'Polygon', 'coordinates' => [[[$x0, $y0], [$x1, $y0], [$x1, $y1], [$x0, $y1], [$x0, $y0]]]];
+        $gedung = ['jenis' => 'bangunan', 'geometri' => $kotak(106.8021, -6.2079, 106.8026, -6.2074)];
+        $jenisPerId = fn (array $r) => collect($r['zona']['features'])->mapWithKeys(fn ($f) => [$f['properties']['id'] => $f['properties']])->all();
+
+        // Tanpa zona parkir: parkir kurang, jadi sebagian lahan kosong menjadi parkir otomatis dan sisanya taman.
+        $r = $this->lahan(['tipe' => 'apartemen', 'zona' => [$gedung], 'isi_sisa' => 'rekomendasi'])->assertOk()->json();
+        $z = $jenisPerId($r);
+        $this->assertSame('taman', $z[1]['jenis'], 'sisa taman tetap bernomor setelah zona pengguna');
+        $this->assertSame('parkir', $z[2]['jenis']);
+        $this->assertTrue($z[2]['isi_otomatis']);
+        $this->assertGreaterThan(0, $r['kapasitas']['parkir']['muat']);
+        // Zona pengguna + taman sisa + parkir otomatis menutup seluruh lahan.
+        $this->assertEqualsWithDelta($r['luas_m2'], array_sum(array_column($z, 'luas_m2')), 10.0);
+
+        // Lebih dekat ke gerbang: parkir otomatis berada di sisi gerbang (barat).
+        $g = $this->lahan(['tipe' => 'apartemen', 'zona' => [$gedung], 'isi_sisa' => 'rekomendasi', 'akses' => [['jenis' => 'gerbang', 'titik' => [106.8030, -6.2073]]]])->assertOk()->json();
+        $parkir = collect($g['zona']['features'])->first(fn ($f) => $f['properties']['isi_otomatis'] ?? false);
+        $this->assertNotNull($parkir);
+        $x = array_column($parkir['geometry']['type'] === 'Polygon' ? $parkir['geometry']['coordinates'][0] : $parkir['geometry']['coordinates'][0][0], 0);
+        $this->assertGreaterThan(106.8025, array_sum($x) / count($x), 'parkir otomatis dekat gerbang di sisi timur');
+
+        // Parkir pengguna sudah cukup (kebutuhan nol): semua sisa jadi taman, tidak ada parkir otomatis.
+        $cukup = $this->lahan(['tipe' => 'apartemen', 'asumsi' => ['rasio_parkir' => 0], 'zona' => [$gedung], 'isi_sisa' => 'rekomendasi'])->assertOk()->json();
+        $this->assertEmpty(array_filter($jenisPerId($cukup), fn ($p) => $p['isi_otomatis'] ?? false));
+        $this->assertSame('taman', $jenisPerId($cukup)[1]['jenis']);
+
+        // Pilihan tidak sah ditolak; 'taman' setara isi_sisa_taman lama.
+        $this->lahan(['tipe' => 'apartemen', 'zona' => [$gedung], 'isi_sisa' => 'kolam'])->assertStatus(422);
+        $taman = $this->lahan(['tipe' => 'apartemen', 'zona' => [$gedung], 'isi_sisa' => 'taman'])->assertOk()->json();
+        $this->assertCount(2, $taman['zona']['features']);
+    }
+
     public function test_target_jumlah_kos_mengatur_lantai_dan_memotong_tepat(): void
     {
         $dasar = $this->lahan(['tipe' => 'kos'])->assertOk()->json();
