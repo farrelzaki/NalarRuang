@@ -152,9 +152,9 @@ export function buatModel(d: LahanResponse, lahanGeo: Polygon | null): THREE.Gro
                     masuk('jalur', 0xd9c48f, datar(s, 0.13));
                     break;
                 case 'lobi':
-                    // Lobi dua lantai berwarna kuning, di atasnya lanjut massa gedung.
+                    // Lobi dua lantai berwarna kuning; di atasnya gedung berlanjut sampai atap (warna unit), jadi pintu tidak membuat celah.
                     masuk('lobi', 0xf2b544, ekstrusi(s, Math.min(tinggiGedung, tinggiLantai * 2) - 0.3));
-                    if (tinggiGedung > tinggiLantai * 2) masuk('koridor', 0x59606e, ekstrusi(s, tinggiGedung - tinggiLantai * 2 - 0.3, tinggiLantai * 2));
+                    if (tinggiGedung > tinggiLantai * 2) masuk('unit-1br', WARNA_UNIT['1br'], ekstrusi(s, tinggiGedung - tinggiLantai * 2 - 0.3, tinggiLantai * 2));
                     break;
                 case 'taman':
                 case 'void':

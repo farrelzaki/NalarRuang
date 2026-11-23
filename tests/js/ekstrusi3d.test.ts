@@ -45,16 +45,17 @@ test('semua parkir datar seperti taman, termasuk pola wrap dan parkir bertingkat
     }
 });
 
-test('lobi dua lantai kuning dan massa di atasnya berlanjut sebagai koridor dengan dasar 2 lantai', () => {
+test('lobi dua lantai kuning dan gedung berlanjut di atasnya sampai atap (tanpa celah di atas pintu)', () => {
     const fc = bangunEkstrusi(data([fitur('lobi', kotak(106.8, -6.2))], 5), null);
     const lobi = cari(fc, 'lobi')[0].properties;
     assert.equal(lobi.tinggi, 6.1); // 2 x 3,2 - 0,3
     assert.equal(lobi.warna, '#f2b544');
-    const atas = cari(fc, 'koridor')[0].properties;
+    const atas = cari(fc, 'atas-lobi')[0].properties;
     assert.equal(atas.dasar, 6.4);
-    assert.equal(atas.tinggi, 15.7);
+    assert.equal(atas.tinggi, 15.7, 'setinggi unit di sebelahnya');
+    assert.equal(atas.warna, '#4a90e2', 'warna gedung, bukan koridor');
     // Gedung hanya dua lantai: tidak ada lanjutan.
-    assert.equal(cari(bangunEkstrusi(data([fitur('lobi', kotak(106.8, -6.2))], 2), null), 'koridor').length, 0);
+    assert.equal(cari(bangunEkstrusi(data([fitur('lobi', kotak(106.8, -6.2))], 2), null), 'atas-lobi').length, 0);
 });
 
 test('rumah tapak: atap kavling dikecilkan sqrt(KDB) di atas pekarangan datar', () => {

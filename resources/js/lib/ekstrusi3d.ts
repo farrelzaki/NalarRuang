@@ -108,9 +108,9 @@ export function bangunEkstrusi(d: DataEkstrusi, lahan: Polygon | null): FeatureC
                     datar(pelat, c, 'aspal');
                     break;
                 case 'lobi':
-                    // Lobi dua lantai berwarna kuning, di atasnya massa gedung berlanjut sebagai koridor.
+                    // Lobi dua lantai berwarna kuning; di atasnya gedung berlanjut sampai atap (warna unit), jadi pintu tidak membuat celah.
                     tambah(massa, c, 'lobi', Math.min(tG, tinggiLantai * 2) - 0.3, '#f2b544');
-                    if (tG > tinggiLantai * 2) tambah(massa, c, 'koridor', tG - 0.3, '#59606e', tinggiLantai * 2);
+                    if (tG > tinggiLantai * 2) tambah(massa, c, 'atas-lobi', tG - 0.3, WARNA_UNIT['1br'], tinggiLantai * 2);
                     break;
                 case 'taman':
                 case 'void':

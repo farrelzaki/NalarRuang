@@ -1386,6 +1386,13 @@ class LahanController extends Controller
         foreach ($sisa as $i => $u) {
             $fitur[] = self::fitur($u['geo'], ['jenis' => 'unit', 'tipe' => $urutan[$i], 'zona' => $u['zona']]);
         }
+        // Unit di depan pintu: lantai dasarnya menjadi lobi, tetapi bentuk gedungnya tetap (di 3D gedung berlanjut di atas lobi,
+        // tidak berlubang). Tidak ikut dihitung sebagai unit.
+        foreach (array_keys($lobi) as $i) {
+            if (isset($unit[$i]) && ! isset($buang[$i])) {
+                $fitur[] = self::fitur($unit[$i]['geo'], ['jenis' => 'lobi', 'zona' => $unit[$i]['zona'], 'unit' => true]);
+            }
+        }
         $kapasitas = $this->kapasitas->gedung($tipe, $luas, $tapak, $urutan, $asumsi, $kdb, $intensitas['klb']);
         $butuh = $kapasitas['parkir']['butuh'];
         if ($this->isiSisa === 'rekomendasi' && $manual !== null) {

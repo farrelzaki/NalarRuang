@@ -620,6 +620,9 @@ class LahanTest extends TestCase
         $jenis = array_column(array_column($r['geometri_kapasitas']['features'], 'properties'), 'jenis');
         $this->assertContains('akses', $jenis); // jalan dari gerbang menembus gedung keliling ke parkir
         $this->assertContains('lobi', $jenis);
+        // Unit di depan pintu tetap ada bentuknya (lobi beratap gedung), tidak dibuang: lobi pita + lobi unit.
+        $lobiUnit = array_filter($r['geometri_kapasitas']['features'], fn ($f) => $f['properties']['jenis'] === 'lobi' && ($f['properties']['unit'] ?? false));
+        $this->assertNotEmpty($lobiUnit, 'unit yang tertimpa lobi tetap digambar');
         $this->assertLessThan($tanpa['kapasitas']['unit_per_lantai'], $r['kapasitas']['unit_per_lantai']);
 
         // Rumah tapak: pintu gedung diabaikan; gerbang pada pola cluster membuka jalan dan memakan kavling.
