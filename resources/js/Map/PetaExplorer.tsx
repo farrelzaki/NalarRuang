@@ -61,6 +61,8 @@ export type PropsPeta = {
     onLahanBerubah?: (g: Polygon | null, tarik?: boolean) => void;
     /** Kotak menjadi poligon karena titiknya ditambah/dihapus di peta. */
     onLahanMode?: (mode: ModeLahan) => void;
+    /** Seluruh lahan diputar `derajat` (searah jarum jam) terhadap `pusat`; zona dan akses diputar pemanggil. */
+    onLahanPutar?: (g: Polygon, derajat: number, pusat: { lat: number; lng: number }) => void;
     /** Bentuk lahan tertahan di batas ukuran maksimum (20 ha); dipakai untuk menampilkan notifikasi. */
     onLahanBatas?: () => void;
     /** Kunci baru = pulihkan bentuk lahan ke `geom` (undo/redo); tidak memicu onLahanBerubah. */
@@ -509,6 +511,10 @@ export default function PetaExplorer(props: Props) {
                 (mode) => {
                     kunciAlat.current = panggil.current.alatLahan?.kunci ?? null;
                     panggil.current.onLahanMode?.(mode);
+                },
+                (g, derajat, pusat) => {
+                    lapisan.current?.saring(g.coordinates[0].slice(0, -1).map(([lng, lat]) => L.latLng(lat, lng)));
+                    panggil.current.onLahanPutar?.(g, derajat, pusat);
                 },
             );
         }

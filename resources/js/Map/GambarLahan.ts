@@ -11,6 +11,7 @@
 import L from 'leaflet';
 import type { FeatureCollection, Geometry, Polygon, Position } from 'geojson';
 import { batasiKotak, batasiTitik, bolehTambahTitik, hapusTitik, skalaKotakAwal, titikTerdekatRuas } from '@/lib/batasLahan';
+import { arahKe, pusatTitik, putarTitik, sudutPutar, type TitikLL } from '@/lib/putar';
 
 export type ModeLahan = 'kotak' | 'poligon';
 
@@ -19,8 +20,15 @@ const WARNA = '#e4572e';
 const gayaLahan: L.PathOptions = { color: WARNA, weight: 2.5, fillColor: WARNA, fillOpacity: 0.08, dashArray: undefined };
 const gayaDraf: L.PolylineOptions = { color: WARNA, weight: 2, dashArray: '6 6', interactive: false };
 
-function ikonPegangan(jenis: 'sudut' | 'tengah' | 'geser' | 'awal'): L.DivIcon {
-    const ukuran = jenis === 'geser' ? 28 : jenis === 'tengah' ? 12 : 16;
+const IKON_PUTAR =
+    '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg>';
+
+function ikonPegangan(jenis: 'sudut' | 'tengah' | 'geser' | 'putar' | 'awal'): L.DivIcon {
+    const ukuran = jenis === 'geser' || jenis === 'putar' ? 28 : jenis === 'tengah' ? 12 : 16;
+    if (jenis === 'putar') {
+        // Di kanan pegangan geser, sama-sama di luar tepi atas lahan.
+        return L.divIcon({ className: 'nr-lahan-pegangan nr-lahan-pegangan--putar', iconSize: [ukuran, ukuran], iconAnchor: [ukuran / 2 - 36, ukuran / 2 + 26], html: IKON_PUTAR });
+    }
     return L.divIcon({
         className: `nr-lahan-pegangan nr-lahan-pegangan--${jenis}`,
         iconSize: [ukuran, ukuran],
@@ -40,6 +48,8 @@ export class AlatLahan {
     private onBatas?: () => void;
     /** Kotak berubah menjadi poligon (titik ditambah/dihapus); panel ikut menampilkan mode Poligon. */
     private onMode?: (mode: ModeLahan) => void;
+    /** Seluruh lahan selesai diputar (zona dan akses diputar oleh pemanggil, satu langkah undo). */
+    private onPutar?: (g: Polygon, derajat: number, pusat: TitikLL) => void;
     private terakhirKirim = 0;
     private terakhirBatas = 0;
     /** Lahan terkunci: bentuknya digambar tanpa pegangan dan tidak bisa diubah dari peta. */
@@ -65,7 +75,9 @@ export class AlatLahan {
         onTarik?: (titik: L.LatLng[], kotak: boolean) => void,
         onBatas?: () => void,
         onMode?: (mode: ModeLahan) => void,
+        onPutar?: (g: Polygon, derajat: number, pusat: TitikLL) => void,
     ) {
+        this.onPutar = onPutar;
         this.peta = peta;
         this.onUbah = onUbah;
         this.onTarik = onTarik;
@@ -337,6 +349,50 @@ export class AlatLahan {
         });
         geser.on('dragend', () => this.akhirTarik());
         this.pegangan.push(geser);
+
+        // Pegangan putar: tarik melingkar memutar seluruh lahan terhadap pusatnya (Shift = kelipatan 15°).
+        const putar = L.marker(pusat, { icon: ikonPegangan('putar'), draggable: true, keyboard: false, zIndexOffset: 1100, title: 'Putar lahan (Shift: kelipatan 15°)' }).addTo(this.grup);
+        let poros: TitikLL = pusat;
+        let arahAwal = 0;
+        let derajat = 0;
+        let asal: L.LatLng[] = [];
+        putar.on('dragstart', () => {
+            asal = this.titik.map((t) => L.latLng(t.lat, t.lng));
+            poros = pusatTitik(asal);
+            arahAwal = arahKe(poros, putar.getLatLng());
+            derajat = 0;
+            putar.bindTooltip('0°', { permanent: true, direction: 'top', offset: [36, -48], className: 'nr-lahan-label' }).openTooltip();
+        });
+        putar.on('drag', (e) => {
+            const shift = !!((e as L.LeafletEvent & { originalEvent?: MouseEvent }).originalEvent?.shiftKey);
+            derajat = sudutPutar(arahAwal, arahKe(poros, putar.getLatLng()), shift ? 15 : undefined);
+            this.titik = asal.map((t) => {
+                const r = putarTitik(t, poros, derajat);
+                return L.latLng(r.lat, r.lng);
+            });
+            this.poligon?.setLatLngs(this.titik);
+            putar.setTooltipContent(`${Math.round(derajat)}°`);
+            // Selama diputar hanya pratinjau (isi di luar batas dipudarkan); hitung ulang server setelah dilepas.
+            this.ditarik = true;
+            this.onTarik?.(this.titik, false);
+        });
+        putar.on('dragend', () => {
+            putar.unbindTooltip();
+            this.ditarik = false;
+            if (Math.abs(derajat) < 0.5) {
+                this.titik = asal;
+                this.gambar();
+                return;
+            }
+            // Kotak yang sudah miring tidak lagi persegi terhadap utara: lanjut sebagai poligon.
+            this.jadiPoligon();
+            this.gambar();
+            const cincin = this.titik.map((t) => [Number(t.lng.toFixed(7)), Number(t.lat.toFixed(7))]);
+            const g: Polygon = { type: 'Polygon', coordinates: [[...cincin, cincin[0]]] };
+            if (this.onPutar) this.onPutar(g, derajat, poros);
+            else this.kirim();
+        });
+        this.pegangan.push(putar);
     }
 
     /** Sisipkan titik sudut di sisi poligon terdekat dari `ll` (hanya bila klik dalam 18 px dari sebuah sisi). Luas tidak berubah. */

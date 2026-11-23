@@ -23,6 +23,7 @@ import { bacaBerkas, bangunGeoJSON, bungkusProyek, EKSTENSI, namaBerkas, type De
 import { simpanBerkas } from '@/lib/simpanBerkas';
 import { buatSkema, namaBerikut, type SkemaLahan } from '@/lib/skemaLahan';
 import { bacaSesi, gantiTipe, KUNCI_SESI, tulisSesi, type SimpananTipe } from '@/lib/simpanTab';
+import { putarDesain } from '@/lib/putar';
 import { bangunCsv, bangunHtml, judul as judulLaporan } from '@/lib/laporanLahan';
 import { BilahAlat, type Alat } from '@/Components/BilahAlat';
 import { Toast, type NadaToast } from '@/Components/Dasar';
@@ -1112,6 +1113,12 @@ export default function Peta() {
                     pulihLahan={pulihLahan}
                     onLahanBatas={() => kabar(t('Batas maksimum Uji Lahan 20 hektare tercapai. Lahan tidak bisa diperbesar lagi.', 'The 20-hectare Site Test limit is reached. The site cannot grow any further.'), 'warning')}
                     kapasitasLahan={panelKiri === 'lahan' && geomLahan ? (hasilLahan?.geometri_kapasitas ?? null) : null}
+                    onLahanPutar={(g, derajat, pusat) => {
+                        // Satu langkah undo: lahan, zona yang ditarik sendiri (beserta arah parkirnya), dan gerbang/pintu berputar bersama.
+                        lahanDariPeta.current = true;
+                        proyekLahan.ubah((lama) => ({ geom: g, ...putarDesain(lama.zona, lama.akses, pusat, derajat) }), 'putar');
+                        kabar(t(`Lahan diputar ${Math.round(derajat)}°.`, `Site rotated ${Math.round(derajat)}°.`));
+                    }}
                     onLahanMode={(mode) => {
                         modeTerakhir.current = mode;
                         setAlatLahan((a) => (a ? { ...a, mode } : a));
