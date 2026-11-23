@@ -89,3 +89,12 @@ test('titikTerdekatRuas: proyeksi pada ruas dan ujung ruas', () => {
     assert.deepEqual([ujung.x, ujung.jarak], [10, 5]);
     assert.equal(titikTerdekatRuas({ x: 1, y: 1 }, a, a).jarak, Math.hypot(1, 1));
 });
+
+test('hapusTitik dan sisipSetelah: minimal 3 titik, urutan terjaga', async () => {
+    const { hapusTitik, sisipSetelah } = await import('../../resources/js/lib/batasLahan.ts');
+    assert.deepEqual(hapusTitik(['a', 'b', 'c', 'd'], 1), ['a', 'c', 'd']);
+    assert.equal(hapusTitik(['a', 'b', 'c'], 0), null, 'segitiga tidak bisa dikurangi');
+    assert.equal(hapusTitik(['a', 'b', 'c', 'd'], 9), null);
+    assert.deepEqual(sisipSetelah(['a', 'b', 'c'], 0, 'x'), ['a', 'x', 'b', 'c']);
+    assert.deepEqual(sisipSetelah(['a', 'b', 'c'], 2, 'x'), ['a', 'b', 'c', 'x'], 'sisi terakhir (c → a)');
+});

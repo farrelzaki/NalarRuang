@@ -10,7 +10,7 @@
  */
 import L from 'leaflet';
 import type { FeatureCollection, Geometry, Polygon, Position } from 'geojson';
-import { batasiKotak, batasiTitik, bolehTambahTitik, skalaKotakAwal, titikTerdekatRuas } from '@/lib/batasLahan';
+import { batasiKotak, batasiTitik, bolehTambahTitik, hapusTitik, skalaKotakAwal, titikTerdekatRuas } from '@/lib/batasLahan';
 
 export type ModeLahan = 'kotak' | 'poligon';
 
@@ -38,6 +38,8 @@ export class AlatLahan {
     private onUbah: (g: Polygon | null, tarik?: boolean) => void;
     private onTarik?: (titik: L.LatLng[], kotak: boolean) => void;
     private onBatas?: () => void;
+    /** Kotak berubah menjadi poligon (titik ditambah/dihapus); panel ikut menampilkan mode Poligon. */
+    private onMode?: (mode: ModeLahan) => void;
     private terakhirKirim = 0;
     private terakhirBatas = 0;
     /** Lahan terkunci: bentuknya digambar tanpa pegangan dan tidak bisa diubah dari peta. */
@@ -57,11 +59,18 @@ export class AlatLahan {
      * onTarik: dipanggil tiap gerakan tarik, untuk memotong dan memudarkan isi kapasitas tanpa menunggu server.
      * onBatas: bentuk lahan tertahan di batas ukuran maksimum (paling sering sekali tiap 2,5 detik), untuk notifikasi.
      */
-    constructor(peta: L.Map, onUbah: (g: Polygon | null, tarik?: boolean) => void, onTarik?: (titik: L.LatLng[], kotak: boolean) => void, onBatas?: () => void) {
+    constructor(
+        peta: L.Map,
+        onUbah: (g: Polygon | null, tarik?: boolean) => void,
+        onTarik?: (titik: L.LatLng[], kotak: boolean) => void,
+        onBatas?: () => void,
+        onMode?: (mode: ModeLahan) => void,
+    ) {
         this.peta = peta;
         this.onUbah = onUbah;
         this.onTarik = onTarik;
         this.onBatas = onBatas;
+        this.onMode = onMode;
         this.grup = L.layerGroup().addTo(peta);
         this.klik = this.klik.bind(this);
         this.gerak = this.gerak.bind(this);
@@ -228,12 +237,10 @@ export class AlatLahan {
 
         if (this.tertutup) {
             this.poligon = L.polygon(this.titik, { ...gayaLahan, pane: 'nrSeleksi', className: 'nr-lahan', bubblingMouseEvents: false }).addTo(this.grup);
-            // Shift + klik di dekat sisi poligon menyisipkan titik sudut baru di sisi itu (seperti TestFit).
-            if (this.mode === 'poligon') {
-                this.poligon.on('click', (e) => {
-                    if ((e.originalEvent as MouseEvent).shiftKey) this.sisipTitik(e.latlng);
-                });
-            }
+            // Shift + klik di dekat sisi menyisipkan titik sudut baru di sisi itu (kotak ikut menjadi poligon).
+            this.poligon.on('click', (e) => {
+                if ((e.originalEvent as MouseEvent).shiftKey) this.sisipTitik(e.latlng);
+            });
         } else if (this.titik.length >= 2) {
             this.draf = L.polyline(this.titik, { ...gayaDraf, pane: 'nrSeleksi' }).addTo(this.grup);
         }
@@ -246,6 +253,16 @@ export class AlatLahan {
             const m = L.marker(ll, { icon: ikonPegangan(awal ? 'awal' : 'sudut'), draggable: this.tertutup, keyboard: false, zIndexOffset: 1000 }).addTo(this.grup);
             if (awal) m.on('click', () => this.tutupPoligon());
             if (this.tertutup) {
+                // Klik ganda titik sudut menghapusnya (minimal 3 titik); kotak menjadi poligon.
+                m.on('dblclick', (e) => {
+                    L.DomEvent.stop(e);
+                    const sisa = hapusTitik(this.titik, i);
+                    if (!sisa) return;
+                    this.jadiPoligon();
+                    this.titik = sisa;
+                    this.gambar();
+                    this.kirim();
+                });
                 m.on('drag', (e) => {
                     const penanda = e.target as L.Marker;
                     const baru = penanda.getLatLng();
@@ -275,13 +292,14 @@ export class AlatLahan {
 
         if (!this.tertutup) return;
 
-        // Titik tengah sisi (khusus poligon): tarik untuk menambah sudut baru.
-        if (this.mode === 'poligon') {
+        // Titik tengah tiap sisi: tarik untuk menambah titik sudut baru (kotak ikut menjadi poligon).
+        {
             this.titik.forEach((a, i) => {
                 const b = this.titik[(i + 1) % this.titik.length];
                 const tengah = L.latLng((a.lat + b.lat) / 2, (a.lng + b.lng) / 2);
                 const m = L.marker(tengah, { icon: ikonPegangan('tengah'), draggable: true, keyboard: false, zIndexOffset: 900 }).addTo(this.grup);
                 m.on('dragstart', () => {
+                    this.jadiPoligon();
                     this.titik.splice(i + 1, 0, tengah);
                 });
                 m.on('drag', (e) => {
@@ -332,9 +350,22 @@ export class AlatLahan {
             if (r.jarak < terbaik.jarak) terbaik = { i, x: r.x, y: r.y, jarak: r.jarak };
         });
         if (terbaik.i < 0 || terbaik.jarak > 18) return;
+        this.jadiPoligon();
         this.titik.splice(terbaik.i + 1, 0, this.peta.layerPointToLatLng(L.point(terbaik.x, terbaik.y)));
         this.gambar();
         this.kirim();
+    }
+
+    /** Kotak yang ditambah/dikurangi titiknya tidak lagi persegi panjang: lanjut sebagai poligon. */
+    private jadiPoligon(): void {
+        if (this.mode !== 'kotak') return;
+        this.mode = 'poligon';
+        this.onMode?.('poligon');
+    }
+
+    /** Mode gambar saat ini (kotak bisa berubah menjadi poligon dari peta). */
+    get modeSekarang(): ModeLahan | null {
+        return this.mode;
     }
 
     /** Titik lahan saat ini (salinan). */

@@ -12,6 +12,7 @@ import L from 'leaflet';
 import type { FeatureCollection, MultiPolygon, Polygon, Position } from 'geojson';
 import type { JenisZona, ZonaLahan, ZonaLahanProps } from '@/types';
 import { buatUid, WARNA_ZONA } from '@/lib/layerLahan';
+import { hapusTitik } from '@/lib/batasLahan';
 
 export { WARNA_ZONA };
 
@@ -80,6 +81,10 @@ function ikonSudut(jenis: JenisZona, pilih = false): L.DivIcon {
     return L.divIcon({ className: `nr-zona-sudut nr-zona-sudut--${jenis}${pilih ? ' nr-zona-sudut--pilih' : ''}`, iconSize: [s, s], iconAnchor: [s / 2, s / 2] });
 }
 
+function ikonTengah(jenis: JenisZona): L.DivIcon {
+    return L.divIcon({ className: `nr-zona-tengah nr-zona-tengah--${jenis}`, iconSize: [9, 9], iconAnchor: [4.5, 4.5] });
+}
+
 function ikonGeser(jenis: JenisZona, label: string, judulHapus: string, kunci: boolean, sorot: boolean): L.DivIcon {
     const aksi = kunci ? IKON_KUNCI : `<button type="button" class="nr-zona-geser__hapus" data-hapus title="${esc(judulHapus)}" aria-label="${esc(judulHapus)}">×</button>`;
     return L.divIcon({
@@ -126,7 +131,10 @@ export class AlatZona {
         this.onPilih = onPilih;
         this.grup = L.layerGroup().addTo(peta);
         // Klik di peta (bukan di pegangan) melepas pilihan zona.
-        peta.on('click', () => {
+        peta.on('click', (e: L.LeafletMouseEvent) => {
+            // Klik yang berasal dari pegangan zona/lahan (mis. klik ganda titik sudut untuk menghapusnya) bukan klik peta kosong.
+            const asal = e.originalEvent?.target as HTMLElement | null;
+            if (asal?.closest('.nr-zona-sudut, .nr-zona-tengah, .nr-zona-geser, .nr-lahan-pegangan, .nr-akses')) return;
             if (this.sorotUid !== null) this.pilih(null);
         });
     }
@@ -255,6 +263,33 @@ export class AlatZona {
                     });
                     m.on('drag', () => {
                         z.cincin[r][k] = m.getLatLng();
+                        pol.setLatLngs(z.cincin);
+                        this.saatTarik(i);
+                    });
+                    m.on('dragend', () => this.akhirTarik());
+                    // Klik ganda titik sudut menghapusnya (minimal 3 titik per cincin).
+                    m.on('dblclick', (e) => {
+                        L.DomEvent.stop(e);
+                        const sisa = hapusTitik(z.cincin[r], k);
+                        if (!sisa) return;
+                        z.cincin[r] = sisa;
+                        z.meta.tarik = Date.now();
+                        this.manual = true;
+                        this.gambar();
+                        this.kirim(false);
+                    });
+                });
+                // Titik tengah tiap sisi zona terpilih: tarik untuk menambah titik sudut baru.
+                cincin.forEach((a, k) => {
+                    const b = cincin[(k + 1) % cincin.length];
+                    const tengah = L.latLng((a.lat + b.lat) / 2, (a.lng + b.lng) / 2);
+                    const m = L.marker(tengah, { icon: ikonTengah(z.jenis), draggable: true, keyboard: false, zIndexOffset: 1150, pane: 'markerPane' }).addTo(this.grup);
+                    m.on('dragstart', () => {
+                        z.meta.tarik = Date.now();
+                        z.cincin[r].splice(k + 1, 0, tengah);
+                    });
+                    m.on('drag', () => {
+                        z.cincin[r][k + 1] = m.getLatLng();
                         pol.setLatLngs(z.cincin);
                         this.saatTarik(i);
                     });

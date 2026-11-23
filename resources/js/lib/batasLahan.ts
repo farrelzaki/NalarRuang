@@ -107,3 +107,19 @@ export function titikTerdekatRuas(p: { x: number; y: number }, a: { x: number; y
     const y = a.y + dy * t;
     return { x, y, jarak: Math.hypot(p.x - x, p.y - y) };
 }
+
+/**
+ * Hapus titik sudut `i` dari cincin (tanpa titik penutup). Poligon minimal 3 titik: bila tinggal 3, tidak ada yang dihapus
+ * (mengembalikan null supaya pemanggil tahu). Dipakai lahan dan zona (klik ganda titik sudut).
+ */
+export function hapusTitik<T>(titik: T[], i: number): T[] | null {
+    if (titik.length <= 3 || i < 0 || i >= titik.length) return null;
+    return titik.filter((_, k) => k !== i);
+}
+
+/** Sisipkan titik `baru` setelah titik `i` (di sisi i → i+1). Mengembalikan cincin baru. */
+export function sisipSetelah<T>(titik: T[], i: number, baru: T): T[] {
+    const hasil = titik.slice();
+    hasil.splice(i + 1, 0, baru);
+    return hasil;
+}

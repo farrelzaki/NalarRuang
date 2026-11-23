@@ -625,7 +625,7 @@ input { font: inherit; }
 .nr-gambar-lahan--titik, .nr-gambar-lahan--titik .leaflet-interactive { cursor: crosshair !important; }
 /* Saat menggambar, fitur layer lain tidak menangkap klik supaya titik sudut bisa ditaruh di mana saja. */
 /* Saat Uji Lahan aktif, hanya lahan, pegangannya, dan pegangan zona yang bisa diklik (POI/stasiun tidak ikut terpencet). */
-.nr-gambar-lahan .leaflet-interactive:not(.nr-lahan):not(.nr-lahan-pegangan):not(.nr-zona-sudut):not(.nr-zona-geser):not(.nr-akses):not(.nr-akses-ujung):not(.nr-akses-dalam) { pointer-events: none !important; }
+.nr-gambar-lahan .leaflet-interactive:not(.nr-lahan):not(.nr-lahan-pegangan):not(.nr-zona-sudut):not(.nr-zona-tengah):not(.nr-zona-geser):not(.nr-akses):not(.nr-akses-ujung):not(.nr-akses-dalam) { pointer-events: none !important; }
 .nr-lahan-label.leaflet-tooltip { background: var(--navy-900); color: var(--white); border: 0; border-radius: var(--radius-pill); padding: 3px 10px; font: 700 11px/16px var(--font-sans); box-shadow: var(--shadow-md); }
 .nr-lahan-label.leaflet-tooltip::before { display: none; }
 
@@ -696,6 +696,12 @@ input { font: inherit; }
 .nr-zona-sudut--parkir { border-color: #4b5563; }
 .nr-zona-sudut--taman { border-color: #22a35a; }
 .nr-zona-sudut--larangan { border-color: #dc2626; }
+/* Titik tengah sisi zona terpilih: lebih kecil dan pucat daripada titik sudut; ditarik = titik baru. */
+.nr-zona-tengah { width: 9px; height: 9px; border-radius: 50%; background: var(--white); border: 2px solid #3b6fd8; opacity: 0.75; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); cursor: copy; }
+.nr-zona-tengah:hover { opacity: 1; }
+.nr-zona-tengah--parkir { border-color: #4b5563; }
+.nr-zona-tengah--taman { border-color: #22a35a; }
+.nr-zona-tengah--larangan { border-color: #dc2626; }
 .nr-zona-sudut--pilih { width: 13px !important; height: 13px !important; border-width: 2.5px; box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85), 0 1px 4px rgba(0, 0, 0, 0.35); }
 .nr-zona-geser { width: auto !important; height: auto !important; }
 .nr-zona-geser__isi { display: inline-flex; align-items: center; gap: 4px; transform: translate(-50%, -50%); padding: 2px 4px 2px 9px; border-radius: var(--radius-pill); background: #3b6fd8; color: var(--white); font: 700 10px/16px var(--font-sans); letter-spacing: 0.4px; white-space: nowrap; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); cursor: move; }

@@ -59,6 +59,8 @@ export type PropsPeta = {
     /** Hasil Uji Lahan sebagai fitur ekstrusi 3D (lib/ekstrusi3d.ts); non-null = tampil 3D di peta. Hanya MapLibre. */
     ekstrusiLahan?: FeatureCollection | null;
     onLahanBerubah?: (g: Polygon | null, tarik?: boolean) => void;
+    /** Kotak menjadi poligon karena titiknya ditambah/dihapus di peta. */
+    onLahanMode?: (mode: ModeLahan) => void;
     /** Bentuk lahan tertahan di batas ukuran maksimum (20 ha); dipakai untuk menampilkan notifikasi. */
     onLahanBatas?: () => void;
     /** Kunci baru = pulihkan bentuk lahan ke `geom` (undo/redo); tidak memicu onLahanBerubah. */
@@ -163,6 +165,8 @@ export default function PetaExplorer(props: Props) {
     const grupRute = useRef<L.LayerGroup | null>(null);
     const grupKapasitas = useRef<L.LayerGroup | null>(null);
     const alat = useRef<AlatLahan | null>(null);
+    /** Kunci alat gambar yang sudah dimulai (untuk membedakan "mulai ulang" dari "mode berganti dari peta"). */
+    const kunciAlat = useRef<number | null>(null);
     const tergambar = useRef<Partial<Record<LayerKey, FeatureCollection>>>({});
     const panggil = useRef(props);
     panggil.current = props;
@@ -502,8 +506,15 @@ export default function PetaExplorer(props: Props) {
                 },
                 (titik) => lapisan.current?.saring(titik),
                 () => panggil.current.onLahanBatas?.(),
+                (mode) => {
+                    kunciAlat.current = panggil.current.alatLahan?.kunci ?? null;
+                    panggil.current.onLahanMode?.(mode);
+                },
             );
         }
+        // Kotak yang berubah menjadi poligon dari peta: panel ikut berganti mode, alat tidak perlu dimulai ulang.
+        if (props.alatLahan && props.alatLahan.kunci === kunciAlat.current && alat.current.modeSekarang === props.alatLahan.mode) return;
+        kunciAlat.current = props.alatLahan?.kunci ?? null;
         alat.current.mulai(props.alatLahan?.mode ?? null, props.alatLahan ? props.lahanAwal : null);
         if (!props.alatLahan) {
             alatZona.current?.kosongkan();
