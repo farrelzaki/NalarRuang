@@ -65,6 +65,9 @@ class LahanController extends Controller
             'zona.*.induk' => 'nullable|integer|min:0',
             // Prioritas saat zona bertumpuk: angka lebih besar menang dan zona lain menyesuaikan diri. Kosong = bangunan > parkir > taman.
             'zona.*.prioritas' => 'nullable|integer|min:0|max:1000',
+            // Arah deret slot parkir yang dikunci pengguna (derajat searah jarum jam dari utara; 0 = deret utara–selatan, 90 = barat–timur).
+            // Kosong = mengikuti sisi terpanjang zona. Hanya dipakai zona parkir.
+            'zona.*.arah' => 'nullable|numeric|min:0|max:180',
             'zona.*.geometri' => 'required|array',
             'zona.*.geometri.type' => 'required|in:Polygon',
             'zona.*.geometri.coordinates' => 'required|array|min:1|max:5',
@@ -103,6 +106,7 @@ class LahanController extends Controller
                     'geojson' => (string) json_encode(['type' => 'Polygon', 'coordinates' => $z['geometri']['coordinates']]),
                     'induk' => isset($z['induk']) ? (int) $z['induk'] : null,
                     'prioritas' => isset($z['prioritas']) ? (int) $z['prioritas'] : null,
+                    'arah' => isset($z['arah']) && is_numeric($z['arah']) ? fmod((float) $z['arah'], 180.0) : null,
                 ];
             }
             if (! self::indukSah($manual)) {
@@ -573,8 +577,10 @@ class LahanController extends Controller
      *
      * @return array{petak: list<object>, jalan: list<string>, jalan_ewkt: list<string>}
      */
-    private function petak(string $ewkt, float $lebar, float $panjang, float $lorong, float $sudut = 90.0, int $maksBaris = 0, bool $kunciDunia = true): array
+    private function petak(string $ewkt, float $lebar, float $panjang, float $lorong, float $sudut = 90.0, int $maksBaris = 0, bool $kunciDunia = true, ?float $arah = null): array
     {
+        // Arah deret: dikunci pengguna (derajat dari utara) atau mengikuti sisi terpanjang amplop berorientasi zona.
+        $azKunci = $arah !== null ? self::n(deg2rad($arah)) : null;
         // Slot miring: jarak antar slot, tebal deret, dan lorong berubah; tiap slot menjadi jajar genjang (geser = pergeseran sisi atasnya).
         $geser = 0.0;
         if ($sudut < 89.5) {
@@ -602,9 +608,9 @@ class LahanController extends Controller
              o AS (SELECT g, ST_SetSRID(ST_MakePoint(700000, 9300000), {$utm}) AS pusat, ST_ExteriorRing(ST_OrientedEnvelope(g)) AS cincin FROM l),
              sudut0 AS (
                  SELECT g, pusat,
-                        CASE WHEN ST_Distance(ST_PointN(cincin, 1), ST_PointN(cincin, 2)) >= ST_Distance(ST_PointN(cincin, 2), ST_PointN(cincin, 3))
+                        ".($azKunci ?? "CASE WHEN ST_Distance(ST_PointN(cincin, 1), ST_PointN(cincin, 2)) >= ST_Distance(ST_PointN(cincin, 2), ST_PointN(cincin, 3))
                              THEN ST_Azimuth(ST_PointN(cincin, 1), ST_PointN(cincin, 2))
-                             ELSE ST_Azimuth(ST_PointN(cincin, 2), ST_PointN(cincin, 3)) END AS az
+                             ELSE ST_Azimuth(ST_PointN(cincin, 2), ST_PointN(cincin, 3)) END")." AS az
                  FROM o
              ),
              -- Arah dinormalkan ke [0, pi) dan diputar terhadap titik tetap, lalu grid dikunci ke kelipatan ukuran petak:
@@ -800,7 +806,7 @@ class LahanController extends Controller
             $g = $bentuk($id);
             $g = $this->op('ST_Difference', $g, $terisi);
             $terisi = $this->op('ST_Union', $terisi, $g);
-            $hasil[$id] = ['jenis' => $z['jenis'], 'ewkt' => $g];
+            $hasil[$id] = ['jenis' => $z['jenis'], 'ewkt' => $g, 'arah' => $z['arah'] ?? null];
         }
 
         // Isi sisa dengan taman: zona tambahan bernomor setelah zona pengguna (tidak ada di daftar klien).
@@ -1329,7 +1335,7 @@ class LahanController extends Controller
             if ($this->luasUtm($ruang) < 1) {
                 continue;
             }
-            $petak = $this->petak($ruang, $slot['lebar'], $slot['panjang'], $slot['lorong'], (float) ($asumsi['sudut_parkir'] ?? 90), (int) ($asumsi['maks_baris'] ?? 0));
+            $petak = $this->petak($ruang, $slot['lebar'], $slot['panjang'], $slot['lorong'], (float) ($asumsi['sudut_parkir'] ?? 90), (int) ($asumsi['maks_baris'] ?? 0), true, $z['arah'] ?? null);
             $kena = $this->terpotong(array_map(fn ($p) => (string) $p->ewkt, $petak['petak']), $aksesGabung);
             foreach ($petak['petak'] as $i => $p) {
                 if (! isset($kena[$i])) {

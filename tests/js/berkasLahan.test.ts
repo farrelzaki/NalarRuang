@@ -183,3 +183,14 @@ test('GeoJSON ekspor memuat lahan, zona, isi, dan akses; nama berkas', () => {
     assert.match(namaBerkas('kos', new Date(2026, 10, 22, 9, 5)), /^uji-lahan-kos-20261122-0905$/);
     assert.equal(EKSTENSI, '.nalarruang.json');
 });
+
+test('arah parkir ikut tersimpan; arah tak sah atau di zona non-parkir dibuang', () => {
+    const zona = [
+        { uid: 'p', jenis: 'parkir' as const, geometri: kotak(106.8, -6.2, 0.0003), arah: 90 },
+        { uid: 'q', jenis: 'parkir' as const, geometri: kotak(106.8004, -6.2, 0.0003), arah: 999 },
+        { uid: 'g', jenis: 'bangunan' as const, geometri: kotak(106.8, -6.1995, 0.0003), arah: 45 },
+    ];
+    const r = bacaBerkas(tulis(bungkusProyek(snap({ zona }), null)));
+    assert.ok(r.ok);
+    if (r.ok) assert.deepEqual(r.desain.zona?.map((x) => x.arah), [90, undefined, undefined]);
+});

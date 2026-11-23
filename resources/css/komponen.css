@@ -701,6 +701,13 @@ input { font: inherit; }
 /* Titik tengah sisi zona terpilih: lebih kecil dan pucat daripada titik sudut; ditarik = titik baru. */
 .nr-zona-tengah { width: 9px; height: 9px; border-radius: 50%; background: var(--white); border: 2px solid #3b6fd8; opacity: 0.75; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); cursor: copy; }
 .nr-zona-tengah:hover { opacity: 1; }
+.nr-layer__arah { display: flex; flex-direction: column; gap: 6px; font: 600 11.5px/16px var(--font-sans); color: var(--ink-70); }
+.nr-layer__arahpilih { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; padding: 3px; border-radius: var(--radius-md); background: var(--ink-05); }
+.nr-layer__arahpilih button { padding: 6px 2px; border-radius: 8px; font: 700 10.5px/14px var(--font-sans); color: var(--ink-60); }
+.nr-layer__arahpilih button[aria-pressed='true'] { background: var(--white); color: var(--navy-900); box-shadow: var(--shadow-sm); }
+.nr-layer__arahsudut { display: flex; align-items: center; gap: 8px; }
+.nr-layer__arahsudut input { flex: 1; }
+.nr-layer__arahsudut b { min-width: 34px; text-align: right; color: var(--navy-900); }
 .nr-zona-tengah--parkir { border-color: #4b5563; }
 .nr-zona-tengah--taman { border-color: #22a35a; }
 .nr-zona-tengah--larangan { border-color: #dc2626; }

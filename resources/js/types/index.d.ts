@@ -160,6 +160,8 @@ export type ZonaLahanMasuk = {
     induk?: number;
     /** Prioritas saat bertumpuk: angka lebih besar menang dan zona lain menyesuaikan diri (kosong = bangunan > parkir > taman). */
     prioritas?: number;
+    /** Zona parkir: arah deret slot yang dikunci (derajat dari utara, 0–179; 0 = utara–selatan, 90 = barat–timur). Kosong = otomatis. */
+    arah?: number;
 };
 
 /**
@@ -179,6 +181,8 @@ export type ZonaLahan = {
     induk?: string;
     /** Waktu (ms) zona ini terakhir ditarik atau ditambah; yang lebih baru menang saat bertumpuk (setelah kunci). */
     tarik?: number;
+    /** Zona parkir: arah deret slot yang dikunci (0–179°); kosong = mengikuti sisi terpanjang zona. */
+    arah?: number;
 };
 
 /** Zona di respons: geometri yang sudah dipotong ke lahan; `lantai` untuk gedung parkir bertingkat. */

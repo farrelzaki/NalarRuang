@@ -151,6 +151,7 @@ function bacaZona(z: unknown, peringatan: string[]): ZonaLahan[] | null {
             ...(m.sembunyi === true ? { sembunyi: true } : {}),
             ...(typeof m.induk === 'string' ? { induk: m.induk } : {}),
             ...(angka(m.tarik) ? { tarik: m.tarik } : {}),
+            ...(m.jenis === 'parkir' && angka(m.arah) && m.arah >= 0 && m.arah < 180 ? { arah: m.arah } : {}),
         });
     }
     // Induk yang tidak ada (zonanya dibuang) atau menunjuk diri sendiri dilepas; sub-layer menjadi layer biasa.

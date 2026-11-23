@@ -10,7 +10,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import type { JenisZona, ZonaLahan } from '@/types';
 import { useBahasa } from '@/lib/bahasa';
 import {
-    aturInduk, bisaJadiInduk, buatUid, duplikatZona, hapusZona, pindahUrutan, resetTarik, serupa, setKunci, setKunciBanyak, setSembunyi, setSembunyiBanyak, ubahNama, urutanTampil, WARNA_ZONA,
+    aturInduk, bisaJadiInduk, buatUid, samakanArah, setArah, duplikatZona, hapusZona, pindahUrutan, resetTarik, serupa, setKunci, setKunciBanyak, setSembunyi, setSembunyiBanyak, ubahNama, urutanTampil, WARNA_ZONA,
 } from '@/lib/layerLahan';
 import { Ikon } from './Dasar';
 
@@ -257,6 +257,47 @@ export function PanelLayerLahan(props: PropsLayerLahan) {
                         <p className="nr-layer__catatan">
                             {t('Dipotong ke bentuk induknya; induk kehilangan bagian ini (mis. taman sebagai halaman dalam gedung).', 'Clipped to its parent shape; the parent loses this area (e.g. a courtyard inside a building).')}
                         </p>
+                    )}
+
+                    {terpilih.jenis === 'parkir' && (
+                        <div className="nr-layer__arah" role="group" aria-label={t('Arah deret parkir', 'Parking row direction')}>
+                            <span>{t('Arah parkir', 'Parking direction')}</span>
+                            <div className="nr-layer__arahpilih">
+                                {(
+                                    [
+                                        ['otomatis', t('Otomatis', 'Auto'), t('Mengikuti sisi terpanjang zona', 'Follows the longest side of the zone')],
+                                        ['h', t('Horizontal', 'Horizontal'), t('Deret barat–timur (dikunci)', 'West–east rows (locked)')],
+                                        ['v', t('Vertikal', 'Vertical'), t('Deret utara–selatan (dikunci)', 'North–south rows (locked)')],
+                                        ['putar', t('Putar', 'Rotate'), t('Sudut bebas (dikunci)', 'Any angle (locked)')],
+                                    ] as const
+                                ).map(([k, label, judul]) => {
+                                    const a = terpilih.arah;
+                                    const aktif = k === 'otomatis' ? a === undefined : k === 'h' ? a === 90 : k === 'v' ? a === 0 : a !== undefined && a !== 0 && a !== 90;
+                                    return (
+                                        <button
+                                            key={k}
+                                            type="button"
+                                            aria-pressed={aktif}
+                                            title={judul}
+                                            onClick={() => terapkan(setArah(zona, terpilih.uid, k === 'otomatis' ? undefined : k === 'h' ? 90 : k === 'v' ? 0 : a !== undefined && a !== 0 && a !== 90 ? a : 45))}
+                                        >
+                                            {label}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                            {terpilih.arah !== undefined && terpilih.arah !== 0 && terpilih.arah !== 90 && (
+                                <label className="nr-layer__arahsudut">
+                                    <input type="range" min={0} max={179} step={5} value={terpilih.arah} onChange={(e) => terapkan(setArah(zona, terpilih.uid, Number(e.target.value)))} aria-label={t('Sudut deret parkir', 'Parking row angle')} />
+                                    <b>{terpilih.arah}°</b>
+                                </label>
+                            )}
+                            {zona.filter((z) => z.jenis === 'parkir').length > 1 && (
+                                <button type="button" className="nr-lahan__tautan" onClick={() => terapkan(samakanArah(zona, terpilih.arah))}>
+                                    <Ikon name="copy" size={12} /> {t('Samakan semua parkir', 'Match all parking')}
+                                </button>
+                            )}
+                        </div>
                     )}
 
                     <div className="nr-layer__serupa">

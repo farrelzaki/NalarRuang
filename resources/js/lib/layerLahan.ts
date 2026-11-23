@@ -90,7 +90,7 @@ export function keZonaApi(zona: ZonaLahan[]): ZonaLahanMasuk[] {
     const prioritas = prioritasZona(zona);
     return zona.map((z, i) => {
         const induk = z.induk !== undefined && z.induk !== z.uid ? nomor.get(z.induk) : undefined;
-        return { jenis: z.jenis, geometri: z.geometri, prioritas: prioritas[i], ...(induk !== undefined ? { induk } : {}) };
+        return { jenis: z.jenis, geometri: z.geometri, prioritas: prioritas[i], ...(induk !== undefined ? { induk } : {}), ...(z.jenis === 'parkir' && typeof z.arah === 'number' ? { arah: z.arah } : {}) };
     });
 }
 
@@ -130,6 +130,26 @@ export const ubahNama = (zona: ZonaLahan[], uid: string, nama: string): ZonaLaha
 export const setKunci = (zona: ZonaLahan[], uid: string, kunci: boolean): ZonaLahan[] => ubah(zona, uid, (z) => ({ ...z, kunci: kunci || undefined }));
 
 export const setSembunyi = (zona: ZonaLahan[], uid: string, sembunyi: boolean): ZonaLahan[] => ubah(zona, uid, (z) => ({ ...z, sembunyi: sembunyi || undefined }));
+
+/** Arah deret parkir 0–179° (dibulatkan 1°); undefined = otomatis (mengikuti sisi terpanjang zona). */
+const normalArah = (arah: number | undefined): number | undefined => (typeof arah === 'number' && Number.isFinite(arah) ? ((Math.round(arah) % 180) + 180) % 180 : undefined);
+
+/** Kunci (atau lepas, `undefined`) arah deret slot satu zona parkir. */
+export const setArah = (zona: ZonaLahan[], uid: string, arah: number | undefined): ZonaLahan[] =>
+    ubah(zona, uid, (z) => {
+        const { arah: _lama, ...sisa } = z;
+        const a = normalArah(arah);
+        return a === undefined ? sisa : { ...sisa, arah: a };
+    });
+
+/** Samakan arah semua zona parkir ("seirama"), atau lepas semuanya bila `undefined`. */
+export const samakanArah = (zona: ZonaLahan[], arah: number | undefined): ZonaLahan[] =>
+    zona.map((z) => {
+        if (z.jenis !== 'parkir') return z;
+        const { arah: _lama, ...sisa } = z;
+        const a = normalArah(arah);
+        return a === undefined ? sisa : { ...sisa, arah: a };
+    });
 
 /** Kunci/sembunyikan banyak layer sekaligus (mis. semua yang sejenis). */
 export const setKunciBanyak = (zona: ZonaLahan[], uids: string[], kunci: boolean): ZonaLahan[] => zona.map((z) => (uids.includes(z.uid) ? { ...z, kunci: kunci || undefined } : z));

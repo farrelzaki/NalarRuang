@@ -2,7 +2,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-    aturInduk, bisaJadiInduk, dariServer, duplikatZona, hapusZona, keZonaApi, pindahUrutan, prioritasZona, rapikan, resetTarik, serupa, setKunci, setKunciBanyak, setSembunyi, ubahNama, urutanTampil,
+    aturInduk, bisaJadiInduk, dariServer, duplikatZona, hapusZona, keZonaApi, pindahUrutan, prioritasZona, rapikan, resetTarik, samakanArah, serupa, setArah, setKunci, setKunciBanyak, setSembunyi, ubahNama, urutanTampil,
 } from '../../resources/js/lib/layerLahan.ts';
 
 const kotak = (x: number, y: number, s = 0.001) => ({ type: 'Polygon' as const, coordinates: [[[x, y], [x + s, y], [x + s, y + s], [x, y + s], [x, y]]] });
@@ -149,4 +149,17 @@ test("resetTarik: setelah urutan diubah, urutan di daftar kembali menentukan", (
 test("keZonaApi mengirim prioritas searah daftar", () => {
     const d = [z("a", "bangunan"), z("b", "taman", { tarik: 9 })];
     assert.deepEqual(keZonaApi(d).map((x) => x.prioritas), [1, 2]);
+});
+
+test('arah parkir: kunci, lepas, samakan, dan hanya dikirim untuk zona parkir', () => {
+    const d = [z('a', 'parkir'), z('b', 'parkir'), z('c', 'bangunan')];
+    const dikunci = setArah(d, 'a', 450);
+    assert.equal(dikunci[0].arah, 90, '450° = 90° (arah deret 0–179)');
+    assert.equal(setArah(dikunci, 'a', undefined)[0].arah, undefined);
+    assert.ok(!('arah' in setArah(dikunci, 'a', undefined)[0]));
+    const sama = samakanArah(dikunci, 90);
+    assert.deepEqual(sama.map((x) => x.arah), [90, 90, undefined], 'hanya parkir');
+    assert.deepEqual(samakanArah(sama, undefined).map((x) => x.arah), [undefined, undefined, undefined]);
+    const api = keZonaApi([...sama.slice(0, 2), { ...z('c', 'bangunan'), arah: 30 }]);
+    assert.deepEqual(api.map((x) => x.arah), [90, 90, undefined]);
 });

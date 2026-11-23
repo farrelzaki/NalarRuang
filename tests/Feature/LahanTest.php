@@ -218,6 +218,32 @@ class LahanTest extends TestCase
         $this->assertSame(90.0, (float) $this->parkirUji(['sudut_parkir' => 200])['asumsi']['sudut_parkir']);
     }
 
+    public function test_arah_parkir_yang_dikunci_menentukan_arah_deret_slot(): void
+    {
+        $kotak = fn (float $x0, float $y0, float $x1, float $y1) => ['type' => 'Polygon', 'coordinates' => [[[$x0, $y0], [$x1, $y0], [$x1, $y1], [$x0, $y1], [$x0, $y0]]]];
+        // Sisi panjang slot (5 m) tegak lurus arah deret: deret barat–timur (90°) = slot memanjang utara–selatan, dan sebaliknya.
+        $sisiPanjangUtaraSelatan = function (?float $arah) use ($kotak): bool {
+            $parkir = ['jenis' => 'parkir', 'geometri' => $kotak(106.8021, -6.2079, 106.8029, -6.2074)];
+            if ($arah !== null) {
+                $parkir['arah'] = $arah;
+            }
+            $r = $this->lahan(['tipe' => 'apartemen', 'zona' => [['jenis' => 'bangunan', 'geometri' => $kotak(106.8021, -6.2073, 106.8029, -6.2071)], $parkir]])->assertOk()->json();
+            $slot = array_values(array_filter($r['geometri_kapasitas']['features'], fn ($f) => $f['properties']['jenis'] === 'slot'));
+            $this->assertNotEmpty($slot, 'arah '.var_export($arah, true));
+            [$a, $b, $c] = $slot[0]['geometry']['coordinates'][0];
+            $k = cos(deg2rad(6.2));
+            $sisi = fn ($p, $q) => [abs($q[0] - $p[0]) * $k, abs($q[1] - $p[1])];
+            [$e1, $e2] = [$sisi($a, $b), $sisi($b, $c)];
+            $panjang = hypot(...$e1) >= hypot(...$e2) ? $e1 : $e2;
+
+            return $panjang[1] > $panjang[0];
+        };
+        $this->assertTrue($sisiPanjangUtaraSelatan(90.0), 'deret barat–timur');
+        $this->assertFalse($sisiPanjangUtaraSelatan(0.0), 'deret utara–selatan');
+
+        $this->lahan(['tipe' => 'apartemen', 'zona' => [['jenis' => 'parkir', 'arah' => 400, 'geometri' => $kotak(106.8021, -6.2079, 106.8029, -6.2071)]]])->assertStatus(422);
+    }
+
     public function test_max_run_menyela_deret_slot_dan_padding_menjauhkan_dari_tepi(): void
     {
         $biasa = count(self::slot($this->parkirUji()));
