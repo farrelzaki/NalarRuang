@@ -8,6 +8,7 @@ import type { ModeKamera } from '@/Map/PetaExplorer';
 import { useBahasa } from '@/lib/bahasa';
 import { ISOCHRONE_MINUTES, ISOCHRONE_MODES, type IsochroneMode } from '@/lib/nalar';
 import { Ikon } from './Dasar';
+import type { Gaya3D } from '@/lib/ekstrusi3d';
 
 export type Alat = 'jelajah' | 'titik' | 'area';
 
@@ -24,7 +25,8 @@ type Props = {
     /** Layar penuh (seluruh halaman peta, bukan hanya kanvas). null = peramban tidak mendukung (mis. iPhone), tombol disembunyikan. */
     layarPenuh: { aktif: boolean; onToggle: () => void } | null;
     /** Uji Lahan: hasil ditampilkan 3D langsung di peta (MapLibre). null = tombol tidak tampil. */
-    lahan3D: { aktif: boolean; onToggle: () => void } | null;
+    /** `onGaya` null = tanpa pilihan gaya (rumah tapak/pribadi). */
+    lahan3D: { aktif: boolean; onToggle: () => void; gaya: Gaya3D; onGaya: ((g: Gaya3D) => void) | null } | null;
     jumlahSudut: number;
     teksLuas: string | null;
     memuatArea: boolean;
@@ -138,6 +140,18 @@ export function BilahAlat(p: Props) {
                             <Ikon name="box" size={16} />
                             <span className="nr-bilah__label">{p.lahan3D.aktif ? t('Kembali ke 2D', 'Back to 2D') : t('Lahan 3D', 'Site 3D')}</span>
                         </button>
+                        {p.lahan3D.aktif && p.lahan3D.onGaya && (
+                            <button
+                                type="button"
+                                aria-pressed={p.lahan3D.gaya === 'warna'}
+                                className={p.lahan3D.gaya === 'warna' ? 'aktif' : undefined}
+                                title={p.lahan3D.gaya === 'warna' ? t('Kembali ke bentuk gedung realistis', 'Back to the realistic building look') : t('Warnai gedung per tipe unit (studio, 1 kamar, 2 kamar)', 'Colour the building by unit type (studio, 1-bed, 2-bed)')}
+                                onClick={() => p.lahan3D?.onGaya?.(p.lahan3D.gaya === 'warna' ? 'realistis' : 'warna')}
+                            >
+                                <Ikon name="layers" size={16} />
+                                <span className="nr-bilah__label">{t('Warna unit', 'Unit colours')}</span>
+                            </button>
+                        )}
                     </div>
                 )}
                 <div className="nr-bilah__grup">

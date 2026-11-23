@@ -31,6 +31,7 @@ const snapPribadi = () => ({
 test('3D: kolam dan halaman datar, pagar setinggi 1,6 m, rumah setinggi lantainya', () => {
     const fc = bangunEkstrusi(
         {
+            tipe: 'pribadi',
             kapasitas: { lantai: 2 },
             ringkasan: { tinggi_lantai_m: 3.5 },
             intensitas: { kdb: 60 },
@@ -39,7 +40,7 @@ test('3D: kolam dan halaman datar, pagar setinggi 1,6 m, rumah setinggi lantainy
         null,
     );
     const satu = (j: string) => fc.features.find((f) => f.properties.jenis === j)!.properties;
-    assert.equal(satu('tapak').tinggi, 7);
+    assert.equal(satu('dinding').tinggi, 7);
     assert.ok(satu('kolam').tinggi < 1 && satu('halaman').tinggi < 1, 'kolam dan halaman berupa pelat tipis');
     assert.ok(satu('kolam').tinggi > satu('halaman').tinggi, 'kolam tampak di atas halaman');
     assert.equal(satu('pagar').tinggi, TINGGI_PAGAR);

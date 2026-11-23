@@ -10,9 +10,10 @@ import { GLTFExporter } from 'three/addons/exporters/GLTFExporter.js';
 import type { Polygon } from 'geojson';
 import type { LahanResponse } from '@/types';
 import { buatModel } from './Lahan3D';
+import type { Gaya3D } from '@/lib/ekstrusi3d';
 
-export async function eksporGLB(data: LahanResponse, lahan: Polygon | null): Promise<ArrayBuffer> {
-    const model = buatModel(data, lahan);
+export async function eksporGLB(data: LahanResponse, lahan: Polygon | null, gaya: Gaya3D = 'realistis'): Promise<ArrayBuffer> {
+    const model = buatModel(data, lahan, gaya);
     model.name = 'NalarRuang-Uji-Lahan';
     model.traverse((o) => {
         const m = o as THREE.Mesh;

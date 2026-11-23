@@ -5,7 +5,10 @@
  * - Tinggi gedung = jumlah lantai x tinggi lantai. Unit dan koridor sedikit lebih rendah, inti (tangga/lift) lebih tinggi,
  *   lobi dua lantai berwarna kuning, parkir bertingkat berupa balok setinggi lantainya, sisanya (aspal, slot, jalan, taman) pelat tipis.
  * - Rumah tapak: kavling menjadi atap berukuran sqrt(KDB) dari petaknya, di atas pekarangan datar.
- * - Rumah pribadi: dinding krem setinggi lantainya dan atap limas genteng (bertingkat, karena fill-extrusion hanya balok tegak).
+ * - Rumah pribadi dan rumah tapak: dinding krem setinggi lantainya dan atap limas genteng (bertingkat di MapLibre, karena
+ *   fill-extrusion hanya balok tegak; three.js membentuk atap miring sungguhan dari `bangunModelLahan`).
+ * - Gaya realistis kos/apartemen: tiap lantai ambang dinding + pita jendela kaca, dak beton di atap, tandon air di atap kos.
+ *   Gaya warna: unit berwarna per tipe seperti TestFit.
  *
  * Tinggi dalam meter. "Pelat tipis" diberi tinggi beberapa desimeter supaya terlihat di atas tanah dan tidak berebut lapisan.
  *
@@ -174,59 +177,129 @@ export function skalaPoligon(cincin: Position[][], faktor: number): Position[][]
  * Fitur ekstrusi dari hasil Uji Lahan. `lahan` (batas yang digambar) menjadi alas tipis di bawah semuanya.
  * Urutan fitur = urutan gambar: alas, lalu pelat, lalu massa gedung.
  */
-export function bangunEkstrusi(d: DataEkstrusi, lahan: Polygon | null): FeatureCollection<Polygon, PropEkstrusi> {
+/**
+ * Gaya 3D: `realistis` = bentuk bangunan sungguhan (dinding, jendela per lantai, dak beton, atap genteng, tandon); `warna` =
+ * warna per tipe unit seperti TestFit (studio/1BR/2BR/kamar). Rumah tapak dan rumah pribadi selalu berbentuk rumah.
+ */
+export type Gaya3D = 'realistis' | 'warna';
+
+/** Atap limas yang harus dibentuk penampil: cincin denah [lng, lat], tinggi dasar (puncak dinding), warna genteng. */
+export type LimasModel = { cincin: Position[]; dasar: number; warna: string; jenis: string };
+
+/** Model 3D netral penampil: balok tegak (dasar..tinggi) + atap limas. MapLibre memakai `bangunEkstrusi`, three.js memakai ini langsung. */
+export type ModelLahan = { prisma: Feature<Polygon, PropEkstrusi>[]; limas: LimasModel[] };
+
+/** Jenis pelat tipis (datar); penampil three.js menggambarnya sebagai bidang datar, bukan balok. */
+export const JENIS_PELAT = Object.keys(PELAT);
+
+/** Warna bangunan pada gaya realistis. */
+const REALISTIS = {
+    rumahDinding: ['#f3ead6', '#ece4d8', '#f6efe2'],
+    rumahGenteng: ['#c2553a', '#a9472f', '#8e4b3a'],
+    kos: { dinding: '#efe2c8', kaca: '#8ea9bd' },
+    apartemen: { dinding: '#e6e9ec', kaca: '#6e93b1' },
+    dak: '#d6d1c7',
+    inti: '#cfcac1',
+    lobi: '#5f86a6',
+    tandon: '#2f6fb3',
+};
+/** Tinggi ambang/balok lantai (bagian dinding di bawah jendela) dan tebal dak atap + tembok pembatas (m). */
+const AMBANG = 0.9;
+const DAK = 0.6;
+
+/** Persegi kecil seluas sisi x sisi meter di pusat cincin (untuk tandon air). */
+function kotakDiPusat(cincin: Position[], sisi: number): Position[] {
+    const t = cincin.slice(0, -1);
+    const [lng, lat] = t.reduce((s, p) => [s[0] + p[0] / t.length, s[1] + p[1] / t.length], [0, 0]);
+    const dx = sisi / 2 / (111320 * Math.cos((lat * Math.PI) / 180));
+    const dy = sisi / 2 / 110574;
+    return [[lng - dx, lat - dy], [lng + dx, lat - dy], [lng + dx, lat + dy], [lng - dx, lat + dy], [lng - dx, lat - dy]];
+}
+
+/** Bentuk 3D hasil Uji Lahan sebagai balok + atap limas (lihat `ModelLahan`). */
+export function bangunModelLahan(d: DataEkstrusi, lahan: Polygon | null, gaya: Gaya3D = 'realistis'): ModelLahan {
     const tinggiLantai = d.ringkasan?.tinggi_lantai_m ?? 3.2;
     const lantai = Math.max(1, d.kapasitas.lantai || 1);
     const tG = lantai * tinggiLantai;
     const kdb = Math.min(0.9, Math.max(0.3, (d.intensitas?.kdb ?? 60) / 100));
+    const realistis = gaya === 'realistis';
+    const warnaGedung = d.tipe === 'kos' ? REALISTIS.kos : REALISTIS.apartemen;
 
     const alas: Feature<Polygon, PropEkstrusi>[] = [];
     const pelat: Feature<Polygon, PropEkstrusi>[] = [];
     const massa: Feature<Polygon, PropEkstrusi>[] = [];
+    const limas: LimasModel[] = [];
 
     const tambah = (daftar: Feature<Polygon, PropEkstrusi>[], cincin: Position[][], jenis: string, tinggi: number, warna: string, dasar = 0) => {
         if (tinggi <= dasar || !cincin[0] || cincin[0].length < 4) return;
         daftar.push({ type: 'Feature', properties: { jenis, tinggi: Math.round(tinggi * 100) / 100, dasar: Math.round(dasar * 100) / 100, warna }, geometry: { type: 'Polygon', coordinates: cincin } });
     };
     const datar = (daftar: Feature<Polygon, PropEkstrusi>[], cincin: Position[][], jenis: string) => tambah(daftar, cincin, jenis, PELAT[jenis].tinggi, PELAT[jenis].warna);
+    /** Rumah: dinding setinggi gedung + atap limas genteng di atasnya. */
+    const rumah = (cincin: Position[][], varian: number) => {
+        tambah(massa, cincin, 'dinding', tG, REALISTIS.rumahDinding[varian % 3]);
+        if (cincin[0]) limas.push({ cincin: cincin[0], dasar: tG, warna: REALISTIS.rumahGenteng[varian % 3], jenis: 'atap' });
+    };
+    /** Gedung realistis dari `dari` sampai `sampai`: tiap lantai = ambang dinding + pita jendela kaca, ditutup dak beton. */
+    const berlapis = (cincin: Position[][], dari: number, sampai: number) => {
+        for (let z = dari; z < sampai - 0.05; z += tinggiLantai) {
+            const ambang = Math.min(z + AMBANG, sampai);
+            tambah(massa, cincin, 'dinding', ambang, warnaGedung.dinding, z);
+            tambah(massa, cincin, 'kaca', Math.min(z + tinggiLantai, sampai), warnaGedung.kaca, ambang);
+        }
+        tambah(massa, cincin, 'dak', sampai + DAK, REALISTIS.dak, sampai);
+    };
 
     if (lahan) datar(alas, lahan.coordinates, 'lahan');
 
+    let nomorUnit = 0;
     for (const f of d.geometri_kapasitas?.features ?? []) {
         const pr = f.properties ?? {};
         const jenis = String(pr.jenis ?? '');
         for (const c of poligonDari(f.geometry)) {
             switch (jenis) {
                 case 'unit':
-                    tambah(massa, c, 'unit', tG - 0.3, WARNA_UNIT[String(pr.tipe)] ?? '#4a90e2');
-                    break;
                 case 'koridor':
-                    tambah(massa, c, 'koridor', tG - 0.6, '#59606e');
-                    break;
-                case 'inti':
-                    tambah(massa, c, 'inti', tG + 3, '#9aa3b2');
-                    break;
-                case 'tapak':
-                    if (d.tipe === 'pribadi') {
-                        tambah(massa, c, 'dinding', tG, WARNA_DINDING);
-                        for (const t of irisanAtapLimas(c[0] ?? [], tG)) tambah(massa, [t.cincin], 'atap', t.tinggi, WARNA_GENTENG, t.dasar);
+                    if (realistis) {
+                        berlapis(c, 0, tG);
+                        // Kos: tandon air biru di atap, kira-kira satu tiap delapan kamar.
+                        if (d.tipe === 'kos' && jenis === 'unit' && nomorUnit++ % 8 === 0 && c[0]) tambah(massa, [kotakDiPusat(c[0], 1.4)], 'tandon', tG + DAK + 1.5, REALISTIS.tandon, tG + DAK);
+                    } else if (jenis === 'unit') {
+                        tambah(massa, c, 'unit', tG - 0.3, WARNA_UNIT[String(pr.tipe)] ?? '#4a90e2');
                     } else {
-                        tambah(massa, c, 'tapak', tG, '#3b6fd8');
+                        tambah(massa, c, 'koridor', tG - 0.6, '#59606e');
                     }
                     break;
-                case 'kavling':
-                    datar(pelat, c, 'pekarangan');
-                    tambah(massa, skalaPoligon(c, Math.sqrt(kdb)), 'kavling', tG, WARNA_ATAP[Number(pr.varian ?? 0) % 3]);
+                case 'inti':
+                    tambah(massa, c, 'inti', tG + 3, realistis ? REALISTIS.inti : '#9aa3b2');
                     break;
+                case 'tapak':
+                    if (d.tipe === 'pribadi' || d.tipe === 'rumah') rumah(c, 0);
+                    else if (realistis) berlapis(c, 0, tG);
+                    else tambah(massa, c, 'tapak', tG, '#3b6fd8');
+                    break;
+                case 'kavling': {
+                    datar(pelat, c, 'pekarangan');
+                    rumah(skalaPoligon(c, Math.sqrt(kdb)), Number(pr.varian ?? 0));
+                    break;
+                }
                 case 'parkir':
                     // Semua parkir (termasuk pola wrap dan parkir bertingkat) digambar datar seperti taman, supaya gedung hunian tidak tertutup.
                     datar(pelat, c, 'aspal');
                     break;
-                case 'lobi':
-                    // Lobi dua lantai berwarna kuning; di atasnya gedung berlanjut sampai atap (warna unit), jadi pintu tidak membuat celah.
-                    tambah(massa, c, 'lobi', Math.min(tG, tinggiLantai * 2) - 0.3, '#f2b544');
-                    if (tG > tinggiLantai * 2) tambah(massa, c, 'atas-lobi', tG - 0.3, WARNA_UNIT['1br'], tinggiLantai * 2);
+                case 'lobi': {
+                    // Lobi dua lantai (kuning, atau kaca pada gaya realistis); di atasnya gedung berlanjut sampai atap, jadi pintu tidak membuat celah.
+                    const tLobi = Math.min(tG, tinggiLantai * 2);
+                    if (realistis) {
+                        tambah(massa, c, 'lobi', tLobi, REALISTIS.lobi);
+                        if (tG > tLobi) berlapis(c, tLobi, tG);
+                        else tambah(massa, c, 'dak', tG + DAK, REALISTIS.dak, tG);
+                    } else {
+                        tambah(massa, c, 'lobi', tLobi - 0.3, '#f2b544');
+                        if (tG > tinggiLantai * 2) tambah(massa, c, 'atas-lobi', tG - 0.3, WARNA_UNIT['1br'], tinggiLantai * 2);
+                    }
                     break;
+                }
                 case 'taman':
                 case 'void':
                     datar(pelat, c, 'taman');
@@ -246,7 +319,20 @@ export function bangunEkstrusi(d: DataEkstrusi, lahan: Polygon | null): FeatureC
         }
     }
 
-    return { type: 'FeatureCollection', features: [...alas, ...pelat, ...massa] };
+    return { prisma: [...alas, ...pelat, ...massa], limas };
+}
+
+/** Fitur `fill-extrusion` MapLibre: balok model + atap limas yang disusun bertingkat (MapLibre hanya bisa balok tegak). */
+export function bangunEkstrusi(d: DataEkstrusi, lahan: Polygon | null, gaya: Gaya3D = 'realistis'): FeatureCollection<Polygon, PropEkstrusi> {
+    const m = bangunModelLahan(d, lahan, gaya);
+    const atap: Feature<Polygon, PropEkstrusi>[] = m.limas.flatMap((l) =>
+        irisanAtapLimas(l.cincin, l.dasar).map((t) => ({
+            type: 'Feature' as const,
+            properties: { jenis: l.jenis, tinggi: Math.round(t.tinggi * 100) / 100, dasar: Math.round(t.dasar * 100) / 100, warna: l.warna },
+            geometry: { type: 'Polygon' as const, coordinates: [t.cincin] },
+        })),
+    );
+    return { type: 'FeatureCollection', features: [...m.prisma, ...atap] };
 }
 
 /** Kotak batas [barat, selatan, timur, utara] dari sebuah poligon, atau null bila kosong. */

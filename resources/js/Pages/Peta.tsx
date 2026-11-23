@@ -18,7 +18,7 @@ import type { ModeKamera, TitikPeta } from '@/Map/PetaExplorer';
 import PetaPilihan, { type MesinPeta } from '@/Map/PetaPilihan';
 import { luasPoligonM2, teksLuas } from '@/Map/isiPeta';
 import { mapLibreBolehDipakai } from '@/Map/maplibre';
-import { bangunEkstrusi } from '@/lib/ekstrusi3d';
+import { bangunEkstrusi, type Gaya3D } from '@/lib/ekstrusi3d';
 import { bacaBerkas, bangunGeoJSON, bungkusProyek, EKSTENSI, namaBerkas, type DesainImpor } from '@/lib/berkasLahan';
 import { simpanBerkas } from '@/lib/simpanBerkas';
 import { buatSkema, namaBerikut, type SkemaLahan } from '@/lib/skemaLahan';
@@ -53,6 +53,16 @@ const LAYER_AWAL: LayerKey[] = ['mobilitas'];
 const LUAS_AREA_MAKS = 25_000_000;
 const SUDUT_MAKS = 60;
 const KUNCI_KAMERA = 'nr-mode-kamera';
+const KUNCI_GAYA_3D = 'nr-gaya-3d';
+
+/** Gaya 3D Uji Lahan yang dipilih (sampai tab browser ditutup); bawaan realistis. */
+function gaya3DTersimpan(): Gaya3D {
+    try {
+        return sessionStorage.getItem(KUNCI_GAYA_3D) === 'warna' ? 'warna' : 'realistis';
+    } catch {
+        return 'realistis';
+    }
+}
 
 function kameraTersimpan(): ModeKamera {
     try {
@@ -199,6 +209,17 @@ export default function Peta() {
     const zonaSembunyi = useMemo(() => (zonaLahan ?? []).flatMap((z, i) => (z.sembunyi ? [i] : [])), [zonaLahan]);
     const [tambahAkses, setTambahAkses] = useState<{ jenis: JenisAkses; kunci: number } | null>(null);
     const [tampil3D, setTampil3D] = useState(false);
+    const [gaya3D, setGaya3DState] = useState<Gaya3D>(gaya3DTersimpan);
+    const setGaya3D = (g: Gaya3D) => {
+        setGaya3DState(g);
+        try {
+            sessionStorage.setItem(KUNCI_GAYA_3D, g);
+        } catch {
+            /* tanpa sessionStorage: cukup di memori */
+        }
+    };
+    // Pilihan gaya hanya berarti untuk kos/apartemen (rumah selalu berbentuk rumah).
+    const bisaGaya3D = hasilLahan?.tipe === 'kos' || hasilLahan?.tipe === 'apartemen';
     // Hasil Uji Lahan 3D langsung di peta (MapLibre). Kamera sebelumnya diingat supaya kembali ke 2D memulihkannya.
     const [lahan3DPeta, setLahan3DPeta] = useState(false);
     const [bisa3DPeta] = useState(mapLibreBolehDipakai);
@@ -784,7 +805,7 @@ export default function Peta() {
                 if (!hasilLahan) return;
                 // three.js dan GLTFExporter baru diunduh saat dipakai.
                 const { eksporGLB } = await import('@/Map/EksporLahan');
-                simpanBerkas(new Blob([await eksporGLB(hasilLahan, geomLahan)], { type: 'model/gltf-binary' }), nama + '.glb');
+                simpanBerkas(new Blob([await eksporGLB(hasilLahan, geomLahan, gaya3D)], { type: 'model/gltf-binary' }), nama + '.glb');
                 kabar(t('Model 3D tersimpan (.glb).', '3D model saved (.glb).'), 'success');
             }
         } catch (e) {
@@ -1054,8 +1075,8 @@ export default function Peta() {
         if (panelKiri !== 'lahan' && lahan3DPeta) keluar3DPeta();
     }, [panelKiri]);
     const ekstrusiLahan = useMemo(
-        () => (panelKiri === 'lahan' && lahan3DPeta && hasilLahan && geomLahan ? bangunEkstrusi(hasilLahan, geomLahan) : null),
-        [panelKiri, lahan3DPeta, hasilLahan, geomLahan],
+        () => (panelKiri === 'lahan' && lahan3DPeta && hasilLahan && geomLahan ? bangunEkstrusi(hasilLahan, geomLahan, gaya3D) : null),
+        [panelKiri, lahan3DPeta, hasilLahan, geomLahan, gaya3D],
     );
 
     // Layar penuh: seluruh halaman peta (panel dan bilah ikut), bukan hanya kanvas. Tidak ada di peramban tanpa Fullscreen API (mis. iPhone).
@@ -1084,7 +1105,7 @@ export default function Peta() {
                 {panelKiri === 'lahan' && tampil3D && hasilLahan && (
                     // three.js baru diunduh saat pratinjau 3D dibuka, jadi halaman peta tidak bertambah berat.
                     <Suspense fallback={<div className="nr-3d nr-3d--muat">{t('Menyiapkan tampilan 3D…', 'Preparing 3D view…')}</div>}>
-                        <Pratinjau3D data={hasilLahan} lahan={geomLahan} onTutup={() => setTampil3D(false)} />
+                        <Pratinjau3D data={hasilLahan} lahan={geomLahan} gaya={gaya3D} onGaya={bisaGaya3D ? setGaya3D : null} onTutup={() => setTampil3D(false)} />
                     </Suspense>
                 )}
                 <PetaPilihan
@@ -1411,7 +1432,7 @@ export default function Peta() {
                         kameraTersedia={mesin === 'maplibre'}
                         onZoom={(arah) => setPerintahZoom({ arah, kunci: Date.now() })}
                         layarPenuh={bisaLayarPenuh ? { aktif: layarPenuh, onToggle: toggleLayarPenuh } : null}
-                        lahan3D={panelKiri === 'lahan' && bisa3DPeta && hasilLahan && geomLahan ? { aktif: lahan3DPeta, onToggle: lahan3DPeta ? keluar3DPeta : masuk3DPeta } : null}
+                        lahan3D={panelKiri === 'lahan' && bisa3DPeta && hasilLahan && geomLahan ? { aktif: lahan3DPeta, onToggle: lahan3DPeta ? keluar3DPeta : masuk3DPeta, gaya: gaya3D, onGaya: bisaGaya3D ? setGaya3D : null } : null}
                         jumlahSudut={sudutArea.length}
                         teksLuas={luasGambar ? teksLuas(luasGambar) : null}
                         memuatArea={memuatArea}
