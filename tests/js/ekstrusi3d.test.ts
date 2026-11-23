@@ -41,6 +41,16 @@ test('parkir bertingkat menjadi balok, parkir permukaan menjadi aspal', () => {
     assert.equal(cari(fc, 'aspal').length, 1);
 });
 
+test('gedung parkir pola wrap satu lantai tetap berupa balok, slotnya di atap', () => {
+    const fc = bangunEkstrusi(data([fitur('parkir', kotak(106.8, -6.2), { lantai: 1, gedung: true, zona: 2 }), fitur('slot', kotak(106.8, -6.2, 0.00002), { zona: 2 }), fitur('slot', kotak(106.801, -6.2, 0.00002), { zona: 5 })]), null);
+    const gedung = cari(fc, 'gedung-parkir');
+    assert.equal(gedung.length, 1);
+    assert.equal(gedung[0].properties.tinggi, 3);
+    assert.equal(cari(fc, 'aspal').length, 0);
+    // Urutan gambar: pelat (slot permukaan) dulu, lalu massa (slot di atap gedung parkir).
+    assert.deepEqual(cari(fc, 'slot').map((f) => f.properties.dasar).sort(), [0, 3], 'satu slot di tanah, satu di atap');
+});
+
 test('lobi dua lantai kuning dan massa di atasnya berlanjut sebagai koridor dengan dasar 2 lantai', () => {
     const fc = bangunEkstrusi(data([fitur('lobi', kotak(106.8, -6.2))], 5), null);
     const lobi = cari(fc, 'lobi')[0].properties;

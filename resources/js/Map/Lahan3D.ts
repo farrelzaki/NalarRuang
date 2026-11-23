@@ -15,6 +15,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import type { Feature, Geometry, Polygon, Position } from 'geojson';
 import type { LahanResponse } from '@/types';
+import { tinggiGedungParkir, tinggiParkir } from '@/lib/ekstrusi3d';
 
 const WARNA_UNIT: Record<string, number> = { studio: 0x2fbf71, '1br': 0x4a90e2, '2br': 0x7b5cd6, kamar: 0x4a90e2 };
 const WARNA_ATAP = [0xf2994a, 0xe8833a, 0xf5b06b];
@@ -109,6 +110,7 @@ export function buatModel(d: LahanResponse, lahanGeo: Polygon | null): THREE.Gro
     }
 
     const fitur = (d.geometri_kapasitas?.features ?? []) as Feature<Geometry, Record<string, unknown>>[];
+    const garasi = tinggiGedungParkir(fitur);
     const kdb = Math.min(0.9, Math.max(0.3, (d.intensitas?.kdb ?? 60) / 100));
     for (const f of fitur) {
         const pr = f.properties ?? {};
@@ -136,14 +138,17 @@ export function buatModel(d: LahanResponse, lahanGeo: Polygon | null): THREE.Gro
                     break;
                 }
                 case 'parkir': {
-                    const lp = Number(pr.lantai ?? 1);
-                    if (lp > 1) masuk('gedung-parkir', 0x8a919c, ekstrusi(s, lp * 3), 0.85);
+                    const h = tinggiParkir(pr);
+                    if (h) masuk('gedung-parkir', 0x8a919c, ekstrusi(s, h), 0.85);
                     else masuk('aspal', 0x7b818b, datar(s, 0.08));
                     break;
                 }
-                case 'slot':
-                    masuk('slot', 0xc9d1db, datar(s, 0.12));
+                case 'slot': {
+                    // Slot gedung parkir digambar di atapnya.
+                    const h = typeof pr.zona === 'number' ? garasi.get(pr.zona) : undefined;
+                    masuk('slot', 0xc9d1db, datar(s, (h ?? 0) + 0.12));
                     break;
+                }
                 case 'jalan':
                     masuk('jalan', 0x6b7280, datar(s, 0.07));
                     break;

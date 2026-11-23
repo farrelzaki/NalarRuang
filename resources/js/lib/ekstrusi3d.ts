@@ -44,6 +44,24 @@ const PELAT: Record<string, { tinggi: number; warna: string }> = {
     akses: { tinggi: 0.8, warna: '#4b5160' },
 };
 
+/** Tinggi gedung parkir (m) dari properti satu fitur parkir; 0 = parkir permukaan. */
+export function tinggiParkir(p: Record<string, unknown>): number {
+    const lantai = Number(p.lantai ?? 1);
+    return p.gedung === true || lantai > 1 ? Math.max(1, lantai) * 3 : 0;
+}
+
+/** Tinggi gedung parkir (m) per nomor zona: pola wrap (`gedung`) atau parkir bertingkat; 3 m per lantai. */
+export function tinggiGedungParkir(features: { properties?: Record<string, unknown> | null }[]): Map<number, number> {
+    const hasil = new Map<number, number>();
+    for (const f of features) {
+        const p = f.properties ?? {};
+        if (p.jenis !== 'parkir') continue;
+        const h = tinggiParkir(p);
+        if (h > 0 && typeof p.zona === 'number') hasil.set(p.zona, h);
+    }
+    return hasil;
+}
+
 /** Semua poligon (cincin luar + lubang) dari geometri; selain Polygon/MultiPolygon diabaikan. */
 export function poligonDari(g: Geometry | null | undefined): Position[][][] {
     if (!g) return [];
@@ -81,6 +99,7 @@ export function bangunEkstrusi(d: DataEkstrusi, lahan: Polygon | null): FeatureC
     const datar = (daftar: Feature<Polygon, PropEkstrusi>[], cincin: Position[][], jenis: string) => tambah(daftar, cincin, jenis, PELAT[jenis].tinggi, PELAT[jenis].warna);
 
     if (lahan) datar(alas, lahan.coordinates, 'lahan');
+    const garasi = tinggiGedungParkir(d.geometri_kapasitas?.features ?? []);
 
     for (const f of d.geometri_kapasitas?.features ?? []) {
         const pr = f.properties ?? {};
@@ -104,8 +123,8 @@ export function bangunEkstrusi(d: DataEkstrusi, lahan: Polygon | null): FeatureC
                     tambah(massa, skalaPoligon(c, Math.sqrt(kdb)), 'kavling', tG, WARNA_ATAP[Number(pr.varian ?? 0) % 3]);
                     break;
                 case 'parkir': {
-                    const lp = Number(pr.lantai ?? 1);
-                    if (lp > 1) tambah(massa, c, 'gedung-parkir', lp * 3, '#8a919c');
+                    const h = tinggiParkir(pr);
+                    if (h) tambah(massa, c, 'gedung-parkir', h, '#8a919c');
                     else datar(pelat, c, 'aspal');
                     break;
                 }
@@ -118,7 +137,13 @@ export function bangunEkstrusi(d: DataEkstrusi, lahan: Polygon | null): FeatureC
                 case 'void':
                     datar(pelat, c, 'taman');
                     break;
-                case 'slot':
+                case 'slot': {
+                    // Slot di gedung parkir digambar di atapnya (lantai teratas), bukan tertutup di dalam balok.
+                    const h = typeof pr.zona === 'number' ? garasi.get(pr.zona) : undefined;
+                    if (h) tambah(massa, c, 'slot', h + PELAT.slot.tinggi, PELAT.slot.warna, h);
+                    else datar(pelat, c, 'slot');
+                    break;
+                }
                 case 'jalan':
                 case 'akses':
                 case 'jalur':

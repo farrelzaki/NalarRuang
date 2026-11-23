@@ -1347,7 +1347,8 @@ class LahanController extends Controller
             if ($z['jenis'] === 'parkir') {
                 $z['lantai'] = max(1, $lantaiParkir);
                 $luasParkir += $this->luasUtm($z['ewkt']);
-                $fitur[] = self::fitur($this->keGeo($z['ewkt']), ['jenis' => 'parkir', 'zona' => $id, 'lantai' => $z['lantai']]);
+                // Pola wrap: parkir adalah gedung parkir (paling sedikit satu lantai beratap), bukan aspal permukaan.
+                $fitur[] = self::fitur($this->keGeo($z['ewkt']), ['jenis' => 'parkir', 'zona' => $id, 'lantai' => $z['lantai'], ...($pola === 'wrap' ? ['gedung' => true] : [])]);
             } elseif ($z['jenis'] === 'taman') {
                 $luasZona = $this->luasUtm($z['ewkt']);
                 $luasTaman += $luasZona;
