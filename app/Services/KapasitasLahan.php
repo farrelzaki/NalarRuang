@@ -16,13 +16,16 @@ namespace App\Services;
  */
 class KapasitasLahan
 {
-    public const TIPE = ['rumah', 'kos', 'apartemen'];
+    public const TIPE = ['rumah', 'kos', 'apartemen', 'pribadi'];
 
     /** Asumsi bawaan per tipe; bisa diubah pengguna dalam rentang RENTANG. */
     public const BAWAAN = [
         'rumah' => ['lebar_kavling' => 6.0, 'panjang_kavling' => 15.0, 'lebar_jalan' => 8.0],
         'kos' => ['luas_kamar' => 12.0, 'sempadan' => 2.0, 'lantai' => null, 'rasio_motor' => 1.0, 'sudut_parkir' => 90.0, 'padding_parkir' => 0.0, 'maks_baris' => 0],
         'apartemen' => ['porsi_studio' => 0.3, 'porsi_2br' => 0.2, 'sempadan' => 5.0, 'lantai' => null, 'rasio_parkir' => 0.5, 'sudut_parkir' => 90.0, 'padding_parkir' => 0.0, 'maks_baris' => 0],
+        // Rumah pribadi: luas bangunan (total lantai, m²) kosong = rekomendasi; lantai kosong = 2; carport untuk sejumlah mobil;
+        // kolam renang (m², 0 = tanpa kolam); sempadan = garis sempadan bangunan dari tepi lahan.
+        'pribadi' => ['luas_bangunan' => null, 'lantai' => null, 'mobil' => 2, 'kolam' => 0.0, 'sempadan' => 3.0],
     ];
 
     /** Rentang masukan asumsi [min, max]. */
@@ -42,6 +45,9 @@ class KapasitasLahan
         'sudut_parkir' => [30, 90],
         'padding_parkir' => [0, 3],
         'maks_baris' => [0, 40],
+        'luas_bangunan' => [20, 5000],
+        'mobil' => [0, 4],
+        'kolam' => [0, 300],
     ];
 
     /**
@@ -56,16 +62,17 @@ class KapasitasLahan
         'rumah' => ['grid', 'cluster'],
         'kos' => ['keliling', 'koridor', 'grid'],
         'apartemen' => ['keliling', 'wrap', 'tower'],
+        'pribadi' => ['depan', 'tengah'],
     ];
 
     /** Jenis zona yang bisa ditarik sendiri-sendiri di peta. */
-    public const JENIS_ZONA = ['bangunan', 'parkir', 'taman', 'larangan'];
+    public const JENIS_ZONA = ['bangunan', 'parkir', 'taman', 'larangan', 'kolam'];
 
     /**
      * Prioritas bawaan saat zona bertumpuk (angka lebih besar menang). `larangan` = area larangan bangun: selalu menang, dan
      * zona lain menyesuaikan diri di sekelilingnya sehingga tidak ada gedung, parkir, atau taman di dalamnya.
      */
-    public const PRIORITAS_BAWAAN = ['larangan' => 4, 'bangunan' => 3, 'parkir' => 2, 'taman' => 1];
+    public const PRIORITAS_BAWAAN = ['larangan' => 4, 'bangunan' => 3, 'parkir' => 2, 'kolam' => 2, 'taman' => 1];
 
     /** Slot parkir motor 0,8 x 2 m dengan lorong 2 m (kos). */
     public const SLOT_MOTOR = ['lebar' => 0.8, 'panjang' => 2.0, 'lorong' => 2.0];
@@ -74,7 +81,7 @@ class KapasitasLahan
     public const LUAS_PER_SLOT = ['mobil' => 25.0, 'motor' => 2.8];
 
     /** Tinggi satu lantai (m) untuk tinggi bangunan dan pratinjau 3D. */
-    public const TINGGI_LANTAI = ['rumah' => 3.5, 'kos' => 3.2, 'apartemen' => 3.2];
+    public const TINGGI_LANTAI = ['rumah' => 3.5, 'kos' => 3.2, 'apartemen' => 3.2, 'pribadi' => 3.5];
 
     /** Porsi lahan rumah tapak untuk taman/fasum pada pola bawaan. */
     public const PORSI_FASUM = 0.1;
@@ -113,13 +120,14 @@ class KapasitasLahan
         'rumah' => ['kdb' => 60.0, 'klb' => 1.2],
         'kos' => ['kdb' => 60.0, 'klb' => 1.8],
         'apartemen' => ['kdb' => 40.0, 'klb' => 4.0],
+        'pribadi' => ['kdb' => 60.0, 'klb' => 1.2],
     ];
 
     /** Batas lantai per tipe (kos dianggap bangunan rendah, apartemen bangunan tinggi). */
-    public const LANTAI_MAKS = ['rumah' => 3, 'kos' => 4, 'apartemen' => 40];
+    public const LANTAI_MAKS = ['rumah' => 3, 'kos' => 4, 'apartemen' => 40, 'pribadi' => 3];
 
     /** Alternatif intensitas RDTR yang dipakai: 1 untuk bangunan tapak/rendah, 2 untuk bangunan vertikal. */
-    public const ALTERNATIF = ['rumah' => 1, 'kos' => 1, 'apartemen' => 2];
+    public const ALTERNATIF = ['rumah' => 1, 'kos' => 1, 'apartemen' => 2, 'pribadi' => 1];
 
     /**
      * Gabungkan asumsi pengguna dengan bawaan, dijepit ke RENTANG. Kunci yang tidak dikenal dibuang.
@@ -139,7 +147,7 @@ class KapasitasLahan
             }
             [$min, $max] = self::RENTANG[$kunci];
             $nilai = (float) max($min, min($max, (float) $masukan[$kunci]));
-            $hasil[$kunci] = in_array($kunci, ['lantai', 'maks_baris'], true) ? (int) round($nilai) : $nilai;
+            $hasil[$kunci] = in_array($kunci, ['lantai', 'maks_baris', 'mobil'], true) ? (int) round($nilai) : $nilai;
         }
 
         // Porsi studio + 2 kamar paling banyak 100 %; sisanya 1 kamar.
@@ -430,6 +438,42 @@ class KapasitasLahan
         ];
     }
 
+    /** Tapak rumah pribadi paling luas pada rekomendasi (m²): rumah tinggal, bukan gedung. */
+    public const TAPAK_PRIBADI_MAKS = 300.0;
+
+    /**
+     * Rumah pribadi: lantai (kosong = 2, dijepit 1–3), luas bangunan yang diminta (kosong = rekomendasi), dan tapak per lantai.
+     * Rekomendasi = tapak sebesar min(batas KDB, 60% lahan setelah sempadan, 300 m²) dikali lantai, tidak melebihi batas KLB,
+     * dibulatkan ke 5 m². Luas yang diminta tidak dijepit ke KDB/KLB: bila melebihi, ringkasan menandainya merah.
+     *
+     * @param  array<string, mixed>  $asumsi
+     * @return array{lantai: int, lantai_maks: int, rekomendasi: float, diminta: float, tapak: float}
+     */
+    public static function rumahPribadi(float $luasLahan, float $luasTersedia, array $asumsi, float $kdbPersen, float $klb): array
+    {
+        $lantaiMaks = self::LANTAI_MAKS['pribadi'];
+        $lantai = max(1, min($lantaiMaks, (int) ($asumsi['lantai'] ?? 2)));
+        $tapakRekom = max(20.0, min($luasLahan * $kdbPersen / 100, 0.6 * $luasTersedia, self::TAPAK_PRIBADI_MAKS));
+        $rekomendasi = max(20.0, round(min($tapakRekom * $lantai, $luasLahan * $klb) / 5) * 5);
+        $diminta = isset($asumsi['luas_bangunan']) && is_numeric($asumsi['luas_bangunan']) ? (float) $asumsi['luas_bangunan'] : $rekomendasi;
+
+        return ['lantai' => $lantai, 'lantai_maks' => $lantaiMaks, 'rekomendasi' => $rekomendasi, 'diminta' => $diminta, 'tapak' => $diminta / $lantai];
+    }
+
+    /**
+     * Perkiraan kasar (indikatif) jumlah kamar rumah dari total luas lantai: satu kamar tidur per 36 m² (1–10), kamar mandi
+     * separuh kamar tidur dibulatkan ke atas, ditambah satu bila luas lantai ≥ 150 m² (1–8).
+     *
+     * @return array{kamar_tidur: int, kamar_mandi: int}
+     */
+    public static function perkiraanKamar(float $luasLantai): array
+    {
+        $tidur = max(1, min(10, (int) floor($luasLantai / 36)));
+        $mandi = max(1, min(8, (int) ceil($tidur / 2) + ($luasLantai >= 150 ? 1 : 0)));
+
+        return ['kamar_tidur' => $tidur, 'kamar_mandi' => $mandi];
+    }
+
     /** Pola yang sah untuk tipe ini; selain itu pola bawaan. */
     public static function polaSah(string $tipe, mixed $pola): string
     {
@@ -443,7 +487,7 @@ class KapasitasLahan
     {
         return match ($tipe) {
             'kos' => 'motor',
-            'apartemen' => 'mobil',
+            'apartemen', 'pribadi' => 'mobil',
             default => null,
         };
     }
@@ -563,7 +607,7 @@ class KapasitasLahan
     {
         return match ($tipe) {
             'rumah' => (float) ($asumsi['lebar_jalan'] ?? self::BAWAAN['rumah']['lebar_jalan']),
-            'kos' => 3.0,
+            'kos', 'pribadi' => 3.0,
             default => 6.0,
         };
     }

@@ -434,6 +434,37 @@ class KapasitasLahanTest extends TestCase
         $this->assertSame(40, $a['maks_baris']);
         $this->assertSame(90.0, $this->k->asumsi('kos', [])['sudut_parkir']);
         $this->assertArrayNotHasKey('sudut_parkir', $this->k->asumsi('rumah', ['sudut_parkir' => 45]));
-        $this->assertSame(['larangan' => 4, 'bangunan' => 3, 'parkir' => 2, 'taman' => 1], KapasitasLahan::PRIORITAS_BAWAAN);
+        $this->assertSame(['larangan' => 4, 'bangunan' => 3, 'parkir' => 2, 'kolam' => 2, 'taman' => 1], KapasitasLahan::PRIORITAS_BAWAAN);
+    }
+
+    public function test_rumah_pribadi_rekomendasi_dan_luas_yang_diminta(): void
+    {
+        // Lahan 400 m², KDB 60%, KLB 1,2: tapak rekomendasi min(240, 0,6 x 300, 300) = 180 m², 2 lantai = 360 (KLB membatasi 480).
+        $r = KapasitasLahan::rumahPribadi(400, 300, ['lantai' => null, 'luas_bangunan' => null], 60, 1.2);
+        $this->assertSame(2, $r['lantai']);
+        $this->assertSame(360.0, $r['rekomendasi']);
+        $this->assertSame(360.0, $r['diminta']);
+        $this->assertSame(180.0, $r['tapak']);
+        // KLB membatasi rekomendasi: 3 lantai x 180 = 540 > 480.
+        $this->assertSame(480.0, KapasitasLahan::rumahPribadi(400, 300, ['lantai' => 3], 60, 1.2)['rekomendasi']);
+        // Lahan besar: tapak rekomendasi paling banyak 300 m².
+        $this->assertSame(600.0, KapasitasLahan::rumahPribadi(10000, 9000, ['lantai' => 2], 60, 1.2)['rekomendasi']);
+        // Luas yang diminta dipakai apa adanya (tidak dijepit KDB), tapak = luas / lantai; lantai dijepit 1–3.
+        $d = KapasitasLahan::rumahPribadi(400, 300, ['lantai' => 9, 'luas_bangunan' => 900], 60, 1.2);
+        $this->assertSame(3, $d['lantai']);
+        $this->assertSame(300.0, $d['tapak']);
+    }
+
+    public function test_perkiraan_kamar_rumah_pribadi(): void
+    {
+        $this->assertSame(['kamar_tidur' => 1, 'kamar_mandi' => 1], KapasitasLahan::perkiraanKamar(30));
+        $this->assertSame(['kamar_tidur' => 3, 'kamar_mandi' => 2], KapasitasLahan::perkiraanKamar(120));
+        $this->assertSame(['kamar_tidur' => 5, 'kamar_mandi' => 4], KapasitasLahan::perkiraanKamar(200));
+        $this->assertSame(['kamar_tidur' => 10, 'kamar_mandi' => 6], KapasitasLahan::perkiraanKamar(5000));
+        $a = $this->k->asumsi('pribadi', ['mobil' => 9, 'kolam' => -5, 'luas_bangunan' => 10]);
+        $this->assertSame(4, $a['mobil']);
+        $this->assertSame(0.0, $a['kolam']);
+        $this->assertSame(20.0, $a['luas_bangunan']);
+        $this->assertNull($this->k->asumsi('pribadi', [])['luas_bangunan']);
     }
 }

@@ -209,6 +209,9 @@ class LahanController extends Controller
         if ($banjir['porsi_rawan'] >= 0.25) {
             $catatan[] = 'Sekitar '.(int) round($banjir['porsi_rawan'] * 100).'% lahan berada di area rawan tergenang (InaRISK).';
         }
+        if ($kapasitas['pribadi']['tidak_muat'] ?? false) {
+            $catatan[] = 'Luas bangunan yang diminta tidak muat di zona bangunan; rumah digambar sebesar yang muat. Perbesar zona bangunan atau tambah lantai.';
+        }
         if ($infoTarget !== null && ! $infoTarget['tercapai']) {
             $satuan = $kapasitas['satuan'];
             $catatan[] = "Target {$infoTarget['diminta']} {$satuan} tidak muat; maksimum {$infoTarget['maks']} {$satuan} pada pengaturan ini.";
@@ -259,12 +262,15 @@ class LahanController extends Controller
      */
     private function hitungDenganTarget(string $tipe, string $lahanUtm, float $luas, array $asumsi, array $intensitas, string $pola, ?array $manual, array $akses, ?array $target): array
     {
-        $hitung = fn (array $a): array => $tipe === 'rumah'
-            ? $this->rumah($lahanUtm, $luas, $a, $intensitas, $pola, $manual, $akses)
-            : $this->bangunan($tipe, $lahanUtm, $luas, $a, $intensitas, $pola, $manual, $akses);
+        $hitung = fn (array $a): array => match ($tipe) {
+            'rumah' => $this->rumah($lahanUtm, $luas, $a, $intensitas, $pola, $manual, $akses),
+            'pribadi' => $this->pribadi($lahanUtm, $luas, $a, $intensitas, $pola, $manual, $akses),
+            default => $this->bangunan($tipe, $lahanUtm, $luas, $a, $intensitas, $pola, $manual, $akses),
+        };
 
         $hasil = $hitung($asumsi);
-        if ($target === null) {
+        // Rumah pribadi selalu satu rumah: target jumlah tidak berlaku.
+        if ($target === null || $tipe === 'pribadi') {
             return [...$hasil, $asumsi, null];
         }
 
@@ -1266,6 +1272,242 @@ class LahanController extends Controller
         }
 
         return $zona;
+    }
+
+    // ---------------------------------------------------------------------------------------------------------
+    // Rumah pribadi: satu rumah di satu lahan
+    // ---------------------------------------------------------------------------------------------------------
+
+    /**
+     * Rumah pribadi: satu bangunan rumah seluas yang diminta (atau rekomendasi dari KDB/KLB), carport untuk sejumlah mobil,
+     * kolam renang opsional, taman, halaman (sisa lahan), pagar keliling dengan bukaan di gerbang, dan pintu rumah.
+     * Zona bawaan dari pola (`depan`: rumah di belakang carport dan halaman depan; `tengah`: rumah di tengah dikelilingi taman),
+     * atau zona yang ditarik sendiri. Rumah mengisi zona bangunan, diperkecil sampai seluas tapak yang diminta.
+     *
+     * @param  ?list<array{jenis: string, geojson: string}>  $manual
+     * @return array{0: array<string, mixed>, 1: array<string, mixed>, 2: array<string, mixed>, 3: float, 4: array<string, mixed>}
+     */
+    private function pribadi(string $lahan, float $luas, array $asumsi, array $intensitas, string $pola, ?array $manual, array $akses = []): array
+    {
+        $lahanSempadan = $this->buf($lahan, -(float) $asumsi['sempadan']);
+        $luasTersedia = $this->luasUtm($lahanSempadan);
+        if ($luasTersedia < 20) {
+            $lahanSempadan = $lahan;
+            $luasTersedia = $luas;
+        }
+        $r = KapasitasLahan::rumahPribadi($luas, $luasTersedia, $asumsi, (float) $intensitas['kdb'], (float) $intensitas['klb']);
+        $mobil = (int) $asumsi['mobil'];
+
+        // Gerbang menempel ke tepi lahan; gerbang pertama menentukan sisi depan pola bawaan.
+        $gerbang = [];
+        foreach ($akses as $id => &$a) {
+            if ($a['jenis'] === 'gerbang') {
+                $a['ewkt'] = $this->tepiTerdekat($a['ewkt'], $lahan);
+                $gerbang[$id] = $a['ewkt'];
+            }
+        }
+        unset($a);
+
+        $zona = $manual !== null
+            ? $this->potongManual($manual, $lahan, $lahanSempadan)
+            : $this->zonaPribadi($pola, $lahan, $lahanSempadan, $r['tapak'], $mobil, (float) $asumsi['kolam'], (float) $asumsi['sempadan'], $gerbang === [] ? null : (string) reset($gerbang));
+        if ($manual === null && $this->laranganOtomatis !== null) {
+            $zona = $this->tambahLaranganOtomatis($zona, $lahan, true);
+        }
+
+        // 1. Rumah: zona bangunan diperkecil (bentuknya tetap) sampai seluas tapak yang diminta.
+        $fitur = [];
+        $rumah = $this->susutKe($this->gabung(self::saring($zona, 'bangunan')), $r['tapak']);
+        $tapak = $this->luasUtm($rumah);
+        $lantai = $r['lantai'];
+        if ($tapak >= 1) {
+            $fitur[] = self::fitur($this->keGeo($rumah), ['jenis' => 'tapak', 'lantai' => $lantai, 'jumlah' => 1, 'satuan' => 'rumah']);
+        }
+
+        // 2. Carport: slot mobil di zona parkir, paling banyak sejumlah mobil yang diminta.
+        $slot = [];
+        $muat = 0;
+        foreach (self::saring($zona, 'parkir') as $id => $z) {
+            $fitur[] = self::fitur($this->keGeo($z['ewkt']), ['jenis' => 'parkir', 'zona' => $id, 'lantai' => 1]);
+            if ($muat >= $mobil) {
+                continue;
+            }
+            $petak = $this->petak($z['ewkt'], KapasitasLahan::SLOT_PARKIR['lebar'], KapasitasLahan::SLOT_PARKIR['panjang'], 0.5, 90.0, 0, false, $z['arah'] ?? null);
+            foreach ($petak['petak'] as $p) {
+                if ($muat >= $mobil) {
+                    break;
+                }
+                $slot[] = self::fitur($p->geo, ['jenis' => 'slot', 'zona' => $id]);
+                $muat++;
+            }
+        }
+
+        // 3. Kolam dan taman.
+        $luasTaman = 0.0;
+        $luasKolam = 0.0;
+        foreach ($zona as $id => $z) {
+            if ($z['jenis'] === 'kolam') {
+                $luasKolam += $this->luasUtm($z['ewkt']);
+                $fitur[] = self::fitur($this->keGeo($z['ewkt']), ['jenis' => 'kolam', 'zona' => $id]);
+            } elseif ($z['jenis'] === 'taman') {
+                $luasTaman += $this->luasUtm($z['ewkt']);
+                $fitur[] = self::fitur($this->keGeo($z['ewkt']), ['jenis' => 'taman', 'zona' => $id]);
+            }
+        }
+
+        // 4. Halaman = sisa lahan di luar rumah dan semua zona (berpaving, bukan ruang hijau).
+        $halaman = $this->op('ST_Difference', $lahan, $this->op('ST_Union', $this->gabung($zona), $rumah));
+        if ($this->luasUtm($halaman) >= 1) {
+            array_unshift($fitur, self::fitur($this->keGeo($halaman), ['jenis' => 'halaman']));
+        }
+
+        // 5. Gerbang: jalan masuk ke carport (atau ke rumah); pintu: menempel tepi rumah, jalur ke gerbang terdekat.
+        $atas = [];
+        $bukaan = [];
+        $tujuan = $muat > 0 ? $this->gabung(self::saring($zona, 'parkir')) : $rumah;
+        foreach ($akses as $id => &$a) {
+            if ($a['jenis'] === 'gerbang') {
+                $pita = $this->jalanMasuk($a, $lahan, $tujuan);
+                if ($this->luasUtm($pita) > 0.5) {
+                    $atas[] = self::fitur($this->keGeo($pita), ['jenis' => 'akses', 'akses' => $id]);
+                }
+                $bukaan[] = $this->buf($a['ewkt'], (float) $a['lebar'] / 2);
+            } elseif ($tapak >= 1) {
+                $a['ewkt'] = $this->tepiTerdekat($a['ewkt'], $rumah);
+                $ke = $gerbang === [] ? $this->tepiTerdekat($a['ewkt'], $lahan) : $this->terdekatTitik($a['ewkt'], array_values($gerbang));
+                $jalur = $this->op('ST_Intersection', $this->op('ST_Difference', $this->pita($a['ewkt'], $ke, KapasitasLahan::LEBAR_JALUR), $rumah), $lahan);
+                if ($this->luasUtm($jalur) > 0.5) {
+                    $atas[] = self::fitur($this->keGeo($jalur), ['jenis' => 'jalur', 'akses' => $id]);
+                }
+            }
+        }
+        unset($a);
+
+        // 6. Pagar keliling setebal 20 cm, terbuka di tiap gerbang.
+        $pagar = $this->op('ST_Difference', $lahan, $this->buf($lahan, -0.2));
+        if ($bukaan !== []) {
+            $pagar = $this->op('ST_Difference', $pagar, $this->satukan($bukaan));
+        }
+        if ($this->luasUtm($pagar) >= 0.5) {
+            $atas[] = self::fitur($this->keGeo($pagar), ['jenis' => 'pagar']);
+        }
+
+        $luasLantai = $tapak * $lantai;
+        $kamar = KapasitasLahan::perkiraanKamar($luasLantai);
+        $kapasitas = [
+            'jumlah' => 1,
+            'satuan' => 'rumah',
+            'lantai' => $lantai,
+            'lantai_maks' => $r['lantai_maks'],
+            'luas_tapak_m2' => round($tapak, 1),
+            'luas_lantai_m2' => round($luasLantai, 1),
+            'porsi_tapak' => $luas > 0 ? round($tapak / $luas, 3) : null,
+            'kepadatan_per_ha' => null,
+            'pribadi' => [
+                'luas_bangunan_m2' => round($luasLantai, 1),
+                'luas_bangunan_diminta' => $r['diminta'],
+                'rekomendasi_luas_bangunan' => $r['rekomendasi'],
+                'tidak_muat' => $luasLantai + 1 < $r['diminta'],
+                'kamar_tidur' => $kamar['kamar_tidur'],
+                'kamar_mandi' => $kamar['kamar_mandi'],
+                'mobil' => $muat,
+                'kolam_m2' => round($luasKolam, 1),
+            ],
+            'parkir' => ['butuh' => $mobil, 'muat' => $muat, 'jenis' => 'mobil', 'lantai' => 1],
+        ];
+
+        return [$kapasitas, ['type' => 'FeatureCollection', 'features' => [...$fitur, ...$slot, ...$atas]], $this->fiturZona($zona), $luasTaman, $this->fiturAkses($akses)];
+    }
+
+    /**
+     * Zona bawaan rumah pribadi di bingkai lahan, diukur dari sisi depan (sisi gerbang pertama, bawaan sisi y0):
+     * carport di halaman depan, rumah di belakang garis sempadan (`depan`) atau di tengah (`tengah`), kolam di belakang rumah,
+     * taman di belakang (dan di sekeliling rumah pada pola tengah).
+     *
+     * @return list<array{jenis: string, ewkt: string}>
+     */
+    private function zonaPribadi(string $pola, string $lahan, string $ls, float $tapak, int $mobil, float $kolam, float $sempadan, ?string $gerbang): array
+    {
+        $b = $this->bingkai($lahan);
+        [$x0, $y0, $x1, $y1] = [(float) $b->x0, (float) $b->y0, (float) $b->x1, (float) $b->y1];
+        $sisi = 'y0';
+        if ($gerbang !== null) {
+            [$gx, $gy] = $this->batasDalam($gerbang, $b);
+            $sisi = KapasitasLahan::sisiTerdekat($gx, $gy, $x0, $y0, $x1, $y1);
+        }
+        $mendatar = $sisi[0] === 'y';
+        $lebar = $mendatar ? $x1 - $x0 : $y1 - $y0;
+        $dalam = $mendatar ? $y1 - $y0 : $x1 - $x0;
+        // Persegi panjang: kedalaman [d0, d1] dari sisi depan, lateral [l0, l1] dari ujung sisi itu.
+        $kotak = function (float $d0, float $d1, float $l0, float $l1) use ($b, $sisi, $x0, $y0, $x1, $y1): string {
+            return match ($sisi) {
+                'y0' => $this->kotak($b, $x0 + $l0, $y0 + $d0, $x0 + $l1, $y0 + $d1),
+                'y1' => $this->kotak($b, $x0 + $l0, $y1 - $d1, $x0 + $l1, $y1 - $d0),
+                'x0' => $this->kotak($b, $x0 + $d0, $y0 + $l0, $x0 + $d1, $y0 + $l1),
+                default => $this->kotak($b, $x1 - $d1, $y0 + $l0, $x1 - $d0, $y0 + $l1),
+            };
+        };
+
+        // Rumah: lebar secukupnya (rasio sekitar 1,3 : 1), tidak lebih lebar dari 85% sisi depan.
+        $w = max(4.0, min($lebar * 0.85, sqrt($tapak * 1.3)));
+        $h = max(4.0, min($dalam * 0.8, $tapak / $w));
+        $depanRumah = max($sempadan, $mobil > 0 ? 7.5 : $sempadan);
+        $d0 = $pola === 'tengah' ? max($depanRumah, ($dalam - $h) / 2) : $depanRumah;
+        $l0 = ($lebar - $w) / 2;
+        $rumah = $this->op('ST_Intersection', $kotak($d0, $d0 + $h, $l0, $l0 + $w), $ls);
+
+        $zona = [['jenis' => 'bangunan', 'ewkt' => $rumah]];
+        // Carport di halaman depan, di sisi kiri: 3 m per mobil, sedalam 7 m (slot 5 m + ruang manuver).
+        $carport = self::KOSONG;
+        if ($mobil > 0) {
+            $carport = $this->op('ST_Intersection', $kotak(0.3, 7.0, 0.5, min($lebar - 0.5, 0.5 + $mobil * 3.0 + 0.5)), $lahan);
+            if ($this->luasUtm($carport) >= 10) {
+                $zona[] = ['jenis' => 'parkir', 'ewkt' => $carport];
+            }
+        }
+        // Kolam di belakang rumah (rasio 2,5 : 1).
+        $kolamG = self::KOSONG;
+        if ($kolam >= 4) {
+            $kh = sqrt($kolam / 2.5);
+            $kw = min($lebar * 0.8, $kolam / $kh);
+            $kd = $d0 + $h + 2.0;
+            $kolamG = $this->op('ST_Intersection', $kotak($kd, $kd + $kolam / $kw, ($lebar - $kw) / 2, ($lebar + $kw) / 2), $lahan);
+            if ($this->luasUtm($kolamG) >= 4) {
+                $zona[] = ['jenis' => 'kolam', 'ewkt' => $kolamG];
+            } else {
+                $kolamG = self::KOSONG;
+            }
+        }
+        // Taman: belakang rumah (pola depan) atau sekeliling rumah (pola tengah), di luar rumah+1 m, carport, dan kolam.
+        $wilayahTaman = $pola === 'tengah' ? $kotak(max(0.0, $d0 - 3.0), $dalam + 1, -1, $lebar + 1) : $kotak($d0 + $h + 1.0, $dalam + 1, -1, $lebar + 1);
+        $taman = $this->op('ST_Intersection', $wilayahTaman, $lahan);
+        $taman = $this->op('ST_Difference', $taman, $this->satukan([$this->buf($rumah, 1.0), $carport, $kolamG]));
+        foreach ($this->pecah($taman, 10) as $g) {
+            $zona[] = ['jenis' => 'taman', 'ewkt' => $g];
+        }
+
+        return $zona;
+    }
+
+    /** Perkecil $g (bentuknya tetap, penyangga ke dalam) sampai luasnya kira-kira $target m²; utuh bila sudah lebih kecil. */
+    private function susutKe(string $g, float $target): string
+    {
+        $luas = $this->luasUtm($g);
+        if ($luas < 1 || $luas <= $target * 1.02) {
+            return $g;
+        }
+        $bawah = 0.0;
+        $atas = 100.0;
+        for ($i = 0; $i < 16; $i++) {
+            $d = ($bawah + $atas) / 2;
+            if ($this->luasUtm($this->buf($g, -$d)) > $target) {
+                $bawah = $d;
+            } else {
+                $atas = $d;
+            }
+        }
+
+        return $this->buf($g, -$bawah);
     }
 
     // ---------------------------------------------------------------------------------------------------------

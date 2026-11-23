@@ -167,7 +167,7 @@ class LahanTest extends TestCase
         $this->assertGreaterThan(0, $r['kapasitas']['parkir']['muat']);
 
         // Zona dengan jenis tak dikenal ditolak.
-        $this->lahan(['tipe' => 'apartemen', 'zona' => [['jenis' => 'kolam', 'geometri' => $kotak(106.8021, -6.2079, 106.8026, -6.2074)]]])
+        $this->lahan(['tipe' => 'apartemen', 'zona' => [['jenis' => 'sungai', 'geometri' => $kotak(106.8021, -6.2079, 106.8026, -6.2074)]]])
             ->assertStatus(422);
     }
 
@@ -663,6 +663,74 @@ class LahanTest extends TestCase
         $this->assertFalse($r['akses']['features'][0]['properties']['otomatis']);
 
         $this->lahan(['tipe' => 'kos', 'akses' => [['jenis' => 'jendela', 'titik' => [106.8025, -6.208]]]])->assertStatus(422);
+    }
+
+    public function test_rumah_pribadi_satu_rumah_dengan_carport_kolam_taman_halaman_dan_pagar(): void
+    {
+        $r = $this->lahan(['tipe' => 'pribadi', 'asumsi' => ['luas_bangunan' => 300, 'lantai' => 2, 'mobil' => 2, 'kolam' => 40]])->assertOk()->json();
+
+        $this->assertSame('pribadi', $r['tipe']);
+        $this->assertSame('depan', $r['pola']);
+        $this->assertSame(['depan', 'tengah'], $r['pola_tersedia']);
+        $k = $r['kapasitas'];
+        $this->assertSame(1, $k['jumlah']);
+        $this->assertSame('rumah', $k['satuan']);
+        $this->assertSame(2, $k['lantai']);
+        $this->assertEqualsWithDelta(150, $k['luas_tapak_m2'], 8, 'tapak = 300 m² / 2 lantai');
+        $this->assertEqualsWithDelta(300, $k['pribadi']['luas_bangunan_m2'], 15);
+        $this->assertFalse($k['pribadi']['tidak_muat']);
+        $this->assertSame(2, $k['pribadi']['mobil']);
+        $this->assertSame(['butuh' => 2, 'muat' => 2, 'jenis' => 'mobil', 'lantai' => 1], $k['parkir']);
+        $this->assertGreaterThanOrEqual(3, $k['pribadi']['kamar_tidur']);
+        $this->assertEqualsWithDelta(40, $k['pribadi']['kolam_m2'], 4);
+        $this->assertNull($r['target']);
+
+        $jenis = array_count_values(array_column(array_column($r['geometri_kapasitas']['features'], 'properties'), 'jenis'));
+        $this->assertSame(1, $jenis['tapak'], 'tepat satu rumah');
+        $this->assertSame(2, $jenis['slot'], 'slot sebanyak mobil');
+        foreach (['kolam', 'taman', 'halaman', 'pagar', 'parkir'] as $j) {
+            $this->assertArrayHasKey($j, $jenis, $j);
+        }
+        $this->assertContains('kolam', array_column(array_column($r['zona']['features'], 'properties'), 'jenis'));
+
+        // Tanpa mobil dan tanpa kolam: tidak ada carport maupun kolam.
+        $polos = $this->lahan(['tipe' => 'pribadi', 'asumsi' => ['mobil' => 0, 'kolam' => 0]])->assertOk()->json();
+        $jp = array_column(array_column($polos['geometri_kapasitas']['features'], 'properties'), 'jenis');
+        $this->assertNotContains('kolam', $jp);
+        $this->assertNotContains('slot', $jp);
+        // Tanpa luas diminta: rekomendasi dipakai.
+        $this->assertEqualsWithDelta($polos['kapasitas']['pribadi']['rekomendasi_luas_bangunan'], $polos['kapasitas']['luas_lantai_m2'], 25);
+    }
+
+    public function test_rumah_pribadi_melebihi_kdb_ditandai_dan_tidak_muat_dicatat(): void
+    {
+        // Lahan kecil ± 3.000 m² (KDB RDTR alternatif 1 = 60%), zona bangunan sendiri seluas lahan, rumah 1 lantai 2.500 m²:
+        // tapak ± 80% melebihi KDB dan ditandai merah (luas yang diminta tidak dijepit ke KDB).
+        $kecil = [[106.802, -6.208], [106.8025, -6.208], [106.8025, -6.2075], [106.802, -6.2075], [106.802, -6.208]];
+        $besar = $this->lahan(['tipe' => 'pribadi', 'asumsi' => ['luas_bangunan' => 2500, 'lantai' => 1, 'sempadan' => 0], 'zona' => [['jenis' => 'bangunan', 'geometri' => ['type' => 'Polygon', 'coordinates' => [$kecil]]]]], $kecil)->assertOk()->json();
+        $this->assertContains('kdb', $besar['ringkasan']['pelanggaran']);
+
+        // Zona bangunan kecil yang ditarik sendiri: rumah tidak muat, dicatat, digambar sebesar zonanya.
+        $kotak = fn (float $x0, float $y0, float $x1, float $y1) => ['type' => 'Polygon', 'coordinates' => [[[$x0, $y0], [$x1, $y0], [$x1, $y1], [$x0, $y1], [$x0, $y0]]]];
+        $sempit = $this->lahan(['tipe' => 'pribadi', 'asumsi' => ['luas_bangunan' => 600, 'lantai' => 1], 'zona' => [
+            ['jenis' => 'bangunan', 'geometri' => $kotak(106.8024, -6.2077, 106.80255, -6.20755)],
+            ['jenis' => 'kolam', 'geometri' => $kotak(106.8021, -6.2079, 106.8022, -6.2078)],
+        ]])->assertOk()->json();
+        $this->assertTrue($sempit['kapasitas']['pribadi']['tidak_muat']);
+        $this->assertLessThan(600, $sempit['kapasitas']['luas_lantai_m2']);
+        $this->assertNotEmpty(array_filter($sempit['catatan'], fn ($c) => str_contains($c, 'tidak muat')));
+        $this->assertGreaterThan(0, $sempit['kapasitas']['pribadi']['kolam_m2'], 'kolam dari zona sendiri');
+
+        // Pola tengah dan gerbang + pintu: pagar terbuka di gerbang, jalan masuk dan jalur ke pintu.
+        $tengah = $this->lahan(['tipe' => 'pribadi', 'pola' => 'tengah', 'akses' => [
+            ['jenis' => 'gerbang', 'titik' => [106.8025, -6.20802]],
+            ['jenis' => 'pintu', 'titik' => [106.8025, -6.2076]],
+        ]])->assertOk()->json();
+        $this->assertSame('tengah', $tengah['pola']);
+        $jt = array_column(array_column($tengah['geometri_kapasitas']['features'], 'properties'), 'jenis');
+        $this->assertContains('pagar', $jt);
+        $this->assertContains('akses', $jt);
+        $this->assertSame(['gerbang', 'pintu'], array_column(array_column($tengah['akses']['features'], 'properties'), 'jenis'));
     }
 
     public function test_di_luar_dki_memakai_asumsi(): void
