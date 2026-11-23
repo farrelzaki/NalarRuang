@@ -30,7 +30,7 @@ const TARGET_MAKS = 50000;
 const UKURAN_MAKS = 2_000_000;
 
 const TIPE: TipeLahan[] = ['rumah', 'kos', 'apartemen'];
-const POLA: Record<TipeLahan, PolaLahan[]> = { rumah: ['grid', 'cluster'], kos: ['keliling', 'koridor'], apartemen: ['keliling', 'wrap', 'tower'] };
+const POLA: Record<TipeLahan, PolaLahan[]> = { rumah: ['grid', 'cluster'], kos: ['keliling', 'koridor', 'grid'], apartemen: ['keliling', 'wrap', 'tower'] };
 const JENIS_ZONA: JenisZona[] = ['bangunan', 'parkir', 'taman', 'larangan'];
 const JENIS_AKSES: JenisAkses[] = ['gerbang', 'pintu'];
 const KUNCI_ASUMSI: (keyof AsumsiLahan)[] = ['lebar_kavling', 'panjang_kavling', 'lebar_jalan', 'luas_kamar', 'porsi_studio', 'porsi_2br', 'sempadan', 'lantai', 'rasio_parkir', 'rasio_motor', 'sudut_parkir', 'padding_parkir', 'maks_baris'];
