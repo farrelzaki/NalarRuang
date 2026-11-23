@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\InspectController;
 use App\Http\Controllers\Api\LahanController;
 use App\Http\Controllers\Api\LayerController;
 use App\Http\Controllers\Api\LokasiController;
+use App\Http\Controllers\Api\PerumahanController;
 use App\Http\Controllers\Api\SearchController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,3 +19,8 @@ Route::get('/inspect', InspectController::class);
 Route::get('/commute', CommuteController::class);
 Route::get('/lokasi', LokasiController::class);
 Route::post('/lahan', LahanController::class);
+
+// FR-24 DRAF (listing properti) — prototipe untuk ditinjau PM, BELUM resmi (docs/RENCANA.md TBD-12).
+Route::post('/perumahan', [PerumahanController::class, 'simpan']);
+Route::get('/perumahan/cari', [PerumahanController::class, 'cari']);
+Route::delete('/perumahan/{id}', [PerumahanController::class, 'hapus']);
