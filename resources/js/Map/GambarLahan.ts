@@ -61,6 +61,8 @@ export class AlatLahan {
     private titik: L.LatLng[] = [];
     private tertutup = false;
     private poligon: L.Polygon | null = null;
+    /** Pemeriksa isi di bawah kursor: lahan menutupi isi, jadi klik pada lahan diteruskan ke sini (mis. keterangan tangga/lift). */
+    private periksaIsi: { ada(ll: L.LatLng): boolean; buka(ll: L.LatLng): void } | null = null;
     private draf: L.Polyline | null = null;
     private pegangan: L.Marker[] = [];
     private zoomGandaAwal = true;
@@ -87,6 +89,11 @@ export class AlatLahan {
         this.grup = L.layerGroup().addTo(peta);
         this.klik = this.klik.bind(this);
         this.gerak = this.gerak.bind(this);
+    }
+
+    /** Pasang pemeriksa isi untuk klik di dalam lahan (keterangan tangga/lift). null = lepas. */
+    setPeriksaIsi(p: { ada(ll: L.LatLng): boolean; buka(ll: L.LatLng): void } | null): void {
+        this.periksaIsi = p;
     }
 
     /**
@@ -251,9 +258,17 @@ export class AlatLahan {
         if (this.tertutup) {
             this.poligon = L.polygon(this.titik, { ...gayaLahan, pane: 'nrSeleksi', className: 'nr-lahan', bubblingMouseEvents: false }).addTo(this.grup);
             // Shift + klik di dekat sisi menyisipkan titik sudut baru di sisi itu (kotak ikut menjadi poligon).
+            // Klik biasa di atas ruang tangga/lift membuka keterangannya; kursor jadi telunjuk di atasnya.
             this.poligon.on('click', (e) => {
                 if ((e.originalEvent as MouseEvent).shiftKey) this.sisipTitik(e.latlng);
+                else if (this.periksaIsi?.ada(e.latlng)) this.periksaIsi.buka(e.latlng);
+                // Klik lahan tidak diteruskan ke peta, jadi popup yang terbuka ditutup di sini.
+                else this.peta.closePopup();
             });
+            this.poligon.on('mousemove', (e) => {
+                this.poligon?.getElement()?.classList.toggle('nr-lahan--tunjuk', !!this.periksaIsi?.ada(e.latlng));
+            });
+            this.poligon.on('mouseout', () => this.poligon?.getElement()?.classList.remove('nr-lahan--tunjuk'));
         } else if (this.titik.length >= 2) {
             this.draf = L.polyline(this.titik, { ...gayaDraf, pane: 'nrSeleksi' }).addTo(this.grup);
         }
@@ -542,7 +557,28 @@ function gayaIsi(p: Record<string, unknown>): L.PathOptions {
 const SATUAN_ISI = new Set(['unit', 'kavling', 'slot']);
 const LAMA_HILANG = 280;
 
-type ItemIsi = { layer: L.Polygon; jenis: string; tipe: string; pusat: [number, number]; luas: number; zona: number | null };
+type ItemIsi = { layer: L.Polygon; jenis: string; tipe: string; pusat: [number, number]; luas: number; zona: number | null; prop: Record<string, unknown> };
+
+/** Titik di dalam poligon (aturan genap-ganjil atas semua cincin: lubang dan bagian multipoligon ikut benar). */
+function titikDalam(ll: L.LatLng, latlngs: unknown): boolean {
+    const cincin: L.LatLng[][] = [];
+    const kumpul = (x: unknown) => {
+        if (!Array.isArray(x) || x.length === 0) return;
+        // Dicek bentuknya, bukan `instanceof L.LatLng`: titik dari getLatLngs() tidak selalu berprototipe LatLng.
+        if (typeof (x[0] as { lat?: unknown }).lat === 'number') cincin.push(x as L.LatLng[]);
+        else x.forEach(kumpul);
+    };
+    kumpul(latlngs);
+    let dalam = false;
+    for (const c of cincin) {
+        for (let i = 0, j = c.length - 1; i < c.length; j = i++) {
+            const a = c[i];
+            const b = c[j];
+            if (a.lat > ll.lat !== b.lat > ll.lat && ll.lng < ((b.lng - a.lng) * (ll.lat - a.lat)) / (b.lat - a.lat) + a.lng) dalam = !dalam;
+        }
+    }
+    return dalam;
+}
 
 function cincinLuar(g: Geometry): Position[] {
     if (g.type === 'Polygon') return g.coordinates[0] ?? [];
@@ -662,14 +698,14 @@ export class LapisanKapasitas {
                 } else if (cocok.layer.getTooltip()) {
                     cocok.layer.unbindTooltip();
                 }
-                baru.push({ ...cocok, tipe, pusat: u.pusat, luas: u.luas, zona });
+                baru.push({ ...cocok, tipe, pusat: u.pusat, luas: u.luas, zona, prop: p });
             } else {
                 const layer = L.polygon(latLngsDari(f.geometry), { ...gaya, pane: 'nrLahanIsi', interactive: false });
                 if (teks) layer.bindTooltip(teks, OPSI_LABEL);
                 layer.addTo(this.grup);
                 layer.getTooltip()?.setLatLng(this.posisiLabel(layer));
                 layer.getElement()?.classList.add(SATUAN_ISI.has(jenis) ? 'nr-isi-muncul' : 'nr-isi-pudar-masuk');
-                baru.push({ layer, jenis, tipe, pusat: u.pusat, luas: u.luas, zona });
+                baru.push({ layer, jenis, tipe, pusat: u.pusat, luas: u.luas, zona, prop: p });
             }
         }
 
@@ -677,6 +713,21 @@ export class LapisanKapasitas {
         this.item = baru;
         this.saring(this.batas);
         this.terapkanSembunyi();
+    }
+
+    /** Properti isi `jenis` yang tampil di titik `ll` (mis. ruang tangga/lift yang diklik), atau null. */
+    isiDi(ll: L.LatLng, jenis = 'inti'): Record<string, unknown> | null {
+        if (this.sembunyiJenis.has(jenis)) return null;
+        for (const it of this.item) {
+            if (it.jenis !== jenis || (it.zona !== null && this.sembunyiZona.has(it.zona))) continue;
+            if (titikDalam(ll, it.layer.getLatLngs())) return it.prop;
+        }
+        return null;
+    }
+
+    /** Ada ruang lift/tangga di antara isi yang tampil (untuk membedakan tangga darurat apartemen dan tangga kos). */
+    adaLift(): boolean {
+        return this.item.some((it) => it.jenis === 'inti' && it.prop.fungsi === 'lift');
     }
 
     /**

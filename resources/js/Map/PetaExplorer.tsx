@@ -550,6 +550,14 @@ export default function PetaExplorer(props: Props) {
                     panggil.current.onLahanPutar?.(g, derajat, pusat);
                 },
             );
+            // Klik ruang tangga/lift di dalam lahan: keterangan singkat apa ruang itu.
+            alat.current.setPeriksaIsi({
+                ada: (ll) => lapisan.current?.isiDi(ll) != null,
+                buka: (ll) => {
+                    const p = lapisan.current?.isiDi(ll);
+                    if (p) L.popup({ className: 'nr-popup-leaflet', autoPan: false, minWidth: 220, maxWidth: 300 }).setLatLng(ll).setContent(popupInti(p, lapisan.current?.adaLift() ?? false)).openOn(m);
+                },
+            });
         }
         // Kotak yang berubah menjadi poligon dari peta: panel ikut berganti mode, alat tidak perlu dimulai ulang.
         if (props.alatLahan && props.alatLahan.kunci === kunciAlat.current && alat.current.modeSekarang === props.alatLahan.mode) return;
@@ -675,6 +683,40 @@ function grupZoom(isi: L.Layer, minZoom: number): L.LayerGroup {
         peta = null;
     });
     return g;
+}
+
+/**
+ * Keterangan ruang inti Uji Lahan yang diklik (lift + tangga, tangga, ruang servis). `apartemen` = hasil punya inti lift, jadi
+ * tangga tambahannya tangga darurat dan satuannya unit; selain itu kos (tangga, kamar). Dibangun lewat textContent (tanpa HTML).
+ */
+function popupInti(p: Record<string, unknown>, apartemen: boolean): HTMLElement {
+    const slot = Number(p.slot ?? 0);
+    const satuan = apartemen ? tr('unit', 'unit') : tr('kamar', 'room');
+    const pakai = slot > 0 ? tr(` Memakai ${slot} slot ${satuan} per lantai; slot ini tidak dihitung sebagai ${satuan}.`, ` Uses ${slot} ${satuan} slot${slot > 1 ? 's' : ''} per floor, not counted as ${satuan}s.`) : '';
+    const [judul, isi] =
+        p.fungsi === 'lift'
+            ? [tr('Lift + tangga', 'Lift + stairs'), tr('Ruang lift dan tangga dari lantai dasar sampai atap, di dekat lobi atau pintu masuk.', 'Lift and stair core from the ground floor to the roof, near the lobby or entrance.') + pakai]
+            : p.fungsi === 'tangga'
+              ? [apartemen ? tr('Tangga darurat', 'Emergency stairs') : tr('Tangga', 'Stairs'), tr('Tangga dari lantai dasar sampai atap. Tangga ditambah sampai tiap unit paling jauh 20 m dari tangga terdekat.', 'Stairs from the ground floor to the roof, added until every unit is within 20 m of one.') + pakai]
+              : p.fungsi === 'servis'
+                ? [tr('Ruang servis', 'Service space'), tr('Sisa ruang di tengah gedung untuk shaft dan utilitas; tetap bagian gedung.', 'Leftover space in the middle of the building for shafts and utilities; still part of the building.')]
+                : [tr('Inti gedung', 'Building core'), tr('Ruang tangga/lift gedung.', 'Building stair/lift core.')];
+    const akar = document.createElement('div');
+    akar.className = 'nr-popup';
+    akar.setAttribute('role', 'dialog');
+    akar.setAttribute('aria-label', judul);
+    const atas = document.createElement('div');
+    atas.className = 'nr-eyebrow';
+    atas.textContent = tr('Ruang inti gedung', 'Building core');
+    const h = document.createElement('h3');
+    h.className = 'nr-popup__title';
+    h.textContent = judul;
+    const teks = document.createElement('p');
+    teks.className = 'nr-popup__body';
+    teks.style.cssText = 'line-height: 1.6; margin: 6px 0 0;';
+    teks.textContent = isi;
+    akar.append(atas, h, teks);
+    return akar;
 }
 
 /** Popup kartu PopupPeta (8.16); klik saat mode rute diteruskan ke peta. */
