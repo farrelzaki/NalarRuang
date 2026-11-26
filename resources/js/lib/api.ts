@@ -12,7 +12,7 @@ async function ambil<T>(url: string, signal?: AbortSignal): Promise<T> {
     return r.json() as Promise<T>;
 }
 
-/** DELETE JSON; dipakai hanya oleh perumahan.hapus() (FR-24 draf). */
+/** DELETE JSON; dipakai hanya oleh perumahan.hapus() (FR-24). */
 async function hapusJson<T>(url: string, badan: unknown, signal?: AbortSignal): Promise<T> {
     const r = await fetch(url, {
         method: 'DELETE',
@@ -67,7 +67,7 @@ export const api = {
         ambil<CommuteResponse>(`/api/commute?${qs({ dari: `${a.lat},${a.lng}`, ke: `${b.lat},${b.lng}`, tol: lewatTol ? undefined : 0, gg: hindariGg ? 1 : undefined, bbm: hargaBbm, kendaraan: kendaraan === 'motor' ? 'motor' : undefined })}`, signal),
     /** Uji Lahan (FR-23). */
     lahan: (badan: LahanRequest, signal?: AbortSignal) => kirim<LahanResponse>('/api/lahan', badan, signal),
-    /** FR-24 (listing properti, disetujui PM 26 Nov 2026) — belum resmi di docs/SISTEM.md, lihat docs/RENCANA.md TBD-12. */
+    /** FR-24 (listing properti, disetujui PM dan tim 26 Nov 2026) — kontrak di docs/SISTEM.md bagian 2, lihat docs/RENCANA.md TBD-12. */
     perumahan: {
         cari: (bbox: [number, number, number, number], tipe?: TipePerumahanQs, signal?: AbortSignal) =>
             ambil<PerumahanFeatureCollection>(`/api/perumahan/cari?${qs({ bbox: bbox.join(','), tipe })}`, signal),

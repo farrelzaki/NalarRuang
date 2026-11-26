@@ -1,7 +1,7 @@
 /**
- * Tipe untuk FR-24 (listing properti, disetujui PM 26 Nov 2026) — belum bagian kontrak resmi di
- * types/index.d.ts (milik bersama Farrel/Adzkia/Nur'Afia), sengaja dipisah supaya tidak tercampur
- * sampai Farrel/Adzkia/Nur'Afia sepakat membekukannya di sana. Lihat docs/RENCANA.md TBD-12.
+ * Tipe untuk FR-24 (listing properti, disetujui PM dan tim 26 Nov 2026). Sengaja tetap dipisah dari
+ * types/index.d.ts (kontrak bersama Farrel/Adzkia/Nur'Afia di docs/SISTEM.md bagian 2) karena model
+ * datanya berbeda (data primer pengguna, bukan sekunder publik). Lihat docs/RENCANA.md TBD-12.
  */
 import type { FeatureCollection, Point } from 'geojson';
 

@@ -170,14 +170,16 @@ Jangan putuskan sendiri; tanyakan ke pemiliknya.
 | TBD-05 | Bobot formula skor persona (titik sudah ditetapkan: satu fasilitas utama per persona) | Galih |
 | TBD-06 | Target performa (render, respons API) | Tim |
 | TBD-11 | Parsing query teks bebas. Rekomendasi: keyword matching dengan kamus kecil; NLP tidak punya work package. | Tim |
-| **TBD-12** | ~~Fitur listing properti (draf FR-24 di bawah) — perlu persetujuan PM tertulis sebelum dikerjakan.~~ **Disetujui PM 26 Nov 2026.** Menunggu PM memindahkan FR-24 resmi ke `docs/sumber/SRS.md` (pola FR-23). | PM |
+| **TBD-12** | ~~Fitur listing properti (FR-24 di bawah) — perlu persetujuan PM tertulis sebelum dikerjakan.~~ **Disetujui PM dan tim (Farrel/Adzkia/Nur'Afia) 26 Nov 2026.** Menunggu PM memindahkan FR-24 resmi ke `docs/sumber/SRS.md` (pola FR-23) — administratif, bukan blocker. | PM |
 
 ### FR-24: Listing Properti — DISETUJUI PM (26 Nov 2026)
 
-**Disetujui.** PM sudah meninjau dan menyetujui fitur ini (dikonfirmasi Farrel 26 Nov 2026) serta
-asumsi sementara di bawah. Backend + demo visual sudah di-merge ke `main`. FR-24 masih perlu
-dipindah resmi (oleh PM) ke `docs/sumber/SRS.md` seperti pola FR-23 (Uji Lahan) — baris revisi
-bertanggal + entri tabel FR — tapi itu administratif; fitur sudah boleh dikembangkan lebih lanjut.
+**Disetujui.** PM sudah meninjau dan menyetujui fitur ini, dan tim (Farrel/Adzkia/Nur'Afia) juga
+sudah menyepakati kontraknya (dikonfirmasi Farrel 26 Nov 2026) serta asumsi sementara di bawah.
+Backend + demo visual sudah di-merge ke `main`, kontrak API sudah dibekukan di `docs/SISTEM.md`
+bagian 2. FR-24 masih perlu dipindah resmi (oleh PM) ke `docs/sumber/SRS.md` seperti pola FR-23
+(Uji Lahan) — baris revisi bertanggal + entri tabel FR — tapi itu administratif; fitur sudah boleh
+dikembangkan lebih lanjut.
 
 **Status 26 Nov 2026 (Farrel):** backend (migration `listing_perumahan`,
 `App\Http\Controllers\Api\PerumahanController`, rute `POST/GET /api/perumahan*`,
@@ -219,14 +221,15 @@ alur produk (menu/Landing) bila PM mau fitur ini tampil ke pengguna akhir, bukan
 5. Data lokasi yang diupload disimpan di tabel terpisah dari data sekunder publik yang ada
    (`fitur_peta`/`wilayah`), supaya jelas mana data primer pengguna vs data publik — setuju?
 
-**Kontrak API (sudah diimplementasikan, lihat `app/Http/Controllers/Api/PerumahanController.php`
-dan `routes/api.php`; belum resmi dicatat di `docs/SISTEM.md` bagian 2 — masih perlu dibahas
-Farrel/Adzkia/Nur'Afia sebelum dibekukan di sana):**
+**Kontrak API — dibekukan di `docs/SISTEM.md` bagian 2** (disetujui Farrel/Adzkia/Nur'Afia 26 Nov
+2026), lihat `app/Http/Controllers/Api/PerumahanController.php` dan `routes/api.php` untuk
+implementasinya. Bentuk final (tanpa `geometri`/`foto[]`/`persona[]` seperti draf awal di bawah —
+cukup `lat`/`lng` dan tanpa skor persona untuk sprint ini):
 
-| Endpoint | Masukan (draf) | Keluaran (draf) |
+| Endpoint | Masukan | Keluaran |
 | --- | --- | --- |
-| `POST /api/perumahan` | `nama`, `geometri` (Point atau Polygon lahan), `tipe` (`rumah`/`kos`/`apartemen`), `kontak` (format TBD — nomor WA terverifikasi?), opsional `foto[]`, `deskripsi` | `id`, `token_kelola` (untuk hapus/edit tanpa akun, dikirim balik ke penjual) |
-| `GET /api/perumahan/cari` | `bbox` atau `wilayah_id`, opsional `tipe`, `persona[]` (skor seperti titik/wilayah biasa) | `FeatureCollection` listing yang masih berlaku, dengan skor persona seperti titik lain |
+| `POST /api/perumahan` | `nama`, `tipe` (`rumah`/`kos`/`apartemen`), opsional `deskripsi`, opsional `harga`+`harga_satuan`, `kontak_wa`, `lat`, `lng` | `id`, `token_kelola` (sekali tampil, hash disimpan), `kedaluwarsa_pada` |
+| `GET /api/perumahan/cari` | `bbox`, opsional `tipe` | `FeatureCollection` listing yang belum kedaluwarsa |
 | `DELETE /api/perumahan/{id}` | `token_kelola` | 204, atau 403 bila token salah |
 
 **Yang masih belum ada sama sekali:** UI (form upload, pin di peta, popup), aturan moderasi

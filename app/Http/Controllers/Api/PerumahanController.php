@@ -9,9 +9,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 /**
- * FR-24 (listing properti, docs/RENCANA.md TBD-12) — disetujui PM 26 Nov 2026. Bentuk respons di
- * sini belum dibekukan sebagai kontrak resmi di docs/SISTEM.md bagian 2 (masih perlu dibahas
- * Farrel/Adzkia/Nur'Afia); FR-24 juga masih menunggu PM memindahkannya resmi ke docs/sumber/SRS.md.
+ * FR-24 (listing properti, docs/RENCANA.md TBD-12) — disetujui PM dan tim (Farrel/Adzkia/Nur'Afia)
+ * 26 Nov 2026. Bentuk respons di sini dibekukan sebagai kontrak di docs/SISTEM.md bagian 2.
  *
  * Data primer dari pengguna (beda dari fitur lain yang semuanya data sekunder publik, SRS BR 4):
  * disimpan di tabel listing_perumahan tersendiri, bukan fitur_peta/wilayah.
