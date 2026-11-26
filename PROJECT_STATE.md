@@ -6,7 +6,8 @@ Perbarui saat memulai sesi, melewati checkpoint, membuat keputusan penting, mene
 
 ## Metadata
 
-- Terakhir diperbarui: 2026-11-23 (Uji Lahan: ruang tangga/lift kos-apartemen dan tipe Rumah pribadi selesai, commit lokal belum di-push; menunggu pengumuman kontrak dan persetujuan PM SRS v1.6)
+- Terakhir diperbarui: 2026-11-26 (FR-24 Listing Properti disetujui PM; CLAUDE.md & RENCANA.md diselaraskan. Uji Lahan: unduh gambar CAD .dxf; revisi Uji Lahan dikirim lewat branch `fitur/uji-lahan-lanjutan`)
+- 2026-11-23 (Uji Lahan: ruang tangga/lift kos-apartemen, geser manual, dan tipe Rumah pribadi selesai; menunggu pengumuman kontrak dan persetujuan PM SRS v1.6)
 - 2026-11-23 (rute alternatif `/api/commute`, `pribadi`/`publik` jadi array; lihat bagian di bawah)
 - 2026-11-22 (spesifikasi mode Newbie/Pro disepakati; lihat bagian di bawah)
 - 2026-11-21 (gabung `fitur/peta-mapbox` PR #3 dengan `main`: Uji Lahan, isochrone)
@@ -261,3 +262,20 @@ sekarang array (maks 3, terurut terbaik dulu) — **perubahan kontrak yang tidak
   di `tests/Feature/ApiTest.php`. Test lama diperbarui ke path `pribadi.0.*`/`publik.0.*`.
 - Belum diuji manual di browser (agen tidak bisa menjalankan `npm run dev` + klik peta): cek tampilan
   daftar alternatif di Simulator Rute dan pastikan highlight peta ikut berubah saat alternatif dipilih.
+
+## FR-24 Listing Properti — disetujui PM, diselaraskan ke dokumen (26 Nov 2026)
+
+PM menyetujui FR-24 (dikonfirmasi Farrel). Backend + demo visual sudah di-merge ke `main` sejak
+23 Nov (lihat bagian "Rute alternatif..." di atas untuk riwayat sesi itu — FR-24 dikerjakan di
+sesi yang sama). Hari ini: `CLAUDE.md` aturan 1 diperbarui (cakupan jadi FR-01–FR-23 + FR-24
+sebagai pengecualian bertarget) dan `docs/RENCANA.md` TBD-12/draf FR-24 ditandai "Disetujui" alih-alih
+"Belum disetujui"; komentar "DRAF"/"BELUM resmi" di kode (`PerumahanController.php`, `routes/api.php`,
+`routes/web.php`, `lib/api.ts`, `types/perumahan.ts`, `PerumahanTest.php`, migration) diperbarui jadi
+"disetujui PM 26 Nov 2026".
+
+**Belum dikerjakan (sengaja ditunda, lihat docs/RENCANA.md TBD-12):** FR-24 belum dipindah PM ke
+`docs/sumber/SRS.md` secara resmi (pola FR-23); kontrak API-nya belum dicatat di `docs/SISTEM.md`
+bagian 2 karena itu butuh sepakat Farrel+Adzkia+Nur'Afia tersendiri (persetujuan PM atas fitur beda
+dengan persetujuan kontrak teknis, CLAUDE.md aturan 4) — jangan anggap ini otomatis selesai juga.
+Moderasi sungguhan, verifikasi WA, skor persona untuk listing, dan menautkan `/demo-perumahan` ke
+alur produk juga belum dikerjakan.

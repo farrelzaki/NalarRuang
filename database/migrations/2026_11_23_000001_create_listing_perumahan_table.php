@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Listing properti dari penjual (FR-24, DRAF — menunggu tinjauan PM, docs/RENCANA.md TBD-12).
+ * Listing properti dari penjual (FR-24, disetujui PM 26 Nov 2026, docs/RENCANA.md TBD-12).
  * Tabel terpisah dari fitur_peta/wilayah (data sekunder publik): ini data primer dari pengguna,
  * jadi dipisah agar jelas mana yang bukan hasil pengumpulan tim (SRS Business Rule 4).
  * Tanpa akun (CLAUDE.md): kelola (hapus) listing lewat token_kelola yang dikirim balik sekali saat upload.

@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Tests\TestCase;
 
 /**
- * FR-24 DRAF (listing properti) — prototipe untuk ditinjau PM, BELUM resmi (docs/RENCANA.md TBD-12).
+ * FR-24 (listing properti, disetujui PM 26 Nov 2026) — belum resmi di docs/SISTEM.md (docs/RENCANA.md TBD-12).
  * Dites di atas satu kelurahan kotak di Jakarta Selatan, sama seperti LahanTest.
  */
 class PerumahanTest extends TestCase

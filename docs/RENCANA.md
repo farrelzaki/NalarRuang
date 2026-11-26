@@ -170,26 +170,30 @@ Jangan putuskan sendiri; tanyakan ke pemiliknya.
 | TBD-05 | Bobot formula skor persona (titik sudah ditetapkan: satu fasilitas utama per persona) | Galih |
 | TBD-06 | Target performa (render, respons API) | Tim |
 | TBD-11 | Parsing query teks bebas. Rekomendasi: keyword matching dengan kamus kecil; NLP tidak punya work package. | Tim |
-| **TBD-12** | Fitur listing properti (draf FR-24 di bawah) — perlu persetujuan PM tertulis sebelum dikerjakan. | PM |
+| **TBD-12** | ~~Fitur listing properti (draf FR-24 di bawah) — perlu persetujuan PM tertulis sebelum dikerjakan.~~ **Disetujui PM 26 Nov 2026.** Menunggu PM memindahkan FR-24 resmi ke `docs/sumber/SRS.md` (pola FR-23). | PM |
 
-### Draf FR-24: Listing Properti (menunggu tinjauan PM tertulis, 22–23 Nov 2026)
+### FR-24: Listing Properti — DISETUJUI PM (26 Nov 2026)
 
-**Belum disetujui.** Ditulis atas permintaan tim untuk dibahas dengan PM, bukan keputusan final.
-FR-24 baru dipindah ke `docs/sumber/SRS.md` (oleh PM) seperti pola FR-23 (Uji Lahan) setelah PM
-benar-benar menyetujui; sampai itu terjadi, endpoint di bawah **tidak termasuk cakupan yang
-dijamin stabil** dan jangan dipakai sebagai acuan integrasi oleh modul lain.
+**Disetujui.** PM sudah meninjau dan menyetujui fitur ini (dikonfirmasi Farrel 26 Nov 2026) serta
+asumsi sementara di bawah. Backend + demo visual sudah di-merge ke `main`. FR-24 masih perlu
+dipindah resmi (oleh PM) ke `docs/sumber/SRS.md` seperti pola FR-23 (Uji Lahan) — baris revisi
+bertanggal + entri tabel FR — tapi itu administratif; fitur sudah boleh dikembangkan lebih lanjut.
 
-**Status 23 Nov 2026 (Farrel):** prototipe backend sudah dibangun di branch
-`fitur/listing-perumahan-fr24` (migration `listing_perumahan`, `App\Http\Controllers\Api\PerumahanController`,
-rute `POST/GET /api/perumahan*`, `DELETE /api/perumahan/{id}`, tes `tests/Feature/PerumahanTest.php`,
-6/6 lulus) — dibuat untuk didemokan ke PM, **belum ada UI/peta**, dan belum tentu dipertahankan
-bila PM minta arah berbeda. Jawaban sementara (dipilih Farrel, bisa diubah PM) untuk lima pertanyaan
-di bawah: (1) siapa saja boleh upload, kelola lewat `token_kelola` acak (tanpa verifikasi WA/OTP);
-(2) tampil langsung, tanpa moderasi; (3) kedaluwarsa otomatis 90 hari; (4) boleh isi harga, tapi
-indikatif — sistem tidak memproses pembayaran; (5) ya, tabel `listing_perumahan` terpisah dari
-`fitur_peta`/`wilayah`. Cara coba: `php artisan migrate`, lalu `POST /api/perumahan` dengan
+**Status 26 Nov 2026 (Farrel):** backend (migration `listing_perumahan`,
+`App\Http\Controllers\Api\PerumahanController`, rute `POST/GET /api/perumahan*`,
+`DELETE /api/perumahan/{id}`, tes `tests/Feature/PerumahanTest.php`, 6/6 lulus) dan demo visual
+(`/demo-perumahan`, tidak ditautkan dari Landing/menu) sudah di-merge ke `main`. Jawaban yang
+dipakai (dipilih Farrel, disetujui PM) untuk lima pertanyaan di bawah: (1) siapa saja boleh
+upload, kelola lewat `token_kelola` acak (tanpa verifikasi WA/OTP); (2) tampil langsung, tanpa
+moderasi; (3) kedaluwarsa otomatis 90 hari; (4) boleh isi harga, tapi indikatif — sistem tidak
+memproses pembayaran; (5) ya, tabel `listing_perumahan` terpisah dari `fitur_peta`/`wilayah`.
+Cara coba: `php artisan migrate`, lalu buka `/demo-perumahan` atau `POST /api/perumahan` dengan
 `nama`, `tipe` (`rumah`/`kos`/`apartemen`), `kontak_wa`, `lat`, `lng`, opsional `harga`+`harga_satuan`;
 respons berisi `token_kelola` yang dipakai untuk `DELETE /api/perumahan/{id}`.
+
+**Belum dikerjakan:** moderasi sungguhan (spam/listing palsu), verifikasi kontak WA, skor persona
+untuk listing (belum nyambung ke Top 3/Point Inspector), dan menautkan `/demo-perumahan` ke
+alur produk (menu/Landing) bila PM mau fitur ini tampil ke pengguna akhir, bukan cuma demo.
 
 **Mengapa ini bukan sekadar tambahan fitur biasa:**
 - SRS Business Rule 4 — *"sistem tidak melakukan pengumpulan data primer"* — penjual yang
@@ -205,7 +209,7 @@ respons berisi `token_kelola` yang dipakai untuk `DELETE /api/perumahan/{id}`.
   maupun harga properti (listing dan transaksi properti tetap di luar cakupan)". FR-24 perlu
   secara eksplisit dijelaskan ke PM sebagai perluasan cakupan itu, bukan penafsiran ulang.
 
-**Pertanyaan yang perlu dijawab PM sebelum draf ini bisa dirapikan jadi FR resmi:**
+**Pertanyaan yang sudah terjawab (disetujui PM 26 Nov 2026) — jawabannya ada di "Status" di atas:**
 1. Siapa yang boleh upload? Siapa saja (rawan spam/listing palsu) atau perlu verifikasi (WA OTP)?
 2. Perlu moderasi sebelum listing tampil di peta, atau tampil langsung?
 3. Listing disimpan permanen atau punya masa berlaku (kedaluwarsa otomatis)?
@@ -215,7 +219,9 @@ respons berisi `token_kelola` yang dipakai untuk `DELETE /api/perumahan/{id}`.
 5. Data lokasi yang diupload disimpan di tabel terpisah dari data sekunder publik yang ada
    (`fitur_peta`/`wilayah`), supaya jelas mana data primer pengguna vs data publik — setuju?
 
-**Draf kontrak API (sketsa, BELUM dibekukan, belum dibahas Farrel/Adzkia/Nur'Afia):**
+**Kontrak API (sudah diimplementasikan, lihat `app/Http/Controllers/Api/PerumahanController.php`
+dan `routes/api.php`; belum resmi dicatat di `docs/SISTEM.md` bagian 2 — masih perlu dibahas
+Farrel/Adzkia/Nur'Afia sebelum dibekukan di sana):**
 
 | Endpoint | Masukan (draf) | Keluaran (draf) |
 | --- | --- | --- |
