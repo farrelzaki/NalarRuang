@@ -20,7 +20,7 @@ Route::get('/commute', CommuteController::class);
 Route::get('/lokasi', LokasiController::class);
 Route::post('/lahan', LahanController::class);
 
-// FR-24 DRAF (listing properti) — prototipe untuk ditinjau PM, BELUM resmi (docs/RENCANA.md TBD-12).
+// FR-24 (listing properti) — disetujui PM 26 Nov 2026; belum resmi di docs/SISTEM.md bagian 2 (docs/RENCANA.md TBD-12).
 Route::post('/perumahan', [PerumahanController::class, 'simpan']);
 Route::get('/perumahan/cari', [PerumahanController::class, 'cari']);
 Route::delete('/perumahan/{id}', [PerumahanController::class, 'hapus']);
