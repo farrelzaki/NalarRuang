@@ -6,13 +6,27 @@
 import { Head, Link } from '@inertiajs/react';
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import type { FeatureCollection, Geometry, Polygon } from 'geojson';
-import type { AksesLahanMasuk, AsumsiLahan, CommuteResponse, JenisAkses, JenisZona, LahanRequest, PolaLahan, ZonaLahanMasuk, HasilSearch, InspectResponse, LahanResponse, LayerKey, LayerResponse, Persona, SaranLokasi, TipeLahan } from '@/types';
+import type { CommuteResponse, JenisAkses, JenisZona, LahanRequest, HasilSearch, InspectResponse, LahanResponse, LayerKey, LayerResponse, Persona, SaranLokasi } from '@/types';
 import { api } from '@/lib/api';
+import { useProyekLahan } from '@/lib/proyekLahan';
+import { buatUid, dariServer, keZonaApi, rapikan } from '@/lib/layerLahan';
+import { luasM2 } from '@/lib/batasLahan';
+import { kebutuhanLuas, tempatkanZona } from '@/lib/penempatan';
 import { teksServer, useBahasa } from '@/lib/bahasa';
 import { bacaPersonaSesi, PERSONA, simpanPersonaSesi, SUBFITUR, type IsochroneMode, type Simbol } from '@/lib/nalar';
 import type { ModeKamera, TitikPeta } from '@/Map/PetaExplorer';
 import PetaPilihan, { type MesinPeta } from '@/Map/PetaPilihan';
 import { luasPoligonM2, teksLuas } from '@/Map/isiPeta';
+import { mapLibreBolehDipakai } from '@/Map/maplibre';
+import { bangunEkstrusi, type Gaya3D } from '@/lib/ekstrusi3d';
+import { bacaBerkas, bangunGeoJSON, bungkusProyek, EKSTENSI, namaBerkas, type DesainImpor } from '@/lib/berkasLahan';
+import { simpanBerkas } from '@/lib/simpanBerkas';
+import { buatSkema, namaBerikut, type SkemaLahan } from '@/lib/skemaLahan';
+import { bacaSesi, gantiTipe, KUNCI_SESI, tulisSesi, type SimpananTipe } from '@/lib/simpanTab';
+import { putarDesain } from '@/lib/putar';
+import { geserInti } from '@/lib/intiLahan';
+import { bangunDxf } from '@/lib/dxfLahan';
+import { bangunCsv, bangunHtml, judul as judulLaporan } from '@/lib/laporanLahan';
 import { BilahAlat, type Alat } from '@/Components/BilahAlat';
 import { Toast, type NadaToast } from '@/Components/Dasar';
 import { PanelFilter, PanelLokasi, PanelTop3, SearchBar, type ModeCari } from '@/Components/Pencarian';
@@ -21,7 +35,7 @@ import { SimulatorRute, type Moda, type TitikRute } from '@/Components/Simulator
 import { PanelLayer, PanelProfilPersona, SliderTahun, TombolLayerPersona, TombolMerek, type PanelKananKey, type StatusLayer } from '@/Components/PanelKananPeta';
 import { DialogPersona, DrawerMenu, type TabMenu } from '@/Components/MenuPersona';
 import { Panduan, sudahLihatPanduan } from '@/Components/Panduan';
-import { PanelLahan, type ModeGambar } from '@/Components/PanelLahan';
+import { PanelLahan, type JenisLaporan, type JenisUnduhan, type ModeGambar } from '@/Components/PanelLahan';
 
 const Pratinjau3D = lazy(() => import('@/Components/Pratinjau3D'));
 
@@ -41,6 +55,16 @@ const LAYER_AWAL: LayerKey[] = ['mobilitas'];
 const LUAS_AREA_MAKS = 25_000_000;
 const SUDUT_MAKS = 60;
 const KUNCI_KAMERA = 'nr-mode-kamera';
+const KUNCI_GAYA_3D = 'nr-gaya-3d';
+
+/** Gaya 3D Uji Lahan yang dipilih (sampai tab browser ditutup); bawaan realistis. */
+function gaya3DTersimpan(): Gaya3D {
+    try {
+        return sessionStorage.getItem(KUNCI_GAYA_3D) === 'warna' ? 'warna' : 'realistis';
+    } catch {
+        return 'realistis';
+    }
+}
 
 function kameraTersimpan(): ModeKamera {
     try {
@@ -93,7 +117,7 @@ export default function Peta() {
     const [isoMode, setIsoMode] = useState<IsochroneMode>('pedestrian');
     const [isoMinutes, setIsoMinutes] = useState<number>(10);
     const [wilayahTerpilih, setWilayahTerpilih] = useState<Geometry | null>(null);
-    const [terbangKe, setTerbangKe] = useState<{ geometri?: Geometry; titik?: TitikPeta; kunci: number } | null>(null);
+    const [terbangKe, setTerbangKe] = useState<{ geometri?: Geometry; titik?: TitikPeta; kunci: number; paskan?: boolean } | null>(null);
     const batalDetail = useRef<AbortController | null>(null);
 
     // Rute
@@ -130,19 +154,87 @@ export default function Peta() {
     // Uji Lahan (FR-23)
     const [alatLahan, setAlatLahan] = useState<{ mode: ModeGambar; kunci: number } | null>(null);
     const [selesaiLahan, setSelesaiLahan] = useState(0);
-    const [geomLahan, setGeomLahan] = useState<Polygon | null>(null);
-    const [tipeLahan, setTipeLahan] = useState<TipeLahan>('rumah');
-    const [asumsiLahan, setAsumsiLahan] = useState<AsumsiLahan>({});
+    // Desain lahan (lahan, tipe, asumsi, pola, zona, akses) hidup di satu proyek dengan riwayat undo/redo (lib/proyekLahan.ts).
+    // Nama dan bentuk setternya sama dengan useState, jadi pemakai di bawah tidak berubah.
+    const proyekLahan = useProyekLahan();
+    const {
+        geom: geomLahan,
+        tipe: tipeLahan,
+        asumsi: asumsiLahan,
+        pola: polaLahan,
+        zona: zonaLahan,
+        akses: aksesLahan,
+        isiSisa: isiSisaLahan,
+        targetJumlah: targetLahan,
+        kunciUkuran: kunciUkuranLahan,
+        laranganBanjir: laranganBanjirLahan,
+        inti: intiLahan,
+        setGeom: setGeomLahan,
+        setAsumsi: setAsumsiLahan,
+        setZona: setZonaLahan,
+        setAkses: setAksesLahan,
+    } = proyekLahan;
     const [hasilLahan, setHasilLahan] = useState<LahanResponse | null>(null);
-    /** Pola tata letak; null = pola bawaan tipe. */
-    const [polaLahan, setPolaLahan] = useState<PolaLahan | null>(null);
-    /** Zona yang ditarik pengguna; null = zona bawaan pola dari server. */
-    const [zonaLahan, setZonaLahan] = useState<ZonaLahanMasuk[] | null>(null);
-    const [tambahZona, setTambahZona] = useState<{ jenis: JenisZona; kunci: number } | null>(null);
-    /** Gerbang kendaraan dan pintu gedung yang ditaruh pengguna. */
-    const [aksesLahan, setAksesLahan] = useState<AksesLahanMasuk[]>([]);
+    const [tambahZona, setTambahZona] = useState<{ jenis: JenisZona; kunci: number; geometri?: Polygon | null } | null>(null);
+    /** Kunci baru = peta diminta menggambar ulang bentuk lahan dari `geom` (setelah undo/redo). */
+    const [pulihLahan, setPulihLahan] = useState<{ geom: Polygon; kunci: number } | null>(null);
+    // Panel layer Uji Lahan: layer terpilih, lahan terkunci, dan jenis isi hasil yang disembunyikan (hanya tampilan, tanpa undo).
+    const [zonaDipilih, setZonaDipilih] = useState<string | null>(null);
+    const [lahanTerkunci, setLahanTerkunci] = useState(false);
+    const [isiSembunyi, setIsiSembunyi] = useState<string[]>([]);
+    /** Zona yang tampil di panel layer: zona pengguna, atau zona bawaan pola dari server bila belum ada. */
+    const daftarZona = useMemo(() => zonaLahan ?? dariServer(hasilLahan?.zona), [zonaLahan, hasilLahan?.zona]);
+    const luasZona = useMemo(() => {
+        const m = new Map<string, number>();
+        const fitur = hasilLahan?.zona?.features ?? [];
+        if (zonaLahan) zonaLahan.forEach((z, i) => {
+            const f = fitur.find((x) => x.properties.id === i);
+            if (f) m.set(z.uid, f.properties.luas_m2);
+        });
+        else fitur.forEach((f) => m.set(`srv-${f.properties.id}`, f.properties.luas_m2));
+        return m;
+    }, [zonaLahan, hasilLahan?.zona]);
+    /** Jenis isi hasil hitungan yang ada sekarang (unit, kavling, slot, ...) beserta jumlahnya. */
+    const isiLahan = useMemo(() => {
+        const hitung = new Map<string, number>();
+        for (const f of hasilLahan?.geometri_kapasitas?.features ?? []) {
+            const j = String((f.properties as { jenis?: unknown } | null)?.jenis ?? '');
+            if (j) hitung.set(j, (hitung.get(j) ?? 0) + 1);
+        }
+        const urutan = ['unit', 'kavling', 'jalan', 'koridor', 'taman', 'parkir', 'slot', 'lobi', 'jalur', 'inti', 'void', 'tapak', 'akses'];
+        return [...hitung.keys()].sort((a, b) => (urutan.indexOf(a) + 100) % 100 - (urutan.indexOf(b) + 100) % 100).map((jenis) => ({ jenis, jumlah: hitung.get(jenis) ?? 0 }));
+    }, [hasilLahan?.geometri_kapasitas]);
+    /** Luas taman dari sisa lahan (zona tambahan dari server, tidak ada di daftar layer), bila opsinya aktif. */
+    const sisaTaman = useMemo(() => {
+        if (!zonaLahan || !isiSisaLahan) return undefined;
+        return hasilLahan?.zona?.features.find((f) => f.properties.id === zonaLahan.length)?.properties.luas_m2;
+    }, [zonaLahan, isiSisaLahan, hasilLahan?.zona]);
+    const zonaSembunyi = useMemo(() => (zonaLahan ?? []).flatMap((z, i) => (z.sembunyi ? [i] : [])), [zonaLahan]);
     const [tambahAkses, setTambahAkses] = useState<{ jenis: JenisAkses; kunci: number } | null>(null);
     const [tampil3D, setTampil3D] = useState(false);
+    const [gaya3D, setGaya3DState] = useState<Gaya3D>(gaya3DTersimpan);
+    const setGaya3D = (g: Gaya3D) => {
+        setGaya3DState(g);
+        try {
+            sessionStorage.setItem(KUNCI_GAYA_3D, g);
+        } catch {
+            /* tanpa sessionStorage: cukup di memori */
+        }
+    };
+    // Pilihan gaya hanya berarti untuk kos/apartemen (rumah selalu berbentuk rumah).
+    const bisaGaya3D = hasilLahan?.tipe === 'kos' || hasilLahan?.tipe === 'apartemen';
+    // Hasil Uji Lahan 3D langsung di peta (MapLibre). Kamera sebelumnya diingat supaya kembali ke 2D memulihkannya.
+    const [lahan3DPeta, setLahan3DPeta] = useState(false);
+    const [bisa3DPeta] = useState(mapLibreBolehDipakai);
+    const kameraSebelum3D = useRef<ModeKamera | null>(null);
+    const [layarPenuh, setLayarPenuh] = useState(false);
+    const [mengunduh, setMengunduh] = useState(false);
+    /** Skema yang disimpan untuk dibandingkan; hanya di sesi ini (lib/skemaLahan.ts). */
+    const [skema, setSkema] = useState<SkemaLahan[]>([]);
+    /** Pengaturan tab tipe bangunan lain (lib/simpanTab.ts); tab aktif ada di proyekLahan. */
+    const simpananTipe = useRef<SimpananTipe>({});
+    /** Mode gambar terakhir (Kotak/Poligon), ikut disimpan di sesi. */
+    const modeTerakhir = useRef<ModeGambar>('kotak');
     const [memuatLahan, setMemuatLahan] = useState(false);
     const [galatLahan, setGalatLahan] = useState<string | null>(null);
     /** True bila perubahan terakhir datang dari menggambar/menarik lahan (dikirim tanpa jeda). */
@@ -600,38 +692,266 @@ export default function Peta() {
             asumsi: asumsiLahan,
             persona,
             ...(polaLahan ? { pola: polaLahan } : {}),
-            ...(zonaLahan ? { zona: zonaLahan } : {}),
+            ...(zonaLahan ? { zona: keZonaApi(zonaLahan) } : {}),
+            ...(zonaLahan && isiSisaLahan && tipeLahan !== 'rumah' && tipeLahan !== 'pribadi' ? { isi_sisa: 'rekomendasi' as const } : {}),
+            ...(targetLahan ? { target: { jumlah: targetLahan, kunci_ukuran: kunciUkuranLahan } } : {}),
+            ...(laranganBanjirLahan ? { larangan_banjir: laranganBanjirLahan } : {}),
             ...(aksesLahan.length ? { akses: aksesLahan } : {}),
+            ...(intiLahan && (tipeLahan === 'kos' || tipeLahan === 'apartemen') ? { inti: intiLahan } : {}),
         };
         const jeda = setTimeout(() => kirimLahan.current(badan), lahanDariPeta.current ? 0 : 350);
         lahanDariPeta.current = false;
         return () => clearTimeout(jeda);
-    }, [panelKiri, geomLahan, tipeLahan, asumsiLahan, persona, polaLahan, zonaLahan, aksesLahan]);
+    }, [panelKiri, geomLahan, tipeLahan, asumsiLahan, persona, polaLahan, zonaLahan, aksesLahan, isiSisaLahan, targetLahan, kunciUkuranLahan, laranganBanjirLahan, intiLahan]);
 
     useEffect(() => batalLahan, []);
 
+    const keluar3DPeta = () => {
+        setLahan3DPeta(false);
+        if (kameraSebelum3D.current) {
+            setModeKamera(kameraSebelum3D.current);
+            kameraSebelum3D.current = null;
+        }
+    };
+    const masuk3DPeta = () => {
+        if (!hasilLahan || !geomLahan) return;
+        kameraSebelum3D.current = modeKamera;
+        setModeKamera('miring');
+        setLahan3DPeta(true);
+    };
+
+    /**
+     * Panel Uji Lahan ditutup: alat gambar dan hasil dilepas, tetapi desain (lahan, semua tab, skema) tetap diingat di memori dan
+     * sessionStorage sampai tab browser ditutup; membuka panel lagi memulihkannya. Menghapus desain hanya lewat tombol Ulang.
+     */
     const resetLahan = () => {
         batalLahan();
+        keluar3DPeta();
         setAlatLahan(null);
-        setGeomLahan(null);
         setHasilLahan(null);
         setGalatLahan(null);
-        setAsumsiLahan({});
-        setPolaLahan(null);
-        setZonaLahan(null);
-        setAksesLahan([]);
+        setPulihLahan(null);
+        setZonaDipilih(null);
+        setLahanTerkunci(false);
+        setIsiSembunyi([]);
         setTampil3D(false);
     };
 
     const mulaiLahan = (mode: ModeGambar) => {
         batalLahan();
-        setZonaLahan(null);
-        setAksesLahan([]);
-        setGeomLahan(null);
+        keluar3DPeta();
+        // Gambar dari awal: simpanan tab lain dan sesi ikut dilupakan (skema tetap).
+        simpananTipe.current = {};
+        try {
+            sessionStorage.removeItem(KUNCI_SESI);
+        } catch {
+            /* tanpa sessionStorage: cukup di memori */
+        }
+        modeTerakhir.current = mode;
+        // Gambar ulang: lahan, zona, dan akses dikosongkan; tipe, asumsi, dan pola dipertahankan.
+        proyekLahan.mulaiBaru({ ...proyekLahan.snap, geom: null, zona: null, akses: [], inti: null });
+        setPulihLahan(null);
+        setZonaDipilih(null);
+        setLahanTerkunci(false);
+        setIsiSembunyi([]);
         setHasilLahan(null);
         setGalatLahan(null);
         setAlatLahan({ mode, kunci: Date.now() });
     };
+
+    /**
+     * Penempatan pintar: zona baru ditaruh di ruang kosong terbesar, seluas kebutuhan (kekurangan KDH untuk taman, kekurangan slot untuk
+     * parkir), tidak menabrak layer terkunci. Bila ruang kosong habis, zona baru menimpa layer yang tidak terkunci.
+     */
+    const tambahkanZona = (jenis: JenisZona) => {
+        if (!geomLahan) return;
+        if (lahan3DPeta) {
+            kabar(t('Kembali ke 2D dulu untuk menambah zona.', 'Go back to 2D first to add a zone.'), 'warning');
+            return;
+        }
+        const luasLahan = hasilLahan?.luas_m2 ?? luasM2(geomLahan.coordinates[0].map(([lng, lat]) => ({ lat, lng })));
+        const parkir = hasilLahan?.kapasitas?.parkir;
+        const kebutuhan = kebutuhanLuas(jenis, {
+            luasLahanM2: luasLahan,
+            kdhTerpakai: hasilLahan?.ringkasan?.kdh_terpakai,
+            kdhBatas: hasilLahan?.ringkasan?.kdh_batas,
+            slotKurang: parkir ? Math.max(0, parkir.butuh - parkir.muat) : 0,
+            jenisParkir: parkir?.jenis ?? null,
+            kolamM2: asumsiLahan.kolam ?? hasilLahan?.kapasitas?.pribadi?.kolam_m2,
+        });
+        const hasil = tempatkanZona(geomLahan, daftarZona.map((z) => ({ geometri: z.geometri, kunci: z.kunci })), kebutuhan);
+        if (!hasil) {
+            kabar(t('Tidak ada ruang untuk zona baru: seluruh lahan tertutup layer terkunci.', 'No room for a new zone: the whole site is covered by locked layers.'), 'warning');
+            return;
+        }
+        if (!hasil.bebas) kabar(t('Ruang kosong habis, jadi zona baru menimpa layer yang tidak terkunci.', 'No free space left, so the new zone overlaps unlocked layers.'));
+        setTambahZona({ jenis, kunci: Date.now(), geometri: hasil.geometri });
+    };
+
+    /** Unduh desain: model 3D (.glb), data proyek (dibuka lagi lewat Impor), GeoJSON, atau gambar CAD (.dxf). Persona sesi tidak ikut tersimpan. */
+    const unduhLahan = async (jenis: JenisUnduhan) => {
+        if (!geomLahan || mengunduh) return;
+        const waktu = new Date();
+        const nama = namaBerkas(tipeLahan, waktu);
+        setMengunduh(true);
+        try {
+            if (jenis === 'proyek') {
+                const berkas = bungkusProyek(proyekLahan.snap, hasilLahan, waktu);
+                if (!berkas) return;
+                simpanBerkas(new Blob([JSON.stringify(berkas, null, 2)], { type: 'application/json' }), nama + EKSTENSI);
+                kabar(t('Data proyek tersimpan. Buka lagi lewat Impor.', 'Project data saved. Reopen it with Import.'), 'success');
+            } else if (jenis === 'geojson') {
+                const fc = bangunGeoJSON(proyekLahan.snap, hasilLahan, waktu);
+                if (!fc) return;
+                simpanBerkas(new Blob([JSON.stringify(fc)], { type: 'application/geo+json' }), nama + '.geojson');
+                kabar(t('GeoJSON tersimpan.', 'GeoJSON saved.'), 'success');
+            } else if (jenis === 'dxf') {
+                // Denah 2D per layer (UTM 48S, meter) untuk AutoCAD; .dwg dibuat dengan menyimpan ulang dari AutoCAD.
+                const dxf = bangunDxf(geomLahan, hasilLahan, waktu);
+                if (!dxf) return;
+                simpanBerkas(new Blob([dxf], { type: 'application/dxf' }), nama + '.dxf');
+                kabar(t('Gambar CAD tersimpan (.dxf).', 'CAD drawing saved (.dxf).'), 'success');
+            } else {
+                if (!hasilLahan) return;
+                // three.js dan GLTFExporter baru diunduh saat dipakai.
+                const { eksporGLB } = await import('@/Map/EksporLahan');
+                simpanBerkas(new Blob([await eksporGLB(hasilLahan, geomLahan, gaya3D)], { type: 'model/gltf-binary' }), nama + '.glb');
+                kabar(t('Model 3D tersimpan (.glb).', '3D model saved (.glb).'), 'success');
+            }
+        } catch (e) {
+            console.warn('[NalarRuang] Gagal membuat berkas Uji Lahan:', e);
+            kabar(t('Berkas tidak bisa dibuat. Coba lagi.', 'The file could not be created. Please try again.'), 'warning');
+        } finally {
+            setMengunduh(false);
+        }
+    };
+
+    /** Pulihkan satu desain utuh (dari berkas atau skema): lokasi dan bentuk lahan sama persis, hasil dihitung ulang server. */
+    const terapkanDesain = (desain: DesainImpor, mode: ModeGambar = 'poligon') => {
+        batalLahan();
+        keluar3DPeta();
+        // Proyek baru (riwayat undo dimulai ulang). Alat gambar dimulai dengan bentuk ini (lahanAwal), bukan kotak baru.
+        proyekLahan.mulaiBaru(desain);
+        setPulihLahan(null);
+        setZonaDipilih(null);
+        setLahanTerkunci(false);
+        setIsiSembunyi([]);
+        setHasilLahan(null);
+        setGalatLahan(null);
+        lahanDariPeta.current = true;
+        modeTerakhir.current = mode;
+        setAlatLahan({ mode, kunci: Date.now() });
+        setTerbangKe({ geometri: desain.geom, kunci: Date.now(), paskan: true });
+    };
+
+    const simpanSkema = () => {
+        const baru = buatSkema(proyekLahan.snap, hasilLahan, namaBerikut(skema, t('Skema', 'Scheme')), buatUid(), Date.now());
+        if (!baru) return;
+        setSkema((s) => [...s, baru]);
+        kabar(t(`${baru.nama} tersimpan. Ubah pengaturan lalu simpan lagi untuk membandingkan.`, `${baru.nama} saved. Change the settings and save again to compare.`), 'success');
+    };
+    const bukaSkema = (id: string) => {
+        const s = skema.find((x) => x.id === id);
+        if (!s?.snap.geom) return;
+        terapkanDesain({ ...s.snap, geom: s.snap.geom });
+        kabar(t(`${s.nama} dibuka.`, `${s.nama} opened.`), 'info');
+    };
+
+    /** Laporan hasil yang sedang tampil: CSV diunduh, PDF lewat dialog cetak (iframe tersembunyi tanpa skrip). */
+    const buatLaporan = (jenis: JenisLaporan) => {
+        if (!hasilLahan || !geomLahan) return;
+        const bahan = { snap: proyekLahan.snap, hasil: hasilLahan, skema, waktu: new Date(), t, locale: bahasa === 'en' ? 'en-US' : 'id-ID' };
+        if (jenis === 'csv') {
+            simpanBerkas(new Blob([bangunCsv(bahan)], { type: 'text/csv;charset=utf-8' }), namaBerkas(tipeLahan, bahan.waktu) + '.csv');
+            kabar(t('Laporan CSV tersimpan.', 'CSV report saved.'), 'success');
+            return;
+        }
+        const bingkai = document.createElement('iframe');
+        bingkai.setAttribute('aria-hidden', 'true');
+        bingkai.title = judulLaporan(bahan);
+        bingkai.style.cssText = 'position:fixed;left:-9999px;top:0;width:210mm;height:297mm;border:0;';
+        bingkai.srcdoc = bangunHtml(bahan);
+        bingkai.onload = () => {
+            try {
+                bingkai.contentWindow?.focus();
+                bingkai.contentWindow?.print();
+            } catch {
+                kabar(t('Dialog cetak tidak bisa dibuka. Pakai Laporan CSV, atau cetak dari peramban lain.', 'The print dialog could not open. Use the CSV report, or print from another browser.'), 'warning');
+            }
+            window.setTimeout(() => bingkai.remove(), 60_000);
+        };
+        document.body.appendChild(bingkai);
+    };
+
+    /** Buka berkas desain: lokasi dan bentuk lahan dipulihkan sama persis, hasil dihitung ulang server. Menggantikan desain yang sedang dibuka. */
+    const imporLahan = async (berkas: File) => {
+        if (berkas.size > 2_000_000) {
+            kabar(t('Berkas terlalu besar untuk berkas Uji Lahan.', 'That file is too large to be a Site Test file.'), 'warning');
+            return;
+        }
+        let teks: string;
+        try {
+            teks = await berkas.text();
+        } catch {
+            kabar(t('Berkas tidak bisa dibaca.', 'The file could not be read.'), 'warning');
+            return;
+        }
+        const r = bacaBerkas(teks);
+        if (!r.ok) {
+            kabar(teksServer(r.galat), 'warning');
+            return;
+        }
+        terapkanDesain(r.desain);
+        kabar(
+            r.peringatan.length
+                ? t(`Berkas dibuka dengan ${r.peringatan.length} penyesuaian: ${r.peringatan.slice(0, 2).join('; ')}.`, `File opened with ${r.peringatan.length} adjustment(s): ${r.peringatan.slice(0, 2).join('; ')}.`)
+                : r.sumber === 'geojson'
+                  ? t('Bentuk lahan dari GeoJSON dibuka. Asumsi memakai nilai bawaan.', 'Site shape opened from GeoJSON. Assumptions use defaults.')
+                  : t('Desain lahan dibuka di lokasi yang sama.', 'Site design opened at the same location.'),
+            r.peringatan.length ? 'warning' : 'success',
+        );
+    };
+
+    // Undo/redo desain lahan. Zona dan akses digambar dari props, jadi cukup bentuk lahan yang diminta digambar ulang
+    // (alat gambar menyimpan bentuknya sendiri); hasil server dihitung ulang tanpa jeda.
+    const terapkanSnapLahan = (s: ReturnType<typeof proyekLahan.undo>) => {
+        if (!s) return;
+        lahanDariPeta.current = true;
+        if (s.geom) setPulihLahan({ geom: s.geom, kunci: Date.now() });
+    };
+    const urungLahan = () => terapkanSnapLahan(proyekLahan.undo());
+    const ulangLahan = () => terapkanSnapLahan(proyekLahan.redo());
+    const urungLahanRef = useRef(urungLahan);
+    const ulangLahanRef = useRef(ulangLahan);
+    urungLahanRef.current = urungLahan;
+    ulangLahanRef.current = ulangLahan;
+
+    // Ctrl+Z / Ctrl+Y (atau Ctrl+Shift+Z) dan Esc selama panel Uji Lahan terbuka; tidak mengganggu pengetikan di kolom isian.
+    useEffect(() => {
+        if (panelKiri !== 'lahan') return;
+        const tekan = (e: KeyboardEvent) => {
+            // Esc melepas zona yang dipilih (titik sudutnya ikut hilang).
+            if (e.key === 'Escape' && !e.ctrlKey && !e.metaKey && !e.altKey) {
+                setZonaDipilih(null);
+                return;
+            }
+            if (!(e.ctrlKey || e.metaKey) || e.altKey) return;
+            const el = e.target as HTMLElement | null;
+            const mengetik =
+                !!el && (el.tagName === 'TEXTAREA' || el.isContentEditable || (el.tagName === 'INPUT' && !['range', 'checkbox', 'radio', 'button'].includes((el as HTMLInputElement).type)));
+            if (mengetik) return;
+            const k = e.key.toLowerCase();
+            if (k === 'z' && !e.shiftKey) {
+                e.preventDefault();
+                urungLahanRef.current();
+            } else if (k === 'y' || (k === 'z' && e.shiftKey)) {
+                e.preventDefault();
+                ulangLahanRef.current();
+            }
+        };
+        window.addEventListener('keydown', tekan);
+        return () => window.removeEventListener('keydown', tekan);
+    }, [panelKiri]);
 
     const toggleLahan = () => {
         if (panelKiri === 'lahan') {
@@ -652,8 +972,28 @@ export default function Peta() {
         setHasil(null);
         setTop3Aktif(null);
         setWilayahTerpilih(null);
-        mulaiLahan('kotak');
-        kabar(t('Tarik sudut kotak untuk mengatur luas lahan, atau pilih Poligon untuk menggambar bentuk bebas.', 'Drag the box corners to set the site size, or choose Polygon to draw a free shape.'));
+        // Desain yang masih diingat (panel pernah ditutup, atau halaman di-refresh) dibuka lagi persis seperti ditinggal.
+        const diMemori = proyekLahan.snap.geom;
+        let sesi: ReturnType<typeof bacaSesi> = null;
+        if (!diMemori) {
+            try {
+                sesi = bacaSesi(sessionStorage.getItem(KUNCI_SESI));
+            } catch {
+                sesi = null;
+            }
+        }
+        if (diMemori) {
+            terapkanDesain({ ...proyekLahan.snap, geom: diMemori }, modeTerakhir.current);
+            kabar(t('Desain lahan terakhir dibuka lagi. Tekan Ulang untuk mulai dari awal.', 'Your last site design is back. Press Reset to start over.'));
+        } else if (sesi) {
+            simpananTipe.current = sesi.simpanan;
+            setSkema(sesi.skema);
+            terapkanDesain({ ...sesi.snap, geom: sesi.snap.geom! }, sesi.mode);
+            kabar(t('Desain lahan terakhir dibuka lagi. Tekan Ulang untuk mulai dari awal.', 'Your last site design is back. Press Reset to start over.'));
+        } else {
+            mulaiLahan('kotak');
+            kabar(t('Tarik sudut kotak untuk mengatur luas lahan, atau pilih Poligon untuk menggambar bentuk bebas.', 'Drag the box corners to set the site size, or choose Polygon to draw a free shape.'));
+        }
     };
 
     // Klik peta
@@ -725,6 +1065,42 @@ export default function Peta() {
         setMenunggu(null);
     };
 
+    // Simpanan sesi: desain (tanpa persona) ditulis ke sessionStorage, jadi bertahan saat panel ditutup dan halaman di-refresh,
+    // lalu hilang saat tab browser ditutup.
+    useEffect(() => {
+        if (!proyekLahan.snap.geom) return;
+        const jeda = setTimeout(() => {
+            try {
+                const teks = tulisSesi({ snap: proyekLahan.snap, simpanan: simpananTipe.current, mode: modeTerakhir.current, skema });
+                if (teks) sessionStorage.setItem(KUNCI_SESI, teks);
+            } catch {
+                /* penyimpanan penuh atau tidak tersedia: desain tetap ada di memori */
+            }
+        }, 300);
+        return () => clearTimeout(jeda);
+    }, [proyekLahan.snap, skema]);
+
+    // Tampilan 3D di peta hanya berlaku selama panel Uji Lahan terbuka.
+    useEffect(() => {
+        if (panelKiri !== 'lahan' && lahan3DPeta) keluar3DPeta();
+    }, [panelKiri]);
+    const ekstrusiLahan = useMemo(
+        () => (panelKiri === 'lahan' && lahan3DPeta && hasilLahan && geomLahan ? bangunEkstrusi(hasilLahan, geomLahan, gaya3D) : null),
+        [panelKiri, lahan3DPeta, hasilLahan, geomLahan, gaya3D],
+    );
+
+    // Layar penuh: seluruh halaman peta (panel dan bilah ikut), bukan hanya kanvas. Tidak ada di peramban tanpa Fullscreen API (mis. iPhone).
+    useEffect(() => {
+        const ubah = () => setLayarPenuh(!!document.fullscreenElement);
+        document.addEventListener('fullscreenchange', ubah);
+        return () => document.removeEventListener('fullscreenchange', ubah);
+    }, []);
+    const bisaLayarPenuh = typeof document !== 'undefined' && !!document.documentElement.requestFullscreen;
+    const toggleLayarPenuh = () => {
+        const aksi = document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+        aksi.catch(() => kabar(t('Layar penuh tidak bisa dibuka di peramban ini.', 'Full screen is not available in this browser.'), 'warning'));
+    };
+
     const labelPersona = persona.map((p) => PERSONA[p].label).join(' & ') || 'Commuter';
     const mesinWaktuAktif = !!layerAktif.mesin_waktu;
     const proyekDiTahun = (layerData.mesin_waktu?.features ?? []).filter((f) => !f.properties?.tahun || f.properties.tahun <= tahun).length;
@@ -739,12 +1115,21 @@ export default function Peta() {
                 {panelKiri === 'lahan' && tampil3D && hasilLahan && (
                     // three.js baru diunduh saat pratinjau 3D dibuka, jadi halaman peta tidak bertambah berat.
                     <Suspense fallback={<div className="nr-3d nr-3d--muat">{t('Menyiapkan tampilan 3D…', 'Preparing 3D view…')}</div>}>
-                        <Pratinjau3D data={hasilLahan} lahan={geomLahan} onTutup={() => setTampil3D(false)} />
+                        <Pratinjau3D data={hasilLahan} lahan={geomLahan} gaya={gaya3D} onGaya={bisaGaya3D ? setGaya3D : null} onTutup={() => setTampil3D(false)} />
                     </Suspense>
                 )}
                 <PetaPilihan
-                    // Uji Lahan (FR-23) hanya ada di Leaflet: selama panelnya terbuka peta memakai Leaflet.
-                    paksaLeaflet={panelKiri === 'lahan'}
+                    // Menggambar dan mengedit Uji Lahan (FR-23) hanya ada di Leaflet: selama panelnya terbuka peta memakai Leaflet,
+                    // kecuali saat hasilnya dilihat 3D di peta (MapLibre).
+                    paksaLeaflet={panelKiri === 'lahan' && !(lahan3DPeta && bisa3DPeta)}
+                    onMapLibreGagal={() => {
+                        if (lahan3DPeta) {
+                            keluar3DPeta();
+                            kabar(t('Peta 3D tidak bisa dimuat. Kembali ke tampilan 2D.', 'The 3D map could not be loaded. Back to the 2D view.'), 'warning');
+                        }
+                    }}
+                    lahanAwal={panelKiri === 'lahan' ? geomLahan : null}
+                    ekstrusiLahan={ekstrusiLahan}
                     className="nr-app__peta"
                     layer={layerTampil}
                     aktif={layerAktif}
@@ -780,16 +1165,33 @@ export default function Peta() {
                     onBboxChange={handleBboxChange}
                     alatLahan={panelKiri === 'lahan' ? alatLahan : null}
                     selesaiLahan={selesaiLahan}
+                    pulihLahan={pulihLahan}
+                    onLahanBatas={() => kabar(t('Batas maksimum Uji Lahan 20 hektare tercapai. Lahan tidak bisa diperbesar lagi.', 'The 20-hectare Site Test limit is reached. The site cannot grow any further.'), 'warning')}
                     kapasitasLahan={panelKiri === 'lahan' && geomLahan ? (hasilLahan?.geometri_kapasitas ?? null) : null}
+                    onLahanPutar={(g, derajat, pusat) => {
+                        // Satu langkah undo: lahan, zona yang ditarik sendiri (beserta arah parkirnya), dan gerbang/pintu berputar bersama.
+                        lahanDariPeta.current = true;
+                        proyekLahan.ubah((lama) => ({ geom: g, ...putarDesain(lama.zona, lama.akses, pusat, derajat, lama.inti) }), 'putar');
+                        kabar(t(`Lahan diputar ${Math.round(derajat)}°.`, `Site rotated ${Math.round(derajat)}°.`));
+                    }}
+                    onLahanMode={(mode) => {
+                        modeTerakhir.current = mode;
+                        setAlatLahan((a) => (a ? { ...a, mode } : a));
+                    }}
                     onLahanBerubah={(g) => {
                         lahanDariPeta.current = true;
                         setGeomLahan(g);
                     }}
                     zonaLahan={panelKiri === 'lahan' && geomLahan ? (hasilLahan?.zona ?? null) : null}
                     zonaManual={zonaLahan}
+                    zonaDipilih={zonaDipilih}
+                    onPilihZona={setZonaDipilih}
+                    kunciLahan={lahanTerkunci}
+                    isiSembunyi={isiSembunyi}
+                    zonaSembunyi={zonaSembunyi}
                     onZonaBerubah={(z) => {
                         lahanDariPeta.current = true;
-                        setZonaLahan(z);
+                        setZonaLahan(rapikan(z));
                     }}
                     tambahZona={tambahZona}
                     akses={aksesLahan}
@@ -799,7 +1201,14 @@ export default function Peta() {
                         setAksesLahan(a);
                     }}
                     tambahAkses={tambahAkses}
-                    lebarGerbang={tipeLahan === 'rumah' ? (asumsiLahan.lebar_jalan ?? 8) : tipeLahan === 'kos' ? 3 : 6}
+                    onIntiDigeser={(id, titik) => {
+                        // Geseran pertama membekukan posisi semua lift/tangga; yang lain tetap di tempat. Satu langkah undo.
+                        const baru = geserInti(intiLahan, hasilLahan?.geometri_kapasitas?.features ?? [], id, titik);
+                        if (!baru) return;
+                        lahanDariPeta.current = true;
+                        proyekLahan.ubah({ inti: baru }, 'inti');
+                    }}
+                    lebarGerbang={tipeLahan === 'rumah' ? (asumsiLahan.lebar_jalan ?? 8) : tipeLahan === 'kos' || tipeLahan === 'pribadi' ? 3 : 6}
                 />
 
                 <div className="nr-app__kiri">
@@ -881,27 +1290,87 @@ export default function Peta() {
                             galat={galatLahan}
                             tipe={tipeLahan}
                             onTipe={(x) => {
-                                setTipeLahan(x);
-                                setAsumsiLahan({});
-                                setPolaLahan(null);
-                                setZonaLahan(null);
-                                // Rumah tapak tidak punya pintu gedung bersama.
-                                if (x === 'rumah') setAksesLahan((a) => a.filter((y) => y.jenis === 'gerbang'));
+                                // Tiap tab mengingat pengaturannya sendiri: tab lama disimpan, tab baru dipulihkan (atau bawaan). Satu langkah undo.
+                                const r = gantiTipe(proyekLahan.snap, simpananTipe.current, x);
+                                simpananTipe.current = r.simpanan;
+                                setZonaDipilih(null);
+                                proyekLahan.ubah(() => r.snap, 'tipe');
                             }}
                             pola={polaLahan}
-                            onPola={(x) => {
-                                setPolaLahan(x);
-                                setZonaLahan(null);
-                            }}
+                            onPola={(x) => proyekLahan.ubah({ pola: x, zona: null, inti: null }, 'pola')}
+                            onIntiOtomatis={() => proyekLahan.ubah({ inti: null }, 'inti')}
+                            bisaUndo={proyekLahan.bisaUndo}
+                            bisaRedo={proyekLahan.bisaRedo}
+                            onUndo={urungLahan}
+                            onRedo={ulangLahan}
                             zonaManual={!!zonaLahan}
-                            onAturUlangZona={() => setZonaLahan(null)}
-                            onTambahZona={(jenis) => setTambahZona({ jenis, kunci: Date.now() })}
+                            onAturUlangZona={() => {
+                                setZonaLahan(null);
+                                setZonaDipilih(null);
+                            }}
+                            onTambahZona={tambahkanZona}
+                            layer={{
+                                zona: daftarZona,
+                                luas: luasZona,
+                                manual: !!zonaLahan,
+                                dipilih: zonaDipilih,
+                                onPilih: setZonaDipilih,
+                                onUbah: (z) => {
+                                    lahanDariPeta.current = true;
+                                    setZonaLahan(rapikan(z));
+                                },
+                                lahanTerkunci,
+                                onKunciLahan: setLahanTerkunci,
+                                isiSisa: isiSisaLahan,
+                                // Rumah pribadi: sisa lahan selalu jadi halaman.
+                                bolehIsiSisa: tipeLahan !== 'rumah' && tipeLahan !== 'pribadi',
+                                luasSisaTaman: sisaTaman,
+                                // Mengaktifkan menjadikan zona bawaan sebagai zona sendiri (opsi hanya berlaku untuk zona sendiri).
+                                onIsiSisa: (v) => {
+                                    lahanDariPeta.current = true;
+                                    proyekLahan.ubah((lama) => ({ isiSisa: v, zona: lama.zona ?? dariServer(hasilLahan?.zona) }), 'isiSisa');
+                                },
+                                isi: isiLahan,
+                                isiSembunyi,
+                                onIsi: (jenis, tampil) => setIsiSembunyi((s) => (tampil ? s.filter((j) => j !== jenis) : [...s.filter((j) => j !== jenis), jenis])),
+                            }}
                             akses={aksesLahan}
                             onAkses={setAksesLahan}
-                            onTambahAkses={(jenis) => setTambahAkses({ jenis, kunci: Date.now() })}
+                            onTambahAkses={(jenis) =>
+                                lahan3DPeta
+                                    ? kabar(t('Kembali ke 2D dulu untuk menaruh gerbang atau pintu.', 'Go back to 2D first to place a gate or door.'), 'warning')
+                                    : setTambahAkses({ jenis, kunci: Date.now() })
+                            }
                             on3D={() => setTampil3D(true)}
+                            skema={skema}
+                            onSimpanSkema={simpanSkema}
+                            onBukaSkema={bukaSkema}
+                            onHapusSkema={(id) => setSkema((s) => s.filter((x) => x.id !== id))}
+                            onLaporan={buatLaporan}
+                            onUnduh={unduhLahan}
+                            onImpor={imporLahan}
+                            mengunduh={mengunduh}
                             asumsi={asumsiLahan}
                             onAsumsi={setAsumsiLahan}
+                            targetJumlah={targetLahan}
+                            kunciUkuran={kunciUkuranLahan}
+                            laranganBanjir={laranganBanjirLahan}
+                            onLaranganBanjir={(n) => {
+                                lahanDariPeta.current = true;
+                                proyekLahan.ubah({ laranganBanjir: n }, 'laranganBanjir');
+                            }}
+                            // Satu langkah undo: target, kunci ukuran, dan (saat target dilepas) asumsi hasil pencarian ikut berubah bersama.
+                            onTarget={(p) => {
+                                lahanDariPeta.current = true;
+                                proyekLahan.ubah(
+                                    (lama) => ({
+                                        targetJumlah: p.jumlah === undefined ? lama.targetJumlah : p.jumlah,
+                                        kunciUkuran: p.kunciUkuran ?? lama.kunciUkuran,
+                                        ...(p.asumsi ? { asumsi: p.asumsi } : {}),
+                                    }),
+                                    'target',
+                                );
+                            }}
                             sesi={persona}
                             onGambarUlang={() => mulaiLahan(alatLahan.mode)}
                             onSelesaiPoligon={() => setSelesaiLahan(Date.now())}
@@ -980,6 +1449,8 @@ export default function Peta() {
                         onModeKamera={gantiKamera}
                         kameraTersedia={mesin === 'maplibre'}
                         onZoom={(arah) => setPerintahZoom({ arah, kunci: Date.now() })}
+                        layarPenuh={bisaLayarPenuh ? { aktif: layarPenuh, onToggle: toggleLayarPenuh } : null}
+                        lahan3D={panelKiri === 'lahan' && bisa3DPeta && hasilLahan && geomLahan ? { aktif: lahan3DPeta, onToggle: lahan3DPeta ? keluar3DPeta : masuk3DPeta, gaya: gaya3D, onGaya: bisaGaya3D ? setGaya3D : null } : null}
                         jumlahSudut={sudutArea.length}
                         teksLuas={luasGambar ? teksLuas(luasGambar) : null}
                         memuatArea={memuatArea}

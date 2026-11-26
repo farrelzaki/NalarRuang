@@ -82,6 +82,56 @@ akses ke jalan lingkungan/parkir dan memindahkan parkir bawaan ke sisinya, pintu
 - [x] `php artisan test --filter=Lahan` dan `npm run typecheck` lulus (21 Nov 2026).
 - [ ] Uji manual: tambah/geser/hapus gerbang dan pintu, isi ikut berubah, tampil di 3D.
 
+Tahap 4 (22 Nov 2026, revisi "ala TestFit", permintaan Galih; dikerjakan langsung di `main`, Fase 0–9):
+
+- Batas 20 ha dengan notifikasi dan lahan tertahan di batas; undo/redo desain; panel layer ala editor (nama, kunci, sembunyi, urutan, duplikat, sub-layer/masking dengan prioritas); adaptasi antar zona; penempatan pintar zona baru dan isi sisa lahan dengan taman.
+- Target jumlah (kamar/unit/rumah) dengan kunci ukuran; lantai lebih dulu, lalu ukuran unit.
+- 3D langsung di peta (MapLibre) dan layar penuh; unduh model `.glb`, data proyek `.nalarruang.json`, GeoJSON; impor memulihkan lokasi dan bentuk yang sama.
+- Sudut parkir 30–90°, padding dan Max Run, zona larangan bangun (manual dan otomatis dari area banjir InaRISK), simpan dan bandingkan skema, laporan CSV/PDF.
+- Di luar cakupan (SRS): biaya, pro forma, dan harga properti sengaja tidak dibuat.
+- [x] Logika murni di `resources/js/lib/` dites dengan `npm run test:js` (73 tes); `php artisan test` 105 tes; `npm run typecheck` dan `npm run build` lulus (22 Nov 2026).
+- [x] Kontrak `POST /api/lahan` bertambah (semua opsional): `zona[].induk/prioritas`, jenis zona `larangan`, `isi_sisa_taman`, `target`, `larangan_banjir`, asumsi `sudut_parkir/padding_parkir/maks_baris`, properti `otomatis`; terdokumentasi di `docs/SISTEM.md`.
+- [ ] Farrel, Adzkia, dan Nur'Afia diberi tahu soal tambahan kontrak dan berkas peta yang disentuh (`PetaExplorer`, `PetaMapLibre`, `PetaPilihan`, `BilahAlat`).
+- [x] SRS v1.6 disusun (22 Nov 2026, atas permintaan Galih): FR-23, UI07, skenario, glosarium.
+- [ ] Persetujuan PM atas SRS v1.6 (baris riwayat masih berstatus diajukan).
+- [ ] Uji manual: layar penuh, dialog cetak PDF, larangan banjir di lahan yang benar-benar rawan, impor lewat dialog berkas.
+
+Tahap 5 (23 Nov 2026, revisi TestFit tahap 2 atas permintaan Galih; rencana disetujui, satu fase satu commit):
+
+- Parkir pola wrap (dan semua parkir) datar di 3D seperti taman; panjang gerbang/pintu bawaan 1 m; tiap tab Rumah/Kos/Apartemen mengingat
+  pengaturannya (sessionStorage, hilang saat tab browser ditutup; menutup panel tidak lagi menghapus desain); tambah/hapus titik
+  lahan dan zona; putar seluruh desain (Shift = 15°); kunci arah parkir per zona + samakan; rekomendasi isi lahan kosong.
+- [x] PHPUnit 109 tes, `npm run test:js` 84 tes, typecheck dan build lulus; tiap fase dicek di browser.
+- [x] Kontrak (opsional, terdokumentasi di `docs/SISTEM.md`): `zona[].arah`, `isi_sisa`, properti `gedung` dan `isi_otomatis`; perilaku bawaan panjang akses jadi 1 m.
+- [ ] Umumkan perubahan kontrak ke Farrel, Adzkia, Nur'Afia.
+- [ ] Uji manual oleh Galih: putar dengan Shift, klik ganda titik, refresh dan tutup tab browser.
+
+Tipe Rumah pribadi (23 Nov 2026, permintaan Galih; masuk SRS v1.6 yang masih diajukan ke PM):
+
+- Tab keempat "Rumah pribadi": satu rumah; luas bangunan diketik sendiri (kosong = rekomendasi KDB/KLB), lantai 1–3, carport 0–4
+  mobil, kolam renang 0–300 m², sempadan; pola Carport depan / Rumah tengah; zona baru `kolam`; isi `kolam`, `halaman`, `pagar`;
+  perkiraan kamar tidur/mandi; 3D (pagar 1,6 m, kolam dan halaman datar); berkas proyek, tab, dan laporan ikut.
+- [x] PHPUnit 125 tes, `npm run test:js` 87 tes, typecheck dan build lulus; dicek di browser (kedua pola, kolam, 3D).
+- [ ] Umumkan tambahan kontrak (opsional/aditif) ke Farrel, Adzkia, Nur'Afia: `tipe: pribadi`, zona `kolam`, asumsi `luas_bangunan`/`mobil`/`kolam`, isi `kolam`/`halaman`/`pagar`, `kapasitas.pribadi`.
+- [ ] Persetujuan PM untuk SRS v1.6 (termasuk tambahan rumah pribadi).
+
+Unduh gambar CAD .dxf (26 Nov 2026, permintaan Galih):
+
+- Menu Unduh Uji Lahan menambah "Gambar CAD (.dxf)": denah 2D DXF R12 per layer (lahan, zona, unit per tipe, koridor,
+  lift/tangga, parkir, slot, taman, dll.) dalam UTM 48S meter (`lib/dxfLahan.ts`, dites). DWG tidak dibuat langsung (format
+  tertutup, butuh pustaka tambahan); disimpan ulang dari AutoCAD.
+- [x] `npm run test:js`, typecheck dan build lulus; proyeksi dicocokkan dengan PostGIS ST_Transform.
+
+Ruang tangga dan lift (23 Nov 2026, permintaan PM lewat Galih):
+
+- Kos/apartemen 2 lantai ke atas: slot unit di tepi koridor jadi inti. Apartemen: inti lift + tangga dekat lobi, tangga darurat
+  tambahan; kos: tangga. Tiap unit ≤ 20 m dari inti; kos 1 lantai tanpa tangga. Tampil di peta 2D, 3D (beton menyembul di atas
+  dak), rincian panel, legenda, dan laporan.
+- [x] PHPUnit (termasuk `IntiGedungTest`), `npm run test:js`, typecheck dan build lulus.
+- [ ] Umumkan tambahan kontrak (aditif) ke Farrel, Adzkia, Nur'Afia: properti `fungsi`/`slot`/`id` pada fitur `inti`, `kapasitas.inti` (termasuk `manual`, `jauh`), masukan `inti[]`.
+- Lift/tangga bisa ditahan lalu digeser di peta 2D (posisi lain tetap; peringatan bila unit > 20 m dari tangga; tombol
+  "Atur otomatis lagi"); ikut undo/redo, simpanan tab, berkas proyek, skema, dan putar desain.
+
 **Diperbaiki 21 Nov 2026 atas persetujuan Galih** (`ST_Dump` dipindah ke `LATERAL`, kunci cache jadi `isochrone_boundary_v3` agar hasil cadangan lama tidak terpakai; poligon `/expansion` nyata kini terbentuk, `ApiTest` inspect lulus; tes `test_daftar_layer_dan_data_layer` disesuaikan dari 6 ke 8 layer sesuai `LayerController`; suite penuh 76 dari 77 tes lulus, 0 gagal). Catatan asli temuan: di `InspectController::bangunPoligonBatasJalan` query `ST_Union(ST_MakePolygon(ST_ExteriorRing((ST_Dump(geom)).geom)))` ditolak PostgreSQL ("aggregate function calls cannot contain set-returning function calls"; diuji pada PG 17 dengan respons Valhalla `/expansion` nyata). `hitungIsochrone` menelan galatnya dan jatuh ke `/isochrone`, jadi di produksi tampak normal, tetapi penghalusan "garis tepi mengikuti jalan terluar" tidak pernah berjalan. Di tes, galat itu membuat transaksi terhenti dan dua tes `ApiTest` di atas gagal; tes itu juga memanggil Valhalla publik tanpa `Http::fake`.
 
 ### [~] Penyelarasan dokumen dan artifact ke desain final + masukan Izdihar (Tahap A–C)

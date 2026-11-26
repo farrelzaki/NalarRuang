@@ -589,6 +589,50 @@ export default function PetaMapLibre(props: Props) {
         terapkanKamera(m, props.modeKamera ?? 'atas', true);
     }, [props.modeKamera, siap]);
 
+    // Uji Lahan 3D di peta: hasil kapasitas diekstrusi di atas lahan (lib/ekstrusi3d.ts). Saat pertama muncul, kamera terbang ke lahan dan memiring.
+    const ekstrusiTampil = useRef(false);
+    useEffect(() => {
+        const m = peta.current;
+        if (!m || !siap) return;
+        const fc = props.ekstrusiLahan;
+        if (!fc?.features.length) {
+            for (const id of ['nr-lahan3d-garis', 'nr-lahan3d-ekstrusi']) if (m.getLayer(id)) m.removeLayer(id);
+            if (m.getSource('nr-lahan3d')) m.removeSource('nr-lahan3d');
+            ekstrusiTampil.current = false;
+            return;
+        }
+        const sumber = m.getSource('nr-lahan3d');
+        if (sumber) sumber.setData(fc);
+        else m.addSource('nr-lahan3d', { type: 'geojson', data: fc });
+        if (!m.getLayer('nr-lahan3d-ekstrusi')) {
+            m.addLayer(
+                {
+                    id: 'nr-lahan3d-ekstrusi',
+                    type: 'fill-extrusion',
+                    source: 'nr-lahan3d',
+                    paint: {
+                        'fill-extrusion-color': ['get', 'warna'],
+                        'fill-extrusion-height': ['get', 'tinggi'],
+                        'fill-extrusion-base': ['get', 'dasar'],
+                        'fill-extrusion-opacity': 0.96,
+                    },
+                },
+                sebelum('poligon'),
+            );
+            m.addLayer(
+                { id: 'nr-lahan3d-garis', type: 'line', source: 'nr-lahan3d', filter: ['==', ['get', 'jenis'], 'lahan'], paint: { 'line-color': NAVY, 'line-width': 2, 'line-dasharray': [3, 2] } },
+                sebelum('garis'),
+            );
+        }
+        if (!ekstrusiTampil.current) {
+            ekstrusiTampil.current = true;
+            const koordinat: Position[] = [];
+            for (const f of fc.features) if (f.geometry) kumpulkanKoordinat(f.geometry, koordinat);
+            const k = kotakBatas(koordinat);
+            if (k) m.fitBounds(k, { padding: padding(), maxZoom: 18, pitch: 55, bearing: m.getBearing() || -17, duration: 900 });
+        }
+    }, [props.ekstrusiLahan, siap]);
+
     useEffect(() => {
         const m = peta.current;
         const z = props.perintahZoom;

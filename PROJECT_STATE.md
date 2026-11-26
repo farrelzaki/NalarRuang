@@ -6,7 +6,8 @@ Perbarui saat memulai sesi, melewati checkpoint, membuat keputusan penting, mene
 
 ## Metadata
 
-- Terakhir diperbarui: 2026-11-26 (FR-24 Listing Properti disetujui PM; CLAUDE.md & RENCANA.md diselaraskan)
+- Terakhir diperbarui: 2026-11-26 (FR-24 Listing Properti disetujui PM; CLAUDE.md & RENCANA.md diselaraskan. Uji Lahan: unduh gambar CAD .dxf; revisi Uji Lahan dikirim lewat branch `fitur/uji-lahan-lanjutan`)
+- 2026-11-23 (Uji Lahan: ruang tangga/lift kos-apartemen, geser manual, dan tipe Rumah pribadi selesai; menunggu pengumuman kontrak dan persetujuan PM SRS v1.6)
 - 2026-11-23 (rute alternatif `/api/commute`, `pribadi`/`publik` jadi array; lihat bagian di bawah)
 - 2026-11-22 (spesifikasi mode Newbie/Pro disepakati; lihat bagian di bawah)
 - 2026-11-21 (gabung `fitur/peta-mapbox` PR #3 dengan `main`: Uji Lahan, isochrone)
@@ -176,6 +177,8 @@ di kode (`97d610b`), rumus final belum dipastikan sama.
 - Yang coding bersama agen: Farrel, Adzkia, Nur'Afia, dan sejak 16 Nov 2026 **Galih** (System Analyst yang kini ikut memegang backend atas izin seluruh tim). Izdihar tidak.
 - Aturan untuk agen yang membantu Galih: izin menyentuh folder tim sudah diberikan, tidak perlu ditanyakan lagi; tetapi **bila perubahan menyentuh kode anggota lain, tanya Galih dulu**.
 - **Revisi SRS v1.5 (21 Nov 2026, disetujui PM):** FR-23 diselaraskan dengan implementasi (pola, zona, gerbang/pintu, ringkasan KDB/KLB/KDH, 3D), UI07 ditambah; isochrone digabung ke FR-08/FR-09 (tanpa FR-24); batas cakupan FR-01 sampai FR-23; FR-03 tetap enam layer. Rentang Mesin Waktu 2026–2045 tidak disebut di SRS, jadi FR-04 tidak perlu diubah.
+- **Revisi Uji Lahan ala TestFit (22 Nov 2026, permintaan Galih):** Fase 0–9 dikerjakan langsung di `main` (9+ commit lokal, belum di-push). Fitur baru ada di rincian TASK.md Tahap 4. Menyentuh berkas peta milik Nur'Afia (`Map/PetaExplorer.tsx`, `PetaMapLibre.tsx`, `PetaPilihan.tsx`, `Components/BilahAlat.tsx`) atas persetujuan Galih; kontrak API bertambah (semua opsional). **SRS v1.6 (22 Nov 2026):** FR-23, deskripsi fitur, skenario, UI07, dan glosarium diselaraskan atas permintaan Galih; baris riwayat revisi mencatat "diajukan ke PM untuk disetujui" (persetujuan PM belum tercatat). Biaya/pro forma sengaja tidak dibuat (di luar SRS).
+- **Revisi TestFit tahap 2 (23 Nov 2026):** tujuh poin Galih (parkir wrap datar di 3D, gerbang/pintu 1 m, simpanan per tab di sessionStorage, titik tambahan, putar desain, arah parkir, rekomendasi lahan kosong) dikerjakan per fase di `main`, belum di-push. Menutup panel Uji Lahan kini tidak menghapus desain; tombol Ulang yang menghapus. Desain disimpan di sessionStorage tanpa persona.
 - **Perbaikan isochrone (21 Nov 2026):** query `ST_Dump` di dalam agregat di `InspectController::bangunPoligonBatasJalan` ditolak PostgreSQL sehingga garis tepi "mengikuti jalan terluar" tidak pernah terbentuk (selalu jatuh ke `/isochrone`); dipindah ke `LATERAL`, kunci cache jadi `isochrone_boundary_v3`. Tes `test_daftar_layer_dan_data_layer` disesuaikan dari 6 ke 8 layer.
 
 ## Mesin Waktu sampai 2045 (14 Nov 2026)

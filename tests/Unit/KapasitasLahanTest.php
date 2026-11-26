@@ -286,12 +286,12 @@ class KapasitasLahanTest extends TestCase
         $this->assertSame(30.0, KapasitasLahan::lebarGerbang('rumah', [], 99));
     }
 
-    public function test_panjang_gerbang_dijepit_atau_otomatis(): void
+    public function test_panjang_gerbang_dijepit_dengan_bawaan_1_m(): void
     {
-        $this->assertNull(KapasitasLahan::panjangGerbang(null));
-        $this->assertNull(KapasitasLahan::panjangGerbang(''));
+        $this->assertSame(1.0, KapasitasLahan::panjangGerbang(null));
+        $this->assertSame(1.0, KapasitasLahan::panjangGerbang(''));
         $this->assertSame(15.0, KapasitasLahan::panjangGerbang('15'));
-        $this->assertSame(2.0, KapasitasLahan::panjangGerbang(0));
+        $this->assertSame(1.0, KapasitasLahan::panjangGerbang(0));
         $this->assertSame(300.0, KapasitasLahan::panjangGerbang(900));
     }
 
@@ -300,8 +300,171 @@ class KapasitasLahanTest extends TestCase
         $this->assertSame(3.0, KapasitasLahan::lebarPintu(null));
         $this->assertSame(1.5, KapasitasLahan::lebarPintu(0.5));
         $this->assertSame(20.0, KapasitasLahan::lebarPintu(50));
-        $this->assertNull(KapasitasLahan::panjangPintu(''));
+        $this->assertSame(1.0, KapasitasLahan::panjangPintu(''));
+        $this->assertSame(1.0, KapasitasLahan::panjangPintu(0.2));
         $this->assertSame(40.0, KapasitasLahan::panjangPintu(99));
         $this->assertSame(12.0, KapasitasLahan::panjangPintu('12'));
+    }
+
+    public function test_target_kos_memakai_lantai_paling_sedikit_yang_cukup(): void
+    {
+        $asumsi = $this->k->asumsi('kos', []);
+        // 12 kamar per lantai, lantai maksimum 4: target 30 kamar butuh 3 lantai pada ukuran kamar sekarang.
+        $r = KapasitasLahan::langkahTarget('kos', 30, false, $asumsi, ['per_lantai' => 12, 'lantai_maks' => 4, 'ukuran' => 12.0]);
+        $this->assertSame(3, $r['asumsi']['lantai']);
+        $this->assertSame(12.0, (float) $r['asumsi']['luas_kamar'], 'ukuran tidak berubah bila lantai cukup');
+        $this->assertTrue($r['ubah']);
+
+        // Sudah 3 lantai: tidak perlu hitung ulang.
+        $lagi = KapasitasLahan::langkahTarget('kos', 30, false, $r['asumsi'], ['per_lantai' => 12, 'lantai_maks' => 4, 'ukuran' => 12.0]);
+        $this->assertFalse($lagi['ubah']);
+    }
+
+    public function test_target_kos_mengecilkan_kamar_bila_lantai_maksimum_tidak_cukup(): void
+    {
+        $asumsi = $this->k->asumsi('kos', []);
+        // Kapasitas 12 x 4 = 48 kamar; target 96 kamar butuh 24 kamar per lantai: kamar harus setengah ukuran (6 m2, batas bawah).
+        $r = KapasitasLahan::langkahTarget('kos', 96, false, $asumsi, ['per_lantai' => 12, 'lantai_maks' => 4, 'ukuran' => 12.0]);
+        $this->assertSame(4, $r['asumsi']['lantai']);
+        $this->assertEqualsWithDelta(6.0, $r['asumsi']['luas_kamar'], 0.01);
+
+        // Target lebih besar dari yang mungkin: ukuran berhenti di batas bawah rentang.
+        $mentok = KapasitasLahan::langkahTarget('kos', 500, false, $asumsi, ['per_lantai' => 12, 'lantai_maks' => 4, 'ukuran' => 12.0]);
+        $this->assertSame(KapasitasLahan::RENTANG['luas_kamar'][0], (int) $mentok['asumsi']['luas_kamar']);
+
+        // Ukuran dikunci: kamar tidak berubah, hanya lantai ke maksimum.
+        $kunci = KapasitasLahan::langkahTarget('kos', 96, true, $asumsi, ['per_lantai' => 12, 'lantai_maks' => 4, 'ukuran' => 12.0]);
+        $this->assertSame(4, $kunci['asumsi']['lantai']);
+        $this->assertSame(12.0, (float) $kunci['asumsi']['luas_kamar']);
+    }
+
+    public function test_target_apartemen_menggeser_komposisi_ke_studio(): void
+    {
+        $asumsi = $this->k->asumsi('apartemen', []);
+        $s0 = $this->k->luasRataUnit($asumsi);
+        $r = KapasitasLahan::langkahTarget('apartemen', 400, false, $asumsi, ['per_lantai' => 5, 'lantai_maks' => 40, 'ukuran' => $s0]);
+        // 5 x 40 = 200 < 400: unit harus setengah ukuran, tetapi tidak bisa lebih kecil dari studio (24 m2).
+        $this->assertSame(40, $r['asumsi']['lantai']);
+        $this->assertGreaterThan($asumsi['porsi_studio'], $r['asumsi']['porsi_studio']);
+        $this->assertLessThan($asumsi['porsi_2br'], $r['asumsi']['porsi_2br']);
+        $this->assertEqualsWithDelta(1.0, array_sum($this->k->porsiTipe($r['asumsi'])), 1e-6);
+        $baru = $this->k->luasRataUnit($r['asumsi']);
+        $this->assertLessThan($s0, $baru);
+        $this->assertGreaterThanOrEqual(KapasitasLahan::LUAS_TIPE['studio'] - 1e-6, $baru);
+
+        // Sudah semua studio: tidak bisa lebih kecil.
+        $studio = $asumsi;
+        $studio['porsi_studio'] = 1.0;
+        $studio['porsi_2br'] = 0.0;
+        $mentok = KapasitasLahan::langkahTarget('apartemen', 400, false, $studio, ['per_lantai' => 5, 'lantai_maks' => 40, 'ukuran' => 24.0]);
+        $this->assertSame(1.0, (float) $mentok['asumsi']['porsi_studio']);
+    }
+
+    public function test_lebar_kavling_berikut_mencari_dengan_batas(): void
+    {
+        // Mulai 6 m dengan 20 kavling, target 10: semua memenuhi (lo = 6), lebarkan sebanding (12 m).
+        [$p, $lo, $hi] = KapasitasLahan::lebarKavlingBerikut(10, 6.0, 20, null, null);
+        $this->assertEqualsWithDelta(12.0, $p, 0.01);
+        $this->assertSame(6.0, $lo);
+        $this->assertNull($hi);
+
+        // 12 m menghasilkan 8 kavling (< 10): hi = 12, titik tengah 9 m.
+        [$p2, $lo2, $hi2] = KapasitasLahan::lebarKavlingBerikut(10, 12.0, 8, $lo, $hi);
+        $this->assertEqualsWithDelta(9.0, $p2, 0.01);
+        $this->assertSame(6.0, $lo2);
+        $this->assertSame(12.0, $hi2);
+
+        // Batas sudah rapat (selisih < 0,25 m): selesai.
+        [$selesai] = KapasitasLahan::lebarKavlingBerikut(10, 9.1, 8, 9.0, 9.2);
+        $this->assertNull($selesai);
+
+        // Target lebih banyak dari yang muat: dipersempit sebanding, dijepit ke 4 m.
+        [$sempit] = KapasitasLahan::lebarKavlingBerikut(40, 6.0, 20, null, null);
+        $this->assertEqualsWithDelta(4.0, $sempit, 0.01);
+
+        // Sudah di batas bawah dan tetap kurang: berhenti.
+        [$henti] = KapasitasLahan::lebarKavlingBerikut(40, 4.0, 30, null, 4.0);
+        $this->assertNull($henti);
+
+        // Sudah di batas atas dan masih memenuhi: berhenti (tidak bisa lebih lega).
+        [$atas] = KapasitasLahan::lebarKavlingBerikut(2, 20.0, 5, 20.0, null);
+        $this->assertNull($atas);
+
+        // Tidak ada kavling sama sekali: coba selebar paling sempit.
+        [$nol] = KapasitasLahan::lebarKavlingBerikut(10, 6.0, 0, null, null);
+        $this->assertEqualsWithDelta(4.0, $nol, 0.01);
+    }
+
+    public function test_skala_komposisi_memotong_sampai_tepat_total(): void
+    {
+        $k = ['studio' => 60, '1br' => 30, '2br' => 10];
+        $r = KapasitasLahan::skalaKomposisi($k, 50);
+        $this->assertSame(50, array_sum($r));
+        $this->assertSame(['studio' => 30, '1br' => 15, '2br' => 5], $r);
+        // Pembulatan: 7 -> 3,3,1 (sisa pecahan terbesar dapat tambahan).
+        $this->assertSame(7, array_sum(KapasitasLahan::skalaKomposisi(['studio' => 4, '1br' => 4, '2br' => 4], 7)));
+        // Tidak lebih banyak dari total: apa adanya.
+        $this->assertSame($k, KapasitasLahan::skalaKomposisi($k, 100));
+    }
+
+    public function test_slot_miring_menghitung_pitch_kedalaman_dan_lorong(): void
+    {
+        // 90 derajat = ukuran semula.
+        $t = KapasitasLahan::slotMiring(2.5, 5.0, 6.0, 90);
+        $this->assertSame(['pitch' => 2.5, 'kedalaman' => 5.0, 'lorong' => 6.0, 'geser' => 0.0], $t);
+
+        // 45 derajat: pitch = 2,5 / sin45, kedalaman = (5 + 2,5) sin45, lorong menyempit, sisi atas bergeser sama dengan kedalaman.
+        $m = KapasitasLahan::slotMiring(2.5, 5.0, 6.0, 45);
+        $this->assertEqualsWithDelta(3.5355, $m['pitch'], 0.001);
+        $this->assertEqualsWithDelta(5.3033, $m['kedalaman'], 0.001);
+        $this->assertEqualsWithDelta(5.21, $m['lorong'], 0.01);
+        $this->assertEqualsWithDelta(5.3033, $m['geser'], 0.001);
+
+        // Makin miring makin sempit lorongnya dan makin jarang slotnya; di luar rentang dijepit ke 30-90.
+        $this->assertLessThan($m['lorong'], KapasitasLahan::slotMiring(2.5, 5.0, 6.0, 30)['lorong']);
+        $this->assertSame(KapasitasLahan::slotMiring(2.5, 5.0, 6.0, 30), KapasitasLahan::slotMiring(2.5, 5.0, 6.0, 1));
+        $this->assertSame($t, KapasitasLahan::slotMiring(2.5, 5.0, 6.0, 500));
+    }
+
+    public function test_asumsi_parkir_dijepit_dan_hanya_untuk_kos_dan_apartemen(): void
+    {
+        $a = $this->k->asumsi('apartemen', ['sudut_parkir' => 10, 'padding_parkir' => 9, 'maks_baris' => 99.6]);
+        $this->assertSame(30.0, $a['sudut_parkir']);
+        $this->assertSame(3.0, $a['padding_parkir']);
+        $this->assertSame(40, $a['maks_baris']);
+        $this->assertSame(90.0, $this->k->asumsi('kos', [])['sudut_parkir']);
+        $this->assertArrayNotHasKey('sudut_parkir', $this->k->asumsi('rumah', ['sudut_parkir' => 45]));
+        $this->assertSame(['larangan' => 4, 'bangunan' => 3, 'parkir' => 2, 'kolam' => 2, 'taman' => 1], KapasitasLahan::PRIORITAS_BAWAAN);
+    }
+
+    public function test_rumah_pribadi_rekomendasi_dan_luas_yang_diminta(): void
+    {
+        // Lahan 400 m², KDB 60%, KLB 1,2: tapak rekomendasi min(240, 0,6 x 300, 300) = 180 m², 2 lantai = 360 (KLB membatasi 480).
+        $r = KapasitasLahan::rumahPribadi(400, 300, ['lantai' => null, 'luas_bangunan' => null], 60, 1.2);
+        $this->assertSame(2, $r['lantai']);
+        $this->assertSame(360.0, $r['rekomendasi']);
+        $this->assertSame(360.0, $r['diminta']);
+        $this->assertSame(180.0, $r['tapak']);
+        // KLB membatasi rekomendasi: 3 lantai x 180 = 540 > 480.
+        $this->assertSame(480.0, KapasitasLahan::rumahPribadi(400, 300, ['lantai' => 3], 60, 1.2)['rekomendasi']);
+        // Lahan besar: tapak rekomendasi paling banyak 300 m².
+        $this->assertSame(600.0, KapasitasLahan::rumahPribadi(10000, 9000, ['lantai' => 2], 60, 1.2)['rekomendasi']);
+        // Luas yang diminta dipakai apa adanya (tidak dijepit KDB), tapak = luas / lantai; lantai dijepit 1–3.
+        $d = KapasitasLahan::rumahPribadi(400, 300, ['lantai' => 9, 'luas_bangunan' => 900], 60, 1.2);
+        $this->assertSame(3, $d['lantai']);
+        $this->assertSame(300.0, $d['tapak']);
+    }
+
+    public function test_perkiraan_kamar_rumah_pribadi(): void
+    {
+        $this->assertSame(['kamar_tidur' => 1, 'kamar_mandi' => 1], KapasitasLahan::perkiraanKamar(30));
+        $this->assertSame(['kamar_tidur' => 3, 'kamar_mandi' => 2], KapasitasLahan::perkiraanKamar(120));
+        $this->assertSame(['kamar_tidur' => 5, 'kamar_mandi' => 4], KapasitasLahan::perkiraanKamar(200));
+        $this->assertSame(['kamar_tidur' => 10, 'kamar_mandi' => 6], KapasitasLahan::perkiraanKamar(5000));
+        $a = $this->k->asumsi('pribadi', ['mobil' => 9, 'kolam' => -5, 'luas_bangunan' => 10]);
+        $this->assertSame(4, $a['mobil']);
+        $this->assertSame(0.0, $a['kolam']);
+        $this->assertSame(20.0, $a['luas_bangunan']);
+        $this->assertNull($this->k->asumsi('pribadi', [])['luas_bangunan']);
     }
 }

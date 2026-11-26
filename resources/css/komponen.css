@@ -594,10 +594,20 @@ input { font: inherit; }
     font: 700 10.5px/14px var(--font-sans); color: var(--ink-70);
 }
 .nr-lahan__ulang:hover { background: var(--ink-05); color: var(--navy-900); }
+.nr-lahan__ulang:disabled { opacity: 0.45; cursor: not-allowed; }
+.nr-lahan__berkas { display: flex; flex-direction: column; gap: 6px; }
+.nr-lahan__berkasbaris { display: flex; gap: 8px; }
+.nr-lahan__berkasbaris .nr-lahan__ulang { flex: 1; justify-content: center; padding: 8px 10px; }
+.nr-lahan__berkasmenu { list-style: none; margin: 0; padding: 4px; display: flex; flex-direction: column; gap: 2px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--white); box-shadow: var(--shadow-sm); }
+.nr-lahan__berkasmenu button { display: flex; gap: 10px; align-items: flex-start; width: 100%; padding: 8px 10px; border-radius: 8px; text-align: left; color: var(--navy-900); }
+.nr-lahan__berkasmenu button:hover:not(:disabled) { background: var(--ink-05); }
+.nr-lahan__berkasmenu button:disabled { opacity: 0.5; cursor: not-allowed; }
+.nr-lahan__berkasmenu b { display: block; font: 700 12px/16px var(--font-sans); }
+.nr-lahan__berkasmenu small { display: block; font: 500 11px/15px var(--font-sans); color: var(--ink-60); }
 .nr-lahan__petunjuk { display: flex; flex-direction: column; gap: 10px; padding: 14px; border-radius: var(--radius-lg); background: var(--white-50); border: 1px dashed var(--line); }
 .nr-lahan__petunjuk p { margin: 0; font: 500 12.5px/19px var(--font-sans); color: var(--ink-70); }
 .nr-lahan__selesai { align-self: flex-start; }
-.nr-lahan__tipe { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; padding: 3px; border-radius: var(--radius-md); background: var(--ink-05); }
+.nr-lahan__tipe { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; padding: 3px; border-radius: var(--radius-md); background: var(--ink-05); }
 .nr-lahan__tab { padding: 8px 4px; border-radius: 9px; font: 700 11px/14px var(--font-sans); color: var(--ink-60); transition: background-color 140ms ease-out, color 140ms ease-out; }
 .nr-lahan__tab:hover { color: var(--navy-900); }
 .nr-lahan__tab--aktif { background: var(--white); color: var(--navy-900); box-shadow: var(--shadow-sm); }
@@ -620,10 +630,12 @@ input { font: inherit; }
 .nr-lahan-pegangan--tengah { background: #e4572e; border-color: var(--white); opacity: 0.85; }
 .nr-lahan-pegangan--awal { background: #e4572e; border-color: var(--white); cursor: pointer; }
 .nr-lahan-pegangan--geser { display: grid; place-items: center; background: #e4572e; border-color: var(--white); color: var(--white); cursor: move; }
+.nr-lahan-pegangan--putar { display: grid; place-items: center; background: var(--white); border-color: #e4572e; color: #e4572e; cursor: grab; }
+.nr-lahan-pegangan--putar:active { cursor: grabbing; }
 .nr-gambar-lahan--titik, .nr-gambar-lahan--titik .leaflet-interactive { cursor: crosshair !important; }
 /* Saat menggambar, fitur layer lain tidak menangkap klik supaya titik sudut bisa ditaruh di mana saja. */
 /* Saat Uji Lahan aktif, hanya lahan, pegangannya, dan pegangan zona yang bisa diklik (POI/stasiun tidak ikut terpencet). */
-.nr-gambar-lahan .leaflet-interactive:not(.nr-lahan):not(.nr-lahan-pegangan):not(.nr-zona-sudut):not(.nr-zona-geser):not(.nr-akses):not(.nr-akses-ujung):not(.nr-akses-dalam) { pointer-events: none !important; }
+.nr-gambar-lahan .leaflet-interactive:not(.nr-lahan):not(.nr-lahan-pegangan):not(.nr-zona-sudut):not(.nr-zona-tengah):not(.nr-zona-geser):not(.nr-akses):not(.nr-akses-ujung):not(.nr-akses-dalam) { pointer-events: none !important; }
 .nr-lahan-label.leaflet-tooltip { background: var(--navy-900); color: var(--white); border: 0; border-radius: var(--radius-pill); padding: 3px 10px; font: 700 11px/16px var(--font-sans); box-shadow: var(--shadow-md); }
 .nr-lahan-label.leaflet-tooltip::before { display: none; }
 
@@ -636,6 +648,18 @@ input { font: inherit; }
 .nr-lahan__warna--2br { background: #7b5cd6; }
 .nr-lahan__warna--taman { background: #f4b6b6; }
 .nr-lahan__warna--parkir { background: #6b7280; }
+.nr-lahan__warna--rumah { background: #7d9be3; }
+.nr-lahan__warna--kolam { background: #5cc8f0; }
+.nr-lahan__warna--halaman { background: #d8ccb0; }
+/* Rumah pribadi: luas bangunan diketik sendiri (kosong = rekomendasi). */
+.nr-lahan__luasbangun { display: flex; flex-direction: column; gap: 4px; }
+.nr-lahan__luasbangun label { display: flex; flex-direction: column; gap: 6px; }
+.nr-lahan__luasbangun-isian { display: flex; align-items: center; gap: 6px; }
+.nr-lahan__luasbangun-isian input { flex: 1; min-width: 0; padding: 8px 10px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--white); font: 700 14px/18px var(--font-sans); color: var(--navy-900); font-variant-numeric: tabular-nums; }
+.nr-lahan__luasbangun-isian input::placeholder { color: var(--ink-40, #9aa3b2); font-weight: 500; }
+.nr-lahan__luasbangun-isian input:focus { outline: 2px solid var(--navy-900); outline-offset: 1px; }
+.nr-lahan__luasbangun-isian span { font: 600 12px/16px var(--font-sans); color: var(--ink-60); }
+.nr-lahan__luasbangun small { font: 500 11.5px/16px var(--font-sans); color: var(--ink-60); }
 .nr-lahan__kurang { color: #b45309; }
 
 /* Uji Lahan: isi kapasitas berganti halus (warna bertransisi, unit/kavling baru muncul, yang hilang memudar). */
@@ -663,6 +687,24 @@ input { font: inherit; }
 .nr-lahan__zonabtn--bangunan { border-color: #3b6fd8; color: #2a55ad; }
 .nr-lahan__zonabtn--parkir { border-color: #4b5563; color: #374151; }
 .nr-lahan__zonabtn--taman { border-color: #22a35a; color: #17803f; }
+.nr-lahan__zonabtn--larangan { border-color: #dc2626; color: #b42318; }
+.nr-lahan__zonabtn--kolam { border-color: #1c8fd1; color: #0f6fa8; }
+.nr-skema__daftar { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.nr-skema__daftar li { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--white); font: 500 11.5px/16px var(--font-sans); color: var(--ink-70); }
+.nr-skema__daftar b { color: var(--navy-900); font-weight: 700; }
+.nr-skema__daftar span { flex: 1; min-width: 0; }
+.nr-skema__daftar button { padding: 2px 8px; border: 1px solid var(--line); border-radius: var(--radius-pill); background: var(--white); font: 700 10.5px/16px var(--font-sans); color: var(--navy-900); cursor: pointer; }
+.nr-skema__daftar button:hover { background: var(--ink-05); }
+.nr-skema__tabelwrap { overflow-x: auto; }
+.nr-skema__tabel { width: 100%; border-collapse: collapse; font: 500 11px/15px var(--font-sans); color: var(--navy-900); font-variant-numeric: tabular-nums; }
+.nr-skema__tabel th, .nr-skema__tabel td { padding: 4px 6px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+.nr-skema__tabel th:first-child { text-align: left; font-weight: 600; white-space: normal; }
+.nr-skema__tabel thead th { font-weight: 700; }
+.nr-skema__terbaik { background: #e3f5ea; color: #17803f; font-weight: 700; }
+.nr-skema__melanggar { background: #fdecec; color: #b42318; font-weight: 700; }
+.nr-lahan__banjir { display: flex; flex-direction: column; gap: 4px; font: 600 11.5px/16px var(--font-sans); color: var(--ink-70); }
+.nr-lahan__banjir select { padding: 7px 8px; border: 1px solid var(--line); border-radius: var(--radius-md); background: var(--white); font: 500 12px/16px var(--font-sans); color: var(--navy-900); }
+.nr-lahan__banjir small { font: 500 11px/15px var(--font-sans); color: var(--ink-60); }
 .nr-lahan__zonabtn--3d { background: var(--navy-900); border-color: var(--navy-900); color: var(--white); }
 .nr-lahan__ringkasan { display: grid; grid-template-columns: repeat(auto-fit, minmax(72px, 1fr)); gap: 6px; margin: 12px 0 0; }
 .nr-lahan__ringsel { display: flex; flex-direction: column; gap: 1px; padding: 7px 8px; border-radius: var(--radius-md); background: var(--cream-100, #f7f4ee); border: 1px solid transparent; font: 400 11px/14px var(--font-sans); color: var(--navy-900); }
@@ -676,18 +718,50 @@ input { font: inherit; }
 .nr-zona-sudut { width: 11px; height: 11px; border-radius: 2px; background: var(--white); border: 2px solid #3b6fd8; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); cursor: grab; }
 .nr-zona-sudut--parkir { border-color: #4b5563; }
 .nr-zona-sudut--taman { border-color: #22a35a; }
+.nr-zona-sudut--larangan { border-color: #dc2626; }
+.nr-zona-sudut--kolam { border-color: #1c8fd1; }
+/* Titik tengah sisi zona terpilih: lebih kecil dan pucat daripada titik sudut; ditarik = titik baru. */
+.nr-zona-tengah { width: 9px; height: 9px; border-radius: 50%; background: var(--white); border: 2px solid #3b6fd8; opacity: 0.75; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25); cursor: copy; }
+.nr-zona-tengah:hover { opacity: 1; }
+.nr-layer__arah { display: flex; flex-direction: column; gap: 6px; font: 600 11.5px/16px var(--font-sans); color: var(--ink-70); }
+.nr-layer__arahpilih { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; padding: 3px; border-radius: var(--radius-md); background: var(--ink-05); }
+.nr-layer__arahpilih button { padding: 6px 2px; border-radius: 8px; font: 700 10.5px/14px var(--font-sans); color: var(--ink-60); }
+.nr-layer__arahpilih button[aria-pressed='true'] { background: var(--white); color: var(--navy-900); box-shadow: var(--shadow-sm); }
+.nr-layer__arahsudut { display: flex; align-items: center; gap: 8px; }
+.nr-layer__arahsudut input { flex: 1; }
+.nr-layer__arahsudut b { min-width: 34px; text-align: right; color: var(--navy-900); }
+.nr-zona-tengah--parkir { border-color: #4b5563; }
+.nr-zona-tengah--taman { border-color: #22a35a; }
+.nr-zona-tengah--larangan { border-color: #dc2626; }
+.nr-zona-tengah--kolam { border-color: #1c8fd1; }
+.nr-zona-sudut--pilih { width: 13px !important; height: 13px !important; border-width: 2.5px; box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.85), 0 1px 4px rgba(0, 0, 0, 0.35); }
 .nr-zona-geser { width: auto !important; height: auto !important; }
 .nr-zona-geser__isi { display: inline-flex; align-items: center; gap: 4px; transform: translate(-50%, -50%); padding: 2px 4px 2px 9px; border-radius: var(--radius-pill); background: #3b6fd8; color: var(--white); font: 700 10px/16px var(--font-sans); letter-spacing: 0.4px; white-space: nowrap; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); cursor: move; }
 .nr-zona-geser--parkir .nr-zona-geser__isi { background: #4b5563; }
 .nr-zona-geser--taman .nr-zona-geser__isi { background: #22a35a; }
+.nr-zona-geser--larangan .nr-zona-geser__isi { background: #dc2626; }
+.nr-zona-geser--kolam .nr-zona-geser__isi { background: #1c8fd1; }
 .nr-zona-geser__hapus { display: grid; place-items: center; width: 16px; height: 16px; padding: 0; border: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.25); color: inherit; font: 700 12px/1 var(--font-sans); cursor: pointer; }
 .nr-zona-geser__hapus:hover { background: rgba(255, 255, 255, 0.45); }
+/* Pegangan ringkas supaya denah tidak tertutup: hanya titik berwarna, nama + hapus saat disorot/dipilih (atau di layar sentuh). */
+@media (hover: hover) {
+    .nr-zona-geser:not(:hover):not(.nr-zona-geser--sorot) .nr-zona-geser__isi,
+    .nr-akses:not(:hover) .nr-akses__isi { width: 14px; height: 14px; padding: 0; gap: 0; border: 2px solid var(--white); }
+    .nr-zona-geser:not(:hover):not(.nr-zona-geser--sorot) .nr-zona-geser__isi > :not(.nr-zona-geser__kunci),
+    .nr-akses:not(:hover) .nr-akses__label, .nr-akses:not(:hover) .nr-akses__hapus, .nr-akses:not(:hover) .nr-akses__titik { display: none; }
+    .nr-zona-geser:not(:hover):not(.nr-zona-geser--sorot) .nr-zona-geser__kunci { display: none; }
+    .nr-zona-geser:hover, .nr-akses:hover { z-index: 1000 !important; }
+}
 
 .nr-3d { position: absolute; right: 16px; bottom: 16px; z-index: 1100; display: flex; flex-direction: column; width: min(560px, calc(100% - 32px)); height: min(420px, 60vh); border-radius: var(--radius-md); background: var(--white); box-shadow: var(--shadow-lg); overflow: hidden; border: 1px solid var(--line); }
 .nr-3d--muat { display: grid; place-items: center; font: 500 13px/18px var(--font-sans); color: var(--navy-900); }
 .nr-3d__kepala { display: flex; align-items: center; gap: 10px; padding: 8px 10px 8px 14px; border-bottom: 1px solid var(--line); font: 500 12px/16px var(--font-sans); color: var(--navy-900); }
 .nr-3d__kepala b { font: 700 12px/16px var(--font-sans); padding: 2px 8px; border-radius: var(--radius-pill); background: var(--navy-900); color: var(--white); }
 .nr-3d__kepala span { flex: 1; }
+/* Pilihan gaya 3D (Realistis / Warna unit) di kepala kartu 3D. */
+.nr-3d__kepala .nr-gaya3d { flex: none; display: inline-flex; gap: 2px; padding: 2px; border-radius: var(--radius-pill); background: var(--ink-05); }
+.nr-gaya3d button { padding: 3px 9px; border-radius: var(--radius-pill); font: 700 11px/16px var(--font-sans); color: var(--ink-60); }
+.nr-gaya3d button[aria-checked='true'] { background: var(--white); color: var(--navy-900); box-shadow: var(--shadow-sm); }
 .nr-3d__kanvas { position: relative; flex: 1; min-height: 0; }
 .nr-3d__kanvas canvas { display: block; width: 100%; height: 100%; }
 .nr-3d__catatan { margin: 0; padding: 6px 14px 8px; font: 400 11px/15px var(--font-sans); color: var(--stone-500, #6b7280); }
@@ -703,6 +777,15 @@ input { font: inherit; }
 .nr-lahan__aksesbtn--pintu { border-color: #7c3aed; color: #6d28d9; }
 .nr-lahan__warna--akses { background: #5b6270; }
 .nr-lahan__warna--lobi { background: #f2b544; }
+/* Ruang inti (lib/ekstrusi3d WARNA_INTI): lift beton gelap, tangga abu bergaris putus seperti di peta. */
+.nr-lahan__warna--lift { background: #5b6474; }
+/* Kursor telunjuk saat berada di atas ruang tangga/lift (lahan menutupi isi; klik membuka keterangannya). */
+.leaflet-interactive.nr-lahan--tunjuk { cursor: pointer; }
+/* Lift/tangga bisa ditahan lalu digeser. */
+.leaflet-interactive.nr-lahan--pegang { cursor: grab; }
+.nr-geser-inti, .nr-geser-inti .leaflet-interactive { cursor: grabbing !important; }
+body:has(.nr-geser-inti) { user-select: none; -webkit-user-select: none; }
+.nr-lahan__warna--tangga { background: #a3a9b5; outline: 1px dashed #1d2433; outline-offset: -2px; }
 .nr-akses-ujung { width: 14px; height: 14px; border-radius: 2px; background: var(--white); border: 2px solid #b45309; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); cursor: ew-resize; }
 .nr-akses-dalam { width: 14px; height: 14px; border-radius: 50%; background: #b45309; border: 2px solid var(--white); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35); cursor: ns-resize; }
 .nr-lahan__aksesdaftar { display: flex; flex-direction: column; gap: 8px; margin: 10px 0 0; padding: 0; list-style: none; }
@@ -741,6 +824,57 @@ input { font: inherit; }
 .nr-lahan__tambah .nr-lahan__zonabtn:disabled { opacity: 0.45; cursor: not-allowed; }
 .nr-lahan__btn3d { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; padding: 10px 14px; border: 0; border-radius: var(--radius-pill); background: var(--navy-900); color: var(--white); cursor: pointer; font: 700 13px/18px var(--font-sans); }
 .nr-lahan__btn3d:hover { filter: brightness(1.15); }
+
+/* Uji Lahan: layer yang disembunyikan/terkunci/disorot di peta. */
+.leaflet-nrLahanIsi-pane path.nr-isi-sembunyi { display: none; }
+.leaflet-tooltip.nr-isi-sembunyi { display: none; }
+.nr-zona-geser--kunci .nr-zona-geser__isi { padding-right: 8px; opacity: 0.92; }
+.nr-zona-geser__kunci { flex: none; }
+.nr-zona-geser--sorot .nr-zona-geser__isi { box-shadow: 0 0 0 3px rgba(228, 87, 46, 0.6); }
+
+/* Uji Lahan: panel layer (daftar, mata, kunci, sub-layer). */
+.nr-layer { display: flex; flex-direction: column; gap: 8px; }
+.nr-layer__daftar { display: flex; flex-direction: column; gap: 2px; margin: 0; padding: 0; list-style: none; }
+.nr-layer__baris { display: flex; align-items: center; gap: 6px; min-height: 30px; padding: 2px 4px 2px 8px; border-radius: var(--radius-sm, 6px); border: 1px solid transparent; }
+.nr-layer__baris:hover { background: var(--ink-05); }
+.nr-layer__baris.is-terpilih { background: rgba(228, 87, 46, 0.09); border-color: rgba(228, 87, 46, 0.45); }
+.nr-layer__baris.is-sembunyi .nr-layer__nama, .nr-layer__baris.is-sembunyi .nr-layer__luas { opacity: 0.45; }
+.nr-layer__warna { flex: none; width: 10px; height: 10px; border-radius: 3px; }
+.nr-layer__nama { flex: 1 1 auto; min-width: 0; padding: 4px 2px; border: 0; background: none; text-align: left; font: 600 12px/16px var(--font-sans); color: var(--navy-900); cursor: pointer; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.nr-layer__nama--tetap { cursor: default; }
+.nr-layer__ubah { flex: 1 1 auto; min-width: 0; padding: 3px 6px; border: 1px solid var(--navy-900); border-radius: 6px; font: 600 12px/16px var(--font-sans); color: var(--navy-900); background: var(--white); }
+.nr-layer__luas { flex: none; font: 500 11px/16px var(--font-sans); color: var(--stone-500, #6b7280); }
+.nr-layer__ikon { flex: none; display: grid; place-items: center; width: 24px; height: 24px; padding: 0; border: 0; border-radius: 6px; background: none; color: var(--stone-500, #6b7280); cursor: pointer; }
+.nr-layer__ikon:hover { background: var(--ink-05); color: var(--navy-900); }
+.nr-layer__ikon.is-aktif { color: #e4572e; }
+.nr-layer__alat { display: flex; flex-direction: column; gap: 8px; padding: 8px; border: 1px solid var(--line); border-radius: var(--radius-md, 10px); background: var(--white); }
+.nr-layer__tombol { display: flex; gap: 4px; }
+.nr-layer__aksi { display: grid; place-items: center; flex: 1; height: 28px; padding: 0; border: 1px solid var(--line); border-radius: 6px; background: var(--white); color: var(--navy-900); cursor: pointer; }
+.nr-layer__aksi:hover:not(:disabled) { background: var(--ink-05); }
+.nr-layer__aksi:disabled { opacity: 0.4; cursor: not-allowed; }
+.nr-layer__aksi--hapus:hover:not(:disabled) { background: #fdecec; color: #b42318; }
+.nr-layer__induk { display: flex; align-items: center; gap: 8px; font: 500 12px/16px var(--font-sans); color: var(--navy-900); }
+.nr-layer__induk select { flex: 1; min-width: 0; padding: 4px 6px; border: 1px solid var(--line); border-radius: 6px; font: 500 12px/16px var(--font-sans); color: var(--navy-900); background: var(--white); }
+.nr-layer__serupa { display: flex; flex-wrap: wrap; gap: 4px 12px; }
+.nr-layer__catatan, .nr-layer__kosong { margin: 0; font: 400 11px/15px var(--font-sans); color: var(--stone-500, #6b7280); }
+.nr-layer__isi { font: 500 12px/16px var(--font-sans); color: var(--navy-900); }
+.nr-layer__isi summary { cursor: pointer; padding: 4px 0; font-weight: 600; }
+.nr-layer__isi ul { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 10px; margin: 4px 0 0; padding: 0; list-style: none; }
+.nr-layer__isi label { display: flex; align-items: center; gap: 6px; cursor: pointer; }
+.nr-layer__isi small { margin-left: auto; color: var(--stone-500, #6b7280); }
+
+/* Uji Lahan: opsi isi sisa lahan dengan taman di panel layer. */
+.nr-layer__sisa { display: flex; align-items: flex-start; gap: 8px; font: 500 12px/16px var(--font-sans); color: var(--navy-900); cursor: pointer; }
+.nr-layer__sisa small { font-weight: 600; color: #17803f; }
+.nr-layer__sisaket { display: block; margin-top: 2px; font: 500 11px/15px var(--font-sans); font-style: normal; color: var(--ink-60); }
+
+/* Uji Lahan: target jumlah (ketik jumlah, ukuran menyesuaikan). */
+.nr-lahan__target { display: flex; flex-direction: column; gap: 6px; margin: 0 0 12px; padding: 10px; border: 1px solid var(--line); border-radius: var(--radius-md, 10px); background: var(--white); }
+.nr-lahan__targetbaris { display: flex; align-items: center; gap: 8px; font: 500 12px/16px var(--font-sans); color: var(--navy-900); }
+.nr-lahan__targetbaris input { width: 96px; padding: 5px 8px; border: 1px solid var(--line); border-radius: 6px; font: 700 14px/18px var(--font-sans); color: var(--navy-900); background: var(--white); }
+.nr-lahan__targetbaris input:focus { outline: 2px solid rgba(228, 87, 46, 0.5); outline-offset: 1px; }
+.nr-lahan__targetgagal { margin: 0; padding: 6px 8px; border-radius: 6px; background: #fff4e5; color: #92400e; font: 500 12px/16px var(--font-sans); }
+.nr-lahan__slider input[type='range']:disabled { opacity: 0.45; cursor: not-allowed; }
 
 /* Demo FR-24 DRAF (listing properti, belum resmi) */
 .nr-perumahan-pin { font-size: 24px; line-height: 1; filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35)); cursor: pointer; }
