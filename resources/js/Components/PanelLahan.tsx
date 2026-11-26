@@ -14,7 +14,7 @@ import { BarisSkor, KartuKesimpulan, kalimatWilayah } from './DetailLokasi';
 export type ModeGambar = 'kotak' | 'poligon';
 
 /** Jenis unduhan: model 3D saja, data proyek (bisa dibuka lagi), atau GeoJSON untuk QGIS. */
-export type JenisUnduhan = 'glb' | 'proyek' | 'geojson';
+export type JenisUnduhan = 'glb' | 'proyek' | 'geojson' | 'dxf';
 
 /** Laporan: CSV untuk spreadsheet, PDF lewat dialog cetak peramban. */
 export type JenisLaporan = 'csv' | 'pdf';
@@ -247,6 +247,7 @@ function BerkasLahan({ adaLahan, hasilSiap, mengunduh, onUnduh, onImpor }: { ada
         ['glb', t('Model 3D (.glb)', '3D model (.glb)'), t('Bentuk 3D saja, untuk Blender atau SketchUp', '3D shape only, for Blender or SketchUp'), 'box', hasilSiap],
         ['proyek', t('Data proyek (.nalarruang.json)', 'Project data (.nalarruang.json)'), t('Bisa dibuka lagi di sini: lokasi, bentuk, zona, asumsi', 'Can be reopened here: location, shape, zones, assumptions'), 'file-json', adaLahan],
         ['geojson', t('GeoJSON (.geojson)', 'GeoJSON (.geojson)'), t('Lahan, zona, dan isi hasil untuk QGIS', 'Site, zones, and result for QGIS'), 'map', hasilSiap],
+        ['dxf', t('Gambar CAD (.dxf)', 'CAD drawing (.dxf)'), t('Denah 2D per layer untuk AutoCAD; simpan ulang sebagai .dwg dari AutoCAD', '2D plan by layer for AutoCAD; save as .dwg from AutoCAD'), 'layers', hasilSiap],
     ];
     return (
         <div className="nr-lahan__berkas">

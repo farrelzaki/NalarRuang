@@ -25,6 +25,7 @@ import { buatSkema, namaBerikut, type SkemaLahan } from '@/lib/skemaLahan';
 import { bacaSesi, gantiTipe, KUNCI_SESI, tulisSesi, type SimpananTipe } from '@/lib/simpanTab';
 import { putarDesain } from '@/lib/putar';
 import { geserInti } from '@/lib/intiLahan';
+import { bangunDxf } from '@/lib/dxfLahan';
 import { bangunCsv, bangunHtml, judul as judulLaporan } from '@/lib/laporanLahan';
 import { BilahAlat, type Alat } from '@/Components/BilahAlat';
 import { Toast, type NadaToast } from '@/Components/Dasar';
@@ -787,7 +788,7 @@ export default function Peta() {
         setTambahZona({ jenis, kunci: Date.now(), geometri: hasil.geometri });
     };
 
-    /** Unduh desain: model 3D (.glb), data proyek (dibuka lagi lewat Impor), atau GeoJSON. Persona sesi tidak ikut tersimpan. */
+    /** Unduh desain: model 3D (.glb), data proyek (dibuka lagi lewat Impor), GeoJSON, atau gambar CAD (.dxf). Persona sesi tidak ikut tersimpan. */
     const unduhLahan = async (jenis: JenisUnduhan) => {
         if (!geomLahan || mengunduh) return;
         const waktu = new Date();
@@ -804,6 +805,12 @@ export default function Peta() {
                 if (!fc) return;
                 simpanBerkas(new Blob([JSON.stringify(fc)], { type: 'application/geo+json' }), nama + '.geojson');
                 kabar(t('GeoJSON tersimpan.', 'GeoJSON saved.'), 'success');
+            } else if (jenis === 'dxf') {
+                // Denah 2D per layer (UTM 48S, meter) untuk AutoCAD; .dwg dibuat dengan menyimpan ulang dari AutoCAD.
+                const dxf = bangunDxf(geomLahan, hasilLahan, waktu);
+                if (!dxf) return;
+                simpanBerkas(new Blob([dxf], { type: 'application/dxf' }), nama + '.dxf');
+                kabar(t('Gambar CAD tersimpan (.dxf).', 'CAD drawing saved (.dxf).'), 'success');
             } else {
                 if (!hasilLahan) return;
                 // three.js dan GLTFExporter baru diunduh saat dipakai.

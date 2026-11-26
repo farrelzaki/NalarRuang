@@ -115,6 +115,13 @@ Tipe Rumah pribadi (23 Nov 2026, permintaan Galih; masuk SRS v1.6 yang masih dia
 - [ ] Umumkan tambahan kontrak (opsional/aditif) ke Farrel, Adzkia, Nur'Afia: `tipe: pribadi`, zona `kolam`, asumsi `luas_bangunan`/`mobil`/`kolam`, isi `kolam`/`halaman`/`pagar`, `kapasitas.pribadi`.
 - [ ] Persetujuan PM untuk SRS v1.6 (termasuk tambahan rumah pribadi).
 
+Unduh gambar CAD .dxf (26 Nov 2026, permintaan Galih):
+
+- Menu Unduh Uji Lahan menambah "Gambar CAD (.dxf)": denah 2D DXF R12 per layer (lahan, zona, unit per tipe, koridor,
+  lift/tangga, parkir, slot, taman, dll.) dalam UTM 48S meter (`lib/dxfLahan.ts`, dites). DWG tidak dibuat langsung (format
+  tertutup, butuh pustaka tambahan); disimpan ulang dari AutoCAD.
+- [x] `npm run test:js`, typecheck dan build lulus; proyeksi dicocokkan dengan PostGIS ST_Transform.
+
 Ruang tangga dan lift (23 Nov 2026, permintaan PM lewat Galih):
 
 - Kos/apartemen 2 lantai ke atas: slot unit di tepi koridor jadi inti. Apartemen: inti lift + tangga dekat lobi, tangga darurat
