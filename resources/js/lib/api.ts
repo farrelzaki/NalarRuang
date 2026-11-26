@@ -67,7 +67,7 @@ export const api = {
         ambil<CommuteResponse>(`/api/commute?${qs({ dari: `${a.lat},${a.lng}`, ke: `${b.lat},${b.lng}`, tol: lewatTol ? undefined : 0, gg: hindariGg ? 1 : undefined, bbm: hargaBbm, kendaraan: kendaraan === 'motor' ? 'motor' : undefined })}`, signal),
     /** Uji Lahan (FR-23). */
     lahan: (badan: LahanRequest, signal?: AbortSignal) => kirim<LahanResponse>('/api/lahan', badan, signal),
-    /** FR-24 DRAF (listing properti) — belum bagian kontrak resmi, lihat docs/RENCANA.md TBD-12. */
+    /** FR-24 (listing properti, disetujui PM 26 Nov 2026) — belum resmi di docs/SISTEM.md, lihat docs/RENCANA.md TBD-12. */
     perumahan: {
         cari: (bbox: [number, number, number, number], tipe?: TipePerumahanQs, signal?: AbortSignal) =>
             ambil<PerumahanFeatureCollection>(`/api/perumahan/cari?${qs({ bbox: bbox.join(','), tipe })}`, signal),

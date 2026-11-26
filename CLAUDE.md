@@ -47,10 +47,15 @@ disunting. Project Charter sudah usang; alasannya di `docs/RENCANA.md` bagian 1.
 
 ## Empat aturan yang tidak boleh dilanggar
 
-1. **Tetap di cakupan SRS.** Yang dibangun hanya FR-01 sampai FR-23 di
-   `docs/sumber/SRS.md`. Aplikasi mobile native, listing/transaksi properti,
-   pengumpulan data primer, dan analisis di luar Jabodetabek **di luar cakupan**.
-   Fitur di luar daftar itu ditolak, sebagus apa pun idenya.
+1. **Tetap di cakupan SRS.** Yang dibangun FR-01 sampai FR-23 di
+   `docs/sumber/SRS.md`, ditambah **FR-24 Listing Properti** (disetujui PM
+   23 Nov 2026; draf masih di `docs/RENCANA.md` TBD-12, menunggu PM memindahkannya
+   resmi ke `docs/sumber/SRS.md` seperti pola FR-23). FR-24 adalah **pengecualian
+   bertarget**, bukan pembuka pintu umum: penjual boleh mengunggah lokasi + kontak
+   + harga indikatif (`POST /api/perumahan`), tanpa proses pembayaran/transaksi
+   apa pun. Di luar pengecualian itu, aplikasi mobile native, transaksi properti,
+   pengumpulan data primer lain, dan analisis di luar Jabodetabek tetap **di luar
+   cakupan**. Fitur di luar daftar itu ditolak, sebagus apa pun idenya.
 2. **Preferensi persona hanya hidup di sesi klien.** Tidak pernah dikirim untuk
    disimpan ke basis data, tidak pernah ke cookie jangka panjang. Sistem tidak
    menyimpan data pribadi apa pun (SRS 5.2, Business Rule 6).

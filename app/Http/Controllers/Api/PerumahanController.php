@@ -9,15 +9,15 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 /**
- * FR-24 DRAF (listing properti, docs/RENCANA.md TBD-12) — prototipe untuk ditunjukkan ke PM,
- * BELUM disetujui/dibekukan sebagai kontrak resmi. Jangan anggap bentuk respons di sini final;
- * jangan dipakai sebagai acuan integrasi sampai FR-24 dipindah ke docs/sumber/SRS.md.
+ * FR-24 (listing properti, docs/RENCANA.md TBD-12) — disetujui PM 26 Nov 2026. Bentuk respons di
+ * sini belum dibekukan sebagai kontrak resmi di docs/SISTEM.md bagian 2 (masih perlu dibahas
+ * Farrel/Adzkia/Nur'Afia); FR-24 juga masih menunggu PM memindahkannya resmi ke docs/sumber/SRS.md.
  *
  * Data primer dari pengguna (beda dari fitur lain yang semuanya data sekunder publik, SRS BR 4):
  * disimpan di tabel listing_perumahan tersendiri, bukan fitur_peta/wilayah.
  * Tanpa akun (CLAUDE.md): kelola (hapus) listing sendiri lewat token_kelola yang hanya ditunjukkan
  * sekali saat upload (disimpan sebagai hash SHA-256, bukan plain text).
- * Tanpa moderasi untuk versi draf ini: listing tampil langsung setelah diunggah (lihat TBD-12).
+ * Tanpa moderasi untuk versi ini: listing tampil langsung setelah diunggah (lihat TBD-12).
  */
 class PerumahanController extends Controller
 {

@@ -1,6 +1,6 @@
 /**
- * Demo visual FR-24 DRAF (listing properti) — BELUM bagian kontrak resmi, dibuat untuk ditunjukkan
- * ke PM, bukan bagian alur produk NalarRuang (tidak ditautkan dari Landing/menu). Lihat
+ * Demo visual FR-24 (listing properti, disetujui PM 26 Nov 2026) — bukan bagian alur produk
+ * NalarRuang (tidak ditautkan dari Landing/menu) sampai PM minta ditautkan. Lihat
  * docs/RENCANA.md TBD-12. Peta sederhana sendiri (bukan Map/PetaExplorer) agar tidak menyentuh
  * peta utama yang sudah dipakai banyak fitur lain.
  */
