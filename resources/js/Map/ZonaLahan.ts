@@ -10,11 +10,20 @@
  */
 import L from 'leaflet';
 import type { FeatureCollection, MultiPolygon, Polygon, Position } from 'geojson';
-import type { JenisZona, ZonaLahanMasuk, ZonaLahanProps } from '@/types';
+import type { JenisZona, ZonaLahan, ZonaLahanProps } from '@/types';
+import { buatUid, WARNA_ZONA } from '@/lib/layerLahan';
+import { hapusTitik } from '@/lib/batasLahan';
 
-export const WARNA_ZONA: Record<JenisZona, string> = { bangunan: '#3b6fd8', parkir: '#4b5563', taman: '#22a35a' };
+export { WARNA_ZONA };
 
-type Zona = { jenis: JenisZona; cincin: L.LatLng[][]; idServer: number };
+/** Data layer yang ikut zona (nama, kunci, sembunyi, induk); dikirim balik apa adanya saat zona berubah. */
+type MetaZona = Omit<ZonaLahan, 'jenis' | 'geometri'>;
+
+type Zona = { jenis: JenisZona; cincin: L.LatLng[][]; idServer: number; meta: MetaZona; /** Larangan otomatis dari area banjir: dihitung server, hanya digambar. */ otomatis?: boolean };
+
+const esc = (t: string): string => t.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c] as string);
+
+const IKON_KUNCI = '<svg class="nr-zona-geser__kunci" viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>';
 
 function keLatLng(c: Position[][]): L.LatLng[][] {
     // Titik penutup cincin dibuang; Leaflet menutup sendiri.
@@ -67,47 +76,73 @@ function pusat(c: L.LatLng[][]): L.LatLng {
     return terbaik ?? rata;
 }
 
-function ikonSudut(jenis: JenisZona): L.DivIcon {
-    return L.divIcon({ className: `nr-zona-sudut nr-zona-sudut--${jenis}`, iconSize: [11, 11], iconAnchor: [5.5, 5.5] });
+function ikonSudut(jenis: JenisZona, pilih = false): L.DivIcon {
+    const s = pilih ? 13 : 11;
+    return L.divIcon({ className: `nr-zona-sudut nr-zona-sudut--${jenis}${pilih ? ' nr-zona-sudut--pilih' : ''}`, iconSize: [s, s], iconAnchor: [s / 2, s / 2] });
 }
 
-function ikonGeser(jenis: JenisZona, label: string, judulHapus: string): L.DivIcon {
+function ikonTengah(jenis: JenisZona): L.DivIcon {
+    return L.divIcon({ className: `nr-zona-tengah nr-zona-tengah--${jenis}`, iconSize: [9, 9], iconAnchor: [4.5, 4.5] });
+}
+
+function ikonGeser(jenis: JenisZona, label: string, judulHapus: string, kunci: boolean, sorot: boolean): L.DivIcon {
+    const aksi = kunci ? IKON_KUNCI : `<button type="button" class="nr-zona-geser__hapus" data-hapus title="${esc(judulHapus)}" aria-label="${esc(judulHapus)}">×</button>`;
     return L.divIcon({
-        className: `nr-zona-geser nr-zona-geser--${jenis}`,
+        className: `nr-zona-geser nr-zona-geser--${jenis}${kunci ? ' nr-zona-geser--kunci' : ''}${sorot ? ' nr-zona-geser--sorot' : ''}`,
         // Ukuran mengikuti isi (CSS); jangkar di tengah lewat transform di CSS.
         iconSize: null as unknown as L.PointExpression,
         iconAnchor: [0, 0],
-        html: `<span class="nr-zona-geser__isi"><span class="nr-zona-geser__label">${label}</span><button type="button" class="nr-zona-geser__hapus" data-hapus title="${judulHapus}" aria-label="${judulHapus}">×</button></span>`,
+        // Ringkas: titik berwarna; nama dan tombol hapus muncul saat kursor di atasnya atau zona dipilih di panel layer.
+        html: `<span class="nr-zona-geser__isi" title="${esc(label)}"><span class="nr-zona-geser__label">${esc(label)}</span>${aksi}</span>`,
     });
 }
 
-export type TeksZona = { label: Record<JenisZona, string>; hapus: string };
+export type TeksZona = { label: Record<JenisZona, string>; otomatis: string; hapus: string };
 
 export class AlatZona {
-    private peta: L.Map;
     private grup: L.LayerGroup;
     private zona: Zona[] = [];
     private manual = false;
     private poligon: L.Polygon[] = [];
     private terakhirKirim = 0;
-    private tertunda: (() => void) | null = null;
-    private onUbah: (zona: ZonaLahanMasuk[], tarik: boolean) => void;
+    private onUbah: (zona: ZonaLahan[], tarik: boolean) => void;
+    /**
+     * uid zona yang dipilih (dari panel layer atau klik pegangannya di peta): garis lebih tebal, dan hanya zona inilah yang
+     * menampilkan titik sudut, supaya titik sudut zona yang berimpit tidak saling menumpuk.
+     */
+    private sorotUid: string | null = null;
     private onTarik: (idServer: number, cincin: L.LatLng[][]) => void;
+    /** Pengguna memilih zona di peta (klik/tarik pegangannya) atau melepas pilihan (klik peta kosong). */
+    private onPilih?: (uid: string | null) => void;
     private teks: TeksZona;
     /** True selama sebuah zona ditarik; tampilan dari server ditunda sampai tarikan selesai. */
     ditarik = false;
 
     constructor(
         peta: L.Map,
-        onUbah: (zona: ZonaLahanMasuk[], tarik: boolean) => void,
+        onUbah: (zona: ZonaLahan[], tarik: boolean) => void,
         onTarik: (idServer: number, cincin: L.LatLng[][]) => void,
         teks: TeksZona,
+        onPilih?: (uid: string | null) => void,
     ) {
-        this.peta = peta;
         this.onUbah = onUbah;
         this.onTarik = onTarik;
         this.teks = teks;
+        this.onPilih = onPilih;
         this.grup = L.layerGroup().addTo(peta);
+        // Klik di peta (bukan di pegangan) melepas pilihan zona.
+        peta.on('click', (e: L.LeafletMouseEvent) => {
+            // Klik yang berasal dari pegangan zona/lahan (mis. klik ganda titik sudut untuk menghapusnya) bukan klik peta kosong.
+            const asal = e.originalEvent?.target as HTMLElement | null;
+            if (asal?.closest('.nr-zona-sudut, .nr-zona-tengah, .nr-zona-geser, .nr-lahan-pegangan, .nr-akses')) return;
+            if (this.sorotUid !== null) this.pilih(null);
+        });
+    }
+
+    /** Pilih zona dari peta: digambar ulang di sini dan dikabarkan ke panel layer. */
+    private pilih(uid: string | null): void {
+        this.sorot(uid);
+        this.onPilih?.(uid);
     }
 
     setTeks(teks: TeksZona): void {
@@ -118,41 +153,72 @@ export class AlatZona {
      * Tampilkan zona. `manual` (zona pengguna, belum dipotong) didahulukan supaya pegangan tetap di tempat yang ditarik;
      * tanpa itu dipakai zona bawaan dari server.
      */
-    tampilkan(fc: FeatureCollection<Polygon | MultiPolygon, ZonaLahanProps> | null | undefined, manual: ZonaLahanMasuk[] | null): void {
+    tampilkan(fc: FeatureCollection<Polygon | MultiPolygon, ZonaLahanProps> | null | undefined, manual: ZonaLahan[] | null): void {
         const jalankan = () => {
             if (manual) {
-                this.zona = manual.map((z, i) => ({ jenis: z.jenis, cincin: keLatLng(z.geometri.coordinates), idServer: i }));
+                this.zona = manual.map((z, i) => {
+                    const { jenis, geometri, ...meta } = z;
+                    return { jenis, cincin: keLatLng(geometri.coordinates), idServer: i, meta };
+                });
+                // Larangan otomatis (banjir) ada di hasil server saja; digambar tanpa pegangan dan tidak ikut dikirim balik.
+                for (const f of fc?.features ?? []) {
+                    if (!f.properties.otomatis) continue;
+                    const g = f.geometry;
+                    const c = g.type === 'Polygon' ? g.coordinates : g.coordinates[0];
+                    if (c?.length) this.zona.push({ jenis: f.properties.jenis, cincin: keLatLng(c), idServer: f.properties.id, meta: { uid: `otomatis-${f.properties.id}`, nama: this.teks.otomatis }, otomatis: true });
+                }
                 this.manual = true;
             } else {
                 this.zona = (fc?.features ?? []).flatMap((f) => {
                     const g = f.geometry;
                     // Zona bawaan selalu Polygon; MultiPolygon (jarang) diambil bagian pertamanya.
                     const c = g.type === 'Polygon' ? g.coordinates : g.coordinates[0];
-                    return c?.length ? [{ jenis: f.properties.jenis, cincin: keLatLng(c), idServer: f.properties.id }] : [];
+                    return c?.length ? [{ jenis: f.properties.jenis, cincin: keLatLng(c), idServer: f.properties.id, meta: { uid: `srv-${f.properties.id}`, ...(f.properties.otomatis ? { nama: this.teks.otomatis } : {}) }, ...(f.properties.otomatis ? { otomatis: true } : {}) }] : [];
                 });
                 this.manual = false;
             }
             this.gambar();
         };
-        if (this.ditarik) this.tertunda = jalankan;
-        else jalankan();
+        // Selama zona ditarik, tampilan dari server dilewati: keadaan di alat ini yang paling baru.
+        if (!this.ditarik) jalankan();
     }
 
-    /** Tambah zona baru berbentuk kotak seluas kira-kira 15 % lahan di tengah lahan. */
-    tambah(jenis: JenisZona, lahan: L.LatLng[]): void {
-        if (lahan.length < 3) return;
-        const b = L.latLngBounds(lahan);
-        const c = b.getCenter();
-        const dLat = (b.getNorth() - b.getSouth()) * 0.2;
-        const dLng = (b.getEast() - b.getWest()) * 0.2;
+    /**
+     * Tambah zona baru. Dengan `geometri` (hasil penempatan pintar) zona dibuat di bentuk itu; tanpa itu berbentuk kotak seluas
+     * kira-kira 15 % lahan di tengah lahan.
+     */
+    tambah(jenis: JenisZona, lahan: L.LatLng[], geometri?: Polygon | null): void {
+        let cincin: L.LatLng[][];
+        if (geometri) {
+            cincin = keLatLng(geometri.coordinates);
+        } else {
+            if (lahan.length < 3) return;
+            const b = L.latLngBounds(lahan);
+            const c = b.getCenter();
+            const dLat = (b.getNorth() - b.getSouth()) * 0.2;
+            const dLng = (b.getEast() - b.getWest()) * 0.2;
+            cincin = [[L.latLng(c.lat + dLat, c.lng - dLng), L.latLng(c.lat + dLat, c.lng + dLng), L.latLng(c.lat - dLat, c.lng + dLng), L.latLng(c.lat - dLat, c.lng - dLng)]];
+        }
+        const uid = buatUid();
         this.zona.push({
             jenis,
-            cincin: [[L.latLng(c.lat + dLat, c.lng - dLng), L.latLng(c.lat + dLat, c.lng + dLng), L.latLng(c.lat - dLat, c.lng + dLng), L.latLng(c.lat - dLat, c.lng - dLng)]],
+            cincin,
             idServer: -1,
+            meta: { uid, tarik: Date.now() },
         });
         this.manual = true;
+        // Zona baru langsung terpilih supaya titik sudutnya bisa ditarik.
+        this.sorotUid = uid;
         this.gambar();
         this.kirim(false);
+        this.onPilih?.(uid);
+    }
+
+    /** Sorot zona dengan uid ini (null = tanpa sorotan); digambar ulang bila berubah. */
+    sorot(uid: string | null): void {
+        if (this.sorotUid === uid) return;
+        this.sorotUid = uid;
+        if (!this.ditarik) this.gambar();
     }
 
     kosongkan(): void {
@@ -170,22 +236,60 @@ export class AlatZona {
         this.grup.clearLayers();
         this.poligon = [];
         this.zona.forEach((z, i) => {
+            // Layer disembunyikan dari peta (hitungan tetap memakainya); layer terkunci hanya digambar, tanpa pegangan.
+            if (z.meta.sembunyi) return;
+            const kunci = !!z.meta.kunci || !!z.otomatis;
+            const sorot = this.sorotUid === z.meta.uid;
             const warna = WARNA_ZONA[z.jenis];
             const pol = L.polygon(z.cincin, {
                 pane: 'nrZona',
                 interactive: false,
                 color: warna,
-                weight: 2,
-                dashArray: '6 4',
-                fill: false,
+                weight: sorot ? 4 : 2,
+                dashArray: kunci && !z.otomatis ? undefined : '6 4',
+                // Larangan bangun diarsir merah tipis supaya jelas bahwa tidak ada yang dibangun di sana.
+                fill: z.jenis === 'larangan',
+                fillColor: warna,
+                fillOpacity: 0.14,
             }).addTo(this.grup);
             this.poligon[i] = pol;
 
-            z.cincin.forEach((cincin, r) => {
+            // Titik sudut hanya untuk zona yang dipilih (dan tidak terkunci), digambar paling atas.
+            if (!kunci && sorot) z.cincin.forEach((cincin, r) => {
                 cincin.forEach((t, k) => {
-                    const m = L.marker(t, { icon: ikonSudut(z.jenis), draggable: true, keyboard: false, zIndexOffset: 800, pane: 'markerPane' }).addTo(this.grup);
+                    const m = L.marker(t, { icon: ikonSudut(z.jenis, true), draggable: true, keyboard: false, zIndexOffset: 1200, pane: 'markerPane' }).addTo(this.grup);
+                    m.on('dragstart', () => {
+                        z.meta.tarik = Date.now();
+                    });
                     m.on('drag', () => {
                         z.cincin[r][k] = m.getLatLng();
+                        pol.setLatLngs(z.cincin);
+                        this.saatTarik(i);
+                    });
+                    m.on('dragend', () => this.akhirTarik());
+                    // Klik ganda titik sudut menghapusnya (minimal 3 titik per cincin).
+                    m.on('dblclick', (e) => {
+                        L.DomEvent.stop(e);
+                        const sisa = hapusTitik(z.cincin[r], k);
+                        if (!sisa) return;
+                        z.cincin[r] = sisa;
+                        z.meta.tarik = Date.now();
+                        this.manual = true;
+                        this.gambar();
+                        this.kirim(false);
+                    });
+                });
+                // Titik tengah tiap sisi zona terpilih: tarik untuk menambah titik sudut baru.
+                cincin.forEach((a, k) => {
+                    const b = cincin[(k + 1) % cincin.length];
+                    const tengah = L.latLng((a.lat + b.lat) / 2, (a.lng + b.lng) / 2);
+                    const m = L.marker(tengah, { icon: ikonTengah(z.jenis), draggable: true, keyboard: false, zIndexOffset: 1150, pane: 'markerPane' }).addTo(this.grup);
+                    m.on('dragstart', () => {
+                        z.meta.tarik = Date.now();
+                        z.cincin[r].splice(k + 1, 0, tengah);
+                    });
+                    m.on('drag', () => {
+                        z.cincin[r][k + 1] = m.getLatLng();
                         pol.setLatLngs(z.cincin);
                         this.saatTarik(i);
                     });
@@ -194,14 +298,20 @@ export class AlatZona {
             });
 
             const g = L.marker(pusat(z.cincin), {
-                icon: ikonGeser(z.jenis, this.teks.label[z.jenis], this.teks.hapus),
-                draggable: true,
+                icon: ikonGeser(z.jenis, z.meta.nama ?? this.teks.label[z.jenis], this.teks.hapus, kunci, sorot),
+                draggable: !kunci,
                 keyboard: false,
                 zIndexOffset: 900,
             }).addTo(this.grup);
             let awal = g.getLatLng();
             let asal: L.LatLng[][] = [];
             g.on('dragstart', () => {
+                z.meta.tarik = Date.now();
+                // Menarik pegangan juga memilih zona itu (tanpa menggambar ulang di tengah tarikan).
+                if (this.sorotUid !== z.meta.uid) {
+                    this.sorotUid = z.meta.uid;
+                    this.onPilih?.(z.meta.uid);
+                }
                 awal = g.getLatLng();
                 asal = z.cincin.map((r) => r.map((t) => L.latLng(t.lat, t.lng)));
             });
@@ -216,7 +326,11 @@ export class AlatZona {
             g.on('dragend', () => this.akhirTarik());
             g.on('click', (e: L.LeafletMouseEvent) => {
                 const sasaran = e.originalEvent?.target as HTMLElement | null;
-                if (!sasaran?.closest('[data-hapus]')) return;
+                if (kunci || !sasaran?.closest('[data-hapus]')) {
+                    // Klik pegangan = pilih zona (klik lagi = lepas).
+                    if (!z.otomatis) this.pilih(sorot ? null : z.meta.uid);
+                    return;
+                }
                 L.DomEvent.stop(e.originalEvent);
                 this.zona.splice(i, 1);
                 this.manual = true;
@@ -240,8 +354,6 @@ export class AlatZona {
 
     private akhirTarik(): void {
         this.ditarik = false;
-        // Keadaan di alat ini yang paling baru; tampilan dari server yang tertunda sudah usang.
-        this.tertunda = null;
         this.kirim(false);
         this.gambar();
     }
@@ -249,7 +361,7 @@ export class AlatZona {
     private kirim(tarik: boolean): void {
         if (!this.manual) return;
         this.onUbah(
-            this.zona.map((z) => ({ jenis: z.jenis, geometri: { type: 'Polygon', coordinates: keCincin(z.cincin) } })),
+            this.zona.filter((z) => !z.otomatis).map((z) => ({ ...z.meta, jenis: z.jenis, geometri: { type: 'Polygon' as const, coordinates: keCincin(z.cincin) } })),
             tarik,
         );
     }

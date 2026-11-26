@@ -115,6 +115,8 @@ export function teksServer(s: string, bahasa: Bahasa = aktif): string {
         [/^NalarRuang hanya mencakup Jabodetabek\.$/, () => 'NalarRuang only covers Greater Jakarta (Jabodetabek).'],
         [/^Kami belum memahami pencarianmu\./, () => 'We could not understand your search. Try a need such as "near a station" or an area name.'],
         [/^Titik terpilih$/, () => 'Selected point'],
+        [/^(\d+) (unit|kamar) per lantai lebih dari 20 m dari tangga\. Geser tangga atau atur otomatis lagi\.$/, (_, n, s) => `${n} ${s === 'kamar' ? 'rooms' : 'units'} per floor are more than 20 m from stairs. Move a stair or place them automatically again.`],
+        [/^(\d+) posisi lift\/tangga di luar gedung dilewati\.$/, (_, n) => `${n} lift/stair position${n === '1' ? '' : 's'} outside the building ${n === '1' ? 'was' : 'were'} skipped.`],
         [/^Area yang kamu gambar$/, () => 'Your drawn area'],
         [/^(.+) dan (\d+) kelurahan lain$/, (_, l, n) => `${l} and ${n} other ${n === '1' ? 'village' : 'villages'}`],
         [/^Area terlalu kecil \(minimal 500 m²\)\.$/, () => 'The area is too small (at least 500 m²).'],

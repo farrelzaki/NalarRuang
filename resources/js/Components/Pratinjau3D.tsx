@@ -6,12 +6,14 @@ import { useEffect, useRef, useState } from 'react';
 import type { Polygon } from 'geojson';
 import type { LahanResponse } from '@/types';
 import { buatAdegan, type Adegan3D } from '@/Map/Lahan3D';
+import type { Gaya3D } from '@/lib/ekstrusi3d';
 import { useBahasa } from '@/lib/bahasa';
 import { Ikon } from './Dasar';
 
-type Props = { data: LahanResponse; lahan: Polygon | null; onTutup: () => void };
+/** `onGaya` null = pilihan gaya tidak ditampilkan (rumah selalu berbentuk rumah). */
+type Props = { data: LahanResponse; lahan: Polygon | null; gaya: Gaya3D; onGaya: ((g: Gaya3D) => void) | null; onTutup: () => void };
 
-export default function Pratinjau3D({ data, lahan, onTutup }: Props) {
+export default function Pratinjau3D({ data, lahan, gaya, onGaya, onTutup }: Props) {
     const { t, bahasa } = useBahasa();
     const wadah = useRef<HTMLDivElement | null>(null);
     const adegan = useRef<Adegan3D | null>(null);
@@ -20,7 +22,7 @@ export default function Pratinjau3D({ data, lahan, onTutup }: Props) {
     useEffect(() => {
         if (!wadah.current) return;
         try {
-            adegan.current = buatAdegan(wadah.current, data, lahan);
+            adegan.current = buatAdegan(wadah.current, data, lahan, gaya);
         } catch {
             // Peramban tanpa WebGL: tampilkan pesan, peta tetap jalan.
             setGalat(true);
@@ -33,8 +35,8 @@ export default function Pratinjau3D({ data, lahan, onTutup }: Props) {
     }, []);
 
     useEffect(() => {
-        adegan.current?.perbarui(data, lahan);
-    }, [data, lahan]);
+        adegan.current?.perbarui(data, lahan, gaya);
+    }, [data, lahan, gaya]);
 
     const k = data.kapasitas;
     const tinggi = data.ringkasan?.tinggi_m ?? 0;
@@ -47,6 +49,7 @@ export default function Pratinjau3D({ data, lahan, onTutup }: Props) {
                 <span>
                     {t(`${k.lantai} lantai · ±${angka(tinggi)} m · ${angka(k.jumlah)} ${k.satuan}`, `${k.lantai} floors · ±${angka(tinggi)} m · ${angka(k.jumlah)} ${k.satuan === 'rumah' ? 'houses' : k.satuan === 'kamar' ? 'rooms' : 'units'}`)}
                 </span>
+                {onGaya && <PilihGaya3D gaya={gaya} onGaya={onGaya} />}
                 <button type="button" className="nr-iconbtn" onClick={onTutup} aria-label={t('Tutup 3D', 'Close 3D')}>
                     <Ikon name="x" size={16} />
                 </button>
@@ -58,5 +61,23 @@ export default function Pratinjau3D({ data, lahan, onTutup }: Props) {
                 <p className="nr-3d__catatan">{t('Seret untuk memutar, gulir untuk zoom, klik kanan untuk menggeser. Tinggi dari jumlah lantai × 3,2–3,5 m.', 'Drag to orbit, scroll to zoom, right-drag to pan. Height = floors × 3.2–3.5 m.')}</p>
             )}
         </section>
+    );
+}
+
+/** Pilihan gaya 3D kos/apartemen: bentuk gedung sungguhan atau warna per tipe unit. Dipakai kartu 3D dan bilah alat peta. */
+export function PilihGaya3D({ gaya, onGaya }: { gaya: Gaya3D; onGaya: (g: Gaya3D) => void }) {
+    const { t } = useBahasa();
+    const pilihan: { kunci: Gaya3D; label: [string, string]; ket: [string, string] }[] = [
+        { kunci: 'realistis', label: ['Realistis', 'Realistic'], ket: ['Bentuk gedung: dinding, jendela, atap', 'Building look: walls, windows, roof'] },
+        { kunci: 'warna', label: ['Warna unit', 'Unit colours'], ket: ['Warna per tipe unit (studio, 1 kamar, 2 kamar)', 'Colour by unit type (studio, 1-bed, 2-bed)'] },
+    ];
+    return (
+        <span className="nr-gaya3d" role="radiogroup" aria-label={t('Gaya 3D', '3D style')}>
+            {pilihan.map((p) => (
+                <button key={p.kunci} type="button" role="radio" aria-checked={gaya === p.kunci} title={t(p.ket[0], p.ket[1])} onClick={() => onGaya(p.kunci)}>
+                    {t(p.label[0], p.label[1])}
+                </button>
+            ))}
+        </span>
     );
 }

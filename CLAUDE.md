@@ -117,6 +117,7 @@ php artisan db:seed --class=DemoPetaSeeder   # data contoh peta dari data/geojso
 php artisan serve             # http://127.0.0.1:8000  (cek /api/health)
 npm run dev                   # Vite + hot reload, jalankan bersamaan dengan serve
 php artisan test              # memakai database `nalarruang_test` (phpunit.xml)
+npm run test:js               # tes logika murni klien (tests/js, node --test, tanpa dependensi)
 npm run typecheck             # tsc --noEmit
 npm run build                 # aset produksi ke public/build
 ```

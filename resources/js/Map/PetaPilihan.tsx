@@ -15,9 +15,11 @@ type PropsPilihan = PropsPeta & {
     onMesin?: (mesin: MesinPeta) => void;
     /** Paksa Leaflet sementara (Uji Lahan FR-23 hanya ada di Leaflet); kembali ke MapLibre saat false. */
     paksaLeaflet?: boolean;
+    /** MapLibre gagal dimuat dan peta kembali ke Leaflet; dipakai untuk membatalkan tampilan yang butuh MapLibre (3D Uji Lahan). */
+    onMapLibreGagal?: () => void;
 };
 
-export default function PetaPilihan({ onMesin, paksaLeaflet, ...props }: PropsPilihan) {
+export default function PetaPilihan({ onMesin, paksaLeaflet, onMapLibreGagal, ...props }: PropsPilihan) {
     const [mesinDasar, setMesin] = useState<MesinPeta>(() => (mapLibreBolehDipakai() ? 'maplibre' : 'leaflet'));
     const mesin: MesinPeta = paksaLeaflet ? 'leaflet' : mesinDasar;
     useEffect(() => onMesin?.(mesin), [mesin]);
@@ -29,6 +31,7 @@ export default function PetaPilihan({ onMesin, paksaLeaflet, ...props }: PropsPi
                 onGagal={(alasan) => {
                     console.warn(`[NalarRuang] Beralih ke peta Leaflet: ${alasan}`);
                     setMesin('leaflet');
+                    onMapLibreGagal?.();
                 }}
             />
         );

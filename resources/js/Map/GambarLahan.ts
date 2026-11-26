@@ -10,6 +10,9 @@
  */
 import L from 'leaflet';
 import type { FeatureCollection, Geometry, Polygon, Position } from 'geojson';
+import { batasiKotak, batasiTitik, bolehTambahTitik, hapusTitik, skalaKotakAwal, titikTerdekatRuas } from '@/lib/batasLahan';
+import { arahKe, pusatTitik, putarTitik, sudutPutar, type TitikLL } from '@/lib/putar';
+import { WARNA_INTI } from '@/lib/ekstrusi3d';
 
 export type ModeLahan = 'kotak' | 'poligon';
 
@@ -18,12 +21,20 @@ const WARNA = '#e4572e';
 const gayaLahan: L.PathOptions = { color: WARNA, weight: 2.5, fillColor: WARNA, fillOpacity: 0.08, dashArray: undefined };
 const gayaDraf: L.PolylineOptions = { color: WARNA, weight: 2, dashArray: '6 6', interactive: false };
 
-function ikonPegangan(jenis: 'sudut' | 'tengah' | 'geser' | 'awal'): L.DivIcon {
-    const ukuran = jenis === 'geser' ? 28 : jenis === 'tengah' ? 12 : 16;
+const IKON_PUTAR =
+    '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></svg>';
+
+function ikonPegangan(jenis: 'sudut' | 'tengah' | 'geser' | 'putar' | 'awal'): L.DivIcon {
+    const ukuran = jenis === 'geser' || jenis === 'putar' ? 28 : jenis === 'tengah' ? 12 : 16;
+    if (jenis === 'putar') {
+        // Di kanan pegangan geser, sama-sama di luar tepi atas lahan.
+        return L.divIcon({ className: 'nr-lahan-pegangan nr-lahan-pegangan--putar', iconSize: [ukuran, ukuran], iconAnchor: [ukuran / 2 - 36, ukuran / 2 + 26], html: IKON_PUTAR });
+    }
     return L.divIcon({
         className: `nr-lahan-pegangan nr-lahan-pegangan--${jenis}`,
         iconSize: [ukuran, ukuran],
-        iconAnchor: [ukuran / 2, ukuran / 2],
+        // Pegangan geser duduk di luar lahan, kira-kira 26 px di atas tepi atasnya (titiknya = tengah tepi atas), jadi tidak menutupi isi.
+        iconAnchor: jenis === 'geser' ? [ukuran / 2, ukuran / 2 + 26] : [ukuran / 2, ukuran / 2],
         html: jenis === 'geser'
             ? '<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20M12 2l-3 3M12 2l3 3M12 22l-3-3M12 22l3-3M2 12l3-3M2 12l3 3M22 12l-3-3M22 12l-3 3"/></svg>'
             : '',
@@ -35,13 +46,25 @@ export class AlatLahan {
     private grup: L.LayerGroup;
     private onUbah: (g: Polygon | null, tarik?: boolean) => void;
     private onTarik?: (titik: L.LatLng[], kotak: boolean) => void;
+    private onBatas?: () => void;
+    /** Kotak berubah menjadi poligon (titik ditambah/dihapus); panel ikut menampilkan mode Poligon. */
+    private onMode?: (mode: ModeLahan) => void;
+    /** Seluruh lahan selesai diputar (zona dan akses diputar oleh pemanggil, satu langkah undo). */
+    private onPutar?: (g: Polygon, derajat: number, pusat: TitikLL) => void;
     private terakhirKirim = 0;
+    private terakhirBatas = 0;
+    /** Lahan terkunci: bentuknya digambar tanpa pegangan dan tidak bisa diubah dari peta. */
+    private terkunci = false;
     /** True selama sudut, titik tengah, atau pegangan geser sedang ditarik. */
     ditarik = false;
     private mode: ModeLahan | null = null;
     private titik: L.LatLng[] = [];
     private tertutup = false;
     private poligon: L.Polygon | null = null;
+    /** Pemeriksa isi di bawah kursor: lahan menutupi isi, jadi klik/tahan pada lahan diteruskan ke sini (keterangan dan geser tangga/lift). */
+    private periksaIsi: PeriksaIsi | null = null;
+    /** Klik yang menyusul akhir geseran inti diabaikan (bukan klik untuk popup). */
+    private abaikanKlik = false;
     private draf: L.Polyline | null = null;
     private pegangan: L.Marker[] = [];
     private zoomGandaAwal = true;
@@ -49,18 +72,100 @@ export class AlatLahan {
     /**
      * onUbah: lahan berubah (tarik = true selama masih ditarik, dikirim paling sering tiap 100 ms).
      * onTarik: dipanggil tiap gerakan tarik, untuk memotong dan memudarkan isi kapasitas tanpa menunggu server.
+     * onBatas: bentuk lahan tertahan di batas ukuran maksimum (paling sering sekali tiap 2,5 detik), untuk notifikasi.
      */
-    constructor(peta: L.Map, onUbah: (g: Polygon | null, tarik?: boolean) => void, onTarik?: (titik: L.LatLng[], kotak: boolean) => void) {
+    constructor(
+        peta: L.Map,
+        onUbah: (g: Polygon | null, tarik?: boolean) => void,
+        onTarik?: (titik: L.LatLng[], kotak: boolean) => void,
+        onBatas?: () => void,
+        onMode?: (mode: ModeLahan) => void,
+        onPutar?: (g: Polygon, derajat: number, pusat: TitikLL) => void,
+    ) {
+        this.onPutar = onPutar;
         this.peta = peta;
         this.onUbah = onUbah;
         this.onTarik = onTarik;
+        this.onBatas = onBatas;
+        this.onMode = onMode;
         this.grup = L.layerGroup().addTo(peta);
         this.klik = this.klik.bind(this);
         this.gerak = this.gerak.bind(this);
     }
 
-    /** Mulai mode baru dari awal. null = matikan alat dan hapus gambar. */
-    mulai(mode: ModeLahan | null): void {
+    /** Pasang pemeriksa isi untuk klik di dalam lahan (keterangan tangga/lift). null = lepas. */
+    setPeriksaIsi(p: PeriksaIsi | null): void {
+        this.periksaIsi = p;
+    }
+
+    /**
+     * Tahan lalu geser lift/tangga: bayangan kotak (bentuk sama) mengikuti kursor; saat dilepas `geser(id, pusat baru)` dipanggil
+     * dan server menaruh inti di slot unit terdekat. Geser peta dimatikan selama menahan. Gerak < 4 px dianggap klik (popup).
+     */
+    private tekanIsi = (ev: PointerEvent): void => {
+        if (ev.button !== 0 || ev.shiftKey || !this.periksaIsi) return;
+        const awal = this.peta.mouseEventToLatLng(ev);
+        const kena = this.periksaIsi.cari(awal);
+        const id = Number(kena?.prop.id);
+        if (!kena || (kena.prop.fungsi !== 'lift' && kena.prop.fungsi !== 'tangga') || !Number.isFinite(id)) return;
+        // Cegah seleksi teks halaman dan geser peta selama menahan inti (klik tetap dikirim browser).
+        ev.stopPropagation();
+        ev.preventDefault();
+        const petaBisaGeser = this.peta.dragging.enabled();
+        if (petaBisaGeser) this.peta.dragging.disable();
+        const titikAwal = this.peta.mouseEventToContainerPoint(ev);
+        const cincin = kena.latlngs;
+        let bayangan: L.Polygon | null = null;
+        let geser: [number, number] = [0, 0];
+        const wadah = this.peta.getContainer();
+
+        const gerak = (e: PointerEvent) => {
+            const ll = this.peta.mouseEventToLatLng(e);
+            geser = [ll.lat - awal.lat, ll.lng - awal.lng];
+            if (!bayangan) {
+                if (this.peta.mouseEventToContainerPoint(e).distanceTo(titikAwal) < 4) return;
+                this.peta.closePopup();
+                wadah.classList.add('nr-geser-inti');
+                bayangan = L.polygon(cincin, {
+                    pane: 'nrSeleksi',
+                    interactive: false,
+                    color: '#1d2433',
+                    weight: 1.5,
+                    dashArray: '4 3',
+                    fillColor: kena.prop.fungsi === 'lift' ? WARNA_INTI.lift : WARNA_INTI.tangga,
+                    fillOpacity: 0.75,
+                }).addTo(this.grup);
+            }
+            bayangan.setLatLngs(cincin.map((r) => r.map((p) => L.latLng(p.lat + geser[0], p.lng + geser[1]))));
+        };
+        const lepas = () => {
+            document.removeEventListener('pointermove', gerak);
+            document.removeEventListener('pointerup', lepas);
+            document.removeEventListener('pointercancel', lepas);
+            wadah.classList.remove('nr-geser-inti');
+            if (petaBisaGeser) this.peta.dragging.enable();
+            if (!bayangan) return;
+            bayangan.remove();
+            // Klik yang menyusul pointerup diabaikan, lalu bendera dilepas supaya klik berikutnya normal.
+            this.abaikanKlik = true;
+            setTimeout(() => (this.abaikanKlik = false), 60);
+            const luar = cincin[0] ?? [];
+            const n = Math.max(1, luar.length);
+            const lat = luar.reduce((s, p) => s + p.lat, 0) / n + geser[0];
+            const lng = luar.reduce((s, p) => s + p.lng, 0) / n + geser[1];
+            this.periksaIsi?.geser(id, [lng, lat]);
+        };
+        document.addEventListener('pointermove', gerak);
+        document.addEventListener('pointerup', lepas);
+        document.addEventListener('pointercancel', lepas);
+    };
+
+    /**
+     * Mulai mode baru dari awal. null = matikan alat dan hapus gambar.
+     * `awal`: bentuk lahan yang sudah ada (peta dibuat ulang setelah tampilan 3D); dipulihkan tanpa memanggil `onUbah`,
+     * jadi lahan di proyek tidak tertimpa kotak baru.
+     */
+    mulai(mode: ModeLahan | null, awal?: Polygon | null): void {
         this.bersihkan();
         this.mode = mode;
         const wadah = this.peta.getContainer();
@@ -71,7 +176,9 @@ export class AlatLahan {
         }
         this.zoomGandaAwal = this.peta.doubleClickZoom.enabled();
         this.peta.doubleClickZoom.disable();
-        if (mode === 'kotak') {
+        if (awal && (awal.coordinates[0]?.length ?? 0) >= 4) {
+            this.pulihkan(awal);
+        } else if (mode === 'kotak') {
             this.kotakAwal();
         } else {
             this.peta.on('click', this.klik);
@@ -80,9 +187,36 @@ export class AlatLahan {
         }
     }
 
+    /** Kunci/buka lahan (layer "Lahan" di panel layer). Mengunci menghapus semua pegangan dari peta. */
+    kunci(nilai: boolean): void {
+        if (this.terkunci === nilai) return;
+        this.terkunci = nilai;
+        if (this.tertutup) this.gambar();
+    }
+
     /** Tutup poligon yang sedang digambar (tombol Selesai di panel). */
     selesai(): void {
         if (this.mode === 'poligon' && !this.tertutup && this.titik.length >= 3) this.tutupPoligon();
+    }
+
+    /**
+     * Pulihkan bentuk lahan dari luar (undo/redo). Tidak memanggil `onUbah`: pemanggil sudah memegang bentuk ini.
+     * Isi di luar batas langsung dipotong lewat `onTarik`. Diabaikan bila alat sedang mati.
+     */
+    pulihkan(g: Polygon): void {
+        if (!this.mode) return;
+        const cincin = g.coordinates[0] ?? [];
+        const titik = cincin.slice(0, -1).map(([lng, lat]) => L.latLng(lat, lng));
+        if (titik.length < 3) return;
+        // Bila poligon belum ditutup, hentikan penangkapan klik: bentuk yang dipulihkan sudah lengkap.
+        this.peta.off('click', this.klik);
+        this.peta.off('mousemove', this.gerak);
+        this.peta.getContainer().classList.remove('nr-gambar-lahan--titik');
+        this.titik = titik;
+        this.tertutup = true;
+        this.ditarik = false;
+        this.gambar();
+        this.onTarik?.(this.titik, this.mode === 'kotak');
     }
 
     hapus(): void {
@@ -96,8 +230,12 @@ export class AlatLahan {
         const b = this.peta.getBounds();
         const pusat = b.getCenter();
         // Sekitar seperlima lebar layar, dengan rasio 4:3.
-        const dLng = (b.getEast() - b.getWest()) / 10;
-        const dLat = dLng * 0.75 * Math.cos((pusat.lat * Math.PI) / 180);
+        let dLng = (b.getEast() - b.getWest()) / 10;
+        let dLat = dLng * 0.75 * Math.cos((pusat.lat * Math.PI) / 180);
+        // Zoom jauh membuat seperlima layar jauh di atas batas ukuran: kecilkan supaya kotak awal selalu sah.
+        const skala = skalaKotakAwal(dLng, dLat, pusat.lat);
+        dLng *= skala;
+        dLat *= skala;
         this.titik = [
             L.latLng(pusat.lat + dLat, pusat.lng - dLng),
             L.latLng(pusat.lat + dLat, pusat.lng + dLng),
@@ -110,13 +248,24 @@ export class AlatLahan {
     }
 
     /** Sudut i ditarik: sudut seberangnya tetap, dua sudut lain mengikuti supaya tetap kotak. */
-    private tarikSudutKotak(i: number, ll: L.LatLng): void {
+    private tarikSudutKotak(i: number, ll: L.LatLng): boolean {
         const seberang = this.titik[(i + 2) % 4];
-        const utara = Math.max(ll.lat, seberang.lat);
-        const selatan = Math.min(ll.lat, seberang.lat);
-        const barat = Math.min(ll.lng, seberang.lng);
-        const timur = Math.max(ll.lng, seberang.lng);
+        // Kotak yang melewati batas ukuran berhenti di batas (rasio tarikan tetap).
+        const h = batasiKotak(seberang, ll);
+        const utara = Math.max(h.titik.lat, seberang.lat);
+        const selatan = Math.min(h.titik.lat, seberang.lat);
+        const barat = Math.min(h.titik.lng, seberang.lng);
+        const timur = Math.max(h.titik.lng, seberang.lng);
         this.titik = [L.latLng(utara, barat), L.latLng(utara, timur), L.latLng(selatan, timur), L.latLng(selatan, barat)];
+        return h.terbatas;
+    }
+
+    /** Beri tahu bahwa bentuk tertahan di batas ukuran (dibatasi supaya notifikasi tidak menumpuk). */
+    private kabarBatas(): void {
+        const kini = performance.now();
+        if (kini - this.terakhirBatas < 2500) return;
+        this.terakhirBatas = kini;
+        this.onBatas?.();
     }
 
     // ---- Poligon ----
@@ -131,6 +280,11 @@ export class AlatLahan {
                 this.tutupPoligon();
                 return;
             }
+        }
+        // Titik yang membuat poligon melewati batas ukuran ditolak.
+        if (this.titik.length >= 2 && !bolehTambahTitik(this.titik, e.latlng)) {
+            this.kabarBatas();
+            return;
         }
         this.titik.push(e.latlng);
         this.gambar();
@@ -167,22 +321,63 @@ export class AlatLahan {
 
         if (this.tertutup) {
             this.poligon = L.polygon(this.titik, { ...gayaLahan, pane: 'nrSeleksi', className: 'nr-lahan', bubblingMouseEvents: false }).addTo(this.grup);
+            // Shift + klik di dekat sisi menyisipkan titik sudut baru di sisi itu (kotak ikut menjadi poligon).
+            // Klik biasa di atas ruang tangga/lift membuka keterangannya; kursor jadi telunjuk di atasnya.
+            this.poligon.on('click', (e) => {
+                if (this.abaikanKlik) return;
+                if ((e.originalEvent as MouseEvent).shiftKey) this.sisipTitik(e.latlng);
+                else if (this.periksaIsi?.cari(e.latlng)) this.periksaIsi.buka(e.latlng);
+                // Klik lahan tidak diteruskan ke peta, jadi popup yang terbuka ditutup di sini.
+                else this.peta.closePopup();
+            });
+            // Tahan lalu geser lift/tangga (lihat tekanIsi); kursor tangan di atasnya.
+            (this.poligon.getElement() as HTMLElement | undefined)?.addEventListener('pointerdown', this.tekanIsi);
+            this.poligon.on('mousemove', (e) => {
+                const fungsi = this.periksaIsi?.cari(e.latlng)?.prop.fungsi;
+                const el = this.poligon?.getElement();
+                el?.classList.toggle('nr-lahan--tunjuk', fungsi === 'servis');
+                el?.classList.toggle('nr-lahan--pegang', fungsi === 'lift' || fungsi === 'tangga');
+            });
+            this.poligon.on('mouseout', () => this.poligon?.getElement()?.classList.remove('nr-lahan--tunjuk', 'nr-lahan--pegang'));
         } else if (this.titik.length >= 2) {
             this.draf = L.polyline(this.titik, { ...gayaDraf, pane: 'nrSeleksi' }).addTo(this.grup);
         }
+
+        // Lahan terkunci: hanya garis batas, tanpa pegangan sudut, titik tengah, maupun pegangan geser.
+        if (this.tertutup && this.terkunci) return;
 
         this.titik.forEach((ll, i) => {
             const awal = !this.tertutup && i === 0 && this.titik.length >= 3;
             const m = L.marker(ll, { icon: ikonPegangan(awal ? 'awal' : 'sudut'), draggable: this.tertutup, keyboard: false, zIndexOffset: 1000 }).addTo(this.grup);
             if (awal) m.on('click', () => this.tutupPoligon());
             if (this.tertutup) {
+                // Klik ganda titik sudut menghapusnya (minimal 3 titik); kotak menjadi poligon.
+                m.on('dblclick', (e) => {
+                    L.DomEvent.stop(e);
+                    const sisa = hapusTitik(this.titik, i);
+                    if (!sisa) return;
+                    this.jadiPoligon();
+                    this.titik = sisa;
+                    this.gambar();
+                    this.kirim();
+                });
                 m.on('drag', (e) => {
-                    const baru = (e.target as L.Marker).getLatLng();
+                    const penanda = e.target as L.Marker;
+                    const baru = penanda.getLatLng();
                     if (this.mode === 'kotak') {
-                        this.tarikSudutKotak(i, baru);
+                        if (this.tarikSudutKotak(i, baru)) {
+                            penanda.setLatLng(this.titik[i]);
+                            this.kabarBatas();
+                        }
                         this.perbaruiPosisi(i);
                     } else {
-                        this.titik[i] = baru;
+                        // Titik berhenti di batas ukuran maksimum alih-alih mengikuti kursor.
+                        const h = batasiTitik(this.titik, i, baru);
+                        this.titik[i] = L.latLng(h.titik.lat, h.titik.lng);
+                        if (h.terbatas) {
+                            penanda.setLatLng(this.titik[i]);
+                            this.kabarBatas();
+                        }
                         this.poligon?.setLatLngs(this.titik);
                         this.perbaruiPosisi(i);
                     }
@@ -195,17 +390,24 @@ export class AlatLahan {
 
         if (!this.tertutup) return;
 
-        // Titik tengah sisi (khusus poligon): tarik untuk menambah sudut baru.
-        if (this.mode === 'poligon') {
+        // Titik tengah tiap sisi: tarik untuk menambah titik sudut baru (kotak ikut menjadi poligon).
+        {
             this.titik.forEach((a, i) => {
                 const b = this.titik[(i + 1) % this.titik.length];
                 const tengah = L.latLng((a.lat + b.lat) / 2, (a.lng + b.lng) / 2);
                 const m = L.marker(tengah, { icon: ikonPegangan('tengah'), draggable: true, keyboard: false, zIndexOffset: 900 }).addTo(this.grup);
                 m.on('dragstart', () => {
+                    this.jadiPoligon();
                     this.titik.splice(i + 1, 0, tengah);
                 });
                 m.on('drag', (e) => {
-                    this.titik[i + 1] = (e.target as L.Marker).getLatLng();
+                    const penanda = e.target as L.Marker;
+                    const h = batasiTitik(this.titik, i + 1, penanda.getLatLng());
+                    this.titik[i + 1] = L.latLng(h.titik.lat, h.titik.lng);
+                    if (h.terbatas) {
+                        penanda.setLatLng(this.titik[i + 1]);
+                        this.kabarBatas();
+                    }
                     this.poligon?.setLatLngs(this.titik);
                     this.saatTarik();
                 });
@@ -214,8 +416,8 @@ export class AlatLahan {
             });
         }
 
-        // Pegangan tengah untuk memindahkan seluruh lahan.
-        const pusat = this.pusat();
+        // Pegangan untuk memindahkan seluruh lahan, di atas tepi atas lahan (bukan di tengah, supaya denah tidak tertutup).
+        const pusat = this.titikGeser();
         let awalGeser = pusat;
         let titikAwal: L.LatLng[] = [];
         const geser = L.marker(pusat, { icon: ikonPegangan('geser'), draggable: true, keyboard: false, zIndexOffset: 1100, title: 'Geser lahan' }).addTo(this.grup);
@@ -233,6 +435,79 @@ export class AlatLahan {
         });
         geser.on('dragend', () => this.akhirTarik());
         this.pegangan.push(geser);
+
+        // Pegangan putar: tarik melingkar memutar seluruh lahan terhadap pusatnya (Shift = kelipatan 15°).
+        const putar = L.marker(pusat, { icon: ikonPegangan('putar'), draggable: true, keyboard: false, zIndexOffset: 1100, title: 'Putar lahan (Shift: kelipatan 15°)' }).addTo(this.grup);
+        let poros: TitikLL = pusat;
+        let arahAwal = 0;
+        let derajat = 0;
+        let asal: L.LatLng[] = [];
+        putar.on('dragstart', () => {
+            asal = this.titik.map((t) => L.latLng(t.lat, t.lng));
+            poros = pusatTitik(asal);
+            arahAwal = arahKe(poros, putar.getLatLng());
+            derajat = 0;
+            putar.bindTooltip('0°', { permanent: true, direction: 'top', offset: [36, -48], className: 'nr-lahan-label' }).openTooltip();
+        });
+        putar.on('drag', (e) => {
+            const shift = !!((e as L.LeafletEvent & { originalEvent?: MouseEvent }).originalEvent?.shiftKey);
+            derajat = sudutPutar(arahAwal, arahKe(poros, putar.getLatLng()), shift ? 15 : undefined);
+            this.titik = asal.map((t) => {
+                const r = putarTitik(t, poros, derajat);
+                return L.latLng(r.lat, r.lng);
+            });
+            this.poligon?.setLatLngs(this.titik);
+            putar.setTooltipContent(`${Math.round(derajat)}°`);
+            // Selama diputar hanya pratinjau (isi di luar batas dipudarkan); hitung ulang server setelah dilepas.
+            this.ditarik = true;
+            this.onTarik?.(this.titik, false);
+        });
+        putar.on('dragend', () => {
+            putar.unbindTooltip();
+            this.ditarik = false;
+            if (Math.abs(derajat) < 0.5) {
+                this.titik = asal;
+                this.gambar();
+                return;
+            }
+            // Kotak yang sudah miring tidak lagi persegi terhadap utara: lanjut sebagai poligon.
+            this.jadiPoligon();
+            this.gambar();
+            const cincin = this.titik.map((t) => [Number(t.lng.toFixed(7)), Number(t.lat.toFixed(7))]);
+            const g: Polygon = { type: 'Polygon', coordinates: [[...cincin, cincin[0]]] };
+            if (this.onPutar) this.onPutar(g, derajat, poros);
+            else this.kirim();
+        });
+        this.pegangan.push(putar);
+    }
+
+    /** Sisipkan titik sudut di sisi poligon terdekat dari `ll` (hanya bila klik dalam 18 px dari sebuah sisi). Luas tidak berubah. */
+    private sisipTitik(ll: L.LatLng): void {
+        if (this.terkunci) return;
+        const p = this.peta.latLngToLayerPoint(ll);
+        let terbaik = { i: -1, x: 0, y: 0, jarak: Infinity };
+        this.titik.forEach((a, i) => {
+            const b = this.titik[(i + 1) % this.titik.length];
+            const r = titikTerdekatRuas(p, this.peta.latLngToLayerPoint(a), this.peta.latLngToLayerPoint(b));
+            if (r.jarak < terbaik.jarak) terbaik = { i, x: r.x, y: r.y, jarak: r.jarak };
+        });
+        if (terbaik.i < 0 || terbaik.jarak > 18) return;
+        this.jadiPoligon();
+        this.titik.splice(terbaik.i + 1, 0, this.peta.layerPointToLatLng(L.point(terbaik.x, terbaik.y)));
+        this.gambar();
+        this.kirim();
+    }
+
+    /** Kotak yang ditambah/dikurangi titiknya tidak lagi persegi panjang: lanjut sebagai poligon. */
+    private jadiPoligon(): void {
+        if (this.mode !== 'kotak') return;
+        this.mode = 'poligon';
+        this.onMode?.('poligon');
+    }
+
+    /** Mode gambar saat ini (kotak bisa berubah menjadi poligon dari peta). */
+    get modeSekarang(): ModeLahan | null {
+        return this.mode;
     }
 
     /** Titik lahan saat ini (salinan). */
@@ -269,11 +544,10 @@ export class AlatLahan {
         });
     }
 
-    private pusat(): L.LatLng {
-        const n = this.titik.length;
-        const lat = this.titik.reduce((s, t) => s + t.lat, 0) / n;
-        const lng = this.titik.reduce((s, t) => s + t.lng, 0) / n;
-        return L.latLng(lat, lng);
+    /** Tengah tepi atas kotak batas lahan; ikon pegangan geser digeser ke atas dari titik ini. */
+    private titikGeser(): L.LatLng {
+        const b = L.latLngBounds(this.titik);
+        return L.latLng(b.getNorth(), b.getCenter().lng);
     }
 
     private kirim(tarik = false): void {
@@ -328,11 +602,21 @@ function gayaIsi(p: Record<string, unknown>): L.PathOptions {
                 case 'jalur':
                     return { stroke: false, fillColor: '#e2cf9f', fillOpacity: 0.9 };
                 case 'inti':
-                    return { color: '#1d2433', weight: 0.6, fillColor: '#9aa3b2', fillOpacity: 0.9 };
+                    // Lift (berisi tangga) beton gelap, tangga abu bergaris putus, ruang servis abu pucat.
+                    if (p.fungsi === 'lift') return { color: '#1d2433', weight: 1, fillColor: WARNA_INTI.lift, fillOpacity: 0.95 };
+                    if (p.fungsi === 'tangga') return { color: '#1d2433', weight: 1, dashArray: '3 2', fillColor: WARNA_INTI.tangga, fillOpacity: 0.95 };
+                    return { color: '#1d2433', weight: 0.6, fillColor: WARNA_INTI.servis, fillOpacity: 0.9 };
                 case 'void':
                     return { color: '#e7a3a3', weight: 0.8, fillColor: '#f4b6b6', fillOpacity: 0.4 };
                 case 'tapak':
                     return { color: '#1f3b6e', weight: 1.5, fillColor: '#3b6fd8', fillOpacity: 0.45 };
+                // Rumah pribadi: kolam renang, halaman (perkerasan), pagar keliling.
+                case 'kolam':
+                    return { color: '#0f6fa8', weight: 1.2, fillColor: '#5cc8f0', fillOpacity: 0.9 };
+                case 'halaman':
+                    return { stroke: false, fillColor: '#d8ccb0', fillOpacity: 0.65 };
+                case 'pagar':
+                    return { stroke: false, fillColor: '#5a4632', fillOpacity: 0.95 };
                 default:
                     return { color: '#ffffff', weight: 0.8, fillColor: WARNA_ATAP[Number(p.varian ?? 0) % 3], fillOpacity: 0.85 };
             }
@@ -343,7 +627,34 @@ function gayaIsi(p: Record<string, unknown>): L.PathOptions {
 const SATUAN_ISI = new Set(['unit', 'kavling', 'slot']);
 const LAMA_HILANG = 280;
 
-type ItemIsi = { layer: L.Polygon; jenis: string; tipe: string; pusat: [number, number]; luas: number; zona: number | null };
+type ItemIsi = { layer: L.Polygon; jenis: string; tipe: string; pusat: [number, number]; luas: number; zona: number | null; prop: Record<string, unknown> };
+
+/** Isi hasil yang kena kursor: properti dan bentuknya (untuk bayangan saat digeser). */
+export type IsiKena = { prop: Record<string, unknown>; latlngs: L.LatLng[][] };
+
+/** Penghubung alat lahan ke isi hasil: cari isi di titik, buka keterangannya, dan laporkan inti yang digeser. */
+export type PeriksaIsi = { cari(ll: L.LatLng): IsiKena | null; buka(ll: L.LatLng): void; geser(id: number, titik: [number, number]): void };
+
+/** Titik di dalam poligon (aturan genap-ganjil atas semua cincin: lubang dan bagian multipoligon ikut benar). */
+function titikDalam(ll: L.LatLng, latlngs: unknown): boolean {
+    const cincin: L.LatLng[][] = [];
+    const kumpul = (x: unknown) => {
+        if (!Array.isArray(x) || x.length === 0) return;
+        // Dicek bentuknya, bukan `instanceof L.LatLng`: titik dari getLatLngs() tidak selalu berprototipe LatLng.
+        if (typeof (x[0] as { lat?: unknown }).lat === 'number') cincin.push(x as L.LatLng[]);
+        else x.forEach(kumpul);
+    };
+    kumpul(latlngs);
+    let dalam = false;
+    for (const c of cincin) {
+        for (let i = 0, j = c.length - 1; i < c.length; j = i++) {
+            const a = c[i];
+            const b = c[j];
+            if (a.lat > ll.lat !== b.lat > ll.lat && ll.lng < ((b.lng - a.lng) * (ll.lat - a.lat)) / (b.lat - a.lat) + a.lng) dalam = !dalam;
+        }
+    }
+    return dalam;
+}
 
 function cincinLuar(g: Geometry): Position[] {
     if (g.type === 'Polygon') return g.coordinates[0] ?? [];
@@ -390,6 +701,9 @@ function didalam(t: L.LatLng, poli: L.LatLng[]): boolean {
  * (warnanya bertransisi), isi baru muncul memudar, isi yang tidak ada lagi memudar hilang. Selama lahan ditarik,
  * lapisan dipotong ke batas lahan dan unit/kavling yang keluar batas langsung memudar.
  */
+/** Label ringkasan di bawah tepi selatan lahan (di bawah pegangan tengah tepi); tepi atas dipakai pegangan geser lahan. */
+const OPSI_LABEL: L.TooltipOptions = { permanent: true, direction: 'bottom', offset: [0, 14], className: 'nr-lahan-label' };
+
 export class LapisanKapasitas {
     private peta: L.Map;
     private grup: L.LayerGroup;
@@ -397,6 +711,8 @@ export class LapisanKapasitas {
     private item: ItemIsi[] = [];
     private batas: L.LatLng[] | null = null;
     private zonaTarik = new Map<number, L.LatLng[][]>();
+    private sembunyiJenis = new Set<string>();
+    private sembunyiZona = new Set<number>();
 
     constructor(peta: L.Map, grup: L.LayerGroup, label: (p: Record<string, unknown>) => string | null) {
         this.peta = peta;
@@ -453,24 +769,63 @@ export class LapisanKapasitas {
                 cocok.layer.getElement()?.classList.remove('nr-isi-luar', 'nr-isi-hilang');
                 if (teks) {
                     if (cocok.layer.getTooltip()) cocok.layer.setTooltipContent(teks);
-                    else cocok.layer.bindTooltip(teks, { permanent: true, direction: 'center', className: 'nr-lahan-label' });
-                    cocok.layer.getTooltip()?.setLatLng(cocok.layer.getBounds().getCenter());
+                    else cocok.layer.bindTooltip(teks, OPSI_LABEL);
+                    cocok.layer.getTooltip()?.setLatLng(this.posisiLabel(cocok.layer));
                 } else if (cocok.layer.getTooltip()) {
                     cocok.layer.unbindTooltip();
                 }
-                baru.push({ ...cocok, tipe, pusat: u.pusat, luas: u.luas, zona });
+                baru.push({ ...cocok, tipe, pusat: u.pusat, luas: u.luas, zona, prop: p });
             } else {
                 const layer = L.polygon(latLngsDari(f.geometry), { ...gaya, pane: 'nrLahanIsi', interactive: false });
-                if (teks) layer.bindTooltip(teks, { permanent: true, direction: 'center', className: 'nr-lahan-label' });
+                if (teks) layer.bindTooltip(teks, OPSI_LABEL);
                 layer.addTo(this.grup);
+                layer.getTooltip()?.setLatLng(this.posisiLabel(layer));
                 layer.getElement()?.classList.add(SATUAN_ISI.has(jenis) ? 'nr-isi-muncul' : 'nr-isi-pudar-masuk');
-                baru.push({ layer, jenis, tipe, pusat: u.pusat, luas: u.luas, zona });
+                baru.push({ layer, jenis, tipe, pusat: u.pusat, luas: u.luas, zona, prop: p });
             }
         }
 
         for (const it of sisa) this.hapus(it.layer);
         this.item = baru;
         this.saring(this.batas);
+        this.terapkanSembunyi();
+    }
+
+    /** Isi `jenis` yang tampil di titik `ll` (mis. ruang tangga/lift yang diklik): properti dan cincinnya, atau null. */
+    cariIsi(ll: L.LatLng, jenis = 'inti'): IsiKena | null {
+        if (this.sembunyiJenis.has(jenis)) return null;
+        for (const it of this.item) {
+            if (it.jenis !== jenis || (it.zona !== null && this.sembunyiZona.has(it.zona))) continue;
+            const latlngs = it.layer.getLatLngs();
+            if (!titikDalam(ll, latlngs)) continue;
+            // Polygon: LatLng[][]; MultiPolygon: LatLng[][][] (bagian pertama cukup untuk bayangan).
+            const cincin = (Array.isArray((latlngs as unknown[][])[0]?.[0]) ? (latlngs as unknown as L.LatLng[][][])[0] : latlngs) as L.LatLng[][];
+            return { prop: it.prop, latlngs: cincin };
+        }
+        return null;
+    }
+
+    /** Ada ruang lift/tangga di antara isi yang tampil (untuk membedakan tangga darurat apartemen dan tangga kos). */
+    adaLift(): boolean {
+        return this.item.some((it) => it.jenis === 'inti' && it.prop.fungsi === 'lift');
+    }
+
+    /**
+     * Sembunyikan isi hasil menurut jenis (mis. 'slot') dan menurut nomor zona (id server); hanya tampilan, hitungan tidak berubah.
+     * Berlaku juga untuk isi yang datang kemudian.
+     */
+    setSembunyi(jenis: Iterable<string>, zona: Iterable<number>): void {
+        this.sembunyiJenis = new Set(jenis);
+        this.sembunyiZona = new Set(zona);
+        this.terapkanSembunyi();
+    }
+
+    private terapkanSembunyi(): void {
+        for (const it of this.item) {
+            const sembunyi = this.sembunyiJenis.has(it.jenis) || (it.zona !== null && this.sembunyiZona.has(it.zona));
+            it.layer.getElement()?.classList.toggle('nr-isi-sembunyi', sembunyi);
+            it.layer.getTooltip()?.getElement()?.classList.toggle('nr-isi-sembunyi', sembunyi);
+        }
     }
 
     /**
@@ -483,11 +838,22 @@ export class LapisanKapasitas {
         this.saring(this.batas);
     }
 
+    /**
+     * Label ringkasan ("N lantai · M kamar") ditaruh di luar tepi bawah lahan supaya tidak menutupi denah; tanpa batas lahan,
+     * di tengah bentuknya.
+     */
+    private posisiLabel(layer: L.Polygon): L.LatLng {
+        if (!this.batas) return layer.getBounds().getCenter();
+        const b = L.latLngBounds(this.batas);
+        return L.latLng(b.getSouth(), b.getCenter().lng);
+    }
+
     /** Batas lahan saat ini (atau null). Dipotong ke batas ini dan unit/kavling yang keluar batas dipudarkan. */
     saring(batas: L.LatLng[] | null): void {
         this.batas = batas && batas.length >= 3 ? batas.map((t) => L.latLng(t.lat, t.lng)) : null;
         this.pasangPotong();
         for (const it of this.item) {
+            it.layer.getTooltip()?.setLatLng(this.posisiLabel(it.layer));
             const el = it.layer.getElement();
             if (!el) continue;
             const zona = it.zona !== null ? this.zonaTarik.get(it.zona) : undefined;

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Services\IntiGedung;
 use App\Services\KapasitasLahan;
 use App\Services\PersonaScoring;
 use Illuminate\Http\JsonResponse;
@@ -36,6 +37,19 @@ class LahanController extends Controller
     /** Paling banyak zona yang bisa ditarik sendiri. */
     private const ZONA_MAKS = 12;
 
+    /** Area larangan bangun dari area banjir (EWKT UTM) untuk permintaan yang sedang dihitung; null = tidak dipakai. */
+    private ?string $laranganOtomatis = null;
+
+    /** Isi sisa lahan yang tidak tertutup zona mana pun dengan taman (hanya kos dan apartemen; rumah tapak memakai sisa sebagai jalan). */
+    /** Isi lahan kosong di luar zona pengguna: 'rekomendasi' (parkir bila kurang, sisanya taman), 'taman', atau null. */
+    private ?string $isiSisa = null;
+
+    /** Posisi lift/tangga yang digeser pengguna (`inti[]`, WGS84); null = penempatan otomatis. @var ?list<array{fungsi: string, lng: float, lat: float}> */
+    private ?array $intiManual = null;
+
+    /** Jumlah pin `inti[]` yang dilewati karena jauh dari gedung pada perhitungan terakhir. */
+    private int $intiLewat = 0;
+
     public function __construct(private PersonaScoring $skor, private KapasitasLahan $kapasitas)
     {
     }
@@ -55,6 +69,13 @@ class LahanController extends Controller
             // Zona yang ditarik sendiri oleh pengguna (bangunan/parkir/taman); tanpa ini zona dibuat dari pola.
             'zona' => 'nullable|array|max:'.self::ZONA_MAKS,
             'zona.*.jenis' => 'required|in:'.implode(',', KapasitasLahan::JENIS_ZONA),
+            // Sub-layer: nomor zona induk (urutan di larik ini). Zona ini dipotong ke bentuk induknya dan induk kehilangan bagian ini.
+            'zona.*.induk' => 'nullable|integer|min:0',
+            // Prioritas saat zona bertumpuk: angka lebih besar menang dan zona lain menyesuaikan diri. Kosong = bangunan > parkir > taman.
+            'zona.*.prioritas' => 'nullable|integer|min:0|max:1000',
+            // Arah deret slot parkir yang dikunci pengguna (derajat searah jarum jam dari utara; 0 = deret utara–selatan, 90 = barat–timur).
+            // Kosong = mengikuti sisi terpanjang zona. Hanya dipakai zona parkir.
+            'zona.*.arah' => 'nullable|numeric|min:0|max:180',
             'zona.*.geometri' => 'required|array',
             'zona.*.geometri.type' => 'required|in:Polygon',
             'zona.*.geometri.coordinates' => 'required|array|min:1|max:5',
@@ -68,17 +89,49 @@ class LahanController extends Controller
             'akses.*.titik.*' => 'required|numeric',
             'akses.*.lebar' => 'nullable|numeric',
             'akses.*.panjang' => 'nullable|numeric',
+            // Posisi lift/tangga yang digeser pengguna (kos/apartemen bertingkat). Tanpa ini inti ditempatkan otomatis.
+            'inti' => 'nullable|array|max:'.IntiGedung::PIN_MAKS,
+            'inti.*.fungsi' => 'required|in:lift,tangga',
+            'inti.*.titik' => 'required|array|size:2',
+            'inti.*.titik.*' => 'required|numeric',
+            // Sisa lahan di luar semua zona (termasuk sempadan) menjadi taman; hanya berlaku untuk zona yang ditarik sendiri pada kos/apartemen.
+            'isi_sisa_taman' => 'nullable|boolean',
+            // Isi lahan kosong: 'rekomendasi' = bagian dekat gerbang/gedung jadi parkir seluas kekurangan slot, sisanya taman;
+            // 'taman' = semua jadi taman (sama dengan isi_sisa_taman). Hanya kos/apartemen dengan zona sendiri.
+            'isi_sisa' => 'nullable|in:rekomendasi,taman',
+            // Area rawan banjir InaRISK dengan tingkat sekurang-kurangnya ini (1 rendah … 3 tinggi) menjadi area larangan bangun otomatis.
+            'larangan_banjir' => 'nullable|integer|min:1|max:3',
+            // Target jumlah (kamar/unit/rumah): lantai dan ukuran menyesuaikan. kunci_ukuran = ukuran tidak boleh berubah (hanya lantai).
+            'target' => 'nullable|array',
+            'target.jumlah' => 'required_with:target|integer|min:1|max:'.KapasitasLahan::TARGET_MAKS,
+            'target.kunci_ukuran' => 'nullable|boolean',
             'persona' => 'nullable|array',
             'persona.*' => 'string',
         ]);
 
         $tipe = (string) $request->input('tipe');
+        $isiSisa = $request->input('isi_sisa') ?? ($request->boolean('isi_sisa_taman') ? 'taman' : null);
+        $this->isiSisa = $tipe !== 'rumah' && is_string($isiSisa) ? $isiSisa : null;
+        $this->laranganOtomatis = null;
+        $this->intiLewat = 0;
+        $this->intiManual = is_array($request->input('inti')) && $tipe !== 'rumah' && $tipe !== 'pribadi'
+            ? array_map(fn ($p) => ['fungsi' => (string) $p['fungsi'], 'lng' => (float) $p['titik'][0], 'lat' => (float) $p['titik'][1]], array_values((array) $request->input('inti')))
+            : null;
         $pola = KapasitasLahan::polaSah($tipe, $request->input('pola'));
         $manual = null;
         if (is_array($request->input('zona')) && $request->input('zona') !== []) {
             $manual = [];
             foreach (array_values((array) $request->input('zona')) as $z) {
-                $manual[] = ['jenis' => (string) $z['jenis'], 'geojson' => (string) json_encode(['type' => 'Polygon', 'coordinates' => $z['geometri']['coordinates']])];
+                $manual[] = [
+                    'jenis' => (string) $z['jenis'],
+                    'geojson' => (string) json_encode(['type' => 'Polygon', 'coordinates' => $z['geometri']['coordinates']]),
+                    'induk' => isset($z['induk']) ? (int) $z['induk'] : null,
+                    'prioritas' => isset($z['prioritas']) ? (int) $z['prioritas'] : null,
+                    'arah' => isset($z['arah']) && is_numeric($z['arah']) ? fmod((float) $z['arah'], 180.0) : null,
+                ];
+            }
+            if (! self::indukSah($manual)) {
+                return response()->json(['message' => 'Sub-layer zona tidak sah: induk harus zona lain di daftar yang sama dan tidak boleh berputar.'], 422);
             }
         }
         $persona = array_values(array_intersect((array) $request->input('persona', []), PersonaScoring::PERSONA));
@@ -124,6 +177,9 @@ class LahanController extends Controller
         [$cocok, $terdekat, $jumlah] = $this->persona($geojson, $wilayah->kualitas_udara);
 
         $lahanUtm = $this->keUtm($geojson);
+        if ($request->filled('larangan_banjir')) {
+            $this->laranganOtomatis = $this->laranganBanjir($geojson, (int) $request->input('larangan_banjir'));
+        }
         // Akses: id = urutan di permintaan; pintu gedung diabaikan untuk rumah tapak.
         $akses = [];
         foreach (array_values((array) $request->input('akses', [])) as $id => $a) {
@@ -136,13 +192,15 @@ class LahanController extends Controller
                     // Pintu: lebar bukaan + kedalaman lobi ke dalam gedung (null = otomatis sedalam satu unit).
                     'lebar' => $a['jenis'] === 'gerbang' ? KapasitasLahan::lebarGerbang($tipe, $asumsi, $a['lebar'] ?? null) : KapasitasLahan::lebarPintu($a['lebar'] ?? null),
                     'panjang' => $a['jenis'] === 'gerbang' ? KapasitasLahan::panjangGerbang($a['panjang'] ?? null) : KapasitasLahan::panjangPintu($a['panjang'] ?? null),
-                    'otomatis' => ! isset($a['panjang']) || ! is_numeric($a['panjang']),
+                    // Panjang tidak lagi otomatis: kosong = bawaan 1 m. Kunci `otomatis` tetap dikirim (selalu false) demi kontrak lama.
+                    'otomatis' => false,
                 ];
             }
         }
-        [$kapasitas, $geometri, $zona, $luasTaman, $aksesFc] = $tipe === 'rumah'
-            ? $this->rumah($lahanUtm, $luas, $asumsi, $intensitas, $pola, $manual, $akses)
-            : $this->bangunan($tipe, $lahanUtm, $luas, $asumsi, $intensitas, $pola, $manual, $akses);
+        $target = $request->filled('target.jumlah')
+            ? ['jumlah' => (int) $request->input('target.jumlah'), 'kunci_ukuran' => $request->boolean('target.kunci_ukuran')]
+            : null;
+        [$kapasitas, $geometri, $zona, $luasTaman, $aksesFc, $asumsi, $infoTarget] = $this->hitungDenganTarget($tipe, $lahanUtm, $luas, $asumsi, $intensitas, $pola, $manual, $akses, $target);
         $ringkasan = KapasitasLahan::ringkasan(
             $tipe, $luas, (float) $kapasitas['luas_tapak_m2'], (float) $kapasitas['luas_lantai_m2'], $luasTaman,
             (int) $kapasitas['lantai'], (float) $intensitas['kdb'], (float) $intensitas['klb'], $intensitas['kdh'], $kapasitas['parkir'] ?? null,
@@ -164,8 +222,21 @@ class LahanController extends Controller
             $kurang = $kapasitas['parkir']['butuh'] - $kapasitas['parkir']['muat'];
             $catatan[] = "Parkir {$kapasitas['parkir']['jenis']} kurang {$kurang} slot; sisanya perlu basement atau zona parkir lebih luas.";
         }
+        if (($kapasitas['inti']['jauh'] ?? 0) > 0) {
+            $catatan[] = "{$kapasitas['inti']['jauh']} {$kapasitas['satuan']} per lantai lebih dari 20 m dari tangga. Geser tangga atau atur otomatis lagi.";
+        }
+        if ($this->intiLewat > 0) {
+            $catatan[] = "{$this->intiLewat} posisi lift/tangga di luar gedung dilewati.";
+        }
         if ($banjir['porsi_rawan'] >= 0.25) {
             $catatan[] = 'Sekitar '.(int) round($banjir['porsi_rawan'] * 100).'% lahan berada di area rawan tergenang (InaRISK).';
+        }
+        if ($kapasitas['pribadi']['tidak_muat'] ?? false) {
+            $catatan[] = 'Luas bangunan yang diminta tidak muat di zona bangunan; rumah digambar sebesar yang muat. Perbesar zona bangunan atau tambah lantai.';
+        }
+        if ($infoTarget !== null && ! $infoTarget['tercapai']) {
+            $satuan = $kapasitas['satuan'];
+            $catatan[] = "Target {$infoTarget['diminta']} {$satuan} tidak muat; maksimum {$infoTarget['maks']} {$satuan} pada pengaturan ini.";
         }
         $catatan[] = 'Estimasi indikatif dari aturan sederhana, bukan rancangan tapak atau izin bangunan.';
 
@@ -191,6 +262,7 @@ class LahanController extends Controller
             'pola' => $pola,
             'pola_tersedia' => KapasitasLahan::POLA[$tipe],
             'asumsi' => $asumsi,
+            'target' => $infoTarget,
             'kapasitas' => $kapasitas,
             'ringkasan' => $ringkasan,
             'geometri_kapasitas' => $geometri,
@@ -199,6 +271,239 @@ class LahanController extends Controller
             'akses' => $aksesFc,
             'catatan' => $catatan,
         ]);
+    }
+
+    /**
+     * Hitung tata letak; bila ada target jumlah, ulangi dengan asumsi yang disesuaikan (paling banyak 3 kali tambahan) sampai jumlahnya
+     * muat, lalu potong kelebihannya supaya jumlahnya persis. Tanpa target, satu kali hitung seperti biasa.
+     *
+     * @param  array<string, mixed>  $asumsi
+     * @param  ?array{jumlah: int, kunci_ukuran: bool}  $target
+     * @return array{0: array<string, mixed>, 1: array<string, mixed>, 2: array<string, mixed>, 3: float, 4: array<string, mixed>, 5: array<string, mixed>, 6: ?array<string, mixed>}
+     *         [kapasitas, geometri kapasitas, zona, luas taman, akses, asumsi yang dipakai, info target]
+     */
+    private function hitungDenganTarget(string $tipe, string $lahanUtm, float $luas, array $asumsi, array $intensitas, string $pola, ?array $manual, array $akses, ?array $target): array
+    {
+        $hitung = fn (array $a): array => match ($tipe) {
+            'rumah' => $this->rumah($lahanUtm, $luas, $a, $intensitas, $pola, $manual, $akses),
+            'pribadi' => $this->pribadi($lahanUtm, $luas, $a, $intensitas, $pola, $manual, $akses),
+            default => $this->bangunan($tipe, $lahanUtm, $luas, $a, $intensitas, $pola, $manual, $akses),
+        };
+
+        $hasil = $hitung($asumsi);
+        // Rumah pribadi selalu satu rumah: target jumlah tidak berlaku.
+        if ($target === null || $tipe === 'pribadi') {
+            return [...$hasil, $asumsi, null];
+        }
+
+        $diminta = $target['jumlah'];
+        // Hasil terbaik yang memenuhi target: yang jumlahnya paling dekat di atas target (ukuran paling lega).
+        $terbaik = null;
+        $catat = function () use (&$terbaik, &$hasil, &$asumsi, $diminta): void {
+            $n = (int) $hasil[0]['jumlah'];
+            if ($n >= $diminta && ($terbaik === null || $n < (int) $terbaik[0][0]['jumlah'])) {
+                $terbaik = [$hasil, $asumsi];
+            }
+        };
+        $catat();
+
+        if ($tipe === 'rumah') {
+            if (! $target['kunci_ukuran']) {
+                $lo = $hi = null;
+                for ($i = 0; $i < 5; $i++) {
+                    [$berikut, $lo, $hi] = KapasitasLahan::lebarKavlingBerikut($diminta, (float) $asumsi['lebar_kavling'], (int) $hasil[0]['jumlah'], $lo, $hi);
+                    if ($berikut === null) {
+                        break;
+                    }
+                    $asumsi['lebar_kavling'] = $berikut;
+                    $hasil = $hitung($asumsi);
+                    $catat();
+                }
+            }
+        } else {
+            // Parkir ikut berubah bersama jumlah (lebih banyak kamar = lebih banyak parkir = gedung lebih sempit), jadi bisa perlu
+            // beberapa putaran sampai lantai dan unit per lantai cocok.
+            for ($i = 0; $i < 5; $i++) {
+                $kap = $hasil[0];
+                $ukur = ['per_lantai' => (int) ($kap['unit_per_lantai'] ?? 0), 'lantai_maks' => (int) ($kap['lantai_maks'] ?? 1), 'ukuran' => (float) ($kap['luas_per_unit_m2'] ?? 0)];
+                $langkah = KapasitasLahan::langkahTarget($tipe, $diminta, $target['kunci_ukuran'], $asumsi, $ukur);
+                if (! $langkah['ubah']) {
+                    break;
+                }
+                $asumsi = $langkah['asumsi'];
+                $hasil = $hitung($asumsi);
+                $catat();
+            }
+        }
+        if ($terbaik !== null) {
+            [$hasil, $asumsi] = $terbaik;
+        }
+
+        [$kapasitas, $geometri, $zona, $luasTaman, $aksesFc] = $hasil;
+        $ada = (int) $kapasitas['jumlah'];
+        $tercapai = $ada >= $diminta;
+        $maks = $ada;
+
+        if ($tipe !== 'rumah') {
+            $maks = (int) ($kapasitas['unit_per_lantai'] ?? 0) * (int) ($kapasitas['lantai_maks'] ?? 0);
+        }
+
+        // Kelebihan dipotong supaya jumlahnya persis: rumah = kavling terakhir dibuang, kos/apartemen = lantai teratas terisi sebagian.
+        if ($tercapai && $ada > $diminta) {
+            if ($tipe === 'rumah') {
+                $sisa = $diminta;
+                $geometri['features'] = array_values(array_filter($geometri['features'], function ($f) use (&$sisa) {
+                    if (($f['properties']['jenis'] ?? null) !== 'kavling') {
+                        return true;
+                    }
+
+                    return $sisa-- > 0;
+                }));
+                $kapasitas = $this->kapasitas->rumah($luas, $diminta, $asumsi, $intensitas['kdb'], $intensitas['klb']);
+            } else {
+                // Denah = satu lantai tipikal: unit per lantai dibagi rata (lantai lebih dulu), unit sisanya, koridor, dan inti
+                // yang tidak lagi melayani unit dihapus dari peta, lalu tapak dan luas lantai mengikuti gedung yang lebih pendek.
+                $lantai = max(1, (int) $kapasitas['lantai']);
+                $perLantai = (int) ceil($diminta / $lantai);
+                [$geometri, $berkurang] = $this->pangkasGedung($tipe, $geometri, $perLantai);
+                if (isset($kapasitas['inti'])) {
+                    $kapasitas['inti'] = self::hitungInti($geometri['features']) + ['manual' => $kapasitas['inti']['manual'] ?? false, 'jauh' => $kapasitas['inti']['jauh'] ?? 0];
+                }
+                if ($berkurang > 0) {
+                    $tapakGedung = max(0.0, (float) $kapasitas['luas_lantai_m2'] / $lantai - $berkurang);
+                    $kapasitas['luas_tapak_m2'] = round(max(0.0, (float) $kapasitas['luas_tapak_m2'] - $berkurang), 1);
+                    $kapasitas['luas_lantai_m2'] = round($tapakGedung * $lantai, 1);
+                    $kapasitas['porsi_tapak'] = $luas > 0 ? round((float) $kapasitas['luas_tapak_m2'] / $luas, 3) : null;
+                }
+                $kapasitas['unit_per_lantai'] = min((int) ($kapasitas['unit_per_lantai'] ?? $perLantai), $perLantai);
+                // Label "N lantai · M unit" di peta mengikuti jumlah yang diminta.
+                foreach ($geometri['features'] as &$f) {
+                    if (isset($f['properties']['jumlah'])) {
+                        $f['properties']['jumlah'] = $diminta;
+                    }
+                }
+                unset($f);
+                $kapasitas['jumlah'] = $diminta;
+                $kapasitas['komposisi'] = KapasitasLahan::skalaKomposisi($kapasitas['komposisi'] ?? [], $diminta);
+                if (isset($kapasitas['parkir'])) {
+                    $kapasitas['parkir']['butuh'] = $this->kapasitas->butuhParkir($tipe, $diminta, $asumsi);
+                }
+                $kapasitas['kepadatan_per_ha'] = $luas > 0 ? round($diminta / ($luas / 10000), 1) : null;
+            }
+        }
+
+        $ukuran = match ($tipe) {
+            'rumah' => ['nama' => 'lebar_kavling', 'nilai' => (float) $asumsi['lebar_kavling']],
+            'kos' => ['nama' => 'luas_kamar', 'nilai' => (float) $asumsi['luas_kamar']],
+            default => ['nama' => 'luas_rata_unit', 'nilai' => round($this->kapasitas->luasRataUnit($asumsi), 1)],
+        };
+
+        return [$kapasitas, $geometri, $zona, $luasTaman, $aksesFc, $asumsi, [
+            'diminta' => $diminta,
+            'tercapai' => $tercapai,
+            'jumlah' => (int) $kapasitas['jumlah'],
+            'maks' => $maks,
+            'kunci_ukuran' => $target['kunci_ukuran'],
+            'lantai' => $tipe === 'rumah' ? null : (int) ($kapasitas['lantai'] ?? 0),
+            'ukuran' => $ukuran,
+        ]];
+    }
+
+    /** Ringkasan inti tangga/lift dari fitur gedung (sama dengan IntiGedung::ringkas). @param list<array<string, mixed>> $fitur */
+    private static function hitungInti(array $fitur): array
+    {
+        $hasil = ['lift' => 0, 'tangga' => 0, 'slot' => 0];
+        foreach ($fitur as $f) {
+            $p = $f['properties'] ?? [];
+            if (($p['jenis'] ?? null) !== 'inti' || ! in_array($p['fungsi'] ?? null, ['lift', 'tangga'], true)) {
+                continue;
+            }
+            $hasil['tangga']++;
+            $hasil['lift'] += $p['fungsi'] === 'lift' ? 1 : 0;
+            $hasil['slot'] += (int) ($p['slot'] ?? 0);
+        }
+
+        return $hasil;
+    }
+
+    /**
+     * Pangkas denah gedung kos/apartemen menjadi `$perLantai` unit: unit pertama (urut mengelilingi pusat zona; bila ada inti
+     * tangga/lift, urut dari yang terdekat ke inti utama), jadi yang tersisa berupa satu potongan gedung yang utuh, dipertahankan,
+     * sisanya dihapus. Koridor dipotong ke sekitar unit yang tersisa; inti utama selalu dipertahankan, inti lain bila masih menempel,
+     * halaman dalam (void) dihapus karena gedung tidak lagi melingkar.
+     *
+     * @param  array<string, mixed>  $geometri
+     * @return array{0: array<string, mixed>, 1: float} [geometri baru, luas tapak gedung yang hilang (m²)]
+     */
+    private function pangkasGedung(string $tipe, array $geometri, int $perLantai): array
+    {
+        $fitur = $geometri['features'];
+        $unit = array_keys(array_filter($fitur, fn ($f) => ($f['properties']['jenis'] ?? null) === 'unit'));
+        if ($perLantai <= 0 || count($unit) <= $perLantai) {
+            return [$geometri, 0.0];
+        }
+        $geo = fn (int $i): string => (string) json_encode($fitur[$i]['geometry']);
+        $utm = self::UTM;
+        // Dengan inti (tangga/lift): unit diurut dari yang terdekat ke inti utama, jadi potongan gedung yang tersisa tumbuh dari
+        // inti itu dan selalu punya tangga. Inti utama = inti tangga/lift pertama (zona pertama).
+        $utama = null;
+        foreach ($fitur as $i => $f) {
+            if (($f['properties']['jenis'] ?? null) === 'inti' && in_array($f['properties']['fungsi'] ?? null, ['lift', 'tangga'], true)) {
+                $utama = $i;
+                break;
+            }
+        }
+        if ($utama !== null) {
+            $urut = DB::select(
+                "WITH c AS (SELECT ST_Transform(ST_SetSRID(ST_GeomFromGeoJSON(?), 4326), {$utm}) AS g)
+                 SELECT x.i FROM json_array_elements_text(?::json) WITH ORDINALITY AS x(e, i), c
+                 ORDER BY ST_Distance(ST_Transform(ST_SetSRID(ST_GeomFromGeoJSON(x.e), 4326), {$utm}), c.g), x.i",
+                [$geo($utama), json_encode(array_map($geo, $unit))],
+            );
+            $unit = array_map(fn ($r) => $unit[(int) $r->i - 1], $urut);
+        }
+        $simpan = array_slice($unit, 0, $perLantai);
+        $buang = array_slice($unit, $perLantai);
+        $lebarKoridor = self::n(KapasitasLahan::LEBAR_KORIDOR[$tipe] + 0.5);
+        $jarakInti = self::n(KapasitasLahan::LEBAR_KORIDOR[$tipe] + 1.0);
+
+        // Luas unit yang dibuang dan gabungan unit yang disimpan (UTM), sekali jalan.
+        $tanda = fn (array $daftar) => implode(',', array_fill(0, count($daftar), 'ST_Transform(ST_SetSRID(ST_GeomFromGeoJSON(?), 4326), '.$utm.')'));
+        $r = DB::selectOne(
+            'SELECT (SELECT COALESCE(sum(ST_Area(g)), 0) FROM unnest(ARRAY['.$tanda($buang).']) AS g) AS luas_buang,
+                    ST_AsEWKT(ST_Union(ARRAY['.$tanda($simpan).'])) AS simpan',
+            [...array_map($geo, $buang), ...array_map($geo, $simpan)],
+        );
+        $berkurang = (float) $r->luas_buang;
+        $simpanEwkt = (string) $r->simpan;
+
+        foreach ($fitur as $i => $f) {
+            $jenis = $f['properties']['jenis'] ?? null;
+            if (! in_array($jenis, ['koridor', 'inti', 'void'], true) || $i === $utama) {
+                continue;
+            }
+            $g = DB::selectOne(
+                "WITH a AS (SELECT ST_Transform(ST_SetSRID(ST_GeomFromGeoJSON(?), 4326), {$utm}) AS g),
+                      s AS (SELECT ST_GeomFromEWKT(?) AS g),
+                      b AS (SELECT CASE ? WHEN 'koridor' THEN ST_CollectionExtract(ST_Intersection(a.g, ST_Buffer(s.g, {$lebarKoridor})), 3)
+                                          WHEN 'inti' THEN CASE WHEN ST_DWithin(a.g, s.g, {$jarakInti}) THEN a.g ELSE ST_GeomFromText('POLYGON EMPTY', {$utm}) END
+                                          ELSE ST_GeomFromText('POLYGON EMPTY', {$utm}) END AS g FROM a, s)
+                 SELECT ST_Area(a.g) - ST_Area(b.g) AS hilang, ST_Area(b.g) AS luas, ST_AsGeoJSON(ST_Transform(b.g, 4326), 6) AS geo FROM a, b",
+                [$geo($i), $simpanEwkt, $jenis],
+            );
+            $berkurang += max(0.0, (float) $g->hilang);
+            if ((float) $g->luas < 1) {
+                unset($fitur[$i]);
+            } else {
+                $fitur[$i]['geometry'] = json_decode((string) $g->geo);
+            }
+        }
+        foreach ($buang as $i) {
+            unset($fitur[$i]);
+        }
+        $geometri['features'] = array_values($fitur);
+
+        return [$geometri, $berkurang];
     }
 
     /**
@@ -344,31 +649,51 @@ class LahanController extends Controller
      *
      * @return array{petak: list<object>, jalan: list<string>, jalan_ewkt: list<string>}
      */
-    private function petak(string $ewkt, float $lebar, float $panjang, float $lorong): array
+    private function petak(string $ewkt, float $lebar, float $panjang, float $lorong, float $sudut = 90.0, int $maksBaris = 0, bool $kunciDunia = true, ?float $arah = null): array
     {
+        // Arah deret: dikunci pengguna (derajat dari utara) atau mengikuti sisi terpanjang amplop berorientasi zona.
+        $azKunci = $arah !== null ? self::n(deg2rad($arah)) : null;
+        // Slot miring: jarak antar slot, tebal deret, dan lorong berubah; tiap slot menjadi jajar genjang (geser = pergeseran sisi atasnya).
+        $geser = 0.0;
+        if ($sudut < 89.5) {
+            $m = KapasitasLahan::slotMiring($lebar, $panjang, $lorong, $sudut);
+            [$lebar, $panjang, $lorong, $geser] = [$m['pitch'], $m['kedalaman'], $m['lorong'], $m['geser']];
+        }
         [$w, $p, $j, $per] = array_map([self::class, 'n'], [$lebar, $panjang, $lorong, $lorong + 2 * $panjang]);
+        $sh = self::n($geser);
         $utm = self::UTM;
+        $x = "(blok.x0 + k * {$w})";
+        $y0 = "(blok.y0 + blok.b * {$per} + {$j} + s * {$p})";
+        $bentuk = $geser > 0.0
+            ? "ST_SetSRID(ST_MakePolygon(ST_MakeLine(ARRAY[ST_MakePoint({$x} + s * {$sh}, {$y0}), ST_MakePoint({$x} + s * {$sh} + {$w}, {$y0}), ST_MakePoint({$x} + (1 - s) * {$sh} + {$w}, {$y0} + {$p}), ST_MakePoint({$x} + (1 - s) * {$sh}, {$y0} + {$p}), ST_MakePoint({$x} + s * {$sh}, {$y0})])), {$utm})"
+            : "ST_MakeEnvelope({$x}, {$y0}, blok.x0 + (k + 1) * {$w}, {$y0} + {$p}, {$utm})";
+        // Grid dikunci ke kelipatan ukuran petak di koordinat dunia (petak tidak bergeser saat lahan ditarik), atau ke tepi zona
+        // sendiri (gedung kos pola grid: blok yang tebalnya pas beberapa deret terisi penuh, kamar ikut zona saat ditarik).
+        [$asalX, $asalY] = $kunciDunia
+            ? ["floor(ST_XMin(g) / {$w}) * {$w}", "floor(ST_YMin(g) / {$per}) * {$per}"]
+            : ['ST_XMin(g)', 'ST_YMin(g)'];
+        // Max Run: setiap deret `maksBaris` slot disela satu kolom kosong.
+        $selaan = $maksBaris >= 2 ? ' AND mod(k, '.($maksBaris + 1).') <> '.$maksBaris : '';
 
         $baris = DB::select(
             "WITH l AS (SELECT ST_GeomFromEWKT(?) AS g),
              o AS (SELECT g, ST_SetSRID(ST_MakePoint(700000, 9300000), {$utm}) AS pusat, ST_ExteriorRing(ST_OrientedEnvelope(g)) AS cincin FROM l),
              sudut0 AS (
                  SELECT g, pusat,
-                        CASE WHEN ST_Distance(ST_PointN(cincin, 1), ST_PointN(cincin, 2)) >= ST_Distance(ST_PointN(cincin, 2), ST_PointN(cincin, 3))
+                        ".($azKunci ?? "CASE WHEN ST_Distance(ST_PointN(cincin, 1), ST_PointN(cincin, 2)) >= ST_Distance(ST_PointN(cincin, 2), ST_PointN(cincin, 3))
                              THEN ST_Azimuth(ST_PointN(cincin, 1), ST_PointN(cincin, 2))
-                             ELSE ST_Azimuth(ST_PointN(cincin, 2), ST_PointN(cincin, 3)) END AS az
+                             ELSE ST_Azimuth(ST_PointN(cincin, 2), ST_PointN(cincin, 3)) END")." AS az
                  FROM o
              ),
              -- Arah dinormalkan ke [0, pi) dan diputar terhadap titik tetap, lalu grid dikunci ke kelipatan ukuran petak:
              -- saat lahan ditarik, petak yang sudah ada tidak bergeser, hanya bertambah/berkurang di tepi.
              sudut AS (SELECT g, pusat, az - pi() * floor(az / pi()) AS az FROM sudut0),
              r AS (SELECT ST_Rotate(g, az - pi() / 2, pusat) AS g, az, pusat FROM sudut),
-             e AS (SELECT g, ST_Buffer(g, 0.05) AS gb, az, pusat, floor(ST_XMin(g) / {$w}) * {$w} AS x0, floor(ST_YMin(g) / {$per}) * {$per} AS y0, ST_XMax(g) AS x1, ST_YMax(g) AS y1 FROM r),
+             e AS (SELECT g, ST_Buffer(g, 0.05) AS gb, az, pusat, {$asalX} AS x0, {$asalY} AS y0, ST_XMax(g) AS x1, ST_YMax(g) AS y1 FROM r),
              blok AS (SELECT e.*, b FROM e, generate_series(0, ceil((e.y1 - e.y0) / {$per})::int) AS b),
              petak AS (
                  SELECT blok.gb, blok.az, blok.pusat, blok.b, k, s,
-                        ST_MakeEnvelope(blok.x0 + k * {$w}, blok.y0 + blok.b * {$per} + {$j} + s * {$p},
-                                        blok.x0 + (k + 1) * {$w}, blok.y0 + blok.b * {$per} + {$j} + (s + 1) * {$p}, {$utm}) AS kotak
+                        {$bentuk} AS kotak
                  FROM blok, generate_series(0, ceil((blok.x1 - blok.x0) / {$w})::int) AS k, generate_series(0, 1) AS s
              ),
              jalan AS (
@@ -378,7 +703,7 @@ class LahanController extends Controller
              )
              SELECT 'petak' AS jenis, b, k, s, ST_AsGeoJSON(ST_Transform(ST_Rotate(kotak, pi() / 2 - az, pusat), 4326), 6) AS geo,
                     ST_AsEWKT(ST_Rotate(kotak, pi() / 2 - az, pusat)) AS ewkt
-             FROM petak WHERE ST_CoveredBy(kotak, gb)
+             FROM petak WHERE ST_CoveredBy(kotak, gb){$selaan}
              UNION ALL
              SELECT 'jalan', 0, 0, 0, ST_AsGeoJSON(ST_Transform(ST_Rotate(kotak, pi() / 2 - az, pusat), 4326), 6), ST_AsEWKT(ST_Rotate(kotak, pi() / 2 - az, pusat))
              FROM jalan WHERE NOT ST_IsEmpty(kotak) AND ST_Area(kotak) > 1
@@ -514,25 +839,198 @@ class LahanController extends Controller
     /**
      * Zona yang ditarik pengguna: dibuat sah, dipotong ke lahan (bangunan ke lahan dikurangi sempadan), lalu tumpang tindih
      * diselesaikan dengan prioritas bangunan > parkir > taman. Nomor zona dari pengguna dipertahankan.
+     * Sub-layer (`induk`) dipotong ke bentuk induknya dan menang atas induknya di dalam bentuk itu (masking).
      *
-     * @param  list<array{jenis: string, geojson: string}>  $masuk
+     * @param  list<array{jenis: string, geojson: string, induk: ?int}>  $masuk
      * @return array<int, array{jenis: string, ewkt: string}>
      */
     private function potongManual(array $masuk, string $lahan, string $lahanSempadan): array
     {
+        $kedalaman = self::kedalamanInduk($masuk);
+        // Prioritas zona: yang dikirim klien; bila kosong, bangunan (3) > parkir (2) > taman (1) seperti semula.
+        $prioritas = fn (int $id): int => $masuk[$id]['prioritas'] ?? KapasitasLahan::PRIORITAS_BAWAAN[$masuk[$id]['jenis']];
+        // Anak diproses lebih dulu (kedalaman terbesar dahulu), jadi anak menang atas induknya di dalam bentuk induk;
+        // di antara yang sekaliber, prioritas terbesar diproses dulu (yang diproses dulu memegang daerahnya, yang lain
+        // dipotong di sekelilingnya), lalu urutan di daftar.
         $urut = array_keys($masuk);
-        usort($urut, fn ($a, $b) => array_search($masuk[$a]['jenis'], KapasitasLahan::JENIS_ZONA, true) <=> array_search($masuk[$b]['jenis'], KapasitasLahan::JENIS_ZONA, true) ?: $a <=> $b);
+        usort($urut, fn ($a, $b) => $kedalaman[$b] <=> $kedalaman[$a] ?: $prioritas($b) <=> $prioritas($a) ?: $a <=> $b);
 
-        $terisi = self::KOSONG;
+        // Bentuk tiap zona dipotong ke lahan (gedung ke lahan dikurangi sempadan) dan, bila sub-layer, ke bentuk induknya (masking).
+        $asli = [];
+        $bentuk = function (int $id) use (&$bentuk, &$asli, $masuk, $lahan, $lahanSempadan): string {
+            if (isset($asli[$id])) {
+                return $asli[$id];
+            }
+            $z = $masuk[$id];
+            $g = $this->op('ST_Intersection', $this->keUtm($z['geojson']), $z['jenis'] === 'bangunan' ? $lahanSempadan : $lahan);
+            if ($z['induk'] !== null) {
+                $g = $this->op('ST_Intersection', $g, $bentuk($z['induk']));
+            }
+
+            return $asli[$id] = $g;
+        };
+
+        // Area larangan otomatis (banjir) dipegang lebih dulu dari semua zona: zona pengguna dan sisa taman menyesuaikan diri.
+        $terisi = $this->laranganOtomatis !== null ? $this->op('ST_Intersection', $this->laranganOtomatis, $lahan) : self::KOSONG;
         $hasil = [];
         foreach ($urut as $id) {
             $z = $masuk[$id];
-            $g = $this->op('ST_Intersection', $this->keUtm($z['geojson']), $z['jenis'] === 'bangunan' ? $lahanSempadan : $lahan);
+            $g = $bentuk($id);
             $g = $this->op('ST_Difference', $g, $terisi);
             $terisi = $this->op('ST_Union', $terisi, $g);
-            $hasil[$id] = ['jenis' => $z['jenis'], 'ewkt' => $g];
+            $hasil[$id] = ['jenis' => $z['jenis'], 'ewkt' => $g, 'arah' => $z['arah'] ?? null];
+        }
+
+        // Isi sisa dengan taman: zona tambahan bernomor setelah zona pengguna (tidak ada di daftar klien).
+        if ($this->isiSisa !== null) {
+            $sisa = $this->op('ST_Difference', $lahan, $terisi);
+            if ($this->luasUtm($sisa) >= 1) {
+                $hasil[count($masuk)] = ['jenis' => 'taman', 'ewkt' => $sisa];
+            }
         }
         ksort($hasil);
+        if ($this->laranganOtomatis !== null) {
+            $hasil = $this->tambahLaranganOtomatis($hasil, $lahan, false);
+        }
+
+        return $hasil;
+    }
+
+    /**
+     * Rekomendasi isi lahan kosong: bila zona parkir pengguna belum cukup untuk kebutuhan slot, bagian sisa lahan (zona taman sisa
+     * bernomor $idSisa) yang paling dekat ke $jangkar (gerbang pertama, atau gedung bila tanpa gerbang) dijadikan zona parkir seluas
+     * kekurangannya; sisanya tetap taman. Perkiraan slot dari luas (KapasitasLahan::LUAS_PER_SLOT, sudah termasuk lorong).
+     *
+     * @param  array<int, array{jenis: string, ewkt: string}>  $zona
+     * @return array<int, array{jenis: string, ewkt: string, isi_otomatis?: bool}>
+     */
+    private function rekomendasiParkir(array $zona, int $idSisa, int $butuh, string $jenisParkir, string $jangkar): array
+    {
+        if (($zona[$idSisa]['jenis'] ?? null) !== 'taman' || $butuh <= 0) {
+            return $zona;
+        }
+        $perSlot = KapasitasLahan::LUAS_PER_SLOT[$jenisParkir] ?? KapasitasLahan::LUAS_PER_SLOT['mobil'];
+        $ada = 0.0;
+        foreach (self::saring($zona, 'parkir') as $z) {
+            $ada += $this->luasUtm($z['ewkt']);
+        }
+        $kurang = $butuh - (int) floor($ada / $perSlot);
+        $sisa = $zona[$idSisa]['ewkt'];
+        $luasSisa = $this->luasUtm($sisa);
+        if ($kurang <= 0 || $luasSisa < 30) {
+            return $zona;
+        }
+        // Sedikit dilebihkan karena bentuk sisa jarang persegi panjang penuh; paling banyak seluruh sisa.
+        $target = min($luasSisa, $kurang * $perSlot * 1.15);
+
+        // Jarak dari jangkar dicari dengan bagi dua sampai luas potongannya kira-kira sama dengan target.
+        $bawah = 0.0;
+        $atas = 400.0;
+        for ($i = 0; $i < 14; $i++) {
+            $tengah = ($bawah + $atas) / 2;
+            $luas = $this->luasUtm($this->op('ST_Intersection', $sisa, $this->bufPersegi($jangkar, $tengah)));
+            if ($luas < $target) {
+                $bawah = $tengah;
+            } else {
+                $atas = $tengah;
+            }
+        }
+        $parkir = $this->op('ST_Intersection', $sisa, $this->bufPersegi($jangkar, $atas));
+        if ($this->luasUtm($parkir) < 30) {
+            return $zona;
+        }
+        $zona[$idSisa]['ewkt'] = $this->op('ST_Difference', $sisa, $parkir);
+        $zona[max(array_keys($zona)) + 1] = ['jenis' => 'parkir', 'ewkt' => $parkir, 'isi_otomatis' => true];
+
+        return $zona;
+    }
+
+    /** Penyangga bersudut tegas (titik jadi persegi, garis/poligon bersudut siku), supaya slot parkir muat utuh. */
+    private function bufPersegi(string $g, float $d): string
+    {
+        return (string) DB::selectOne(
+            "SELECT ST_AsEWKT(ST_Buffer(ST_GeomFromEWKT(?), ".self::n($d).", 'endcap=square join=mitre')) AS g",
+            [$g],
+        )->g;
+    }
+
+    /**
+     * Area larangan bangun otomatis ditambahkan sebagai zona terakhir (bernomor setelah semua zona lain) dan, bila `$potong`,
+     * zona yang ada dipotong di sekelilingnya (jalur pola; jalur zona pengguna sudah memotongnya lebih dulu).
+     *
+     * @param  array<int, array{jenis: string, ewkt: string}>  $zona
+     * @return array<int, array{jenis: string, ewkt: string, otomatis?: bool}>
+     */
+    private function tambahLaranganOtomatis(array $zona, string $lahan, bool $potong): array
+    {
+        $larangan = $this->op('ST_Intersection', (string) $this->laranganOtomatis, $lahan);
+        if ($this->luasUtm($larangan) < 1) {
+            return $zona;
+        }
+        if ($potong) {
+            foreach ($zona as $id => $z) {
+                $zona[$id]['ewkt'] = $this->op('ST_Difference', $z['ewkt'], $larangan);
+            }
+        }
+        $zona[$zona === [] ? 0 : max(array_keys($zona)) + 1] = ['jenis' => 'larangan', 'ewkt' => $larangan, 'otomatis' => true];
+
+        return $zona;
+    }
+
+    /** Area rawan banjir InaRISK (tingkat >= $min) di dalam lahan, sebagai EWKT UTM; null bila tidak ada atau terlalu kecil. */
+    private function laranganBanjir(string $geojson, int $min): ?string
+    {
+        $b = DB::selectOne(
+            "WITH l AS (SELECT ST_SetSRID(ST_GeomFromGeoJSON(?), 4326) AS g),
+                  u AS (SELECT ST_Union(ST_MakeValid(f.geom)) AS g FROM fitur_peta f, l
+                        WHERE f.jenis = 'banjir_tampil' AND (f.atribut->>'tingkat')::int >= ? AND ST_Intersects(f.geom, l.g))
+             SELECT ST_AsEWKT(ST_Transform(ST_CollectionExtract(ST_MakeValid(ST_Intersection(u.g, l.g)), 3), ".self::UTM.')) AS ewkt FROM u, l WHERE u.g IS NOT NULL',
+            [$geojson, $min],
+        );
+        if (! $b || ! $b->ewkt) {
+            return null;
+        }
+
+        return $this->luasUtm((string) $b->ewkt) >= 1 ? (string) $b->ewkt : null;
+    }
+
+    /**
+     * Induk tiap zona sah: nomor zona lain yang ada di daftar, bukan diri sendiri, dan rantainya tidak berputar.
+     *
+     * @param  list<array{induk?: ?int}>  $zona
+     */
+    private static function indukSah(array $zona): bool
+    {
+        $n = count($zona);
+        foreach ($zona as $i => $z) {
+            $p = $z['induk'] ?? null;
+            for ($langkah = 0; $p !== null; $langkah++) {
+                if ($p === $i || $p >= $n || $langkah > $n) {
+                    return false;
+                }
+                $p = $zona[$p]['induk'] ?? null;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Kedalaman tiap zona di pohon sub-layer (0 = tanpa induk). Hanya dipanggil setelah indukSah.
+     *
+     * @param  list<array{induk?: ?int}>  $zona
+     * @return array<int, int>
+     */
+    private static function kedalamanInduk(array $zona): array
+    {
+        $hasil = [];
+        foreach ($zona as $i => $z) {
+            $d = 0;
+            for ($p = $z['induk'] ?? null; $p !== null; $p = $zona[$p]['induk'] ?? null) {
+                $d++;
+            }
+            $hasil[$i] = $d;
+        }
 
         return $hasil;
     }
@@ -551,6 +1049,8 @@ class LahanController extends Controller
                 'jenis' => $z['jenis'],
                 'luas_m2' => round($luas, 1),
                 'lantai' => $z['lantai'] ?? null,
+                'otomatis' => ($z['otomatis'] ?? false) ? true : null,
+                'isi_otomatis' => ($z['isi_otomatis'] ?? false) ? true : null,
             ], fn ($v) => $v !== null));
         }
 
@@ -737,6 +1237,9 @@ class LahanController extends Controller
     {
         $jalan = (float) $asumsi['lebar_jalan'];
         $zona = $manual !== null ? $this->potongManual($manual, $lahan, $lahan) : $this->zonaRumah($lahan, $luas, $pola, $jalan);
+        if ($manual === null && $this->laranganOtomatis !== null) {
+            $zona = $this->tambahLaranganOtomatis($zona, $lahan, true);
+        }
 
         $fitur = [];
         $tanah = $this->gabung($zona);
@@ -833,12 +1336,252 @@ class LahanController extends Controller
     }
 
     // ---------------------------------------------------------------------------------------------------------
+    // Rumah pribadi: satu rumah di satu lahan
+    // ---------------------------------------------------------------------------------------------------------
+
+    /**
+     * Rumah pribadi: satu bangunan rumah seluas yang diminta (atau rekomendasi dari KDB/KLB), carport untuk sejumlah mobil,
+     * kolam renang opsional, taman, halaman (sisa lahan), pagar keliling dengan bukaan di gerbang, dan pintu rumah.
+     * Zona bawaan dari pola (`depan`: rumah di belakang carport dan halaman depan; `tengah`: rumah di tengah dikelilingi taman),
+     * atau zona yang ditarik sendiri. Rumah mengisi zona bangunan, diperkecil sampai seluas tapak yang diminta.
+     *
+     * @param  ?list<array{jenis: string, geojson: string}>  $manual
+     * @return array{0: array<string, mixed>, 1: array<string, mixed>, 2: array<string, mixed>, 3: float, 4: array<string, mixed>}
+     */
+    private function pribadi(string $lahan, float $luas, array $asumsi, array $intensitas, string $pola, ?array $manual, array $akses = []): array
+    {
+        $lahanSempadan = $this->buf($lahan, -(float) $asumsi['sempadan']);
+        $luasTersedia = $this->luasUtm($lahanSempadan);
+        if ($luasTersedia < 20) {
+            $lahanSempadan = $lahan;
+            $luasTersedia = $luas;
+        }
+        $r = KapasitasLahan::rumahPribadi($luas, $luasTersedia, $asumsi, (float) $intensitas['kdb'], (float) $intensitas['klb']);
+        $mobil = (int) $asumsi['mobil'];
+
+        // Gerbang menempel ke tepi lahan; gerbang pertama menentukan sisi depan pola bawaan.
+        $gerbang = [];
+        foreach ($akses as $id => &$a) {
+            if ($a['jenis'] === 'gerbang') {
+                $a['ewkt'] = $this->tepiTerdekat($a['ewkt'], $lahan);
+                $gerbang[$id] = $a['ewkt'];
+            }
+        }
+        unset($a);
+
+        $zona = $manual !== null
+            ? $this->potongManual($manual, $lahan, $lahanSempadan)
+            : $this->zonaPribadi($pola, $lahan, $lahanSempadan, $r['tapak'], $mobil, (float) $asumsi['kolam'], (float) $asumsi['sempadan'], $gerbang === [] ? null : (string) reset($gerbang));
+        if ($manual === null && $this->laranganOtomatis !== null) {
+            $zona = $this->tambahLaranganOtomatis($zona, $lahan, true);
+        }
+
+        // 1. Rumah: zona bangunan diperkecil (bentuknya tetap) sampai seluas tapak yang diminta.
+        $fitur = [];
+        $rumah = $this->susutKe($this->gabung(self::saring($zona, 'bangunan')), $r['tapak']);
+        $tapak = $this->luasUtm($rumah);
+        $lantai = $r['lantai'];
+        if ($tapak >= 1) {
+            $fitur[] = self::fitur($this->keGeo($rumah), ['jenis' => 'tapak', 'lantai' => $lantai, 'jumlah' => 1, 'satuan' => 'rumah']);
+        }
+
+        // 2. Carport: slot mobil di zona parkir, paling banyak sejumlah mobil yang diminta.
+        $slot = [];
+        $muat = 0;
+        foreach (self::saring($zona, 'parkir') as $id => $z) {
+            $fitur[] = self::fitur($this->keGeo($z['ewkt']), ['jenis' => 'parkir', 'zona' => $id, 'lantai' => 1]);
+            if ($muat >= $mobil) {
+                continue;
+            }
+            $petak = $this->petak($z['ewkt'], KapasitasLahan::SLOT_PARKIR['lebar'], KapasitasLahan::SLOT_PARKIR['panjang'], 0.5, 90.0, 0, false, $z['arah'] ?? null);
+            foreach ($petak['petak'] as $p) {
+                if ($muat >= $mobil) {
+                    break;
+                }
+                $slot[] = self::fitur($p->geo, ['jenis' => 'slot', 'zona' => $id]);
+                $muat++;
+            }
+        }
+
+        // 3. Kolam dan taman.
+        $luasTaman = 0.0;
+        $luasKolam = 0.0;
+        foreach ($zona as $id => $z) {
+            if ($z['jenis'] === 'kolam') {
+                $luasKolam += $this->luasUtm($z['ewkt']);
+                $fitur[] = self::fitur($this->keGeo($z['ewkt']), ['jenis' => 'kolam', 'zona' => $id]);
+            } elseif ($z['jenis'] === 'taman') {
+                $luasTaman += $this->luasUtm($z['ewkt']);
+                $fitur[] = self::fitur($this->keGeo($z['ewkt']), ['jenis' => 'taman', 'zona' => $id]);
+            }
+        }
+
+        // 4. Halaman = sisa lahan di luar rumah dan semua zona (berpaving, bukan ruang hijau).
+        $halaman = $this->op('ST_Difference', $lahan, $this->op('ST_Union', $this->gabung($zona), $rumah));
+        if ($this->luasUtm($halaman) >= 1) {
+            array_unshift($fitur, self::fitur($this->keGeo($halaman), ['jenis' => 'halaman']));
+        }
+
+        // 5. Gerbang: jalan masuk ke carport (atau ke rumah); pintu: menempel tepi rumah, jalur ke gerbang terdekat.
+        $atas = [];
+        $bukaan = [];
+        $tujuan = $muat > 0 ? $this->gabung(self::saring($zona, 'parkir')) : $rumah;
+        foreach ($akses as $id => &$a) {
+            if ($a['jenis'] === 'gerbang') {
+                $pita = $this->jalanMasuk($a, $lahan, $tujuan);
+                if ($this->luasUtm($pita) > 0.5) {
+                    $atas[] = self::fitur($this->keGeo($pita), ['jenis' => 'akses', 'akses' => $id]);
+                }
+                $bukaan[] = $this->buf($a['ewkt'], (float) $a['lebar'] / 2);
+            } elseif ($tapak >= 1) {
+                $a['ewkt'] = $this->tepiTerdekat($a['ewkt'], $rumah);
+                $ke = $gerbang === [] ? $this->tepiTerdekat($a['ewkt'], $lahan) : $this->terdekatTitik($a['ewkt'], array_values($gerbang));
+                $jalur = $this->op('ST_Intersection', $this->op('ST_Difference', $this->pita($a['ewkt'], $ke, KapasitasLahan::LEBAR_JALUR), $rumah), $lahan);
+                if ($this->luasUtm($jalur) > 0.5) {
+                    $atas[] = self::fitur($this->keGeo($jalur), ['jenis' => 'jalur', 'akses' => $id]);
+                }
+            }
+        }
+        unset($a);
+
+        // 6. Pagar keliling setebal 20 cm, terbuka di tiap gerbang.
+        $pagar = $this->op('ST_Difference', $lahan, $this->buf($lahan, -0.2));
+        if ($bukaan !== []) {
+            $pagar = $this->op('ST_Difference', $pagar, $this->satukan($bukaan));
+        }
+        if ($this->luasUtm($pagar) >= 0.5) {
+            $atas[] = self::fitur($this->keGeo($pagar), ['jenis' => 'pagar']);
+        }
+
+        $luasLantai = $tapak * $lantai;
+        $kamar = KapasitasLahan::perkiraanKamar($luasLantai);
+        $kapasitas = [
+            'jumlah' => 1,
+            'satuan' => 'rumah',
+            'lantai' => $lantai,
+            'lantai_maks' => $r['lantai_maks'],
+            'luas_tapak_m2' => round($tapak, 1),
+            'luas_lantai_m2' => round($luasLantai, 1),
+            'porsi_tapak' => $luas > 0 ? round($tapak / $luas, 3) : null,
+            'kepadatan_per_ha' => null,
+            'pribadi' => [
+                'luas_bangunan_m2' => round($luasLantai, 1),
+                'luas_bangunan_diminta' => $r['diminta'],
+                'rekomendasi_luas_bangunan' => $r['rekomendasi'],
+                'tidak_muat' => $luasLantai + 1 < $r['diminta'],
+                'kamar_tidur' => $kamar['kamar_tidur'],
+                'kamar_mandi' => $kamar['kamar_mandi'],
+                'mobil' => $muat,
+                'kolam_m2' => round($luasKolam, 1),
+            ],
+            'parkir' => ['butuh' => $mobil, 'muat' => $muat, 'jenis' => 'mobil', 'lantai' => 1],
+        ];
+
+        return [$kapasitas, ['type' => 'FeatureCollection', 'features' => [...$fitur, ...$slot, ...$atas]], $this->fiturZona($zona), $luasTaman, $this->fiturAkses($akses)];
+    }
+
+    /**
+     * Zona bawaan rumah pribadi di bingkai lahan, diukur dari sisi depan (sisi gerbang pertama, bawaan sisi y0):
+     * carport di halaman depan, rumah di belakang garis sempadan (`depan`) atau di tengah (`tengah`), kolam di belakang rumah,
+     * taman di belakang (dan di sekeliling rumah pada pola tengah).
+     *
+     * @return list<array{jenis: string, ewkt: string}>
+     */
+    private function zonaPribadi(string $pola, string $lahan, string $ls, float $tapak, int $mobil, float $kolam, float $sempadan, ?string $gerbang): array
+    {
+        $b = $this->bingkai($lahan);
+        [$x0, $y0, $x1, $y1] = [(float) $b->x0, (float) $b->y0, (float) $b->x1, (float) $b->y1];
+        $sisi = 'y0';
+        if ($gerbang !== null) {
+            [$gx, $gy] = $this->batasDalam($gerbang, $b);
+            $sisi = KapasitasLahan::sisiTerdekat($gx, $gy, $x0, $y0, $x1, $y1);
+        }
+        $mendatar = $sisi[0] === 'y';
+        $lebar = $mendatar ? $x1 - $x0 : $y1 - $y0;
+        $dalam = $mendatar ? $y1 - $y0 : $x1 - $x0;
+        // Persegi panjang: kedalaman [d0, d1] dari sisi depan, lateral [l0, l1] dari ujung sisi itu.
+        $kotak = function (float $d0, float $d1, float $l0, float $l1) use ($b, $sisi, $x0, $y0, $x1, $y1): string {
+            return match ($sisi) {
+                'y0' => $this->kotak($b, $x0 + $l0, $y0 + $d0, $x0 + $l1, $y0 + $d1),
+                'y1' => $this->kotak($b, $x0 + $l0, $y1 - $d1, $x0 + $l1, $y1 - $d0),
+                'x0' => $this->kotak($b, $x0 + $d0, $y0 + $l0, $x0 + $d1, $y0 + $l1),
+                default => $this->kotak($b, $x1 - $d1, $y0 + $l0, $x1 - $d0, $y0 + $l1),
+            };
+        };
+
+        // Rumah: lebar secukupnya (rasio sekitar 1,3 : 1), tidak lebih lebar dari 85% sisi depan.
+        $w = max(4.0, min($lebar * 0.85, sqrt($tapak * 1.3)));
+        $h = max(4.0, min($dalam * 0.8, $tapak / $w));
+        $depanRumah = max($sempadan, $mobil > 0 ? 7.5 : $sempadan);
+        $d0 = $pola === 'tengah' ? max($depanRumah, ($dalam - $h) / 2) : $depanRumah;
+        $l0 = ($lebar - $w) / 2;
+        $rumah = $this->op('ST_Intersection', $kotak($d0, $d0 + $h, $l0, $l0 + $w), $ls);
+
+        $zona = [['jenis' => 'bangunan', 'ewkt' => $rumah]];
+        // Carport di halaman depan, sejajar tepi kiri rumah (lahan lebar: tidak terpencil di pojok): 3 m per mobil, sedalam
+        // 7 m (slot 5 m + ruang manuver).
+        $carport = self::KOSONG;
+        if ($mobil > 0) {
+            $cw = $mobil * 3.0 + 0.5;
+            $cl0 = max(0.5, min($l0, $lebar - 0.5 - $cw));
+            $carport = $this->op('ST_Intersection', $kotak(0.3, 7.0, $cl0, min($lebar - 0.5, $cl0 + $cw)), $lahan);
+            if ($this->luasUtm($carport) >= 10) {
+                $zona[] = ['jenis' => 'parkir', 'ewkt' => $carport];
+            }
+        }
+        // Kolam di belakang rumah (rasio 2,5 : 1).
+        $kolamG = self::KOSONG;
+        if ($kolam >= 4) {
+            $kh = sqrt($kolam / 2.5);
+            $kw = min($lebar * 0.8, $kolam / $kh);
+            $kd = $d0 + $h + 2.0;
+            $kolamG = $this->op('ST_Intersection', $kotak($kd, $kd + $kolam / $kw, ($lebar - $kw) / 2, ($lebar + $kw) / 2), $lahan);
+            if ($this->luasUtm($kolamG) >= 4) {
+                $zona[] = ['jenis' => 'kolam', 'ewkt' => $kolamG];
+            } else {
+                $kolamG = self::KOSONG;
+            }
+        }
+        // Taman: belakang rumah (pola depan) atau sekeliling rumah (pola tengah), di luar rumah+1 m, carport, dan kolam.
+        $wilayahTaman = $pola === 'tengah' ? $kotak(max(0.0, $d0 - 3.0), $dalam + 1, -1, $lebar + 1) : $kotak($d0 + $h + 1.0, $dalam + 1, -1, $lebar + 1);
+        $taman = $this->op('ST_Intersection', $wilayahTaman, $lahan);
+        $taman = $this->op('ST_Difference', $taman, $this->satukan([$this->buf($rumah, 1.0), $carport, $kolamG]));
+        foreach ($this->pecah($taman, 10) as $g) {
+            $zona[] = ['jenis' => 'taman', 'ewkt' => $g];
+        }
+
+        return $zona;
+    }
+
+    /** Perkecil $g (bentuknya tetap, penyangga ke dalam) sampai luasnya kira-kira $target m²; utuh bila sudah lebih kecil. */
+    private function susutKe(string $g, float $target): string
+    {
+        $luas = $this->luasUtm($g);
+        if ($luas < 1 || $luas <= $target * 1.02) {
+            return $g;
+        }
+        $bawah = 0.0;
+        $atas = 100.0;
+        for ($i = 0; $i < 16; $i++) {
+            $d = ($bawah + $atas) / 2;
+            if ($this->luasUtm($this->buf($g, -$d)) > $target) {
+                $bawah = $d;
+            } else {
+                $atas = $d;
+            }
+        }
+
+        return $this->buf($g, -$bawah);
+    }
+
+    // ---------------------------------------------------------------------------------------------------------
     // Kos dan apartemen
     // ---------------------------------------------------------------------------------------------------------
 
     /**
      * Kos/apartemen bergaya TestFit. Zona bangunan diisi gedung berkoridor tengah (dua deret unit di kiri-kanan koridor,
-     * dibagi dengan Voronoi supaya ikut berbelok di sudut, sisa di tengah gedung = inti lift/tangga). Zona parkir diisi
+     * berupa persegi panjang tetap di sepanjang tiap tepi lurus; yang tidak muat utuh dibuang; beberapa slot tepi koridor menjadi
+     * tangga/lift (pasangInti); sisa kecil di tengah gedung = ruang servis). Zona parkir diisi
      * slot (motor untuk kos, mobil untuk apartemen); pola wrap menjadikannya gedung parkir bertingkat. Zona taman = ruang
      * tengah/RTH. Tanpa zona dari pengguna, zona dibuat dari pola.
      *
@@ -856,6 +1599,9 @@ class LahanController extends Controller
         $zona = $manual !== null
             ? $this->potongManual($manual, $lahan, $lahanSempadan)
             : $this->zonaGedung($tipe, $pola, $lahanSempadan, $luas, $kdb);
+        if ($manual === null && $this->laranganOtomatis !== null) {
+            $zona = $this->tambahLaranganOtomatis($zona, $lahan, true);
+        }
 
         // Gerbang menempel ke tepi lahan.
         $gerbang = [];
@@ -872,7 +1618,7 @@ class LahanController extends Controller
         $unit = [];
         $tapak = 0.0;
         foreach (self::saring($zona, 'bangunan') as $id => $z) {
-            $isi = $this->isiGedung($tipe, $z['ewkt'], $asumsi);
+            $isi = $pola === 'grid' ? $this->isiGrid($tipe, $z['ewkt'], $asumsi) : $this->isiGedung($tipe, $z['ewkt'], $asumsi);
             if ($isi['unit'] === []) {
                 continue;
             }
@@ -937,25 +1683,49 @@ class LahanController extends Controller
         }
         unset($a);
 
-        // 5. Unit yang tersisa (tidak dilewati jalan akses, bukan lobi) diberi tipe dan dihitung.
+        // 5. Unit yang tersisa (tidak dilewati jalan akses, bukan lobi) diberi tipe dan dihitung. Sebagian slot di tepi koridor
+        //    menjadi ruang inti (tangga; lift di apartemen) supaya lantai atas bisa dicapai; slot itu tidak dihitung sebagai unit.
         $sisa = array_values(array_filter($unit, fn ($i) => ! isset($buang[$i]) && ! isset($lobi[$i]), ARRAY_FILTER_USE_KEY));
         if ($sisa === []) {
             return $this->bangunanSederhana($tipe, $lahan, $luas, $asumsi, $intensitas);
         }
+        [$sisa, $fiturInti, $ringkasInti] = $this->pasangInti($tipe, $unit, $sisa, $lobi, $buang, $gerbang, $asumsi, $luas, $tapak, $kdb, $intensitas['klb']);
+        if ($sisa === []) {
+            return $this->bangunanSederhana($tipe, $lahan, $luas, $asumsi, $intensitas);
+        }
+        array_push($fitur, ...$fiturInti);
         $porsiTipe = $tipe === 'kos' ? ['kamar' => 1.0] : $this->kapasitas->porsiTipe($asumsi);
         $urutan = KapasitasLahan::sebarTipe(count($sisa), $porsiTipe);
         foreach ($sisa as $i => $u) {
             $fitur[] = self::fitur($u['geo'], ['jenis' => 'unit', 'tipe' => $urutan[$i], 'zona' => $u['zona']]);
         }
+        // Unit di depan pintu: lantai dasarnya menjadi lobi, tetapi bentuk gedungnya tetap (di 3D gedung berlanjut di atas lobi,
+        // tidak berlubang). Tidak ikut dihitung sebagai unit.
+        foreach (array_keys($lobi) as $i) {
+            if (isset($unit[$i]) && ! isset($buang[$i])) {
+                $fitur[] = self::fitur($unit[$i]['geo'], ['jenis' => 'lobi', 'zona' => $unit[$i]['zona'], 'unit' => true]);
+            }
+        }
         $kapasitas = $this->kapasitas->gedung($tipe, $luas, $tapak, $urutan, $asumsi, $kdb, $intensitas['klb']);
+        if ($ringkasInti !== null) {
+            $kapasitas['inti'] = $ringkasInti;
+        }
         $butuh = $kapasitas['parkir']['butuh'];
+        if ($this->isiSisa === 'rekomendasi' && $manual !== null) {
+            $zona = $this->rekomendasiParkir($zona, count($manual), $butuh, $jenisParkir, $gerbang === [] ? $gedung : (string) reset($gerbang));
+        }
 
         // 6. Parkir: slot di tiap zona parkir (yang dilewati jalan akses dibuang); pola wrap menumpuk lantai.
         $slot = KapasitasLahan::ukuranSlot($jenisParkir);
         $slotLantai = 0;
         $fiturSlot = [];
         foreach (self::saring($zona, 'parkir') as $id => $z) {
-            $petak = $this->petak($z['ewkt'], $slot['lebar'], $slot['panjang'], $slot['lorong']);
+            // Padding = jarak slot dari tepi zona parkir; sudut dan Max Run mengatur bentuk deret slot (lihat petak()).
+            $ruang = (float) ($asumsi['padding_parkir'] ?? 0) > 0 ? $this->buf($z['ewkt'], -(float) $asumsi['padding_parkir']) : $z['ewkt'];
+            if ($this->luasUtm($ruang) < 1) {
+                continue;
+            }
+            $petak = $this->petak($ruang, $slot['lebar'], $slot['panjang'], $slot['lorong'], (float) ($asumsi['sudut_parkir'] ?? 90), (int) ($asumsi['maks_baris'] ?? 0), true, $z['arah'] ?? null);
             $kena = $this->terpotong(array_map(fn ($p) => (string) $p->ewkt, $petak['petak']), $aksesGabung);
             foreach ($petak['petak'] as $i => $p) {
                 if (! isset($kena[$i])) {
@@ -1002,6 +1772,96 @@ class LahanController extends Controller
         return [$kapasitas, ['type' => 'FeatureCollection', 'features' => $fitur], $this->fiturZona($zona), $luasTaman, $this->fiturAkses($akses)];
     }
 
+    /**
+     * Ruang inti (tangga, dan lift di apartemen) dari slot unit di tepi koridor; aturan penempatan di IntiGedung. Titik acuan
+     * inti utama tiap zona: lobi pintunya, selain itu gerbang pertama, selain itu tengah zona. Gedung satu lantai tanpa inti.
+     *
+     * @param  array<int, array{geo: string, ewkt: string, zona: int|string}>  $unit  semua calon unit
+     * @param  list<array{geo: string, ewkt: string, zona: int|string}>  $sisa  unit yang akan dihitung
+     * @param  array<int, mixed>  $lobi  indeks $unit yang menjadi lobi
+     * @param  array<int, mixed>  $buang  indeks $unit yang dilewati jalan akses
+     * @param  array<int|string, string>  $gerbang  titik gerbang (EWKT UTM)
+     * @return array{0: list<array{geo: string, ewkt: string, zona: int|string}>, 1: list<array<string, mixed>>, 2: ?array{lift: int, tangga: int, slot: int}}
+     */
+    private function pasangInti(string $tipe, array $unit, array $sisa, array $lobi, array $buang, array $gerbang, array $asumsi, float $luas, float $tapak, float $kdb, mixed $klb): array
+    {
+        $lantai = (int) $this->kapasitas->gedung($tipe, $luas, $tapak, array_fill(0, count($sisa), 'kamar'), $asumsi, $kdb, $klb)['lantai'];
+        if (IntiGedung::fungsiUtama($tipe) === null || $lantai < 2) {
+            return [$sisa, [], null];
+        }
+        $larik = fn (array $daftar) => '{'.implode(',', array_map(fn ($x) => '"'.$x.'"', $daftar)).'}';
+
+        // Pusat unit, unit lobi, dan gerbang pertama (meter UTM) dalam satu query.
+        $lobiUnit = array_values(array_filter(array_keys($lobi), fn ($i) => isset($unit[$i]) && ! isset($buang[$i])));
+        $pin = $this->intiManual ?? [];
+        $ewkt = [
+            ...array_column($sisa, 'ewkt'),
+            ...array_map(fn ($i) => $unit[$i]['ewkt'], $lobiUnit),
+            ...array_map(fn ($p) => sprintf('SRID=4326;POINT(%.8F %.8F)', $p['lng'], $p['lat']), $pin),
+        ];
+        if ($gerbang !== []) {
+            $ewkt[] = (string) reset($gerbang);
+        }
+        $utm = self::UTM;
+        $xy = array_map(
+            fn ($t) => [(float) $t->x, (float) $t->y],
+            DB::select("SELECT ST_X(c) AS x, ST_Y(c) AS y FROM (SELECT i, ST_Centroid(ST_Transform(ST_GeomFromEWKT(e), {$utm})) AS c FROM unnest(?::text[]) WITH ORDINALITY AS x(e, i)) s ORDER BY i", [$larik($ewkt)]),
+        );
+        $n = count($sisa);
+        $titikPin = array_slice($xy, $n + count($lobiUnit), count($pin));
+        $pusat = array_slice($xy, 0, $n);
+        $zona = array_map(fn ($u) => $u['zona'], $sisa);
+
+        $acuan = [];
+        foreach ($lobiUnit as $k => $i) {
+            $acuan[(string) $unit[$i]['zona']][] = $xy[$n + $k];
+        }
+        $acuan = array_map(fn ($t) => [array_sum(array_column($t, 0)) / count($t), array_sum(array_column($t, 1)) / count($t)], $acuan);
+        if ($gerbang !== []) {
+            foreach (array_unique(array_map('strval', $zona)) as $z) {
+                $acuan[$z] ??= $xy[count($xy) - 1];
+            }
+        }
+
+        $lebar = $this->kapasitas->lebarUnit($tipe, $asumsi);
+        $du = KapasitasLahan::KEDALAMAN_UNIT[$tipe];
+        if ($this->intiManual !== null) {
+            $inti = IntiGedung::pasangManual($tipe, $lantai, $pusat, array_map(fn ($p, $t) => ['fungsi' => $p['fungsi'], 'titik' => $t], $pin, $titikPin), $lebar, $du);
+            $this->intiLewat = count($pin) - count($inti);
+        } else {
+            $inti = IntiGedung::pilih($tipe, $lantai, $pusat, $zona, $acuan, $lebar, $du);
+        }
+        if ($inti === []) {
+            return [$sisa, [], null];
+        }
+
+        // Satu poligon per inti: slot-slot unitnya digabung (sedikit digembungkan lalu dikempiskan supaya tanpa celah rambut).
+        $kunci = [];
+        $isi = [];
+        $pakai = [];
+        foreach ($inti as $k => $g) {
+            foreach ($g['unit'] as $i) {
+                $kunci[] = $k + 1;
+                $isi[] = $sisa[$i]['ewkt'];
+                $pakai[$i] = true;
+            }
+        }
+        $geo = DB::select(
+            "SELECT k, ST_AsGeoJSON(ST_Transform(ST_CollectionExtract(ST_Buffer(ST_Union(ST_Buffer(ST_GeomFromEWKT(e), 0.02, 'join=mitre')), -0.02, 'join=mitre'), 3), 4326), 6) AS geo
+             FROM unnest(?::int[], ?::text[]) AS x(k, e) GROUP BY k ORDER BY k",
+            ['{'.implode(',', $kunci).'}', $larik($isi)],
+        );
+        $fitur = [];
+        foreach ($geo as $r) {
+            $g = $inti[(int) $r->k - 1];
+            // id = urutan pin `inti[]` (posisi manual) atau urutan inti (otomatis): klik-geser di peta memakai id ini.
+            $fitur[] = self::fitur((string) $r->geo, ['jenis' => 'inti', 'fungsi' => $g['fungsi'], 'slot' => count($g['unit']), 'id' => $g['pin'] ?? (int) $r->k - 1, 'zona' => $sisa[$g['unit'][0]]['zona']]);
+        }
+        $ringkas = IntiGedung::ringkas($inti) + ['manual' => $this->intiManual !== null, 'jauh' => IntiGedung::jauh($pusat, $inti)];
+
+        return [array_values(array_filter($sisa, fn ($i) => ! isset($pakai[$i]), ARRAY_FILTER_USE_KEY)), $fitur, $ringkas];
+    }
+
     /** Titik (EWKT) dari $titik-titik yang paling dekat ke $dari. @param list<string> $titik */
     private function terdekatTitik(string $dari, array $titik): string
     {
@@ -1030,6 +1890,13 @@ class LahanController extends Controller
             $cx = ((float) $b->x0 + (float) $b->x1) / 2;
             $cy = ((float) $b->y0 + (float) $b->y1) / 2;
             $gedung = $this->op('ST_Intersection', $this->kotak($b, $cx - $lebar / 2, $cy - $tinggi / 2, $cx + $lebar / 2, $cy + $tinggi / 2), $ls);
+        } elseif ($pola === 'grid') {
+            // Blok gedung di sisi belakang selebar lahan, setebal beberapa deret (koridor + dua deret kamar) sebanyak yang diizinkan KDB,
+            // ditambah satu koridor penutup supaya deret teratas juga menghadap koridor.
+            $per = KapasitasLahan::LEBAR_KORIDOR[$tipe] + 2 * KapasitasLahan::KEDALAMAN_UNIT[$tipe];
+            $deret = $w > 0 ? max(1, (int) floor((($batasTapak / $w) - KapasitasLahan::LEBAR_KORIDOR[$tipe]) / $per)) : 1;
+            $tebalBlok = min($h, $deret * $per + KapasitasLahan::LEBAR_KORIDOR[$tipe]);
+            $gedung = $this->op('ST_Intersection', $this->kotak($b, (float) $b->x0, (float) $b->y1 - $tebalBlok, (float) $b->x1, (float) $b->y1), $ls);
         } elseif ($pola === 'koridor') {
             // Satu blok memanjang di sisi belakang; dipendekkan supaya tapak tidak melebihi KDB.
             $panjang = min($w, $batasTapak / $tebal);
@@ -1111,8 +1978,53 @@ class LahanController extends Controller
     }
 
     /**
-     * Isi satu zona bangunan: dua deret unit di kiri-kanan koridor, mengikuti semua tepi zona (termasuk tepi dalam bila
-     * zona berlubang). Benih Voronoi dikunci ke kelipatan lebar unit per ruas supaya unit stabil saat zona ditarik.
+     * Pola grid: zona bangunan diisi deret kamar persegi panjang tetap seperti grid kavling rumah tapak (petak()): koridor, lalu dua
+     * deret kamar saling membelakangi, berulang. Grid dikunci ke tepi zona dan searah sisi terpanjangnya. Kamar yang tidak muat utuh
+     * atau tidak menghadap koridor dibuang; koridor dipotong ke depan kamar yang ada. Urutan unit per blok, deret, lalu kolom.
+     *
+     * @return array{unit: list<object>, fitur: list<array<string, mixed>>, luas: float}
+     */
+    private function isiGrid(string $tipe, string $ewkt, array $asumsi): array
+    {
+        $du = KapasitasLahan::KEDALAMAN_UNIT[$tipe];
+        $c = KapasitasLahan::LEBAR_KORIDOR[$tipe];
+        $w = $this->kapasitas->lebarUnit($tipe, $asumsi);
+        $p = $this->petak($ewkt, $w, $du, $c, 90.0, 0, false);
+        if ($p['petak'] === [] || $p['jalan_ewkt'] === []) {
+            return ['unit' => [], 'fitur' => [], 'luas' => 0.0];
+        }
+        $larik = fn (array $daftar) => '{'.implode(',', array_map(fn ($x) => '"'.$x.'"', $daftar)).'}';
+        $dekat = self::n($c + 0.5);
+
+        // Kamar yang menghadap koridor (bersentuhan dengan pita koridor) dipertahankan.
+        $hadap = DB::select(
+            'WITH j AS (SELECT ST_Union(ST_GeomFromEWKT(e)) AS g FROM unnest(?::text[]) AS e)
+             SELECT x.i FROM unnest(?::text[]) WITH ORDINALITY AS x(e, i), j WHERE ST_DWithin(ST_GeomFromEWKT(x.e), j.g, 0.3) ORDER BY x.i',
+            [$larik($p['jalan_ewkt']), $larik(array_map(fn ($u) => (string) $u->ewkt, $p['petak']))],
+        );
+        $unit = array_map(fn ($r) => $p['petak'][(int) $r->i - 1], $hadap);
+        if ($unit === []) {
+            return ['unit' => [], 'fitur' => [], 'luas' => 0.0];
+        }
+
+        $sisa = DB::selectOne(
+            "WITH u AS (SELECT ST_Union(ST_GeomFromEWKT(e)) AS g FROM unnest(?::text[]) AS e),
+                  j AS (SELECT ST_Union(ST_GeomFromEWKT(e)) AS g FROM unnest(?::text[]) AS e),
+                  k AS (SELECT ST_CollectionExtract(ST_Intersection(ST_Difference(j.g, u.g), ST_Buffer(u.g, {$dekat})), 3) AS kor, u.g AS ug FROM u, j)
+             SELECT ST_AsGeoJSON(ST_Transform(kor, 4326), 6) AS koridor, ST_Area(kor) AS luas_koridor, ST_Area(ST_Union(ug, kor)) AS luas_gedung FROM k",
+            [$larik(array_map(fn ($u) => (string) $u->ewkt, $unit)), $larik($p['jalan_ewkt'])],
+        );
+        $fitur = (float) $sisa->luas_koridor > 1 ? [self::fitur($sisa->koridor, ['jenis' => 'koridor'])] : [];
+
+        return ['unit' => $unit, 'fitur' => $fitur, 'luas' => (float) $sisa->luas_gedung];
+    }
+
+    /**
+     * Isi satu zona bangunan dengan kamar/unit berbentuk persegi panjang tetap (lebar x kedalaman unit), seperti grid kavling
+     * rumah tapak: di sepanjang tiap tepi lurus zona (termasuk tepi dalam bila zona berlubang) dipasang deret luar, koridor,
+     * dan deret dalam. Unit yang tidak muat utuh di zona dibuang, tidak dipotong, jadi tidak ada unit berbentuk rusak; di sudut,
+     * unit dari tepi yang lebih panjang didahulukan dan unit lain yang menumpuk dibuang. Unit berurutan per tepi (terpanjang
+     * dulu), deret, lalu posisi, sehingga potongan gedung yang tersisa saat target dipangkas tetap utuh.
      *
      * @return array{unit: list<object>, fitur: list<array<string, mixed>>, luas: float}
      */
@@ -1121,67 +2033,106 @@ class LahanController extends Controller
         $du = KapasitasLahan::KEDALAMAN_UNIT[$tipe];
         $c = KapasitasLahan::LEBAR_KORIDOR[$tipe];
         $w = $this->kapasitas->lebarUnit($tipe, $asumsi);
-        [$ndu, $nduc, $ntebal, $nw] = array_map([self::class, 'n'], [$du, $du + $c, 2 * $du + $c, $w]);
-        $tengah1 = self::n($du / 2);
-        $tengah2 = self::n($du + $c + $du / 2);
-        $minLuas = self::n(0.35 * $w * $du);
+        $utm = self::UTM;
 
-        $unit = DB::select(
-            "WITH z AS (SELECT ST_GeomFromEWKT(?) AS g),
-             p AS (SELECT ST_Centroid(g) AS pusat FROM z),
-             pita AS (
-                 SELECT 1 AS deret, ST_Difference(g, ST_Buffer(g, -{$ndu}, 'join=mitre')) AS band, {$tengah1}::float8 AS tengah FROM z
-                 UNION ALL
-                 SELECT 2, ST_Difference(ST_Buffer(g, -{$nduc}, 'join=mitre'), ST_Buffer(g, -{$ntebal}, 'join=mitre')), {$tengah2}::float8 FROM z
-             ),
-             garis AS (SELECT pita.deret, (ST_Dump(ST_Boundary(ST_Buffer(z.g, -pita.tengah, 'join=mitre')))).geom AS ln FROM pita, z),
-             ruas AS (
-                 SELECT garis.deret, ST_StartPoint(d.geom) AS a, ST_Length(d.geom) AS pjg,
-                        sin(ST_Azimuth(ST_StartPoint(d.geom), ST_EndPoint(d.geom))) AS ux,
-                        cos(ST_Azimuth(ST_StartPoint(d.geom), ST_EndPoint(d.geom))) AS uy
-                 FROM garis, LATERAL ST_DumpSegments(garis.ln) AS d
-                 WHERE ST_Length(d.geom) > 0.01
-             ),
-             ruas2 AS (SELECT ruas.*, ST_X(a) * ux + ST_Y(a) * uy AS proj FROM ruas),
-             benih0 AS (
-                 SELECT deret, a, ux, uy, (ceil((proj - {$nw} / 2) / {$nw}) + k) * {$nw} + {$nw} / 2 - proj AS t, pjg
-                 FROM ruas2, LATERAL generate_series(0, ceil(pjg / {$nw})::int) AS k
-             ),
-             benih AS (SELECT deret, ST_Translate(a, t * ux, t * uy) AS t FROM benih0 WHERE t >= 0 AND t < pjg),
-             sel AS (
-                 SELECT deret, (ST_Dump(ST_VoronoiPolygons(ST_Collect(t), 0, (SELECT ST_Expand(g, 200) FROM z)))).geom AS v
-                 FROM benih GROUP BY deret
-             ),
-             u AS (
-                 SELECT sel.deret, ST_CollectionExtract(ST_Intersection(sel.v, pita.band), 3) AS g
-                 FROM sel JOIN pita USING (deret) WHERE ST_Intersects(sel.v, pita.band)
-             )
-             SELECT u.deret, ST_Area(u.g) AS luas, ST_Azimuth(p.pusat, ST_PointOnSurface(u.g)) AS az,
-                    ST_AsGeoJSON(ST_Transform(u.g, 4326), 6) AS geo, ST_AsEWKT(u.g) AS ewkt
-             FROM u, p WHERE NOT ST_IsEmpty(u.g) AND ST_Area(u.g) >= {$minLuas}
-             ORDER BY az",
+        // Titik sudut semua cincin, berlawanan jarum jam untuk cincin luar (dan searah untuk lubang): sisi kiri tiap ruas = ke dalam zona.
+        $titik = DB::select(
+            "WITH z AS (SELECT ST_ForcePolygonCCW(ST_CollectionExtract(ST_MakeValid(ST_GeomFromEWKT(?)), 3)) AS g),
+                  b AS (SELECT (ST_Dump(g)).path[1] AS bagian, (ST_Dump(g)).geom AS p FROM z),
+                  r AS (SELECT bagian, (ST_DumpRings(p)).path[1] AS cincin, (ST_DumpRings(p)).geom AS g FROM b)
+             SELECT bagian, cincin, (d).path[2] AS urut, ST_X((d).geom) AS x, ST_Y((d).geom) AS y
+             FROM r, LATERAL ST_DumpPoints(r.g) AS d
+             ORDER BY bagian, cincin, urut",
             [$ewkt],
         );
 
+        // Calon unit dan pita koridor per ruas.
+        $ruas = [];
+        $cincin = [];
+        foreach ($titik as $t) {
+            $cincin["{$t->bagian}-{$t->cincin}"][] = [(float) $t->x, (float) $t->y];
+        }
+        foreach ($cincin as $kunci => $p) {
+            for ($i = 0; $i + 1 < count($p); $i++) {
+                [$ax, $ay] = $p[$i];
+                [$bx, $by] = $p[$i + 1];
+                $pjg = hypot($bx - $ax, $by - $ay);
+                if ($pjg >= $w) {
+                    $ruas[] = ['a' => [$ax, $ay], 'u' => [($bx - $ax) / $pjg, ($by - $ay) / $pjg], 'pjg' => $pjg, 'kunci' => "{$kunci}-{$i}"];
+                }
+            }
+        }
+        // Tepi terpanjang dulu: unitnya menang di sudut.
+        usort($ruas, fn ($a, $b) => $b['pjg'] <=> $a['pjg'] ?: strcmp($a['kunci'], $b['kunci']));
+
+        $wkt = fn (array $q) => 'POLYGON(('.implode(',', array_map(fn ($t) => sprintf('%.3F %.3F', $t[0], $t[1]), [...$q, $q[0]])).'))';
+        $calon = [];
+        $pita = [];
+        foreach ($ruas as $r) {
+            [$ux, $uy] = $r['u'];
+            [$nx, $ny] = [-$uy, $ux];
+            $n = (int) floor($r['pjg'] / $w + 1e-9);
+            $awal = ($r['pjg'] - $n * $w) / 2;
+            $titikDi = fn (float $s, float $d) => [$r['a'][0] + $ux * $s + $nx * $d, $r['a'][1] + $uy * $s + $ny * $d];
+            foreach ([0.0, $du + $c] as $d0) {
+                for ($k = 0; $k < $n; $k++) {
+                    $s0 = $awal + $k * $w;
+                    $calon[] = $wkt([$titikDi($s0, $d0), $titikDi($s0 + $w, $d0), $titikDi($s0 + $w, $d0 + $du), $titikDi($s0, $d0 + $du)]);
+                }
+            }
+            $pita[] = $wkt([$titikDi(0, $du), $titikDi($r['pjg'], $du), $titikDi($r['pjg'], $du + $c), $titikDi(0, $du + $c)]);
+        }
+        if ($calon === []) {
+            return ['unit' => [], 'fitur' => [], 'luas' => 0.0];
+        }
+        $larik = fn (array $daftar) => '{'.implode(',', array_map(fn ($x) => '"'.$x.'"', $daftar)).'}';
+        $minLuas = self::n(0.98 * $w * $du);
+
+        // Unit yang utuh di dalam zona dan tidak menumpuk unit yang didahulukan.
+        $unit = DB::select(
+            "WITH z AS (SELECT ST_Buffer(ST_GeomFromEWKT(?), 0.05) AS g),
+                  c AS (SELECT i, ST_SetSRID(ST_GeomFromText(t), {$utm}) AS g FROM unnest(?::text[]) WITH ORDINALITY AS x(t, i)),
+                  ok AS (SELECT c.i, c.g FROM c, z WHERE ST_CoveredBy(c.g, z.g) AND ST_Area(c.g) >= {$minLuas}),
+                  pilih AS (SELECT a.i, a.g FROM ok a
+                            WHERE NOT EXISTS (SELECT 1 FROM ok b WHERE b.i < a.i AND a.g && b.g AND ST_Area(ST_Intersection(a.g, b.g)) > 0.05))
+             SELECT i, ST_AsGeoJSON(ST_Transform(g, 4326), 6) AS geo, ST_AsEWKT(g) AS ewkt FROM pilih ORDER BY i",
+            [$ewkt, $larik($calon)],
+        );
+        if ($unit === []) {
+            return ['unit' => [], 'fitur' => [], 'luas' => 0.0];
+        }
+
+        // Koridor = pita di depan unit yang tersisa (dipotong ke zona, tanpa unit); inti/halaman dalam = sisa di tengah gedung.
+        $tebal = self::n(2 * $du + $c);
+        $dekat = self::n($c + 0.5);
         $sisa = DB::selectOne(
             "WITH z AS (SELECT ST_GeomFromEWKT(?) AS g),
-             k AS (SELECT ST_CollectionExtract(ST_Difference(ST_Buffer(g, -{$ndu}, 'join=mitre'), ST_Buffer(g, -{$nduc}, 'join=mitre')), 3) AS kor,
-                          ST_CollectionExtract(ST_Buffer(g, -{$ntebal}, 'join=mitre'), 3) AS inti, ST_Area(g) AS luas FROM z)
+                  u AS (SELECT ST_Union(ST_GeomFromEWKT(e)) AS g FROM unnest(?::text[]) AS e),
+                  p AS (SELECT ST_Union(ST_SetSRID(ST_GeomFromText(t), {$utm})) AS g FROM unnest(?::text[]) AS t),
+                  k AS (SELECT ST_CollectionExtract(ST_Intersection(ST_Difference(ST_Intersection(p.g, z.g), u.g), ST_Buffer(u.g, {$dekat})), 3) AS kor,
+                               ST_CollectionExtract(ST_Buffer(z.g, -{$tebal}, 'join=mitre'), 3) AS inti, u.g AS ug FROM z, u, p)
              SELECT ST_AsGeoJSON(ST_Transform(kor, 4326), 6) AS koridor, ST_Area(kor) AS luas_koridor,
-                    ST_AsGeoJSON(ST_Transform(inti, 4326), 6) AS inti, ST_Area(inti) AS luas_inti, luas FROM k",
-            [$ewkt],
+                    ST_AsGeoJSON(ST_Transform(inti, 4326), 6) AS inti, ST_Area(inti) AS luas_inti,
+                    ST_Area(ST_Union(ug, kor)) AS luas_gedung FROM k",
+            [$ewkt, $larik(array_map(fn ($u) => (string) $u->ewkt, $unit)), $larik($pita)],
         );
 
         $fitur = [];
         if ((float) $sisa->luas_koridor > 1) {
             $fitur[] = self::fitur($sisa->koridor, ['jenis' => 'koridor']);
         }
+        $luasGedung = (float) $sisa->luas_gedung;
         if ((float) $sisa->luas_inti > 4) {
-            // Sisa kecil di tengah gedung = inti lift/tangga; sisa besar = halaman dalam (void) di tengah gedung.
-            $fitur[] = self::fitur($sisa->inti, ['jenis' => (float) $sisa->luas_inti <= 400 ? 'inti' : 'void']);
+            // Sisa kecil di tengah gedung = ruang servis/shaft (ikut tapak; tangga dan lift dipasang di slot unit tepi koridor, lihat
+            // pasangInti); sisa besar = halaman dalam (void), bukan tapak.
+            $inti = (float) $sisa->luas_inti <= 400;
+            $fitur[] = self::fitur($sisa->inti, $inti ? ['jenis' => 'inti', 'fungsi' => 'servis'] : ['jenis' => 'void']);
+            if ($inti) {
+                $luasGedung += (float) $sisa->luas_inti;
+            }
         }
 
-        return ['unit' => $unit, 'fitur' => $fitur, 'luas' => (float) $sisa->luas];
+        return ['unit' => $unit, 'fitur' => $fitur, 'luas' => $luasGedung];
     }
 
     /**

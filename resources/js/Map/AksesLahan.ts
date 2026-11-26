@@ -49,8 +49,8 @@ function tempelRuas(t: L.LatLng, cincin: L.LatLng[][]): { titik: L.LatLng; ux: n
 
 /** Batas lebar dan panjang per jenis: gerbang = jalan masuk, pintu = bukaan dan kedalaman lobi. */
 const BATAS: Record<JenisAkses, { lebar: [number, number]; panjang: [number, number]; warna: string }> = {
-    gerbang: { lebar: [2.5, 30], panjang: [2, 300], warna: '#b45309' },
-    pintu: { lebar: [1.5, 20], panjang: [2, 40], warna: '#7c3aed' },
+    gerbang: { lebar: [2.5, 30], panjang: [1, 300], warna: '#b45309' },
+    pintu: { lebar: [1.5, 20], panjang: [1, 40], warna: '#7c3aed' },
 };
 
 /** Titik di dalam kumpulan cincin menurut aturan genap-ganjil (cincin luar + lubang sekaligus). */
@@ -78,7 +78,7 @@ function ikon(jenis: JenisAkses, teks: TeksAkses): L.DivIcon {
         className: `nr-akses nr-akses--${jenis}`,
         iconSize: null as unknown as L.PointExpression,
         iconAnchor: [0, 0],
-        html: `<span class="nr-akses__isi"><span class="nr-akses__titik"></span><span class="nr-akses__label">${teks.label[jenis]}</span><button type="button" class="nr-akses__hapus" data-hapus title="${teks.hapus}" aria-label="${teks.hapus}">×</button></span>`,
+        html: `<span class="nr-akses__isi" title="${teks.label[jenis]}"><span class="nr-akses__titik"></span><span class="nr-akses__label">${teks.label[jenis]}</span><button type="button" class="nr-akses__hapus" data-hapus title="${teks.hapus}" aria-label="${teks.hapus}">×</button></span>`,
     });
 }
 
@@ -231,7 +231,7 @@ export class AlatAkses {
                 }
                 return { nx, ny, kos };
             };
-            let panjang = a.panjang ?? this.panjangServer[i] ?? (gerbang ? 10 : 8);
+            let panjang = a.panjang ?? this.panjangServer[i] ?? 1;
             const titikDalam = () => {
                 const { nx, ny, kos } = kedalam();
                 const m = Math.max(panjang, 2) / 111320;
@@ -263,7 +263,7 @@ export class AlatAkses {
                 this.akses[i] = { ...this.akses[i], titik: [ruas.titik.lng, ruas.titik.lat], lebar };
             };
 
-            // Tarik pegangan dalam: panjang = jarak tegak lurus dari tepi (gerbang 2–300 m, pintu 2–40 m); tidak lagi otomatis.
+            // Tarik pegangan dalam: panjang = jarak tegak lurus dari tepi (gerbang 1–300 m, pintu 1–40 m; bawaan 1 m).
             dalam.on('drag', () => {
                 const { nx, ny, kos } = kedalam();
                 const h = dalam.getLatLng();
