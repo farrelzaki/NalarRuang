@@ -16,16 +16,19 @@ class DemoPetaSeeder extends Seeder
     private const FOLDER = 'data/geojson/demo';
 
     /**
-     * Layer yang dimuat langsung ke basis data di luar repo (bukan dari data/), jadi tidak boleh ikut dihapus
-     * saat data peta dimuat ulang. persil: hak tanah terdaftar DKI, diimpor dari basis data anggota tim
-     * (lihat docs/RENCANA.md, "Memuat data persil").
+     * Layer yang tidak boleh ikut dihapus bersama layer lain: persil (bidang tanah DKI) punya pemuat sendiri,
+     * imporPersil(), dan hanya diganti bila berkasnya ada (lihat data/geojson/persil_dki/README.md).
      */
-    public const LAYER_LUAR_REPO = ['persil'];
+    public const LAYER_TERPISAH = ['persil'];
+
+    private const BERKAS_PERSIL = 'data/geojson/persil_dki/persil_dki.ndjson.gz';
+
+    private const SUMBER_PERSIL = 'Hasil pencarian manual tim (berbagai sumber publik, termasuk ATR/BPN)';
 
     public function run(): void
     {
-        // Bukan truncate: baris layer di luar repo (persil) harus tetap ada.
-        DB::table('fitur_peta')->whereNotIn('layer_id', self::LAYER_LUAR_REPO)->delete();
+        // Bukan truncate: persil diganti sendiri oleh imporPersil().
+        DB::table('fitur_peta')->whereNotIn('layer_id', self::LAYER_TERPISAH)->delete();
         DB::table('wilayah')->truncate();
 
         $this->imporWilayah();
@@ -37,6 +40,7 @@ class DemoPetaSeeder extends Seeder
         // Poligon hasil vektorisasi raster kadang bersilangan sendiri; perbaiki agar ST_Intersects/ST_Area andal.
         DB::statement("UPDATE fitur_peta SET geom = ST_CollectionExtract(ST_MakeValid(geom), ST_Dimension(geom) + 1) WHERE layer_id <> 'persil' AND NOT ST_IsValid(geom)");
         DB::statement('UPDATE wilayah SET geom = ST_Multi(ST_CollectionExtract(ST_MakeValid(geom), 3)) WHERE NOT ST_IsValid(geom)');
+        $this->imporPersil(base_path(self::BERKAS_PERSIL));
         // Data nyata (udara, zonasi, Mesin Waktu, genangan, dst.) menimpa nilai contoh, lalu metrik wilayah dihitung.
         $this->call(DataNyataSeeder::class);
 
@@ -44,6 +48,45 @@ class DemoPetaSeeder extends Seeder
         foreach (['commute:koordinat-stasiun', 'commute:rel:krl', 'commute:rel:mrt', 'commute:rel:lrt', 'commute:rel-krl'] as $kunci) {
             Cache::forget($kunci);
         }
+    }
+
+    /**
+     * Satu bidang per baris: {"a": atribut, "g": EWKB heksadesimal}. Dibaca baris demi baris karena
+     * jumlahnya ratusan ribu; mengurai satu GeoJSON utuh akan menghabiskan memori.
+     */
+    public function imporPersil(string $berkas): void
+    {
+        if (! is_file($berkas)) {
+            return;
+        }
+
+        DB::transaction(function () use ($berkas) {
+            DB::table('fitur_peta')->where('layer_id', 'persil')->delete();
+
+            $aliran = gzopen($berkas, 'rb');
+            $nilai = [];
+            $sisip = function () use (&$nilai) {
+                if ($nilai === []) {
+                    return;
+                }
+                $tanda = implode(',', array_fill(0, intdiv(count($nilai), 3), "('persil', 'legal', 'Bidang Tanah', ?::jsonb, ?, ?::geometry, now(), now())"));
+                DB::insert("INSERT INTO fitur_peta (layer_id, jenis, nama, atribut, sumber, geom, created_at, updated_at) VALUES {$tanda}", $nilai);
+                $nilai = [];
+            };
+
+            while (($baris = gzgets($aliran)) !== false) {
+                $f = json_decode($baris, true);
+                if (! isset($f['a'], $f['g'])) {
+                    throw new RuntimeException("Baris persil tidak valid: {$berkas}");
+                }
+                array_push($nilai, json_encode($f['a'] ?: new \stdClass()), self::SUMBER_PERSIL, $f['g']);
+                if (count($nilai) >= 1500) {
+                    $sisip();
+                }
+            }
+            $sisip();
+            gzclose($aliran);
+        });
     }
 
     /**
